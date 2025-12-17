@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Search, Filter, X, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CatalogPageProps {
@@ -32,6 +32,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = useState(searchParams.get('search') || '');
   const [displayCount, setDisplayCount] = useState(12);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [openSections, setOpenSections] = useState<string[]>(['category', 'famille']);
 
   const [filters, setFilters] = useState<FilterState>({
@@ -95,26 +96,34 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
   const FilterSection = ({ title, sectionKey, options, filterKey }: { title: string; sectionKey: string; options: readonly string[]; filterKey: keyof FilterState }) => {
     const isOpen = openSections.includes(sectionKey);
     const selected = filters[filterKey] as string[];
-    
+
     return (
-      <div className="border-b border-border last:border-b-0">
+      <div className="border-b border-border/60 last:border-b-0">
         <button
           onClick={() => setOpenSections(prev => prev.includes(sectionKey) ? prev.filter(s => s !== sectionKey) : [...prev, sectionKey])}
-          className="w-full flex items-center justify-between py-3 text-sm font-medium text-foreground hover:text-primary transition-colors"
+          className="w-full flex items-center justify-between py-4 text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
-          {title}
+          <span className="flex items-center gap-2">
+            <span className="w-1 h-4 rounded-full bg-primary/60" />
+            {title}
+          </span>
           <div className="flex items-center gap-2">
-            {selected.length > 0 && <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded">{selected.length}</span>}
-            <ChevronDown className={cn('w-4 h-4 transition-transform', isOpen && 'rotate-180')} />
+            {selected.length > 0 && (
+              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-semibold">
+                {selected.length}
+              </span>
+            )}
+            <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isOpen && 'rotate-180')} />
           </div>
         </button>
         {isOpen && (
-          <div className="pb-3 space-y-1">
+          <div className="pb-4 space-y-2 animate-fade-in">
             {options.map(option => (
-              <label key={option} className="flex items-center gap-2 py-1 cursor-pointer group">
+              <label key={option} className="flex items-center gap-3 py-1.5 cursor-pointer group">
                 <Checkbox
                   checked={selected.includes(option)}
                   onCheckedChange={() => toggleFilter(filterKey, option)}
+                  className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                 />
                 <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                   {filterKey === 'categories' ? t.categories[option as keyof typeof t.categories] : option}
@@ -128,17 +137,28 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
   };
 
   const FiltersContent = () => (
-    <div className="space-y-1">
+    <div className="space-y-0">
       <FilterSection title={t.filters.category} sectionKey="category" options={filterOptions.categories} filterKey="categories" />
       <FilterSection title={t.filters.olfactoryFamily} sectionKey="famille" options={filterOptions.famillesOlfactives} filterKey="famillesOlfactives" />
       <FilterSection title={t.filters.range} sectionKey="gamme" options={filterOptions.gammes} filterKey="gammes" />
       <FilterSection title={t.filters.origin} sectionKey="origine" options={filterOptions.origines} filterKey="origines" />
       <FilterSection title={t.filters.certifications} sectionKey="certif" options={filterOptions.certifications} filterKey="certifications" />
       <FilterSection title={t.filters.solubility} sectionKey="solu" options={filterOptions.solubility} filterKey="solubility" />
-      <div className="py-3">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <Checkbox checked={filters.foodGrade} onCheckedChange={() => toggleFilter('foodGrade', '')} />
-          <span className="text-sm font-medium">{t.filters.foodGrade}</span>
+      
+      {/* Food Grade */}
+      <div className="py-4">
+        <label className="flex items-center gap-3 cursor-pointer p-4 rounded-xl bg-accent/8 border border-accent/20 hover:border-accent/40 transition-colors">
+          <Checkbox 
+            checked={filters.foodGrade} 
+            onCheckedChange={() => toggleFilter('foodGrade', '')}
+            className="border-accent data-[state=checked]:bg-accent data-[state=checked]:border-accent"
+          />
+          <div>
+            <span className="text-sm font-medium text-foreground">{t.filters.foodGrade}</span>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {lang === 'fr' ? 'Adapté à l\'usage alimentaire' : 'Suitable for food use'}
+            </p>
+          </div>
         </label>
       </div>
     </div>
@@ -152,73 +172,142 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
         <html lang={lang} />
       </Helmet>
 
-      <div className="pt-24 pb-16">
-        <div className="container">
+      <div className="pt-28 pb-20 min-h-screen bg-background">
+        <div className="container-elegant">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="font-serif text-3xl md:text-4xl text-foreground mb-2">{t.nav.catalog}</h1>
-            <p className="text-muted-foreground">{lang === 'fr' ? `${filteredProducts.length} produits disponibles` : `${filteredProducts.length} products available`}</p>
+          <div className="mb-10">
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-3">{t.nav.catalog}</h1>
+            <p className="text-muted-foreground text-lg">
+              {filteredProducts.length} {lang === 'fr' ? 'produits disponibles' : 'products available'}
+            </p>
           </div>
 
-          {/* Search & Filters Bar */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
+          {/* Search & Controls Bar */}
+          <div className="flex flex-col md:flex-row gap-4 mb-8">
+            {/* Search */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 placeholder={t.hero.search}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="pl-9"
+                className="pl-12 h-12 bg-card border-border focus:border-primary"
               />
               {searchValue && (
-                <button onClick={() => setSearchValue('')} className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <X className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                <button 
+                  onClick={() => setSearchValue('')} 
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="w-4 h-4" />
                 </button>
               )}
             </div>
-            
-            {/* Mobile Filter Button */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" className="lg:hidden gap-2">
-                  <Filter className="w-4 h-4" />
-                  {t.filters.title}
-                  {activeFiltersCount > 0 && <Badge className="ml-1">{activeFiltersCount}</Badge>}
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle className="flex items-center justify-between">
+
+            {/* Controls */}
+            <div className="flex gap-3">
+              {/* Mobile Filter */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="lg:hidden gap-2 h-12">
+                    <SlidersHorizontal className="w-4 h-4" />
                     {t.filters.title}
                     {activeFiltersCount > 0 && (
-                      <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground">
-                        {t.filters.reset}
-                      </Button>
+                      <Badge className="ml-1 bg-primary text-primary-foreground">{activeFiltersCount}</Badge>
                     )}
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="mt-4">
-                  <FiltersContent />
-                </div>
-              </SheetContent>
-            </Sheet>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80 overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle className="flex items-center justify-between">
+                      {t.filters.title}
+                      {activeFiltersCount > 0 && (
+                        <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground">
+                          {t.filters.reset}
+                        </Button>
+                      )}
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-6">
+                    <FiltersContent />
+                  </div>
+                </SheetContent>
+              </Sheet>
 
-            {activeFiltersCount > 0 && (
-              <Button variant="ghost" onClick={clearFilters} className="text-muted-foreground">
-                <X className="w-4 h-4 mr-1" />
-                {t.filters.reset}
-              </Button>
-            )}
+              {/* View Toggle */}
+              <div className="hidden md:flex border border-border rounded-lg p-1 bg-card">
+                <Button
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                  size="icon"
+                  onClick={() => setViewMode('grid')}
+                  className="h-10 w-10"
+                >
+                  <Grid3X3 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === 'list' ? 'default' : 'ghost'}
+                  size="icon"
+                  onClick={() => setViewMode('list')}
+                  className="h-10 w-10"
+                >
+                  <LayoutList className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {activeFiltersCount > 0 && (
+                <Button variant="ghost" onClick={clearFilters} className="text-muted-foreground hidden md:flex">
+                  <X className="w-4 h-4 mr-2" />
+                  {t.filters.reset}
+                </Button>
+              )}
+            </div>
           </div>
+
+          {/* Active Filters Tags */}
+          {activeFiltersCount > 0 && (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {filters.categories.map(cat => (
+                <Badge
+                  key={cat}
+                  variant="secondary"
+                  className="gap-1.5 pr-1.5 cursor-pointer hover:bg-secondary/80"
+                  onClick={() => toggleFilter('categories', cat)}
+                >
+                  {t.categories[cat as keyof typeof t.categories]}
+                  <X className="h-3 w-3" />
+                </Badge>
+              ))}
+              {filters.famillesOlfactives.map(fam => (
+                <Badge
+                  key={fam}
+                  variant="secondary"
+                  className="gap-1.5 pr-1.5 cursor-pointer hover:bg-secondary/80"
+                  onClick={() => toggleFilter('famillesOlfactives', fam)}
+                >
+                  {fam}
+                  <X className="h-3 w-3" />
+                </Badge>
+              ))}
+              {filters.foodGrade && (
+                <Badge
+                  variant="secondary"
+                  className="gap-1.5 pr-1.5 cursor-pointer hover:bg-secondary/80"
+                  onClick={() => toggleFilter('foodGrade', '')}
+                >
+                  Food Grade
+                  <X className="h-3 w-3" />
+                </Badge>
+              )}
+            </div>
+          )}
 
           <div className="flex gap-8">
             {/* Desktop Sidebar */}
-            <aside className="hidden lg:block w-64 flex-shrink-0">
-              <div className="sticky top-24 bg-card border border-border rounded-lg p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium">{t.filters.title}</h3>
+            <aside className="hidden lg:block w-72 shrink-0">
+              <div className="sticky top-28 bg-card rounded-2xl border border-border p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-medium text-foreground">{t.filters.title}</h3>
                   {activeFiltersCount > 0 && (
-                    <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs text-muted-foreground h-auto p-0">
+                    <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs text-muted-foreground h-auto p-0 hover:text-primary">
                       {t.filters.reset}
                     </Button>
                   )}
@@ -231,14 +320,25 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             <div className="flex-1">
               {displayedProducts.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className={cn(
+                    'grid gap-6',
+                    viewMode === 'grid' 
+                      ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3' 
+                      : 'grid-cols-1'
+                  )}>
                     {displayedProducts.map((product, index) => (
                       <ProductCard key={product.id} product={product} lang={lang} index={index} />
                     ))}
                   </div>
+                  
                   {displayCount < filteredProducts.length && (
-                    <div className="mt-10 text-center">
-                      <Button variant="outline" size="lg" onClick={() => setDisplayCount(prev => prev + 12)}>
+                    <div className="mt-12 text-center">
+                      <Button 
+                        variant="outline" 
+                        size="lg" 
+                        onClick={() => setDisplayCount(prev => prev + 12)}
+                        className="min-w-[200px]"
+                      >
                         {t.catalog.loadMore}
                       </Button>
                     </div>
@@ -246,7 +346,18 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                 </>
               ) : (
                 <div className="text-center py-20">
-                  <p className="text-muted-foreground">{t.catalog.noResults}</p>
+                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
+                    <Search className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="font-serif text-2xl text-foreground mb-2">
+                    {lang === 'fr' ? 'Aucun produit trouvé' : 'No products found'}
+                  </h3>
+                  <p className="text-muted-foreground mb-6">
+                    {lang === 'fr' ? 'Essayez de modifier vos critères' : 'Try adjusting your criteria'}
+                  </p>
+                  <Button variant="outline" onClick={clearFilters}>
+                    {t.filters.reset}
+                  </Button>
                 </div>
               )}
             </div>
