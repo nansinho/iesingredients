@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,95 +6,96 @@
 
 @layer base {
   :root {
-    /* Elegant Neutral Palette */
-    --background: 40 30% 98%;
-    --foreground: 30 10% 15%;
+    /* Refined Warm Palette */
+    --background: 45 30% 97%;
+    --foreground: 25 15% 12%;
     
     --card: 0 0% 100%;
-    --card-foreground: 30 10% 15%;
+    --card-foreground: 25 15% 12%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 30 10% 15%;
+    --popover-foreground: 25 15% 12%;
     
-    /* Rich Charcoal - Primary */
-    --primary: 30 8% 20%;
-    --primary-foreground: 40 30% 98%;
+    /* Deep Forest - Primary */
+    --primary: 160 25% 22%;
+    --primary-foreground: 45 30% 97%;
     
-    /* Warm Cream - Secondary */
-    --secondary: 40 35% 95%;
-    --secondary-foreground: 30 10% 20%;
+    /* Warm Sand - Secondary */
+    --secondary: 45 25% 93%;
+    --secondary-foreground: 25 15% 15%;
     
-    /* Soft Stone */
-    --muted: 40 20% 92%;
-    --muted-foreground: 30 8% 45%;
+    /* Soft Taupe */
+    --muted: 40 15% 90%;
+    --muted-foreground: 25 10% 40%;
     
-    /* Terracotta Gold - Accent */
-    --accent: 25 90% 55%;
+    /* Burnt Terracotta - Accent */
+    --accent: 18 85% 52%;
     --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 25 90% 55%;
+    --border: 40 15% 85%;
+    --input: 40 15% 85%;
+    --ring: 18 85% 52%;
     
     --radius: 1rem;
     
     /* Warm Neutrals */
-    --wood-950: 30 15% 6%;
-    --wood-900: 30 12% 10%;
-    --wood-800: 30 10% 16%;
-    --wood-700: 30 8% 24%;
-    --wood-600: 30 6% 34%;
-    --wood-500: 30 5% 45%;
-    --wood-400: 35 6% 58%;
-    --wood-300: 38 10% 74%;
-    --wood-200: 40 15% 88%;
-    --wood-100: 40 25% 94%;
-    --wood-50: 40 30% 97%;
+    --wood-950: 25 20% 6%;
+    --wood-900: 25 18% 10%;
+    --wood-800: 25 15% 16%;
+    --wood-700: 25 12% 24%;
+    --wood-600: 25 10% 34%;
+    --wood-500: 25 8% 45%;
+    --wood-400: 30 8% 58%;
+    --wood-300: 35 12% 74%;
+    --wood-200: 40 18% 88%;
+    --wood-100: 42 25% 94%;
+    --wood-50: 45 30% 97%;
     
     /* Forest Greens */
-    --forest-950: 150 30% 8%;
-    --forest-900: 150 25% 14%;
-    --forest-800: 150 22% 22%;
-    --forest-700: 150 20% 30%;
-    --forest-600: 150 18% 40%;
-    --forest-500: 150 15% 50%;
-    --forest-400: 150 12% 62%;
-    --forest-300: 150 10% 76%;
-    --forest-200: 150 12% 88%;
-    --forest-100: 150 15% 94%;
-    --forest-50: 150 20% 97%;
+    --forest-950: 160 35% 6%;
+    --forest-900: 160 30% 12%;
+    --forest-800: 160 28% 18%;
+    --forest-700: 160 25% 24%;
+    --forest-600: 160 22% 32%;
+    --forest-500: 160 20% 42%;
+    --forest-400: 160 18% 55%;
+    --forest-300: 160 15% 70%;
+    --forest-200: 160 12% 85%;
+    --forest-100: 160 15% 93%;
+    --forest-50: 160 20% 97%;
 
-    /* Category Colors */
-    --cosmetique: 150 35% 35%;
-    --cosmetique-light: 150 30% 96%;
-    --cosmetique-dark: 150 40% 22%;
+    /* Category Colors - Vibrant */
+    --cosmetique: 155 45% 32%;
+    --cosmetique-light: 155 35% 95%;
+    --cosmetique-dark: 155 50% 20%;
     
-    --parfum: 35 85% 55%;
-    --parfum-light: 40 80% 96%;
-    --parfum-dark: 30 80% 40%;
+    --parfum: 38 90% 50%;
+    --parfum-light: 40 85% 95%;
+    --parfum-dark: 35 85% 38%;
     
-    --arome: 15 75% 50%;
-    --arome-light: 20 70% 96%;
-    --arome-dark: 10 70% 35%;
+    --arome: 12 80% 48%;
+    --arome-light: 15 75% 95%;
+    --arome-dark: 8 75% 35%;
 
-    /* Shadows */
-    --shadow-sm: 0 2px 8px hsl(30 10% 15% / 0.04);
-    --shadow-md: 0 8px 30px hsl(30 10% 15% / 0.08);
-    --shadow-lg: 0 20px 50px hsl(30 10% 15% / 0.12);
-    --shadow-xl: 0 30px 80px hsl(30 10% 15% / 0.16);
+    /* Premium Shadows */
+    --shadow-sm: 0 2px 8px hsl(25 15% 12% / 0.04);
+    --shadow-md: 0 8px 30px hsl(25 15% 12% / 0.08);
+    --shadow-lg: 0 20px 50px hsl(25 15% 12% / 0.12);
+    --shadow-xl: 0 30px 80px hsl(25 15% 12% / 0.18);
+    --shadow-glow: 0 0 60px hsl(18 85% 52% / 0.2);
 
     /* Sidebar */
-    --sidebar-background: 30 12% 10%;
-    --sidebar-foreground: 40 30% 97%;
-    --sidebar-primary: 25 90% 55%;
+    --sidebar-background: 25 18% 10%;
+    --sidebar-foreground: 45 30% 97%;
+    --sidebar-primary: 18 85% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 30 10% 16%;
-    --sidebar-accent-foreground: 40 30% 97%;
-    --sidebar-border: 30 10% 16%;
-    --sidebar-ring: 25 90% 55%;
+    --sidebar-accent: 25 15% 16%;
+    --sidebar-accent-foreground: 45 30% 97%;
+    --sidebar-border: 25 15% 16%;
+    --sidebar-ring: 18 85% 52%;
   }
 
   .dark {
@@ -148,17 +149,21 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'Sora', system-ui, sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Sora', system-ui, sans-serif;
+    @apply font-bold tracking-tight;
+  }
+
+  .font-serif {
     font-family: 'Playfair Display', Georgia, serif;
-    @apply font-medium tracking-tight;
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.15);
+    background: hsl(var(--accent) / 0.2);
     color: hsl(var(--foreground));
   }
 }
