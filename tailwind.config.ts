@@ -62,6 +62,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        wood: {
+          50: "hsl(var(--wood-50))",
+          100: "hsl(var(--wood-100))",
+          200: "hsl(var(--wood-200))",
+          300: "hsl(var(--wood-300))",
+          400: "hsl(var(--wood-400))",
+          500: "hsl(var(--wood-500))",
+          600: "hsl(var(--wood-600))",
+          700: "hsl(var(--wood-700))",
+          800: "hsl(var(--wood-800))",
+          900: "hsl(var(--wood-900))",
+          950: "hsl(var(--wood-950))",
+        },
         forest: {
           50: "hsl(var(--forest-50))",
           100: "hsl(var(--forest-100))",
@@ -74,13 +87,6 @@ export default {
           800: "hsl(var(--forest-800))",
           900: "hsl(var(--forest-900))",
           950: "hsl(var(--forest-950))",
-        },
-        cream: {
-          100: "hsl(var(--cream-100))",
-          200: "hsl(var(--cream-200))",
-          300: "hsl(var(--cream-300))",
-          400: "hsl(var(--cream-400))",
-          500: "hsl(var(--cream-500))",
         },
         cosmetique: {
           DEFAULT: "hsl(var(--cosmetique))",
@@ -104,8 +110,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["DM Sans", "system-ui", "sans-serif"],
-        serif: ["Playfair Display", "Georgia", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
       },
       keyframes: {
         "accordion-down": {
@@ -116,10 +122,15 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 2s linear infinite",
       },
     },
   },
