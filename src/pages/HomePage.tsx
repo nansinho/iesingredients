@@ -99,7 +99,7 @@ const ZoomParallaxSection = ({
   const textOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.5]);
 
   return (
-    <section ref={ref} className="min-h-screen relative overflow-hidden bg-slate-900 flex items-center">
+    <section ref={ref} className="min-h-screen relative overflow-hidden bg-wood-900 flex items-center">
       <div className="container-luxe py-24 md:py-32">
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${imagePosition === 'left' ? 'lg:grid-flow-dense' : ''}`}>
           {/* Text Content with zoom */}
@@ -208,7 +208,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
         </motion.div>
 
         <motion.div 
-          className="absolute top-1/4 right-1/4 w-96 h-96 bg-parfum/30 rounded-full blur-[150px]"
+          className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/30 rounded-full blur-[150px]"
           style={{ x: smoothMouseX, y: smoothMouseY }}
         />
 
@@ -224,7 +224,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex items-center gap-3 mb-8"
               >
-                <Sparkles className="w-5 h-5 text-parfum" />
+                <Sparkles className="w-5 h-5 text-accent" />
                 <span className="text-lg uppercase tracking-[0.2em] text-white/60">
                   {lang === 'fr' ? 'Excellence depuis 1994' : 'Excellence since 1994'}
                 </span>
@@ -239,7 +239,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 >
                   {lang === 'fr' ? 'Ingrédients' : 'Natural'}
                   <br />
-                  <span className="italic text-parfum">{lang === 'fr' ? 'Naturels' : 'Ingredients'}</span>
+                  <span className="italic text-accent">{lang === 'fr' ? 'Naturels' : 'Ingredients'}</span>
                 </motion.h1>
               </div>
               
@@ -261,7 +261,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
               >
                 <Link to={`/${lang}/catalogue`}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button className="bg-parfum text-white hover:bg-parfum-dark h-16 px-12 rounded-full text-lg font-medium shadow-2xl shadow-parfum/40">
+                    <Button className="bg-accent text-white hover:bg-parfum-dark h-16 px-12 rounded-full text-lg font-medium shadow-2xl shadow-accent/40">
                       {lang === 'fr' ? 'Explorer le catalogue' : 'Explore Catalog'}
                       <ArrowRight className="ml-3 w-6 h-6" />
                     </Button>
@@ -285,13 +285,13 @@ export const HomePage = ({ lang }: HomePageProps) => {
             transition={{ duration: 1.5, repeat: Infinity }}
             className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
           >
-            <motion.div className="w-1.5 h-3 bg-parfum rounded-full" />
+            <motion.div className="w-1.5 h-3 bg-accent rounded-full" />
           </motion.div>
         </motion.div>
       </section>
 
       {/* STATS */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20 bg-wood-900">
         <div className="container-luxe">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -315,13 +315,13 @@ export const HomePage = ({ lang }: HomePageProps) => {
       <section className="py-24 md:py-32 bg-white">
         <div className="container-luxe">
           <ScrollReveal className="text-center mb-16">
-            <span className="text-parfum uppercase tracking-widest text-sm font-medium mb-4 block">
+            <span className="text-accent uppercase tracking-widest text-sm font-medium mb-4 block">
               {lang === 'fr' ? 'Nos Expertises' : 'Our Expertise'}
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground">
               {lang === 'fr' ? 'Trois univers,' : 'Three worlds,'}
               <br />
-              <span className="italic text-parfum">{lang === 'fr' ? 'une passion' : 'one passion'}</span>
+              <span className="italic text-accent">{lang === 'fr' ? 'une passion' : 'one passion'}</span>
             </h2>
           </ScrollReveal>
 
@@ -330,7 +330,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
               <ScrollReveal key={cat.name} delay={i * 0.15}>
                 <Link to={cat.link}>
                   <motion.div 
-                    className="group relative bg-slate-50 rounded-3xl p-10 h-full hover:shadow-2xl transition-all duration-500"
+                    className="group relative bg-secondary rounded-3xl p-10 h-full hover:shadow-2xl transition-all duration-500"
                     whileHover={{ y: -8 }}
                   >
                     <div className={`w-16 h-16 ${cat.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
@@ -353,13 +353,13 @@ export const HomePage = ({ lang }: HomePageProps) => {
       {/* ZOOM PARALLAX SECTION - L'unique section immersive */}
       <ZoomParallaxSection image={botanicalsFlat} imagePosition="right">
         <div className="text-white">
-          <span className="text-parfum uppercase tracking-widest text-sm font-medium mb-6 block">
+          <span className="text-accent uppercase tracking-widest text-sm font-medium mb-6 block">
             {lang === 'fr' ? 'Notre Histoire' : 'Our Story'}
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 leading-[1.1]">
             {lang === 'fr' ? "L'excellence" : 'Excellence'}
             <br />
-            <span className="italic text-parfum">{lang === 'fr' ? 'depuis 1994' : 'since 1994'}</span>
+            <span className="italic text-accent">{lang === 'fr' ? 'depuis 1994' : 'since 1994'}</span>
           </h2>
           <p className="text-white/70 text-xl md:text-2xl mb-8 leading-relaxed">
             {lang === 'fr'
@@ -368,7 +368,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
           </p>
           <Link to={`/${lang}/entreprise`}>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button className="bg-parfum text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
+              <Button className="bg-accent text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
                 {lang === 'fr' ? 'En savoir plus' : 'Learn more'}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
@@ -379,10 +379,10 @@ export const HomePage = ({ lang }: HomePageProps) => {
 
       {/* QUOTE SECTION */}
       <section className="py-32 bg-white relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-parfum/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl" />
         <div className="container-luxe relative z-10">
           <ScrollReveal className="max-w-4xl mx-auto text-center">
-            <Quote className="w-12 h-12 text-parfum/30 mx-auto mb-8" />
+            <Quote className="w-12 h-12 text-accent/30 mx-auto mb-8" />
             <blockquote className="text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8 italic">
               {lang === 'fr'
                 ? '"La nature nous offre ses plus beaux trésors. Notre mission est de les préserver et les sublimer."'
@@ -396,11 +396,11 @@ export const HomePage = ({ lang }: HomePageProps) => {
       </section>
 
       {/* FEATURED PRODUCTS */}
-      <section className="py-24 md:py-32 bg-slate-50">
+      <section className="py-24 md:py-32 bg-secondary">
         <div className="container-luxe">
           <ScrollReveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
             <div>
-              <span className="text-parfum uppercase tracking-widest text-sm font-medium mb-4 block">
+              <span className="text-accent uppercase tracking-widest text-sm font-medium mb-4 block">
                 {lang === 'fr' ? 'Sélection' : 'Selection'}
               </span>
               <h2 className="text-4xl md:text-5xl font-light text-foreground">
@@ -428,7 +428,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32 bg-slate-900 relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-wood-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <img src={essentialOil} alt="" className="w-full h-full object-cover" />
         </div>
@@ -437,7 +437,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-8">
               {lang === 'fr' ? 'Prêt à découvrir' : 'Ready to discover'}
               <br />
-              <span className="italic text-parfum">{lang === 'fr' ? 'nos ingrédients ?' : 'our ingredients?'}</span>
+              <span className="italic text-accent">{lang === 'fr' ? 'nos ingrédients ?' : 'our ingredients?'}</span>
             </h2>
             <p className="text-white/60 text-xl mb-10 max-w-xl mx-auto">
               {lang === 'fr'
@@ -447,7 +447,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
             <div className="flex flex-wrap justify-center gap-4">
               <Link to={`/${lang}/contact`}>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button className="bg-parfum text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
+                  <Button className="bg-accent text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
                     {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
