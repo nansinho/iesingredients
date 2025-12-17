@@ -12,8 +12,6 @@ import leavesHero from '@/assets/leaves-hero.jpg';
 import creamJar from '@/assets/cream-jar.jpg';
 import essentialOil from '@/assets/essential-oil.jpg';
 import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
-import creamBowl from '@/assets/cream-bowl.jpg';
-import pumpBottle from '@/assets/pump-bottle.jpg';
 import botanicalsFlat from '@/assets/botanicals-flat.jpg';
 
 interface HomePageProps {
@@ -59,10 +57,10 @@ const ScrollReveal = ({ children, className = '', direction = 'up', delay = 0 }:
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   
   const directions = {
-    up: { y: 80, x: 0 },
-    down: { y: -80, x: 0 },
-    left: { y: 0, x: 80 },
-    right: { y: 0, x: -80 },
+    up: { y: 60, x: 0 },
+    down: { y: -60, x: 0 },
+    left: { y: 0, x: 60 },
+    right: { y: 0, x: -60 },
   };
   
   return (
@@ -78,56 +76,51 @@ const ScrollReveal = ({ children, className = '', direction = 'up', delay = 0 }:
   );
 };
 
-// Full Screen Parallax Section
-const ParallaxSection = ({ 
+// Zoom on Scroll Section - THE ONLY parallax section
+const ZoomParallaxSection = ({ 
   image, 
-  children, 
-  overlay = true,
-  className = '' 
+  children,
+  imagePosition = 'right'
 }: { 
   image: string; 
   children: React.ReactNode;
-  overlay?: boolean;
-  className?: string;
+  imagePosition?: 'left' | 'right';
 }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"]
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.3, 1, 1, 0.3]);
+  
+  // Image zoom effect
+  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1, 1.1]);
+  // Text zoom effect
+  const textScale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.5]);
 
   return (
-    <section ref={ref} className={`relative min-h-screen overflow-hidden ${className}`}>
-      <motion.div 
-        className="absolute inset-0 w-full h-[140%] -top-[20%]"
-        style={{ y }}
-      >
-        <img src={image} alt="" className="w-full h-full object-cover" />
-        {overlay && <div className="absolute inset-0 bg-black/50" />}
-      </motion.div>
-      <motion.div className="relative z-10 min-h-screen flex items-center" style={{ opacity }}>
-        {children}
-      </motion.div>
-    </section>
-  );
-};
-
-// Horizontal Scroll Section
-const HorizontalScroll = ({ children }: { children: React.ReactNode }) => {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-
-  return (
-    <section ref={targetRef} className="relative h-[200vh]">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-8">
-          {children}
-        </motion.div>
+    <section ref={ref} className="min-h-screen relative overflow-hidden bg-slate-900 flex items-center">
+      <div className="container-luxe py-24 md:py-32">
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${imagePosition === 'left' ? 'lg:grid-flow-dense' : ''}`}>
+          {/* Text Content with zoom */}
+          <motion.div 
+            style={{ scale: textScale, opacity: textOpacity }}
+            className={imagePosition === 'left' ? 'lg:col-start-2' : ''}
+          >
+            {children}
+          </motion.div>
+          
+          {/* Image with zoom */}
+          <div className={`relative h-[500px] md:h-[600px] lg:h-[700px] rounded-3xl overflow-hidden ${imagePosition === 'left' ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
+            <motion.img 
+              src={image} 
+              alt="" 
+              className="w-full h-full object-cover"
+              style={{ scale: imageScale }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -142,9 +135,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
     offset: ["start start", "end start"]
   });
   
-  const heroY = useTransform(heroProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(heroProgress, [0, 0.6], [1, 0]);
-  const heroScale = useTransform(heroProgress, [0, 1], [1, 1.2]);
+  const heroScale = useTransform(heroProgress, [0, 1], [1, 1.15]);
+  const heroOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -164,6 +156,39 @@ export const HomePage = ({ lang }: HomePageProps) => {
 
   const featuredProducts = mockProducts.slice(0, 4);
 
+  const categories = [
+    {
+      icon: Leaf,
+      name: lang === 'fr' ? 'Cosmétique' : 'Cosmetic',
+      color: 'bg-cosmetique',
+      textColor: 'text-cosmetique',
+      description: lang === 'fr' 
+        ? 'Actifs botaniques et extraits naturels' 
+        : 'Botanical actives and natural extracts',
+      link: `/${lang}/catalogue?category=cosmetique`
+    },
+    {
+      icon: FlaskConical,
+      name: lang === 'fr' ? 'Parfumerie' : 'Perfumery',
+      color: 'bg-parfum',
+      textColor: 'text-parfum',
+      description: lang === 'fr'
+        ? 'Essences et matières premières nobles'
+        : 'Noble essences and raw materials',
+      link: `/${lang}/catalogue?category=parfum`
+    },
+    {
+      icon: Droplets,
+      name: lang === 'fr' ? 'Arômes' : 'Flavors',
+      color: 'bg-arome',
+      textColor: 'text-arome',
+      description: lang === 'fr'
+        ? 'Arômes alimentaires certifiés'
+        : 'Certified food flavors',
+      link: `/${lang}/catalogue?category=arome`
+    }
+  ];
+
   return (
     <Layout lang={lang}>
       <Helmet>
@@ -172,11 +197,11 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <html lang={lang} />
       </Helmet>
 
-      {/* HERO - Full Screen Immersive */}
+      {/* HERO - Zoom on scroll */}
       <section ref={heroRef} className="h-screen relative overflow-hidden">
         <motion.div 
           className="absolute inset-0"
-          style={{ y: heroY, scale: heroScale }}
+          style={{ scale: heroScale }}
         >
           <img src={leavesHero} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
@@ -185,10 +210,6 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <motion.div 
           className="absolute top-1/4 right-1/4 w-96 h-96 bg-parfum/30 rounded-full blur-[150px]"
           style={{ x: smoothMouseX, y: smoothMouseY }}
-        />
-        <motion.div 
-          className="absolute bottom-1/3 left-1/4 w-64 h-64 bg-cosmetique/20 rounded-full blur-[100px]"
-          style={{ x: useTransform(smoothMouseX, v => -v * 1.5), y: useTransform(smoothMouseY, v => -v * 1.5) }}
         />
 
         <motion.div 
@@ -237,7 +258,6 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1 }}
-                className="flex flex-wrap gap-4"
               >
                 <Link to={`/${lang}/catalogue`}>
                   <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -270,8 +290,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
         </motion.div>
       </section>
 
-      {/* STATS - Floating Bar */}
-      <section className="py-16 bg-slate-900">
+      {/* STATS */}
+      <section className="py-20 bg-slate-900">
         <div className="container-luxe">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -291,144 +311,107 @@ export const HomePage = ({ lang }: HomePageProps) => {
         </div>
       </section>
 
-      {/* COSMÉTIQUE - Parallax Immersive */}
-      <ParallaxSection image={botanicalsFlat} className="bg-cosmetique">
-        <div className="container-luxe py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <ScrollReveal direction="left">
-              <div className="w-20 h-20 rounded-3xl bg-cosmetique flex items-center justify-center mb-8">
-                <Leaf className="w-10 h-10 text-white" />
-              </div>
-              <span className="text-lg uppercase tracking-widest text-cosmetique-light font-semibold mb-4 block">
-                {lang === 'fr' ? 'Cosmétique' : 'Cosmetic'}
-              </span>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl text-white mb-8 leading-[1.1]">
-                {lang === 'fr' ? 'Actifs &' : 'Actives &'}
-                <br />
-                <span className="italic">{lang === 'fr' ? 'Extraits Naturels' : 'Natural Extracts'}</span>
-              </h2>
-              <p className="text-white/70 text-xl md:text-2xl mb-10 leading-relaxed max-w-xl">
-                {lang === 'fr'
-                  ? 'Extraits botaniques, huiles végétales et actifs certifiés pour des formulations cosmétiques d\'exception.'
-                  : 'Botanical extracts, vegetable oils and certified actives for exceptional cosmetic formulations.'}
-              </p>
-              <Link to={`/${lang}/catalogue?category=cosmetique`}>
-                <motion.div whileHover={{ scale: 1.05, x: 10 }} whileTap={{ scale: 0.95 }}>
-                  <Button className="bg-cosmetique text-white hover:bg-cosmetique-dark h-14 px-10 rounded-full text-lg">
-                    {lang === 'fr' ? 'Explorer' : 'Explore'}
-                    <ChevronRight className="ml-2 w-6 h-6" />
-                  </Button>
-                </motion.div>
-              </Link>
-            </ScrollReveal>
-          </div>
-        </div>
-      </ParallaxSection>
+      {/* CATEGORIES - Simple cards */}
+      <section className="py-24 md:py-32 bg-white">
+        <div className="container-luxe">
+          <ScrollReveal className="text-center mb-16">
+            <span className="text-parfum uppercase tracking-widest text-sm font-medium mb-4 block">
+              {lang === 'fr' ? 'Nos Expertises' : 'Our Expertise'}
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-foreground">
+              {lang === 'fr' ? 'Trois univers,' : 'Three worlds,'}
+              <br />
+              <span className="italic text-parfum">{lang === 'fr' ? 'une passion' : 'one passion'}</span>
+            </h2>
+          </ScrollReveal>
 
-      {/* PARFUMERIE - Parallax Immersive */}
-      <ParallaxSection image={essentialOil} className="bg-parfum-dark">
-        <div className="container-luxe py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="lg:col-start-2">
-              <ScrollReveal direction="right">
-                <div className="w-20 h-20 rounded-3xl bg-parfum flex items-center justify-center mb-8">
-                  <FlaskConical className="w-10 h-10 text-white" />
-                </div>
-                <span className="text-lg uppercase tracking-widest text-parfum-light font-semibold mb-4 block">
-                  {lang === 'fr' ? 'Parfumerie' : 'Perfumery'}
-                </span>
-                <h2 className="text-5xl md:text-6xl lg:text-7xl text-white mb-8 leading-[1.1]">
-                  {lang === 'fr' ? 'Essences &' : 'Essences &'}
-                  <br />
-                  <span className="italic">{lang === 'fr' ? 'Matières Nobles' : 'Noble Materials'}</span>
-                </h2>
-                <p className="text-white/70 text-xl md:text-2xl mb-10 leading-relaxed max-w-xl">
-                  {lang === 'fr'
-                    ? 'Matières premières nobles et essences rares pour la parfumerie fine et les créations olfactives uniques.'
-                    : 'Noble raw materials and rare essences for fine perfumery and unique olfactory creations.'}
-                </p>
-                <Link to={`/${lang}/catalogue?category=parfum`}>
-                  <motion.div whileHover={{ scale: 1.05, x: 10 }} whileTap={{ scale: 0.95 }}>
-                    <Button className="bg-parfum text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
-                      {lang === 'fr' ? 'Explorer' : 'Explore'}
-                      <ChevronRight className="ml-2 w-6 h-6" />
-                    </Button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {categories.map((cat, i) => (
+              <ScrollReveal key={cat.name} delay={i * 0.15}>
+                <Link to={cat.link}>
+                  <motion.div 
+                    className="group relative bg-slate-50 rounded-3xl p-10 h-full hover:shadow-2xl transition-all duration-500"
+                    whileHover={{ y: -8 }}
+                  >
+                    <div className={`w-16 h-16 ${cat.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <cat.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className={`text-2xl md:text-3xl font-medium ${cat.textColor} mb-4`}>{cat.name}</h3>
+                    <p className="text-muted-foreground text-lg mb-6">{cat.description}</p>
+                    <div className={`flex items-center ${cat.textColor} font-medium group-hover:gap-3 transition-all`}>
+                      <span>{lang === 'fr' ? 'Découvrir' : 'Discover'}</span>
+                      <ChevronRight className="w-5 h-5 ml-1" />
+                    </div>
                   </motion.div>
                 </Link>
               </ScrollReveal>
-            </div>
+            ))}
           </div>
         </div>
-      </ParallaxSection>
+      </section>
 
-      {/* ARÔMES - Parallax Immersive */}
-      <ParallaxSection image={blueberriesHerbs} className="bg-arome-dark">
-        <div className="container-luxe py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <ScrollReveal direction="left">
-              <div className="w-20 h-20 rounded-3xl bg-arome flex items-center justify-center mb-8">
-                <Droplets className="w-10 h-10 text-white" />
-              </div>
-              <span className="text-lg uppercase tracking-widest text-arome-light font-semibold mb-4 block">
-                {lang === 'fr' ? 'Arômes' : 'Flavors'}
-              </span>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl text-white mb-8 leading-[1.1]">
-                {lang === 'fr' ? 'Arômes' : 'Food'}
-                <br />
-                <span className="italic">{lang === 'fr' ? 'Alimentaires' : 'Flavors'}</span>
-              </h2>
-              <p className="text-white/70 text-xl md:text-2xl mb-10 leading-relaxed max-w-xl">
-                {lang === 'fr'
-                  ? 'Arômes naturels et certifiés pour l\'industrie agroalimentaire et les compléments nutritionnels.'
-                  : 'Natural and certified flavors for the food industry and nutritional supplements.'}
-              </p>
-              <Link to={`/${lang}/catalogue?category=arome`}>
-                <motion.div whileHover={{ scale: 1.05, x: 10 }} whileTap={{ scale: 0.95 }}>
-                  <Button className="bg-arome text-white hover:bg-arome-dark h-14 px-10 rounded-full text-lg">
-                    {lang === 'fr' ? 'Explorer' : 'Explore'}
-                    <ChevronRight className="ml-2 w-6 h-6" />
-                  </Button>
-                </motion.div>
-              </Link>
-            </ScrollReveal>
-          </div>
+      {/* ZOOM PARALLAX SECTION - L'unique section immersive */}
+      <ZoomParallaxSection image={botanicalsFlat} imagePosition="right">
+        <div className="text-white">
+          <span className="text-parfum uppercase tracking-widest text-sm font-medium mb-6 block">
+            {lang === 'fr' ? 'Notre Histoire' : 'Our Story'}
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-8 leading-[1.1]">
+            {lang === 'fr' ? "L'excellence" : 'Excellence'}
+            <br />
+            <span className="italic text-parfum">{lang === 'fr' ? 'depuis 1994' : 'since 1994'}</span>
+          </h2>
+          <p className="text-white/70 text-xl md:text-2xl mb-8 leading-relaxed">
+            {lang === 'fr'
+              ? "Depuis trois décennies, IES accompagne les formulateurs les plus exigeants avec une sélection rigoureuse d'ingrédients naturels et une expertise reconnue dans l'industrie."
+              : "For three decades, IES has been supporting the most demanding formulators with a rigorous selection of natural ingredients and recognized industry expertise."}
+          </p>
+          <Link to={`/${lang}/entreprise`}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button className="bg-parfum text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
+                {lang === 'fr' ? 'En savoir plus' : 'Learn more'}
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </motion.div>
+          </Link>
         </div>
-      </ParallaxSection>
+      </ZoomParallaxSection>
 
       {/* QUOTE SECTION */}
-      <section className="py-32 md:py-48 bg-white relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-parfum/5 rounded-full blur-3xl" />
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-parfum/5 rounded-full blur-3xl" />
         <div className="container-luxe relative z-10">
-          <ScrollReveal className="max-w-5xl mx-auto text-center">
-            <Quote className="w-16 h-16 text-parfum/30 mx-auto mb-8" />
-            <blockquote className="text-3xl md:text-4xl lg:text-5xl text-foreground leading-relaxed mb-8 italic">
+          <ScrollReveal className="max-w-4xl mx-auto text-center">
+            <Quote className="w-12 h-12 text-parfum/30 mx-auto mb-8" />
+            <blockquote className="text-2xl md:text-3xl lg:text-4xl text-foreground leading-relaxed mb-8 italic">
               {lang === 'fr'
-                ? '"L\'excellence n\'est pas un acte, mais une habitude. Depuis 30 ans, nous sélectionnons les meilleurs ingrédients naturels."'
-                : '"Excellence is not an act, but a habit. For 30 years, we have been selecting the finest natural ingredients."'}
+                ? '"La nature nous offre ses plus beaux trésors. Notre mission est de les préserver et les sublimer."'
+                : '"Nature offers us its finest treasures. Our mission is to preserve and enhance them."'}
             </blockquote>
-            <p className="text-muted-foreground text-xl">— IES Ingredients</p>
+            <cite className="text-muted-foreground text-lg not-italic">
+              — {lang === 'fr' ? 'Fondateur, IES Ingredients' : 'Founder, IES Ingredients'}
+            </cite>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* PRODUCTS SECTION */}
-      <section className="py-24 md:py-32 bg-cream-200">
+      {/* FEATURED PRODUCTS */}
+      <section className="py-24 md:py-32 bg-slate-50">
         <div className="container-luxe">
           <ScrollReveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
             <div>
-              <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4 block">
+              <span className="text-parfum uppercase tracking-widest text-sm font-medium mb-4 block">
                 {lang === 'fr' ? 'Sélection' : 'Selection'}
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground">
-                {lang === 'fr' ? 'Produits' : 'Featured'}
-                <span className="italic text-primary ml-3">{lang === 'fr' ? 'Phares' : 'Products'}</span>
+              <h2 className="text-4xl md:text-5xl font-light text-foreground">
+                {lang === 'fr' ? 'Produits à la une' : 'Featured Products'}
               </h2>
             </div>
             <Link to={`/${lang}/catalogue`}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" className="rounded-full px-8 h-14 text-lg border-foreground/20 hover:border-foreground/40">
-                  {lang === 'fr' ? 'Voir tout' : 'View All'}
-                  <ArrowRight className="ml-2 w-5 h-5" />
+              <motion.div whileHover={{ x: 5 }}>
+                <Button variant="outline" className="rounded-full h-12 px-8">
+                  {lang === 'fr' ? 'Voir tout' : 'View all'}
+                  <ChevronRight className="ml-2 w-5 h-5" />
                 </Button>
               </motion.div>
             </Link>
@@ -437,51 +420,50 @@ export const HomePage = ({ lang }: HomePageProps) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {featuredProducts.map((product, index) => (
               <ScrollReveal key={product.id} delay={index * 0.1}>
-                <motion.div whileHover={{ y: -10 }} transition={{ duration: 0.3 }}>
-                  <ProductCard product={product} lang={lang} />
-                </motion.div>
+                <ProductCard product={product} lang={lang} />
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA - Final Parallax */}
-      <ParallaxSection image={creamBowl} overlay={true}>
-        <div className="container-luxe py-32">
-          <ScrollReveal className="text-center max-w-4xl mx-auto">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl text-white mb-10 leading-tight">
-              {lang === 'fr' ? 'Prêt à créer' : 'Ready to create'}
+      {/* CTA */}
+      <section className="py-24 md:py-32 bg-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <img src={essentialOil} alt="" className="w-full h-full object-cover" />
+        </div>
+        <div className="container-luxe relative z-10">
+          <ScrollReveal className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-8">
+              {lang === 'fr' ? 'Prêt à découvrir' : 'Ready to discover'}
               <br />
-              <span className="italic text-parfum">{lang === 'fr' ? 'l\'exceptionnel ?' : 'the exceptional?'}</span>
+              <span className="italic text-parfum">{lang === 'fr' ? 'nos ingrédients ?' : 'our ingredients?'}</span>
             </h2>
-            <p className="text-white/70 text-xl md:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-white/60 text-xl mb-10 max-w-xl mx-auto">
               {lang === 'fr'
-                ? 'Contactez notre équipe d\'experts pour transformer vos formulations.'
-                : 'Contact our team of experts to transform your formulations.'}
+                ? "Notre équipe d'experts est à votre disposition pour vous accompagner dans vos projets."
+                : "Our team of experts is at your disposal to support you in your projects."}
             </p>
-            <div className="flex flex-wrap justify-center gap-6">
+            <div className="flex flex-wrap justify-center gap-4">
               <Link to={`/${lang}/contact`}>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button className="bg-parfum text-white hover:bg-parfum-dark h-16 px-12 rounded-full text-lg font-medium shadow-2xl">
-                    {lang === 'fr' ? 'Nous contacter' : 'Contact Us'}
-                    <ArrowRight className="ml-3 w-6 h-6" />
+                  <Button className="bg-parfum text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-lg">
+                    {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
+                    <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </motion.div>
               </Link>
               <Link to={`/${lang}/catalogue`}>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="outline" className="h-16 px-12 rounded-full text-lg border-white/40 text-white hover:bg-white/10">
-                    {lang === 'fr' ? 'Voir le catalogue' : 'View Catalog'}
+                  <Button variant="outline" className="border-white/30 text-white hover:bg-white/10 h-14 px-10 rounded-full text-lg">
+                    {lang === 'fr' ? 'Explorer' : 'Explore'}
                   </Button>
                 </motion.div>
               </Link>
             </div>
           </ScrollReveal>
         </div>
-      </ParallaxSection>
+      </section>
     </Layout>
   );
 };
-
-export default HomePage;
