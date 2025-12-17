@@ -82,6 +82,21 @@ export default {
           400: "hsl(var(--cream-400))",
           500: "hsl(var(--cream-500))",
         },
+        cosmetique: {
+          DEFAULT: "hsl(var(--cosmetique))",
+          light: "hsl(var(--cosmetique-light))",
+          dark: "hsl(var(--cosmetique-dark))",
+        },
+        parfum: {
+          DEFAULT: "hsl(var(--parfum))",
+          light: "hsl(var(--parfum-light))",
+          dark: "hsl(var(--parfum-dark))",
+        },
+        arome: {
+          DEFAULT: "hsl(var(--arome))",
+          light: "hsl(var(--arome-light))",
+          dark: "hsl(var(--arome-dark))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
