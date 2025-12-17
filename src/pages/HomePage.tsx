@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
@@ -6,12 +6,11 @@ import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { mockProducts } from '@/data/mockProducts';
 import { Language, useTranslation } from '@/lib/i18n';
-import { ArrowRight, Leaf, Droplets, FlaskConical, Play, ArrowDownRight } from 'lucide-react';
+import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, ChevronRight } from 'lucide-react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import leavesHero from '@/assets/leaves-hero.jpg';
 import botanicalsFlat from '@/assets/botanicals-flat.jpg';
 import creamJar from '@/assets/cream-jar.jpg';
-import serumCollection from '@/assets/serum-collection.jpg';
 import essentialOil from '@/assets/essential-oil.jpg';
 import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
 import pumpBottle from '@/assets/pump-bottle.jpg';
@@ -24,33 +23,14 @@ interface HomePageProps {
 // Animated Section Component
 const AnimatedSection = ({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
   
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      transition={{ duration: 0.8, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-// Animated Card Component
-const AnimatedCard = ({ children, className = '', index = 0 }: { children: React.ReactNode; className?: string; index?: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-  
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.7, delay, ease: [0.25, 0.1, 0.25, 1] }}
       className={className}
     >
       {children}
@@ -68,10 +48,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
     offset: ["start start", "end start"]
   });
   
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   const featuredProducts = mockProducts.slice(0, 4);
 
@@ -83,556 +61,357 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <html lang={lang} />
       </Helmet>
 
-      {/* HERO SECTION - Full immersive experience */}
-      <section ref={heroRef} className="h-screen relative overflow-hidden bg-foreground">
-        {/* Background image with parallax */}
+      {/* HERO SECTION */}
+      <section ref={heroRef} className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        {/* Background image */}
         <motion.div 
           className="absolute inset-0"
-          style={{ y: heroY, scale: heroScale }}
+          style={{ y: heroY }}
         >
           <img 
             src={leavesHero} 
             alt="" 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-40"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-foreground/40 via-foreground/60 to-foreground" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-transparent to-slate-900" />
         </motion.div>
 
-        {/* Animated grid overlay */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="w-full h-full" style={{
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
-
-        {/* Floating orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]"
-            style={{ top: '10%', right: '10%' }}
-            animate={{
-              x: [0, 30, 0],
-              y: [0, -20, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute w-[400px] h-[400px] rounded-full bg-cream-400/10 blur-[100px]"
-            style={{ bottom: '20%', left: '5%' }}
-            animate={{
-              x: [0, -20, 0],
-              y: [0, 30, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </div>
-
-        {/* Main content */}
+        {/* Content */}
         <motion.div 
-          className="relative z-10 h-full flex flex-col"
+          className="relative z-10 min-h-screen flex flex-col justify-center"
           style={{ opacity: heroOpacity }}
         >
-          {/* Top bar */}
-          <div className="container-luxe pt-32">
-            <motion.div 
-              className="flex items-center gap-3"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-            >
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-xs uppercase tracking-[0.3em] text-white/60">
-                {lang === 'fr' ? 'Excellence depuis 1994' : 'Excellence since 1994'}
-              </span>
-            </motion.div>
-          </div>
-
-          {/* Center content */}
-          <div className="flex-1 flex items-center">
-            <div className="container-luxe">
-              <div className="grid grid-cols-12 gap-8 items-center">
-                {/* Left: Main headline */}
-                <div className="col-span-12 lg:col-span-7">
-                  <motion.div
-                    style={{ y: textY }}
-                  >
-                    <motion.h1 
-                      className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-white leading-[0.9] tracking-tight"
-                      initial={{ opacity: 0, y: 60 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 1, delay: 0.3 }}
-                    >
-                      <span className="block overflow-hidden">
-                        <motion.span 
-                          className="block"
-                          initial={{ y: 100 }}
-                          animate={{ y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.4 }}
-                        >
-                          Natural
-                        </motion.span>
-                      </span>
-                      <span className="block overflow-hidden">
-                        <motion.span 
-                          className="block italic text-primary"
-                          initial={{ y: 100 }}
-                          animate={{ y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.5 }}
-                        >
-                          Beauty
-                        </motion.span>
-                      </span>
-                      <span className="block overflow-hidden">
-                        <motion.span 
-                          className="block"
-                          initial={{ y: 100 }}
-                          animate={{ y: 0 }}
-                          transition={{ duration: 0.8, delay: 0.6 }}
-                        >
-                          Ingredients
-                        </motion.span>
-                      </span>
-                    </motion.h1>
-                  </motion.div>
-                </div>
-
-                {/* Right: Info panel */}
-                <div className="col-span-12 lg:col-span-5">
-                  <motion.div
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="lg:pl-12"
-                  >
-                    <p className="text-white/60 text-base md:text-lg leading-relaxed mb-8 max-w-md">
-                      {lang === 'fr'
-                        ? 'Plus de 5000 ingrédients naturels et certifiés pour sublimer vos formulations cosmétiques, parfums et arômes alimentaires.'
-                        : 'Over 5000 natural and certified ingredients to elevate your cosmetic formulations, perfumes and food flavors.'}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-4">
-                      <Link to={`/${lang}/catalogue`}>
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 h-14 px-8 rounded-full text-sm font-medium group">
-                            {lang === 'fr' ? 'Explorer le catalogue' : 'Explore Catalog'}
-                            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </Button>
-                        </motion.div>
-                      </Link>
-                      
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="h-14 px-6 rounded-full border border-white/20 text-white text-sm flex items-center gap-3 hover:bg-white/5 transition-colors"
-                      >
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                          <Play className="w-3 h-3 fill-white text-white ml-0.5" />
-                        </div>
-                        {lang === 'fr' ? 'Notre histoire' : 'Our Story'}
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="container-luxe pb-12">
-            <div className="flex items-end justify-between">
-              {/* Stats */}
-              <motion.div 
-                className="hidden md:flex gap-12"
+          <div className="container-luxe py-32">
+            <div className="max-w-4xl">
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex items-center gap-3 mb-8"
               >
-                {[
-                  { value: '5000+', label: lang === 'fr' ? 'Références' : 'References' },
-                  { value: '30+', label: lang === 'fr' ? 'Années' : 'Years' },
-                  { value: '500+', label: 'Clients' },
-                ].map((stat, i) => (
-                  <div key={i} className="text-left">
-                    <span className="text-3xl font-light text-white block">{stat.value}</span>
-                    <span className="text-xs uppercase tracking-wider text-white/40">{stat.label}</span>
-                  </div>
-                ))}
-              </motion.div>
-
-              {/* Scroll indicator */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-                className="flex items-center gap-3"
-              >
-                <span className="text-xs uppercase tracking-wider text-white/40">
-                  {lang === 'fr' ? 'Défiler' : 'Scroll'}
+                <Sparkles className="w-5 h-5 text-parfum" />
+                <span className="text-base uppercase tracking-[0.2em] text-white/60">
+                  {lang === 'fr' ? 'Excellence depuis 1994' : 'Excellence since 1994'}
                 </span>
-                <motion.div
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowDownRight className="w-5 h-5 text-white/40" />
-                </motion.div>
               </motion.div>
+              
+              <motion.h1 
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white leading-[1] tracking-tight mb-8"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                {lang === 'fr' ? 'Ingrédients' : 'Natural'}
+                <br />
+                <span className="italic text-parfum">{lang === 'fr' ? 'Naturels' : 'Ingredients'}</span>
+                <br />
+                <span className="text-white/80">{lang === 'fr' ? 'Premium' : 'Premium'}</span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-white/60 text-xl md:text-2xl mb-12 max-w-2xl leading-relaxed"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
+                {lang === 'fr'
+                  ? 'Plus de 5000 références pour la cosmétique, la parfumerie et les arômes alimentaires.'
+                  : 'Over 5000 references for cosmetics, perfumery and food flavors.'}
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="flex flex-wrap gap-4"
+              >
+                <Link to={`/${lang}/catalogue`}>
+                  <Button className="bg-parfum text-white hover:bg-parfum-dark h-14 px-10 rounded-full text-base font-medium shadow-lg shadow-parfum/30">
+                    {lang === 'fr' ? 'Explorer le catalogue' : 'Explore Catalog'}
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link to={`/${lang}/contact`}>
+                  <Button variant="outline" className="h-14 px-10 rounded-full text-base border-white/30 text-white hover:bg-white/10">
+                    {lang === 'fr' ? 'Nous contacter' : 'Contact Us'}
+                  </Button>
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Stats bar */}
+          <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 bg-black/20 backdrop-blur-sm">
+            <div className="container-luxe py-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {[
+                  { value: '5000+', label: lang === 'fr' ? 'Références' : 'References', color: 'text-cosmetique' },
+                  { value: '30+', label: lang === 'fr' ? 'Années d\'expertise' : 'Years of Expertise', color: 'text-parfum' },
+                  { value: '500+', label: 'Clients', color: 'text-arome' },
+                  { value: '100%', label: lang === 'fr' ? 'Naturel' : 'Natural', color: 'text-primary' },
+                ].map((stat, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1 + i * 0.1 }}
+                  >
+                    <span className={`text-4xl md:text-5xl font-light block mb-1 ${stat.color}`}>{stat.value}</span>
+                    <span className="text-sm uppercase tracking-wider text-white/50">{stat.label}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
       </section>
 
-      {/* Marquee Section with Category Colors */}
-      <section className="py-5 bg-foreground overflow-hidden">
-        <motion.div
-          animate={{ x: [0, -1200] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="flex gap-8 whitespace-nowrap"
-        >
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex gap-8 items-center">
-              <span className="text-cosmetique text-sm uppercase tracking-[0.15em] font-medium">Cosmétique</span>
-              <span className="text-white/20">✦</span>
-              <span className="text-parfum text-sm uppercase tracking-[0.15em] font-medium">Parfumerie</span>
-              <span className="text-white/20">✦</span>
-              <span className="text-arome text-sm uppercase tracking-[0.15em] font-medium">Arômes Alimentaires</span>
-              <span className="text-white/20">✦</span>
-              <span className="text-primary text-sm uppercase tracking-[0.15em] font-medium">Ingrédients Naturels</span>
-              <span className="text-white/20">✦</span>
-              <span className="text-white/60 text-sm uppercase tracking-[0.15em]">Certifié Bio</span>
-              <span className="text-white/20">✦</span>
-            </div>
-          ))}
-        </motion.div>
-      </section>
+      {/* CATEGORIES SECTION */}
+      <section className="py-24 md:py-32 bg-white">
+        <div className="container-luxe">
+          <AnimatedSection className="text-center mb-16">
+            <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4 block">
+              {lang === 'fr' ? 'Nos Domaines' : 'Our Domains'}
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground mb-6">
+              {lang === 'fr' ? 'Trois univers,' : 'Three worlds,'}
+              <br />
+              <span className="italic">{lang === 'fr' ? 'une expertise' : 'one expertise'}</span>
+            </h2>
+            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
+              {lang === 'fr'
+                ? 'Découvrez notre expertise à travers trois catégories distinctes d\'ingrédients naturels.'
+                : 'Discover our expertise through three distinct categories of natural ingredients.'}
+            </p>
+          </AnimatedSection>
 
-      {/* Bento Grid - Row 1 */}
-      <section className="px-4 md:px-8 py-8 bg-cream-200">
-        <div className="max-w-7xl mx-auto grid grid-cols-12 gap-5">
-          {/* Green Quote Card */}
-          <AnimatedCard className="col-span-12 md:col-span-5" index={0}>
-            <div className="bg-primary rounded-3xl p-8 md:p-10 relative overflow-hidden min-h-[360px] group cursor-pointer transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)]">
-              <motion.span 
-                className="font-serif text-[120px] md:text-[140px] leading-none text-white/15 absolute -top-4 left-2"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-                transition={{ duration: 0.3 }}
-              >
-                "
-              </motion.span>
-              <div className="relative z-10 h-full flex flex-col justify-end">
-                <h2 className="text-2xl md:text-3xl text-white leading-tight mb-4">
-                  Natural
-                  <br />
-                  <span className="italic">Ingredients</span>
-                </h2>
-                <p className="text-white/70 text-sm mb-6 max-w-[260px] leading-relaxed">
-                  {lang === 'fr'
-                    ? 'Des extraits botaniques soigneusement sélectionnés pour des formulations d\'exception.'
-                    : 'Carefully selected botanical extracts for exceptional formulations.'}
-                </p>
-                <motion.button 
-                  className="border border-white/40 text-white px-5 py-2.5 rounded-full text-xs font-medium hover:bg-white hover:text-primary transition-all duration-300 self-start"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {lang === 'fr' ? 'Découvrir' : 'Discover'}
-                </motion.button>
-              </div>
-            </div>
-          </AnimatedCard>
-
-          {/* Image Card */}
-          <AnimatedCard className="col-span-12 md:col-span-7" index={1}>
-            <div className="bg-white rounded-3xl overflow-hidden flex flex-col md:flex-row min-h-[360px] group transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)]">
-              <div className="w-full md:w-1/2 h-52 md:h-auto overflow-hidden relative">
-                <motion.img 
-                  src={blueberriesHerbs} 
-                  alt="Natural ingredients"
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.6 }}
-                />
-              </div>
-              <div className="w-full md:w-1/2 p-7 md:p-9 flex flex-col justify-center">
-                <h3 className="text-xl md:text-2xl text-foreground leading-tight mb-4">
-                  Natural
-                  <br />
-                  <span className="italic text-primary">Ingredients</span>
-                </h3>
-                <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                  {lang === 'fr'
-                    ? 'Une sélection premium de matières premières naturelles pour vos créations.'
-                    : 'A premium selection of natural raw materials for your creations.'}
-                </p>
-                <motion.button 
-                  className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-full text-xs font-medium hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 self-start"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {lang === 'fr' ? 'Voir plus' : 'Learn More'}
-                </motion.button>
-              </div>
-            </div>
-          </AnimatedCard>
-        </div>
-      </section>
-
-      {/* Category Cards Section */}
-      <section className="px-4 md:px-8 py-3 bg-cream-200">
-        <div className="max-w-7xl mx-auto grid grid-cols-12 gap-5">
-          {/* Cosmétique Card - Rose */}
-          <AnimatedCard className="col-span-12 md:col-span-4" index={0}>
-            <div className="bg-cosmetique-light rounded-3xl p-6 h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(200,100,120,0.25)] border border-cosmetique/10">
-              <div className="flex items-start gap-4 mb-5">
-                <motion.div 
-                  className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-cosmetique/20"
-                  whileHover={{ rotate: 3 }}
-                >
-                  <img src={botanicalsFlat} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </motion.div>
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-5 h-5 rounded-full bg-cosmetique/15 flex items-center justify-center">
-                      <Leaf className="w-3 h-3 text-cosmetique" />
-                    </div>
-                    <span className="text-[10px] uppercase tracking-wider text-cosmetique font-medium">
-                      {lang === 'fr' ? 'Cosmétique' : 'Cosmetic'}
-                    </span>
+          {/* Category Cards - Full width, well separated */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Cosmétique */}
+            <AnimatedSection delay={0.1}>
+              <Link to={`/${lang}/catalogue?category=cosmetique`} className="block group">
+                <div className="bg-cosmetique-light rounded-3xl p-8 md:p-10 min-h-[450px] flex flex-col transition-all duration-500 hover:shadow-2xl hover:shadow-cosmetique/20 border border-cosmetique/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-cosmetique/10 rounded-full blur-3xl" />
+                  
+                  <div className="w-16 h-16 rounded-2xl bg-cosmetique flex items-center justify-center mb-6">
+                    <Leaf className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-base font-medium text-foreground">
-                    {lang === 'fr' ? 'Actifs Naturels' : 'Natural Actives'}
+                  
+                  <span className="text-sm uppercase tracking-widest text-cosmetique font-semibold mb-3">
+                    {lang === 'fr' ? 'Cosmétique' : 'Cosmetic'}
+                  </span>
+                  
+                  <h3 className="text-3xl md:text-4xl text-foreground mb-4 leading-tight">
+                    {lang === 'fr' ? 'Actifs & Extraits' : 'Actives & Extracts'}
+                    <br />
+                    <span className="italic text-cosmetique">{lang === 'fr' ? 'Naturels' : 'Natural'}</span>
                   </h3>
-                </div>
-              </div>
-              <p className="text-muted-foreground text-xs mb-5 leading-relaxed">
-                {lang === 'fr'
-                  ? 'Extraits botaniques et actifs naturels certifiés pour vos formulations.'
-                  : 'Certified botanical extracts and natural actives for your formulations.'}
-              </p>
-              <motion.button 
-                className="bg-cosmetique text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-cosmetique-dark transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {lang === 'fr' ? 'Découvrir' : 'Discover'}
-              </motion.button>
-            </div>
-          </AnimatedCard>
-
-          {/* Parfum Card - Amber */}
-          <AnimatedCard className="col-span-12 md:col-span-4" index={1}>
-            <div className="bg-parfum-light rounded-3xl p-6 h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(200,150,50,0.25)] border border-parfum/10">
-              <div className="flex items-start gap-4 mb-5">
-                <motion.div 
-                  className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-parfum/20"
-                  whileHover={{ rotate: -3 }}
-                >
-                  <img src={essentialOil} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                </motion.div>
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-5 h-5 rounded-full bg-parfum/15 flex items-center justify-center">
-                      <FlaskConical className="w-3 h-3 text-parfum" />
-                    </div>
-                    <span className="text-[10px] uppercase tracking-wider text-parfum font-medium">
-                      {lang === 'fr' ? 'Parfumerie' : 'Perfumery'}
-                    </span>
+                  
+                  <p className="text-muted-foreground text-base md:text-lg mb-8 flex-1 leading-relaxed">
+                    {lang === 'fr'
+                      ? 'Extraits botaniques, huiles végétales et actifs naturels certifiés pour vos formulations cosmétiques professionnelles.'
+                      : 'Botanical extracts, vegetable oils and certified natural actives for your professional cosmetic formulations.'}
+                  </p>
+                  
+                  <div className="flex items-center gap-2 text-cosmetique font-medium text-lg group-hover:gap-4 transition-all">
+                    {lang === 'fr' ? 'Explorer' : 'Explore'}
+                    <ChevronRight className="w-5 h-5" />
                   </div>
-                  <h3 className="text-base font-medium text-foreground">
-                    {lang === 'fr' ? 'Essences Nobles' : 'Noble Essences'}
+                </div>
+              </Link>
+            </AnimatedSection>
+
+            {/* Parfumerie */}
+            <AnimatedSection delay={0.2}>
+              <Link to={`/${lang}/catalogue?category=parfum`} className="block group">
+                <div className="bg-parfum-light rounded-3xl p-8 md:p-10 min-h-[450px] flex flex-col transition-all duration-500 hover:shadow-2xl hover:shadow-parfum/20 border border-parfum/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-parfum/10 rounded-full blur-3xl" />
+                  
+                  <div className="w-16 h-16 rounded-2xl bg-parfum flex items-center justify-center mb-6">
+                    <FlaskConical className="w-8 h-8 text-white" />
+                  </div>
+                  
+                  <span className="text-sm uppercase tracking-widest text-parfum font-semibold mb-3">
+                    {lang === 'fr' ? 'Parfumerie' : 'Perfumery'}
+                  </span>
+                  
+                  <h3 className="text-3xl md:text-4xl text-foreground mb-4 leading-tight">
+                    {lang === 'fr' ? 'Essences &' : 'Essences &'}
+                    <br />
+                    <span className="italic text-parfum">{lang === 'fr' ? 'Matières Nobles' : 'Noble Materials'}</span>
                   </h3>
-                </div>
-              </div>
-              <p className="text-muted-foreground text-xs mb-5 leading-relaxed">
-                {lang === 'fr'
-                  ? 'Matières premières nobles pour la parfumerie fine et créations olfactives.'
-                  : 'Noble raw materials for fine perfumery and olfactory creations.'}
-              </p>
-              <motion.button 
-                className="bg-parfum text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-parfum-dark transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {lang === 'fr' ? 'Explorer' : 'Explore'}
-              </motion.button>
-            </div>
-          </AnimatedCard>
-
-          {/* Arômes Card - Coral */}
-          <AnimatedCard className="col-span-12 md:col-span-4" index={2}>
-            <div className="bg-arome-light rounded-3xl p-6 relative overflow-hidden h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(220,100,80,0.25)] border border-arome/10">
-              <motion.div 
-                className="absolute -right-4 -bottom-4 w-36 h-48"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-              >
-                <img src={pumpBottle} alt="" className="w-full h-full object-contain drop-shadow-2xl" />
-              </motion.div>
-              <div className="relative z-10">
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  <div className="w-5 h-5 rounded-full bg-arome/15 flex items-center justify-center">
-                    <Droplets className="w-3 h-3 text-arome" />
+                  
+                  <p className="text-muted-foreground text-base md:text-lg mb-8 flex-1 leading-relaxed">
+                    {lang === 'fr'
+                      ? 'Matières premières nobles et essences rares pour la parfumerie fine et les créations olfactives d\'exception.'
+                      : 'Noble raw materials and rare essences for fine perfumery and exceptional olfactory creations.'}
+                  </p>
+                  
+                  <div className="flex items-center gap-2 text-parfum font-medium text-lg group-hover:gap-4 transition-all">
+                    {lang === 'fr' ? 'Explorer' : 'Explore'}
+                    <ChevronRight className="w-5 h-5" />
                   </div>
-                  <span className="text-[10px] uppercase tracking-wider text-arome font-medium">
+                </div>
+              </Link>
+            </AnimatedSection>
+
+            {/* Arômes */}
+            <AnimatedSection delay={0.3}>
+              <Link to={`/${lang}/catalogue?category=arome`} className="block group">
+                <div className="bg-arome-light rounded-3xl p-8 md:p-10 min-h-[450px] flex flex-col transition-all duration-500 hover:shadow-2xl hover:shadow-arome/20 border border-arome/10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-arome/10 rounded-full blur-3xl" />
+                  
+                  <div className="w-16 h-16 rounded-2xl bg-arome flex items-center justify-center mb-6">
+                    <Droplets className="w-8 h-8 text-white" />
+                  </div>
+                  
+                  <span className="text-sm uppercase tracking-widest text-arome font-semibold mb-3">
                     {lang === 'fr' ? 'Arômes' : 'Flavors'}
                   </span>
-                </div>
-                <h3 className="text-base font-medium text-foreground mb-2">
-                  {lang === 'fr' ? 'Arômes Naturels' : 'Natural Flavors'}
-                </h3>
-                <p className="text-muted-foreground text-xs mb-5 leading-relaxed max-w-[150px]">
-                  {lang === 'fr' ? 'Arômes alimentaires naturels pour l\'industrie agroalimentaire.' : 'Natural food flavors for the food industry.'}
-                </p>
-                <motion.button 
-                  className="bg-arome text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-arome-dark transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {lang === 'fr' ? 'Voir plus' : 'View More'}
-                </motion.button>
-              </div>
-            </div>
-          </AnimatedCard>
-        </div>
-      </section>
-
-      {/* Large visual section */}
-      <section className="px-4 md:px-8 py-3 bg-cream-200">
-        <div className="max-w-7xl mx-auto grid grid-cols-12 gap-5">
-          <AnimatedCard className="col-span-12 md:col-span-5" index={0}>
-            <div className="rounded-3xl overflow-hidden relative min-h-[400px] group cursor-pointer">
-              <motion.img 
-                src={pumpBottle} 
-                alt="Product"
-                className="absolute inset-0 w-full h-full object-cover"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6 }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-7">
-                <span className="text-[10px] uppercase tracking-wider text-white/80 block mb-2">
-                  {lang === 'fr' ? 'Nouveautés' : 'New'}
-                </span>
-                <h3 className="text-2xl text-white mb-4">
-                  {lang === 'fr' ? 'Huiles Essentielles' : 'Essential Oils'}
-                </h3>
-                <motion.button 
-                  className="bg-white/15 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-full text-xs hover:bg-white hover:text-primary transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {lang === 'fr' ? 'Découvrir' : 'Discover'}
-                </motion.button>
-              </div>
-            </div>
-          </AnimatedCard>
-
-          <AnimatedCard className="col-span-12 md:col-span-7" index={1}>
-            <div className="bg-primary rounded-3xl overflow-hidden flex flex-col md:flex-row min-h-[400px] group transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)]">
-              <div className="w-full md:w-1/2 h-52 md:h-auto overflow-hidden relative">
-                <motion.img 
-                  src={creamBowl} 
-                  alt="Natural cream"
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.6 }}
-                />
-              </div>
-              <div className="w-full md:w-1/2 p-8 relative flex flex-col justify-center">
-                <span className="font-serif text-[90px] leading-none text-white/10 absolute top-0 left-4">"</span>
-                <div className="relative z-10">
-                  <h2 className="text-xl md:text-2xl text-white leading-tight mb-4">
-                    Excellence
+                  
+                  <h3 className="text-3xl md:text-4xl text-foreground mb-4 leading-tight">
+                    {lang === 'fr' ? 'Arômes' : 'Food'}
                     <br />
-                    <span className="italic">& Innovation</span>
-                  </h2>
-                  <p className="text-white/70 text-sm mb-6 leading-relaxed">
+                    <span className="italic text-arome">{lang === 'fr' ? 'Alimentaires' : 'Flavors'}</span>
+                  </h3>
+                  
+                  <p className="text-muted-foreground text-base md:text-lg mb-8 flex-1 leading-relaxed">
                     {lang === 'fr'
-                      ? '30 ans d\'expertise au service de vos formulations les plus exigeantes.'
-                      : '30 years of expertise serving your most demanding formulations.'}
+                      ? 'Arômes naturels et certifiés pour l\'industrie agroalimentaire, boissons et compléments nutritionnels.'
+                      : 'Natural and certified flavors for the food industry, beverages and nutritional supplements.'}
                   </p>
-                  <motion.button 
-                    className="border border-white/40 text-white px-5 py-2.5 rounded-full text-xs font-medium hover:bg-white hover:text-primary transition-all self-start"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {lang === 'fr' ? 'Notre histoire' : 'Our Story'}
-                  </motion.button>
+                  
+                  <div className="flex items-center gap-2 text-arome font-medium text-lg group-hover:gap-4 transition-all">
+                    {lang === 'fr' ? 'Explorer' : 'Explore'}
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
                 </div>
-              </div>
-            </div>
-          </AnimatedCard>
+              </Link>
+            </AnimatedSection>
+          </div>
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="px-4 md:px-8 py-20 bg-cream-200">
-        <div className="max-w-7xl mx-auto">
-          <AnimatedSection className="text-center mb-12">
-            <span className="text-xs uppercase tracking-[0.2em] text-primary mb-3 block">
-              {lang === 'fr' ? 'Notre Sélection' : 'Our Selection'}
-            </span>
-            <h2 className="text-3xl md:text-4xl text-foreground mb-4">
-              {lang === 'fr' ? 'Produits ' : 'Featured '}
-              <span className="italic text-primary">{lang === 'fr' ? 'Phares' : 'Products'}</span>
-            </h2>
-          </AnimatedSection>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
-              <AnimatedCard key={product.id} index={index}>
-                <ProductCard product={product} lang={lang} />
-              </AnimatedCard>
-            ))}
-          </div>
-
-          <AnimatedSection delay={0.4} className="text-center mt-10">
-            <Link to={`/${lang}/catalogue`}>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" className="rounded-full px-8 h-11 border-primary text-primary hover:bg-primary hover:text-white transition-all">
-                  {lang === 'fr' ? 'Voir tout le catalogue' : 'View Full Catalog'}
-                  <ArrowRight className="ml-2 w-4 h-4" />
+      {/* ABOUT SECTION */}
+      <section className="py-24 md:py-32 bg-slate-900 text-white">
+        <div className="container-luxe">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <AnimatedSection>
+              <span className="text-sm uppercase tracking-[0.2em] text-parfum mb-4 block">
+                {lang === 'fr' ? 'Notre Histoire' : 'Our Story'}
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-tight">
+                {lang === 'fr' ? '30 ans' : '30 years'}
+                <br />
+                <span className="italic text-parfum">{lang === 'fr' ? 'd\'excellence' : 'of excellence'}</span>
+              </h2>
+              <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-8">
+                {lang === 'fr'
+                  ? 'Depuis 1994, IES Ingredients accompagne les professionnels de la cosmétique, de la parfumerie et de l\'agroalimentaire avec une sélection rigoureuse d\'ingrédients naturels de haute qualité.'
+                  : 'Since 1994, IES Ingredients has been supporting cosmetics, perfumery and food industry professionals with a rigorous selection of high-quality natural ingredients.'}
+              </p>
+              <p className="text-white/70 text-lg md:text-xl leading-relaxed mb-10">
+                {lang === 'fr'
+                  ? 'Notre expertise et notre engagement envers la qualité nous permettent de proposer plus de 5000 références certifiées et traçables.'
+                  : 'Our expertise and commitment to quality allow us to offer more than 5000 certified and traceable references.'}
+              </p>
+              <Link to={`/${lang}/entreprise`}>
+                <Button className="bg-white text-slate-900 hover:bg-white/90 h-14 px-10 rounded-full text-base font-medium">
+                  {lang === 'fr' ? 'Découvrir notre histoire' : 'Discover Our Story'}
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-              </motion.div>
+              </Link>
+            </AnimatedSection>
+            
+            <AnimatedSection delay={0.2}>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="rounded-3xl overflow-hidden h-64">
+                    <img src={blueberriesHerbs} alt="" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="rounded-3xl overflow-hidden h-48 bg-parfum/20">
+                    <img src={essentialOil} alt="" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                <div className="space-y-4 pt-12">
+                  <div className="rounded-3xl overflow-hidden h-48 bg-cosmetique/20">
+                    <img src={creamJar} alt="" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="rounded-3xl overflow-hidden h-64">
+                    <img src={creamBowl} alt="" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* PRODUCTS SECTION */}
+      <section className="py-24 md:py-32 bg-cream-200">
+        <div className="container-luxe">
+          <AnimatedSection className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+            <div>
+              <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-4 block">
+                {lang === 'fr' ? 'Sélection' : 'Selection'}
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl text-foreground">
+                {lang === 'fr' ? 'Produits' : 'Featured'}
+                <span className="italic text-primary ml-3">{lang === 'fr' ? 'Phares' : 'Products'}</span>
+              </h2>
+            </div>
+            <Link to={`/${lang}/catalogue`}>
+              <Button variant="outline" className="rounded-full px-8 h-12 text-base border-foreground/20 hover:border-foreground/40">
+                {lang === 'fr' ? 'Voir tout' : 'View All'}
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
             </Link>
           </AnimatedSection>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredProducts.map((product, index) => (
+              <AnimatedSection key={product.id} delay={index * 0.1}>
+                <ProductCard product={product} lang={lang} />
+              </AnimatedSection>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="px-4 md:px-8 py-24 bg-foreground relative overflow-hidden">
+      {/* CTA SECTION */}
+      <section className="py-24 md:py-32 bg-gradient-to-br from-parfum via-parfum-dark to-arome-dark relative overflow-hidden">
         <div className="absolute inset-0">
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full bg-primary/20 blur-[150px]"
-            style={{ top: '-20%', right: '-10%' }}
-            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          />
+          <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/20 rounded-full blur-3xl" />
         </div>
         
-        <AnimatedSection className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl text-white mb-6 leading-tight">
-            {lang === 'fr' ? 'Prêt à ' : 'Ready to '}
-            <span className="italic text-primary">{lang === 'fr' ? 'collaborer ?' : 'collaborate?'}</span>
-          </h2>
-          <p className="text-white/60 text-lg mb-10 max-w-2xl mx-auto">
-            {lang === 'fr'
-              ? 'Contactez notre équipe d\'experts pour découvrir comment nos ingrédients peuvent sublimer vos formulations.'
-              : 'Contact our team of experts to discover how our ingredients can elevate your formulations.'}
-          </p>
-          <Link to={`/${lang}/contact`}>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button className="bg-primary text-white hover:bg-primary/90 h-14 px-12 rounded-full text-sm font-medium">
-                {lang === 'fr' ? 'Nous contacter' : 'Contact Us'}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </motion.div>
-          </Link>
-        </AnimatedSection>
+        <div className="container-luxe relative z-10">
+          <AnimatedSection className="text-center max-w-4xl mx-auto">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-tight">
+              {lang === 'fr' ? 'Prêt à créer' : 'Ready to create'}
+              <br />
+              <span className="italic">{lang === 'fr' ? 'quelque chose d\'exceptionnel ?' : 'something exceptional?'}</span>
+            </h2>
+            <p className="text-white/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+              {lang === 'fr'
+                ? 'Contactez notre équipe d\'experts pour découvrir comment nos ingrédients peuvent transformer vos formulations.'
+                : 'Contact our team of experts to discover how our ingredients can transform your formulations.'}
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to={`/${lang}/contact`}>
+                <Button className="bg-white text-parfum-dark hover:bg-white/90 h-14 px-10 rounded-full text-base font-medium">
+                  {lang === 'fr' ? 'Nous contacter' : 'Contact Us'}
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+              <Link to={`/${lang}/catalogue`}>
+                <Button variant="outline" className="h-14 px-10 rounded-full text-base border-white/40 text-white hover:bg-white/10">
+                  {lang === 'fr' ? 'Voir le catalogue' : 'View Catalog'}
+                </Button>
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
       </section>
     </Layout>
   );
