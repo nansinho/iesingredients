@@ -7,10 +7,13 @@ import { Input } from '@/components/ui/input';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { mockProducts } from '@/data/mockProducts';
 import { Language, useTranslation } from '@/lib/i18n';
-import { ArrowRight, Search, Leaf, Droplets, FlaskConical } from 'lucide-react';
+import { ArrowRight, Search, Leaf, Droplets, FlaskConical, ArrowUpRight } from 'lucide-react';
 import leavesHero from '@/assets/leaves-hero.jpg';
 import botanicalsFlat from '@/assets/botanicals-flat.jpg';
 import productBottle from '@/assets/product-bottle.jpg';
+import creamJar from '@/assets/cream-jar.jpg';
+import serumCollection from '@/assets/serum-collection.jpg';
+import essentialOil from '@/assets/essential-oil.jpg';
 
 interface HomePageProps {
   lang: Language;
@@ -51,7 +54,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
 
         {/* Content */}
         <div className="relative z-10 container-luxe pt-32 pb-20 min-h-screen flex items-center">
-          <div className="max-w-xl">
+          <div className="max-w-xl animate-fade-up">
             <h1 className="text-5xl md:text-6xl lg:text-7xl text-foreground leading-[1.05] mb-6">
               {lang === 'fr' ? (
                 <>
@@ -67,13 +70,13 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 </>
               )}
             </h1>
-            <p className="text-muted-foreground text-lg mb-8 max-w-md">
+            <p className="text-muted-foreground text-lg mb-8 max-w-md animate-fade-up stagger-1">
               {lang === 'fr'
                 ? 'Plus de 5000 ingrédients naturels pour sublimer vos formulations cosmétiques premium.'
                 : 'Over 5000 natural ingredients to elevate your premium cosmetic formulations.'}
             </p>
-            <Link to={`/${lang}/catalogue`}>
-              <Button className="bg-primary text-primary-foreground hover:bg-forest-700 h-12 px-8 rounded-lg gap-2">
+            <Link to={`/${lang}/catalogue`} className="animate-fade-up stagger-2 inline-block">
+              <Button className="bg-primary text-primary-foreground hover:bg-forest-700 h-12 px-8 rounded-lg gap-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
                 {lang === 'fr' ? 'Découvrir nos produits' : 'Browse Products'}
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -88,10 +91,14 @@ export const HomePage = ({ lang }: HomePageProps) => {
           {/* Row 1 */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             {/* Green Card with Quote - Left */}
-            <div className="bg-primary rounded-3xl p-10 md:p-12 relative overflow-hidden min-h-[400px] flex flex-col justify-between">
-              <span className="font-serif text-[120px] md:text-[150px] leading-none text-white/20 absolute top-2 left-6">"</span>
+            <div className="group bg-primary rounded-3xl p-10 md:p-12 relative overflow-hidden min-h-[420px] flex flex-col justify-between cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+              <span className="font-serif text-[120px] md:text-[150px] leading-none text-white/15 absolute top-2 left-6 transition-all duration-500 group-hover:text-white/25">"</span>
+              
+              {/* Decorative gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
               <div className="relative z-10 mt-auto">
-                <h2 className="text-3xl md:text-4xl text-white leading-tight mb-4">
+                <h2 className="text-3xl md:text-4xl text-white leading-tight mb-4 transition-transform duration-300 group-hover:translate-x-1">
                   {lang === 'fr' ? (
                     <>
                       Natural
@@ -106,30 +113,31 @@ export const HomePage = ({ lang }: HomePageProps) => {
                     </>
                   )}
                 </h2>
-                <p className="text-white/70 text-sm mb-6 max-w-xs">
+                <p className="text-white/70 text-sm mb-6 max-w-xs transition-all duration-300 group-hover:text-white/80">
                   {lang === 'fr'
                     ? 'Des extraits botaniques soigneusement sélectionnés pour des formulations d\'exception.'
                     : 'Carefully selected botanical extracts for exceptional formulations.'}
                 </p>
                 <Link to={`/${lang}/catalogue?category=cosmetic`}>
-                  <button className="border border-white/40 text-white px-5 py-2.5 rounded-lg text-sm hover:bg-white/10 transition-colors">
+                  <button className="border border-white/40 text-white px-5 py-2.5 rounded-lg text-sm hover:bg-white hover:text-primary transition-all duration-300 flex items-center gap-2 group/btn">
                     {lang === 'fr' ? 'Découvrir' : 'Discover'}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </Link>
               </div>
             </div>
 
             {/* Image + Text Card - Right */}
-            <div className="bg-white rounded-3xl overflow-hidden flex flex-col md:flex-row min-h-[400px]">
-              <div className="w-full md:w-1/2 h-64 md:h-auto">
+            <div className="group bg-white rounded-3xl overflow-hidden flex flex-col md:flex-row min-h-[420px] transition-all duration-500 hover:shadow-2xl">
+              <div className="w-full md:w-1/2 h-64 md:h-auto overflow-hidden">
                 <img 
                   src={botanicalsFlat} 
                   alt="Natural ingredients"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               </div>
               <div className="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
-                <h3 className="text-2xl md:text-3xl text-foreground leading-tight mb-4">
+                <h3 className="text-2xl md:text-3xl text-foreground leading-tight mb-4 transition-colors duration-300 group-hover:text-primary">
                   Natural
                   <br />
                   <span className="italic">Ingredients</span>
@@ -140,8 +148,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
                     : 'A premium selection of natural raw materials for your cosmetic creations.'}
                 </p>
                 <Link to={`/${lang}/catalogue`}>
-                  <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-foreground/40 hover:bg-foreground/5 transition-colors">
+                  <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-primary hover:text-primary transition-all duration-300 flex items-center gap-2 group/btn">
                     {lang === 'fr' ? 'Voir plus' : 'Learn More'}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </Link>
               </div>
@@ -151,19 +160,21 @@ export const HomePage = ({ lang }: HomePageProps) => {
           {/* Row 2 - Three Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             {/* Card 1 */}
-            <div className="bg-white rounded-3xl p-8 flex flex-col">
+            <div className="group bg-white rounded-3xl p-8 flex flex-col transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
               <div className="flex gap-4 mb-6">
-                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-cream-300 flex-shrink-0">
-                  <img src={botanicalsFlat} alt="" className="w-full h-full object-cover" />
+                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-cream-300 flex-shrink-0 shadow-md">
+                  <img src={creamJar} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-2 mb-1">
-                    <Leaf className="w-4 h-4 text-primary" />
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                      <Leaf className="w-4 h-4 text-primary" />
+                    </div>
                   </div>
                   <span className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
                     {lang === 'fr' ? 'Cosmétique' : 'Cosmetic'}
                   </span>
-                  <h3 className="text-lg text-foreground">
+                  <h3 className="text-lg text-foreground font-medium transition-colors duration-300 group-hover:text-primary">
                     {lang === 'fr' ? 'Actifs Naturels' : 'Natural Actives'}
                   </h3>
                 </div>
@@ -173,25 +184,28 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   ? 'Extraits botaniques et actifs naturels certifiés pour vos formulations.'
                   : 'Certified botanical extracts and natural actives for your formulations.'}
               </p>
-              <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-foreground/40 transition-colors self-start">
+              <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 self-start flex items-center gap-2 group/btn">
                 {lang === 'fr' ? 'Découvrir' : 'Discover'}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </button>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white rounded-3xl p-8 flex flex-col">
+            <div className="group bg-white rounded-3xl p-8 flex flex-col transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
               <div className="flex gap-4 mb-6">
-                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-cream-300 flex-shrink-0">
-                  <img src={productBottle} alt="" className="w-full h-full object-cover" />
+                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-cream-300 flex-shrink-0 shadow-md">
+                  <img src={essentialOil} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center gap-2 mb-1">
-                    <FlaskConical className="w-4 h-4 text-primary" />
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                      <FlaskConical className="w-4 h-4 text-primary" />
+                    </div>
                   </div>
                   <span className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
                     {lang === 'fr' ? 'Parfumerie' : 'Perfumery'}
                   </span>
-                  <h3 className="text-lg text-foreground">
+                  <h3 className="text-lg text-foreground font-medium transition-colors duration-300 group-hover:text-primary">
                     {lang === 'fr' ? 'Essences Nobles' : 'Fine Essences'}
                   </h3>
                 </div>
@@ -201,24 +215,27 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   ? 'Matières premières nobles pour la parfumerie fine et créations olfactives.'
                   : 'Noble raw materials for fine perfumery and olfactory creations.'}
               </p>
-              <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-foreground/40 transition-colors self-start">
+              <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 self-start flex items-center gap-2 group/btn">
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </button>
             </div>
 
             {/* Card 3 - with product image */}
-            <div className="bg-cream-300 rounded-3xl p-8 relative overflow-hidden flex flex-col">
-              <div className="absolute -right-8 -bottom-8 w-40 h-56 opacity-40">
+            <div className="group bg-cream-300 rounded-3xl p-8 relative overflow-hidden flex flex-col transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+              <div className="absolute -right-4 -bottom-4 w-36 h-48 opacity-50 transition-all duration-500 group-hover:opacity-70 group-hover:scale-105">
                 <img src={productBottle} alt="" className="w-full h-full object-contain" />
               </div>
               <div className="relative z-10 flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <Droplets className="w-4 h-4 text-primary" />
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-300 group-hover:bg-primary/20 group-hover:scale-110">
+                    <Droplets className="w-4 h-4 text-primary" />
+                  </div>
                 </div>
                 <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-2">
                   {lang === 'fr' ? 'Arômes' : 'Flavors'}
                 </span>
-                <h3 className="text-lg text-foreground mb-3">
+                <h3 className="text-lg text-foreground font-medium mb-3 transition-colors duration-300 group-hover:text-primary">
                   {lang === 'fr' ? 'Arômes Alimentaires' : 'Food Flavors'}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
@@ -227,8 +244,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
                     : 'Certified natural flavors for the food industry.'}
                 </p>
               </div>
-              <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-foreground/40 transition-colors self-start relative z-10">
+              <button className="border border-foreground/20 text-foreground px-5 py-2.5 rounded-lg text-sm hover:border-primary hover:text-primary hover:bg-white/50 transition-all duration-300 self-start relative z-10 flex items-center gap-2 group/btn">
                 {lang === 'fr' ? 'Voir plus' : 'View More'}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </button>
             </div>
           </div>
@@ -236,31 +254,34 @@ export const HomePage = ({ lang }: HomePageProps) => {
           {/* Row 3 */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Large Image Card */}
-            <div className="bg-cream-300 rounded-3xl overflow-hidden relative min-h-[350px]">
+            <div className="group bg-cream-300 rounded-3xl overflow-hidden relative min-h-[380px] cursor-pointer">
               <img 
-                src={productBottle} 
-                alt="Product"
-                className="absolute inset-0 w-full h-full object-cover"
+                src={serumCollection} 
+                alt="Product collection"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
                 <span className="text-xs uppercase tracking-wider text-white/80 block mb-2">
                   {lang === 'fr' ? 'Collection' : 'Collection'}
                 </span>
-                <h3 className="text-2xl text-white mb-4">
+                <h3 className="text-2xl text-white mb-4 transition-transform duration-300 group-hover:translate-x-1">
                   {lang === 'fr' ? 'Nos Essentiels' : 'Our Essentials'}
                 </h3>
-                <button className="border border-white/50 text-white px-5 py-2.5 rounded-lg text-sm hover:bg-white/10 transition-colors">
+                <button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-5 py-2.5 rounded-lg text-sm hover:bg-white hover:text-primary transition-all duration-300 flex items-center gap-2 group/btn">
                   {lang === 'fr' ? 'Découvrir' : 'Discover'}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                 </button>
               </div>
             </div>
 
             {/* Green Quote Card */}
-            <div className="bg-primary rounded-3xl p-10 relative overflow-hidden min-h-[350px] flex flex-col justify-between">
-              <span className="font-serif text-[100px] leading-none text-white/20 absolute top-0 left-6">"</span>
+            <div className="group bg-primary rounded-3xl p-10 relative overflow-hidden min-h-[380px] flex flex-col justify-between cursor-pointer transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+              <span className="font-serif text-[100px] leading-none text-white/15 absolute top-0 left-6 transition-all duration-500 group-hover:text-white/25">"</span>
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="relative z-10 mt-auto">
-                <h2 className="text-2xl md:text-3xl text-white leading-tight mb-4">
+                <h2 className="text-2xl md:text-3xl text-white leading-tight mb-4 transition-transform duration-300 group-hover:translate-x-1">
                   {lang === 'fr' ? (
                     <>
                       Excellence
@@ -275,7 +296,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                     </>
                   )}
                 </h2>
-                <p className="text-white/70 text-sm max-w-xs leading-relaxed">
+                <p className="text-white/70 text-sm max-w-xs leading-relaxed transition-all duration-300 group-hover:text-white/80">
                   {lang === 'fr'
                     ? '30 ans d\'expertise au service de vos formulations.'
                     : '30 years of expertise serving your formulations.'}
@@ -284,9 +305,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
             </div>
 
             {/* Search Card */}
-            <div className="bg-white rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[350px]">
+            <div className="group bg-white rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[380px] transition-all duration-500 hover:shadow-xl">
               <div>
-                <h3 className="text-2xl text-foreground mb-2">
+                <h3 className="text-2xl text-foreground mb-2 transition-colors duration-300 group-hover:text-primary">
                   {lang === 'fr' ? 'Rechercher' : 'Search'}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-6">
@@ -300,26 +321,26 @@ export const HomePage = ({ lang }: HomePageProps) => {
                       placeholder={t.hero.search}
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
-                      className="pl-10 h-11 bg-cream-200 border-0 rounded-lg"
+                      className="pl-10 h-11 bg-cream-200 border-0 rounded-lg focus:ring-2 focus:ring-primary/20 transition-all"
                     />
                   </div>
-                  <Button type="submit" className="h-11 px-5 bg-primary text-white rounded-lg">
+                  <Button type="submit" className="h-11 px-5 bg-primary text-white rounded-lg hover:bg-forest-700 shadow-md hover:shadow-lg transition-all">
                     OK
                   </Button>
                 </form>
               </div>
               
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border mt-6">
-                <div>
-                  <div className="text-2xl md:text-3xl text-primary font-medium">5000+</div>
+                <div className="group/stat">
+                  <div className="text-2xl md:text-3xl text-primary font-medium transition-transform duration-300 group-hover/stat:scale-110 origin-left">5000+</div>
                   <div className="text-xs text-muted-foreground">{lang === 'fr' ? 'Produits' : 'Products'}</div>
                 </div>
-                <div>
-                  <div className="text-2xl md:text-3xl text-primary font-medium">30+</div>
+                <div className="group/stat">
+                  <div className="text-2xl md:text-3xl text-primary font-medium transition-transform duration-300 group-hover/stat:scale-110 origin-left">30+</div>
                   <div className="text-xs text-muted-foreground">{lang === 'fr' ? 'Ans' : 'Years'}</div>
                 </div>
-                <div>
-                  <div className="text-2xl md:text-3xl text-primary font-medium">50+</div>
+                <div className="group/stat">
+                  <div className="text-2xl md:text-3xl text-primary font-medium transition-transform duration-300 group-hover/stat:scale-110 origin-left">50+</div>
                   <div className="text-xs text-muted-foreground">{lang === 'fr' ? 'Pays' : 'Countries'}</div>
                 </div>
               </div>
@@ -341,9 +362,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
               </h2>
             </div>
             <Link to={`/${lang}/catalogue`}>
-              <Button variant="outline" className="gap-2 rounded-lg border-foreground/20 hover:border-foreground/40">
+              <Button variant="outline" className="gap-2 rounded-lg border-foreground/20 hover:border-primary hover:text-primary transition-all group">
                 {lang === 'fr' ? 'Voir tout' : 'View all'}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </div>
@@ -359,8 +380,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
       {/* CTA Section */}
       <section className="py-20 px-4 bg-cream-200">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-primary rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
-            <span className="font-serif text-[200px] leading-none text-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">"</span>
+          <div className="group bg-primary rounded-3xl p-12 md:p-16 text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30">
+            <span className="font-serif text-[200px] leading-none text-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 group-hover:text-white/15 group-hover:scale-110">"</span>
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl lg:text-5xl text-white mb-6">
                 {lang === 'fr'
@@ -374,13 +396,13 @@ export const HomePage = ({ lang }: HomePageProps) => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to={`/${lang}/catalogue`}>
-                  <Button className="bg-white text-primary hover:bg-white/90 h-12 px-8 rounded-lg gap-2">
+                  <Button className="bg-white text-primary hover:bg-white/90 h-12 px-8 rounded-lg gap-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 group/btn">
                     {lang === 'fr' ? 'Explorer le catalogue' : 'Explore catalog'}
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                   </Button>
                 </Link>
                 <Link to={`/${lang}/contact`}>
-                  <Button variant="outline" className="border-white/40 text-white hover:bg-white/10 h-12 px-8 rounded-lg">
+                  <Button variant="outline" className="border-white/40 text-white hover:bg-white hover:text-primary h-12 px-8 rounded-lg transition-all duration-300">
                     {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
                   </Button>
                 </Link>
