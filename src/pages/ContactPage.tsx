@@ -19,15 +19,8 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    toast.success(
-      lang === 'fr'
-        ? 'Message envoyé avec succès !'
-        : 'Message sent successfully!'
-    );
+    toast.success(lang === 'fr' ? 'Message envoyé !' : 'Message sent!');
     setIsSubmitting(false);
     (e.target as HTMLFormElement).reset();
   };
@@ -35,171 +28,76 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
   return (
     <Layout lang={lang}>
       <Helmet>
-        <title>
-          {lang === 'fr' ? 'Contact - IES Ingredients' : 'Contact - IES Ingredients'}
-        </title>
-        <meta
-          name="description"
-          content={
-            lang === 'fr'
-              ? 'Contactez IES Ingredients pour vos besoins en ingrédients cosmétiques, parfums et arômes alimentaires.'
-              : 'Contact IES Ingredients for your cosmetic ingredients, perfumes and food flavors needs.'
-          }
-        />
+        <title>{lang === 'fr' ? 'Contact - IES Ingredients' : 'Contact - IES Ingredients'}</title>
         <html lang={lang} />
       </Helmet>
 
-      <div className="pt-28 pb-20">
-        <div className="container">
-          {/* Header */}
-          <div className="max-w-2xl mx-auto text-center mb-16">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4 animate-fade-in-up">
+      <div className="pt-24 pb-16">
+        <div className="container max-w-5xl">
+          <div className="text-center mb-12">
+            <h1 className="font-serif text-4xl text-foreground mb-4">
               {lang === 'fr' ? 'Contactez-nous' : 'Contact us'}
             </h1>
-            <p className="text-muted-foreground text-lg animate-fade-in-up stagger-1">
-              {lang === 'fr'
-                ? 'Notre équipe est à votre disposition pour répondre à toutes vos questions.'
-                : 'Our team is at your disposal to answer all your questions.'}
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              {lang === 'fr' ? 'Notre équipe est à votre disposition.' : 'Our team is at your service.'}
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Info */}
-            <div className="space-y-8 animate-fade-in-up stagger-2">
-              <div className="bg-card border border-border rounded-2xl p-6 hover-lift">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <MapPin className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-display text-lg font-semibold mb-2">
-                  {lang === 'fr' ? 'Adresse' : 'Address'}
-                </h3>
-                <p className="text-muted-foreground">
-                  123 Avenue des Parfums<br />
-                  06000 Nice, France
-                </p>
+            <div className="space-y-6">
+              <div className="bg-card border border-border rounded-lg p-6">
+                <MapPin className="w-5 h-5 text-primary mb-3" />
+                <h3 className="font-medium mb-1">{lang === 'fr' ? 'Adresse' : 'Address'}</h3>
+                <p className="text-sm text-muted-foreground">123 Avenue des Parfums<br />06000 Nice, France</p>
               </div>
-
-              <div className="bg-card border border-border rounded-2xl p-6 hover-lift">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Phone className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-display text-lg font-semibold mb-2">
-                  {lang === 'fr' ? 'Téléphone' : 'Phone'}
-                </h3>
-                <a
-                  href="tel:+33493000000"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  +33 4 93 00 00 00
-                </a>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <Phone className="w-5 h-5 text-primary mb-3" />
+                <h3 className="font-medium mb-1">{lang === 'fr' ? 'Téléphone' : 'Phone'}</h3>
+                <a href="tel:+33493000000" className="text-sm text-muted-foreground hover:text-foreground">+33 4 93 00 00 00</a>
               </div>
-
-              <div className="bg-card border border-border rounded-2xl p-6 hover-lift">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Mail className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-display text-lg font-semibold mb-2">Email</h3>
-                <a
-                  href="mailto:contact@ies-ingredients.com"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
-                  contact@ies-ingredients.com
-                </a>
+              <div className="bg-card border border-border rounded-lg p-6">
+                <Mail className="w-5 h-5 text-primary mb-3" />
+                <h3 className="font-medium mb-1">Email</h3>
+                <a href="mailto:contact@ies-ingredients.com" className="text-sm text-muted-foreground hover:text-foreground">contact@ies-ingredients.com</a>
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="lg:col-span-2 animate-fade-in-up stagger-3">
-              <div className="bg-card border border-border rounded-2xl p-8">
-                <h2 className="font-display text-2xl font-bold mb-6">
-                  {lang === 'fr' ? 'Envoyez-nous un message' : 'Send us a message'}
-                </h2>
-
+            {/* Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-card border border-border rounded-lg p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">
-                        {lang === 'fr' ? 'Prénom' : 'First name'}
-                      </Label>
-                      <Input
-                        id="firstName"
-                        required
-                        placeholder={lang === 'fr' ? 'Votre prénom' : 'Your first name'}
-                      />
+                      <Label htmlFor="firstName">{lang === 'fr' ? 'Prénom' : 'First name'}</Label>
+                      <Input id="firstName" required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">
-                        {lang === 'fr' ? 'Nom' : 'Last name'}
-                      </Label>
-                      <Input
-                        id="lastName"
-                        required
-                        placeholder={lang === 'fr' ? 'Votre nom' : 'Your last name'}
-                      />
+                      <Label htmlFor="lastName">{lang === 'fr' ? 'Nom' : 'Last name'}</Label>
+                      <Input id="lastName" required />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        required
-                        placeholder="email@example.com"
-                      />
+                      <Input id="email" type="email" required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company">
-                        {lang === 'fr' ? 'Entreprise' : 'Company'}
-                      </Label>
-                      <Input
-                        id="company"
-                        placeholder={lang === 'fr' ? 'Votre entreprise' : 'Your company'}
-                      />
+                      <Label htmlFor="company">{lang === 'fr' ? 'Entreprise' : 'Company'}</Label>
+                      <Input id="company" />
                     </div>
                   </div>
-
                   <div className="space-y-2">
-                    <Label htmlFor="subject">
-                      {lang === 'fr' ? 'Sujet' : 'Subject'}
-                    </Label>
-                    <Input
-                      id="subject"
-                      required
-                      placeholder={
-                        lang === 'fr'
-                          ? 'Demande d\'échantillon, information produit...'
-                          : 'Sample request, product information...'
-                      }
-                    />
+                    <Label htmlFor="subject">{lang === 'fr' ? 'Sujet' : 'Subject'}</Label>
+                    <Input id="subject" required />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      required
-                      rows={5}
-                      placeholder={
-                        lang === 'fr'
-                          ? 'Décrivez votre demande...'
-                          : 'Describe your request...'
-                      }
-                    />
+                    <Textarea id="message" required rows={5} />
                   </div>
-
-                  <Button type="submit" size="lg" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <span className="animate-pulse">
-                        {lang === 'fr' ? 'Envoi...' : 'Sending...'}
-                      </span>
-                    ) : (
-                      <>
-                        <Send className="mr-2 w-4 h-4" />
-                        {lang === 'fr' ? 'Envoyer le message' : 'Send message'}
-                      </>
-                    )}
+                  <Button type="submit" disabled={isSubmitting}>
+                    <Send className="mr-2 w-4 h-4" />
+                    {isSubmitting ? (lang === 'fr' ? 'Envoi...' : 'Sending...') : (lang === 'fr' ? 'Envoyer' : 'Send')}
                   </Button>
                 </form>
               </div>
