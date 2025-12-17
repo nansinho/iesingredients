@@ -61,6 +61,22 @@
     --cream-200: 45 30% 97%;
     --cream-100: 45 25% 99%;
 
+    /* Category Colors */
+    /* Cosmétique - Rose/Blush elegant */
+    --cosmetique: 350 45% 55%;
+    --cosmetique-light: 350 50% 95%;
+    --cosmetique-dark: 350 50% 35%;
+    
+    /* Parfum - Amber/Gold luxurious */
+    --parfum: 35 75% 50%;
+    --parfum-light: 40 60% 94%;
+    --parfum-dark: 30 70% 35%;
+    
+    /* Arômes - Coral/Orange fresh */
+    --arome: 20 85% 55%;
+    --arome-light: 25 70% 95%;
+    --arome-dark: 15 80% 38%;
+
     /* Premium Shadows */
     --shadow-xs: 0 1px 2px hsl(165 35% 12% / 0.02);
     --shadow-sm: 0 2px 8px hsl(165 35% 12% / 0.04);

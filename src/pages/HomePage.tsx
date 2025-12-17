@@ -287,25 +287,25 @@ export const HomePage = ({ lang }: HomePageProps) => {
         </motion.div>
       </section>
 
-      {/* Marquee Section */}
-      <section className="py-6 bg-primary overflow-hidden">
+      {/* Marquee Section with Category Colors */}
+      <section className="py-5 bg-foreground overflow-hidden">
         <motion.div
-          animate={{ x: [0, -1000] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="flex gap-12 whitespace-nowrap"
+          animate={{ x: [0, -1200] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="flex gap-8 whitespace-nowrap"
         >
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex gap-12 items-center">
-              <span className="text-white/80 text-sm uppercase tracking-[0.2em]">Cosmétique</span>
-              <span className="text-white/30">✦</span>
-              <span className="text-white/80 text-sm uppercase tracking-[0.2em]">Parfumerie</span>
-              <span className="text-white/30">✦</span>
-              <span className="text-white/80 text-sm uppercase tracking-[0.2em]">Arômes Alimentaires</span>
-              <span className="text-white/30">✦</span>
-              <span className="text-white/80 text-sm uppercase tracking-[0.2em]">Ingrédients Naturels</span>
-              <span className="text-white/30">✦</span>
-              <span className="text-white/80 text-sm uppercase tracking-[0.2em]">Certifié Bio</span>
-              <span className="text-white/30">✦</span>
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex gap-8 items-center">
+              <span className="text-cosmetique text-sm uppercase tracking-[0.15em] font-medium">Cosmétique</span>
+              <span className="text-white/20">✦</span>
+              <span className="text-parfum text-sm uppercase tracking-[0.15em] font-medium">Parfumerie</span>
+              <span className="text-white/20">✦</span>
+              <span className="text-arome text-sm uppercase tracking-[0.15em] font-medium">Arômes Alimentaires</span>
+              <span className="text-white/20">✦</span>
+              <span className="text-primary text-sm uppercase tracking-[0.15em] font-medium">Ingrédients Naturels</span>
+              <span className="text-white/20">✦</span>
+              <span className="text-white/60 text-sm uppercase tracking-[0.15em]">Certifié Bio</span>
+              <span className="text-white/20">✦</span>
             </div>
           ))}
         </motion.div>
@@ -382,22 +382,25 @@ export const HomePage = ({ lang }: HomePageProps) => {
         </div>
       </section>
 
-      {/* Bento Grid - Row 2 */}
+      {/* Category Cards Section */}
       <section className="px-4 md:px-8 py-3 bg-cream-200">
         <div className="max-w-7xl mx-auto grid grid-cols-12 gap-5">
+          {/* Cosmétique Card - Rose */}
           <AnimatedCard className="col-span-12 md:col-span-4" index={0}>
-            <div className="bg-white rounded-3xl p-6 h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)]">
+            <div className="bg-cosmetique-light rounded-3xl p-6 h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(200,100,120,0.25)] border border-cosmetique/10">
               <div className="flex items-start gap-4 mb-5">
                 <motion.div 
-                  className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0"
+                  className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-cosmetique/20"
                   whileHover={{ rotate: 3 }}
                 >
                   <img src={botanicalsFlat} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </motion.div>
                 <div>
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <Leaf className="w-3.5 h-3.5 text-primary" />
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <div className="w-5 h-5 rounded-full bg-cosmetique/15 flex items-center justify-center">
+                      <Leaf className="w-3 h-3 text-cosmetique" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider text-cosmetique font-medium">
                       {lang === 'fr' ? 'Cosmétique' : 'Cosmetic'}
                     </span>
                   </div>
@@ -412,7 +415,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   : 'Certified botanical extracts and natural actives for your formulations.'}
               </p>
               <motion.button 
-                className="border border-foreground/20 text-foreground px-4 py-2 rounded-full text-xs hover:border-primary hover:text-primary transition-all"
+                className="bg-cosmetique text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-cosmetique-dark transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -421,19 +424,22 @@ export const HomePage = ({ lang }: HomePageProps) => {
             </div>
           </AnimatedCard>
 
+          {/* Parfum Card - Amber */}
           <AnimatedCard className="col-span-12 md:col-span-4" index={1}>
-            <div className="bg-white rounded-3xl p-6 h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)]">
+            <div className="bg-parfum-light rounded-3xl p-6 h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(200,150,50,0.25)] border border-parfum/10">
               <div className="flex items-start gap-4 mb-5">
                 <motion.div 
-                  className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0"
+                  className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 ring-2 ring-parfum/20"
                   whileHover={{ rotate: -3 }}
                 >
                   <img src={essentialOil} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </motion.div>
                 <div>
                   <div className="flex items-center gap-1.5 mb-1.5">
-                    <FlaskConical className="w-3.5 h-3.5 text-primary" />
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <div className="w-5 h-5 rounded-full bg-parfum/15 flex items-center justify-center">
+                      <FlaskConical className="w-3 h-3 text-parfum" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-wider text-parfum font-medium">
                       {lang === 'fr' ? 'Parfumerie' : 'Perfumery'}
                     </span>
                   </div>
@@ -448,7 +454,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   : 'Noble raw materials for fine perfumery and olfactory creations.'}
               </p>
               <motion.button 
-                className="border border-foreground/20 text-foreground px-4 py-2 rounded-full text-xs hover:border-primary hover:text-primary transition-all"
+                className="bg-parfum text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-parfum-dark transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -457,8 +463,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
             </div>
           </AnimatedCard>
 
+          {/* Arômes Card - Coral */}
           <AnimatedCard className="col-span-12 md:col-span-4" index={2}>
-            <div className="bg-gradient-to-br from-cream-300 to-cream-400 rounded-3xl p-6 relative overflow-hidden h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)]">
+            <div className="bg-arome-light rounded-3xl p-6 relative overflow-hidden h-full group transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(220,100,80,0.25)] border border-arome/10">
               <motion.div 
                 className="absolute -right-4 -bottom-4 w-36 h-48"
                 whileHover={{ scale: 1.1, rotate: -5 }}
@@ -467,17 +474,21 @@ export const HomePage = ({ lang }: HomePageProps) => {
               </motion.div>
               <div className="relative z-10">
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <Droplets className="w-3.5 h-3.5 text-primary" />
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Collection</span>
+                  <div className="w-5 h-5 rounded-full bg-arome/15 flex items-center justify-center">
+                    <Droplets className="w-3 h-3 text-arome" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-wider text-arome font-medium">
+                    {lang === 'fr' ? 'Arômes' : 'Flavors'}
+                  </span>
                 </div>
                 <h3 className="text-base font-medium text-foreground mb-2">
-                  {lang === 'fr' ? 'Sérums & Huiles' : 'Serums & Oils'}
+                  {lang === 'fr' ? 'Arômes Naturels' : 'Natural Flavors'}
                 </h3>
                 <p className="text-muted-foreground text-xs mb-5 leading-relaxed max-w-[150px]">
-                  {lang === 'fr' ? 'Formulations premium pour soins visage et corps.' : 'Premium formulations for face and body care.'}
+                  {lang === 'fr' ? 'Arômes alimentaires naturels pour l\'industrie agroalimentaire.' : 'Natural food flavors for the food industry.'}
                 </p>
                 <motion.button 
-                  className="border border-foreground/20 text-foreground px-4 py-2 rounded-full text-xs hover:border-primary hover:text-primary transition-all"
+                  className="bg-arome text-white px-4 py-2 rounded-full text-xs font-medium hover:bg-arome-dark transition-all"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
