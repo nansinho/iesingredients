@@ -40,37 +40,34 @@ export const Header = ({ lang }: HeaderProps) => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-700',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
         isScrolled
-          ? 'bg-background/90 backdrop-blur-xl shadow-lg py-4'
-          : 'bg-transparent py-6'
+          ? 'bg-white/95 backdrop-blur-lg shadow-sm py-3'
+          : 'bg-transparent py-5'
       )}
     >
       <div className="container-luxe">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <Link to={`/${lang}`} className="flex items-center gap-4 group">
+          <Link to={`/${lang}`} className="flex items-center gap-3">
             <div className={cn(
-              "w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500",
+              "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500",
               isScrolled 
-                ? "forest-gradient shadow-md" 
-                : "bg-white/15 backdrop-blur-sm border border-white/20"
+                ? "bg-primary" 
+                : "bg-primary"
             )}>
-              <Leaf className={cn(
-                "h-6 w-6 transition-colors",
-                isScrolled ? "text-white" : "text-white"
-              )} />
+              <Leaf className="h-5 w-5 text-white" />
             </div>
             <div className="flex flex-col">
               <span className={cn(
-                "font-serif text-2xl font-semibold tracking-tight transition-colors",
-                isScrolled ? "text-foreground" : "text-white"
+                "text-xl font-semibold tracking-tight transition-colors",
+                isScrolled ? "text-foreground" : "text-foreground"
               )}>
                 IES
               </span>
               <span className={cn(
-                "text-[10px] uppercase tracking-[0.2em] -mt-0.5 transition-colors",
-                isScrolled ? "text-muted-foreground" : "text-white/60"
+                "text-[9px] uppercase tracking-[0.15em] -mt-0.5 transition-colors",
+                isScrolled ? "text-muted-foreground" : "text-muted-foreground"
               )}>
                 Ingredients
               </span>
@@ -84,14 +81,10 @@ export const Header = ({ lang }: HeaderProps) => {
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  'px-5 py-2.5 text-sm font-medium transition-all duration-300 rounded-xl',
+                  'px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg',
                   location.pathname === item.href
-                    ? isScrolled 
-                      ? 'text-primary bg-primary/8' 
-                      : 'text-white bg-white/15'
-                    : isScrolled
-                      ? 'text-muted-foreground hover:text-foreground hover:bg-secondary'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                    ? 'text-primary bg-primary/8'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                 )}
               >
                 {item.label}
@@ -100,17 +93,12 @@ export const Header = ({ lang }: HeaderProps) => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate(`/${lang}/catalogue`)}
-              className={cn(
-                "rounded-xl transition-all",
-                isScrolled 
-                  ? "text-muted-foreground hover:text-foreground hover:bg-secondary" 
-                  : "text-white/70 hover:text-white hover:bg-white/10"
-              )}
+              className="rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
             >
               <Search className="h-5 w-5" />
             </Button>
@@ -119,26 +107,14 @@ export const Header = ({ lang }: HeaderProps) => {
               variant="ghost"
               size="sm"
               onClick={toggleLanguage}
-              className={cn(
-                "gap-2 rounded-xl font-medium transition-all",
-                isScrolled 
-                  ? "text-muted-foreground hover:text-foreground hover:bg-secondary" 
-                  : "text-white/70 hover:text-white hover:bg-white/10"
-              )}
+              className="gap-1.5 rounded-lg font-medium text-muted-foreground hover:text-foreground hover:bg-muted"
             >
               <Globe className="h-4 w-4" />
               <span className="text-xs uppercase">{lang === 'fr' ? 'EN' : 'FR'}</span>
             </Button>
 
             <Link to={`/${lang}/contact`} className="hidden md:block">
-              <Button 
-                className={cn(
-                  "rounded-xl font-medium h-11 px-6 transition-all duration-500",
-                  isScrolled
-                    ? "forest-gradient text-white shadow-md hover:shadow-lg"
-                    : "bg-white/15 text-white border border-white/20 hover:bg-white/25 backdrop-blur-sm"
-                )}
-              >
+              <Button className="rounded-lg font-medium h-10 px-5 bg-primary text-primary-foreground hover:bg-forest-700">
                 {t.hero.cta}
               </Button>
             </Link>
@@ -149,48 +125,42 @@ export const Header = ({ lang }: HeaderProps) => {
                 <Button 
                   variant="ghost" 
                   size="icon"
-                  className={cn(
-                    "rounded-xl",
-                    isScrolled 
-                      ? "hover:bg-secondary" 
-                      : "text-white hover:bg-white/10"
-                  )}
+                  className="rounded-lg hover:bg-muted"
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 bg-background border-border p-0">
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-10">
-                    <div className="w-10 h-10 rounded-xl forest-gradient flex items-center justify-center">
-                      <Leaf className="h-5 w-5 text-white" />
+              <SheetContent side="right" className="w-72 bg-white border-border p-0">
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+                      <Leaf className="h-4 w-4 text-white" />
                     </div>
-                    <span className="font-serif text-xl font-semibold">IES</span>
+                    <span className="text-lg font-semibold">IES</span>
                   </div>
                   
-                  <div className="flex flex-col gap-2">
-                    {navItems.map((item, index) => (
+                  <div className="flex flex-col gap-1">
+                    {navItems.map((item) => (
                       <Link
                         key={item.href}
                         to={item.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          'py-3.5 px-4 rounded-xl text-base font-medium transition-all duration-300 animate-fade-up',
+                          'py-3 px-4 rounded-lg text-sm font-medium transition-all duration-300',
                           location.pathname === item.href
                             ? 'text-primary bg-primary/8'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                         )}
-                        style={{ animationDelay: `${index * 0.05}s` }}
                       >
                         {item.label}
                       </Link>
                     ))}
                   </div>
                   
-                  <div className="h-px bg-border my-8" />
+                  <div className="h-px bg-border my-6" />
                   
                   <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
-                    <Button className="w-full h-12 forest-gradient text-white rounded-xl">
+                    <Button className="w-full h-11 bg-primary text-white rounded-lg">
                       {t.hero.cta}
                     </Button>
                   </Link>
