@@ -99,21 +99,68 @@ serve(async (req) => {
 
     console.log('Mapped products (sample):', JSON.stringify(nonEmpty[0]));
 
+    // 1. Récupérer tous les codes existants en base de données
+    const { data: existingProducts, error: fetchError } = await supabase
+      .from('cosmetique_fr')
+      .select('code');
+
+    if (fetchError) {
+      console.error('Erreur récupération codes existants:', fetchError);
+      throw fetchError;
+    }
+
+    const existingCodes = new Set(
+      existingProducts?.map(p => p.code).filter(Boolean) || []
+    );
+    console.log(`Codes existants en BDD: ${existingCodes.size}`);
+
+    // 2. Identifier les codes reçus du Google Sheet
+    const incomingCodes = new Set(
+      nonEmpty.map(p => p.code).filter(Boolean)
+    );
+    console.log(`Codes reçus du Sheet: ${incomingCodes.size}`);
+
+    // 3. Upsert des produits du Google Sheet
     const { data, error } = await supabase
       .from('cosmetique_fr')
       .upsert(nonEmpty, { onConflict: 'code' })
       .select();
 
     if (error) {
-      console.error('Supabase insert error:', error);
+      console.error('Supabase upsert error:', error);
       throw error;
     }
 
-    console.log(`Successfully inserted ${data?.length} product(s)`);
+    console.log(`Upsert réussi: ${data?.length} produit(s)`);
+
+    // 4. Calculer et supprimer les produits obsolètes
+    const codesToDelete = [...existingCodes].filter(
+      code => !incomingCodes.has(code)
+    );
+
+    let deletedCount = 0;
+    if (codesToDelete.length > 0) {
+      console.log(`Codes à supprimer: ${codesToDelete.join(', ')}`);
+      
+      const { error: deleteError } = await supabase
+        .from('cosmetique_fr')
+        .delete()
+        .in('code', codesToDelete);
+
+      if (deleteError) {
+        console.error('Erreur suppression:', deleteError);
+      } else {
+        deletedCount = codesToDelete.length;
+        console.log(`Supprimé ${deletedCount} produit(s) obsolète(s)`);
+      }
+    } else {
+      console.log('Aucun produit à supprimer');
+    }
 
     return new Response(JSON.stringify({ 
       success: true, 
-      inserted: data?.length,
+      upserted: data?.length,
+      deleted: deletedCount,
       products: data
     }), { 
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
