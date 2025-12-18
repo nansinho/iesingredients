@@ -19,7 +19,7 @@ export const Header = ({ lang }: HeaderProps) => {
   const t = useTranslation(lang);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -49,11 +49,11 @@ export const Header = ({ lang }: HeaderProps) => {
       )}
     >
       {/* Background */}
-      <div
+      <motion.div
         className={cn(
           "absolute inset-0 transition-all duration-500",
           isScrolled 
-            ? "bg-background/95 backdrop-blur-xl shadow-sm border-b border-border/50" 
+            ? "bg-background/95 backdrop-blur-xl shadow-lg border-b border-border/50" 
             : "bg-transparent"
         )}
       />
@@ -63,37 +63,53 @@ export const Header = ({ lang }: HeaderProps) => {
           {/* Logo */}
           <Link to={`/${lang}`} className="flex items-center gap-3 group">
             <motion.div 
-              className="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
+              className={cn(
+                "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300",
+                isScrolled ? "bg-primary" : "bg-gold-500"
+              )}
+              whileHover={{ scale: 1.05, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Leaf className="h-5 w-5 text-primary-foreground" />
+              <Leaf className={cn(
+                "h-6 w-6 transition-colors",
+                isScrolled ? "text-primary-foreground" : "text-forest-950"
+              )} />
             </motion.div>
             <div className="flex flex-col">
-              <span className="text-xl font-serif font-semibold text-foreground">
+              <span className={cn(
+                "text-2xl font-serif font-bold transition-colors",
+                isScrolled ? "text-foreground" : "text-white"
+              )}>
                 IES
               </span>
-              <span className="text-[10px] uppercase tracking-[0.2em] -mt-0.5 text-muted-foreground font-medium">
+              <span className={cn(
+                "text-[10px] uppercase tracking-[0.2em] -mt-1 font-semibold transition-colors",
+                isScrolled ? "text-muted-foreground" : "text-white/60"
+              )}>
                 Ingredients
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className={cn(
+            "hidden lg:flex items-center gap-1 px-2 py-1.5 rounded-full transition-all duration-300",
+            isScrolled ? "bg-muted" : "bg-white/10 backdrop-blur-sm"
+          )}>
             {navItems.map((item) => {
               const isActive = location.pathname === item.href;
               return (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                >
+                <Link key={item.href} to={item.href}>
                   <motion.div
                     className={cn(
-                      "px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
+                      "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300",
                       isActive
-                        ? "bg-primary text-primary-foreground" 
-                        : "text-foreground/70 hover:text-foreground hover:bg-muted"
+                        ? isScrolled 
+                          ? "bg-primary text-primary-foreground" 
+                          : "bg-gold-500 text-forest-950"
+                        : isScrolled
+                          ? "text-foreground hover:bg-background"
+                          : "text-white/80 hover:text-white hover:bg-white/10"
                     )}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -107,51 +123,81 @@ export const Header = ({ lang }: HeaderProps) => {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(`/${lang}/catalogue`)}
-              className="rounded-full w-10 h-10 text-foreground/70 hover:text-foreground hover:bg-muted"
-            >
-              <Search className="h-4 w-4" />
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate(`/${lang}/catalogue`)}
+                className={cn(
+                  "rounded-full w-11 h-11 transition-all duration-300",
+                  isScrolled 
+                    ? "text-foreground hover:bg-muted" 
+                    : "text-white hover:bg-white/10"
+                )}
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            </motion.div>
 
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleLanguage}
-              className="gap-2 rounded-full font-medium h-10 px-4 text-foreground/70 hover:text-foreground hover:bg-muted"
-            >
-              <Globe className="h-4 w-4" />
-              <span className="text-sm uppercase">{lang === 'fr' ? 'EN' : 'FR'}</span>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleLanguage}
+                className={cn(
+                  "gap-2 rounded-full font-semibold h-11 px-4 transition-all duration-300",
+                  isScrolled 
+                    ? "text-foreground hover:bg-muted border border-border" 
+                    : "text-white hover:bg-white/10 border border-white/20"
+                )}
+              >
+                <Globe className="h-4 w-4" />
+                <span className="text-sm uppercase">{lang === 'fr' ? 'EN' : 'FR'}</span>
+              </Button>
+            </motion.div>
 
             <Link to={`/${lang}/catalogue`} className="hidden md:block">
-              <Button className="rounded-full font-medium h-11 px-6">
-                {t.hero.cta}
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  className={cn(
+                    "rounded-full font-bold h-12 px-6 transition-all duration-300 shadow-lg",
+                    isScrolled
+                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                      : "bg-gold-500 text-forest-950 hover:bg-gold-400 shadow-gold-500/25"
+                  )}
+                >
+                  {t.hero.cta}
+                </Button>
+              </motion.div>
             </Link>
 
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="rounded-full w-10 h-10 text-foreground/70 hover:text-foreground hover:bg-muted"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    className={cn(
+                      "rounded-full w-11 h-11 transition-colors",
+                      isScrolled 
+                        ? "text-foreground hover:bg-muted" 
+                        : "text-white hover:bg-white/10"
+                    )}
+                  >
+                    <Menu className="h-6 w-6" />
+                  </Button>
+                </motion.div>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-sm bg-background border-border p-0">
+              <SheetContent side="right" className="w-full max-w-sm bg-forest-950 border-forest-800 p-0">
                 <div className="p-6 h-full flex flex-col">
                   <div className="flex items-center gap-3 mb-10">
-                    <div className="w-11 h-11 rounded-2xl bg-primary flex items-center justify-center">
-                      <Leaf className="h-5 w-5 text-primary-foreground" />
+                    <div className="w-12 h-12 rounded-2xl bg-gold-500 flex items-center justify-center">
+                      <Leaf className="h-6 w-6 text-forest-950" />
                     </div>
                     <div>
-                      <span className="text-xl font-serif font-semibold text-foreground">IES</span>
-                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground block">Ingredients</span>
+                      <span className="text-xl font-serif font-bold text-white">IES</span>
+                      <span className="text-[10px] uppercase tracking-widest text-white/50 block">Ingredients</span>
                     </div>
                   </div>
                   
@@ -162,10 +208,10 @@ export const Header = ({ lang }: HeaderProps) => {
                         to={item.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          'py-4 px-5 rounded-2xl text-base font-medium transition-all duration-300',
+                          'py-4 px-5 rounded-2xl text-base font-semibold transition-all duration-300',
                           location.pathname === item.href
-                            ? 'text-primary-foreground bg-primary'
-                            : 'text-foreground hover:bg-muted'
+                            ? 'bg-gold-500 text-forest-950'
+                            : 'text-white/80 hover:text-white hover:bg-white/10'
                         )}
                       >
                         {item.label}
@@ -174,7 +220,7 @@ export const Header = ({ lang }: HeaderProps) => {
                   </div>
                   
                   <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
-                    <Button className="w-full h-12 rounded-2xl font-medium">
+                    <Button className="w-full h-14 rounded-2xl bg-gold-500 text-forest-950 hover:bg-gold-400 font-bold text-lg">
                       {t.hero.cta}
                     </Button>
                   </Link>
