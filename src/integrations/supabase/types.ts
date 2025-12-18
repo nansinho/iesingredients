@@ -35,6 +35,7 @@ export type Database = {
           origine: string | null
           partie_utilisee: string | null
           solubilite: string | null
+          statut: string | null
           tracabilite: string | null
           type_de_peau: string | null
           typologie_de_produit: string | null
@@ -60,6 +61,7 @@ export type Database = {
           origine?: string | null
           partie_utilisee?: string | null
           solubilite?: string | null
+          statut?: string | null
           tracabilite?: string | null
           type_de_peau?: string | null
           typologie_de_produit?: string | null
@@ -85,6 +87,7 @@ export type Database = {
           origine?: string | null
           partie_utilisee?: string | null
           solubilite?: string | null
+          statut?: string | null
           tracabilite?: string | null
           type_de_peau?: string | null
           typologie_de_produit?: string | null
