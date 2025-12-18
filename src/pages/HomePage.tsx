@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/catalog/ProductCard';
-import { mockProducts } from '@/data/mockProducts';
+import { useProducts } from '@/hooks/useProducts';
 import { Language, useTranslation } from '@/lib/i18n';
 import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, Award, Users, Globe, Star, ArrowUpRight, Check, Play, Phone, Zap } from 'lucide-react';
 import { motion, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
@@ -116,6 +116,7 @@ const AnimatedCounter = ({ value, suffix = '' }: { value: string; suffix?: strin
 export const HomePage = ({ lang }: HomePageProps) => {
   const t = useTranslation(lang);
   const heroRef = useRef(null);
+  const { data: products } = useProducts();
   
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -130,8 +131,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
   const bgY = useTransform(smoothProgress, [0, 1], [0, -100]);
   const textY = useTransform(smoothProgress, [0, 1], [0, 80]);
 
-  // Only 3 featured products
-  const featuredProducts = mockProducts.slice(0, 3);
+  // Only 3 featured products from Supabase
+  const featuredProducts = (products || []).slice(0, 3);
 
   const stats = [
     { value: '5000', suffix: '+', label: lang === 'fr' ? 'Références' : 'References', icon: Sparkles },
