@@ -57,15 +57,15 @@ serve(async (req) => {
       });
     }
 
-    // Mapping (tolérant aux variantes avec/sans accents)
+    // Mapping (tolérant aux variantes avec/sans accents et majuscules)
     const mappedProducts = products.map((p: any) => ({
-      nom_commercial: get(p, ["Nom commercial", "Nom commercial ", "nom_commercial", "nom commercial", "Nom"]) ,
+      nom_commercial: get(p, ["Nom Commercial", "Nom commercial", "Nom commercial ", "nom_commercial", "nom commercial", "Nom"]),
       typologie_de_produit: get(p, ["Typologie de produit", "typologie_de_produit", "typologie", "Typologie"]),
       gamme: get(p, ["Gamme", "gamme"]),
       origine: get(p, ["Origine", "origine"]),
       tracabilite: get(p, ["Traçabilité", "Tracabilite", "tracabilite", "traçabilité"]),
       code: get(p, ["Code", "code"]),
-      cas_no: get(p, ["CAS N°", "CAS No", "CAS", "cas_no", "cas"]),
+      cas_no: get(p, ["CAS No.", "CAS N°", "CAS No", "CAS", "cas_no", "cas"]),
       inci: get(p, ["INCI", "inci"]),
       flavouring_preparation: get(p, ["Flavouring preparation", "flavouring_preparation"]),
       benefices_aqueux: get(p, ["Bénéfices Aqueux", "Benefices Aqueux", "benefices_aqueux"]),
