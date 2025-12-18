@@ -633,6 +633,110 @@ export const HomePage = ({ lang }: HomePageProps) => {
         </div>
       </section>
 
+      {/* NEWS / ACTUALITÉS */}
+      <section className="py-24 md:py-32 bg-secondary/50 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-gold-500/5 blur-[100px]" />
+        
+        <div className="container-luxe relative">
+          <FadeIn className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div>
+              <span className="inline-block text-gold-600 font-semibold text-sm uppercase tracking-[0.2em] mb-4">
+                {lang === 'fr' ? 'Actualités' : 'News'}
+              </span>
+              <h2 className="text-4xl md:text-5xl font-serif text-foreground">
+                {lang === 'fr' ? 'Dernières' : 'Latest'} <span className="text-gold italic">{lang === 'fr' ? 'nouvelles' : 'news'}</span>
+              </h2>
+            </div>
+            <Link to={`/${lang}/actualites`}>
+              <Button variant="outline" className="rounded-full border-2 border-forest-200 hover:bg-forest-100 group font-semibold">
+                {lang === 'fr' ? 'Toutes les actualités' : 'All news'}
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Featured article - Large */}
+            <FadeIn className="lg:col-span-2">
+              <Link to={`/${lang}/actualites`} className="block group">
+                <Card3D>
+                  <article className="relative h-[400px] rounded-3xl overflow-hidden">
+                    <img 
+                      src={botanicalsFlat} 
+                      alt="" 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/40 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="flex items-center gap-3 mb-4">
+                        <span className="px-3 py-1 rounded-full bg-gold-500 text-forest-950 text-xs font-bold">
+                          {lang === 'fr' ? 'À la une' : 'Featured'}
+                        </span>
+                        <span className="text-white/60 text-sm">15 Dec 2024</span>
+                      </div>
+                      <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-3 group-hover:text-gold-300 transition-colors">
+                        {lang === 'fr' 
+                          ? 'IES Ingredients obtient la certification Cosmos pour sa gamme bio'
+                          : 'IES Ingredients obtains Cosmos certification for its organic range'}
+                      </h3>
+                      <p className="text-white/70 line-clamp-2">
+                        {lang === 'fr'
+                          ? 'Une nouvelle étape dans notre engagement pour des ingrédients naturels et durables.'
+                          : 'A new milestone in our commitment to natural and sustainable ingredients.'}
+                      </p>
+                    </div>
+                  </article>
+                </Card3D>
+              </Link>
+            </FadeIn>
+
+            {/* Side articles */}
+            <div className="space-y-6">
+              {[
+                {
+                  date: '10 Dec 2024',
+                  title: lang === 'fr' ? 'Nouveaux extraits de Madagascar' : 'New extracts from Madagascar',
+                  category: lang === 'fr' ? 'Produits' : 'Products',
+                  image: essentialOil
+                },
+                {
+                  date: '05 Dec 2024',
+                  title: lang === 'fr' ? 'Salon In-Cosmetics Paris 2025' : 'In-Cosmetics Paris 2025 Trade Show',
+                  category: lang === 'fr' ? 'Événements' : 'Events',
+                  image: creamJar
+                }
+              ].map((article, i) => (
+                <FadeIn key={i} delay={0.1 + i * 0.1}>
+                  <Link to={`/${lang}/actualites`} className="block group">
+                    <Card3D>
+                      <article className="flex gap-4 bg-white rounded-2xl p-4 border border-border/50 group-hover:shadow-lg transition-all">
+                        <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+                          <img 
+                            src={article.image} 
+                            alt="" 
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="flex flex-col justify-center">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-gold-600 text-xs font-semibold">{article.category}</span>
+                            <span className="text-muted-foreground text-xs">• {article.date}</span>
+                          </div>
+                          <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                            {article.title}
+                          </h4>
+                        </div>
+                      </article>
+                    </Card3D>
+                  </Link>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA - Bold */}
       <section className="py-24 md:py-32 bg-gradient-to-br from-forest-900 via-forest-950 to-forest-900 relative overflow-hidden">
         {/* Animated background */}
