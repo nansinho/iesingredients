@@ -21,6 +21,10 @@ serve(async (req) => {
     );
 
     const payload = await req.json();
+    
+    // Extraire le flag allow_delete (par défaut: false = JAMAIS supprimer)
+    const allowDelete = payload?.allow_delete === true;
+    console.log(`allow_delete: ${allowDelete}`);
     const payloadStr = JSON.stringify(payload);
     console.log('Payload received:', payloadStr.substring(0, 1000));
 
@@ -133,13 +137,20 @@ serve(async (req) => {
 
     console.log(`Upsert réussi: ${data?.length} produit(s)`);
 
-    // 4. Calculer et supprimer les produits obsolètes
+    // 4. Supprimer les produits obsolètes SEULEMENT si allow_delete=true
+    let deletedCount = 0;
     const codesToDelete = [...existingCodes].filter(
       code => !incomingCodes.has(code)
     );
 
-    let deletedCount = 0;
-    if (codesToDelete.length > 0) {
+    if (!allowDelete) {
+      console.log(`Suppressions désactivées (allow_delete=false). ${codesToDelete.length} produit(s) auraient été supprimés.`);
+    } else if (codesToDelete.length === 0) {
+      console.log('Aucun produit à supprimer');
+    } else if (codesToDelete.length >= existingCodes.size && existingCodes.size > 5) {
+      // PROTECTION: Ne jamais supprimer TOUS les produits si > 5 en BDD
+      console.error(`PROTECTION: Tentative de supprimer TOUS les ${codesToDelete.length} produits bloquée !`);
+    } else {
       console.log(`Codes à supprimer: ${codesToDelete.join(', ')}`);
       
       const { error: deleteError } = await supabase
@@ -153,8 +164,6 @@ serve(async (req) => {
         deletedCount = codesToDelete.length;
         console.log(`Supprimé ${deletedCount} produit(s) obsolète(s)`);
       }
-    } else {
-      console.log('Aucun produit à supprimer');
     }
 
     return new Response(JSON.stringify({ 
