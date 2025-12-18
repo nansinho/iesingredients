@@ -30,7 +30,10 @@ interface FilterState {
 export const CatalogPage = ({ lang }: CatalogPageProps) => {
   const t = useTranslation(lang);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = useState(searchParams.get('search') || '');
+  
+  // Support both 'search' and 'q' parameters
+  const initialSearch = searchParams.get('search') || searchParams.get('q') || '';
+  const [searchValue, setSearchValue] = useState(initialSearch);
   const [displayCount, setDisplayCount] = useState(12);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [openSections, setOpenSections] = useState<string[]>(['gamme', 'origine']);

@@ -1,49 +1,28 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export const CustomCursor = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   
-  // Smooth spring animation for cursor
-  const springConfig = { damping: 25, stiffness: 400 };
+  // Optimized spring config - faster response
+  const springConfig = { damping: 20, stiffness: 500, mass: 0.5 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  // Trail dots
-  const trailCount = 5;
-  const trails = useRef(
-    Array.from({ length: trailCount }, () => ({
-      x: useMotionValue(-100),
-      y: useMotionValue(-100),
-    }))
-  ).current;
-
-  const trailSprings = trails.map((trail, index) => ({
-    x: useSpring(trail.x, { damping: 30 + index * 5, stiffness: 300 - index * 30 }),
-    y: useSpring(trail.y, { damping: 30 + index * 5, stiffness: 300 - index * 30 }),
-  }));
-
   useEffect(() => {
-    // Only show custom cursor on desktop
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // Only show custom cursor on desktop with pointer device
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || 
+                     window.matchMedia('(max-width: 1024px)').matches;
     if (isMobile) return;
 
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
-      
-      // Update trail positions with delay
-      trails.forEach((trail, index) => {
-        setTimeout(() => {
-          trail.x.set(e.clientX);
-          trail.y.set(e.clientY);
-        }, (index + 1) * 30);
-      });
-      
       setIsVisible(true);
     };
 
@@ -52,7 +31,7 @@ export const CustomCursor = () => {
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    // Detect hoverable elements
+    // Optimized hover detection
     const handleElementHover = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isHoverable = 
@@ -66,8 +45,8 @@ export const CustomCursor = () => {
       setIsHovering(!!isHoverable);
     };
 
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mousemove', handleElementHover);
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    window.addEventListener('mousemove', handleElementHover, { passive: true });
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
     window.addEventListener('mousedown', handleMouseDown);
@@ -81,42 +60,29 @@ export const CustomCursor = () => {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [cursorX, cursorY, trails]);
+  }, [cursorX, cursorY]);
 
-  // Don't render on mobile
-  if (typeof window !== 'undefined' && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    return null;
+  // Don't render on mobile/touch devices
+  if (typeof window !== 'undefined') {
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || 
+                     window.matchMedia('(max-width: 1024px)').matches;
+    if (isMobile) return null;
   }
 
   return (
     <>
       {/* Hide default cursor globally */}
       <style>{`
-        * {
-          cursor: none !important;
+        @media (pointer: fine) and (min-width: 1024px) {
+          * {
+            cursor: none !important;
+          }
         }
       `}</style>
 
-      {/* Trail dots */}
-      {trailSprings.map((spring, index) => (
-        <motion.div
-          key={index}
-          className="fixed pointer-events-none z-[9998] rounded-full bg-primary/30"
-          style={{
-            x: spring.x,
-            y: spring.y,
-            width: 8 - index * 1.2,
-            height: 8 - index * 1.2,
-            translateX: '-50%',
-            translateY: '-50%',
-            opacity: isVisible ? 0.6 - index * 0.1 : 0,
-          }}
-        />
-      ))}
-
       {/* Main cursor ring */}
       <motion.div
-        className="fixed pointer-events-none z-[9999] rounded-full border-2 border-primary"
+        className="fixed pointer-events-none z-[9999] rounded-full border-2 border-primary will-change-transform"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -124,21 +90,21 @@ export const CustomCursor = () => {
           translateY: '-50%',
         }}
         animate={{
-          width: isHovering ? 50 : isClicking ? 24 : 36,
-          height: isHovering ? 50 : isClicking ? 24 : 36,
+          width: isHovering ? 48 : isClicking ? 24 : 32,
+          height: isHovering ? 48 : isClicking ? 24 : 32,
           opacity: isVisible ? 1 : 0,
-          borderColor: isHovering ? 'hsl(var(--primary))' : 'hsl(var(--primary) / 0.6)',
+          borderColor: isHovering ? 'hsl(var(--accent))' : 'hsl(var(--primary) / 0.7)',
         }}
         transition={{
-          width: { duration: 0.2 },
-          height: { duration: 0.2 },
-          opacity: { duration: 0.2 },
+          width: { duration: 0.15 },
+          height: { duration: 0.15 },
+          opacity: { duration: 0.1 },
         }}
       />
 
       {/* Inner dot */}
       <motion.div
-        className="fixed pointer-events-none z-[9999] rounded-full bg-primary"
+        className="fixed pointer-events-none z-[9999] rounded-full bg-primary will-change-transform"
         style={{
           x: cursorX,
           y: cursorY,
@@ -146,28 +112,12 @@ export const CustomCursor = () => {
           translateY: '-50%',
         }}
         animate={{
-          width: isHovering ? 8 : isClicking ? 12 : 6,
-          height: isHovering ? 8 : isClicking ? 12 : 6,
+          width: isHovering ? 6 : isClicking ? 10 : 4,
+          height: isHovering ? 6 : isClicking ? 10 : 4,
           opacity: isVisible ? 1 : 0,
+          backgroundColor: isHovering ? 'hsl(var(--accent))' : 'hsl(var(--primary))',
         }}
-        transition={{ duration: 0.15 }}
-      />
-
-      {/* Glow effect on hover */}
-      <motion.div
-        className="fixed pointer-events-none z-[9997] rounded-full bg-primary/10 blur-xl"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
-          width: isHovering ? 80 : 0,
-          height: isHovering ? 80 : 0,
-          opacity: isHovering && isVisible ? 0.5 : 0,
-        }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.1 }}
       />
     </>
   );
