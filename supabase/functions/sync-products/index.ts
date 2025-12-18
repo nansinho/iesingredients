@@ -101,7 +101,7 @@ serve(async (req) => {
 
     const { data, error } = await supabase
       .from('cosmetique_fr')
-      .insert(nonEmpty)
+      .upsert(nonEmpty, { onConflict: 'code' })
       .select();
 
     if (error) {
