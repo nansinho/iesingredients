@@ -1,18 +1,10 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, MapPin, Beaker, Award, Droplets, Sparkles } from 'lucide-react';
+import { ArrowUpRight, MapPin, Droplets, Leaf, Award } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { Language, useTranslation } from '@/lib/i18n';
+import { Language } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { Product } from '@/hooks/useProducts';
-
-// Import product images for visual variety
-import creamJar from '@/assets/cream-jar.jpg';
-import productBottle from '@/assets/product-bottle.jpg';
-import essentialOil from '@/assets/essential-oil.jpg';
-import serumCollection from '@/assets/serum-collection.jpg';
-import pumpBottle from '@/assets/pump-bottle.jpg';
-import creamBowl from '@/assets/cream-bowl.jpg';
 
 interface ProductCardProps {
   product: Product;
@@ -20,217 +12,124 @@ interface ProductCardProps {
   index?: number;
 }
 
-const productImages = [creamJar, productBottle, essentialOil, serumCollection, pumpBottle, creamBowl];
-
 const getGammeConfig = (gamme: string | null) => {
-  const gammeNormalized = gamme?.toUpperCase() || '';
+  const g = gamme?.toUpperCase() || '';
   
-  if (gammeNormalized.includes('ACTIF')) {
-    return {
-      bgClass: 'bg-cosmetique',
-      textClass: 'text-cosmetique',
-      lightBgClass: 'bg-cosmetique-light',
-    };
+  if (g.includes('ACTIF')) {
+    return { bg: 'bg-primary', text: 'text-primary', light: 'bg-primary/10' };
   }
-  if (gammeNormalized.includes('NATUREL') || gammeNormalized.includes('VÉGÉTAL')) {
-    return {
-      bgClass: 'bg-forest-600',
-      textClass: 'text-forest-700',
-      lightBgClass: 'bg-forest-100',
-    };
+  if (g.includes('NATUREL') || g.includes('VÉGÉTAL')) {
+    return { bg: 'bg-forest-600', text: 'text-forest-700', light: 'bg-forest-100' };
   }
-  if (gammeNormalized.includes('PARFUM') || gammeNormalized.includes('FRAGRANCE')) {
-    return {
-      bgClass: 'bg-parfum',
-      textClass: 'text-parfum',
-      lightBgClass: 'bg-parfum-light',
-    };
+  if (g.includes('PARFUM') || g.includes('FRAGRANCE')) {
+    return { bg: 'bg-gold-600', text: 'text-gold-700', light: 'bg-gold-100' };
   }
-  // Default
-  return {
-    bgClass: 'bg-primary',
-    textClass: 'text-primary',
-    lightBgClass: 'bg-primary/10',
-  };
-};
-
-const getSolubilityBadge = (solubilite: string | null) => {
-  if (!solubilite) return null;
-  const sol = solubilite.toUpperCase();
-  if (sol.includes('HYDRO')) return { label: 'Hydrosoluble', icon: '💧' };
-  if (sol.includes('LIPO')) return { label: 'Liposoluble', icon: '🫒' };
-  return { label: solubilite, icon: '⚗️' };
+  return { bg: 'bg-primary', text: 'text-primary', light: 'bg-primary/10' };
 };
 
 export const ProductCard = ({ product, lang, index = 0 }: ProductCardProps) => {
-  const t = useTranslation(lang);
   const config = getGammeConfig(product.gamme);
-  const productImage = productImages[index % productImages.length];
-  const solubility = getSolubilityBadge(product.solubilite);
-
-  // Parse benefits into array
-  const benefitsArray = product.benefices
-    ? product.benefices.split(/[\/,]/).map(b => b.trim()).filter(Boolean).slice(0, 3)
-    : [];
-
-  // Parse certifications
-  const certifications = product.certifications
-    ? product.certifications.split(/[\-\/,]/).map(c => c.trim()).filter(Boolean)
-    : [];
+  
+  // Get initials for avatar
+  const initials = product.nom_commercial 
+    ? product.nom_commercial.split(' ').slice(0, 2).map(w => w[0]).join('')
+    : 'P';
 
   return (
-    <Link
-      to={`/${lang}/produit/${product.code}`}
-      className="group block"
-    >
+    <Link to={`/${lang}/produit/${product.code}`} className="group block">
       <motion.article
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.05 }}
-        className={cn(
-          "relative bg-card rounded-3xl overflow-hidden",
-          "border border-border/50",
-          "transition-all duration-500",
-          "hover:shadow-2xl hover:-translate-y-2 hover:border-border"
-        )}
+        transition={{ duration: 0.4, delay: index * 0.05 }}
+        className="relative h-full bg-card rounded-2xl border border-border/60 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/30"
       >
-        {/* Image Container */}
-        <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
-          <img 
-            src={productImage} 
-            alt={product.nom_commercial || 'Produit'}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-          
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          {/* Gamme Badge - Top Left */}
-          {product.gamme && (
-            <div className="absolute top-4 left-4">
-              <Badge className={cn(
-                "text-white text-xs font-semibold px-3 py-1.5 rounded-full border-0 shadow-lg",
-                config.bgClass
-              )}>
-                {product.gamme}
-              </Badge>
+        {/* Header with color accent */}
+        <div className={cn("h-2", config.bg)} />
+        
+        {/* Content */}
+        <div className="p-5 space-y-4">
+          {/* Top row: Avatar + Badges */}
+          <div className="flex items-start justify-between gap-3">
+            {/* Product Avatar */}
+            <div className={cn(
+              "w-14 h-14 rounded-xl flex items-center justify-center shrink-0 font-serif text-lg font-bold",
+              config.light, config.text
+            )}>
+              {initials}
             </div>
-          )}
-
-          {/* Aspect Badge - Top Right */}
-          {product.aspect && (
-            <div className="absolute top-4 right-4">
-              <Badge className="bg-white/95 text-foreground text-xs font-semibold px-3 py-1.5 rounded-full border-0 shadow-lg backdrop-blur-sm">
-                {product.aspect}
-              </Badge>
-            </div>
-          )}
-
-          {/* Hover Action Button */}
-          <div className="absolute bottom-4 right-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
-            <div className="w-12 h-12 rounded-full bg-white shadow-xl flex items-center justify-center">
-              <ArrowUpRight className="w-5 h-5 text-foreground" />
+            
+            {/* Badges */}
+            <div className="flex flex-wrap gap-1.5 justify-end">
+              {product.gamme && (
+                <Badge className={cn("text-[10px] font-semibold px-2 py-0.5 text-white border-0", config.bg)}>
+                  {product.gamme}
+                </Badge>
+              )}
+              {product.aspect && (
+                <Badge variant="outline" className="text-[10px] font-medium px-2 py-0.5 bg-secondary/50">
+                  {product.aspect}
+                </Badge>
+              )}
             </div>
           </div>
 
-          {/* Quick Description on Hover */}
-          {product.description && (
-            <div className="absolute bottom-4 left-4 right-20 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400 delay-75">
-              <p className="text-white text-sm font-medium line-clamp-2">
-                {product.description.substring(0, 100)}...
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Content */}
-        <div className="p-5 space-y-4">
-          {/* Header */}
+          {/* Title & Code */}
           <div>
-            <h3 className="font-serif text-xl font-semibold text-foreground leading-tight group-hover:text-accent transition-colors duration-300 line-clamp-2 mb-2">
+            <h3 className="font-serif text-lg font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
               {product.nom_commercial || 'Produit sans nom'}
             </h3>
-            <p className="text-sm text-muted-foreground font-mono tracking-wide">
-              Code: {product.code}
+            <p className="text-xs text-muted-foreground font-mono mt-1">
+              {product.code}
             </p>
           </div>
 
-          {/* Key Info Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            {/* Origin */}
+          {/* INCI */}
+          {product.inci && (
+            <p className="text-xs text-muted-foreground line-clamp-1 font-mono bg-secondary/30 px-2 py-1 rounded">
+              {product.inci}
+            </p>
+          )}
+
+          {/* Info Grid */}
+          <div className="grid grid-cols-2 gap-2 text-xs">
             {product.origine && (
-              <div className="flex items-center gap-2 text-sm">
-                <MapPin className="w-4 h-4 text-accent shrink-0" />
-                <span className="text-muted-foreground truncate">{product.origine}</span>
+              <div className="flex items-center gap-1.5 text-muted-foreground">
+                <MapPin className="w-3.5 h-3.5 text-accent shrink-0" />
+                <span className="truncate">{product.origine}</span>
               </div>
             )}
-            
-            {/* Solubility */}
-            {solubility && (
-              <div className="flex items-center gap-2 text-sm">
-                <Droplets className="w-4 h-4 text-accent shrink-0" />
-                <span className="text-muted-foreground truncate">{solubility.label}</span>
+            {product.solubilite && (
+              <div className="flex items-center gap-1.5 text-muted-foreground">
+                <Droplets className="w-3.5 h-3.5 text-accent shrink-0" />
+                <span className="truncate">{product.solubilite}</span>
+              </div>
+            )}
+            {product.typologie_de_produit && (
+              <div className="flex items-center gap-1.5 text-muted-foreground">
+                <Leaf className="w-3.5 h-3.5 text-accent shrink-0" />
+                <span className="truncate">{product.typologie_de_produit}</span>
+              </div>
+            )}
+            {product.certifications && (
+              <div className="flex items-center gap-1.5 text-muted-foreground">
+                <Award className="w-3.5 h-3.5 text-gold-500 shrink-0" />
+                <span className="truncate">{product.certifications.split(/[-\/,]/)[0]?.trim()}</span>
               </div>
             )}
           </div>
 
           {/* Benefits */}
-          {benefitsArray.length > 0 && (
-            <div className="flex items-start gap-2">
-              <Sparkles className="w-4 h-4 text-gold-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-muted-foreground line-clamp-1">
-                {benefitsArray.join(' • ')}
-              </p>
-            </div>
+          {product.benefices && (
+            <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+              {product.benefices}
+            </p>
           )}
+        </div>
 
-          {/* INCI */}
-          {product.inci && (
-            <div className="flex items-start gap-2">
-              <Beaker className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
-              <p className="text-xs text-muted-foreground line-clamp-1 font-mono">
-                {product.inci}
-              </p>
-            </div>
-          )}
-
-          {/* Certifications */}
-          {certifications.length > 0 && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <Award className="w-4 h-4 text-primary shrink-0" />
-              {certifications.slice(0, 3).map((cert, i) => (
-                <Badge 
-                  key={i} 
-                  variant="outline" 
-                  className="text-[10px] font-medium px-2 py-0.5 rounded-md border-border/60 bg-secondary/50 text-muted-foreground"
-                >
-                  {cert}
-                </Badge>
-              ))}
-              {certifications.length > 3 && (
-                <span className="text-[10px] text-muted-foreground">
-                  +{certifications.length - 3}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Bottom Tags */}
-          <div className="flex items-center gap-2 pt-2 border-t border-border/50">
-            {product.typologie_de_produit && (
-              <Badge className={cn(
-                "text-xs font-medium px-2.5 py-1 rounded-lg",
-                config.lightBgClass,
-                config.textClass
-              )}>
-                {product.typologie_de_produit}
-              </Badge>
-            )}
-            {product.application && (
-              <Badge variant="outline" className="text-xs font-medium px-2.5 py-1 rounded-lg border-border/60 text-muted-foreground truncate max-w-[150px]">
-                {product.application.split('/')[0].trim()}
-              </Badge>
-            )}
+        {/* Hover arrow */}
+        <div className="absolute bottom-4 right-4 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <ArrowUpRight className="w-4 h-4 text-primary-foreground" />
           </div>
         </div>
       </motion.article>

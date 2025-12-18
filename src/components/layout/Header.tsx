@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, Search, Globe, Leaf } from 'lucide-react';
+import { Menu, Globe, Leaf } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { Language, useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
+import { HeaderSearch } from './HeaderSearch';
 
 interface HeaderProps {
   lang: Language;
@@ -123,21 +124,8 @@ export const Header = ({ lang }: HeaderProps) => {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate(`/${lang}/catalogue`)}
-                className={cn(
-                  "rounded-full w-11 h-11 transition-all duration-300",
-                  isScrolled 
-                    ? "text-foreground hover:bg-muted" 
-                    : "text-white hover:bg-white/10"
-                )}
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            </motion.div>
+            {/* Search */}
+            <HeaderSearch lang={lang} isScrolled={isScrolled} />
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
