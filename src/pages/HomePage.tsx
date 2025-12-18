@@ -7,7 +7,7 @@ import { ProductCard } from '@/components/catalog/ProductCard';
 import { mockProducts } from '@/data/mockProducts';
 import { Language, useTranslation } from '@/lib/i18n';
 import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, Award, Users, Globe, Star, ArrowUpRight, Check, Play, Phone, Zap } from 'lucide-react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
 import leavesHero from '@/assets/leaves-hero.jpg';
 import essentialOil from '@/assets/essential-oil.jpg';
 import creamJar from '@/assets/cream-jar.jpg';
@@ -122,11 +122,16 @@ export const HomePage = ({ lang }: HomePageProps) => {
     offset: ["start start", "end start"]
   });
   
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // Smooth spring-based parallax
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const heroY = useTransform(smoothProgress, [0, 1], [0, 200]);
+  const heroScale = useTransform(smoothProgress, [0, 1], [1, 1.3]);
+  const heroOpacity = useTransform(smoothProgress, [0, 0.7], [1, 0]);
+  const bgY = useTransform(smoothProgress, [0, 1], [0, -100]);
+  const textY = useTransform(smoothProgress, [0, 1], [0, 80]);
 
-  const featuredProducts = mockProducts.slice(0, 4);
+  // Only 3 featured products
+  const featuredProducts = mockProducts.slice(0, 3);
 
   const stats = [
     { value: '5000', suffix: '+', label: lang === 'fr' ? 'Références' : 'References', icon: Sparkles },
@@ -142,35 +147,75 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <meta name="description" content={lang === 'fr' ? 'Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires naturels.' : 'Over 5000 natural cosmetic ingredients, perfumes and food flavors.'} />
       </Helmet>
 
-      {/* HERO - Dark & Bold */}
+      {/* HERO - Dark & Bold with smooth parallax */}
       <section ref={heroRef} className="relative min-h-screen overflow-hidden bg-forest-950">
-        {/* Background Image */}
+        {/* Background Image with smooth parallax */}
         <motion.div 
-          className="absolute inset-0"
-          style={{ scale: heroScale, y: heroY }}
+          className="absolute inset-0 will-change-transform"
+          style={{ scale: heroScale, y: bgY }}
         >
-          <img src={leavesHero} alt="" className="w-full h-full object-cover opacity-40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/80 via-forest-950/60 to-forest-950" />
+          <img src={leavesHero} alt="" className="w-full h-full object-cover opacity-50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/70 via-forest-950/50 to-forest-950" />
         </motion.div>
 
-        {/* Animated orbs */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Animated background particles/orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Main gold orb */}
           <motion.div 
-            className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-gold-500/10 blur-[100px]"
-            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 8, repeat: Infinity }}
+            className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gold-500/10 blur-[120px]"
+            animate={{ 
+              scale: [1, 1.3, 1],
+              x: [0, 50, 0],
+              y: [0, -30, 0],
+              opacity: [0.2, 0.4, 0.2]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
+          {/* Secondary green orb */}
           <motion.div 
-            className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-forest-500/20 blur-[80px]"
-            animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 6, repeat: Infinity }}
+            className="absolute bottom-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-forest-400/15 blur-[100px]"
+            animate={{ 
+              scale: [1.2, 1, 1.2],
+              x: [0, -40, 0],
+              y: [0, 40, 0],
+              opacity: [0.15, 0.3, 0.15]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          />
+          {/* Small floating particles */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 rounded-full bg-gold-400/40"
+              style={{
+                left: `${15 + i * 15}%`,
+                top: `${20 + (i % 3) * 25}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: 4 + i,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.5,
+              }}
+            />
+          ))}
+          {/* Gradient sweep */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-500/5 to-transparent"
+            animate={{ x: ['-100%', '100%'] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
           />
         </div>
 
-        {/* Content */}
+        {/* Content with parallax */}
         <motion.div 
           className="relative z-10 min-h-screen flex items-center pt-20"
-          style={{ opacity: heroOpacity }}
+          style={{ opacity: heroOpacity, y: textY }}
         >
           <div className="container-luxe">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -578,7 +623,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
             </Link>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product, i) => (
               <FadeIn key={product.id} delay={i * 0.1}>
                 <ProductCard product={product} lang={lang} />
