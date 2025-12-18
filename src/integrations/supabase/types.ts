@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cosmetique_fr: {
+        Row: {
+          application: string | null
+          aspect: string | null
+          benefices: string | null
+          benefices_aqueux: string | null
+          benefices_huileux: string | null
+          calendrier_des_recoltes: string | null
+          cas_no: string | null
+          certifications: string | null
+          code: string | null
+          conservateurs: string | null
+          description: string | null
+          flavouring_preparation: string | null
+          gamme: string | null
+          id: number
+          inci: string | null
+          nom_commercial: string | null
+          origine: string | null
+          partie_utilisee: string | null
+          solubilite: string | null
+          tracabilite: string | null
+          type_de_peau: string | null
+          typologie_de_produit: string | null
+          valorisations: string | null
+        }
+        Insert: {
+          application?: string | null
+          aspect?: string | null
+          benefices?: string | null
+          benefices_aqueux?: string | null
+          benefices_huileux?: string | null
+          calendrier_des_recoltes?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          conservateurs?: string | null
+          description?: string | null
+          flavouring_preparation?: string | null
+          gamme?: string | null
+          id?: number
+          inci?: string | null
+          nom_commercial?: string | null
+          origine?: string | null
+          partie_utilisee?: string | null
+          solubilite?: string | null
+          tracabilite?: string | null
+          type_de_peau?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
+        }
+        Update: {
+          application?: string | null
+          aspect?: string | null
+          benefices?: string | null
+          benefices_aqueux?: string | null
+          benefices_huileux?: string | null
+          calendrier_des_recoltes?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          conservateurs?: string | null
+          description?: string | null
+          flavouring_preparation?: string | null
+          gamme?: string | null
+          id?: number
+          inci?: string | null
+          nom_commercial?: string | null
+          origine?: string | null
+          partie_utilisee?: string | null
+          solubilite?: string | null
+          tracabilite?: string | null
+          type_de_peau?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
