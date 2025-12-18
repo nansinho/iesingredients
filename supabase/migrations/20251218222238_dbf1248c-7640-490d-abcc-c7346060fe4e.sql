@@ -1,0 +1,1 @@
+TRUNCATE TABLE cosmetique_fr RESTART IDENTITY;
