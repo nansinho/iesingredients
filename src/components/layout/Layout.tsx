@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { CustomCursor } from '@/components/ui/CustomCursor';
 import { Language } from '@/lib/i18n';
 
 interface LayoutProps {
@@ -11,9 +10,9 @@ interface LayoutProps {
 
 export const Layout = ({ children, lang }: LayoutProps) => {
   return (
-    <div className="min-h-screen flex flex-col overflow-x-hidden">
+    <div className="min-h-screen flex flex-col w-full max-w-[100vw] overflow-x-hidden">
       <Header lang={lang} />
-      <main className="flex-1 overflow-x-hidden">{children}</main>
+      <main className="flex-1 w-full max-w-[100vw] overflow-x-hidden">{children}</main>
       <Footer lang={lang} />
     </div>
   );
