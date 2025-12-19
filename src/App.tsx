@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import * as React from "react";
 import { lazy, Suspense } from "react";
 import { SampleCartProvider } from "./contexts/SampleCartContext";
 import { SampleCartDrawer } from "./components/cart/SampleCartDrawer";
@@ -43,7 +42,7 @@ const PageLoader = () => (
 );
 
 // Routes component
-const AppRoutes = React.forwardRef<unknown, Record<string, never>>((_, _ref) => {
+const AppRoutes = () => {
   const location = useLocation();
   const lang = getCurrentLang(location.pathname);
 
@@ -80,10 +79,9 @@ const AppRoutes = React.forwardRef<unknown, Record<string, never>>((_, _ref) => 
       </Suspense>
     </>
   );
-});
-AppRoutes.displayName = "AppRoutes";
+};
 
-const App = React.forwardRef<unknown, Record<string, never>>((_, _ref) => (
+const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -99,8 +97,7 @@ const App = React.forwardRef<unknown, Record<string, never>>((_, _ref) => (
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
-));
-App.displayName = "App";
+);
 
 export default App;
 
