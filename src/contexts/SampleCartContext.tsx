@@ -41,7 +41,7 @@ const getCategoryFromProduct = (product: Product): CartCategory => {
   return 'COSMETIQUE';
 };
 
-export const SampleCartProvider = React.forwardRef<unknown, { children: React.ReactNode }>(({ children }, _ref) => {
+export const SampleCartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
@@ -50,7 +50,6 @@ export const SampleCartProvider = React.forwardRef<unknown, { children: React.Re
     setItems(prev => {
       const existingIndex = prev.findIndex(item => item.product.id === product.id);
       if (existingIndex > -1) {
-        // Already in cart, increment quantity
         const updated = [...prev];
         updated[existingIndex] = {
           ...updated[existingIndex],
@@ -58,7 +57,6 @@ export const SampleCartProvider = React.forwardRef<unknown, { children: React.Re
         };
         return updated;
       }
-      // Add new item
       return [...prev, {
         product,
         category: getCategoryFromProduct(product),
@@ -120,8 +118,7 @@ export const SampleCartProvider = React.forwardRef<unknown, { children: React.Re
       {children}
     </SampleCartContext.Provider>
   );
-});
-SampleCartProvider.displayName = 'SampleCartProvider';
+};
 
 
 export const useSampleCart = () => {
