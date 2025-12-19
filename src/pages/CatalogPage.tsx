@@ -302,19 +302,24 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             <div className="flex-1 min-w-0">
               {isLoading ? (
                 <div className={cn(
-                  'grid gap-3 sm:gap-6',
+                  'grid gap-2.5 sm:gap-4 md:gap-6',
                   viewMode === 'grid' 
-                    ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
+                    ? 'grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                     : 'grid-cols-1'
                 )}>
                   {[...Array(9)].map((_, i) => (
-                    <div key={i} className="rounded-2xl sm:rounded-3xl overflow-hidden border border-border/50">
-                      <Skeleton className="aspect-[4/3] w-full" />
-                      <div className="p-3 sm:p-5 space-y-2 sm:space-y-3">
-                        <Skeleton className="h-5 sm:h-6 w-3/4" />
-                        <Skeleton className="h-3 sm:h-4 w-1/2" />
-                        <Skeleton className="h-3 sm:h-4 w-full" />
-                        <Skeleton className="h-6 sm:h-8 w-full" />
+                    <div key={i} className="rounded-xl sm:rounded-2xl overflow-hidden border border-border/50 bg-card">
+                      <div className="h-1 bg-secondary" />
+                      <div className="p-2.5 sm:p-4 space-y-2 sm:space-y-3">
+                        <div className="flex gap-2 sm:gap-3">
+                          <Skeleton className="w-8 h-8 sm:w-11 sm:h-11 rounded-lg shrink-0" />
+                          <div className="flex-1 space-y-1.5">
+                            <Skeleton className="h-3.5 sm:h-5 w-full" />
+                            <Skeleton className="h-3 sm:h-4 w-1/2" />
+                          </div>
+                        </div>
+                        <Skeleton className="h-4 sm:h-5 w-full" />
+                        <Skeleton className="h-3 sm:h-4 w-3/4" />
                       </div>
                     </div>
                   ))}
@@ -322,9 +327,9 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               ) : displayedProducts.length > 0 ? (
                 <>
                   <div className={cn(
-                    'grid gap-3 sm:gap-6',
+                    'grid gap-2.5 sm:gap-4 md:gap-6',
                     viewMode === 'grid' 
-                      ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
+                      ? 'grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                       : 'grid-cols-1'
                   )}>
                     {displayedProducts.map((product, index) => (
