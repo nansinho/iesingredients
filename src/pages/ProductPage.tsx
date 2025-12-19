@@ -19,20 +19,21 @@ interface ProductPageProps {
   lang: Language;
 }
 
-// Product banner images based on gamme
-const getProductBanner = (gamme: string | null) => {
-  const g = gamme?.toUpperCase() || '';
-  if (g.includes('ACTIF')) return 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1200&h=300&fit=crop';
-  if (g.includes('NATUREL') || g.includes('VÉGÉTAL')) return 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1200&h=300&fit=crop';
-  if (g.includes('PARFUM') || g.includes('FRAGRANCE')) return 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=1200&h=300&fit=crop';
+// Product banner images based on typologie_de_produit
+const getProductBanner = (typologie: string | null) => {
+  const t = typologie?.toUpperCase() || '';
+  if (t.includes('COSMET') || t.includes('COSMÉT')) return 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1200&h=300&fit=crop';
+  if (t.includes('PARFUM')) return 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=1200&h=300&fit=crop';
+  if (t.includes('AROME') || t.includes('ARÔME')) return 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1200&h=300&fit=crop';
   return 'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=1200&h=300&fit=crop';
 };
 
-const getGammeConfig = (gamme: string | null) => {
-  const g = gamme?.toUpperCase() || '';
-  if (g.includes('ACTIF')) return { bg: 'bg-primary', light: 'bg-primary/10', text: 'text-primary' };
-  if (g.includes('NATUREL') || g.includes('VÉGÉTAL')) return { bg: 'bg-forest-600', light: 'bg-forest-100', text: 'text-forest-700' };
-  if (g.includes('PARFUM') || g.includes('FRAGRANCE')) return { bg: 'bg-gold-600', light: 'bg-gold-100', text: 'text-gold-700' };
+// Category color config using the same colors as homepage (COSMETIQUE/PARFUM/AROME)
+const getCategoryConfig = (typologie: string | null) => {
+  const t = typologie?.toUpperCase() || '';
+  if (t.includes('COSMET') || t.includes('COSMÉT')) return { bg: 'bg-cosmetique', light: 'bg-cosmetique/10', text: 'text-cosmetique' };
+  if (t.includes('PARFUM')) return { bg: 'bg-parfum', light: 'bg-parfum/10', text: 'text-parfum' };
+  if (t.includes('AROME') || t.includes('ARÔME')) return { bg: 'bg-arome', light: 'bg-arome/10', text: 'text-arome' };
   return { bg: 'bg-primary', light: 'bg-primary/10', text: 'text-primary' };
 };
 
@@ -101,8 +102,8 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
     );
   }
 
-  const config = getGammeConfig(product.gamme);
-  const bannerImage = getProductBanner(product.gamme);
+  const config = getCategoryConfig(product.typologie_de_produit);
+  const bannerImage = getProductBanner(product.typologie_de_produit);
   const productName = product.nom_commercial || '';
   const productDescription = product.description || '';
 
