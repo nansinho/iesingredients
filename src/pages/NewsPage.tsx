@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Calendar } from 'lucide-react';
+import { ArrowRight, Calendar, Newspaper } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 interface NewsPageProps {
@@ -17,6 +18,12 @@ const news = [
 ];
 
 export const NewsPage = ({ lang }: NewsPageProps) => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const formatDate = (d: string) => new Date(d).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
@@ -26,20 +33,31 @@ export const NewsPage = ({ lang }: NewsPageProps) => {
         <html lang={lang} />
       </Helmet>
 
-      <div className="pt-24 pb-16">
-        <div className="container">
-          <div className="text-center mb-12">
-            <h1 className="font-serif text-4xl text-foreground mb-4">
+      {/* Hero Section */}
+      <section className="relative bg-forest-950 pt-24 pb-20 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-3xl" />
+        </div>
+        <div className="container-luxe relative z-10">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center">
+              <Newspaper className="w-7 h-7 text-forest-950" />
+            </div>
+            <h1 className="font-serif text-4xl md:text-5xl text-white">
               {lang === 'fr' ? 'Actualités' : 'News'}
             </h1>
-            <p className="text-muted-foreground">{lang === 'fr' ? 'Nos dernières nouvelles.' : 'Our latest updates.'}</p>
           </div>
+          <p className="text-white/70 text-lg">{lang === 'fr' ? 'Nos dernières nouvelles.' : 'Our latest updates.'}</p>
+        </div>
+      </section>
 
+      <section className="bg-background py-16">
+        <div className="container-luxe">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {news.map((n, i) => (
-              <article key={i} className="bg-card border border-border rounded-lg overflow-hidden group hover:shadow-lg transition-shadow">
-                <div className="aspect-video bg-secondary/30 flex items-center justify-center">
-                  <span className="font-serif text-4xl text-muted-foreground/20">IES</span>
+              <article key={i} className="bg-card border border-border rounded-2xl overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div className="aspect-video bg-gradient-to-br from-forest-100 to-gold-100 flex items-center justify-center">
+                  <span className="font-serif text-4xl text-forest-600/30">IES</span>
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
@@ -59,7 +77,7 @@ export const NewsPage = ({ lang }: NewsPageProps) => {
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 };

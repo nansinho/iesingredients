@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/catalog/ProductCard';
@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList, Leaf } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CatalogPageProps {
@@ -29,7 +29,13 @@ interface FilterState {
 
 export const CatalogPage = ({ lang }: CatalogPageProps) => {
   const t = useTranslation(lang);
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   
   // Support both 'search' and 'q' parameters
   const initialSearch = searchParams.get('search') || searchParams.get('q') || '';
@@ -151,24 +157,34 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
         <html lang={lang} />
       </Helmet>
 
-      <div className="pt-28 pb-20 min-h-screen bg-background">
-        <div className="container-luxe">
-          {/* Header */}
-          <div className="mb-10">
-            <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-3">{t.nav.catalog}</h1>
-            <p className="text-muted-foreground text-lg">
-              {isLoading ? (
-                <Skeleton className="h-6 w-40 inline-block" />
-              ) : (
-                <>
-                  {products?.length || 0} {lang === 'fr' ? 'produits disponibles' : 'products available'}
-                </>
-              )}
-            </p>
+      {/* Hero Section with dark background for header visibility */}
+      <section className="relative bg-forest-950 pt-24 pb-16 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container-luxe relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center">
+              <Leaf className="w-7 h-7 text-forest-950" />
+            </div>
+            <div>
+              <h1 className="font-serif text-4xl md:text-5xl text-white">{t.nav.catalog}</h1>
+              <p className="text-white/60 text-lg mt-1">
+                {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'produits disponibles' : 'products available'}`}
+              </p>
+            </div>
           </div>
+        </div>
+      </section>
 
+      {/* Main Content */}
+      <section className="bg-background py-10 min-h-screen">
+        <div className="container-luxe">
           {/* Search & Controls Bar */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex flex-col md:flex-row gap-4 mb-8 -mt-8 relative z-10">
             {/* Search */}
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -176,7 +192,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                 placeholder={t.hero.search}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="pl-12 h-12 bg-card border-border focus:border-primary"
+                className="pl-12 h-14 bg-card border-border focus:border-primary shadow-lg"
               />
               {searchValue && (
                 <button 
@@ -193,7 +209,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               {/* Mobile Filter */}
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="lg:hidden gap-2 h-12">
+                  <Button variant="outline" className="lg:hidden gap-2 h-14 shadow-lg">
                     <SlidersHorizontal className="w-4 h-4" />
                     {t.filters.title}
                     {activeFiltersCount > 0 && (
@@ -219,12 +235,12 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               </Sheet>
 
               {/* View Toggle */}
-              <div className="hidden md:flex border border-border rounded-lg p-1 bg-card">
+              <div className="hidden md:flex border border-border rounded-lg p-1 bg-card shadow-lg">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('grid')}
-                  className="h-10 w-10"
+                  className="h-12 w-12"
                 >
                   <Grid3X3 className="h-4 w-4" />
                 </Button>
@@ -232,14 +248,14 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('list')}
-                  className="h-10 w-10"
+                  className="h-12 w-12"
                 >
                   <LayoutList className="h-4 w-4" />
                 </Button>
               </div>
 
               {activeFiltersCount > 0 && (
-                <Button variant="ghost" onClick={clearFilters} className="text-muted-foreground hidden md:flex">
+                <Button variant="ghost" onClick={clearFilters} className="text-muted-foreground hidden md:flex h-14">
                   <X className="w-4 h-4 mr-2" />
                   {t.filters.reset}
                 </Button>
@@ -348,7 +364,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 };
