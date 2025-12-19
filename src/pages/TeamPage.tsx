@@ -66,10 +66,21 @@ export const TeamPage = ({ lang }: TeamPageProps) => {
                   <h3 className="font-medium text-foreground">{member.name}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{member.role[lang]}</p>
                   <div className="flex gap-2">
-                    <a href="#" className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
+                    <button
+                      type="button"
+                      className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                      aria-label={lang === 'fr' ? 'LinkedIn (bientôt)' : 'LinkedIn (coming soon)'}
+                      onClick={() => {
+                        // no-op placeholder (avoid # navigation causing scroll + console noise)
+                      }}
+                    >
                       <Linkedin className="w-4 h-4" />
-                    </a>
-                    <a href={`mailto:${member.email}`} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
+                    </button>
+                    <a
+                      href={`mailto:${member.email}`}
+                      className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
+                      aria-label={lang === 'fr' ? `Envoyer un email à ${member.name}` : `Email ${member.name}`}
+                    >
                       <Mail className="w-4 h-4" />
                     </a>
                   </div>
