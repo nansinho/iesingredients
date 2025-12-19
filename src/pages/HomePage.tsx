@@ -102,24 +102,23 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <meta name="description" content={lang === 'fr' ? 'Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires naturels.' : 'Over 5000 natural cosmetic ingredients, perfumes and food flavors.'} />
       </Helmet>
 
-      {/* HERO - Clean & Elegant */}
+      {/* HERO - Clean & Centered */}
       <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden bg-forest-950">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <img src={leavesHero} alt="" className="w-full h-full object-cover opacity-40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/60 via-forest-950/40 to-forest-950" />
+          <img src={essentialOil} alt="" className="w-full h-full object-cover opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/70 via-forest-950/50 to-forest-950" />
         </div>
 
         {/* Simple ambient glow */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-gold-500/10 blur-[100px]" />
-          <div className="absolute bottom-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-forest-400/10 blur-[80px]" />
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-gold-500/10 blur-[120px]" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 min-h-[90vh] flex items-center pt-20">
+        {/* Content - Centered */}
+        <div className="relative z-10 min-h-[90vh] flex items-center justify-center pt-20">
           <div className="container-luxe">
-            <div className="max-w-3xl">
+            <div className="max-w-4xl mx-auto text-center">
               {/* Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -140,13 +139,13 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
               >
-                {lang === 'fr' ? 'Ingrédients' : 'Natural'}<br />
+                {lang === 'fr' ? 'Ingrédients' : 'Natural'}{' '}
                 <span className="text-gold italic">{lang === 'fr' ? 'Naturels' : 'Ingredients'}</span>
               </motion.h1>
 
               {/* Description */}
               <motion.p 
-                className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-xl"
+                className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-2xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
@@ -161,7 +160,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
-                className="flex flex-wrap gap-4 mb-16"
+                className="flex flex-wrap justify-center gap-4 mb-16"
               >
                 <Link to={`/${lang}/catalogue`}>
                   <Button size="lg" className="h-14 px-8 rounded-full text-base font-semibold bg-gold-500 text-forest-950 hover:bg-gold-400 shadow-lg shadow-gold-500/25 group">
@@ -181,7 +180,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.4 }}
-                className="grid grid-cols-2 sm:grid-cols-4 gap-8"
+                className="grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-2xl mx-auto"
               >
                 {stats.map((stat, i) => (
                   <div key={i}>
