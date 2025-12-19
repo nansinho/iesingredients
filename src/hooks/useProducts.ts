@@ -56,7 +56,7 @@ const getTableName = (lang: Language): 'cosmetique_fr' | 'cosmetique_en' => {
   return lang === 'en' ? 'cosmetique_en' : 'cosmetique_fr';
 };
 
-// Fetch all active products based on language
+// Fetch all active products based on language - OPTIMIZED with staleTime
 export const useProducts = (filters?: ProductFilters, lang: Language = 'fr') => {
   return useQuery({
     queryKey: ['products', filters, lang],
@@ -118,18 +118,18 @@ export const useProducts = (filters?: ProductFilters, lang: Language = 'fr') => 
 
       return products;
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes - avoid refetching
+    gcTime: 10 * 60 * 1000, // 10 minutes cache
   });
 };
 
 // Fetch a single product by code based on language
-// Falls back to French if English translation doesn't exist
 export const useProduct = (code: string, lang: Language = 'fr') => {
   return useQuery({
     queryKey: ['product', code, lang],
     queryFn: async () => {
       const tableName = getTableName(lang);
       
-      // Try to get from the language-specific table first
       const { data, error } = await supabase
         .from(tableName)
         .select('*')
@@ -155,10 +155,12 @@ export const useProduct = (code: string, lang: Language = 'fr') => {
       return data as Product | null;
     },
     enabled: !!code,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 };
 
-// Fetch filter options (always from French table as it's the source of truth)
+// Fetch filter options - OPTIMIZED with longer cache
 export const useFilterOptions = () => {
   return useQuery({
     queryKey: ['filter-options'],
@@ -223,6 +225,8 @@ export const useFilterOptions = () => {
 
       return options;
     },
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 30 * 60 * 1000, // 30 minutes cache
   });
 };
 
@@ -266,5 +270,7 @@ export const useSimilarProducts = (currentProduct: Product | null, lang: Languag
         .map(s => s.product);
     },
     enabled: !!currentProduct,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 };
