@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import * as React from "react";
 import { lazy, Suspense } from "react";
 import { SampleCartProvider } from "./contexts/SampleCartContext";
 import { SampleCartDrawer } from "./components/cart/SampleCartDrawer";
@@ -42,10 +43,10 @@ const PageLoader = () => (
 );
 
 // Routes component
-const AppRoutes = () => {
+const AppRoutes = React.forwardRef<unknown, Record<string, never>>((_, _ref) => {
   const location = useLocation();
   const lang = getCurrentLang(location.pathname);
-  
+
   return (
     <>
       <SampleCartDrawer lang={lang} />
@@ -54,7 +55,7 @@ const AppRoutes = () => {
         <Routes>
           {/* Redirect root to French */}
           <Route path="/" element={<Navigate to="/fr" replace />} />
-          
+
           {/* French Routes */}
           <Route path="/fr" element={<HomePage lang="fr" />} />
           <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
@@ -63,7 +64,7 @@ const AppRoutes = () => {
           <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
           <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
           <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
-          
+
           {/* English Routes */}
           <Route path="/en" element={<HomePage lang="en" />} />
           <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
@@ -72,16 +73,17 @@ const AppRoutes = () => {
           <Route path="/en/equipe" element={<TeamPage lang="en" />} />
           <Route path="/en/actualites" element={<NewsPage lang="en" />} />
           <Route path="/en/contact" element={<ContactPage lang="en" />} />
-          
+
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </>
   );
-};
+});
+AppRoutes.displayName = "AppRoutes";
 
-const App = () => (
+const App = React.forwardRef<unknown, Record<string, never>>((_, _ref) => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -97,6 +99,8 @@ const App = () => (
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
-);
+));
+App.displayName = "App";
 
 export default App;
+
