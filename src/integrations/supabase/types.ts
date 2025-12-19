@@ -14,135 +14,177 @@ export type Database = {
   }
   public: {
     Tables: {
-      cosmetique_fr: {
+      cosmetique_en: {
         Row: {
           application: string | null
-          application_en: string | null
           aspect: string | null
-          aspect_en: string | null
           benefices: string | null
           benefices_aqueux: string | null
-          benefices_aqueux_en: string | null
-          benefices_en: string | null
           benefices_huileux: string | null
-          benefices_huileux_en: string | null
           calendrier_des_recoltes: string | null
-          calendrier_des_recoltes_en: string | null
           cas_no: string | null
           certifications: string | null
-          certifications_en: string | null
-          code: string | null
+          code: string
           conservateurs: string | null
-          conservateurs_en: string | null
+          created_at: string | null
           description: string | null
-          description_en: string | null
           flavouring_preparation: string | null
           gamme: string | null
           id: number
           inci: string | null
-          is_translated: boolean | null
           nom_commercial: string | null
-          nom_commercial_en: string | null
           origine: string | null
           partie_utilisee: string | null
-          partie_utilisee_en: string | null
           solubilite: string | null
-          solubilite_en: string | null
+          source_id: number | null
           statut: string | null
           tracabilite: string | null
-          tracabilite_en: string | null
           translated_at: string | null
           type_de_peau: string | null
-          type_de_peau_en: string | null
           typologie_de_produit: string | null
+          updated_at: string | null
           valorisations: string | null
-          valorisations_en: string | null
         }
         Insert: {
           application?: string | null
-          application_en?: string | null
           aspect?: string | null
-          aspect_en?: string | null
           benefices?: string | null
           benefices_aqueux?: string | null
-          benefices_aqueux_en?: string | null
-          benefices_en?: string | null
           benefices_huileux?: string | null
-          benefices_huileux_en?: string | null
           calendrier_des_recoltes?: string | null
-          calendrier_des_recoltes_en?: string | null
           cas_no?: string | null
           certifications?: string | null
-          certifications_en?: string | null
-          code?: string | null
+          code: string
           conservateurs?: string | null
-          conservateurs_en?: string | null
+          created_at?: string | null
           description?: string | null
-          description_en?: string | null
           flavouring_preparation?: string | null
           gamme?: string | null
           id?: number
           inci?: string | null
-          is_translated?: boolean | null
           nom_commercial?: string | null
-          nom_commercial_en?: string | null
           origine?: string | null
           partie_utilisee?: string | null
-          partie_utilisee_en?: string | null
           solubilite?: string | null
-          solubilite_en?: string | null
+          source_id?: number | null
           statut?: string | null
           tracabilite?: string | null
-          tracabilite_en?: string | null
           translated_at?: string | null
           type_de_peau?: string | null
-          type_de_peau_en?: string | null
           typologie_de_produit?: string | null
+          updated_at?: string | null
           valorisations?: string | null
-          valorisations_en?: string | null
         }
         Update: {
           application?: string | null
-          application_en?: string | null
           aspect?: string | null
-          aspect_en?: string | null
           benefices?: string | null
           benefices_aqueux?: string | null
-          benefices_aqueux_en?: string | null
-          benefices_en?: string | null
           benefices_huileux?: string | null
-          benefices_huileux_en?: string | null
           calendrier_des_recoltes?: string | null
-          calendrier_des_recoltes_en?: string | null
           cas_no?: string | null
           certifications?: string | null
-          certifications_en?: string | null
-          code?: string | null
+          code?: string
           conservateurs?: string | null
-          conservateurs_en?: string | null
+          created_at?: string | null
           description?: string | null
-          description_en?: string | null
           flavouring_preparation?: string | null
           gamme?: string | null
           id?: number
           inci?: string | null
-          is_translated?: boolean | null
           nom_commercial?: string | null
-          nom_commercial_en?: string | null
           origine?: string | null
           partie_utilisee?: string | null
-          partie_utilisee_en?: string | null
           solubilite?: string | null
-          solubilite_en?: string | null
+          source_id?: number | null
           statut?: string | null
           tracabilite?: string | null
-          tracabilite_en?: string | null
           translated_at?: string | null
           type_de_peau?: string | null
-          type_de_peau_en?: string | null
+          typologie_de_produit?: string | null
+          updated_at?: string | null
+          valorisations?: string | null
+        }
+        Relationships: []
+      }
+      cosmetique_fr: {
+        Row: {
+          application: string | null
+          aspect: string | null
+          benefices: string | null
+          benefices_aqueux: string | null
+          benefices_huileux: string | null
+          calendrier_des_recoltes: string | null
+          cas_no: string | null
+          certifications: string | null
+          code: string | null
+          conservateurs: string | null
+          description: string | null
+          flavouring_preparation: string | null
+          gamme: string | null
+          id: number
+          inci: string | null
+          nom_commercial: string | null
+          origine: string | null
+          partie_utilisee: string | null
+          solubilite: string | null
+          statut: string | null
+          tracabilite: string | null
+          type_de_peau: string | null
+          typologie_de_produit: string | null
+          valorisations: string | null
+        }
+        Insert: {
+          application?: string | null
+          aspect?: string | null
+          benefices?: string | null
+          benefices_aqueux?: string | null
+          benefices_huileux?: string | null
+          calendrier_des_recoltes?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          conservateurs?: string | null
+          description?: string | null
+          flavouring_preparation?: string | null
+          gamme?: string | null
+          id?: number
+          inci?: string | null
+          nom_commercial?: string | null
+          origine?: string | null
+          partie_utilisee?: string | null
+          solubilite?: string | null
+          statut?: string | null
+          tracabilite?: string | null
+          type_de_peau?: string | null
           typologie_de_produit?: string | null
           valorisations?: string | null
-          valorisations_en?: string | null
+        }
+        Update: {
+          application?: string | null
+          aspect?: string | null
+          benefices?: string | null
+          benefices_aqueux?: string | null
+          benefices_huileux?: string | null
+          calendrier_des_recoltes?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          conservateurs?: string | null
+          description?: string | null
+          flavouring_preparation?: string | null
+          gamme?: string | null
+          id?: number
+          inci?: string | null
+          nom_commercial?: string | null
+          origine?: string | null
+          partie_utilisee?: string | null
+          solubilite?: string | null
+          statut?: string | null
+          tracabilite?: string | null
+          type_de_peau?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
         }
         Relationships: []
       }

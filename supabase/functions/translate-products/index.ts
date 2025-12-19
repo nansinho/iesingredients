@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Fields to translate
+// Fields to translate (text fields only)
 const TRANSLATABLE_FIELDS = [
   'nom_commercial',
   'description',
@@ -25,8 +25,20 @@ const TRANSLATABLE_FIELDS = [
   'calendrier_des_recoltes',
 ];
 
+// Fields to copy as-is (technical/non-translatable)
+const COPY_FIELDS = [
+  'code',
+  'typologie_de_produit',
+  'gamme',
+  'origine',
+  'cas_no',
+  'inci',
+  'flavouring_preparation',
+  'statut',
+];
+
 interface TranslationRequest {
-  productId?: number;
+  productCode?: string;
   batchSize?: number;
   forceRetranslate?: boolean;
 }
@@ -47,44 +59,64 @@ serve(async (req) => {
 
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
-    const { productId, batchSize = 10, forceRetranslate = false }: TranslationRequest = await req.json();
+    const { productCode, batchSize = 10, forceRetranslate = false }: TranslationRequest = await req.json();
 
-    console.log(`Starting translation: productId=${productId}, batchSize=${batchSize}, forceRetranslate=${forceRetranslate}`);
+    console.log(`Starting translation: productCode=${productCode}, batchSize=${batchSize}, forceRetranslate=${forceRetranslate}`);
 
-    // Build query
+    // Get products from French table that need translation
     let query = supabase
       .from('cosmetique_fr')
       .select('*')
       .eq('statut', 'ACTIF');
 
-    if (productId) {
-      query = query.eq('id', productId);
-    } else if (!forceRetranslate) {
-      query = query.or('is_translated.is.null,is_translated.eq.false');
+    if (productCode) {
+      query = query.eq('code', productCode);
     }
 
     query = query.limit(batchSize);
 
-    const { data: products, error: fetchError } = await query;
+    const { data: frenchProducts, error: fetchError } = await query;
 
     if (fetchError) {
-      console.error("Error fetching products:", fetchError);
+      console.error("Error fetching French products:", fetchError);
       throw new Error(`Failed to fetch products: ${fetchError.message}`);
     }
 
-    if (!products || products.length === 0) {
-      console.log("No products to translate");
+    if (!frenchProducts || frenchProducts.length === 0) {
+      console.log("No French products found");
       return new Response(
         JSON.stringify({ message: "No products to translate", translated: 0 }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    console.log(`Found ${products.length} products to translate`);
+    // Get existing English translations
+    const codes = frenchProducts.map(p => p.code).filter(Boolean);
+    const { data: existingEnglish } = await supabase
+      .from('cosmetique_en')
+      .select('code, translated_at')
+      .in('code', codes);
 
-    const translatedProducts = [];
+    const existingMap = new Map(existingEnglish?.map(e => [e.code, e.translated_at]) || []);
 
-    for (const product of products) {
+    // Filter products that need translation
+    const productsToTranslate = forceRetranslate 
+      ? frenchProducts 
+      : frenchProducts.filter(p => !existingMap.has(p.code));
+
+    if (productsToTranslate.length === 0) {
+      console.log("All products already translated");
+      return new Response(
+        JSON.stringify({ message: "All products already translated", translated: 0 }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log(`Found ${productsToTranslate.length} products to translate`);
+
+    const translatedProducts: string[] = [];
+
+    for (const product of productsToTranslate) {
       try {
         // Build content to translate
         const fieldsToTranslate: Record<string, string> = {};
@@ -97,15 +129,30 @@ serve(async (req) => {
         }
 
         if (Object.keys(fieldsToTranslate).length === 0) {
-          console.log(`Product ${product.id} has no fields to translate, marking as translated`);
+          console.log(`Product ${product.code} has no fields to translate, copying as-is`);
+          
+          // Just copy the product without translation
+          const englishProduct: Record<string, any> = {
+            source_id: product.id,
+            translated_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          };
+          
+          for (const field of COPY_FIELDS) {
+            if (product[field] !== undefined) {
+              englishProduct[field] = product[field];
+            }
+          }
+
           await supabase
-            .from('cosmetique_fr')
-            .update({ is_translated: true, translated_at: new Date().toISOString() })
-            .eq('id', product.id);
+            .from('cosmetique_en')
+            .upsert(englishProduct, { onConflict: 'code' });
+          
+          translatedProducts.push(product.code);
           continue;
         }
 
-        console.log(`Translating product ${product.id}: ${product.nom_commercial}`);
+        console.log(`Translating product ${product.code}: ${product.nom_commercial}`);
 
         // Call Lovable AI for translation
         const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -139,10 +186,14 @@ IMPORTANT RULES:
 
         if (!response.ok) {
           const errorText = await response.text();
-          console.error(`AI API error for product ${product.id}:`, response.status, errorText);
+          console.error(`AI API error for product ${product.code}:`, response.status, errorText);
           
           if (response.status === 429) {
             console.log("Rate limited, stopping batch");
+            break;
+          }
+          if (response.status === 402) {
+            console.log("Payment required, stopping batch");
             break;
           }
           continue;
@@ -152,55 +203,62 @@ IMPORTANT RULES:
         const translatedContent = aiData.choices?.[0]?.message?.content;
 
         if (!translatedContent) {
-          console.error(`No translation content for product ${product.id}`);
+          console.error(`No translation content for product ${product.code}`);
           continue;
         }
 
         // Parse the translated JSON
         let translations: Record<string, string>;
         try {
-          // Clean the response (remove markdown code blocks if present)
           let cleanContent = translatedContent.trim();
           if (cleanContent.startsWith('```')) {
             cleanContent = cleanContent.replace(/```json?\n?/g, '').replace(/```$/g, '').trim();
           }
           translations = JSON.parse(cleanContent);
         } catch (parseError) {
-          console.error(`Failed to parse translation for product ${product.id}:`, parseError, translatedContent);
+          console.error(`Failed to parse translation for product ${product.code}:`, parseError, translatedContent);
           continue;
         }
 
-        // Build update object
-        const updateData: Record<string, any> = {
-          is_translated: true,
+        // Build English product record
+        const englishProduct: Record<string, any> = {
+          source_id: product.id,
           translated_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         };
 
-        for (const [key, value] of Object.entries(translations)) {
-          if (TRANSLATABLE_FIELDS.includes(key) && value) {
-            updateData[`${key}_en`] = value;
+        // Copy non-translatable fields
+        for (const field of COPY_FIELDS) {
+          if (product[field] !== undefined) {
+            englishProduct[field] = product[field];
           }
         }
 
-        // Update product
-        const { error: updateError } = await supabase
-          .from('cosmetique_fr')
-          .update(updateData)
-          .eq('id', product.id);
+        // Add translated fields
+        for (const [key, value] of Object.entries(translations)) {
+          if (TRANSLATABLE_FIELDS.includes(key) && value) {
+            englishProduct[key] = value;
+          }
+        }
 
-        if (updateError) {
-          console.error(`Failed to update product ${product.id}:`, updateError);
+        // Upsert to English table
+        const { error: upsertError } = await supabase
+          .from('cosmetique_en')
+          .upsert(englishProduct, { onConflict: 'code' });
+
+        if (upsertError) {
+          console.error(`Failed to upsert product ${product.code}:`, upsertError);
           continue;
         }
 
-        console.log(`Successfully translated product ${product.id}`);
-        translatedProducts.push(product.id);
+        console.log(`Successfully translated product ${product.code}`);
+        translatedProducts.push(product.code);
 
         // Small delay to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 200));
 
       } catch (productError) {
-        console.error(`Error translating product ${product.id}:`, productError);
+        console.error(`Error translating product ${product.code}:`, productError);
         continue;
       }
     }
@@ -211,7 +269,7 @@ IMPORTANT RULES:
       JSON.stringify({ 
         message: "Translation complete", 
         translated: translatedProducts.length,
-        productIds: translatedProducts 
+        productCodes: translatedProducts 
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );

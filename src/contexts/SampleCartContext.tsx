@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { Tables } from '@/integrations/supabase/types';
-
-type Product = Tables<'cosmetique_fr'>;
+import { Product } from '@/hooks/useProducts';
 
 export type CartCategory = 'COSMETIQUE' | 'AROMES' | 'PARFUM';
 
