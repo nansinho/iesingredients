@@ -1,15 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    // Keep a lightweight log for debugging without spamming the console as an error.
-    // eslint-disable-next-line no-console
-    console.warn("[NotFound] Route:", location.pathname);
-  }, [location.pathname]);
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted">
       <div className="text-center px-6">
@@ -22,5 +13,6 @@ const NotFound = () => {
     </div>
   );
 };
+
 
 export default NotFound;
