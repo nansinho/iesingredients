@@ -48,8 +48,7 @@ interface ProductCardProps {
   index?: number;
 }
 
-export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>(
-  ({ product, lang }, ref) => {
+export const ProductCard = ({ product, lang }: ProductCardProps) => {
     const config = getCategoryConfig(product.typologie_de_produit);
     
     // Get initials for avatar
@@ -62,7 +61,6 @@ export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>
 
     return (
       <Link 
-        ref={ref}
         to={`/${lang}/produit/${product.code}`} 
         className="group block h-full"
       >
@@ -133,6 +131,4 @@ export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>
         </article>
       </Link>
     );
-  }
-);
-ProductCard.displayName = "ProductCard";
+};

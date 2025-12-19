@@ -7,13 +7,12 @@ interface FooterProps {
   lang: Language;
 }
 
-export const Footer = React.forwardRef<HTMLElement, FooterProps>(
-  ({ lang }, ref) => {
+export const Footer = ({ lang }: FooterProps) => {
     const t = useTranslation(lang);
     const currentYear = new Date().getFullYear();
 
     return (
-      <footer ref={ref} className="bg-foreground text-background">
+      <footer className="bg-foreground text-background">
         <div className="container py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Brand */}
@@ -81,6 +80,4 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(
         </div>
       </footer>
     );
-  }
-);
-Footer.displayName = "Footer";
+};
