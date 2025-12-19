@@ -86,11 +86,12 @@ export const CopyField = ({ label, value, className, mono = false, successMessag
       className={cn(
         "inline-flex items-center gap-2 px-2 py-1 -mx-2 rounded-lg transition-all duration-200",
         "hover:bg-primary/10 active:scale-[0.98] group cursor-pointer text-left",
+        "max-w-full min-w-0 overflow-hidden",
         className
       )}
       title={`Copier ${label}`}
     >
-      <span className={cn("truncate", mono && "font-mono")}>{value}</span>
+      <span className={cn("min-w-0 break-words", mono && "font-mono")}>{value}</span>
       {copied ? (
         <Check className="w-3.5 h-3.5 text-green-500 shrink-0" />
       ) : (

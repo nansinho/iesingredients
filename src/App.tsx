@@ -17,6 +17,7 @@ import { CompanyPage } from "./pages/CompanyPage";
 import { TeamPage } from "./pages/TeamPage";
 import { NewsPage } from "./pages/NewsPage";
 import NotFound from "./pages/NotFound";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -97,7 +98,9 @@ const App = () => (
           <Sonner />
           <SmoothScrollProvider>
             <BrowserRouter>
-              <AnimatedRoutes />
+              <ErrorBoundary>
+                <AnimatedRoutes />
+              </ErrorBoundary>
             </BrowserRouter>
           </SmoothScrollProvider>
         </SampleCartProvider>
