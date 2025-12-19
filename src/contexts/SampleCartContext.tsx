@@ -31,7 +31,7 @@ const SampleCartContext = createContext<SampleCartContextType | undefined>(undef
 const getCategoryFromProduct = (product: Product): CartCategory => {
   const gamme = product.gamme?.toUpperCase() || '';
   const type = product.typologie_de_produit?.toUpperCase() || '';
-  
+
   if (gamme.includes('PARFUM') || gamme.includes('FRAGRANCE') || type.includes('PARFUM')) {
     return 'PARFUM';
   }
@@ -41,7 +41,7 @@ const getCategoryFromProduct = (product: Product): CartCategory => {
   return 'COSMETIQUE';
 };
 
-export const SampleCartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SampleCartProvider = React.forwardRef<unknown, { children: React.ReactNode }>(({ children }, _ref) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isQuoteFormOpen, setIsQuoteFormOpen] = useState(false);
@@ -77,7 +77,7 @@ export const SampleCartProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       removeItem(productId);
       return;
     }
-    setItems(prev => prev.map(item => 
+    setItems(prev => prev.map(item =>
       item.product.id === productId ? { ...item, quantity } : item
     ));
   }, [removeItem]);
@@ -120,7 +120,9 @@ export const SampleCartProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       {children}
     </SampleCartContext.Provider>
   );
-};
+});
+SampleCartProvider.displayName = 'SampleCartProvider';
+
 
 export const useSampleCart = () => {
   const context = useContext(SampleCartContext);
