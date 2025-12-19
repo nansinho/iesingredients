@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, ChevronRight, MapPin, Droplet, Award, Beaker, Sparkles, Leaf, FlaskConical, FileText, Calendar, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ChevronRight, MapPin, Droplet, Award, Beaker, Sparkles, Leaf, FlaskConical, FileText, Calendar, CheckCircle, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { useSampleCart } from '@/contexts/SampleCartContext';
+import { toast } from 'sonner';
 
 interface ProductPageProps {
   lang: Language;
@@ -26,8 +28,20 @@ const getGammeConfig = (gamme: string | null) => {
 export const ProductPage = ({ lang }: ProductPageProps) => {
   const { id } = useParams<{ id: string }>();
   const t = useTranslation(lang);
+  const { addItem } = useSampleCart();
   
   const { data: product, isLoading, error } = useProduct(id || '');
+
+  const handleAddToCart = () => {
+    if (product) {
+      addItem(product);
+      toast.success(
+        lang === 'fr' 
+          ? `${product.nom_commercial} ajouté au panier` 
+          : `${product.nom_commercial} added to cart`
+      );
+    }
+  };
   const { data: similarProducts } = useSimilarProducts(product || null);
 
   if (isLoading) {
@@ -207,8 +221,12 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               )}
 
               {/* CTA */}
-              <Button size="lg" className="rounded-full h-14 px-8 font-semibold mt-4">
-                <FlaskConical className="mr-2 w-5 h-5" />
+              <Button 
+                size="lg" 
+                className="rounded-full h-14 px-8 font-semibold mt-4"
+                onClick={handleAddToCart}
+              >
+                <ShoppingBag className="mr-2 w-5 h-5" />
                 {t.catalog.requestSample}
               </Button>
             </div>

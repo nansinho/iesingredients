@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { HelmetProvider } from "react-helmet-async";
 import { AnimatePresence, motion } from "framer-motion";
 import { SmoothScrollProvider } from "./components/SmoothScroll";
+import { SampleCartProvider } from "./contexts/SampleCartContext";
+import { SampleCartDrawer } from "./components/cart/SampleCartDrawer";
+import { QuoteRequestDialog } from "./components/cart/QuoteRequestDialog";
 import { HomePage } from "./pages/HomePage";
 import { CatalogPage } from "./pages/CatalogPage";
 import { ProductPage } from "./pages/ProductPage";
@@ -32,46 +35,56 @@ const pageVariants = {
   },
 };
 
+// Get current lang from URL
+const getCurrentLang = (pathname: string): 'fr' | 'en' => {
+  return pathname.startsWith('/en') ? 'en' : 'fr';
+};
+
 // Animated Routes component
 const AnimatedRoutes = () => {
   const location = useLocation();
+  const lang = getCurrentLang(location.pathname);
   
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={pageVariants}
-      >
-        <Routes location={location}>
-          {/* Redirect root to French */}
-          <Route path="/" element={<Navigate to="/fr" replace />} />
-          
-          {/* French Routes */}
-          <Route path="/fr" element={<HomePage lang="fr" />} />
-          <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
-          <Route path="/fr/produit/:id" element={<ProductPage lang="fr" />} />
-          <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
-          <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
-          <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
-          <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
-          
-          {/* English Routes */}
-          <Route path="/en" element={<HomePage lang="en" />} />
-          <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
-          <Route path="/en/produit/:id" element={<ProductPage lang="en" />} />
-          <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
-          <Route path="/en/equipe" element={<TeamPage lang="en" />} />
-          <Route path="/en/actualites" element={<NewsPage lang="en" />} />
-          <Route path="/en/contact" element={<ContactPage lang="en" />} />
-          
-          {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
+    <>
+      <SampleCartDrawer lang={lang} />
+      <QuoteRequestDialog lang={lang} />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={pageVariants}
+        >
+          <Routes location={location}>
+            {/* Redirect root to French */}
+            <Route path="/" element={<Navigate to="/fr" replace />} />
+            
+            {/* French Routes */}
+            <Route path="/fr" element={<HomePage lang="fr" />} />
+            <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
+            <Route path="/fr/produit/:id" element={<ProductPage lang="fr" />} />
+            <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
+            <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
+            <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
+            <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
+            
+            {/* English Routes */}
+            <Route path="/en" element={<HomePage lang="en" />} />
+            <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
+            <Route path="/en/produit/:id" element={<ProductPage lang="en" />} />
+            <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
+            <Route path="/en/equipe" element={<TeamPage lang="en" />} />
+            <Route path="/en/actualites" element={<NewsPage lang="en" />} />
+            <Route path="/en/contact" element={<ContactPage lang="en" />} />
+            
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -79,13 +92,15 @@ const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <SmoothScrollProvider>
-          <BrowserRouter>
-            <AnimatedRoutes />
-          </BrowserRouter>
-        </SmoothScrollProvider>
+        <SampleCartProvider>
+          <Toaster />
+          <Sonner />
+          <SmoothScrollProvider>
+            <BrowserRouter>
+              <AnimatedRoutes />
+            </BrowserRouter>
+          </SmoothScrollProvider>
+        </SampleCartProvider>
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
