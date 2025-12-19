@@ -7,48 +7,39 @@ import { motion } from 'framer-motion';
 import { Product } from '@/hooks/useProducts';
 import { CopyField } from '@/components/ui/CopyButton';
 
-// Subtle color config based on gamme - very soft differentiation
-const getGammeConfig = (gamme: string | null) => {
-  const g = gamme?.toUpperCase() || '';
+// Category color config based on typologie_de_produit (COSMETIQUE/PARFUM/AROME)
+// Using the same colors as the homepage category cards
+const getCategoryConfig = (typologie: string | null) => {
+  const t = typologie?.toUpperCase() || '';
   
-  // Cosmétique / Actifs - Forest green tones
-  if (g.includes('ACTIF') || g.includes('COSMÉT') || g.includes('COSMET')) {
+  // COSMETIQUE - Forest green (like homepage)
+  if (t.includes('COSMET') || t.includes('COSMÉT')) {
     return { 
-      bar: 'bg-forest-600', 
-      avatarBg: 'bg-forest-50', 
-      avatarText: 'text-forest-700',
-      badge: 'bg-forest-600 text-white',
+      bar: 'bg-cosmetique', 
+      avatarBg: 'bg-cosmetique/10', 
+      avatarText: 'text-cosmetique',
+      badge: 'bg-cosmetique text-white',
       image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=200&fit=crop'
     };
   }
-  // Parfumerie - Gold/amber tones
-  if (g.includes('PARFUM') || g.includes('FRAGRANCE') || g.includes('ESSENCE')) {
+  // PARFUM - Amber/Orange (like homepage)
+  if (t.includes('PARFUM') || t.includes('FRAGRANCE')) {
     return { 
-      bar: 'bg-amber-500', 
-      avatarBg: 'bg-amber-50', 
-      avatarText: 'text-amber-700',
-      badge: 'bg-amber-500 text-white',
+      bar: 'bg-parfum', 
+      avatarBg: 'bg-parfum/10', 
+      avatarText: 'text-parfum',
+      badge: 'bg-parfum text-white',
       image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=200&fit=crop'
     };
   }
-  // Arômes / Food - Berry/rose tones
-  if (g.includes('AROME') || g.includes('ARÔME') || g.includes('FOOD') || g.includes('ALIMENT')) {
+  // AROME - Rose/Berry (like homepage)
+  if (t.includes('AROME') || t.includes('ARÔME') || t.includes('FOOD')) {
     return { 
-      bar: 'bg-rose-500', 
-      avatarBg: 'bg-rose-50', 
-      avatarText: 'text-rose-700',
-      badge: 'bg-rose-500 text-white',
+      bar: 'bg-arome', 
+      avatarBg: 'bg-arome/10', 
+      avatarText: 'text-arome',
+      badge: 'bg-arome text-white',
       image: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=200&fit=crop'
-    };
-  }
-  // Naturel / Végétal - Soft green
-  if (g.includes('NATUREL') || g.includes('VÉGÉTAL') || g.includes('VEGETAL') || g.includes('BIO')) {
-    return { 
-      bar: 'bg-emerald-500', 
-      avatarBg: 'bg-emerald-50', 
-      avatarText: 'text-emerald-700',
-      badge: 'bg-emerald-500 text-white',
-      image: 'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=400&h=200&fit=crop'
     };
   }
   // Default - Primary/neutral
@@ -68,7 +59,8 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, lang, index = 0 }: ProductCardProps) => {
-  const config = getGammeConfig(product.gamme);
+  // Use typologie_de_produit for category color differentiation
+  const config = getCategoryConfig(product.typologie_de_produit);
   
   // Get initials for avatar
   const initials = product.nom_commercial 
