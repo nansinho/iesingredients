@@ -44,8 +44,9 @@ export const HeaderSearch = ({ lang, isScrolled }: HeaderSearchProps) => {
         if (!error && data) {
           setSuggestions(data);
         }
-      } catch (e) {
-        console.error('Search error:', e);
+      } catch {
+        // Silently ignore search errors (network / aborted requests) to keep console clean.
+        setSuggestions([]);
       } finally {
         setIsLoading(false);
       }
