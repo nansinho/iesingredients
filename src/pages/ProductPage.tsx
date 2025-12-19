@@ -1,32 +1,17 @@
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
-import { useProduct, useSimilarProducts } from '@/hooks/useProducts';
+import { useProduct, useSimilarProducts, Product } from '@/hooks/useProducts';
 import { Language, useTranslation } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, ChevronRight, MapPin, Droplet, Award, Beaker, Sparkles, Leaf, FlaskConical, FileText, Calendar, CheckCircle, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, ChevronRight, MapPin, Droplet, Award, Beaker, Sparkles, Leaf, FileText, Calendar, CheckCircle, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { useSampleCart } from '@/contexts/SampleCartContext';
 import { toast } from 'sonner';
-import { 
-  TranslatedProduct,
-  getProductName,
-  getProductDescription,
-  getProductBenefits,
-  getProductApplications,
-  getProductSkinTypes,
-  getProductAspect,
-  getProductSolubility,
-  getProductCertifications,
-  getProductValorisations,
-  getProductTraceability,
-  getProductPreservatives,
-  getProductHarvestCalendar 
-} from '@/lib/translations';
 
 interface ProductPageProps {
   lang: Language;
@@ -45,11 +30,13 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
   const t = useTranslation(lang);
   const { addItem } = useSampleCart();
   
-  const { data: product, isLoading, error } = useProduct(id || '');
+  // Fetch product from the correct table based on language
+  const { data: product, isLoading, error } = useProduct(id || '', lang);
+  const { data: similarProducts } = useSimilarProducts(product || null, lang);
 
   const handleAddToCart = () => {
     if (product) {
-      addItem(product);
+      addItem(product as any);
       toast.success(
         lang === 'fr' 
           ? `${product.nom_commercial} ajouté au panier` 
@@ -57,7 +44,6 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
       );
     }
   };
-  const { data: similarProducts } = useSimilarProducts(product || null);
 
   if (isLoading) {
     return (
@@ -93,25 +79,15 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
 
   const config = getGammeConfig(product.gamme);
 
-  // Get translated content
-  const productName = getProductName(product, lang);
-  const productDescription = getProductDescription(product, lang);
-  const benefits = getProductBenefits(product, lang);
-  const certifs = getProductCertifications(product, lang);
-  const apps = getProductApplications(product, lang);
-  const skins = getProductSkinTypes(product, lang);
-  const aspect = getProductAspect(product, lang);
-  const solubility = getProductSolubility(product, lang);
-  const preservatives = getProductPreservatives(product, lang);
-  const traceability = getProductTraceability(product, lang);
-  const valorisations = getProductValorisations(product, lang);
-  const harvestCalendar = getProductHarvestCalendar(product, lang);
+  // Now data comes from the correct table based on language, no need for translation helpers
+  const productName = product.nom_commercial || '';
+  const productDescription = product.description || '';
 
   // Parse arrays
-  const benefitsArray = benefits ? benefits.split(/[\/,]/).map(b => b.trim()).filter(Boolean) : [];
-  const certifications = certifs ? certifs.split(/[-\/,]/).map(c => c.trim()).filter(Boolean) : [];
-  const applications = apps ? apps.split(/[\/,]/).map(a => a.trim()).filter(Boolean) : [];
-  const skinTypes = skins ? skins.split(/[\/,]/).map(s => s.trim()).filter(Boolean) : [];
+  const benefitsArray = product.benefices ? product.benefices.split(/[\/,]/).map(b => b.trim()).filter(Boolean) : [];
+  const certifications = product.certifications ? product.certifications.split(/[-\/,]/).map(c => c.trim()).filter(Boolean) : [];
+  const applications = product.application ? product.application.split(/[\/,]/).map(a => a.trim()).filter(Boolean) : [];
+  const skinTypes = product.type_de_peau ? product.type_de_peau.split(/[\/,]/).map(s => s.trim()).filter(Boolean) : [];
 
   // Initials for avatar
   const initials = productName 
@@ -163,9 +139,9 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                       {product.gamme}
                     </Badge>
                   )}
-                  {aspect && (
+                  {product.aspect && (
                     <Badge variant="secondary" className="text-xs font-medium px-3 py-1">
-                      {aspect}
+                      {product.aspect}
                     </Badge>
                   )}
                 </div>
@@ -200,9 +176,9 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                       <MapPin className="w-4 h-4 text-accent" />{product.origine}
                     </span>
                   )}
-                  {solubility && (
+                  {product.solubilite && (
                     <span className="flex items-center gap-2 text-sm bg-secondary/60 px-4 py-2 rounded-full">
-                      <Droplet className="w-4 h-4 text-accent" />{solubility}
+                      <Droplet className="w-4 h-4 text-accent" />{product.solubilite}
                     </span>
                   )}
                   {product.typologie_de_produit && (
@@ -272,12 +248,12 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               { icon: Beaker, label: t.product.inci, value: product.inci },
               { icon: FileText, label: t.product.cas, value: product.cas_no },
               { icon: MapPin, label: t.product.origin, value: product.origine },
-              { icon: Droplet, label: t.product.solubility, value: solubility },
-              { icon: Leaf, label: t.product.aspect, value: aspect },
-              { icon: CheckCircle, label: lang === 'fr' ? 'Conservateurs' : 'Preservatives', value: preservatives },
-              { icon: FileText, label: lang === 'fr' ? 'Traçabilité' : 'Traceability', value: traceability },
-              { icon: Award, label: lang === 'fr' ? 'Valorisations' : 'Valorizations', value: valorisations },
-              { icon: Calendar, label: lang === 'fr' ? 'Récolte' : 'Harvest', value: harvestCalendar },
+              { icon: Droplet, label: t.product.solubility, value: product.solubilite },
+              { icon: Leaf, label: t.product.aspect, value: product.aspect },
+              { icon: CheckCircle, label: lang === 'fr' ? 'Conservateurs' : 'Preservatives', value: product.conservateurs },
+              { icon: FileText, label: lang === 'fr' ? 'Traçabilité' : 'Traceability', value: product.tracabilite },
+              { icon: Award, label: lang === 'fr' ? 'Valorisations' : 'Valorizations', value: product.valorisations },
+              { icon: Calendar, label: lang === 'fr' ? 'Récolte' : 'Harvest', value: product.calendrier_des_recoltes },
             ].filter(item => item.value).map((item, i) => (
               <div key={i} className="bg-card border border-border rounded-xl p-4 flex items-start gap-3">
                 <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">

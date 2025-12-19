@@ -1,8 +1,34 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Tables } from '@/integrations/supabase/types';
+import { Language } from '@/lib/i18n';
 
-export type Product = Tables<'cosmetique_fr'>;
+// Generic product type that works for both tables
+export interface Product {
+  id: number;
+  code: string | null;
+  nom_commercial: string | null;
+  typologie_de_produit: string | null;
+  gamme: string | null;
+  origine: string | null;
+  tracabilite: string | null;
+  cas_no: string | null;
+  inci: string | null;
+  flavouring_preparation: string | null;
+  benefices_aqueux: string | null;
+  benefices_huileux: string | null;
+  benefices: string | null;
+  solubilite: string | null;
+  partie_utilisee: string | null;
+  description: string | null;
+  aspect: string | null;
+  conservateurs: string | null;
+  application: string | null;
+  type_de_peau: string | null;
+  calendrier_des_recoltes: string | null;
+  certifications: string | null;
+  valorisations: string | null;
+  statut: string | null;
+}
 
 export interface ProductFilters {
   search?: string;
@@ -25,13 +51,20 @@ export interface FilterOptions {
   typesDePeau: string[];
 }
 
-// Fetch all active products
-export const useProducts = (filters?: ProductFilters) => {
+// Helper to get the correct table name based on language
+const getTableName = (lang: Language): 'cosmetique_fr' | 'cosmetique_en' => {
+  return lang === 'en' ? 'cosmetique_en' : 'cosmetique_fr';
+};
+
+// Fetch all active products based on language
+export const useProducts = (filters?: ProductFilters, lang: Language = 'fr') => {
   return useQuery({
-    queryKey: ['products', filters],
+    queryKey: ['products', filters, lang],
     queryFn: async () => {
+      const tableName = getTableName(lang);
+      
       let query = supabase
-        .from('cosmetique_fr')
+        .from(tableName)
         .select('*')
         .eq('statut', 'ACTIF')
         .order('nom_commercial', { ascending: true });
@@ -40,7 +73,7 @@ export const useProducts = (filters?: ProductFilters) => {
       
       if (error) throw error;
       
-      let products = data || [];
+      let products = (data || []) as Product[];
 
       // Apply client-side filters
       if (filters?.search) {
@@ -88,26 +121,44 @@ export const useProducts = (filters?: ProductFilters) => {
   });
 };
 
-// Fetch a single product by code
-export const useProduct = (code: string) => {
+// Fetch a single product by code based on language
+// Falls back to French if English translation doesn't exist
+export const useProduct = (code: string, lang: Language = 'fr') => {
   return useQuery({
-    queryKey: ['product', code],
+    queryKey: ['product', code, lang],
     queryFn: async () => {
+      const tableName = getTableName(lang);
+      
+      // Try to get from the language-specific table first
       const { data, error } = await supabase
-        .from('cosmetique_fr')
+        .from(tableName)
         .select('*')
         .eq('code', code)
         .eq('statut', 'ACTIF')
-        .single();
+        .maybeSingle();
       
       if (error) throw error;
-      return data;
+      
+      // If English and no translation exists, fallback to French
+      if (!data && lang === 'en') {
+        const { data: frenchData, error: frenchError } = await supabase
+          .from('cosmetique_fr')
+          .select('*')
+          .eq('code', code)
+          .eq('statut', 'ACTIF')
+          .maybeSingle();
+        
+        if (frenchError) throw frenchError;
+        return frenchData as Product | null;
+      }
+      
+      return data as Product | null;
     },
     enabled: !!code,
   });
 };
 
-// Fetch filter options from products
+// Fetch filter options (always from French table as it's the source of truth)
 export const useFilterOptions = () => {
   return useQuery({
     queryKey: ['filter-options'],
@@ -176,14 +227,16 @@ export const useFilterOptions = () => {
 };
 
 // Similar products based on gamme or benefices
-export const useSimilarProducts = (currentProduct: Product | null, limit = 4) => {
+export const useSimilarProducts = (currentProduct: Product | null, lang: Language = 'fr', limit = 4) => {
   return useQuery({
-    queryKey: ['similar-products', currentProduct?.code],
+    queryKey: ['similar-products', currentProduct?.code, lang],
     queryFn: async () => {
       if (!currentProduct) return [];
 
+      const tableName = getTableName(lang);
+
       const { data, error } = await supabase
-        .from('cosmetique_fr')
+        .from(tableName)
         .select('*')
         .eq('statut', 'ACTIF')
         .neq('code', currentProduct.code)
@@ -192,7 +245,7 @@ export const useSimilarProducts = (currentProduct: Product | null, limit = 4) =>
       if (error) throw error;
 
       // Score products by similarity
-      const scored = (data || []).map(p => {
+      const scored = ((data || []) as Product[]).map(p => {
         let score = 0;
         if (p.gamme === currentProduct.gamme) score += 3;
         if (p.origine === currentProduct.origine) score += 2;

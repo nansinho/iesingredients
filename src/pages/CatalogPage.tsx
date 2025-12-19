@@ -58,7 +58,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
     application: filters.application,
   };
 
-  const { data: products, isLoading } = useProducts(productFilters);
+  const { data: products, isLoading } = useProducts(productFilters, lang);
   const { data: filterOptions } = useFilterOptions();
 
   const displayedProducts = (products || []).slice(0, displayCount);
