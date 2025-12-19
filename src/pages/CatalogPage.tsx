@@ -158,21 +158,21 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       </Helmet>
 
       {/* Hero Section with dark background for header visibility */}
-      <section className="relative bg-forest-950 pt-24 pb-16 overflow-hidden">
+      <section className="relative bg-forest-950 pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-gold-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-32 sm:w-64 h-32 sm:h-64 bg-primary rounded-full blur-3xl" />
         </div>
         
-        <div className="container-luxe relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center">
-              <Leaf className="w-7 h-7 text-forest-950" />
+        <div className="container-luxe relative z-10 px-4 sm:px-6">
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gold-500 flex items-center justify-center">
+              <Leaf className="w-6 h-6 sm:w-7 sm:h-7 text-forest-950" />
             </div>
             <div>
-              <h1 className="font-serif text-4xl md:text-5xl text-white">{t.nav.catalog}</h1>
-              <p className="text-white/60 text-lg mt-1">
+              <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-white">{t.nav.catalog}</h1>
+              <p className="text-white/60 text-sm sm:text-lg mt-0.5 sm:mt-1">
                 {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'produits disponibles' : 'products available'}`}
               </p>
             </div>
@@ -181,23 +181,23 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       </section>
 
       {/* Main Content */}
-      <section className="bg-background py-10 min-h-screen">
-        <div className="container-luxe">
+      <section className="bg-background py-6 sm:py-10 min-h-screen">
+        <div className="container-luxe px-4 sm:px-6">
           {/* Search & Controls Bar */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8 -mt-8 relative z-10">
+          <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 -mt-6 sm:-mt-8 relative z-10">
             {/* Search */}
             <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
               <Input
                 placeholder={t.hero.search}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="pl-12 h-14 bg-card border-border focus:border-primary shadow-lg"
+                className="pl-10 sm:pl-12 h-12 sm:h-14 bg-card border-border focus:border-primary shadow-lg text-sm sm:text-base"
               />
               {searchValue && (
                 <button 
                   onClick={() => setSearchValue('')} 
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -205,19 +205,19 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               {/* Mobile Filter */}
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="lg:hidden gap-2 h-14 shadow-lg">
+                  <Button variant="outline" className="lg:hidden gap-1.5 sm:gap-2 h-10 sm:h-14 shadow-lg flex-1 sm:flex-none text-sm">
                     <SlidersHorizontal className="w-4 h-4" />
-                    {t.filters.title}
+                    <span className="hidden xs:inline">{t.filters.title}</span>
                     {activeFiltersCount > 0 && (
-                      <Badge className="ml-1 bg-primary text-primary-foreground">{activeFiltersCount}</Badge>
+                      <Badge className="ml-1 bg-primary text-primary-foreground text-xs">{activeFiltersCount}</Badge>
                     )}
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-80 overflow-y-auto">
+                <SheetContent side="left" className="w-[85vw] sm:w-80 overflow-y-auto">
                   <SheetHeader>
                     <SheetTitle className="flex items-center justify-between">
                       {t.filters.title}
@@ -235,22 +235,22 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               </Sheet>
 
               {/* View Toggle */}
-              <div className="hidden md:flex border border-border rounded-lg p-1 bg-card shadow-lg">
+              <div className="flex border border-border rounded-lg p-1 bg-card shadow-lg">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('grid')}
-                  className="h-12 w-12"
+                  className="h-8 w-8 sm:h-12 sm:w-12"
                 >
-                  <Grid3X3 className="h-4 w-4" />
+                  <Grid3X3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </Button>
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('list')}
-                  className="h-12 w-12"
+                  className="h-8 w-8 sm:h-12 sm:w-12"
                 >
-                  <LayoutList className="h-4 w-4" />
+                  <LayoutList className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </Button>
               </div>
 
@@ -265,16 +265,16 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
           {/* Active Filters Tags */}
           {activeFiltersCount > 0 && (
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
               {Object.entries(filters).map(([key, values]) =>
                 (values as string[]).map(value => (
                   <Badge
                     key={`${key}-${value}`}
                     variant="secondary"
-                    className="gap-1.5 pr-1.5 cursor-pointer hover:bg-secondary/80"
+                    className="gap-1 sm:gap-1.5 pr-1 sm:pr-1.5 cursor-pointer hover:bg-secondary/80 text-xs"
                     onClick={() => toggleFilter(key as keyof FilterState, value)}
                   >
-                    {value}
+                    <span className="truncate max-w-[100px] sm:max-w-none">{value}</span>
                     <X className="h-3 w-3" />
                   </Badge>
                 ))
@@ -282,12 +282,12 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             </div>
           )}
 
-          <div className="flex gap-8">
+          <div className="flex gap-4 sm:gap-8">
             {/* Desktop Sidebar */}
-            <aside className="hidden lg:block w-72 shrink-0">
-              <div className="sticky top-28 bg-card rounded-2xl border border-border p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-medium text-foreground">{t.filters.title}</h3>
+            <aside className="hidden lg:block w-64 xl:w-72 shrink-0">
+              <div className="sticky top-28 bg-card rounded-2xl border border-border p-4 xl:p-6">
+                <div className="flex items-center justify-between mb-4 xl:mb-6">
+                  <h3 className="font-medium text-foreground text-sm xl:text-base">{t.filters.title}</h3>
                   {activeFiltersCount > 0 && (
                     <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs text-muted-foreground h-auto p-0 hover:text-primary">
                       {t.filters.reset}
@@ -299,22 +299,22 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             </aside>
 
             {/* Products Grid */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               {isLoading ? (
                 <div className={cn(
-                  'grid gap-6',
+                  'grid gap-3 sm:gap-6',
                   viewMode === 'grid' 
-                    ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3' 
+                    ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                     : 'grid-cols-1'
                 )}>
                   {[...Array(9)].map((_, i) => (
-                    <div key={i} className="rounded-3xl overflow-hidden border border-border/50">
+                    <div key={i} className="rounded-2xl sm:rounded-3xl overflow-hidden border border-border/50">
                       <Skeleton className="aspect-[4/3] w-full" />
-                      <div className="p-5 space-y-3">
-                        <Skeleton className="h-6 w-3/4" />
-                        <Skeleton className="h-4 w-1/2" />
-                        <Skeleton className="h-4 w-full" />
-                        <Skeleton className="h-8 w-full" />
+                      <div className="p-3 sm:p-5 space-y-2 sm:space-y-3">
+                        <Skeleton className="h-5 sm:h-6 w-3/4" />
+                        <Skeleton className="h-3 sm:h-4 w-1/2" />
+                        <Skeleton className="h-3 sm:h-4 w-full" />
+                        <Skeleton className="h-6 sm:h-8 w-full" />
                       </div>
                     </div>
                   ))}
@@ -322,9 +322,9 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               ) : displayedProducts.length > 0 ? (
                 <>
                   <div className={cn(
-                    'grid gap-6',
+                    'grid gap-3 sm:gap-6',
                     viewMode === 'grid' 
-                      ? 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3' 
+                      ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                       : 'grid-cols-1'
                   )}>
                     {displayedProducts.map((product, index) => (
@@ -333,12 +333,12 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   </div>
                   
                   {displayCount < (products?.length || 0) && (
-                    <div className="mt-12 text-center">
+                    <div className="mt-8 sm:mt-12 text-center">
                       <Button 
                         variant="outline" 
                         size="lg" 
                         onClick={() => setDisplayCount(prev => prev + 12)}
-                        className="min-w-[200px]"
+                        className="min-w-[160px] sm:min-w-[200px] text-sm sm:text-base"
                       >
                         {t.catalog.loadMore}
                       </Button>
@@ -346,17 +346,17 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   )}
                 </>
               ) : (
-                <div className="text-center py-20">
-                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
-                    <Search className="h-8 w-8 text-muted-foreground" />
+                <div className="text-center py-12 sm:py-20">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <Search className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground" />
                   </div>
-                  <h3 className="font-serif text-2xl text-foreground mb-2">
+                  <h3 className="font-serif text-xl sm:text-2xl text-foreground mb-2">
                     {lang === 'fr' ? 'Aucun produit trouvé' : 'No products found'}
                   </h3>
-                  <p className="text-muted-foreground mb-6">
+                  <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6">
                     {lang === 'fr' ? 'Essayez de modifier vos critères' : 'Try adjusting your criteria'}
                   </p>
-                  <Button variant="outline" onClick={clearFilters}>
+                  <Button variant="outline" onClick={clearFilters} className="text-sm sm:text-base">
                     {t.filters.reset}
                   </Button>
                 </div>

@@ -164,12 +164,29 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               <div className={cn("h-3", config.bg)} />
               
               {/* Avatar & Basic Info */}
-              <div className="p-8 text-center">
+              <div className="p-4 sm:p-6 md:p-8 text-center">
                 <div className={cn(
-                  "w-24 h-24 rounded-2xl flex items-center justify-center mx-auto mb-6 font-serif text-3xl font-bold",
+                  "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 font-serif text-2xl sm:text-3xl font-bold",
                   config.light, config.text
                 )}>
                   {initials}
+                </div>
+                
+                {/* PROMINENT CODE - Much more visible */}
+                <div className={cn("rounded-xl p-3 sm:p-4 mb-4", config.light)}>
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Code Produit</p>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className={cn("font-mono text-xl sm:text-2xl font-bold", config.text)}>
+                      {product.code}
+                    </span>
+                    <CopyField 
+                      label="" 
+                      value={product.code || ''} 
+                      mono 
+                      className="text-muted-foreground"
+                      successMessage={lang === 'fr' ? 'Code copié !' : 'Code copied!'}
+                    />
+                  </div>
                 </div>
                 
                 <div className="flex flex-wrap gap-2 justify-center mb-4">
@@ -185,17 +202,6 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                   )}
                 </div>
                 
-                {/* Copyable Code */}
-                <div className="flex justify-center mb-2">
-                  <CopyField 
-                    label="Code" 
-                    value={product.code || ''} 
-                    mono 
-                    className="text-sm text-muted-foreground font-mono"
-                    successMessage={lang === 'fr' ? 'Code copié !' : 'Code copied!'}
-                  />
-                </div>
-                
                 {/* Copyable INCI */}
                 {product.inci && (
                   <div className="bg-secondary/50 rounded-xl p-3 mt-4">
@@ -204,7 +210,7 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                       label="INCI" 
                       value={product.inci} 
                       mono 
-                      className="text-xs text-foreground font-mono"
+                      className="text-xs text-foreground font-mono break-all"
                       successMessage={lang === 'fr' ? 'INCI copié !' : 'INCI copied!'}
                     />
                   </div>
@@ -212,8 +218,8 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                 
                 {/* Copyable CAS */}
                 {product.cas_no && (
-                  <div className="mt-3 text-sm flex justify-center">
-                    <span className="text-muted-foreground mr-1">{t.product.cas}: </span>
+                  <div className="mt-3 text-sm flex flex-wrap justify-center gap-1">
+                    <span className="text-muted-foreground">{t.product.cas}: </span>
                     <CopyField 
                       label="CAS" 
                       value={product.cas_no} 
@@ -227,25 +233,28 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
             </div>
 
             {/* Right: Details */}
-            <div className="lg:col-span-2 space-y-6 pt-8 lg:pt-0">
-              <div className="bg-card rounded-3xl border border-border p-8">
-                <h1 className="font-serif text-3xl md:text-4xl text-foreground mb-4">{productName}</h1>
+            <div className="lg:col-span-2 space-y-6 pt-4 lg:pt-0">
+              <div className="bg-card rounded-3xl border border-border p-4 sm:p-6 md:p-8">
+                <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-foreground mb-4">{productName}</h1>
                 
                 {/* Quick Info Pills */}
-                <div className="flex flex-wrap gap-3 mb-6">
+                <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
                   {product.origine && (
-                    <span className="flex items-center gap-2 text-sm bg-secondary/60 px-4 py-2 rounded-full">
-                      <MapPin className="w-4 h-4 text-accent" />{product.origine}
+                    <span className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm bg-secondary/60 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent shrink-0" />
+                      <span className="truncate max-w-[120px] sm:max-w-none">{product.origine}</span>
                     </span>
                   )}
                   {product.solubilite && (
-                    <span className="flex items-center gap-2 text-sm bg-secondary/60 px-4 py-2 rounded-full">
-                      <Droplet className="w-4 h-4 text-accent" />{product.solubilite}
+                    <span className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm bg-secondary/60 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                      <Droplet className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent shrink-0" />
+                      <span className="truncate max-w-[120px] sm:max-w-none">{product.solubilite}</span>
                     </span>
                   )}
                   {product.typologie_de_produit && (
-                    <span className="flex items-center gap-2 text-sm bg-secondary/60 px-4 py-2 rounded-full">
-                      <Leaf className="w-4 h-4 text-accent" />{product.typologie_de_produit}
+                    <span className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm bg-secondary/60 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
+                      <Leaf className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent shrink-0" />
+                      <span className="truncate max-w-[120px] sm:max-w-none">{product.typologie_de_produit}</span>
                     </span>
                   )}
                 </div>
@@ -304,7 +313,7 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-12"
           >
             {[
               { icon: Beaker, label: t.product.inci, value: product.inci, copyable: true },
@@ -317,22 +326,22 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               { icon: Award, label: lang === 'fr' ? 'Valorisations' : 'Valorizations', value: product.valorisations },
               { icon: Calendar, label: lang === 'fr' ? 'Récolte' : 'Harvest', value: product.calendrier_des_recoltes },
             ].filter(item => item.value).map((item, i) => (
-              <div key={i} className="bg-card border border-border rounded-xl p-4 flex items-start gap-3">
-                <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                  <item.icon className="w-5 h-5 text-muted-foreground" />
+              <div key={i} className="bg-card border border-border rounded-xl p-3 sm:p-4 flex items-start gap-3 overflow-hidden">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+                  <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{item.label}</p>
+                <div className="min-w-0 flex-1 overflow-hidden">
+                  <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider mb-1">{item.label}</p>
                   {item.copyable ? (
                     <CopyField 
                       label={item.label} 
                       value={item.value || ''} 
                       mono 
-                      className="text-sm font-medium text-foreground"
+                      className="text-xs sm:text-sm font-medium text-foreground break-all"
                       successMessage={lang === 'fr' ? `${item.label} copié !` : `${item.label} copied!`}
                     />
                   ) : (
-                    <p className="text-sm font-medium text-foreground truncate">{item.value}</p>
+                    <p className="text-xs sm:text-sm font-medium text-foreground break-words">{item.value}</p>
                   )}
                 </div>
               </div>
@@ -345,24 +354,24 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-12"
             >
               {applications.length > 0 && (
-                <div className="bg-card border border-border rounded-2xl p-6">
-                  <h3 className="font-serif text-lg font-semibold mb-4">{lang === 'fr' ? 'Applications' : 'Applications'}</h3>
+                <div className="bg-card border border-border rounded-2xl p-4 sm:p-6">
+                  <h3 className="font-serif text-base sm:text-lg font-semibold mb-3 sm:mb-4">{lang === 'fr' ? 'Applications' : 'Applications'}</h3>
                   <div className="flex flex-wrap gap-2">
                     {applications.map((app, i) => (
-                      <Badge key={i} variant="secondary" className="px-3 py-1.5 rounded-lg">{app}</Badge>
+                      <Badge key={i} variant="secondary" className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm">{app}</Badge>
                     ))}
                   </div>
                 </div>
               )}
               {skinTypes.length > 0 && (
-                <div className="bg-card border border-border rounded-2xl p-6">
-                  <h3 className="font-serif text-lg font-semibold mb-4">{lang === 'fr' ? 'Types de peau' : 'Skin Types'}</h3>
+                <div className="bg-card border border-border rounded-2xl p-4 sm:p-6">
+                  <h3 className="font-serif text-base sm:text-lg font-semibold mb-3 sm:mb-4">{lang === 'fr' ? 'Types de peau' : 'Skin Types'}</h3>
                   <div className="flex flex-wrap gap-2">
                     {skinTypes.map((type, i) => (
-                      <Badge key={i} variant="secondary" className="px-3 py-1.5 rounded-lg">{type}</Badge>
+                      <Badge key={i} variant="secondary" className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm">{type}</Badge>
                     ))}
                   </div>
                 </div>
@@ -377,8 +386,8 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h2 className="font-serif text-2xl mb-6">{t.product.similar}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <h2 className="font-serif text-xl sm:text-2xl mb-4 sm:mb-6">{t.product.similar}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {similarProducts.map((p, i) => (
                   <ProductCard key={p.id} product={p} lang={lang} index={i} />
                 ))}
