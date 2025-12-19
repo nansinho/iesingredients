@@ -2,3 +2,6 @@ project_id = "urgmkyhvwpxxzldnebvm"
 
 [functions.sync-products]
 verify_jwt = false
+
+[functions.translate-products]
+verify_jwt = false
