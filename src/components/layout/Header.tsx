@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Language, useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 import { HeaderSearch } from './HeaderSearch';
+import { CartButton } from '@/components/cart/CartButton';
 
 interface HeaderProps {
   lang: Language;
@@ -126,6 +127,16 @@ export const Header = ({ lang }: HeaderProps) => {
           <div className="flex items-center gap-2">
             {/* Search */}
             <HeaderSearch lang={lang} isScrolled={isScrolled} />
+
+            {/* Cart Button */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <CartButton className={cn(
+                "rounded-full w-11 h-11 transition-colors",
+                isScrolled 
+                  ? "text-foreground hover:bg-muted" 
+                  : "text-white hover:bg-white/10"
+              )} />
+            </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
