@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { useProducts } from '@/hooks/useProducts';
 import { Language, useTranslation } from '@/lib/i18n';
-import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, Award, Users, Globe, Star, ArrowUpRight, Check, Play, Phone, Zap } from 'lucide-react';
-import { motion, useScroll, useTransform, useInView, useSpring, useMotionValue } from 'framer-motion';
+import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, Award, Users, Globe, ArrowUpRight, Phone, Zap } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 import leavesHero from '@/assets/leaves-hero.jpg';
 import essentialOil from '@/assets/essential-oil.jpg';
 import creamJar from '@/assets/cream-jar.jpg';
@@ -57,79 +57,33 @@ const FadeIn = ({
   );
 };
 
-// 3D Card with hover
-const Card3D = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => {
-  return (
-    <motion.div
-      className={`relative ${className}`}
-      whileHover={{ 
-        scale: 1.02,
-        rotateY: 5,
-        rotateX: -5,
-        z: 50
-      }}
-      transition={{ duration: 0.3 }}
-      style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
-    >
-      {children}
-    </motion.div>
-  );
-};
 
-// Floating element
-const FloatingElement = ({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) => (
+// 3D Card with hover
+const Card3D = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
   <motion.div
-    className={className}
-    animate={{ 
-      y: [0, -15, 0],
-      rotate: [0, 2, 0]
-    }}
-    transition={{ 
-      duration: 5, 
-      repeat: Infinity, 
-      ease: "easeInOut",
-      delay 
-    }}
+    className={`relative ${className}`}
+    whileHover={{ scale: 1.02 }}
+    transition={{ duration: 0.3 }}
   >
     {children}
   </motion.div>
 );
 
-// Counter animation
-const AnimatedCounter = ({ value, suffix = '' }: { value: string; suffix?: string }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  
-  return (
-    <motion.span
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.5, type: "spring" }}
-      className="inline-block"
-    >
-      {value}{suffix}
-    </motion.span>
-  );
-};
+// Floating element
+const FloatingElement = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <motion.div
+    className={className}
+    animate={{ y: [0, -10, 0] }}
+    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+  >
+    {children}
+  </motion.div>
+);
 
 export const HomePage = ({ lang }: HomePageProps) => {
   const t = useTranslation(lang);
   const heroRef = useRef(null);
   const { data: products } = useProducts();
-  
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-  
-  // Smooth spring-based parallax
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-  const heroY = useTransform(smoothProgress, [0, 1], [0, 200]);
-  const heroScale = useTransform(smoothProgress, [0, 1], [1, 1.3]);
-  const heroOpacity = useTransform(smoothProgress, [0, 0.7], [1, 0]);
-  const bgY = useTransform(smoothProgress, [0, 1], [0, -100]);
-  const textY = useTransform(smoothProgress, [0, 1], [0, 80]);
 
   // Only 3 featured products from Supabase
   const featuredProducts = (products || []).slice(0, 3);
@@ -148,255 +102,110 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <meta name="description" content={lang === 'fr' ? 'Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires naturels.' : 'Over 5000 natural cosmetic ingredients, perfumes and food flavors.'} />
       </Helmet>
 
-      {/* HERO - Dark & Bold with smooth parallax */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden bg-forest-950">
-        {/* Background Image with smooth parallax */}
-        <motion.div 
-          className="absolute inset-0 will-change-transform"
-          style={{ scale: heroScale, y: bgY }}
-        >
-          <img src={leavesHero} alt="" className="w-full h-full object-cover opacity-50" />
-          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/70 via-forest-950/50 to-forest-950" />
-        </motion.div>
-
-        {/* Animated background particles/orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Main gold orb */}
-          <motion.div 
-            className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full bg-gold-500/10 blur-[120px]"
-            animate={{ 
-              scale: [1, 1.3, 1],
-              x: [0, 50, 0],
-              y: [0, -30, 0],
-              opacity: [0.2, 0.4, 0.2]
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          />
-          {/* Secondary green orb */}
-          <motion.div 
-            className="absolute bottom-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-forest-400/15 blur-[100px]"
-            animate={{ 
-              scale: [1.2, 1, 1.2],
-              x: [0, -40, 0],
-              y: [0, 40, 0],
-              opacity: [0.15, 0.3, 0.15]
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          />
-          {/* Small floating particles */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 rounded-full bg-gold-400/40"
-              style={{
-                left: `${15 + i * 15}%`,
-                top: `${20 + (i % 3) * 25}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.3, 0.8, 0.3],
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 4 + i,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.5,
-              }}
-            />
-          ))}
-          {/* Gradient sweep */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-500/5 to-transparent"
-            animate={{ x: ['-100%', '100%'] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          />
+      {/* HERO - Clean & Elegant */}
+      <section ref={heroRef} className="relative min-h-[90vh] overflow-hidden bg-forest-950">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img src={leavesHero} alt="" className="w-full h-full object-cover opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/60 via-forest-950/40 to-forest-950" />
         </div>
 
-        {/* Content with parallax */}
-        <motion.div 
-          className="relative z-10 min-h-screen flex items-center pt-20"
-          style={{ opacity: heroOpacity, y: textY }}
-        >
+        {/* Simple ambient glow */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-gold-500/10 blur-[100px]" />
+          <div className="absolute bottom-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-forest-400/10 blur-[80px]" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 min-h-[90vh] flex items-center pt-20">
           <div className="container-luxe">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              {/* Left - Text */}
-              <div>
-                {/* Badge */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gold-500/20 border border-gold-500/30 mb-8"
-                >
-                  <motion.div 
-                    className="w-2 h-2 rounded-full bg-gold-400"
-                    animate={{ scale: [1, 1.5, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                  <span className="text-gold-300 text-sm font-medium">{lang === 'fr' ? 'Excellence depuis 1994' : 'Excellence since 1994'}</span>
-                </motion.div>
-
-                {/* Title */}
-                <motion.h1 
-                  className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-white leading-[0.95] mb-8"
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.1 }}
-                >
-                  {lang === 'fr' ? 'Ingrédients' : 'Natural'}<br />
-                  <span className="text-gold italic">{lang === 'fr' ? 'Naturels' : 'Ingredients'}</span>
-                </motion.h1>
-
-                {/* Description */}
-                <motion.p 
-                  className="text-lg md:text-xl text-white/60 leading-relaxed mb-10 max-w-lg"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                  {lang === 'fr'
-                    ? 'Plus de 5000 références premium pour la cosmétique, la parfumerie et les arômes alimentaires.'
-                    : 'Over 5000 premium references for cosmetics, perfumery and food flavors.'}
-                </motion.p>
-
-                {/* CTAs */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                  className="flex flex-wrap gap-4 mb-12"
-                >
-                  <Link to={`/${lang}/catalogue`}>
-                    <Button size="lg" className="h-14 px-8 rounded-full text-base font-semibold bg-gold-500 text-forest-950 hover:bg-gold-400 shadow-lg shadow-gold-500/25 group">
-                      {lang === 'fr' ? 'Explorer le catalogue' : 'Explore catalog'}
-                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                  <Link to={`/${lang}/entreprise`}>
-                    <Button variant="outline" size="lg" className="h-14 px-8 rounded-full text-base font-semibold border-2 border-white/30 text-white hover:bg-white/10 group">
-                      <Play className="mr-2 w-5 h-5 fill-current" />
-                      {lang === 'fr' ? 'Notre histoire' : 'Our story'}
-                    </Button>
-                  </Link>
-                </motion.div>
-
-                {/* Stats row */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="grid grid-cols-4 gap-4"
-                >
-                  {stats.map((stat, i) => (
-                    <div key={i} className="text-center">
-                      <p className="text-2xl md:text-3xl font-serif font-bold text-white">
-                        <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                      </p>
-                      <p className="text-xs text-white/50">{stat.label}</p>
-                    </div>
-                  ))}
-                </motion.div>
-              </div>
-
-              {/* Right - Bento Grid */}
+            <div className="max-w-3xl">
+              {/* Badge */}
               <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1, delay: 0.4 }}
-                className="hidden lg:block"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gold-500/20 border border-gold-500/30 mb-8"
               >
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Large card */}
-                  <Card3D className="col-span-2">
-                    <div className="relative h-[280px] rounded-3xl overflow-hidden group">
-                      <img src={serumCollection} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/20 to-transparent" />
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <div className="flex items-center gap-2 mb-2">
-                          {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-gold-400 text-gold-400" />)}
-                          <span className="text-white/60 text-xs ml-2">5.0</span>
-                        </div>
-                        <p className="text-white font-serif text-xl">{lang === 'fr' ? 'Collection Premium' : 'Premium Collection'}</p>
-                      </div>
-                      {/* Floating badge */}
-                      <FloatingElement className="absolute top-4 right-4">
-                        <div className="px-3 py-1.5 rounded-full bg-gold-500 text-forest-950 text-xs font-bold shadow-lg">
-                          {lang === 'fr' ? 'Nouveau' : 'New'}
-                        </div>
-                      </FloatingElement>
-                    </div>
-                  </Card3D>
+                <div className="w-2 h-2 rounded-full bg-gold-400" />
+                <span className="text-gold-300 text-sm font-medium">
+                  {lang === 'fr' ? 'Excellence depuis 1994' : 'Excellence since 1994'}
+                </span>
+              </motion.div>
 
-                  {/* Small cards */}
-                  <Card3D>
-                    <div className="relative h-[200px] rounded-2xl overflow-hidden group">
-                      <img src={essentialOil} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent" />
-                      <div className="absolute bottom-4 left-4">
-                        <p className="text-gold-300 text-xs uppercase tracking-widest mb-1">{lang === 'fr' ? 'Parfumerie' : 'Perfumery'}</p>
-                        <p className="text-white font-medium">1500+</p>
-                      </div>
-                    </div>
-                  </Card3D>
+              {/* Title */}
+              <motion.h1 
+                className="text-5xl sm:text-6xl md:text-7xl font-serif text-white leading-[0.95] mb-6"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+              >
+                {lang === 'fr' ? 'Ingrédients' : 'Natural'}<br />
+                <span className="text-gold italic">{lang === 'fr' ? 'Naturels' : 'Ingredients'}</span>
+              </motion.h1>
 
-                  <Card3D>
-                    <div className="relative h-[200px] rounded-2xl overflow-hidden group">
-                      <img src={blueberriesHerbs} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest-950/80 to-transparent" />
-                      <div className="absolute bottom-4 left-4">
-                        <p className="text-gold-300 text-xs uppercase tracking-widest mb-1">{lang === 'fr' ? 'Arômes' : 'Flavors'}</p>
-                        <p className="text-white font-medium">1500+</p>
-                      </div>
-                    </div>
-                  </Card3D>
+              {/* Description */}
+              <motion.p 
+                className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+              >
+                {lang === 'fr'
+                  ? 'Plus de 5000 références premium pour la cosmétique, la parfumerie et les arômes alimentaires.'
+                  : 'Over 5000 premium references for cosmetics, perfumery and food flavors.'}
+              </motion.p>
 
-                  {/* Feature card */}
-                  <Card3D className="col-span-2">
-                    <div className="h-[120px] rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-6 flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-gold-500/20 flex items-center justify-center">
-                          <Leaf className="w-7 h-7 text-gold-400" />
-                        </div>
-                        <div>
-                          <p className="text-white font-semibold">100% {lang === 'fr' ? 'Naturel' : 'Natural'}</p>
-                          <p className="text-white/50 text-sm">{lang === 'fr' ? 'Certifié Bio, Cosmos, Ecocert' : 'Certified Organic, Cosmos, Ecocert'}</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        {[Check, Check, Check].map((Icon, i) => (
-                          <div key={i} className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                            <Icon className="w-4 h-4 text-green-400" />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </Card3D>
-                </div>
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+                className="flex flex-wrap gap-4 mb-16"
+              >
+                <Link to={`/${lang}/catalogue`}>
+                  <Button size="lg" className="h-14 px-8 rounded-full text-base font-semibold bg-gold-500 text-forest-950 hover:bg-gold-400 shadow-lg shadow-gold-500/25 group">
+                    {lang === 'fr' ? 'Explorer le catalogue' : 'Explore catalog'}
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <Link to={`/${lang}/contact`}>
+                  <Button variant="outline" size="lg" className="h-14 px-8 rounded-full text-base font-semibold border-2 border-white/30 text-white hover:bg-white/10">
+                    {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
+                  </Button>
+                </Link>
+              </motion.div>
+
+              {/* Stats row */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+                className="grid grid-cols-2 sm:grid-cols-4 gap-8"
+              >
+                {stats.map((stat, i) => (
+                  <div key={i}>
+                    <p className="text-3xl md:text-4xl font-serif font-bold text-white mb-1">
+                      {stat.value}<span className="text-gold">{stat.suffix}</span>
+                    </p>
+                    <p className="text-sm text-white/50">{stat.label}</p>
+                  </div>
+                ))}
               </motion.div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Scroll indicator */}
-        <motion.div 
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-        >
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
           <motion.div 
             className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-1.5"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <motion.div 
-              className="w-1 h-2 bg-gold-400 rounded-full"
-              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
+            <div className="w-1 h-2 bg-gold-400 rounded-full" />
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
       {/* PARTNERS - Organic curve transition */}
