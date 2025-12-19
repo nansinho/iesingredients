@@ -10,13 +10,11 @@ interface CartButtonProps {
   className?: string;
 }
 
-export const CartButton = React.forwardRef<HTMLButtonElement, CartButtonProps>(
-  ({ className }, ref) => {
+export const CartButton = ({ className }: CartButtonProps) => {
     const { openCart, totalItems } = useSampleCart();
 
     return (
       <Button
-        ref={ref}
         variant="ghost"
         size="icon"
         className={cn("relative", className)}
@@ -42,6 +40,4 @@ export const CartButton = React.forwardRef<HTMLButtonElement, CartButtonProps>(
         </AnimatePresence>
       </Button>
     );
-  }
-);
-CartButton.displayName = "CartButton";
+};

@@ -13,8 +13,7 @@ interface HeaderProps {
   lang: Language;
 }
 
-export const Header = React.forwardRef<HTMLElement, HeaderProps>(
-  ({ lang }, ref) => {
+export const Header = ({ lang }: HeaderProps) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
@@ -43,7 +42,6 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(
 
     return (
       <header
-        ref={ref}
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           isScrolled ? 'py-3' : 'py-5'
@@ -218,6 +216,4 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(
         </div>
       </header>
     );
-  }
-);
-Header.displayName = "Header";
+};
