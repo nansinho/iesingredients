@@ -20,6 +20,9 @@ const buttonVariants = cva(
         "hero-outline": "border-2 border-accent text-accent bg-transparent hover:bg-accent hover:text-accent-foreground",
         premium: "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg",
         subtle: "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
+        // Dark background variants - visible on dark sections
+        "outline-light": "border-2 border-gold-400 text-gold-400 bg-transparent hover:bg-gold-500 hover:text-forest-950 hover:border-gold-500",
+        "ghost-light": "text-white/80 hover:text-white hover:bg-white/10",
       },
       size: {
         default: "h-10 px-4 py-2",

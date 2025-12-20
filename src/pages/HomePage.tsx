@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { useProducts } from '@/hooks/useProducts';
 import { Language, useTranslation } from '@/lib/i18n';
+import { SEOHead, createFAQSchema } from '@/components/SEOHead';
 import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, Award, Users, Globe, ArrowUpRight, Phone, Zap } from 'lucide-react';
 import essentialOil from '@/assets/essential-oil.jpg';
 import creamJar from '@/assets/cream-jar.jpg';
@@ -31,10 +31,28 @@ export const HomePage = ({ lang }: HomePageProps) => {
 
   return (
     <Layout lang={lang}>
-      <Helmet>
-        <title>IES Ingredients - {lang === 'fr' ? 'Ingrédients Naturels Premium' : 'Premium Natural Ingredients'}</title>
-        <meta name="description" content={lang === 'fr' ? 'Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires naturels.' : 'Over 5000 natural cosmetic ingredients, perfumes and food flavors.'} />
-      </Helmet>
+      {/* FAQ Schema for AEO */}
+      <SEOHead
+        lang={lang}
+        title={`IES Ingredients - ${lang === 'fr' ? 'Ingrédients Naturels Premium' : 'Premium Natural Ingredients'}`}
+        description={lang === 'fr' 
+          ? 'Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires naturels. Actifs botaniques et huiles végétales certifiés.'
+          : 'Over 5000 natural cosmetic ingredients, perfumes and food flavors. Certified botanical actives and vegetable oils.'}
+        structuredData={createFAQSchema([
+          {
+            question: lang === 'fr' ? 'Quels types d\'ingrédients proposez-vous ?' : 'What types of ingredients do you offer?',
+            answer: lang === 'fr' 
+              ? 'Nous proposons plus de 5000 références d\'ingrédients naturels : actifs cosmétiques, huiles essentielles pour la parfumerie, et arômes alimentaires.'
+              : 'We offer over 5000 natural ingredient references: cosmetic actives, essential oils for perfumery, and food flavors.',
+          },
+          {
+            question: lang === 'fr' ? 'Vos ingrédients sont-ils certifiés ?' : 'Are your ingredients certified?',
+            answer: lang === 'fr'
+              ? 'Oui, nous proposons des ingrédients certifiés biologiques, COSMOS, Ecocert et autres certifications reconnues.'
+              : 'Yes, we offer organic, COSMOS, Ecocert and other recognized certified ingredients.',
+          },
+        ])}
+      />
 
       {/* HERO */}
       <section className="relative min-h-[85vh] sm:min-h-[90vh] overflow-hidden bg-forest-950">
@@ -83,7 +101,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   </Button>
                 </Link>
                 <Link to={`/${lang}/contact`}>
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-full text-sm sm:text-base font-semibold border-2 border-white/30 text-white hover:bg-white/10">
+                  <Button variant="outline-light" size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-full text-sm sm:text-base font-semibold">
                     {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
                   </Button>
                 </Link>
@@ -334,7 +352,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 </Button>
               </Link>
               <Link to={`/${lang}/catalogue`}>
-                <Button variant="outline" size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-full border-2 border-white/30 text-white hover:bg-white/10 font-semibold text-sm sm:text-base">
+                <Button variant="outline-light" size="lg" className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 rounded-full font-semibold text-sm sm:text-base">
                   {lang === 'fr' ? 'Explorer le catalogue' : 'Explore catalog'}
                 </Button>
               </Link>
