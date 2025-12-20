@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, X, ArrowRight, Loader2 } from 'lucide-react';
+import { Search, X, ArrowRight, Loader2, Sparkles, Clock, TrendingUp, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Language, useTranslation } from '@/lib/i18n';
 import { supabase } from '@/integrations/supabase/client';
 import { Product } from '@/hooks/useProducts';
+import { Badge } from '@/components/ui/badge';
 
 interface HeaderSearchProps {
   lang: Language;
@@ -14,18 +15,43 @@ interface HeaderSearchProps {
   compact?: boolean;
 }
 
+// Recent searches stored in localStorage
+const RECENT_SEARCHES_KEY = 'ies-recent-searches';
+const MAX_RECENT = 5;
+
+const getRecentSearches = (): string[] => {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY) || '[]');
+  } catch {
+    return [];
+  }
+};
+
+const addRecentSearch = (term: string) => {
+  const recent = getRecentSearches().filter(s => s !== term);
+  recent.unshift(term);
+  localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)));
+};
+
 export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(({ lang, isScrolled, compact = false }, forwardedRef) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<'all' | 'cosmetic' | 'perfume' | 'aroma'>('all');
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const t = useTranslation(lang);
 
-  // Debounced search
+  // Load recent searches
+  useEffect(() => {
+    setRecentSearches(getRecentSearches());
+  }, [isOpen]);
+
+  // Debounced search with category filter
   useEffect(() => {
     if (!query.trim()) {
       setSuggestions([]);
@@ -36,26 +62,39 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
       setIsLoading(true);
       try {
         const searchTerm = query.toLowerCase();
-        const { data, error } = await supabase
+        
+        // Multi-field intelligent search
+        let queryBuilder = supabase
           .from('cosmetique_fr')
           .select('*')
           .eq('statut', 'ACTIF')
-          .or(`nom_commercial.ilike.%${searchTerm}%,code.ilike.%${searchTerm}%,inci.ilike.%${searchTerm}%,gamme.ilike.%${searchTerm}%,benefices.ilike.%${searchTerm}%`)
-          .limit(6);
+          .or(`nom_commercial.ilike.%${searchTerm}%,code.ilike.%${searchTerm}%,inci.ilike.%${searchTerm}%,gamme.ilike.%${searchTerm}%,benefices.ilike.%${searchTerm}%,application.ilike.%${searchTerm}%,origine.ilike.%${searchTerm}%`)
+          .limit(8);
+
+        // Filter by category if selected
+        if (activeTab !== 'all') {
+          const categoryMap: Record<string, string> = {
+            cosmetic: 'COSMETIQUE',
+            perfume: 'PARFUM',
+            aroma: 'AROME'
+          };
+          queryBuilder = queryBuilder.ilike('gamme', `%${categoryMap[activeTab]}%`);
+        }
+
+        const { data, error } = await queryBuilder;
 
         if (!error && data) {
           setSuggestions(data);
         }
       } catch {
-        // Silently ignore search errors (network / aborted requests) to keep console clean.
         setSuggestions([]);
       } finally {
         setIsLoading(false);
       }
-    }, 300);
+    }, 200); // Faster debounce for instant feel
 
     return () => clearTimeout(timer);
-  }, [query]);
+  }, [query, activeTab]);
 
   // Click outside to close
   useEffect(() => {
@@ -66,6 +105,19 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl + K to open search
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openSearch();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   // Keyboard navigation
@@ -89,20 +141,35 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
   }, [suggestions, selectedIndex, query]);
 
   const navigateToProduct = (product: Product) => {
+    addRecentSearch(product.nom_commercial || product.code || '');
     setIsOpen(false);
     setQuery('');
     navigate(`/${lang}/produit/${product.code}`);
   };
 
   const navigateToSearch = () => {
+    if (query.trim()) {
+      addRecentSearch(query.trim());
+    }
     setIsOpen(false);
-    navigate(`/${lang}/catalogue?q=${encodeURIComponent(query)}`);
+    const categoryParam = activeTab !== 'all' ? `&category=${activeTab}` : '';
+    navigate(`/${lang}/catalogue?q=${encodeURIComponent(query)}${categoryParam}`);
     setQuery('');
   };
 
   const openSearch = () => {
     setIsOpen(true);
     setTimeout(() => inputRef.current?.focus(), 100);
+  };
+
+  const handleRecentClick = (term: string) => {
+    setQuery(term);
+    inputRef.current?.focus();
+  };
+
+  const clearRecentSearches = () => {
+    localStorage.removeItem(RECENT_SEARCHES_KEY);
+    setRecentSearches([]);
   };
 
   const setRootRef = (node: HTMLDivElement | null) => {
@@ -114,25 +181,51 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
     }
   };
 
+  const trendingTerms = lang === 'fr' 
+    ? ['Actifs bio', 'Huile de rose', 'Vitamine C', 'Acide hyaluronique']
+    : ['Organic actives', 'Rose oil', 'Vitamin C', 'Hyaluronic acid'];
+
+  const categoryTabs = [
+    { id: 'all' as const, label: lang === 'fr' ? 'Tout' : 'All' },
+    { id: 'cosmetic' as const, label: lang === 'fr' ? 'Cosmétique' : 'Cosmetic' },
+    { id: 'perfume' as const, label: lang === 'fr' ? 'Parfum' : 'Perfume' },
+    { id: 'aroma' as const, label: lang === 'fr' ? 'Arômes' : 'Flavors' },
+  ];
+
   return (
     <div ref={setRootRef} className="relative">
-      {/* Search Button */}
+      {/* Search Button - More visible */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={openSearch}
         className={cn(
-          "rounded-full flex items-center justify-center transition-all duration-300",
-          compact ? "w-8 h-8" : "w-11 h-11",
+          "rounded-full flex items-center gap-2 transition-all duration-300",
+          compact ? "w-8 h-8 justify-center" : "h-9 px-3",
           isScrolled 
             ? "text-foreground hover:bg-muted" 
             : "text-white hover:bg-white/10"
         )}
       >
-        <Search className={compact ? "h-4 w-4" : "h-5 w-5"} />
+        <Search className={compact ? "h-4 w-4" : "h-4 w-4"} />
+        {!compact && (
+          <span className="text-sm hidden md:inline opacity-70">
+            {lang === 'fr' ? 'Rechercher...' : 'Search...'}
+          </span>
+        )}
+        {!compact && (
+          <kbd className={cn(
+            "hidden lg:inline-flex h-5 items-center gap-0.5 rounded border px-1.5 text-[10px] font-mono",
+            isScrolled 
+              ? "border-border bg-muted text-muted-foreground" 
+              : "border-white/20 bg-white/10 text-white/60"
+          )}>
+            ⌘K
+          </kbd>
+        )}
       </motion.button>
 
-      {/* Search Modal/Dropdown */}
+      {/* Search Modal */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -141,117 +234,225 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/60 backdrop-blur-md z-40"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Search Container */}
+            {/* Search Container - Full featured */}
             <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              initial={{ opacity: 0, y: -30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-              className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-2xl z-50"
+              exit={{ opacity: 0, y: -30, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-3xl z-50"
             >
-              <div className="bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
-                {/* Input */}
-                <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-                  <Search className="w-5 h-5 text-muted-foreground shrink-0" />
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={query}
-                    onChange={(e) => {
-                      setQuery(e.target.value);
-                      setSelectedIndex(-1);
-                    }}
-                    onKeyDown={handleKeyDown}
-                    placeholder={lang === 'fr' ? 'Rechercher un ingrédient, code INCI...' : 'Search for an ingredient, INCI code...'}
-                    className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-lg"
-                  />
-                  {isLoading && <Loader2 className="w-5 h-5 text-muted-foreground animate-spin" />}
-                  {query && !isLoading && (
-                    <button onClick={() => setQuery('')} className="text-muted-foreground hover:text-foreground">
-                      <X className="w-5 h-5" />
+              <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+                {/* Header with input */}
+                <div className="relative">
+                  {/* Gradient decoration */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-gold-500/5 via-transparent to-primary/5 pointer-events-none" />
+                  
+                  <div className="flex items-center gap-3 px-4 sm:px-6 py-4 sm:py-5 border-b border-border relative">
+                    <div className="relative flex-1 flex items-center gap-3">
+                      <Search className="w-5 h-5 sm:w-6 sm:h-6 text-gold-500 shrink-0" />
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={query}
+                        onChange={(e) => {
+                          setQuery(e.target.value);
+                          setSelectedIndex(-1);
+                        }}
+                        onKeyDown={handleKeyDown}
+                        placeholder={lang === 'fr' ? 'Rechercher un ingrédient, code INCI, bénéfice...' : 'Search ingredient, INCI code, benefit...'}
+                        className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none text-base sm:text-lg font-medium"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        spellCheck="false"
+                      />
+                    </div>
+                    {isLoading && (
+                      <div className="flex items-center gap-2 text-gold-500">
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      </div>
+                    )}
+                    {query && !isLoading && (
+                      <button onClick={() => setQuery('')} className="text-muted-foreground hover:text-foreground transition-colors">
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => setIsOpen(false)} 
+                      className="text-muted-foreground hover:text-foreground transition-colors ml-2"
+                    >
+                      <kbd className="hidden sm:inline-flex h-6 items-center rounded border border-border bg-muted px-1.5 text-xs font-mono">
+                        ESC
+                      </kbd>
+                      <X className="w-5 h-5 sm:hidden" />
                     </button>
-                  )}
+                  </div>
                 </div>
 
-                {/* Suggestions */}
-                {suggestions.length > 0 && (
-                  <div className="max-h-[60vh] overflow-y-auto">
-                    {suggestions.map((product, index) => (
-                      <button
-                        key={product.id}
-                        onClick={() => navigateToProduct(product)}
-                        className={cn(
-                          "w-full flex items-start gap-4 px-5 py-4 text-left transition-colors",
-                          index === selectedIndex ? "bg-secondary" : "hover:bg-secondary/50"
-                        )}
-                      >
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                          <span className="text-primary font-semibold text-sm">
-                            {product.nom_commercial?.charAt(0) || 'P'}
-                          </span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-foreground truncate">
-                            {product.nom_commercial}
-                          </p>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="font-mono">{product.code}</span>
-                            {product.gamme && (
-                              <>
-                                <span>•</span>
-                                <span>{product.gamme}</span>
-                              </>
+                {/* Category Tabs */}
+                <div className="flex items-center gap-1 px-4 sm:px-6 py-2 sm:py-3 border-b border-border bg-muted/30 overflow-x-auto">
+                  <Filter className="w-4 h-4 text-muted-foreground shrink-0 mr-1" />
+                  {categoryTabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={cn(
+                        "px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all",
+                        activeTab === tab.id
+                          ? "bg-primary text-primary-foreground"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                      )}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Results */}
+                <div className="max-h-[50vh] sm:max-h-[60vh] overflow-y-auto">
+                  {/* Suggestions list */}
+                  {suggestions.length > 0 && (
+                    <div className="py-2">
+                      <div className="px-4 sm:px-6 py-2 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-gold-500" />
+                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                          {lang === 'fr' ? 'Résultats' : 'Results'}
+                        </span>
+                        <Badge variant="secondary" className="text-xs">
+                          {suggestions.length}
+                        </Badge>
+                      </div>
+                      {suggestions.map((product, index) => (
+                        <button
+                          key={product.id}
+                          onClick={() => navigateToProduct(product)}
+                          className={cn(
+                            "w-full flex items-start gap-3 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all",
+                            index === selectedIndex ? "bg-primary/10" : "hover:bg-muted/50"
+                          )}
+                        >
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-gold-500/20 to-primary/20 flex items-center justify-center shrink-0">
+                            <span className="text-primary font-bold text-sm sm:text-base">
+                              {product.nom_commercial?.charAt(0) || 'P'}
+                            </span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-foreground truncate text-sm sm:text-base">
+                              {product.nom_commercial}
+                            </p>
+                            <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mt-0.5">
+                              <span className="font-mono bg-muted px-1.5 py-0.5 rounded">{product.code}</span>
+                              {product.gamme && (
+                                <>
+                                  <span>•</span>
+                                  <span className="truncate">{product.gamme}</span>
+                                </>
+                              )}
+                            </div>
+                            {product.benefices && (
+                              <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                                {product.benefices}
+                              </p>
                             )}
                           </div>
-                        </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 mt-3" />
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* See All Results */}
-                {query.trim() && (
-                  <button
-                    onClick={navigateToSearch}
-                    className="w-full flex items-center justify-between px-5 py-4 bg-secondary/50 hover:bg-secondary transition-colors border-t border-border"
-                  >
-                    <span className="text-sm font-medium text-foreground">
-                      {lang === 'fr' ? `Voir tous les résultats pour "${query}"` : `See all results for "${query}"`}
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-muted-foreground" />
-                  </button>
-                )}
-
-                {/* Empty State */}
-                {query.trim() && !isLoading && suggestions.length === 0 && (
-                  <div className="px-5 py-8 text-center text-muted-foreground">
-                    <p>{lang === 'fr' ? 'Aucun résultat trouvé' : 'No results found'}</p>
-                  </div>
-                )}
-
-                {/* Quick Links when empty */}
-                {!query && (
-                  <div className="px-5 py-4">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">
-                      {lang === 'fr' ? 'Suggestions' : 'Suggestions'}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {['Actifs', 'Extraits', 'Huiles', 'Bio'].map((term) => (
-                        <button
-                          key={term}
-                          onClick={() => setQuery(term)}
-                          className="px-3 py-1.5 text-sm bg-secondary hover:bg-secondary/80 rounded-full text-foreground transition-colors"
-                        >
-                          {term}
+                          <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 mt-3" />
                         </button>
                       ))}
                     </div>
-                  </div>
+                  )}
+
+                  {/* Empty state with search */}
+                  {query.trim() && !isLoading && suggestions.length === 0 && (
+                    <div className="px-6 py-10 text-center">
+                      <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                        <Search className="w-6 h-6 text-muted-foreground" />
+                      </div>
+                      <p className="text-foreground font-medium mb-1">
+                        {lang === 'fr' ? 'Aucun résultat' : 'No results'}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {lang === 'fr' ? `Aucun ingrédient ne correspond à "${query}"` : `No ingredient matches "${query}"`}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Quick access when empty */}
+                  {!query && (
+                    <div className="py-4">
+                      {/* Recent searches */}
+                      {recentSearches.length > 0 && (
+                        <div className="mb-4">
+                          <div className="px-4 sm:px-6 py-2 flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-4 h-4 text-muted-foreground" />
+                              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                                {lang === 'fr' ? 'Recherches récentes' : 'Recent searches'}
+                              </span>
+                            </div>
+                            <button
+                              onClick={clearRecentSearches}
+                              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              {lang === 'fr' ? 'Effacer' : 'Clear'}
+                            </button>
+                          </div>
+                          <div className="px-4 sm:px-6 flex flex-wrap gap-2">
+                            {recentSearches.map((term, i) => (
+                              <button
+                                key={i}
+                                onClick={() => handleRecentClick(term)}
+                                className="px-3 py-1.5 text-sm bg-muted hover:bg-muted/80 rounded-full text-foreground transition-colors flex items-center gap-1.5"
+                              >
+                                <Clock className="w-3 h-3 text-muted-foreground" />
+                                {term}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Trending */}
+                      <div>
+                        <div className="px-4 sm:px-6 py-2 flex items-center gap-2">
+                          <TrendingUp className="w-4 h-4 text-gold-500" />
+                          <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                            {lang === 'fr' ? 'Tendances' : 'Trending'}
+                          </span>
+                        </div>
+                        <div className="px-4 sm:px-6 flex flex-wrap gap-2">
+                          {trendingTerms.map((term, i) => (
+                            <button
+                              key={i}
+                              onClick={() => setQuery(term)}
+                              className="px-3 py-1.5 text-sm bg-gold-500/10 hover:bg-gold-500/20 border border-gold-500/20 rounded-full text-foreground transition-colors"
+                            >
+                              {term}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer - See all results */}
+                {query.trim() && (
+                  <button
+                    onClick={navigateToSearch}
+                    className="w-full flex items-center justify-between px-4 sm:px-6 py-4 bg-gradient-to-r from-primary/5 to-gold-500/5 hover:from-primary/10 hover:to-gold-500/10 transition-colors border-t border-border"
+                  >
+                    <span className="text-sm font-semibold text-foreground">
+                      {lang === 'fr' ? `Voir tous les résultats pour "${query}"` : `See all results for "${query}"`}
+                    </span>
+                    <div className="flex items-center gap-2 text-primary">
+                      <span className="text-sm font-medium">{lang === 'fr' ? 'Catalogue' : 'Catalog'}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </button>
                 )}
               </div>
             </motion.div>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
+import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -34,10 +34,13 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
 
   return (
     <Layout lang={lang}>
-      <Helmet>
-        <title>{lang === 'fr' ? 'Contact - IES Ingredients' : 'Contact - IES Ingredients'}</title>
-        <html lang={lang} />
-      </Helmet>
+      <SEOHead
+        lang={lang}
+        title={lang === 'fr' ? 'Contactez-nous - IES Ingredients' : 'Contact Us - IES Ingredients'}
+        description={lang === 'fr'
+          ? 'Contactez l\'équipe IES Ingredients pour vos besoins en ingrédients cosmétiques, parfums et arômes. Basés à Nice, France.'
+          : 'Contact the IES Ingredients team for your cosmetic ingredients, perfumes and flavors needs. Based in Nice, France.'}
+      />
 
       {/* Hero Section with dark background for header visibility */}
       <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">

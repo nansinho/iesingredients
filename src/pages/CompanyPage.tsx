@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
+import { SEOHead } from '@/components/SEOHead';
 import { Award, Users, Globe, Leaf } from 'lucide-react';
 
 interface CompanyPageProps {
@@ -26,10 +26,13 @@ export const CompanyPage = ({ lang }: CompanyPageProps) => {
 
   return (
     <Layout lang={lang}>
-      <Helmet>
-        <title>{lang === 'fr' ? 'Entreprise - IES Ingredients' : 'Company - IES Ingredients'}</title>
-        <html lang={lang} />
-      </Helmet>
+      <SEOHead
+        lang={lang}
+        title={lang === 'fr' ? 'Notre Entreprise - IES Ingredients' : 'Our Company - IES Ingredients'}
+        description={lang === 'fr'
+          ? 'Découvrez IES Ingredients, votre partenaire depuis 1990 pour les ingrédients cosmétiques, parfums et arômes. 30 ans d\'expertise et 5000+ références.'
+          : 'Discover IES Ingredients, your partner since 1990 for cosmetic ingredients, perfumes and flavors. 30 years of expertise and 5000+ references.'}
+      />
 
       {/* Hero Section with dark background for header visibility */}
       <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">
