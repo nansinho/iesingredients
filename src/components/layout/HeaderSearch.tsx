@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight, Loader2, Sparkles, Clock, TrendingUp, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -228,27 +229,28 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
         </kbd>
       </motion.div>
 
-      {/* Search Modal */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60]"
-              onClick={() => setIsOpen(false)}
-            />
+      {/* Search Modal - Rendered via Portal to escape header z-index */}
+      {createPortal(
+        <AnimatePresence>
+          {isOpen && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/60 backdrop-blur-md z-[9998]"
+                onClick={() => setIsOpen(false)}
+              />
 
-            {/* Search Container - Full featured */}
-            <motion.div
-              initial={{ opacity: 0, y: -30, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -30, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-3xl z-[70]"
-            >
+              {/* Search Container - Full featured */}
+              <motion.div
+                initial={{ opacity: 0, y: -30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -30, scale: 0.95 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-3xl z-[9999]"
+              >
               <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
                 {/* Header with input */}
                 <div className="relative">
@@ -461,7 +463,9 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
             </motion.div>
           </>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
     </div>
   );
 });
