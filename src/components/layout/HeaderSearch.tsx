@@ -11,9 +11,10 @@ import { Product } from '@/hooks/useProducts';
 interface HeaderSearchProps {
   lang: Language;
   isScrolled: boolean;
+  compact?: boolean;
 }
 
-export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(({ lang, isScrolled }, forwardedRef) => {
+export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(({ lang, isScrolled, compact = false }, forwardedRef) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Product[]>([]);
@@ -121,13 +122,14 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
         whileTap={{ scale: 0.95 }}
         onClick={openSearch}
         className={cn(
-          "rounded-full w-11 h-11 flex items-center justify-center transition-all duration-300",
+          "rounded-full flex items-center justify-center transition-all duration-300",
+          compact ? "w-8 h-8" : "w-11 h-11",
           isScrolled 
             ? "text-foreground hover:bg-muted" 
             : "text-white hover:bg-white/10"
         )}
       >
-        <Search className="h-5 w-5" />
+        <Search className={compact ? "h-4 w-4" : "h-5 w-5"} />
       </motion.button>
 
       {/* Search Modal/Dropdown */}

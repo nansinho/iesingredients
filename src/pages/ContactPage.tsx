@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ContactPageProps {
@@ -40,7 +40,7 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
       </Helmet>
 
       {/* Hero Section with dark background for header visibility */}
-      <section className="relative bg-forest-950 pt-24 pb-20 overflow-hidden">
+      <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-3xl" />
@@ -48,17 +48,13 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
         </div>
         
         <div className="container-luxe relative z-10">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center">
-              <MessageCircle className="w-7 h-7 text-forest-950" />
-            </div>
-            <div>
-              <h1 className="font-serif text-4xl md:text-5xl text-white">
-                {lang === 'fr' ? 'Contactez-nous' : 'Contact us'}
-              </h1>
-            </div>
-          </div>
-          <p className="text-white/70 text-lg max-w-2xl">
+          <span className="inline-block text-gold-500 text-sm font-medium uppercase tracking-widest mb-4">
+            {lang === 'fr' ? 'Parlons ensemble' : 'Let\'s talk'}
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4">
+            {lang === 'fr' ? 'Contactez-nous' : 'Contact us'}
+          </h1>
+          <p className="text-white/70 text-base sm:text-lg max-w-2xl">
             {lang === 'fr' ? 'Notre équipe est à votre disposition pour répondre à toutes vos questions.' : 'Our team is at your service to answer all your questions.'}
           </p>
         </div>
