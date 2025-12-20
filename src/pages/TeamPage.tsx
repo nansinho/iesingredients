@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
-import { Linkedin, Mail, Users } from 'lucide-react';
+import { Linkedin, Mail } from 'lucide-react';
 
 interface TeamPageProps {
   lang: Language;
@@ -33,20 +33,18 @@ export const TeamPage = ({ lang }: TeamPageProps) => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative bg-forest-950 pt-24 pb-20 overflow-hidden">
+      <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500 rounded-full blur-3xl" />
         </div>
         <div className="container-luxe relative z-10">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-gold-500 flex items-center justify-center">
-              <Users className="w-7 h-7 text-forest-950" />
-            </div>
-            <h1 className="font-serif text-4xl md:text-5xl text-white">
-              {lang === 'fr' ? 'Notre équipe' : 'Our team'}
-            </h1>
-          </div>
-          <p className="text-white/70 text-lg max-w-2xl">
+          <span className="inline-block text-gold-500 text-sm font-medium uppercase tracking-widest mb-4">
+            {lang === 'fr' ? 'Nos experts' : 'Our experts'}
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4">
+            {lang === 'fr' ? 'Notre équipe' : 'Our team'}
+          </h1>
+          <p className="text-white/70 text-base sm:text-lg max-w-2xl">
             {lang === 'fr' ? 'Des experts passionnés à votre service.' : 'Passionate experts at your service.'}
           </p>
         </div>

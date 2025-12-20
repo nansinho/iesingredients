@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList, Leaf } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CatalogPageProps {
@@ -158,7 +158,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       </Helmet>
 
       {/* Hero Section with dark background for header visibility */}
-      <section className="relative bg-forest-950 pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden">
+      <section className="relative bg-forest-950 pt-28 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-gold-500 rounded-full blur-3xl" />
@@ -166,17 +166,13 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
         </div>
         
         <div className="container-luxe relative z-10 px-4 sm:px-6">
-          <div className="flex items-center gap-3 sm:gap-4 mb-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gold-500 flex items-center justify-center">
-              <Leaf className="w-6 h-6 sm:w-7 sm:h-7 text-forest-950" />
-            </div>
-            <div>
-              <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-white">{t.nav.catalog}</h1>
-              <p className="text-white/60 text-sm sm:text-lg mt-0.5 sm:mt-1">
-                {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'produits disponibles' : 'products available'}`}
-              </p>
-            </div>
-          </div>
+          <span className="inline-block text-gold-500 text-sm font-medium uppercase tracking-widest mb-3">
+            {lang === 'fr' ? 'Nos ingrédients' : 'Our ingredients'}
+          </span>
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-white mb-2">{t.nav.catalog}</h1>
+          <p className="text-white/60 text-sm sm:text-lg">
+            {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'produits disponibles' : 'products available'}`}
+          </p>
         </div>
       </section>
 
