@@ -10,11 +10,13 @@ interface CartButtonProps {
   className?: string;
 }
 
-export const CartButton = ({ className }: CartButtonProps) => {
+export const CartButton = React.forwardRef<HTMLButtonElement, CartButtonProps>(
+  ({ className }, ref) => {
     const { openCart, totalItems } = useSampleCart();
 
     return (
       <Button
+        ref={ref}
         variant="ghost"
         size="icon"
         className={cn("relative", className)}
@@ -30,9 +32,7 @@ export const CartButton = ({ className }: CartButtonProps) => {
               exit={{ scale: 0 }}
               className="absolute -top-1 -right-1"
             >
-              <Badge 
-                className="h-5 min-w-5 flex items-center justify-center p-0 text-[10px] font-bold bg-primary text-primary-foreground"
-              >
+              <Badge className="h-5 min-w-5 flex items-center justify-center p-0 text-[10px] font-bold bg-primary text-primary-foreground">
                 {totalItems}
               </Badge>
             </motion.div>
@@ -40,4 +40,7 @@ export const CartButton = ({ className }: CartButtonProps) => {
         </AnimatePresence>
       </Button>
     );
-};
+  }
+);
+CartButton.displayName = 'CartButton';
+
