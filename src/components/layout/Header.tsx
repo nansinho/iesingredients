@@ -54,22 +54,26 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
           ? "bg-background/95 backdrop-blur-xl border-border/50" 
           : "bg-forest-950/80 backdrop-blur-sm border-white/10"
       )}>
-        <div className="container flex items-center justify-between h-10 sm:h-11">
-          {/* Left: Search */}
-          <div className="flex items-center gap-2">
-            <HeaderSearch lang={lang} isScrolled={isScrolled} compact />
-            <span className={cn(
-              "hidden sm:inline text-xs font-medium",
-              isScrolled ? "text-muted-foreground" : "text-white/60"
-            )}>
-              {lang === 'fr' ? 'Rechercher' : 'Search'}
-            </span>
-          </div>
-
-          {/* Right: Cart + Language */}
-          <div className="flex items-center gap-1">
+        <div className="container flex items-center justify-center gap-4 h-12 sm:h-14">
+          {/* Left spacer for balance */}
+          <div className="hidden sm:flex items-center gap-1 shrink-0">
             <CartButton className={cn(
               "rounded-full w-8 h-8 transition-colors",
+              isScrolled 
+                ? "text-foreground hover:bg-muted" 
+                : "text-white hover:bg-white/10"
+            )} />
+          </div>
+
+          {/* Center: Full Search Bar - Takes 80% */}
+          <div className="flex-1 max-w-[80%]">
+            <HeaderSearch lang={lang} isScrolled={isScrolled} />
+          </div>
+
+          {/* Right: Language + Mobile Cart */}
+          <div className="flex items-center gap-1 shrink-0">
+            <CartButton className={cn(
+              "sm:hidden rounded-full w-8 h-8 transition-colors",
               isScrolled 
                 ? "text-foreground hover:bg-muted" 
                 : "text-white hover:bg-white/10"

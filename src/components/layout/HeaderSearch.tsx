@@ -12,7 +12,6 @@ import { Badge } from '@/components/ui/badge';
 interface HeaderSearchProps {
   lang: Language;
   isScrolled: boolean;
-  compact?: boolean;
 }
 
 // Recent searches stored in localStorage
@@ -33,7 +32,7 @@ const addRecentSearch = (term: string) => {
   localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)));
 };
 
-export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(({ lang, isScrolled, compact = false }, forwardedRef) => {
+export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(({ lang, isScrolled }, forwardedRef) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Product[]>([]);
@@ -193,37 +192,41 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
   ];
 
   return (
-    <div ref={setRootRef} className="relative">
-      {/* Search Button - More visible */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+    <div ref={setRootRef} className="relative w-full">
+      {/* Full Width Interactive Search Bar */}
+      <motion.div
+        initial={false}
+        animate={isOpen ? { scale: 1 } : { scale: 1 }}
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
         onClick={openSearch}
         className={cn(
-          "rounded-full flex items-center gap-2 transition-all duration-300",
-          compact ? "w-8 h-8 justify-center" : "h-9 px-3",
+          "w-full rounded-xl sm:rounded-2xl flex items-center gap-3 px-4 py-2.5 sm:py-3 cursor-pointer transition-all duration-300 border",
           isScrolled 
-            ? "text-foreground hover:bg-muted" 
-            : "text-white hover:bg-white/10"
+            ? "bg-muted/50 border-border hover:bg-muted hover:border-primary/30 text-foreground" 
+            : "bg-white/10 border-white/20 hover:bg-white/15 hover:border-gold-500/40 text-white",
+          isOpen && "ring-2 ring-gold-500/50"
         )}
       >
-        <Search className={compact ? "h-4 w-4" : "h-4 w-4"} />
-        {!compact && (
-          <span className="text-sm hidden md:inline opacity-70">
-            {lang === 'fr' ? 'Rechercher...' : 'Search...'}
-          </span>
-        )}
-        {!compact && (
-          <kbd className={cn(
-            "hidden lg:inline-flex h-5 items-center gap-0.5 rounded border px-1.5 text-[10px] font-mono",
-            isScrolled 
-              ? "border-border bg-muted text-muted-foreground" 
-              : "border-white/20 bg-white/10 text-white/60"
-          )}>
-            ⌘K
-          </kbd>
-        )}
-      </motion.button>
+        <Search className={cn(
+          "h-4 w-4 sm:h-5 sm:w-5 shrink-0 transition-colors",
+          isScrolled ? "text-muted-foreground" : "text-white/70"
+        )} />
+        <span className={cn(
+          "flex-1 text-sm sm:text-base font-medium truncate transition-colors",
+          isScrolled ? "text-muted-foreground" : "text-white/60"
+        )}>
+          {lang === 'fr' ? 'Rechercher un ingrédient, code INCI...' : 'Search ingredient, INCI code...'}
+        </span>
+        <kbd className={cn(
+          "hidden sm:inline-flex h-6 items-center gap-1 rounded-md border px-2 text-xs font-mono transition-colors",
+          isScrolled 
+            ? "border-border bg-background text-muted-foreground" 
+            : "border-white/30 bg-white/10 text-white/60"
+        )}>
+          ⌘K
+        </kbd>
+      </motion.div>
 
       {/* Search Modal */}
       <AnimatePresence>
