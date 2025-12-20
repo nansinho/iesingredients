@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight, Loader2 } from 'lucide-react';
@@ -12,7 +13,7 @@ interface HeaderSearchProps {
   isScrolled: boolean;
 }
 
-export const HeaderSearch = ({ lang, isScrolled }: HeaderSearchProps) => {
+export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(({ lang, isScrolled }, forwardedRef) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Product[]>([]);
@@ -103,8 +104,17 @@ export const HeaderSearch = ({ lang, isScrolled }: HeaderSearchProps) => {
     setTimeout(() => inputRef.current?.focus(), 100);
   };
 
+  const setRootRef = (node: HTMLDivElement | null) => {
+    containerRef.current = node;
+    if (typeof forwardedRef === 'function') {
+      forwardedRef(node);
+    } else if (forwardedRef) {
+      forwardedRef.current = node;
+    }
+  };
+
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={setRootRef} className="relative">
       {/* Search Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -248,4 +258,5 @@ export const HeaderSearch = ({ lang, isScrolled }: HeaderSearchProps) => {
       </AnimatePresence>
     </div>
   );
-};
+});
+HeaderSearch.displayName = 'HeaderSearch';
