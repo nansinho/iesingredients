@@ -204,8 +204,8 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
           "w-full rounded-xl sm:rounded-2xl flex items-center gap-3 px-4 py-2.5 sm:py-3 cursor-pointer transition-all duration-300 border",
           isScrolled 
             ? "bg-muted/50 border-border hover:bg-muted hover:border-primary/30 text-foreground" 
-            : "bg-white/10 border-white/20 hover:bg-white/15 hover:border-gold-500/40 text-white",
-          isOpen && "ring-2 ring-gold-500/50"
+            : "bg-white/15 border-white/30 hover:bg-white/20 hover:border-gold-500/60 text-white",
+          isOpen && "ring-2 ring-gold-500/60"
         )}
       >
         <Search className={cn(
@@ -237,7 +237,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-md z-40"
+              className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60]"
               onClick={() => setIsOpen(false)}
             />
 
@@ -247,7 +247,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -30, scale: 0.95 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-3xl z-50"
+              className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-3xl z-[70]"
             >
               <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
                 {/* Header with input */}
