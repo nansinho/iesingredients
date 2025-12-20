@@ -54,8 +54,8 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
           ? "bg-background/95 backdrop-blur-xl border-border/50" 
           : "bg-forest-950/80 backdrop-blur-sm border-white/10"
       )}>
-        <div className="container flex items-center justify-center gap-4 h-12 sm:h-14">
-          {/* Left spacer for balance */}
+        <div className="container grid grid-cols-[auto_1fr_auto] items-center gap-3 h-12 sm:h-14">
+          {/* Left */}
           <div className="hidden sm:flex items-center gap-1 shrink-0">
             <CartButton className={cn(
               "rounded-full w-8 h-8 transition-colors",
@@ -65,13 +65,15 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
             )} />
           </div>
 
-          {/* Center: Full Search Bar - Takes 80% */}
-          <div className="flex-1 max-w-[80%]">
-            <HeaderSearch lang={lang} isScrolled={isScrolled} />
+          {/* Center: Search (80%) */}
+          <div className="flex justify-center w-full">
+            <div className="w-[80%]">
+              <HeaderSearch lang={lang} isScrolled={isScrolled} />
+            </div>
           </div>
 
-          {/* Right: Language + Mobile Cart */}
-          <div className="flex items-center gap-1 shrink-0">
+          {/* Right */}
+          <div className="flex items-center justify-end gap-1 shrink-0">
             <CartButton className={cn(
               "sm:hidden rounded-full w-8 h-8 transition-colors",
               isScrolled 
