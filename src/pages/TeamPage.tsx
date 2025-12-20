@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
+import { SEOHead } from '@/components/SEOHead';
 import { Linkedin, Mail } from 'lucide-react';
 
 interface TeamPageProps {
@@ -27,10 +27,13 @@ export const TeamPage = ({ lang }: TeamPageProps) => {
 
   return (
     <Layout lang={lang}>
-      <Helmet>
-        <title>{lang === 'fr' ? 'Équipe - IES Ingredients' : 'Team - IES Ingredients'}</title>
-        <html lang={lang} />
-      </Helmet>
+      <SEOHead
+        lang={lang}
+        title={lang === 'fr' ? 'Notre Équipe - IES Ingredients' : 'Our Team - IES Ingredients'}
+        description={lang === 'fr'
+          ? 'Découvrez l\'équipe d\'experts passionnés d\'IES Ingredients. Spécialistes en cosmétique, parfumerie et arômes alimentaires.'
+          : 'Meet the passionate expert team at IES Ingredients. Specialists in cosmetics, perfumery and food flavors.'}
+      />
 
       {/* Hero Section */}
       <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">

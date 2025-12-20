@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
+import { SEOHead } from '@/components/SEOHead';
 import { ArrowRight, Calendar } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -28,10 +28,14 @@ export const NewsPage = ({ lang }: NewsPageProps) => {
 
   return (
     <Layout lang={lang}>
-      <Helmet>
-        <title>{lang === 'fr' ? 'Actualités - IES Ingredients' : 'News - IES Ingredients'}</title>
-        <html lang={lang} />
-      </Helmet>
+      <SEOHead
+        lang={lang}
+        title={lang === 'fr' ? 'Actualités & Tendances - IES Ingredients' : 'News & Trends - IES Ingredients'}
+        description={lang === 'fr'
+          ? 'Restez informé des dernières actualités, tendances et innovations en ingrédients cosmétiques, parfumerie et arômes alimentaires.'
+          : 'Stay informed about the latest news, trends and innovations in cosmetic ingredients, perfumery and food flavors.'}
+        type="article"
+      />
 
       {/* Hero Section */}
       <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden">

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { useProducts, useFilterOptions, ProductFilters } from '@/hooks/useProducts';
 import { Language, useTranslation } from '@/lib/i18n';
+import { SEOHead } from '@/components/SEOHead';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -151,21 +151,23 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
   return (
     <Layout lang={lang}>
-      <Helmet>
-        <title>{lang === 'fr' ? 'Catalogue - IES Ingredients' : 'Catalog - IES Ingredients'}</title>
-        <meta name="description" content={lang === 'fr' ? 'Explorez notre catalogue de plus de 5000 ingrédients.' : 'Explore our catalog of over 5000 ingredients.'} />
-        <html lang={lang} />
-      </Helmet>
+      <SEOHead
+        lang={lang}
+        title={lang === 'fr' ? 'Catalogue Ingrédients - IES Ingredients' : 'Ingredients Catalog - IES Ingredients'}
+        description={lang === 'fr' 
+          ? 'Explorez notre catalogue de plus de 5000 ingrédients naturels pour cosmétiques, parfums et arômes. Filtrez par gamme, origine et certifications.'
+          : 'Explore our catalog of over 5000 natural ingredients for cosmetics, perfumes and flavors. Filter by range, origin and certifications.'}
+      />
 
       {/* Hero Section with dark background for header visibility */}
-      <section className="relative bg-forest-950 pt-28 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+      <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-12 sm:pb-16 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-gold-500 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-32 sm:w-64 h-32 sm:h-64 bg-primary rounded-full blur-3xl" />
         </div>
         
-        <div className="container-luxe relative z-10 px-4 sm:px-6">
+        <div className="container-luxe relative z-10">
           <span className="inline-block text-gold-500 text-sm font-medium uppercase tracking-widest mb-3">
             {lang === 'fr' ? 'Nos ingrédients' : 'Our ingredients'}
           </span>
@@ -178,7 +180,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
       {/* Main Content */}
       <section className="bg-background py-6 sm:py-10 min-h-screen">
-        <div className="container-luxe px-4 sm:px-6">
+        <div className="container-luxe">
           {/* Search & Controls Bar */}
           <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 -mt-6 sm:-mt-8 relative z-10">
             {/* Search */}
