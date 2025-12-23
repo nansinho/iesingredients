@@ -107,9 +107,9 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
           : "bg-forest-950/60 backdrop-blur-sm py-3"
       )}>
         <div className="container-luxe">
-          <nav className="flex items-center justify-between lg:justify-center gap-6">
-            {/* Logo - Left on mobile, part of center group on desktop */}
-            <Link to={`/${lang}`} className="flex items-center gap-2 lg:absolute lg:left-6">
+          <nav className="flex items-center justify-between gap-6 relative">
+            {/* Logo - Left */}
+            <Link to={`/${lang}`} className="flex items-center gap-2 shrink-0">
               <span className={cn(
                 "text-xl sm:text-2xl font-serif font-bold transition-colors tracking-tight",
                 isScrolled ? "text-foreground" : "text-white"
@@ -126,7 +126,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
 
             {/* Desktop Navigation - Centered */}
             <div className={cn(
-              "hidden lg:flex items-center gap-1 px-2 py-1.5 rounded-full transition-colors duration-300",
+              "hidden lg:flex items-center gap-1 px-2 py-1.5 rounded-full transition-colors duration-300 absolute left-1/2 -translate-x-1/2",
               isScrolled ? "bg-muted" : "bg-white/10"
             )}>
               {navItems.map((item) => {
@@ -153,7 +153,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
             </div>
 
             {/* CTA Button - Right on desktop */}
-            <Link to={`/${lang}/catalogue`} className="hidden lg:block lg:absolute lg:right-6">
+            <Link to={`/${lang}/catalogue`} className="hidden lg:block shrink-0">
               <Button 
                 className={cn(
                   "rounded-full font-bold h-10 px-5 transition-colors duration-200 shadow-lg text-sm",
