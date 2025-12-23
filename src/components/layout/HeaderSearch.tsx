@@ -243,13 +243,13 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                 onClick={() => setIsOpen(false)}
               />
 
-              {/* Search Container - Full featured */}
+              {/* Search Container - Centered in the middle of the page */}
               <motion.div
-                initial={{ opacity: 0, y: -30, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -30, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-3xl z-[9999]"
+                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-3xl z-[9999]"
               >
               <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
                 {/* Header with input */}
