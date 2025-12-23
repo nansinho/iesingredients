@@ -54,7 +54,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
           ? "bg-background/95 backdrop-blur-xl border-border/50" 
           : "bg-forest-950/80 backdrop-blur-sm border-white/10"
       )}>
-        <div className="container grid grid-cols-[auto_1fr_auto] items-center gap-3 h-12 sm:h-14">
+        <div className="container-luxe grid grid-cols-[auto_1fr_auto] items-center gap-3 h-12 sm:h-14">
           {/* Left */}
           <div className="hidden sm:flex items-center gap-1 shrink-0">
             <CartButton className={cn(
@@ -106,7 +106,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
           ? "bg-background/95 backdrop-blur-xl shadow-sm py-2" 
           : "bg-forest-950/60 backdrop-blur-sm py-3"
       )}>
-        <div className="container">
+        <div className="container-luxe">
           <nav className="flex items-center justify-between lg:justify-center gap-6">
             {/* Logo - Left on mobile, part of center group on desktop */}
             <Link to={`/${lang}`} className="flex items-center gap-2 lg:absolute lg:left-6">

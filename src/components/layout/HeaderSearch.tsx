@@ -96,16 +96,19 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
     return () => clearTimeout(timer);
   }, [query, activeTab]);
 
-  // Click outside to close
+  // Click outside to close (only when clicking outside the modal panel)
+  const modalRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (!isOpen) return;
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -243,15 +246,17 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                 onClick={() => setIsOpen(false)}
               />
 
-              {/* Search Container - Centered in the middle of the page */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-3xl z-[9999]"
-              >
-              <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+              {/* Search Container - True centered modal */}
+              <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8">
+                <motion.div
+                  ref={modalRef}
+                  initial={{ opacity: 0, scale: 0.97, y: 8 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97, y: 8 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="w-full max-w-3xl"
+                >
+                  <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
                 {/* Header with input */}
                 <div className="relative">
                   {/* Gradient decoration */}
@@ -461,8 +466,9 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                 )}
               </div>
             </motion.div>
-          </>
-        )}
+          </div>
+        </>
+      )}
       </AnimatePresence>,
       document.body
       )}

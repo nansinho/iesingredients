@@ -168,11 +168,13 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
         </div>
         
         <div className="container-luxe relative z-10">
-          <span className="inline-block text-gold-500 text-sm font-medium uppercase tracking-widest mb-3">
+          <span className="inline-block text-gold-500 text-sm font-medium uppercase tracking-widest mb-4">
             {lang === 'fr' ? 'Nos ingrédients' : 'Our ingredients'}
           </span>
-          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-white mb-2">{t.nav.catalog}</h1>
-          <p className="text-white/60 text-sm sm:text-lg">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4">
+            {t.nav.catalog}
+          </h1>
+          <p className="text-white/70 text-base sm:text-lg max-w-2xl">
             {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'produits disponibles' : 'products available'}`}
           </p>
         </div>
