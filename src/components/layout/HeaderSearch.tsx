@@ -61,15 +61,28 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
     const timer = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const searchTerm = query.toLowerCase();
+        const searchTerm = query.toLowerCase().trim();
         
-        // Multi-field intelligent search
+        // Build OR filter for multi-field search including certifications and description
+        const searchFields = [
+          `nom_commercial.ilike.%${searchTerm}%`,
+          `code.ilike.%${searchTerm}%`,
+          `inci.ilike.%${searchTerm}%`,
+          `gamme.ilike.%${searchTerm}%`,
+          `benefices.ilike.%${searchTerm}%`,
+          `application.ilike.%${searchTerm}%`,
+          `origine.ilike.%${searchTerm}%`,
+          `certifications.ilike.%${searchTerm}%`,
+          `description.ilike.%${searchTerm}%`,
+          `valorisations.ilike.%${searchTerm}%`
+        ].join(',');
+        
         let queryBuilder = supabase
           .from('cosmetique_fr')
           .select('*')
           .eq('statut', 'ACTIF')
-          .or(`nom_commercial.ilike.%${searchTerm}%,code.ilike.%${searchTerm}%,inci.ilike.%${searchTerm}%,gamme.ilike.%${searchTerm}%,benefices.ilike.%${searchTerm}%,application.ilike.%${searchTerm}%,origine.ilike.%${searchTerm}%`)
-          .limit(8);
+          .or(searchFields)
+          .limit(10);
 
         // Filter by category if selected
         if (activeTab !== 'all') {
@@ -78,7 +91,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
             perfume: 'PARFUM',
             aroma: 'AROME'
           };
-          queryBuilder = queryBuilder.ilike('gamme', `%${categoryMap[activeTab]}%`);
+          queryBuilder = queryBuilder.ilike('typologie_de_produit', `%${categoryMap[activeTab]}%`);
         }
 
         const { data, error } = await queryBuilder;
@@ -91,7 +104,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
       } finally {
         setIsLoading(false);
       }
-    }, 200); // Faster debounce for instant feel
+    }, 150); // Fast debounce
 
     return () => clearTimeout(timer);
   }, [query, activeTab]);
