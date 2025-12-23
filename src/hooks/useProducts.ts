@@ -39,6 +39,7 @@ export interface ProductFilters {
   certifications?: string[];
   application?: string[];
   typeDePeau?: string[];
+  typologie?: string; // Category filter: COSMETIQUE, PARFUM, AROME
 }
 
 export interface FilterOptions {
@@ -84,7 +85,16 @@ export const useProducts = (filters?: ProductFilters, lang: Language = 'fr') => 
           p.code?.toLowerCase().includes(searchLower) ||
           p.inci?.toLowerCase().includes(searchLower) ||
           p.benefices?.toLowerCase().includes(searchLower) ||
-          p.gamme?.toLowerCase().includes(searchLower)
+          p.gamme?.toLowerCase().includes(searchLower) ||
+          p.certifications?.toLowerCase().includes(searchLower) ||
+          p.valorisations?.toLowerCase().includes(searchLower)
+        );
+      }
+
+      // Category filter (typologie_de_produit)
+      if (filters?.typologie) {
+        products = products.filter(p => 
+          p.typologie_de_produit?.toUpperCase().includes(filters.typologie!.toUpperCase())
         );
       }
 

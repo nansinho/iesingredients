@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useSearchParams, useLocation, Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { ProductCard } from '@/components/catalog/ProductCard';
 import { useProducts, useFilterOptions, ProductFilters } from '@/hooks/useProducts';
@@ -11,8 +11,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList } from 'lucide-react';
+import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList, Leaf, FlaskConical, Droplets, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import creamJar from '@/assets/cream-jar.jpg';
+import essentialOil from '@/assets/essential-oil.jpg';
+import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
 
 interface CatalogPageProps {
   lang: Language;
@@ -27,22 +30,65 @@ interface FilterState {
   application: string[];
 }
 
+// Category card component
+const CategoryCard = ({ 
+  name, 
+  desc, 
+  image, 
+  icon: Icon, 
+  gradient, 
+  isActive, 
+  onClick 
+}: { 
+  name: string; 
+  desc: string; 
+  image: string; 
+  icon: React.ElementType; 
+  gradient: string; 
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    onClick={onClick}
+    className={cn(
+      "relative h-32 sm:h-40 rounded-2xl overflow-hidden group text-left transition-all duration-300",
+      isActive ? "ring-2 ring-gold-500 ring-offset-2 ring-offset-background" : "hover:scale-[1.02]"
+    )}
+  >
+    <img src={image} alt={name} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+    <div className={`absolute inset-0 ${gradient}`} />
+    <div className="absolute inset-0 p-4 flex flex-col justify-end">
+      <div className="flex items-center gap-2 mb-1">
+        <Icon className="w-4 h-4 text-white" />
+        <span className="text-white font-semibold text-sm sm:text-base">{name}</span>
+      </div>
+      <p className="text-white/70 text-xs line-clamp-1">{desc}</p>
+    </div>
+    {isActive && (
+      <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-gold-500 flex items-center justify-center">
+        <span className="text-forest-950 text-xs font-bold">✓</span>
+      </div>
+    )}
+  </button>
+);
+
 export const CatalogPage = ({ lang }: CatalogPageProps) => {
   const t = useTranslation(lang);
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
   
-  // Support both 'search' and 'q' parameters
   const initialSearch = searchParams.get('search') || searchParams.get('q') || '';
+  const initialCategory = searchParams.get('category') || '';
+  
   const [searchValue, setSearchValue] = useState(initialSearch);
   const [displayCount, setDisplayCount] = useState(12);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [openSections, setOpenSections] = useState<string[]>(['gamme', 'origine']);
+  const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
 
   const [filters, setFilters] = useState<FilterState>({
     gamme: [],
@@ -53,8 +99,36 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
     application: [],
   });
 
-  // Fetch products with filters
-  const productFilters: ProductFilters = {
+  // Categories
+  const categories = useMemo(() => [
+    { 
+      id: 'cosmetique',
+      name: lang === 'fr' ? 'Cosmétique' : 'Cosmetic', 
+      desc: lang === 'fr' ? 'Actifs botaniques et extraits naturels' : 'Botanical actives and natural extracts',
+      image: creamJar,
+      gradient: 'bg-gradient-to-t from-emerald-900/90 via-emerald-800/60 to-transparent',
+      icon: Leaf,
+    },
+    { 
+      id: 'parfum',
+      name: lang === 'fr' ? 'Parfumerie' : 'Perfumery', 
+      desc: lang === 'fr' ? 'Essences et matières premières nobles' : 'Noble essences and raw materials',
+      image: essentialOil,
+      gradient: 'bg-gradient-to-t from-amber-900/90 via-amber-700/60 to-transparent',
+      icon: FlaskConical,
+    },
+    { 
+      id: 'arome',
+      name: lang === 'fr' ? 'Arômes' : 'Flavors', 
+      desc: lang === 'fr' ? 'Arômes alimentaires naturels' : 'Natural food flavors',
+      image: blueberriesHerbs,
+      gradient: 'bg-gradient-to-t from-rose-900/90 via-rose-700/60 to-transparent',
+      icon: Droplets,
+    }
+  ], [lang]);
+
+  // Build product filters
+  const productFilters: ProductFilters = useMemo(() => ({
     search: searchValue,
     gamme: filters.gamme,
     origine: filters.origine,
@@ -62,16 +136,21 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
     aspect: filters.aspect,
     certifications: filters.certifications,
     application: filters.application,
-  };
+    // Add category filter based on activeCategory
+    ...(activeCategory ? { typologie: activeCategory.toUpperCase() } : {})
+  }), [searchValue, filters, activeCategory]);
 
   const { data: products, isLoading } = useProducts(productFilters, lang);
   const { data: filterOptions } = useFilterOptions();
 
-  const displayedProducts = (products || []).slice(0, displayCount);
+  const displayedProducts = useMemo(() => 
+    (products || []).slice(0, displayCount), 
+    [products, displayCount]
+  );
 
   const toggleFilter = (key: keyof FilterState, value: string) => {
     setFilters(prev => {
-      const arr = prev[key] as string[];
+      const arr = prev[key];
       return { ...prev, [key]: arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value] };
     });
   };
@@ -79,9 +158,14 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
   const clearFilters = () => {
     setFilters({ gamme: [], origine: [], solubilite: [], aspect: [], certifications: [], application: [] });
     setSearchValue('');
+    setActiveCategory('');
   };
 
-  const activeFiltersCount = Object.values(filters).flat().length;
+  const toggleCategory = (catId: string) => {
+    setActiveCategory(prev => prev === catId ? '' : catId);
+  };
+
+  const activeFiltersCount = Object.values(filters).flat().length + (activeCategory ? 1 : 0);
 
   const FilterSection = ({ 
     title, 
@@ -95,7 +179,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
     filterKey: keyof FilterState 
   }) => {
     const isOpen = openSections.includes(sectionKey);
-    const selected = filters[filterKey] as string[];
+    const selected = filters[filterKey];
 
     if (!options || options.length === 0) return null;
 
@@ -103,7 +187,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       <div className="border-b border-border/60 last:border-b-0">
         <button
           onClick={() => setOpenSections(prev => prev.includes(sectionKey) ? prev.filter(s => s !== sectionKey) : [...prev, sectionKey])}
-          className="w-full flex items-center justify-between py-4 text-sm font-medium text-foreground hover:text-primary transition-colors"
+          className="w-full flex items-center justify-between py-3 text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
           <span className="flex items-center gap-2">
             <span className="w-1 h-4 rounded-full bg-primary/60" />
@@ -115,19 +199,19 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                 {selected.length}
               </span>
             )}
-            <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isOpen && 'rotate-180')} />
+            <ChevronDown className={cn('w-4 h-4 transition-transform duration-200', isOpen && 'rotate-180')} />
           </div>
         </button>
         {isOpen && (
-          <div className="pb-4 space-y-2 animate-fade-in max-h-60 overflow-y-auto">
+          <div className="pb-3 space-y-1 max-h-48 overflow-y-auto">
             {options.map(option => (
-              <label key={option} className="flex items-center gap-3 py-1.5 cursor-pointer group">
+              <label key={option} className="flex items-center gap-2.5 py-1 cursor-pointer group">
                 <Checkbox
                   checked={selected.includes(option)}
                   onCheckedChange={() => toggleFilter(filterKey, option)}
                   className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                 />
-                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors truncate">
                   {option}
                 </span>
               </label>
@@ -159,9 +243,8 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
           : 'Explore our catalog of over 5000 natural ingredients for cosmetics, perfumes and flavors. Filter by range, origin and certifications.'}
       />
 
-      {/* Hero Section with dark background for header visibility */}
-      <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-12 sm:pb-16 overflow-hidden">
-        {/* Background decoration */}
+      {/* Hero Section */}
+      <section className="relative bg-forest-950 pt-32 sm:pt-36 pb-8 sm:pb-12 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-48 sm:w-96 h-48 sm:h-96 bg-gold-500 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-32 sm:w-64 h-32 sm:h-64 bg-primary rounded-full blur-3xl" />
@@ -174,9 +257,23 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-4">
             {t.nav.catalog}
           </h1>
-          <p className="text-white/70 text-base sm:text-lg max-w-2xl">
-            {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'produits disponibles' : 'products available'}`}
+          <p className="text-white/70 text-base sm:text-lg max-w-2xl mb-8">
+            {lang === 'fr' 
+              ? 'Découvrez notre sélection de plus de 5000 ingrédients naturels de qualité premium.'
+              : 'Discover our selection of over 5000 premium quality natural ingredients.'}
           </p>
+          
+          {/* Category Cards */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-4">
+            {categories.map(cat => (
+              <CategoryCard
+                key={cat.id}
+                {...cat}
+                isActive={activeCategory === cat.id}
+                onClick={() => toggleCategory(cat.id)}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -184,20 +281,20 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       <section className="bg-background py-6 sm:py-10 min-h-screen">
         <div className="container-luxe">
           {/* Search & Controls Bar */}
-          <div className="flex flex-col gap-3 sm:gap-4 mb-6 sm:mb-8 -mt-6 sm:-mt-8 relative z-10">
+          <div className="flex flex-col sm:flex-row gap-3 mb-6 -mt-4 relative z-10">
             {/* Search */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 placeholder={t.hero.search}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="pl-10 sm:pl-12 h-12 sm:h-14 bg-card border-border focus:border-primary shadow-lg text-sm sm:text-base"
+                className="pl-12 h-12 sm:h-14 bg-card border-border focus:border-primary shadow-lg"
               />
               {searchValue && (
                 <button 
                   onClick={() => setSearchValue('')} 
-                  className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -205,11 +302,11 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-2 sm:gap-3">
+            <div className="flex gap-2">
               {/* Mobile Filter */}
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="lg:hidden gap-1.5 sm:gap-2 h-10 sm:h-14 shadow-lg flex-1 sm:flex-none text-sm">
+                  <Button variant="outline" className="lg:hidden gap-2 h-12 sm:h-14 shadow-lg flex-1 sm:flex-none">
                     <SlidersHorizontal className="w-4 h-4" />
                     <span className="hidden xs:inline">{t.filters.title}</span>
                     {activeFiltersCount > 0 && (
@@ -240,17 +337,17 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('grid')}
-                  className="h-8 w-8 sm:h-12 sm:w-12"
+                  className="h-10 w-10 sm:h-12 sm:w-12"
                 >
-                  <Grid3X3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <Grid3X3 className="h-4 w-4" />
                 </Button>
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('list')}
-                  className="h-8 w-8 sm:h-12 sm:w-12"
+                  className="h-10 w-10 sm:h-12 sm:w-12"
                 >
-                  <LayoutList className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <LayoutList className="h-4 w-4" />
                 </Button>
               </div>
 
@@ -263,31 +360,44 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             </div>
           </div>
 
-          {/* Active Filters Tags */}
-          {activeFiltersCount > 0 && (
-            <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-              {Object.entries(filters).map(([key, values]) =>
-                (values as string[]).map(value => (
-                  <Badge
-                    key={`${key}-${value}`}
-                    variant="secondary"
-                    className="gap-1 sm:gap-1.5 pr-1 sm:pr-1.5 cursor-pointer hover:bg-secondary/80 text-xs"
-                    onClick={() => toggleFilter(key as keyof FilterState, value)}
-                  >
-                    <span className="truncate max-w-[100px] sm:max-w-none">{value}</span>
-                    <X className="h-3 w-3" />
-                  </Badge>
-                ))
-              )}
-            </div>
-          )}
+          {/* Results count + Active Filters */}
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            <span className="text-sm text-muted-foreground">
+              {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'résultats' : 'results'}`}
+            </span>
+            
+            {activeCategory && (
+              <Badge
+                variant="secondary"
+                className="gap-1.5 pr-1.5 cursor-pointer hover:bg-secondary/80"
+                onClick={() => setActiveCategory('')}
+              >
+                {categories.find(c => c.id === activeCategory)?.name}
+                <X className="h-3 w-3" />
+              </Badge>
+            )}
+            
+            {Object.entries(filters).map(([key, values]) =>
+              values.map(value => (
+                <Badge
+                  key={`${key}-${value}`}
+                  variant="secondary"
+                  className="gap-1.5 pr-1.5 cursor-pointer hover:bg-secondary/80"
+                  onClick={() => toggleFilter(key as keyof FilterState, value)}
+                >
+                  <span className="truncate max-w-[100px]">{value}</span>
+                  <X className="h-3 w-3" />
+                </Badge>
+              ))
+            )}
+          </div>
 
-          <div className="flex gap-4 sm:gap-8">
+          <div className="flex gap-6 lg:gap-8">
             {/* Desktop Sidebar */}
-            <aside className="hidden lg:block w-64 xl:w-72 shrink-0">
-              <div className="sticky top-28 bg-card rounded-2xl border border-border p-4 xl:p-6">
-                <div className="flex items-center justify-between mb-4 xl:mb-6">
-                  <h3 className="font-medium text-foreground text-sm xl:text-base">{t.filters.title}</h3>
+            <aside className="hidden lg:block w-64 shrink-0">
+              <div className="sticky top-28 bg-card rounded-2xl border border-border p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-medium text-foreground">{t.filters.title}</h3>
                   {activeFiltersCount > 0 && (
                     <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs text-muted-foreground h-auto p-0 hover:text-primary">
                       {t.filters.reset}
@@ -302,24 +412,24 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             <div className="flex-1 min-w-0">
               {isLoading ? (
                 <div className={cn(
-                  'grid gap-2.5 sm:gap-4 md:gap-6',
+                  'grid gap-3 sm:gap-4',
                   viewMode === 'grid' 
-                    ? 'grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
+                    ? 'grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                     : 'grid-cols-1'
                 )}>
                   {[...Array(9)].map((_, i) => (
-                    <div key={i} className="rounded-xl sm:rounded-2xl overflow-hidden border border-border/50 bg-card">
+                    <div key={i} className="rounded-2xl overflow-hidden border border-border/50 bg-card">
                       <div className="h-1 bg-secondary" />
-                      <div className="p-2.5 sm:p-4 space-y-2 sm:space-y-3">
-                        <div className="flex gap-2 sm:gap-3">
-                          <Skeleton className="w-8 h-8 sm:w-11 sm:h-11 rounded-lg shrink-0" />
+                      <div className="p-4 space-y-3">
+                        <div className="flex gap-3">
+                          <Skeleton className="w-11 h-11 rounded-lg shrink-0" />
                           <div className="flex-1 space-y-1.5">
-                            <Skeleton className="h-3.5 sm:h-5 w-full" />
-                            <Skeleton className="h-3 sm:h-4 w-1/2" />
+                            <Skeleton className="h-5 w-full" />
+                            <Skeleton className="h-4 w-1/2" />
                           </div>
                         </div>
-                        <Skeleton className="h-4 sm:h-5 w-full" />
-                        <Skeleton className="h-3 sm:h-4 w-3/4" />
+                        <Skeleton className="h-5 w-full" />
+                        <Skeleton className="h-4 w-3/4" />
                       </div>
                     </div>
                   ))}
@@ -327,9 +437,9 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               ) : displayedProducts.length > 0 ? (
                 <>
                   <div className={cn(
-                    'grid gap-2.5 sm:gap-4 md:gap-6',
+                    'grid gap-3 sm:gap-4',
                     viewMode === 'grid' 
-                      ? 'grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
+                      ? 'grid-cols-2 lg:grid-cols-2 xl:grid-cols-3' 
                       : 'grid-cols-1'
                   )}>
                     {displayedProducts.map((product, index) => (
@@ -338,30 +448,31 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   </div>
                   
                   {displayCount < (products?.length || 0) && (
-                    <div className="mt-8 sm:mt-12 text-center">
+                    <div className="mt-10 text-center">
                       <Button 
                         variant="outline" 
                         size="lg" 
                         onClick={() => setDisplayCount(prev => prev + 12)}
-                        className="min-w-[160px] sm:min-w-[200px] text-sm sm:text-base"
+                        className="min-w-[200px]"
                       >
                         {t.catalog.loadMore}
+                        <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>
                     </div>
                   )}
                 </>
               ) : (
-                <div className="text-center py-12 sm:py-20">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <Search className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground" />
+                <div className="text-center py-16">
+                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
+                    <Search className="h-8 w-8 text-muted-foreground" />
                   </div>
-                  <h3 className="font-serif text-xl sm:text-2xl text-foreground mb-2">
+                  <h3 className="font-serif text-2xl text-foreground mb-2">
                     {lang === 'fr' ? 'Aucun produit trouvé' : 'No products found'}
                   </h3>
-                  <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6">
-                    {lang === 'fr' ? 'Essayez de modifier vos critères' : 'Try adjusting your criteria'}
+                  <p className="text-muted-foreground mb-6">
+                    {lang === 'fr' ? 'Essayez de modifier vos critères de recherche' : 'Try adjusting your search criteria'}
                   </p>
-                  <Button variant="outline" onClick={clearFilters} className="text-sm sm:text-base">
+                  <Button variant="outline" onClick={clearFilters}>
                     {t.filters.reset}
                   </Button>
                 </div>
