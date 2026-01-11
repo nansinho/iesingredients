@@ -14,99 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      cosmetique_en: {
-        Row: {
-          application: string | null
-          aspect: string | null
-          benefices: string | null
-          benefices_aqueux: string | null
-          benefices_huileux: string | null
-          calendrier_des_recoltes: string | null
-          cas_no: string | null
-          certifications: string | null
-          code: string
-          conservateurs: string | null
-          created_at: string | null
-          description: string | null
-          flavouring_preparation: string | null
-          gamme: string | null
-          id: number
-          inci: string | null
-          nom_commercial: string | null
-          origine: string | null
-          partie_utilisee: string | null
-          solubilite: string | null
-          source_id: number | null
-          statut: string | null
-          tracabilite: string | null
-          translated_at: string | null
-          type_de_peau: string | null
-          typologie_de_produit: string | null
-          updated_at: string | null
-          valorisations: string | null
-        }
-        Insert: {
-          application?: string | null
-          aspect?: string | null
-          benefices?: string | null
-          benefices_aqueux?: string | null
-          benefices_huileux?: string | null
-          calendrier_des_recoltes?: string | null
-          cas_no?: string | null
-          certifications?: string | null
-          code: string
-          conservateurs?: string | null
-          created_at?: string | null
-          description?: string | null
-          flavouring_preparation?: string | null
-          gamme?: string | null
-          id?: number
-          inci?: string | null
-          nom_commercial?: string | null
-          origine?: string | null
-          partie_utilisee?: string | null
-          solubilite?: string | null
-          source_id?: number | null
-          statut?: string | null
-          tracabilite?: string | null
-          translated_at?: string | null
-          type_de_peau?: string | null
-          typologie_de_produit?: string | null
-          updated_at?: string | null
-          valorisations?: string | null
-        }
-        Update: {
-          application?: string | null
-          aspect?: string | null
-          benefices?: string | null
-          benefices_aqueux?: string | null
-          benefices_huileux?: string | null
-          calendrier_des_recoltes?: string | null
-          cas_no?: string | null
-          certifications?: string | null
-          code?: string
-          conservateurs?: string | null
-          created_at?: string | null
-          description?: string | null
-          flavouring_preparation?: string | null
-          gamme?: string | null
-          id?: number
-          inci?: string | null
-          nom_commercial?: string | null
-          origine?: string | null
-          partie_utilisee?: string | null
-          solubilite?: string | null
-          source_id?: number | null
-          statut?: string | null
-          tracabilite?: string | null
-          translated_at?: string | null
-          type_de_peau?: string | null
-          typologie_de_produit?: string | null
-          updated_at?: string | null
-          valorisations?: string | null
-        }
-        Relationships: []
-      }
       cosmetique_fr: {
         Row: {
           application: string | null
@@ -183,6 +90,81 @@ export type Database = {
           statut?: string | null
           tracabilite?: string | null
           type_de_peau?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
+        }
+        Relationships: []
+      }
+      parfum_fr: {
+        Row: {
+          aspect: string | null
+          base: string | null
+          calendrier_des_recoltes: string | null
+          cas_no: string | null
+          certifications: string | null
+          code: string | null
+          description: string | null
+          famille_olfactive: string | null
+          flavouring_preparation: string | null
+          food_grade: string | null
+          id: number
+          nom_commercial: string | null
+          nom_latin: string | null
+          odeur: string | null
+          origine: string | null
+          performance: string | null
+          ph: string | null
+          profil_olfactif: string | null
+          statut: string | null
+          tracabilite: string | null
+          typologie_de_produit: string | null
+          valorisations: string | null
+        }
+        Insert: {
+          aspect?: string | null
+          base?: string | null
+          calendrier_des_recoltes?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          description?: string | null
+          famille_olfactive?: string | null
+          flavouring_preparation?: string | null
+          food_grade?: string | null
+          id?: number
+          nom_commercial?: string | null
+          nom_latin?: string | null
+          odeur?: string | null
+          origine?: string | null
+          performance?: string | null
+          ph?: string | null
+          profil_olfactif?: string | null
+          statut?: string | null
+          tracabilite?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
+        }
+        Update: {
+          aspect?: string | null
+          base?: string | null
+          calendrier_des_recoltes?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          description?: string | null
+          famille_olfactive?: string | null
+          flavouring_preparation?: string | null
+          food_grade?: string | null
+          id?: number
+          nom_commercial?: string | null
+          nom_latin?: string | null
+          odeur?: string | null
+          origine?: string | null
+          performance?: string | null
+          ph?: string | null
+          profil_olfactif?: string | null
+          statut?: string | null
+          tracabilite?: string | null
           typologie_de_produit?: string | null
           valorisations?: string | null
         }
