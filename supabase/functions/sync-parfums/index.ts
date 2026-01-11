@@ -116,12 +116,23 @@ serve(async (req) => {
       });
     }
 
+    // Dédupliquer par code (garder la première occurrence)
+    const deduplicatedMap = new Map<string, typeof nonEmpty[0]>();
+    for (const p of nonEmpty) {
+      const key = String(p.code || p.nom_commercial || Math.random());
+      if (!deduplicatedMap.has(key)) {
+        deduplicatedMap.set(key, p);
+      }
+    }
+    const deduplicated = Array.from(deduplicatedMap.values());
+    console.log(`Après déduplication: ${deduplicated.length} parfum(s) uniques (avant: ${nonEmpty.length})`);
+
     // Séparer les produits actifs et les produits à supprimer
-    const activeProducts = nonEmpty.filter(p => p.statut === 'ACTIF' || p.statut === 'INACTIF');
-    const deletedProducts = nonEmpty.filter(p => p.statut === 'SUPPRIME');
+    const activeProducts = deduplicated.filter(p => p.statut === 'ACTIF' || p.statut === 'INACTIF');
+    const deletedProducts = deduplicated.filter(p => p.statut === 'SUPPRIME');
 
     console.log(`Parfums actifs/inactifs: ${activeProducts.length}, Parfums marqués SUPPRIME: ${deletedProducts.length}`);
-    console.log('Sample mapped parfum:', JSON.stringify(nonEmpty[0]));
+    console.log('Sample mapped parfum:', JSON.stringify(deduplicated[0]));
 
     let upsertedCount = 0;
     let deletedCount = 0;
