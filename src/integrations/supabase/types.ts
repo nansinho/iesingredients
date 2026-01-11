@@ -186,6 +186,15 @@ export type Database = {
           nom_commercial: string | null
           nom_latin: string | null
           odeur: string | null
+          odeur_antisudorifique: string | null
+          odeur_apc: string | null
+          odeur_assouplissant_textile: string | null
+          odeur_detergent_liquide: string | null
+          odeur_detergent_poudre: string | null
+          odeur_eau_javel: string | null
+          odeur_nettoyant_acide: string | null
+          odeur_savon: string | null
+          odeur_shampooing: string | null
           option_1: string | null
           option_2: string | null
           option_3: string | null
@@ -201,6 +210,15 @@ export type Database = {
           performance_5: string | null
           performance_6: string | null
           ph: string | null
+          ph_antisudorifique: string | null
+          ph_apc: string | null
+          ph_assouplissant_textile: string | null
+          ph_detergent_liquide: string | null
+          ph_detergent_poudre: string | null
+          ph_eau_javel: string | null
+          ph_nettoyant_acide: string | null
+          ph_savon: string | null
+          ph_shampooing: string | null
           profil_olfactif: string | null
           statut: string | null
           tracabilite: string | null
@@ -222,6 +240,15 @@ export type Database = {
           nom_commercial?: string | null
           nom_latin?: string | null
           odeur?: string | null
+          odeur_antisudorifique?: string | null
+          odeur_apc?: string | null
+          odeur_assouplissant_textile?: string | null
+          odeur_detergent_liquide?: string | null
+          odeur_detergent_poudre?: string | null
+          odeur_eau_javel?: string | null
+          odeur_nettoyant_acide?: string | null
+          odeur_savon?: string | null
+          odeur_shampooing?: string | null
           option_1?: string | null
           option_2?: string | null
           option_3?: string | null
@@ -237,6 +264,15 @@ export type Database = {
           performance_5?: string | null
           performance_6?: string | null
           ph?: string | null
+          ph_antisudorifique?: string | null
+          ph_apc?: string | null
+          ph_assouplissant_textile?: string | null
+          ph_detergent_liquide?: string | null
+          ph_detergent_poudre?: string | null
+          ph_eau_javel?: string | null
+          ph_nettoyant_acide?: string | null
+          ph_savon?: string | null
+          ph_shampooing?: string | null
           profil_olfactif?: string | null
           statut?: string | null
           tracabilite?: string | null
@@ -258,6 +294,15 @@ export type Database = {
           nom_commercial?: string | null
           nom_latin?: string | null
           odeur?: string | null
+          odeur_antisudorifique?: string | null
+          odeur_apc?: string | null
+          odeur_assouplissant_textile?: string | null
+          odeur_detergent_liquide?: string | null
+          odeur_detergent_poudre?: string | null
+          odeur_eau_javel?: string | null
+          odeur_nettoyant_acide?: string | null
+          odeur_savon?: string | null
+          odeur_shampooing?: string | null
           option_1?: string | null
           option_2?: string | null
           option_3?: string | null
@@ -273,6 +318,15 @@ export type Database = {
           performance_5?: string | null
           performance_6?: string | null
           ph?: string | null
+          ph_antisudorifique?: string | null
+          ph_apc?: string | null
+          ph_assouplissant_textile?: string | null
+          ph_detergent_liquide?: string | null
+          ph_detergent_poudre?: string | null
+          ph_eau_javel?: string | null
+          ph_nettoyant_acide?: string | null
+          ph_savon?: string | null
+          ph_shampooing?: string | null
           profil_olfactif?: string | null
           statut?: string | null
           tracabilite?: string | null
