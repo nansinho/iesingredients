@@ -186,8 +186,20 @@ export type Database = {
           nom_commercial: string | null
           nom_latin: string | null
           odeur: string | null
+          option_1: string | null
+          option_2: string | null
+          option_3: string | null
+          option_4: string | null
+          option_5: string | null
+          option_6: string | null
           origine: string | null
           performance: string | null
+          performance_1: string | null
+          performance_2: string | null
+          performance_3: string | null
+          performance_4: string | null
+          performance_5: string | null
+          performance_6: string | null
           ph: string | null
           profil_olfactif: string | null
           statut: string | null
@@ -210,8 +222,20 @@ export type Database = {
           nom_commercial?: string | null
           nom_latin?: string | null
           odeur?: string | null
+          option_1?: string | null
+          option_2?: string | null
+          option_3?: string | null
+          option_4?: string | null
+          option_5?: string | null
+          option_6?: string | null
           origine?: string | null
           performance?: string | null
+          performance_1?: string | null
+          performance_2?: string | null
+          performance_3?: string | null
+          performance_4?: string | null
+          performance_5?: string | null
+          performance_6?: string | null
           ph?: string | null
           profil_olfactif?: string | null
           statut?: string | null
@@ -234,8 +258,20 @@ export type Database = {
           nom_commercial?: string | null
           nom_latin?: string | null
           odeur?: string | null
+          option_1?: string | null
+          option_2?: string | null
+          option_3?: string | null
+          option_4?: string | null
+          option_5?: string | null
+          option_6?: string | null
           origine?: string | null
           performance?: string | null
+          performance_1?: string | null
+          performance_2?: string | null
+          performance_3?: string | null
+          performance_4?: string | null
+          performance_5?: string | null
+          performance_6?: string | null
           ph?: string | null
           profil_olfactif?: string | null
           statut?: string | null
