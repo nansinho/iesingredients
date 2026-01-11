@@ -134,7 +134,7 @@ export default function CosmetiqueEditPage() {
             {isNew ? "Nouveau cosmétique" : "Modifier le cosmétique"}
           </h1>
           {!isNew && product?.nom_commercial && (
-            <p className="text-muted-foreground">{product.nom_commercial}</p>
+            <p className="text-muted-foreground">{String(product.nom_commercial)}</p>
           )}
         </div>
       </div>
