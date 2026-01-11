@@ -43,7 +43,7 @@ export default function ParfumPerformancePage() {
         <div>
           <h1 className="text-2xl font-bold text-foreground">Performance & Stabilité</h1>
           <p className="text-muted-foreground">
-            {product.nom_commercial || product.code}
+            {String(product.nom_commercial || product.code)}
           </p>
         </div>
       </div>
