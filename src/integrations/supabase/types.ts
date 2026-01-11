@@ -29,6 +29,7 @@ export type Database = {
           food_grade: string | null
           gamme: string | null
           id: number
+          image_url: string | null
           inci: string | null
           nom_commercial: string | null
           origine: string | null
@@ -53,6 +54,7 @@ export type Database = {
           food_grade?: string | null
           gamme?: string | null
           id?: number
+          image_url?: string | null
           inci?: string | null
           nom_commercial?: string | null
           origine?: string | null
@@ -77,6 +79,7 @@ export type Database = {
           food_grade?: string | null
           gamme?: string | null
           id?: number
+          image_url?: string | null
           inci?: string | null
           nom_commercial?: string | null
           origine?: string | null
@@ -105,6 +108,7 @@ export type Database = {
           flavouring_preparation: string | null
           gamme: string | null
           id: number
+          image_url: string | null
           inci: string | null
           nom_commercial: string | null
           origine: string | null
@@ -131,6 +135,7 @@ export type Database = {
           flavouring_preparation?: string | null
           gamme?: string | null
           id?: number
+          image_url?: string | null
           inci?: string | null
           nom_commercial?: string | null
           origine?: string | null
@@ -157,6 +162,7 @@ export type Database = {
           flavouring_preparation?: string | null
           gamme?: string | null
           id?: number
+          image_url?: string | null
           inci?: string | null
           nom_commercial?: string | null
           origine?: string | null
@@ -183,6 +189,7 @@ export type Database = {
           flavouring_preparation: string | null
           food_grade: string | null
           id: number
+          image_url: string | null
           nom_commercial: string | null
           nom_latin: string | null
           odeur: string | null
@@ -237,6 +244,7 @@ export type Database = {
           flavouring_preparation?: string | null
           food_grade?: string | null
           id?: number
+          image_url?: string | null
           nom_commercial?: string | null
           nom_latin?: string | null
           odeur?: string | null
@@ -291,6 +299,7 @@ export type Database = {
           flavouring_preparation?: string | null
           food_grade?: string | null
           id?: number
+          image_url?: string | null
           nom_commercial?: string | null
           nom_latin?: string | null
           odeur?: string | null
@@ -332,6 +341,69 @@ export type Database = {
           tracabilite?: string | null
           typologie_de_produit?: string | null
           valorisations?: string | null
+        }
+        Relationships: []
+      }
+      parfum_performance: {
+        Row: {
+          created_at: string | null
+          id: number
+          option_name: string | null
+          ordre: number
+          performance_rating: number | null
+          product_code: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          option_name?: string | null
+          ordre: number
+          performance_rating?: number | null
+          product_code: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          option_name?: string | null
+          ordre?: number
+          performance_rating?: number | null
+          product_code?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      parfum_stabilite: {
+        Row: {
+          base_name: string
+          created_at: string | null
+          id: number
+          odeur_rating: number | null
+          ordre: number
+          ph_value: string | null
+          product_code: string
+          updated_at: string | null
+        }
+        Insert: {
+          base_name: string
+          created_at?: string | null
+          id?: number
+          odeur_rating?: number | null
+          ordre: number
+          ph_value?: string | null
+          product_code: string
+          updated_at?: string | null
+        }
+        Update: {
+          base_name?: string
+          created_at?: string | null
+          id?: number
+          odeur_rating?: number | null
+          ordre?: number
+          ph_value?: string | null
+          product_code?: string
+          updated_at?: string | null
         }
         Relationships: []
       }

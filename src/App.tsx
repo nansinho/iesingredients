@@ -20,6 +20,17 @@ const TeamPage = lazy(() => import("./pages/TeamPage").then(m => ({ default: m.T
 const NewsPage = lazy(() => import("./pages/NewsPage").then(m => ({ default: m.NewsPage })));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+// Admin pages
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const CosmetiqueListPage = lazy(() => import("./pages/admin/cosmetiques/CosmetiqueListPage"));
+const CosmetiqueEditPage = lazy(() => import("./pages/admin/cosmetiques/CosmetiqueEditPage"));
+const ParfumListPage = lazy(() => import("./pages/admin/parfums/ParfumListPage"));
+const ParfumEditPage = lazy(() => import("./pages/admin/parfums/ParfumEditPage"));
+const ParfumPerformancePage = lazy(() => import("./pages/admin/parfums/ParfumPerformancePage"));
+const AromeListPage = lazy(() => import("./pages/admin/aromes/AromeListPage"));
+const AromeEditPage = lazy(() => import("./pages/admin/aromes/AromeEditPage"));
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -73,6 +84,21 @@ const AppRoutes = () => {
           <Route path="/en/actualites" element={<NewsPage lang="en" />} />
           <Route path="/en/contact" element={<ContactPage lang="en" />} />
 
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="cosmetiques" element={<CosmetiqueListPage />} />
+            <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
+            <Route path="cosmetiques/:code" element={<CosmetiqueEditPage />} />
+            <Route path="parfums" element={<ParfumListPage />} />
+            <Route path="parfums/new" element={<ParfumEditPage />} />
+            <Route path="parfums/:code" element={<ParfumEditPage />} />
+            <Route path="parfums/:code/performance" element={<ParfumPerformancePage />} />
+            <Route path="aromes" element={<AromeListPage />} />
+            <Route path="aromes/new" element={<AromeEditPage />} />
+            <Route path="aromes/:code" element={<AromeEditPage />} />
+          </Route>
+
           {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -100,4 +126,3 @@ const App = () => (
 );
 
 export default App;
-
