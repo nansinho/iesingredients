@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils';
 import { useSampleCart } from '@/contexts/SampleCartContext';
 import { toast } from 'sonner';
 import { CopyField } from '@/components/ui/CopyButton';
+import { PerformanceStabilityTables } from '@/components/product/PerformanceStabilityTables';
 
 interface ProductPageProps {
   lang: Language;
@@ -331,6 +332,9 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
               </div>
             ))}
           </div>
+
+          {/* Performance & Stability Tables (for Parfum products) */}
+          <PerformanceStabilityTables product={product} lang={lang} />
 
           {/* Applications & Skin Types */}
           {(applications.length > 0 || skinTypes.length > 0) && (

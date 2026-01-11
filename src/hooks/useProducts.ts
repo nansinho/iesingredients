@@ -37,6 +37,29 @@ export interface Product {
   ph?: string | null;
   base?: string | null;
   odeur?: string | null;
+  // Parfum performance options (Option 1-6, Performance 1-6)
+  option_1?: string | null;
+  performance_1?: string | null;
+  option_2?: string | null;
+  performance_2?: string | null;
+  option_3?: string | null;
+  performance_3?: string | null;
+  option_4?: string | null;
+  performance_4?: string | null;
+  option_5?: string | null;
+  performance_5?: string | null;
+  option_6?: string | null;
+  performance_6?: string | null;
+  // Parfum stability by base/application
+  odeur_nettoyant_acide?: string | null;
+  odeur_assouplissant_textile?: string | null;
+  odeur_antisudorifique?: string | null;
+  odeur_shampooing?: string | null;
+  odeur_apc?: string | null;
+  odeur_detergent_liquide?: string | null;
+  odeur_savon?: string | null;
+  odeur_detergent_poudre?: string | null;
+  odeur_eau_javel?: string | null;
   // Aromes-specific fields
   profil_aromatique?: string | null;
   dosage?: string | null;
