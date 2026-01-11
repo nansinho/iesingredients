@@ -7,13 +7,12 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    console.log('Received sync-products request');
+    console.log('Received sync-cosmetics request');
     
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
@@ -44,7 +43,6 @@ serve(async (req) => {
     const products = extractItems(payload);
     console.log(`Processing ${products.length} item(s)`);
 
-    // Détecter un payload n8n mal configuré (souvent {"":""})
     const keys0 = products[0] ? Object.keys(products[0]) : [];
     if (products.length === 0 || (keys0.length === 1 && keys0[0] === '')) {
       return new Response(JSON.stringify({
@@ -57,12 +55,9 @@ serve(async (req) => {
       });
     }
 
-    // Mapping (tolérant aux variantes avec/sans accents et majuscules)
-    // NOUVEAU: On récupère aussi la colonne "Statut" depuis le Sheet
+    // Mapping pour cosmétiques
     const mappedProducts = products.map((p: any) => {
-      // Récupérer le statut depuis le Sheet (ACTIF, SUPPRIMER, INACTIF, etc.)
       const rawStatut = get(p, ["Statut", "statut", "Status", "status"]);
-      // Normaliser: si vide ou absent -> ACTIF par défaut
       let statut = 'ACTIF';
       if (rawStatut) {
         const normalized = String(rawStatut).toUpperCase().trim();
@@ -98,11 +93,10 @@ serve(async (req) => {
         calendrier_des_recoltes: get(p, ["Calendrier des récoltes", "Calendrier des recoltes", "calendrier_des_recoltes"]),
         certifications: get(p, ["Certifications", "certifications"]),
         valorisations: get(p, ["Valorisations", "valorisations"]),
-        statut: statut, // NOUVEAU: statut basé sur la colonne du Sheet
+        statut: statut,
       };
     });
 
-    // Éviter d'insérer des lignes totalement vides (ignorer le statut pour ce check)
     const nonEmpty = mappedProducts.filter((mp) => {
       const { statut, ...rest } = mp;
       return Object.values(rest).some((v) => v !== null);
@@ -120,7 +114,6 @@ serve(async (req) => {
       });
     }
 
-    // Séparer les produits actifs et les produits à supprimer
     const activeProducts = nonEmpty.filter(p => p.statut === 'ACTIF' || p.statut === 'INACTIF');
     const deletedProducts = nonEmpty.filter(p => p.statut === 'SUPPRIME');
 
@@ -130,7 +123,6 @@ serve(async (req) => {
     let upsertedCount = 0;
     let deletedCount = 0;
 
-    // 1. Upsert des produits actifs/inactifs
     if (activeProducts.length > 0) {
       const { data, error } = await supabase
         .from('cosmetique_fr')
@@ -146,7 +138,6 @@ serve(async (req) => {
       console.log(`Upsert réussi: ${upsertedCount} produit(s)`);
     }
 
-    // 2. Supprimer (vraiment) les produits marqués SUPPRIME
     if (deletedProducts.length > 0) {
       const codesToDelete = deletedProducts.map(p => p.code).filter(Boolean);
       console.log(`Codes à supprimer: ${codesToDelete.join(', ')}`);
@@ -175,7 +166,7 @@ serve(async (req) => {
     
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    console.error('Error in sync-products:', errorMessage);
+    console.error('Error in sync-cosmetics:', errorMessage);
     return new Response(JSON.stringify({ 
       success: false,
       error: errorMessage 

@@ -2,29 +2,29 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Language } from '@/lib/i18n';
 
-// Generic product type that works for both tables
+// Generic product type that works for all tables (cosmetique, parfum, aromes)
 export interface Product {
   id: number;
   code: string | null;
   nom_commercial: string | null;
   typologie_de_produit: string | null;
-  gamme: string | null;
+  gamme?: string | null;
   origine: string | null;
-  tracabilite: string | null;
+  tracabilite?: string | null;
   cas_no: string | null;
-  inci: string | null;
-  flavouring_preparation: string | null;
-  benefices_aqueux: string | null;
-  benefices_huileux: string | null;
-  benefices: string | null;
-  solubilite: string | null;
-  partie_utilisee: string | null;
+  inci?: string | null;
+  flavouring_preparation?: string | null;
+  benefices_aqueux?: string | null;
+  benefices_huileux?: string | null;
+  benefices?: string | null;
+  solubilite?: string | null;
+  partie_utilisee?: string | null;
   description: string | null;
   aspect: string | null;
-  conservateurs: string | null;
-  application: string | null;
-  type_de_peau: string | null;
-  calendrier_des_recoltes: string | null;
+  conservateurs?: string | null;
+  application?: string | null;
+  type_de_peau?: string | null;
+  calendrier_des_recoltes?: string | null;
   certifications: string | null;
   valorisations: string | null;
   statut: string | null;
@@ -37,6 +37,9 @@ export interface Product {
   ph?: string | null;
   base?: string | null;
   odeur?: string | null;
+  // Aromes-specific fields
+  profil_aromatique?: string | null;
+  dosage?: string | null;
 }
 
 export interface ProductFilters {
@@ -94,6 +97,19 @@ export const useProducts = (filters?: ProductFilters, lang: Language = 'fr') => 
         console.warn('parfum_fr table not accessible:', parfumError);
       } else if (parfumData) {
         allProducts = [...allProducts, ...(parfumData as Product[])];
+      }
+
+      // Fetch from aromes_fr
+      const { data: aromesData, error: aromesError } = await supabase
+        .from('aromes_fr')
+        .select('*')
+        .eq('statut', 'ACTIF')
+        .order('nom_commercial', { ascending: true });
+      
+      if (aromesError) {
+        console.warn('aromes_fr table not accessible:', aromesError);
+      } else if (aromesData) {
+        allProducts = [...allProducts, ...(aromesData as Product[])];
       }
 
       // Sort combined results
