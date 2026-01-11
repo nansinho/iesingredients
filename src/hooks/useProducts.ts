@@ -182,16 +182,56 @@ export const useProducts = (filters?: ProductFilters, lang: Language = 'fr') => 
   });
 };
 
-// Fetch a single product by code - check both tables
-export const useProduct = (code: string, lang: Language = 'fr') => {
+// Fetch a single product by code or id - check all tables
+export const useProduct = (identifier: string, lang: Language = 'fr') => {
   return useQuery({
-    queryKey: ['product', code, lang],
+    queryKey: ['product', identifier, lang],
     queryFn: async () => {
+      // Check if identifier is an ID (format: id-123)
+      const isIdSearch = identifier.startsWith('id-');
+      const numericId = isIdSearch ? parseInt(identifier.replace('id-', ''), 10) : null;
+
+      if (isIdSearch && numericId) {
+        // Search by ID across all tables
+        // Try cosmetique_fr
+        const { data: cosmetiqueData } = await supabase
+          .from('cosmetique_fr')
+          .select('*')
+          .eq('id', numericId)
+          .eq('statut', 'ACTIF')
+          .maybeSingle();
+        
+        if (cosmetiqueData) return cosmetiqueData as Product;
+
+        // Try parfum_fr
+        const { data: parfumData } = await supabase
+          .from('parfum_fr')
+          .select('*')
+          .eq('id', numericId)
+          .eq('statut', 'ACTIF')
+          .maybeSingle();
+        
+        if (parfumData) return parfumData as Product;
+
+        // Try aromes_fr
+        const { data: aromesData } = await supabase
+          .from('aromes_fr')
+          .select('*')
+          .eq('id', numericId)
+          .eq('statut', 'ACTIF')
+          .maybeSingle();
+        
+        if (aromesData) return aromesData as Product;
+
+        return null;
+      }
+
+      // Search by code across all tables
       // Try cosmetique_fr first
       const { data: cosmetiqueData, error: cosmetiqueError } = await supabase
         .from('cosmetique_fr')
         .select('*')
-        .eq('code', code)
+        .eq('code', identifier)
         .eq('statut', 'ACTIF')
         .maybeSingle();
       
@@ -201,22 +241,33 @@ export const useProduct = (code: string, lang: Language = 'fr') => {
         return cosmetiqueData as Product;
       }
 
-      // Try parfum_fr if not found in cosmetique
+      // Try parfum_fr
       const { data: parfumData, error: parfumError } = await supabase
         .from('parfum_fr')
         .select('*')
-        .eq('code', code)
+        .eq('code', identifier)
         .eq('statut', 'ACTIF')
         .maybeSingle();
       
-      if (parfumError) {
-        console.warn('parfum_fr table not accessible:', parfumError);
-        return null;
+      if (!parfumError && parfumData) {
+        return parfumData as Product;
       }
+
+      // Try aromes_fr
+      const { data: aromesData, error: aromesError } = await supabase
+        .from('aromes_fr')
+        .select('*')
+        .eq('code', identifier)
+        .eq('statut', 'ACTIF')
+        .maybeSingle();
       
-      return parfumData as Product | null;
+      if (!aromesError && aromesData) {
+        return aromesData as Product;
+      }
+
+      return null;
     },
-    enabled: !!code,
+    enabled: !!identifier,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
   });
