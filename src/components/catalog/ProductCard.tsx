@@ -60,10 +60,13 @@ export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>
   // Get first benefit only for mobile
   const firstBenefit = product.benefices?.split(/[\/,]/)[0]?.trim();
 
+  // Use code if available, otherwise use id with prefix
+  const productIdentifier = product.code || `id-${product.id}`;
+
   return (
     <Link 
       ref={ref}
-      to={`/${lang}/produit/${product.code}`} 
+      to={`/${lang}/produit/${productIdentifier}`} 
       className="group block h-full"
     >
       <article className="relative h-full bg-card rounded-xl sm:rounded-2xl border border-border/50 overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-border flex flex-col">
