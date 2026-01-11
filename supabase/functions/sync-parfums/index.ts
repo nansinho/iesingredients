@@ -94,6 +94,19 @@ serve(async (req) => {
         odeur: get(p, ["Odeur", "odeur"]),
         certifications: get(p, ["Certifications", "certifications"]),
         valorisations: get(p, ["Valorisations", "valorisations"]),
+        // Nouvelles colonnes de performance détaillées
+        option_1: get(p, ["Option 1", "option_1"]),
+        performance_1: get(p, ["Performance 1", "performance_1"]),
+        option_2: get(p, ["Option 2", "option_2"]),
+        performance_2: get(p, ["Performance 2", "performance_2"]),
+        option_3: get(p, ["Option 3", "option_3"]),
+        performance_3: get(p, ["Performance 3", "performance_3"]),
+        option_4: get(p, ["Option 4", "option_4"]),
+        performance_4: get(p, ["Performance 4", "performance_4"]),
+        option_5: get(p, ["Option 5", "option_5"]),
+        performance_5: get(p, ["Performance 5", "performance_5"]),
+        option_6: get(p, ["Option 6", "option_6"]),
+        performance_6: get(p, ["Performance 6", "performance_6"]),
         statut: statut,
       };
     });
