@@ -88,13 +88,9 @@ serve(async (req) => {
         description: get(p, ["Description", "description"]),
         aspect: get(p, ["Aspect", "aspect"]),
         calendrier_des_recoltes: get(p, ["Calendrier des récoltes", "Calendrier des recoltes", "calendrier_des_recoltes"]),
-        performance: get(p, ["Performance", "performance"]),
-        ph: get(p, ["pH", "ph", "PH"]),
-        base: get(p, ["Base", "base"]),
-        odeur: get(p, ["Odeur", "odeur"]),
         certifications: get(p, ["Certifications", "certifications"]),
         valorisations: get(p, ["Valorisations", "valorisations"]),
-        // Nouvelles colonnes de performance détaillées
+        // Colonnes de performance détaillées (Option/Performance 1-6)
         option_1: get(p, ["Option 1", "option_1"]),
         performance_1: get(p, ["Performance 1", "performance_1"]),
         option_2: get(p, ["Option 2", "option_2"]),
@@ -107,6 +103,16 @@ serve(async (req) => {
         performance_5: get(p, ["Performance 5", "performance_5"]),
         option_6: get(p, ["Option 6", "option_6"]),
         performance_6: get(p, ["Performance 6", "performance_6"]),
+        // Colonnes Odeur par type de base/application
+        odeur_nettoyant_acide: get(p, ["Odeur Nettoyant acide", "Odeur nettoyant acide", "odeur_nettoyant_acide"]),
+        odeur_assouplissant_textile: get(p, ["Odeur Assouplissant textile", "Odeur assouplissant textile", "odeur_assouplissant_textile"]),
+        odeur_antisudorifique: get(p, ["Odeur Antisudorifique", "Odeur antisudorifique", "odeur_antisudorifique"]),
+        odeur_shampooing: get(p, ["Odeur Shampooing", "Odeur shampooing", "odeur_shampooing"]),
+        odeur_apc: get(p, ["Odeur APC", "Odeur apc", "odeur_apc"]),
+        odeur_detergent_liquide: get(p, ["Odeur Détergent liquide", "Odeur Detergent liquide", "Odeur détergent liquide", "odeur_detergent_liquide"]),
+        odeur_savon: get(p, ["Odeur Savon", "Odeur savon", "odeur_savon"]),
+        odeur_detergent_poudre: get(p, ["Odeur Détergent poudre", "Odeur Detergent poudre", "Odeur détergent poudre", "odeur_detergent_poudre"]),
+        odeur_eau_javel: get(p, ["Odeur Eau de Javel", "Odeur eau de javel", "Odeur Eau de javel", "odeur_eau_javel"]),
         statut: statut,
       };
     });
