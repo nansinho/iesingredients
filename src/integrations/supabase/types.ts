@@ -14,6 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      aromes_fr: {
+        Row: {
+          application: string | null
+          aspect: string | null
+          base: string | null
+          cas_no: string | null
+          certifications: string | null
+          code: string | null
+          conservateurs: string | null
+          description: string | null
+          dosage: string | null
+          flavouring_preparation: string | null
+          food_grade: string | null
+          gamme: string | null
+          id: number
+          inci: string | null
+          nom_commercial: string | null
+          origine: string | null
+          ph: string | null
+          profil_aromatique: string | null
+          statut: string | null
+          tracabilite: string | null
+          typologie_de_produit: string | null
+          valorisations: string | null
+        }
+        Insert: {
+          application?: string | null
+          aspect?: string | null
+          base?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          conservateurs?: string | null
+          description?: string | null
+          dosage?: string | null
+          flavouring_preparation?: string | null
+          food_grade?: string | null
+          gamme?: string | null
+          id?: number
+          inci?: string | null
+          nom_commercial?: string | null
+          origine?: string | null
+          ph?: string | null
+          profil_aromatique?: string | null
+          statut?: string | null
+          tracabilite?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
+        }
+        Update: {
+          application?: string | null
+          aspect?: string | null
+          base?: string | null
+          cas_no?: string | null
+          certifications?: string | null
+          code?: string | null
+          conservateurs?: string | null
+          description?: string | null
+          dosage?: string | null
+          flavouring_preparation?: string | null
+          food_grade?: string | null
+          gamme?: string | null
+          id?: number
+          inci?: string | null
+          nom_commercial?: string | null
+          origine?: string | null
+          ph?: string | null
+          profil_aromatique?: string | null
+          statut?: string | null
+          tracabilite?: string | null
+          typologie_de_produit?: string | null
+          valorisations?: string | null
+        }
+        Relationships: []
+      }
       cosmetique_fr: {
         Row: {
           application: string | null
