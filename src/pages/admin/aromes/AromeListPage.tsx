@@ -120,9 +120,9 @@ export default function AromeListPage() {
         </div>
 
         <Select
-          value={gamme}
+          value={gamme || "__all__"}
           onValueChange={(value) => {
-            setGamme(value);
+            setGamme(value === "__all__" ? "" : value);
             setPage(1);
           }}
         >
@@ -130,7 +130,7 @@ export default function AromeListPage() {
             <SelectValue placeholder="Gamme" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Toutes</SelectItem>
+            <SelectItem value="__all__">Toutes</SelectItem>
             {filterOptions?.gammes.map((g) => (
               <SelectItem key={g} value={g}>
                 {g}
@@ -140,9 +140,9 @@ export default function AromeListPage() {
         </Select>
 
         <Select
-          value={origine}
+          value={origine || "__all__"}
           onValueChange={(value) => {
-            setOrigine(value);
+            setOrigine(value === "__all__" ? "" : value);
             setPage(1);
           }}
         >
@@ -150,7 +150,7 @@ export default function AromeListPage() {
             <SelectValue placeholder="Origine" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Toutes</SelectItem>
+            <SelectItem value="__all__">Toutes</SelectItem>
             {filterOptions?.origines.map((o) => (
               <SelectItem key={o} value={o}>
                 {o}
@@ -160,9 +160,9 @@ export default function AromeListPage() {
         </Select>
 
         <Select
-          value={statut}
+          value={statut || "__all__"}
           onValueChange={(value) => {
-            setStatut(value);
+            setStatut(value === "__all__" ? "" : value);
             setPage(1);
           }}
         >
@@ -170,7 +170,7 @@ export default function AromeListPage() {
             <SelectValue placeholder="Statut" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">Tous</SelectItem>
+            <SelectItem value="__all__">Tous</SelectItem>
             {filterOptions?.statuts.map((s) => (
               <SelectItem key={s} value={s}>
                 {s}
