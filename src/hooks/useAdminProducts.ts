@@ -4,6 +4,18 @@ import { toast } from "sonner";
 
 export type ProductType = "cosmetique" | "parfum" | "arome";
 
+export interface AdminProduct {
+  id: number;
+  code: string | null;
+  nom_commercial: string | null;
+  gamme?: string | null;
+  famille_olfactive?: string | null;
+  origine: string | null;
+  statut: string | null;
+  image_url: string | null;
+  [key: string]: unknown;
+}
+
 const tableMap = {
   cosmetique: "cosmetique_fr",
   parfum: "parfum_fr",
@@ -101,7 +113,7 @@ export function useAdminProduct(type: ProductType, code: string | null) {
         .single();
 
       if (error) throw error;
-      return data as Record<string, unknown>;
+      return data as AdminProduct;
     },
     enabled: !!code,
   });
