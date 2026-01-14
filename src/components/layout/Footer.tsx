@@ -12,7 +12,7 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(({ lang }, ref)
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer ref={ref} className="bg-navy-900 text-white">
+    <footer ref={ref} className="bg-forest-950 text-white">
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
@@ -59,7 +59,7 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(({ lang }, ref)
         </div>
       </div>
 
-      <div className="border-t border-white/10">
+      <div className="border-t border-gold-500/20">
         <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">
           <p>© {currentYear} IES Ingredients. {t.footer.rights}.</p>
           <div className="flex gap-6">
