@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
-import { Sparkles, Award, Leaf } from 'lucide-react';
+import { Sparkles, Award, Leaf, FileText, MapPin, Tag } from 'lucide-react';
 import { getCategoryConfig } from '@/lib/productTheme';
 
 interface ProductSummaryCardProps {
@@ -46,13 +46,21 @@ export function ProductSummaryCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      className="space-y-4 sm:space-y-6"
     >
-      <Card className="border border-forest-200 shadow-xl bg-white overflow-hidden">
-        {/* Gold accent bar */}
-        <div className="h-1 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400" />
-        
+      {/* External title */}
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-forest-900 flex items-center justify-center shadow-md">
+          <FileText className="w-5 h-5 text-gold-400" />
+        </div>
+        <h2 className="font-sans text-lg sm:text-xl font-semibold text-forest-900">
+          Description
+        </h2>
+      </div>
+
+      <Card className="border border-forest-200 shadow-sm bg-white overflow-hidden">
         <CardContent className="p-5 sm:p-8 space-y-6">
-          {/* Origine & Gamme Badges */}
+          {/* Origine & Gamme Badges with icons */}
           {hasBadges && (
             <motion.div 
               className="flex flex-wrap items-center gap-2"
@@ -61,12 +69,14 @@ export function ProductSummaryCard({
               transition={{ delay: 0.05 }}
             >
               {origine && (
-                <Badge className="bg-gold-50 text-gold-700 border border-gold-300 font-sans text-xs font-medium px-3 py-1.5 hover:bg-gold-100 transition-colors">
+                <Badge className="bg-gold-50 text-gold-700 border border-gold-300 font-sans text-xs font-medium px-3 py-1.5 hover:bg-gold-100 transition-colors inline-flex items-center gap-1.5">
+                  <MapPin className="w-3 h-3" />
                   {origine}
                 </Badge>
               )}
               {gamme && (
-                <Badge className="bg-forest-50 text-forest-700 border border-forest-200 font-sans text-xs font-medium px-3 py-1.5 hover:bg-forest-100 transition-colors">
+                <Badge className="bg-forest-50 text-forest-700 border border-forest-200 font-sans text-xs font-medium px-3 py-1.5 hover:bg-forest-100 transition-colors inline-flex items-center gap-1.5">
+                  <Tag className="w-3 h-3" />
                   {gamme}
                 </Badge>
               )}
