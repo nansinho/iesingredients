@@ -13,7 +13,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 // Lazy load pages for better performance
 const HomePage = lazy(() => import("./pages/HomePage").then(m => ({ default: m.HomePage })));
 const CatalogPage = lazy(() => import("./pages/CatalogPage").then(m => ({ default: m.CatalogPage })));
-const ProductPage = lazy(() => import("./pages/ProductPage").then(m => ({ default: m.ProductPage })));
+const ProductPage = lazy(() => import("./pages/ProductPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage").then(m => ({ default: m.ContactPage })));
 const CompanyPage = lazy(() => import("./pages/CompanyPage").then(m => ({ default: m.CompanyPage })));
 const TeamPage = lazy(() => import("./pages/TeamPage").then(m => ({ default: m.TeamPage })));
@@ -69,7 +69,7 @@ const AppRoutes = () => {
           {/* French Routes */}
           <Route path="/fr" element={<HomePage lang="fr" />} />
           <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
-          <Route path="/fr/produit/:id" element={<ProductPage lang="fr" />} />
+          <Route path="/fr/produit/:code" element={<ProductPage />} />
           <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
           <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
           <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
@@ -78,7 +78,7 @@ const AppRoutes = () => {
           {/* English Routes */}
           <Route path="/en" element={<HomePage lang="en" />} />
           <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
-          <Route path="/en/produit/:id" element={<ProductPage lang="en" />} />
+          <Route path="/en/produit/:code" element={<ProductPage />} />
           <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
           <Route path="/en/equipe" element={<TeamPage lang="en" />} />
           <Route path="/en/actualites" element={<NewsPage lang="en" />} />
