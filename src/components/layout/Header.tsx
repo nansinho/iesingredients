@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, Globe, X } from 'lucide-react';
+import { Menu, X, Search, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { Language, useTranslation } from '@/lib/i18n';
-import { HeaderSearch } from './HeaderSearch';
 import { CartButton } from '@/components/cart/CartButton';
 
 interface HeaderProps {
@@ -16,19 +15,20 @@ interface HeaderProps {
 export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const t = useTranslation(lang);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navItems = [
-    { label: t.nav.company, href: `/${lang}/entreprise` },
     { label: t.nav.catalog, href: `/${lang}/catalogue` },
+    { label: t.nav.company, href: `/${lang}/entreprise` },
     { label: t.nav.team, href: `/${lang}/equipe` },
     { label: t.nav.news, href: `/${lang}/actualites` },
     { label: t.nav.contact, href: `/${lang}/contact` },
@@ -44,190 +44,224 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
     <header
       ref={ref}
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300'
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        isScrolled 
+          ? 'bg-background/95 backdrop-blur-xl border-b border-border/50' 
+          : 'bg-transparent'
       )}
     >
-      {/* Top utility bar */}
-      <div className={cn(
-        "transition-all duration-300 border-b",
-        isScrolled 
-          ? "bg-background/95 backdrop-blur-xl border-border/50" 
-          : "bg-forest-950/80 backdrop-blur-sm border-white/10"
-      )}>
-        <div className="container-luxe flex items-center justify-between h-12 sm:h-14">
-          {/* Left - Cart */}
-          <div className="hidden sm:flex items-center shrink-0">
-            <CartButton className={cn(
-              "rounded-full w-8 h-8 transition-colors",
-              isScrolled 
-                ? "text-foreground hover:bg-muted" 
-                : "text-white hover:bg-white/10"
-            )} />
-          </div>
-
-          {/* Center: Search - grows to fill space */}
-          <div className="flex-1 flex justify-center px-4 sm:px-8">
-            <div className="w-full max-w-2xl">
-              <HeaderSearch lang={lang} isScrolled={isScrolled} />
-            </div>
-          </div>
-
-          {/* Right - Language + Mobile Cart */}
-          <div className="flex items-center shrink-0">
-            <CartButton className={cn(
-              "sm:hidden rounded-full w-8 h-8 transition-colors",
-              isScrolled 
-                ? "text-foreground hover:bg-muted" 
-                : "text-white hover:bg-white/10"
-            )} />
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={toggleLanguage}
-              className={cn(
-                "gap-1.5 rounded-full font-medium h-8 px-2.5 text-xs transition-colors duration-200",
-                isScrolled 
-                  ? "text-foreground hover:bg-muted" 
-                  : "text-white hover:bg-white/10"
-              )}
-            >
-              <Globe className="h-3.5 w-3.5" />
-              <span className="uppercase">{lang === 'fr' ? 'EN' : 'FR'}</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main navigation bar */}
-      <div className={cn(
-        "transition-all duration-300",
-        isScrolled 
-          ? "bg-background/95 backdrop-blur-xl shadow-sm py-2" 
-          : "bg-forest-950/60 backdrop-blur-sm py-3"
-      )}>
-        <div className="container-luxe">
-          <nav className="flex items-center justify-between gap-6 relative">
-            {/* Logo - Left */}
-            <Link to={`/${lang}`} className="flex items-center gap-2 shrink-0">
+      <div className="container-luxe">
+        <nav className="flex items-center justify-between h-20 md:h-24">
+          {/* Logo */}
+          <Link to={`/${lang}`} className="flex items-center gap-3 group">
+            <span className={cn(
+              "text-2xl md:text-3xl font-serif font-semibold transition-colors duration-300",
+              isScrolled ? "text-foreground" : "text-white"
+            )}>
+              IES
+            </span>
+            <div className="hidden sm:block">
               <span className={cn(
-                "text-xl sm:text-2xl font-serif font-bold transition-colors tracking-tight",
-                isScrolled ? "text-foreground" : "text-white"
-              )}>
-                IES
-              </span>
-              <span className={cn(
-                "text-[10px] sm:text-xs uppercase tracking-widest font-medium transition-colors hidden xs:block",
+                "text-[10px] uppercase tracking-luxury font-medium transition-colors duration-300 block",
                 isScrolled ? "text-muted-foreground" : "text-white/60"
               )}>
                 Ingredients
               </span>
-            </Link>
-
-            {/* Desktop Navigation - Centered */}
-            <div className={cn(
-              "hidden lg:flex items-center gap-1 px-2 py-1.5 rounded-full transition-colors duration-300 absolute left-1/2 -translate-x-1/2",
-              isScrolled ? "bg-muted" : "bg-white/10"
-            )}>
-              {navItems.map((item) => {
-                const isActive = location.pathname === item.href;
-                return (
-                  <Link key={item.href} to={item.href}>
-                    <div
-                      className={cn(
-                        "px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200",
-                        isActive
-                          ? isScrolled 
-                            ? "bg-primary text-primary-foreground" 
-                            : "bg-gold-500 text-forest-950"
-                          : isScrolled
-                            ? "text-foreground hover:bg-background"
-                            : "text-white/80 hover:text-white hover:bg-white/10"
-                      )}
-                    >
-                      {item.label}
-                    </div>
-                  </Link>
-                );
-              })}
             </div>
+          </Link>
 
-            {/* CTA Button - Right on desktop */}
-            <Link to={`/${lang}/catalogue`} className="hidden lg:block shrink-0">
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.href;
+              return (
+                <Link key={item.href} to={item.href}>
+                  <span
+                    className={cn(
+                      "px-4 py-2 text-sm font-medium transition-colors duration-300 link-underline",
+                      isActive
+                        ? isScrolled 
+                          ? "text-foreground" 
+                          : "text-white"
+                        : isScrolled
+                          ? "text-muted-foreground hover:text-foreground"
+                          : "text-white/70 hover:text-white"
+                    )}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Right Side - Actions */}
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Search Icon */}
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className={cn(
+                "p-2 rounded-full transition-colors duration-300",
+                isScrolled 
+                  ? "text-foreground hover:bg-muted" 
+                  : "text-white/80 hover:text-white hover:bg-white/10"
+              )}
+              aria-label="Search"
+            >
+              <Search className="w-5 h-5" />
+            </button>
+
+            {/* Cart */}
+            <CartButton className={cn(
+              "rounded-full transition-colors duration-300",
+              isScrolled 
+                ? "text-foreground hover:bg-muted" 
+                : "text-white/80 hover:text-white hover:bg-white/10"
+            )} />
+
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLanguage}
+              className={cn(
+                "px-3 py-1.5 text-xs font-medium uppercase tracking-wider transition-colors duration-300 rounded-full border",
+                isScrolled 
+                  ? "border-border text-foreground hover:bg-muted" 
+                  : "border-white/30 text-white/80 hover:text-white hover:border-white/50"
+              )}
+            >
+              {lang === 'fr' ? 'EN' : 'FR'}
+            </button>
+
+            {/* CTA Button - Desktop only */}
+            <Link to={`/${lang}/contact`} className="hidden lg:block">
               <Button 
                 className={cn(
-                  "rounded-full font-bold h-10 px-5 transition-colors duration-200 shadow-lg text-sm",
+                  "rounded-full h-10 px-6 text-sm font-medium transition-all duration-300",
                   isScrolled
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "bg-gold-500 text-forest-950 hover:bg-gold-400 shadow-gold-500/25"
+                    : "bg-white text-foreground hover:bg-white/90"
                 )}
               >
-                {t.hero.cta}
+                {lang === 'fr' ? 'Demander un devis' : 'Request Quote'}
               </Button>
             </Link>
 
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
-                <Button 
-                  variant="ghost" 
-                  size="icon"
+                <button
                   className={cn(
-                    "rounded-full w-9 h-9 transition-colors",
+                    "p-2 rounded-full transition-colors duration-300",
                     isScrolled 
                       ? "text-foreground hover:bg-muted" 
                       : "text-white hover:bg-white/10"
                   )}
+                  aria-label="Menu"
                 >
-                  <Menu className="h-5 w-5" />
-                </Button>
+                  <Menu className="w-6 h-6" />
+                </button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-sm bg-forest-950 border-forest-800 p-0">
-                <div className="p-6 h-full flex flex-col">
-                  <div className="flex items-center justify-between mb-10">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl font-serif font-bold text-white">IES</span>
-                      <span className="text-[10px] uppercase tracking-widest text-white/50">Ingredients</span>
+              <SheetContent side="right" className="w-full max-w-md bg-forest-950 border-forest-800 p-0">
+                <div className="p-8 h-full flex flex-col">
+                  {/* Mobile Header */}
+                  <div className="flex items-center justify-between mb-12">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-serif font-semibold text-white">IES</span>
+                      <span className="text-[10px] uppercase tracking-luxury text-white/50">Ingredients</span>
                     </div>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
+                    <button 
                       onClick={() => setIsOpen(false)}
-                      className="text-white hover:bg-white/10 rounded-full"
+                      className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors"
                     >
-                      <X className="h-5 w-5" />
-                    </Button>
+                      <X className="w-6 h-6" />
+                    </button>
                   </div>
                   
-                  <div className="flex flex-col gap-1 flex-1">
-                    {navItems.map((item) => (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className={cn(
-                          'py-4 px-5 rounded-2xl text-base font-semibold transition-colors duration-200',
-                          location.pathname === item.href
-                            ? 'bg-gold-500 text-forest-950'
-                            : 'text-white/80 hover:text-white hover:bg-white/10'
-                        )}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
+                  {/* Mobile Navigation */}
+                  <nav className="flex flex-col gap-2 flex-1">
+                    {navItems.map((item) => {
+                      const isActive = location.pathname === item.href;
+                      return (
+                        <Link
+                          key={item.href}
+                          to={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            'py-4 px-5 rounded-xl text-lg font-medium transition-all duration-300 flex items-center justify-between group',
+                            isActive
+                              ? 'bg-white/10 text-white'
+                              : 'text-white/60 hover:text-white hover:bg-white/5'
+                          )}
+                        >
+                          <span>{item.label}</span>
+                          <ArrowRight className={cn(
+                            "w-5 h-5 transition-transform duration-300",
+                            isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100 group-hover:translate-x-1"
+                          )} />
+                        </Link>
+                      );
+                    })}
+                  </nav>
                   
-                  <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
-                    <Button className="w-full h-14 rounded-2xl bg-gold-500 text-forest-950 hover:bg-gold-400 font-bold text-lg">
-                      {t.hero.cta}
-                    </Button>
-                  </Link>
+                  {/* Mobile CTA */}
+                  <div className="pt-8 border-t border-white/10">
+                    <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
+                      <Button className="w-full h-14 rounded-xl bg-white text-forest-950 hover:bg-white/90 font-medium text-base">
+                        {lang === 'fr' ? 'Demander un devis' : 'Request Quote'}
+                      </Button>
+                    </Link>
+                    
+                    {/* Language toggle in mobile */}
+                    <button
+                      onClick={() => { toggleLanguage(); setIsOpen(false); }}
+                      className="w-full mt-4 py-3 text-sm font-medium uppercase tracking-wider text-white/50 hover:text-white transition-colors"
+                    >
+                      {lang === 'fr' ? 'English version' : 'Version française'}
+                    </button>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>
-          </nav>
-        </div>
+          </div>
+        </nav>
       </div>
+
+      {/* Search Overlay */}
+      {searchOpen && (
+        <div className={cn(
+          "absolute top-full left-0 right-0 p-4 transition-all duration-300",
+          isScrolled ? "bg-background border-b border-border" : "bg-forest-950/95 backdrop-blur-xl"
+        )}>
+          <div className="container-luxe">
+            <div className="relative max-w-2xl mx-auto">
+              <Search className={cn(
+                "absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5",
+                isScrolled ? "text-muted-foreground" : "text-white/50"
+              )} />
+              <input
+                type="text"
+                placeholder={lang === 'fr' ? 'Rechercher un ingrédient...' : 'Search ingredients...'}
+                className={cn(
+                  "w-full h-12 pl-12 pr-4 rounded-full text-base outline-none transition-colors",
+                  isScrolled 
+                    ? "bg-muted text-foreground placeholder:text-muted-foreground" 
+                    : "bg-white/10 text-white placeholder:text-white/50 border border-white/20"
+                )}
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.currentTarget.value) {
+                    navigate(`/${lang}/catalogue?search=${encodeURIComponent(e.currentTarget.value)}`);
+                    setSearchOpen(false);
+                  }
+                  if (e.key === 'Escape') {
+                    setSearchOpen(false);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 });
