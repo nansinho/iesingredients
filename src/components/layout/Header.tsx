@@ -21,6 +21,10 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
   const navigate = useNavigate();
   const t = useTranslation(lang);
 
+  // Check if we're on a page with dark hero (product page)
+  const isProductPage = location.pathname.includes('/produit/');
+  const isDarkHero = isProductPage && !isScrolled;
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -50,19 +54,27 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
         isScrolled 
-          ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-cream-200' 
-          : 'bg-transparent'
+          ? 'bg-white/95 backdrop-blur-xl shadow-sm border-b border-forest-100' 
+          : isDarkHero 
+            ? 'bg-transparent' 
+            : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <nav className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
           <Link to={`/${lang}`} className="flex items-center gap-3 group">
-            <span className="text-2xl md:text-3xl font-serif font-semibold text-forest-900 transition-colors duration-300">
+            <span className={cn(
+              "text-2xl md:text-3xl font-serif font-semibold transition-colors duration-300",
+              isScrolled ? "text-forest-900" : isDarkHero ? "text-white" : "text-forest-900"
+            )}>
               IES
             </span>
             <div className="hidden sm:block">
-              <span className="text-[10px] uppercase tracking-luxury font-medium text-forest-600 block">
+              <span className={cn(
+                "text-[10px] uppercase tracking-luxury font-medium block transition-colors duration-300",
+                isScrolled ? "text-forest-600" : isDarkHero ? "text-gold-400" : "text-forest-600"
+              )}>
                 INGREDIENTS
               </span>
             </div>
@@ -83,16 +95,21 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                     <span
                       className={cn(
                         "px-4 py-2 text-xs font-medium uppercase tracking-widest transition-all duration-300 relative",
-                        isActive
-                          ? "text-forest-900"
-                          : "text-forest-600 hover:text-forest-900"
+                        isScrolled 
+                          ? isActive ? "text-forest-900" : "text-forest-600 hover:text-forest-900"
+                          : isDarkHero
+                            ? isActive ? "text-gold-400" : "text-white/80 hover:text-white"
+                            : isActive ? "text-forest-900" : "text-forest-600 hover:text-forest-900"
                       )}
                     >
                       {item.label}
                       {isActive && (
                         <motion.div
                           layoutId="activeNav"
-                          className="absolute -bottom-1 left-4 right-4 h-0.5 bg-gold-500 rounded-full"
+                          className={cn(
+                            "absolute -bottom-1 left-4 right-4 h-0.5 rounded-full",
+                            isDarkHero && !isScrolled ? "bg-gold-400" : "bg-gold-500"
+                          )}
                           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                         />
                       )}
@@ -110,21 +127,42 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2.5 rounded-full text-forest-600 hover:text-forest-900 hover:bg-cream-100 transition-colors duration-300"
+              className={cn(
+                "p-2.5 rounded-full transition-colors duration-300",
+                isScrolled 
+                  ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                  : isDarkHero 
+                    ? "text-white/80 hover:text-white hover:bg-white/10"
+                    : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+              )}
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
             </motion.button>
 
             {/* Cart */}
-            <CartButton className="rounded-full text-forest-600 hover:text-forest-900 hover:bg-cream-100 transition-colors duration-300" />
+            <CartButton className={cn(
+              "rounded-full transition-colors duration-300",
+              isScrolled 
+                ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                : isDarkHero 
+                  ? "text-white/80 hover:text-white hover:bg-white/10"
+                  : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+            )} />
 
             {/* Language Toggle */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleLanguage}
-              className="px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-forest-600 hover:text-forest-900 transition-colors duration-300 rounded-full border border-forest-200 hover:border-forest-300 hover:bg-cream-50"
+              className={cn(
+                "px-3 py-1.5 text-xs font-medium uppercase tracking-wider transition-colors duration-300 rounded-full border",
+                isScrolled 
+                  ? "text-forest-600 hover:text-forest-900 border-forest-200 hover:border-forest-300 hover:bg-forest-50"
+                  : isDarkHero 
+                    ? "text-white/80 hover:text-white border-white/30 hover:border-white/50 hover:bg-white/10"
+                    : "text-forest-600 hover:text-forest-900 border-forest-200 hover:border-forest-300 hover:bg-forest-50"
+              )}
             >
               {lang === 'fr' ? 'EN' : 'FR'}
             </motion.button>
@@ -132,7 +170,12 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
             {/* CTA Button - Desktop only */}
             <Link to={`/${lang}/contact`} className="hidden lg:block">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button className="rounded-full h-10 px-6 text-xs font-medium uppercase tracking-wider bg-forest-900 text-white hover:bg-forest-800 transition-all duration-300">
+                <Button className={cn(
+                  "rounded-full h-10 px-6 text-xs font-medium uppercase tracking-wider transition-all duration-300",
+                  isDarkHero && !isScrolled
+                    ? "bg-gold-400 text-forest-900 hover:bg-gold-300"
+                    : "bg-forest-900 text-white hover:bg-forest-800"
+                )}>
                   {lang === 'fr' ? 'DEMANDER UN DEVIS' : 'REQUEST QUOTE'}
                 </Button>
               </motion.div>
@@ -144,7 +187,14 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="p-2 rounded-full text-forest-900 hover:bg-cream-100 transition-colors duration-300"
+                  className={cn(
+                    "p-2 rounded-full transition-colors duration-300",
+                    isScrolled 
+                      ? "text-forest-900 hover:bg-forest-50"
+                      : isDarkHero 
+                        ? "text-white hover:bg-white/10"
+                        : "text-forest-900 hover:bg-forest-50"
+                  )}
                   aria-label="Menu"
                 >
                   <Menu className="w-6 h-6" />
@@ -227,7 +277,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="absolute top-full left-0 right-0 p-4 bg-white border-b border-cream-200 shadow-lg"
+          className="absolute top-full left-0 right-0 p-4 bg-white border-b border-forest-100 shadow-lg"
         >
           <div className="max-w-2xl mx-auto">
             <div className="relative">
@@ -235,7 +285,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
               <input
                 type="text"
                 placeholder={lang === 'fr' ? 'Rechercher un ingrédient...' : 'Search ingredients...'}
-                className="w-full h-12 pl-12 pr-4 rounded-full text-sm bg-cream-50 border border-cream-200 outline-none focus:border-forest-400 transition-colors"
+                className="w-full h-12 pl-12 pr-4 rounded-full text-sm bg-forest-50 border border-forest-200 outline-none focus:border-forest-400 transition-colors"
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && e.currentTarget.value) {
