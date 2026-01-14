@@ -85,7 +85,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 image: creamJar,
                 icon: Leaf,
                 link: `/${lang}/catalogue?category=cosmetique`,
-                color: 'bg-cosmetique'
+                color: '#D4A5A5',      // Rose poudré
+                iconBg: '#D4A5A5'
               },
               { 
                 name: lang === 'fr' ? 'PARFUMERIE' : 'PERFUMERY', 
@@ -94,7 +95,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 image: essentialOil,
                 icon: FlaskConical,
                 link: `/${lang}/catalogue?category=parfum`,
-                color: 'bg-parfum'
+                color: '#8B7EC8',      // Violet iris
+                iconBg: '#8B7EC8'
               },
               { 
                 name: lang === 'fr' ? 'ARÔMES' : 'FLAVORS', 
@@ -103,7 +105,8 @@ export const HomePage = ({ lang }: HomePageProps) => {
                 image: blueberriesHerbs,
                 icon: Droplets,
                 link: `/${lang}/catalogue?category=arome`,
-                color: 'bg-arome'
+                color: '#D4915C',      // Ambre chaud
+                iconBg: '#D4915C'
               }
             ].map((cat) => (
               <Link key={cat.name} to={cat.link} className="group block">
@@ -123,21 +126,38 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between">
                     {/* Top */}
                     <div className="flex justify-between items-start">
-                      <div className={`w-14 h-14 rounded-2xl ${cat.color} flex items-center justify-center`}>
+                      <div 
+                        className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg"
+                        style={{ backgroundColor: cat.iconBg }}
+                      >
                         <cat.icon className="w-7 h-7 text-white" />
                       </div>
-                      <span className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium uppercase tracking-wider">
+                      <span 
+                        className="px-4 py-2 rounded-full backdrop-blur-sm text-white text-sm font-semibold uppercase tracking-wider border"
+                        style={{ 
+                          backgroundColor: `${cat.color}30`,
+                          borderColor: `${cat.color}50`
+                        }}
+                      >
                         {cat.count}
                       </span>
                     </div>
                     
                     {/* Bottom */}
                     <div>
+                      {/* Colored line accent */}
+                      <div 
+                        className="w-12 h-1 rounded-full mb-4"
+                        style={{ backgroundColor: cat.color }}
+                      />
                       <h3 className="text-3xl md:text-4xl font-serif font-semibold text-white mb-3 uppercase tracking-wide">
                         {cat.name}
                       </h3>
                       <p className="text-white/70 text-sm md:text-base mb-6 line-clamp-2">{cat.desc}</p>
-                      <div className="flex items-center gap-3 text-white text-sm font-medium uppercase tracking-wider group-hover:gap-4 transition-all">
+                      <div 
+                        className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full text-white text-sm font-medium uppercase tracking-wider group-hover:gap-4 transition-all"
+                        style={{ backgroundColor: cat.color }}
+                      >
                         <span>{lang === 'fr' ? 'EXPLORER' : 'EXPLORE'}</span>
                         <ArrowRight className="w-5 h-5" />
                       </div>
