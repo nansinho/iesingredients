@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Droplets, Sparkles, Leaf, Droplet, MapPin } from 'lucide-react';
+import { ArrowUpRight, Droplets, Sparkles, Leaf, Droplet, MapPin, Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Language } from '@/lib/i18n';
 import { Product } from '@/hooks/useProducts';
+import { toast } from 'sonner';
 
 // Import category images
 import creamBowl from '@/assets/cream-bowl.jpg';
@@ -80,6 +81,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>(({ product, lang, index = 0 }, ref) => {
+  const [copied, setCopied] = React.useState(false);
   const config = getCategoryConfig(product.typologie_de_produit);
   const IconComponent = config.icon;
 
@@ -90,6 +92,20 @@ export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>
 
   // Use code if available, otherwise use id with prefix
   const productIdentifier = product.code || `id-${product.id}`;
+
+  const handleCopyCode = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      await navigator.clipboard.writeText(product.code || '');
+      setCopied(true);
+      toast.success(lang === 'fr' ? 'Code copié !' : 'Code copied!');
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error(lang === 'fr' ? 'Échec de la copie' : 'Copy failed');
+    }
+  };
 
   return (
     <Link 
@@ -135,27 +151,42 @@ export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>
         
         {/* Content */}
         <div className="p-4">
-          {/* Product Code - Very Prominent */}
-          <div className="mb-3">
-            <p className="text-[9px] uppercase tracking-widest text-muted-foreground mb-0.5">
+          {/* Product Code - Centered with Copy */}
+          <div className="text-center mb-3">
+            <p className="text-[9px] uppercase tracking-widest text-muted-foreground mb-1">
               {lang === 'fr' ? 'RÉFÉRENCE' : 'REFERENCE'}
             </p>
-            <p className={cn("font-mono text-lg font-bold tracking-tight", config.accent)}>
-              {product.code}
-            </p>
+            <div className="flex items-center justify-center gap-2">
+              <span className={cn("font-mono text-xl font-black tracking-tight", config.accent)}>
+                {product.code}
+              </span>
+              <button
+                onClick={handleCopyCode}
+                className="p-1 rounded-md hover:bg-black/5 transition-colors active:scale-95"
+                title={lang === 'fr' ? 'Copier le code' : 'Copy code'}
+              >
+                {copied ? (
+                  <Check className="w-3.5 h-3.5 text-green-500" />
+                ) : (
+                  <Copy className={cn("w-3.5 h-3.5 opacity-60 hover:opacity-100 transition-opacity", config.accent)} />
+                )}
+              </button>
+            </div>
           </div>
           
-          {/* Separator line */}
-          <div className={cn("h-0.5 w-10 rounded-full mb-3", config.separator)} />
+          {/* Separator line - centered */}
+          <div className="flex justify-center mb-3">
+            <div className={cn("h-0.5 w-12 rounded-full", config.separator)} />
+          </div>
 
-          {/* Title */}
-          <h3 className="font-serif text-lg font-semibold text-foreground leading-tight mb-2 line-clamp-2 min-h-[2.75rem] group-hover:text-primary transition-colors duration-300">
+          {/* Title - centered */}
+          <h3 className="font-serif text-base font-semibold text-foreground leading-tight mb-2 line-clamp-2 min-h-[2.5rem] text-center group-hover:text-primary transition-colors duration-300">
             {product.nom_commercial || 'Produit sans nom'}
           </h3>
 
-          {/* Benefits Tags */}
+          {/* Benefits Tags - centered */}
           {benefitsArray.length > 0 && (
-            <div className="flex flex-wrap gap-1 mb-3">
+            <div className="flex flex-wrap justify-center gap-1 mb-3">
               {benefitsArray.map((benefit, i) => (
                 <span 
                   key={i} 

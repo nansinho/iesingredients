@@ -46,9 +46,9 @@ export const CopyButton = ({
     >
       {label && <span className="truncate">{label}</span>}
       {copied ? (
-        <Check className={cn("w-3.5 h-3.5 text-green-500 shrink-0", iconClassName)} />
+        <Check className={cn("w-3.5 h-3.5 text-green-500 shrink-0 animate-scale-in", iconClassName)} />
       ) : (
-        <Copy className={cn("w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0", iconClassName)} />
+        <Copy className={cn("w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity shrink-0", iconClassName)} />
       )}
     </button>
   );
@@ -93,9 +93,9 @@ export const CopyField = ({ label, value, className, mono = false, successMessag
     >
       <span className={cn("min-w-0 break-words", mono && "font-mono")}>{value}</span>
       {copied ? (
-        <Check className="w-3.5 h-3.5 text-green-500 shrink-0" />
+        <Check className="w-3.5 h-3.5 text-green-500 shrink-0 animate-scale-in" />
       ) : (
-        <Copy className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground shrink-0" />
+        <Copy className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity text-muted-foreground shrink-0" />
       )}
     </button>
   );
