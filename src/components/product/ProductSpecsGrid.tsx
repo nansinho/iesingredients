@@ -69,14 +69,14 @@ function SpecCard({
             <div className="w-10 h-10 rounded-xl bg-forest-100 group-hover:bg-gold-100 flex items-center justify-center shrink-0 transition-colors duration-300">
               <Icon className="w-5 h-5 text-forest-600 group-hover:text-gold-600 transition-colors duration-300" />
             </div>
-            <span className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-semibold">
+            <span className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-medium">
               {label}
             </span>
           </div>
 
           {/* Value + Copy */}
           <div className="flex items-start justify-between gap-2">
-            <p className={`${mono ? 'font-mono text-xs' : 'font-sans text-sm'} font-bold text-forest-900 leading-snug break-words flex-1`}>
+            <p className={`${mono ? 'font-mono text-xs' : 'font-sans text-sm'} font-semibold text-forest-900 leading-snug break-words flex-1`}>
               {value}
             </p>
             {copyable && (
@@ -132,7 +132,7 @@ export function ProductSpecsGrid({ product }: ProductSpecsGridProps) {
         <div className="w-10 h-10 rounded-xl bg-forest-900 flex items-center justify-center">
           <FlaskConical className="w-5 h-5 text-gold-400" />
         </div>
-        <h2 className="font-serif text-xl sm:text-2xl font-bold text-forest-900">
+        <h2 className="font-sans text-lg sm:text-xl font-semibold text-forest-900">
           Caractéristiques techniques
         </h2>
       </div>

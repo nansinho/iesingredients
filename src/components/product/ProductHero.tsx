@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { getCategoryConfig } from '@/lib/productTheme';
-import { Badge } from '@/components/ui/badge';
+import defaultProductImage from '@/assets/cream-jar.jpg';
 
 interface ProductHeroProps {
   code: string | null;
@@ -122,27 +122,30 @@ export function ProductHero({ code, name, typologie, origine, gamme, lang, image
             </motion.button>
           </div>
 
-          {/* Right side - Round product avatar */}
+          {/* Right side - Round product avatar with hover effect */}
           <motion.div 
             className="flex-shrink-0 flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full 
+            <div className="group relative w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full 
                             bg-gradient-to-br from-forest-800 to-forest-900 
                             border-2 border-gold-500/30 
                             flex items-center justify-center 
-                            shadow-2xl overflow-hidden">
-              {imageUrl ? (
-                <img 
-                  src={imageUrl} 
-                  alt={productName}
-                  className="w-full h-full object-cover" 
-                />
-              ) : (
-                <IconComponent className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-gold-500/50" />
-              )}
+                            shadow-2xl overflow-hidden
+                            transition-all duration-500 ease-out cursor-pointer
+                            hover:scale-105 hover:border-gold-400 
+                            hover:shadow-[0_0_60px_rgba(212,175,55,0.35)]">
+              {/* Golden glow overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-gold-400/0 via-gold-400/0 to-gold-400/0 
+                              group-hover:from-gold-400/10 group-hover:via-gold-400/5 group-hover:to-transparent 
+                              transition-all duration-500 pointer-events-none" />
+              <img 
+                src={imageUrl || defaultProductImage} 
+                alt={productName}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+              />
             </div>
           </motion.div>
         </div>
