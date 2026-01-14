@@ -50,7 +50,7 @@ function ProductPageSkeleton({ lang }: { lang: 'fr' | 'en' }) {
           <Skeleton className="w-full h-56 sm:h-72 bg-forest-800" />
         </div>
         
-        <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-5xl mx-auto space-y-8">
+        <div className="container-luxe py-8 space-y-8">
           <Skeleton className="h-40 w-full rounded-xl bg-forest-100" />
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {[...Array(6)].map((_, i) => (
@@ -206,7 +206,7 @@ export default function ProductPage() {
         />
 
         {/* Main Content */}
-        <main className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-5xl mx-auto space-y-8 sm:space-y-10">
+        <main className="container-luxe py-8 sm:py-12 space-y-8 sm:space-y-10">
           {/* Desktop CTA */}
           <motion.div 
             className="hidden md:block"
@@ -245,6 +245,8 @@ export default function ProductPage() {
             certifications={product.certifications}
             profilOlfactif={(product as any).profil_olfactif}
             typologie={product.typologie_de_produit}
+            origine={product.origine}
+            gamme={product.gamme}
           />
 
           {/* Technical Specs Grid */}

@@ -53,7 +53,7 @@ export function ProductHero({ code, name, typologie, origine, gamme, lang, image
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-luxe relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
           {/* Left side - Text content */}
           <div className="flex-1">
@@ -77,9 +77,9 @@ export function ProductHero({ code, name, typologie, origine, gamme, lang, image
               </span>
             </motion.nav>
 
-            {/* Category Label & Badges */}
+            {/* Category Label */}
             <motion.div 
-              className="flex flex-wrap items-center gap-2 mb-4"
+              className="mb-4"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -87,16 +87,6 @@ export function ProductHero({ code, name, typologie, origine, gamme, lang, image
               <span className="text-gold-400 text-xs font-semibold uppercase tracking-widest">
                 {config.label}
               </span>
-              {origine && (
-                <Badge variant="outline" className="border-gold-400/30 text-gold-400/80 bg-transparent font-sans text-[10px] uppercase tracking-wider px-2 py-0.5">
-                  {origine}
-                </Badge>
-              )}
-              {gamme && (
-                <Badge variant="outline" className="border-white/20 text-white/60 bg-transparent font-sans text-[10px] uppercase tracking-wider px-2 py-0.5">
-                  {gamme}
-                </Badge>
-              )}
             </motion.div>
 
             {/* Product Name (H1) */}

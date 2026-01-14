@@ -10,6 +10,8 @@ interface ProductSummaryCardProps {
   certifications: string | null;
   profilOlfactif: string | null;
   typologie: string | null;
+  origine?: string | null;
+  gamme?: string | null;
 }
 
 function parseTags(value: string | null): string[] {
@@ -25,14 +27,17 @@ export function ProductSummaryCard({
   benefices, 
   certifications, 
   profilOlfactif,
-  typologie 
+  typologie,
+  origine,
+  gamme
 }: ProductSummaryCardProps) {
   const config = getCategoryConfig(typologie);
   const beneficesList = parseTags(benefices);
   const certificationsList = parseTags(certifications);
   const profilList = parseTags(profilOlfactif);
 
-  const hasContent = description || beneficesList.length > 0 || certificationsList.length > 0 || profilList.length > 0;
+  const hasBadges = origine || gamme;
+  const hasContent = description || beneficesList.length > 0 || certificationsList.length > 0 || profilList.length > 0 || hasBadges;
 
   if (!hasContent) return null;
 
@@ -47,6 +52,26 @@ export function ProductSummaryCard({
         <div className="h-1 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400" />
         
         <CardContent className="p-5 sm:p-8 space-y-6">
+          {/* Origine & Gamme Badges */}
+          {hasBadges && (
+            <motion.div 
+              className="flex flex-wrap items-center gap-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.05 }}
+            >
+              {origine && (
+                <Badge className="bg-gold-50 text-gold-700 border border-gold-300 font-sans text-xs font-medium px-3 py-1.5 hover:bg-gold-100 transition-colors">
+                  {origine}
+                </Badge>
+              )}
+              {gamme && (
+                <Badge className="bg-forest-50 text-forest-700 border border-forest-200 font-sans text-xs font-medium px-3 py-1.5 hover:bg-forest-100 transition-colors">
+                  {gamme}
+                </Badge>
+              )}
+            </motion.div>
+          )}
           {/* Description */}
           {description && description !== '-' && (
             <motion.div
