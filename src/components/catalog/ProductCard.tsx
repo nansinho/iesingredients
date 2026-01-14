@@ -10,47 +10,50 @@ import creamBowl from '@/assets/cream-bowl.jpg';
 import essentialOil from '@/assets/essential-oil.jpg';
 import productBottle from '@/assets/product-bottle.jpg';
 
-// Category styling configuration with photos
+// Category styling configuration with photos - Luxe Palette Travaillée
 const getCategoryConfig = (typologie: string | null) => {
   const t = typologie?.toUpperCase() || '';
   
   if (t.includes('COSMET') || t.includes('COSMÉT')) {
     return { 
-      bg: 'bg-cosmetique-light',
-      border: 'border-cosmetique/20',
-      accent: 'text-cosmetique',
-      badge: 'bg-cosmetique text-white',
-      badgeLight: 'bg-cosmetique/10 text-cosmetique border-cosmetique/20',
-      hover: 'group-hover:border-cosmetique/40',
+      bg: 'bg-[#FAF5F5]',           // Rose très subtil
+      border: 'border-[#D4A5A5]/25',
+      accent: 'text-[#8B5E5E]',      // Rose profond pour le texte
+      badge: 'bg-[#D4A5A5] text-white',
+      badgeLight: 'bg-[#D4A5A5]/15 text-[#8B5E5E] border-[#D4A5A5]/30',
+      hover: 'group-hover:border-[#D4A5A5]/50 group-hover:shadow-[#D4A5A5]/10',
       icon: Droplets,
       image: creamBowl,
       label: 'COSMÉTIQUE',
+      separator: 'bg-[#D4A5A5]',
     };
   }
   if (t.includes('PARFUM') || t.includes('FRAGRANCE')) {
     return { 
-      bg: 'bg-parfum-light',
-      border: 'border-parfum/20',
-      accent: 'text-parfum-dark',
-      badge: 'bg-parfum text-white',
-      badgeLight: 'bg-parfum/10 text-parfum-dark border-parfum/20',
-      hover: 'group-hover:border-parfum/40',
+      bg: 'bg-[#F5F3FA]',           // Lavande très subtil
+      border: 'border-[#8B7EC8]/25',
+      accent: 'text-[#5B4F8C]',      // Violet profond pour le texte
+      badge: 'bg-[#8B7EC8] text-white',
+      badgeLight: 'bg-[#8B7EC8]/15 text-[#5B4F8C] border-[#8B7EC8]/30',
+      hover: 'group-hover:border-[#8B7EC8]/50 group-hover:shadow-[#8B7EC8]/10',
       icon: Sparkles,
       image: essentialOil,
       label: 'PARFUMERIE',
+      separator: 'bg-[#8B7EC8]',
     };
   }
   if (t.includes('AROME') || t.includes('ARÔME') || t.includes('FOOD')) {
     return { 
-      bg: 'bg-arome-light',
-      border: 'border-arome/20',
-      accent: 'text-arome',
-      badge: 'bg-arome text-white',
-      badgeLight: 'bg-arome/10 text-arome border-arome/20',
-      hover: 'group-hover:border-arome/40',
+      bg: 'bg-[#FBF7F2]',           // Crème chaud
+      border: 'border-[#D4915C]/25',
+      accent: 'text-[#8B5A2B]',      // Ambre profond pour le texte
+      badge: 'bg-[#D4915C] text-white',
+      badgeLight: 'bg-[#D4915C]/15 text-[#8B5A2B] border-[#D4915C]/30',
+      hover: 'group-hover:border-[#D4915C]/50 group-hover:shadow-[#D4915C]/10',
       icon: Leaf,
       image: productBottle,
       label: 'ARÔMES',
+      separator: 'bg-[#D4915C]',
     };
   }
   return { 
@@ -63,6 +66,7 @@ const getCategoryConfig = (typologie: string | null) => {
     icon: Droplet,
     image: creamBowl,
     label: 'PRODUIT',
+    separator: 'bg-primary',
   };
 };
 
@@ -139,7 +143,7 @@ export const ProductCard = React.forwardRef<HTMLAnchorElement, ProductCardProps>
           </div>
           
           {/* Separator line */}
-          <div className={cn("h-0.5 w-10 rounded-full mb-3", config.badge.replace('text-white', ''))} />
+          <div className={cn("h-0.5 w-10 rounded-full mb-3", config.separator)} />
 
           {/* Title */}
           <h3 className="font-serif text-lg font-semibold text-foreground leading-tight mb-2 line-clamp-2 min-h-[2.75rem] group-hover:text-primary transition-colors duration-300">

@@ -96,7 +96,7 @@ export const HeroSection = ({
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <Button asChild size="xl" className="rounded-full bg-white text-forest-900 hover:bg-white/90 font-semibold px-8">
+            <Button asChild size="xl" className="rounded-full bg-[#FAF8F5] text-forest-900 hover:bg-white font-semibold px-8 shadow-lg">
               <Link to={`/${lang}/catalogue`}>
                 {t.hero.cta}
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -106,7 +106,7 @@ export const HeroSection = ({
               asChild
               size="xl"
               variant="outline"
-              className="rounded-full border-white/30 text-white hover:bg-white/10 font-medium px-8"
+              className="rounded-full bg-white/15 border-white/40 text-white hover:bg-white/25 font-medium px-8 backdrop-blur-sm"
             >
               <Link to={`/${lang}/contact`}>
                 {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
@@ -114,37 +114,37 @@ export const HeroSection = ({
             </Button>
           </div>
 
-          {/* Category Pills */}
+          {/* Category Pills - Couleurs affirmées */}
           <div className="mt-16 flex flex-wrap items-center justify-center gap-3 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <Link
               to={`/${lang}/catalogue?category=cosmetic`}
-              className="group flex items-center gap-2 px-5 py-3 rounded-full bg-cosmetique/20 border border-cosmetique/30 hover:bg-cosmetique/30 transition-all backdrop-blur-sm"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#D4A5A5]/35 border border-[#D4A5A5]/50 hover:bg-[#D4A5A5]/50 transition-all backdrop-blur-sm"
             >
-              <Droplets className="w-4 h-4 text-cosmetique" />
-              <span className="text-sm font-medium text-white uppercase tracking-wider">
+              <Droplets className="w-5 h-5 text-[#D4A5A5]" />
+              <span className="text-sm font-semibold text-white uppercase tracking-widest">
                 {t.categories.cosmetic}
               </span>
-              <ArrowRight className="w-4 h-4 text-white/50 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to={`/${lang}/catalogue?category=perfume`}
-              className="group flex items-center gap-2 px-5 py-3 rounded-full bg-parfum/20 border border-parfum/30 hover:bg-parfum/30 transition-all backdrop-blur-sm"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#8B7EC8]/35 border border-[#8B7EC8]/50 hover:bg-[#8B7EC8]/50 transition-all backdrop-blur-sm"
             >
-              <Sparkles className="w-4 h-4 text-parfum" />
-              <span className="text-sm font-medium text-white uppercase tracking-wider">
+              <Sparkles className="w-5 h-5 text-[#8B7EC8]" />
+              <span className="text-sm font-semibold text-white uppercase tracking-widest">
                 {t.categories.perfume}
               </span>
-              <ArrowRight className="w-4 h-4 text-white/50 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to={`/${lang}/catalogue?category=aroma`}
-              className="group flex items-center gap-2 px-5 py-3 rounded-full bg-arome/20 border border-arome/30 hover:bg-arome/30 transition-all backdrop-blur-sm"
+              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#D4915C]/35 border border-[#D4915C]/50 hover:bg-[#D4915C]/50 transition-all backdrop-blur-sm"
             >
-              <Leaf className="w-4 h-4 text-arome" />
-              <span className="text-sm font-medium text-white uppercase tracking-wider">
+              <Leaf className="w-5 h-5 text-[#D4915C]" />
+              <span className="text-sm font-semibold text-white uppercase tracking-widest">
                 {t.categories.aroma}
               </span>
-              <ArrowRight className="w-4 h-4 text-white/50 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-white/60 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>

@@ -64,21 +64,21 @@
     --gold-200: 44 70% 92%;
     --gold-100: 45 75% 96%;
 
-    /* Category Colors - Distinct per Pole */
-    /* Cosmétique - Rose/Pêche subtil */
-    --cosmetique: 350 45% 55%;
-    --cosmetique-light: 350 40% 97%;
-    --cosmetique-dark: 350 50% 35%;
+    /* Category Colors - Luxe Palette Travaillée */
+    /* Cosmétique - Rose Poudré Luxe */
+    --cosmetique: 0 30% 74%;           /* #D4A5A5 */
+    --cosmetique-light: 0 25% 97%;     /* #FAF5F5 */
+    --cosmetique-dark: 0 35% 46%;      /* #8B5E5E */
     
-    /* Parfum - Violet/Lavande */
-    --parfum: 270 45% 55%;
-    --parfum-light: 270 35% 97%;
-    --parfum-dark: 270 50% 35%;
+    /* Parfum - Violet Iris Élégant */
+    --parfum: 252 40% 64%;             /* #8B7EC8 */
+    --parfum-light: 252 30% 97%;       /* #F5F3FA */
+    --parfum-dark: 252 30% 43%;        /* #5B4F8C */
     
-    /* Arôme - Orange/Miel */
-    --arome: 25 75% 50%;
-    --arome-light: 30 50% 97%;
-    --arome-dark: 20 70% 35%;
+    /* Arôme - Ambre Chaud Naturel */
+    --arome: 28 55% 60%;               /* #D4915C */
+    --arome-light: 35 40% 97%;         /* #FBF7F2 */
+    --arome-dark: 30 52% 36%;          /* #8B5A2B */
 
     /* Elegant Shadows */
     --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.04);
