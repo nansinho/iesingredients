@@ -17,20 +17,20 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
   const t = useTranslation(lang);
 
   return (
-    <section className="min-h-[90vh] flex flex-col items-center justify-center px-4 pt-24 pb-16 bg-cream-50 overflow-hidden">
+    <section className="min-h-[90vh] flex flex-col items-center justify-center px-4 pt-24 pb-16 bg-white overflow-hidden relative">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.4, scale: 1 }}
+          animate={{ opacity: 0.15, scale: 1 }}
           transition={{ duration: 2, ease: 'easeOut' }}
-          className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-gradient-to-br from-cosmetique/20 to-transparent blur-3xl"
+          className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-gradient-to-br from-forest-500/30 to-transparent blur-3xl"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.3, scale: 1 }}
+          animate={{ opacity: 0.1, scale: 1 }}
           transition={{ duration: 2, delay: 0.5, ease: 'easeOut' }}
-          className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-gradient-to-br from-parfum/20 to-transparent blur-3xl"
+          className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-gradient-to-br from-gold-500/30 to-transparent blur-3xl"
         />
       </div>
 
@@ -39,7 +39,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
         initial={{ opacity: 0, y: 20, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
-        className="flex items-center gap-2 px-4 py-2 rounded-full bg-gold-100 text-gold-800 mb-8 relative z-10"
+        className="flex items-center gap-2 px-4 py-2 rounded-full bg-forest-900 text-gold-400 mb-8 relative z-10"
       >
         <motion.div
           animate={{ rotate: [0, 15, -15, 0] }}
@@ -55,7 +55,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center max-w-4xl leading-tight text-foreground relative z-10"
+        className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center max-w-4xl leading-tight text-forest-900 relative z-10"
       >
         <motion.span
           initial={{ opacity: 0, x: -20 }}
@@ -69,7 +69,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-navy-700"
+          className="text-gold-600"
         >
           {lang === 'fr' ? 'Ingrédients Premium.' : 'Premium Ingredients.'}
         </motion.span>
@@ -95,7 +95,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
         className="flex flex-col sm:flex-row gap-4 mt-10 relative z-10"
       >
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-          <Button asChild size="lg" className="bg-navy-900 hover:bg-navy-800 text-white rounded-full px-8 shadow-lg shadow-navy-900/20">
+          <Button asChild size="lg" className="bg-forest-900 hover:bg-forest-800 text-white rounded-full px-8 shadow-lg shadow-forest-900/20">
             <Link to={`/${lang}/catalogue`}>
               {t.nav.catalog}
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -103,7 +103,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
           </Button>
         </motion.div>
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-          <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-navy-900/20 hover:bg-navy-900/5">
+          <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-forest-900/20 text-forest-900 hover:bg-forest-900/5">
             <Link to={`/${lang}/contact`}>
               {t.nav.contact}
             </Link>
@@ -132,7 +132,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
-            className="absolute bottom-2 left-2 px-2 py-1 bg-cosmetique/90 backdrop-blur-sm rounded-full"
+            className="absolute bottom-2 left-2 px-2 py-1 bg-forest-900/90 backdrop-blur-sm rounded-full"
           >
             <span className="text-[10px] font-medium text-white uppercase tracking-wide">Cosmétique</span>
           </motion.div>
@@ -152,7 +152,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
-            className="absolute bottom-2 left-2 px-2 py-1 bg-parfum/90 backdrop-blur-sm rounded-full"
+            className="absolute bottom-2 left-2 px-2 py-1 bg-gold-600/90 backdrop-blur-sm rounded-full"
           >
             <span className="text-[10px] font-medium text-white uppercase tracking-wide">Parfumerie</span>
           </motion.div>

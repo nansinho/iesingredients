@@ -15,7 +15,7 @@ const certifications = [
 
 export const LogoStrip = ({ lang }: LogoStripProps) => {
   return (
-    <section className="py-12 bg-white border-t border-cream-200">
+    <section className="py-12 bg-cream-50 border-t border-cream-200">
       <div className="max-w-7xl mx-auto px-4">
         <motion.p
           initial={{ opacity: 0 }}
@@ -37,12 +37,12 @@ export const LogoStrip = ({ lang }: LogoStripProps) => {
               whileHover={{ scale: 1.05, y: -2 }}
               className="flex flex-col items-center group cursor-default"
             >
-              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-cream-100 flex items-center justify-center mb-2 group-hover:bg-cream-200 transition-colors duration-300">
-                <span className="text-lg md:text-xl font-bold text-navy-800">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-forest-900 flex items-center justify-center mb-2 group-hover:bg-forest-800 transition-colors duration-300">
+                <span className="text-lg md:text-xl font-bold text-gold-400">
                   {cert.name.charAt(0)}
                 </span>
               </div>
-              <span className="text-sm font-medium text-foreground">{cert.name}</span>
+              <span className="text-sm font-medium text-forest-900">{cert.name}</span>
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
                 {cert.subtitle}
               </span>
