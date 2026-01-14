@@ -10,50 +10,53 @@ import creamBowl from '@/assets/cream-bowl.jpg';
 import essentialOil from '@/assets/essential-oil.jpg';
 import productBottle from '@/assets/product-bottle.jpg';
 
-// Category styling configuration with photos - Luxe Palette Travaillée
+// Category styling configuration - Aligned with catalog category cards
 const getCategoryConfig = (typologie: string | null) => {
   const t = typologie?.toUpperCase() || '';
   
+  // Cosmétique: Forest green tones (matching the green category card)
   if (t.includes('COSMET') || t.includes('COSMÉT')) {
     return { 
-      bg: 'bg-[#FAF5F5]',           // Rose très subtil
-      border: 'border-[#D4A5A5]/25',
-      accent: 'text-[#8B5E5E]',      // Rose profond pour le texte
-      badge: 'bg-[#D4A5A5] text-white',
-      badgeLight: 'bg-[#D4A5A5]/15 text-[#8B5E5E] border-[#D4A5A5]/30',
-      hover: 'group-hover:border-[#D4A5A5]/50 group-hover:shadow-[#D4A5A5]/10',
+      bg: 'bg-[#F5F8F6]',           // Vert très subtil
+      border: 'border-[#4A7C59]/20',
+      accent: 'text-[#2D5A3D]',      // Vert forêt profond
+      badge: 'bg-[#4A7C59] text-white',
+      badgeLight: 'bg-[#4A7C59]/12 text-[#2D5A3D] border-[#4A7C59]/25',
+      hover: 'group-hover:border-[#4A7C59]/40 group-hover:shadow-[#4A7C59]/15',
       icon: Droplets,
       image: creamBowl,
       label: 'COSMÉTIQUE',
-      separator: 'bg-[#D4A5A5]',
+      separator: 'bg-[#4A7C59]',
     };
   }
+  // Parfumerie: Amber/brown tones (matching the amber category card)
   if (t.includes('PARFUM') || t.includes('FRAGRANCE')) {
     return { 
-      bg: 'bg-[#F5F3FA]',           // Lavande très subtil
-      border: 'border-[#8B7EC8]/25',
-      accent: 'text-[#5B4F8C]',      // Violet profond pour le texte
-      badge: 'bg-[#8B7EC8] text-white',
-      badgeLight: 'bg-[#8B7EC8]/15 text-[#5B4F8C] border-[#8B7EC8]/30',
-      hover: 'group-hover:border-[#8B7EC8]/50 group-hover:shadow-[#8B7EC8]/10',
+      bg: 'bg-[#FBF8F5]',           // Ambre très subtil
+      border: 'border-[#A67B5B]/20',
+      accent: 'text-[#6B4C3A]',      // Ambre profond
+      badge: 'bg-[#A67B5B] text-white',
+      badgeLight: 'bg-[#A67B5B]/12 text-[#6B4C3A] border-[#A67B5B]/25',
+      hover: 'group-hover:border-[#A67B5B]/40 group-hover:shadow-[#A67B5B]/15',
       icon: Sparkles,
       image: essentialOil,
       label: 'PARFUMERIE',
-      separator: 'bg-[#8B7EC8]',
+      separator: 'bg-[#A67B5B]',
     };
   }
+  // Arômes: Pink/magenta tones (matching the pink category card)
   if (t.includes('AROME') || t.includes('ARÔME') || t.includes('FOOD')) {
     return { 
-      bg: 'bg-[#FBF7F2]',           // Crème chaud
-      border: 'border-[#D4915C]/25',
-      accent: 'text-[#8B5A2B]',      // Ambre profond pour le texte
-      badge: 'bg-[#D4915C] text-white',
-      badgeLight: 'bg-[#D4915C]/15 text-[#8B5A2B] border-[#D4915C]/30',
-      hover: 'group-hover:border-[#D4915C]/50 group-hover:shadow-[#D4915C]/10',
+      bg: 'bg-[#FDF5F7]',           // Rose très subtil
+      border: 'border-[#C97B8B]/20',
+      accent: 'text-[#8B4A5E]',      // Rose profond
+      badge: 'bg-[#C97B8B] text-white',
+      badgeLight: 'bg-[#C97B8B]/12 text-[#8B4A5E] border-[#C97B8B]/25',
+      hover: 'group-hover:border-[#C97B8B]/40 group-hover:shadow-[#C97B8B]/15',
       icon: Leaf,
       image: productBottle,
       label: 'ARÔMES',
-      separator: 'bg-[#D4915C]',
+      separator: 'bg-[#C97B8B]',
     };
   }
   return { 
