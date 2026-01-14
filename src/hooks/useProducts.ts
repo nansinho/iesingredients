@@ -63,6 +63,8 @@ export interface Product {
   // Aromes-specific fields
   profil_aromatique?: string | null;
   dosage?: string | null;
+  // Image
+  image_url?: string | null;
 }
 
 export interface ProductFilters {
