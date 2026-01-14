@@ -131,7 +131,7 @@ export function SimilarProducts({ products, lang }: SimilarProductsProps) {
 
   return (
     <motion.section 
-      className="-mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-10 sm:py-14 bg-forest-900 relative overflow-hidden"
+      className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] py-12 sm:py-16 bg-forest-900 overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
@@ -139,25 +139,26 @@ export function SimilarProducts({ products, lang }: SimilarProductsProps) {
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-gold-400/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-forest-700/30 rounded-full blur-2xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-400/3 rounded-full blur-3xl" />
       
-      <div className="relative max-w-5xl mx-auto space-y-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gold-400 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-forest-900" />
+            <div className="w-12 h-12 rounded-xl bg-gold-400 flex items-center justify-center shadow-lg shadow-gold-400/20">
+              <Sparkles className="w-6 h-6 text-forest-900" />
             </div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-white">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">
               Produits similaires
             </h2>
           </div>
-          <Button variant="ghost" size="sm" asChild className="text-gold-400 hover:text-gold-300 hover:bg-forest-800">
+          <Button variant="ghost" size="sm" asChild className="text-gold-400 hover:text-gold-300 hover:bg-forest-800 border border-gold-400/20">
             <Link to={`/${lang}/catalogue`}>
               Voir tout
               <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </Button>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {products.slice(0, 8).map((product, index) => (
             <SimilarProductCard key={product.id} product={product} lang={lang} index={index} />
           ))}
