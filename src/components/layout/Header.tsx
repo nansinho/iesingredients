@@ -58,11 +58,11 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
         <nav className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
           <Link to={`/${lang}`} className="flex items-center gap-3 group">
-            <span className="text-2xl md:text-3xl font-serif font-semibold text-foreground transition-colors duration-300">
+            <span className="text-2xl md:text-3xl font-serif font-semibold text-forest-900 transition-colors duration-300">
               IES
             </span>
             <div className="hidden sm:block">
-              <span className="text-[10px] uppercase tracking-luxury font-medium text-muted-foreground block">
+              <span className="text-[10px] uppercase tracking-luxury font-medium text-forest-600 block">
                 INGREDIENTS
               </span>
             </div>
@@ -84,15 +84,15 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                       className={cn(
                         "px-4 py-2 text-xs font-medium uppercase tracking-widest transition-all duration-300 relative",
                         isActive
-                          ? "text-navy-900"
-                          : "text-muted-foreground hover:text-foreground"
+                          ? "text-forest-900"
+                          : "text-forest-600 hover:text-forest-900"
                       )}
                     >
                       {item.label}
                       {isActive && (
                         <motion.div
                           layoutId="activeNav"
-                          className="absolute -bottom-1 left-4 right-4 h-0.5 bg-navy-900 rounded-full"
+                          className="absolute -bottom-1 left-4 right-4 h-0.5 bg-gold-500 rounded-full"
                           transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                         />
                       )}
@@ -110,21 +110,21 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-cream-100 transition-colors duration-300"
+              className="p-2.5 rounded-full text-forest-600 hover:text-forest-900 hover:bg-cream-100 transition-colors duration-300"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
             </motion.button>
 
             {/* Cart */}
-            <CartButton className="rounded-full text-muted-foreground hover:text-foreground hover:bg-cream-100 transition-colors duration-300" />
+            <CartButton className="rounded-full text-forest-600 hover:text-forest-900 hover:bg-cream-100 transition-colors duration-300" />
 
             {/* Language Toggle */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleLanguage}
-              className="px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-300 rounded-full border border-cream-300 hover:border-cream-400 hover:bg-cream-50"
+              className="px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-forest-600 hover:text-forest-900 transition-colors duration-300 rounded-full border border-forest-200 hover:border-forest-300 hover:bg-cream-50"
             >
               {lang === 'fr' ? 'EN' : 'FR'}
             </motion.button>
@@ -132,7 +132,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
             {/* CTA Button - Desktop only */}
             <Link to={`/${lang}/contact`} className="hidden lg:block">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button className="rounded-full h-10 px-6 text-xs font-medium uppercase tracking-wider bg-navy-900 text-white hover:bg-navy-800 transition-all duration-300">
+                <Button className="rounded-full h-10 px-6 text-xs font-medium uppercase tracking-wider bg-forest-900 text-white hover:bg-forest-800 transition-all duration-300">
                   {lang === 'fr' ? 'DEMANDER UN DEVIS' : 'REQUEST QUOTE'}
                 </Button>
               </motion.div>
@@ -144,23 +144,23 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="p-2 rounded-full text-foreground hover:bg-cream-100 transition-colors duration-300"
+                  className="p-2 rounded-full text-forest-900 hover:bg-cream-100 transition-colors duration-300"
                   aria-label="Menu"
                 >
                   <Menu className="w-6 h-6" />
                 </motion.button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-md bg-white border-cream-200 p-0">
+              <SheetContent side="right" className="w-full max-w-md bg-forest-950 border-forest-800 p-0">
                 <div className="p-8 h-full flex flex-col">
                   {/* Mobile Header */}
                   <div className="flex items-center justify-between mb-12">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl font-serif font-semibold text-foreground">IES</span>
-                      <span className="text-[10px] uppercase tracking-luxury text-muted-foreground">INGREDIENTS</span>
+                      <span className="text-2xl font-serif font-semibold text-white">IES</span>
+                      <span className="text-[10px] uppercase tracking-luxury text-gold-400">INGREDIENTS</span>
                     </div>
                     <button 
                       onClick={() => setIsOpen(false)}
-                      className="p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-cream-100 transition-colors"
+                      className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors"
                     >
                       <X className="w-6 h-6" />
                     </button>
@@ -183,8 +183,8 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                             className={cn(
                               'py-4 px-5 rounded-xl text-sm font-medium uppercase tracking-widest transition-all duration-300 flex items-center justify-between group',
                               isActive
-                                ? 'bg-navy-900 text-white'
-                                : 'text-muted-foreground hover:text-foreground hover:bg-cream-100'
+                                ? 'bg-gold-500 text-forest-950'
+                                : 'text-white/70 hover:text-white hover:bg-white/10'
                             )}
                           >
                             <span>{item.label}</span>
@@ -199,9 +199,9 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                   </nav>
                   
                   {/* Mobile CTA */}
-                  <div className="pt-8 border-t border-cream-200">
+                  <div className="pt-8 border-t border-white/10">
                     <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
-                      <Button className="w-full h-14 rounded-xl bg-navy-900 text-white hover:bg-navy-800 font-medium text-sm uppercase tracking-wider">
+                      <Button className="w-full h-14 rounded-xl bg-gold-500 text-forest-950 hover:bg-gold-400 font-medium text-sm uppercase tracking-wider">
                         {lang === 'fr' ? 'DEMANDER UN DEVIS' : 'REQUEST QUOTE'}
                       </Button>
                     </Link>
@@ -209,7 +209,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                     {/* Language toggle in mobile */}
                     <button
                       onClick={() => { toggleLanguage(); setIsOpen(false); }}
-                      className="w-full mt-4 py-3 text-xs font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
+                      className="w-full mt-4 py-3 text-xs font-medium uppercase tracking-widest text-white/50 hover:text-white transition-colors"
                     >
                       {lang === 'fr' ? 'ENGLISH VERSION' : 'VERSION FRANÇAISE'}
                     </button>
@@ -231,11 +231,11 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
         >
           <div className="max-w-2xl mx-auto">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-forest-400" />
               <input
                 type="text"
                 placeholder={lang === 'fr' ? 'Rechercher un ingrédient...' : 'Search ingredients...'}
-                className="w-full h-12 pl-12 pr-4 rounded-full text-sm bg-cream-50 border border-cream-200 outline-none focus:border-navy-400 transition-colors"
+                className="w-full h-12 pl-12 pr-4 rounded-full text-sm bg-cream-50 border border-cream-200 outline-none focus:border-forest-400 transition-colors"
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && e.currentTarget.value) {

@@ -4,148 +4,148 @@
 
 @layer base {
   :root {
-    /* Minimalist Luxury Palette - Light & Airy */
-    --background: 40 30% 99%;
-    --foreground: 0 0% 8%;
+    /* Dark Forest Green, Gold & White Palette */
+    --background: 0 0% 100%;
+    --foreground: 150 30% 8%;
     
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    --card-foreground: 150 30% 8%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover-foreground: 150 30% 8%;
     
-    /* Deep Navy - Primary */
-    --primary: 195 35% 15%;
-    --primary-foreground: 40 30% 98%;
+    /* Deep Forest Green - Primary */
+    --primary: 150 40% 12%;
+    --primary-foreground: 0 0% 100%;
     
-    /* Warm Cream - Secondary */
-    --secondary: 40 25% 96%;
-    --secondary-foreground: 0 0% 12%;
+    /* Light Cream - Secondary */
+    --secondary: 45 30% 96%;
+    --secondary-foreground: 150 30% 12%;
     
     /* Muted */
-    --muted: 40 20% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 45 20% 95%;
+    --muted-foreground: 150 15% 40%;
     
     /* Champagne Gold - Accent */
-    --accent: 38 55% 65%;
-    --accent-foreground: 0 0% 8%;
+    --accent: 42 75% 55%;
+    --accent-foreground: 150 40% 8%;
     
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 40 15% 92%;
-    --input: 40 15% 90%;
-    --ring: 195 35% 15%;
+    --border: 45 15% 88%;
+    --input: 45 15% 90%;
+    --ring: 150 40% 12%;
     
     --radius: 0.75rem;
     
-    /* Cream/Beige Scale - New */
-    --cream-50: 40 30% 99%;
-    --cream-100: 40 25% 97%;
-    --cream-200: 40 20% 94%;
-    --cream-300: 40 15% 88%;
+    /* Cream/Beige Scale */
+    --cream-50: 45 30% 99%;
+    --cream-100: 45 25% 96%;
+    --cream-200: 45 20% 92%;
+    --cream-300: 45 15% 85%;
     
-    /* Navy Scale - New */
-    --navy-900: 195 35% 15%;
-    --navy-800: 195 30% 20%;
-    --navy-700: 195 25% 28%;
-    --navy-600: 195 20% 38%;
+    /* Navy/Forest Scale */
+    --navy-900: 150 40% 12%;
+    --navy-800: 150 35% 18%;
+    --navy-700: 150 30% 25%;
+    --navy-600: 150 25% 35%;
     
-    /* Extended Forest Palette */
-    --forest-950: 165 45% 6%;
-    --forest-900: 165 42% 10%;
-    --forest-800: 165 38% 15%;
-    --forest-700: 165 35% 20%;
-    --forest-600: 165 32% 28%;
-    --forest-500: 165 28% 38%;
-    --forest-400: 165 24% 50%;
-    --forest-300: 165 22% 65%;
-    --forest-200: 165 18% 82%;
-    --forest-100: 165 15% 92%;
-    --forest-50: 165 12% 97%;
+    /* Extended Forest Palette - Deep Greens */
+    --forest-950: 150 50% 5%;
+    --forest-900: 150 45% 8%;
+    --forest-800: 150 42% 12%;
+    --forest-700: 150 38% 18%;
+    --forest-600: 150 35% 25%;
+    --forest-500: 150 30% 35%;
+    --forest-400: 150 25% 45%;
+    --forest-300: 150 20% 60%;
+    --forest-200: 150 15% 80%;
+    --forest-100: 150 10% 92%;
+    --forest-50: 150 8% 97%;
 
-    /* Champagne Gold Scale */
-    --gold-950: 35 60% 12%;
-    --gold-900: 36 55% 22%;
-    --gold-800: 37 52% 32%;
-    --gold-700: 38 50% 45%;
-    --gold-600: 38 52% 55%;
-    --gold-500: 38 55% 65%;
-    --gold-400: 40 60% 75%;
-    --gold-300: 42 65% 85%;
-    --gold-200: 44 70% 92%;
-    --gold-100: 45 75% 96%;
+    /* Champagne Gold Scale - Rich & Warm */
+    --gold-950: 40 70% 10%;
+    --gold-900: 40 65% 18%;
+    --gold-800: 40 60% 28%;
+    --gold-700: 42 65% 40%;
+    --gold-600: 42 70% 50%;
+    --gold-500: 42 75% 55%;
+    --gold-400: 44 80% 65%;
+    --gold-300: 45 85% 78%;
+    --gold-200: 46 90% 88%;
+    --gold-100: 47 95% 94%;
 
-    /* Category Colors - Aligned with Catalog Cards */
+    /* Category Colors */
     /* Cosmétique - Forest Green */
-    --cosmetique: 140 26% 39%;
-    --cosmetique-light: 140 15% 97%;
-    --cosmetique-dark: 140 33% 27%;
+    --cosmetique: 150 40% 30%;
+    --cosmetique-light: 150 20% 97%;
+    --cosmetique-dark: 150 45% 18%;
     
-    /* Parfum - Amber/Brown */
-    --parfum: 25 30% 50%;
-    --parfum-light: 30 25% 97%;
-    --parfum-dark: 25 30% 32%;
+    /* Parfum - Warm Gold/Amber */
+    --parfum: 35 60% 45%;
+    --parfum-light: 40 30% 97%;
+    --parfum-dark: 35 55% 28%;
     
-    /* Arôme - Pink/Magenta */
-    --arome: 345 35% 63%;
-    --arome-light: 345 40% 97%;
-    --arome-dark: 345 35% 42%;
+    /* Arôme - Deep Rose */
+    --arome: 350 50% 50%;
+    --arome-light: 350 40% 97%;
+    --arome-dark: 350 50% 35%;
 
     /* Elegant Shadows */
-    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.04);
-    --shadow-md: 0 4px 12px hsl(0 0% 0% / 0.06);
-    --shadow-lg: 0 12px 32px hsl(0 0% 0% / 0.08);
-    --shadow-xl: 0 20px 48px hsl(0 0% 0% / 0.1);
+    --shadow-sm: 0 1px 2px hsl(150 30% 10% / 0.05);
+    --shadow-md: 0 4px 12px hsl(150 30% 10% / 0.08);
+    --shadow-lg: 0 12px 32px hsl(150 30% 10% / 0.1);
+    --shadow-xl: 0 20px 48px hsl(150 30% 10% / 0.12);
 
     /* Sidebar */
-    --sidebar-background: 195 35% 15%;
-    --sidebar-foreground: 40 30% 96%;
-    --sidebar-primary: 38 55% 65%;
-    --sidebar-primary-foreground: 0 0% 8%;
-    --sidebar-accent: 195 30% 20%;
-    --sidebar-accent-foreground: 40 30% 96%;
-    --sidebar-border: 195 25% 22%;
-    --sidebar-ring: 38 55% 65%;
+    --sidebar-background: 150 45% 8%;
+    --sidebar-foreground: 45 30% 96%;
+    --sidebar-primary: 42 75% 55%;
+    --sidebar-primary-foreground: 150 45% 8%;
+    --sidebar-accent: 150 40% 12%;
+    --sidebar-accent-foreground: 45 30% 96%;
+    --sidebar-border: 150 35% 15%;
+    --sidebar-ring: 42 75% 55%;
   }
 
   .dark {
-    --background: 165 45% 4%;
-    --foreground: 40 20% 96%;
+    --background: 150 50% 4%;
+    --foreground: 45 20% 96%;
     
-    --card: 165 40% 7%;
-    --card-foreground: 40 20% 96%;
+    --card: 150 45% 6%;
+    --card-foreground: 45 20% 96%;
     
-    --popover: 165 40% 7%;
-    --popover-foreground: 40 20% 96%;
+    --popover: 150 45% 6%;
+    --popover-foreground: 45 20% 96%;
     
-    --primary: 38 55% 65%;
-    --primary-foreground: 165 45% 6%;
+    --primary: 42 75% 55%;
+    --primary-foreground: 150 50% 5%;
     
-    --secondary: 165 35% 12%;
-    --secondary-foreground: 40 20% 92%;
+    --secondary: 150 40% 10%;
+    --secondary-foreground: 45 20% 92%;
     
-    --muted: 165 30% 14%;
-    --muted-foreground: 40 12% 60%;
+    --muted: 150 35% 12%;
+    --muted-foreground: 45 12% 55%;
     
-    --accent: 38 50% 60%;
-    --accent-foreground: 165 45% 6%;
+    --accent: 42 70% 50%;
+    --accent-foreground: 150 50% 5%;
     
     --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 165 30% 16%;
-    --input: 165 30% 16%;
-    --ring: 38 55% 65%;
+    --border: 150 35% 14%;
+    --input: 150 35% 14%;
+    --ring: 42 75% 55%;
 
-    --sidebar-background: 165 50% 3%;
-    --sidebar-foreground: 40 20% 96%;
-    --sidebar-primary: 38 55% 65%;
-    --sidebar-primary-foreground: 165 45% 6%;
-    --sidebar-accent: 165 35% 10%;
-    --sidebar-accent-foreground: 40 20% 96%;
-    --sidebar-border: 165 35% 10%;
-    --sidebar-ring: 38 55% 65%;
+    --sidebar-background: 150 55% 3%;
+    --sidebar-foreground: 45 20% 96%;
+    --sidebar-primary: 42 75% 55%;
+    --sidebar-primary-foreground: 150 50% 5%;
+    --sidebar-accent: 150 40% 8%;
+    --sidebar-accent-foreground: 45 20% 96%;
+    --sidebar-border: 150 40% 8%;
+    --sidebar-ring: 42 75% 55%;
   }
 }
 
@@ -176,7 +176,7 @@
     width: 100%;
   }
 
-  /* Typography Hierarchy - Consistent */
+  /* Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', Georgia, serif;
     @apply font-semibold tracking-tight;
@@ -211,7 +211,7 @@
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.3);
+    background: hsl(var(--gold-500) / 0.3);
     color: hsl(var(--foreground));
   }
 }
@@ -221,18 +221,18 @@
     @apply container mx-auto px-5 md:px-8 lg:px-12 max-w-7xl;
   }
 
-  /* Glass Card - Refined */
+  /* Glass Card */
   .glass-card {
     @apply bg-card/90 backdrop-blur-xl border border-border/50 shadow-sm rounded-2xl;
   }
 
-  /* Gradient Card */
+  /* Gradient Card - Forest */
   .gradient-card {
     @apply relative overflow-hidden rounded-2xl;
-    background: linear-gradient(145deg, hsl(var(--primary)) 0%, hsl(var(--forest-800)) 100%);
+    background: linear-gradient(145deg, hsl(var(--forest-900)) 0%, hsl(var(--forest-950)) 100%);
   }
 
-  /* Gold Gradient - Elegant */
+  /* Gold Gradient */
   .gold-gradient {
     background: linear-gradient(135deg, hsl(var(--gold-400)) 0%, hsl(var(--gold-600)) 100%);
   }
@@ -250,11 +250,11 @@
   }
 
   .btn-luxury-primary {
-    @apply btn-luxury bg-primary text-primary-foreground hover:bg-primary/90;
+    @apply btn-luxury bg-forest-900 text-white hover:bg-forest-800;
   }
 
   .btn-luxury-outline {
-    @apply btn-luxury border border-foreground/20 bg-transparent hover:bg-foreground/5;
+    @apply btn-luxury border border-forest-900/20 bg-transparent hover:bg-forest-900/5;
   }
 
   /* Elegant link underline */
@@ -277,7 +277,7 @@
     text-wrap: balance;
   }
 
-  /* Ken Burns Animation for Hero Slideshow - Improved */
+  /* Ken Burns Animation */
   @keyframes kenburns {
     0% {
       transform: scale(1) translate(0, 0);
@@ -291,12 +291,11 @@
     animation: kenburns 10s ease-out forwards;
   }
 
-  /* Transition duration for image crossfade - Longer for smoother feel */
   .duration-2000 {
     transition-duration: 2000ms;
   }
 
-  /* Scroll bounce animation for hero indicator */
+  /* Scroll bounce animation */
   @keyframes scrollBounce {
     0%, 100% {
       transform: translateY(0);
@@ -398,19 +397,19 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
+  background: hsl(var(--cream-100));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
+  background: hsl(var(--forest-400) / 0.4);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: hsl(var(--forest-500) / 0.6);
 }
 
-/* Focus styles - Refined */
+/* Focus styles */
 *:focus-visible {
-  @apply outline-none ring-2 ring-primary/30 ring-offset-2 ring-offset-background;
+  @apply outline-none ring-2 ring-gold-500/40 ring-offset-2 ring-offset-background;
 }
