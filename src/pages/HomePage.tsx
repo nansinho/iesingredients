@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -5,9 +6,10 @@ import { ProductCard } from '@/components/catalog/ProductCard';
 import { useProducts } from '@/hooks/useProducts';
 import { Language, useTranslation } from '@/lib/i18n';
 import { SEOHead, createFAQSchema } from '@/components/SEOHead';
-import { ArrowRight, Leaf, Droplets, FlaskConical, Sparkles, Award, Users, Globe, ArrowUpRight, Phone, Zap } from 'lucide-react';
-import essentialOil from '@/assets/essential-oil.jpg';
+import { HeroSection } from '@/components/home/HeroSection';
+import { ArrowRight, Leaf, Droplets, FlaskConical, Award, Users, Zap, ArrowUpRight, Phone } from 'lucide-react';
 import creamJar from '@/assets/cream-jar.jpg';
+import essentialOil from '@/assets/essential-oil.jpg';
 import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
 import botanicalsFlat from '@/assets/botanicals-flat.jpg';
 
@@ -18,15 +20,9 @@ interface HomePageProps {
 export const HomePage = ({ lang }: HomePageProps) => {
   const t = useTranslation(lang);
   const { data: products } = useProducts();
+  const [searchValue, setSearchValue] = useState('');
 
   const featuredProducts = (products || []).slice(0, 3);
-
-  const stats = [
-    { value: '5000', suffix: '+', label: lang === 'fr' ? 'Références' : 'References' },
-    { value: '30', suffix: '+', label: lang === 'fr' ? 'Années' : 'Years' },
-    { value: '500', suffix: '+', label: 'Clients' },
-    { value: '40', suffix: '+', label: lang === 'fr' ? 'Pays' : 'Countries' },
-  ];
 
   return (
     <Layout lang={lang}>
@@ -53,78 +49,12 @@ export const HomePage = ({ lang }: HomePageProps) => {
         ])}
       />
 
-      {/* HERO - Luxury Minimal */}
-      <section className="relative min-h-screen overflow-hidden bg-forest-950">
-        {/* Background Image with overlay */}
-        <div className="absolute inset-0">
-          <img 
-            src={essentialOil} 
-            alt="" 
-            className="w-full h-full object-cover opacity-40" 
-            loading="eager" 
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-forest-950/60 via-forest-950/40 to-forest-950" />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 min-h-screen flex flex-col justify-center pt-24 pb-16">
-          <div className="container-luxe">
-            <div className="max-w-4xl">
-              {/* Eyebrow */}
-              <p className="text-gold-500 text-xs sm:text-sm uppercase tracking-luxury font-medium mb-6 sm:mb-8 animate-fade-in">
-                {lang === 'fr' ? 'Excellence depuis 1994' : 'Excellence since 1994'}
-              </p>
-
-              {/* Title */}
-              <h1 className="text-white mb-8 animate-reveal">
-                {lang === 'fr' ? 'L\'art des' : 'The art of'}<br />
-                <span className="italic text-gold-500">{lang === 'fr' ? 'ingrédients naturels' : 'natural ingredients'}</span>
-              </h1>
-
-              {/* Description */}
-              <p className="text-white/60 text-lg sm:text-xl leading-relaxed mb-10 sm:mb-12 max-w-2xl animate-reveal-delayed">
-                {lang === 'fr'
-                  ? 'Plus de 5000 références premium pour la cosmétique, la parfumerie et les arômes alimentaires. Une expertise reconnue par les plus grandes maisons.'
-                  : 'Over 5000 premium references for cosmetics, perfumery and food flavors. An expertise recognized by the greatest houses.'}
-              </p>
-
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-4 animate-reveal-delayed">
-                <Link to={`/${lang}/catalogue`}>
-                  <Button className="h-14 px-8 rounded-full text-base font-medium bg-white text-forest-950 hover:bg-white/90 group">
-                    {lang === 'fr' ? 'Explorer le catalogue' : 'Explore catalog'}
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-                <Link to={`/${lang}/contact`}>
-                  <Button variant="outline-light" className="h-14 px-8 rounded-full text-base font-medium">
-                    {lang === 'fr' ? 'Nous contacter' : 'Contact us'}
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats - Bottom */}
-          <div className="container-luxe mt-auto pt-16">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12 max-w-3xl">
-              {stats.map((stat, i) => (
-                <div key={i}>
-                  <p className="text-3xl sm:text-4xl md:text-5xl font-serif font-semibold text-white mb-2">
-                    {stat.value}<span className="text-gold-500">{stat.suffix}</span>
-                  </p>
-                  <p className="text-sm text-white/40 uppercase tracking-wider">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-          <div className="w-px h-16 bg-gradient-to-b from-white/0 via-white/30 to-white/0" />
-        </div>
-      </section>
+      {/* HERO - Animated Ken Burns Slideshow */}
+      <HeroSection 
+        lang={lang} 
+        searchValue={searchValue} 
+        onSearchChange={setSearchValue} 
+      />
 
       {/* CATEGORIES - Elegant Grid */}
       <section className="py-24 md:py-32 bg-background">
@@ -132,7 +62,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
           {/* Section header */}
           <div className="max-w-2xl mb-16 md:mb-20">
             <p className="text-gold-600 text-xs sm:text-sm uppercase tracking-luxury font-medium mb-4">
-              {lang === 'fr' ? 'Notre expertise' : 'Our expertise'}
+              {lang === 'fr' ? 'NOTRE EXPERTISE' : 'OUR EXPERTISE'}
             </p>
             <h2 className="text-foreground mb-6">
               {lang === 'fr' ? 'Trois univers' : 'Three worlds'}<br />
@@ -149,28 +79,31 @@ export const HomePage = ({ lang }: HomePageProps) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {[
               { 
-                name: lang === 'fr' ? 'Cosmétique' : 'Cosmetic', 
+                name: lang === 'fr' ? 'COSMÉTIQUE' : 'COSMETIC', 
                 count: '2000+', 
                 desc: lang === 'fr' ? 'Actifs botaniques et extraits naturels pour des formulations innovantes.' : 'Botanical actives and natural extracts for innovative formulations.',
                 image: creamJar,
                 icon: Leaf,
-                link: `/${lang}/catalogue?category=cosmetique`
+                link: `/${lang}/catalogue?category=cosmetique`,
+                color: 'bg-cosmetique'
               },
               { 
-                name: lang === 'fr' ? 'Parfumerie' : 'Perfumery', 
+                name: lang === 'fr' ? 'PARFUMERIE' : 'PERFUMERY', 
                 count: '1500+', 
                 desc: lang === 'fr' ? 'Essences et matières premières nobles pour des créations olfactives uniques.' : 'Noble essences and raw materials for unique olfactory creations.',
                 image: essentialOil,
                 icon: FlaskConical,
-                link: `/${lang}/catalogue?category=parfum`
+                link: `/${lang}/catalogue?category=parfum`,
+                color: 'bg-parfum'
               },
               { 
-                name: lang === 'fr' ? 'Arômes' : 'Flavors', 
+                name: lang === 'fr' ? 'ARÔMES' : 'FLAVORS', 
                 count: '1500+', 
                 desc: lang === 'fr' ? 'Arômes alimentaires naturels pour l\'industrie agroalimentaire.' : 'Natural food flavors for the food industry.',
                 image: blueberriesHerbs,
                 icon: Droplets,
-                link: `/${lang}/catalogue?category=arome`
+                link: `/${lang}/catalogue?category=arome`,
+                color: 'bg-arome'
               }
             ].map((cat) => (
               <Link key={cat.name} to={cat.link} className="group block">
@@ -190,22 +123,22 @@ export const HomePage = ({ lang }: HomePageProps) => {
                   <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between">
                     {/* Top */}
                     <div className="flex justify-between items-start">
-                      <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                      <div className={`w-14 h-14 rounded-2xl ${cat.color} flex items-center justify-center`}>
                         <cat.icon className="w-7 h-7 text-white" />
                       </div>
-                      <span className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium">
+                      <span className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium uppercase tracking-wider">
                         {cat.count}
                       </span>
                     </div>
                     
                     {/* Bottom */}
                     <div>
-                      <h3 className="text-3xl md:text-4xl font-serif font-semibold text-white mb-3">
+                      <h3 className="text-3xl md:text-4xl font-serif font-semibold text-white mb-3 uppercase tracking-wide">
                         {cat.name}
                       </h3>
                       <p className="text-white/70 text-sm md:text-base mb-6 line-clamp-2">{cat.desc}</p>
-                      <div className="flex items-center gap-3 text-white text-sm font-medium group-hover:gap-4 transition-all">
-                        <span>{lang === 'fr' ? 'Explorer' : 'Explore'}</span>
+                      <div className="flex items-center gap-3 text-white text-sm font-medium uppercase tracking-wider group-hover:gap-4 transition-all">
+                        <span>{lang === 'fr' ? 'EXPLORER' : 'EXPLORE'}</span>
                         <ArrowRight className="w-5 h-5" />
                       </div>
                     </div>
@@ -238,7 +171,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
               <div className="absolute -bottom-6 right-6 lg:-right-6">
                 <div className="bg-gold-500 text-forest-950 rounded-2xl p-6 shadow-2xl">
                   <p className="text-4xl md:text-5xl font-serif font-semibold">30+</p>
-                  <p className="text-sm font-medium mt-1">{lang === 'fr' ? 'ans d\'expertise' : 'years expertise'}</p>
+                  <p className="text-sm font-medium uppercase tracking-wider mt-1">{lang === 'fr' ? 'ANS D\'EXPERTISE' : 'YEARS EXPERTISE'}</p>
                 </div>
               </div>
             </div>
@@ -246,7 +179,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
             {/* Content */}
             <div className="order-1 lg:order-2">
               <p className="text-gold-500 text-xs sm:text-sm uppercase tracking-luxury font-medium mb-4">
-                {lang === 'fr' ? 'Notre engagement' : 'Our commitment'}
+                {lang === 'fr' ? 'NOTRE ENGAGEMENT' : 'OUR COMMITMENT'}
               </p>
               <h2 className="text-white mb-8">
                 {lang === 'fr' ? 'L\'excellence au service de ' : 'Excellence serving '}
@@ -261,24 +194,24 @@ export const HomePage = ({ lang }: HomePageProps) => {
               {/* Features */}
               <div className="grid grid-cols-2 gap-4 mb-10">
                 {[
-                  { icon: Leaf, text: lang === 'fr' ? 'Sourcing éthique' : 'Ethical sourcing' },
-                  { icon: Award, text: lang === 'fr' ? 'Certifications' : 'Certifications' },
-                  { icon: Zap, text: lang === 'fr' ? 'Livraison rapide' : 'Fast delivery' },
-                  { icon: Users, text: lang === 'fr' ? 'Support expert' : 'Expert support' },
+                  { icon: Leaf, text: lang === 'fr' ? 'SOURCING ÉTHIQUE' : 'ETHICAL SOURCING' },
+                  { icon: Award, text: lang === 'fr' ? 'CERTIFICATIONS' : 'CERTIFICATIONS' },
+                  { icon: Zap, text: lang === 'fr' ? 'LIVRAISON RAPIDE' : 'FAST DELIVERY' },
+                  { icon: Users, text: lang === 'fr' ? 'SUPPORT EXPERT' : 'EXPERT SUPPORT' },
                 ].map((item, i) => (
                   <div 
                     key={i}
                     className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10"
                   >
                     <item.icon className="w-5 h-5 text-gold-500 shrink-0" />
-                    <span className="text-white text-sm font-medium">{item.text}</span>
+                    <span className="text-white text-xs font-medium uppercase tracking-wider">{item.text}</span>
                   </div>
                 ))}
               </div>
 
               <Link to={`/${lang}/entreprise`}>
-                <Button className="h-14 px-8 rounded-full bg-white text-forest-950 hover:bg-white/90 font-medium group">
-                  {lang === 'fr' ? 'Découvrir notre histoire' : 'Discover our story'}
+                <Button className="h-14 px-8 rounded-full bg-white text-forest-950 hover:bg-white/90 font-medium uppercase tracking-wider group">
+                  {lang === 'fr' ? 'DÉCOUVRIR NOTRE HISTOIRE' : 'DISCOVER OUR STORY'}
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -295,15 +228,15 @@ export const HomePage = ({ lang }: HomePageProps) => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-12 md:mb-16">
               <div>
                 <p className="text-gold-600 text-xs sm:text-sm uppercase tracking-luxury font-medium mb-4">
-                  {lang === 'fr' ? 'Sélection' : 'Selection'}
+                  {lang === 'fr' ? 'SÉLECTION' : 'SELECTION'}
                 </p>
                 <h2 className="text-foreground">
                   {lang === 'fr' ? 'Produits' : 'Featured'} <span className="italic text-gold-600">{lang === 'fr' ? 'vedettes' : 'products'}</span>
                 </h2>
               </div>
               <Link to={`/${lang}/catalogue`}>
-                <Button variant="outline" className="rounded-full h-12 px-6 group">
-                  {lang === 'fr' ? 'Voir tout le catalogue' : 'View full catalog'}
+                <Button variant="outline" className="rounded-full h-12 px-6 uppercase tracking-wider text-xs group">
+                  {lang === 'fr' ? 'VOIR TOUT LE CATALOGUE' : 'VIEW FULL CATALOG'}
                   <ArrowUpRight className="ml-2 w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Button>
               </Link>
@@ -327,7 +260,7 @@ export const HomePage = ({ lang }: HomePageProps) => {
         <div className="container-luxe relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-gold-500 text-xs sm:text-sm uppercase tracking-luxury font-medium mb-4">
-              {lang === 'fr' ? 'Prêt à collaborer ?' : 'Ready to collaborate?'}
+              {lang === 'fr' ? 'PRÊT À COLLABORER ?' : 'READY TO COLLABORATE?'}
             </p>
             <h2 className="text-white mb-8">
               {lang === 'fr' ? 'Créons ensemble' : 'Let\'s create together'}<br />
@@ -340,14 +273,15 @@ export const HomePage = ({ lang }: HomePageProps) => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link to={`/${lang}/contact`}>
-                <Button className="h-14 px-8 rounded-full bg-white text-forest-950 hover:bg-white/90 font-medium group">
+                <Button className="h-14 px-8 rounded-full bg-white text-forest-950 hover:bg-white/90 font-medium uppercase tracking-wider group">
                   <Phone className="mr-2 w-5 h-5" />
-                  {lang === 'fr' ? 'Contactez-nous' : 'Contact us'}
+                  {lang === 'fr' ? 'CONTACTEZ-NOUS' : 'CONTACT US'}
                 </Button>
               </Link>
               <Link to={`/${lang}/catalogue`}>
-                <Button variant="outline-light" className="h-14 px-8 rounded-full font-medium">
-                  {lang === 'fr' ? 'Explorer le catalogue' : 'Explore catalog'}
+                <Button variant="outline" className="h-14 px-8 rounded-full font-medium uppercase tracking-wider border-white/30 text-white hover:bg-white/10">
+                  {lang === 'fr' ? 'VOIR LE CATALOGUE' : 'VIEW CATALOG'}
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
             </div>
