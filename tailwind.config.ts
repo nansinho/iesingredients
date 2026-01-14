@@ -62,6 +62,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Forest green palette
         forest: {
           50: "hsl(var(--forest-50))",
           100: "hsl(var(--forest-100))",
@@ -75,7 +76,9 @@ export default {
           900: "hsl(var(--forest-900))",
           950: "hsl(var(--forest-950))",
         },
+        // Gold palette
         gold: {
+          50: "hsl(var(--gold-100))",
           100: "hsl(var(--gold-100))",
           200: "hsl(var(--gold-200))",
           300: "hsl(var(--gold-300))",
@@ -87,19 +90,20 @@ export default {
           900: "hsl(var(--gold-900))",
           950: "hsl(var(--gold-950))",
         },
+        // Category colors with light variants
         cosmetique: {
-          DEFAULT: "hsl(var(--cosmetique))",
           light: "hsl(var(--cosmetique-light))",
+          DEFAULT: "hsl(var(--cosmetique))",
           dark: "hsl(var(--cosmetique-dark))",
         },
         parfum: {
-          DEFAULT: "hsl(var(--parfum))",
           light: "hsl(var(--parfum-light))",
+          DEFAULT: "hsl(var(--parfum))",
           dark: "hsl(var(--parfum-dark))",
         },
         arome: {
-          DEFAULT: "hsl(var(--arome))",
           light: "hsl(var(--arome-light))",
+          DEFAULT: "hsl(var(--arome))",
           dark: "hsl(var(--arome-dark))",
         },
       },
@@ -107,10 +111,13 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
         serif: ["Cormorant Garamond", "Georgia", "serif"],
+        mono: ["JetBrains Mono", "SF Mono", "monospace"],
       },
       fontSize: {
         "display-xl": ["5rem", { lineHeight: "0.9", letterSpacing: "-0.02em" }],
@@ -120,6 +127,7 @@ export default {
       },
       letterSpacing: {
         luxury: "0.15em",
+        widest: "0.1em",
       },
       keyframes: {
         "accordion-down": {
@@ -138,12 +146,17 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        kenburns: {
+          from: { transform: "scale(1)" },
+          to: { transform: "scale(1.15)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         reveal: "reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "fade-in": "fadeIn 0.6s ease-out forwards",
+        kenburns: "kenburns 8s ease-out forwards",
       },
     },
   },
