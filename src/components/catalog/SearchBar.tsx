@@ -34,17 +34,17 @@ export const SearchBar = ({
     >
       <div
         className={cn(
-          'relative flex items-center rounded-xl overflow-hidden transition-all duration-300',
+          'relative flex items-center overflow-hidden transition-all duration-300',
           variant === 'hero'
-            ? 'bg-background/95 backdrop-blur-sm shadow-card border-2 border-transparent'
-            : 'bg-muted/50 border border-border',
-          isFocused && variant === 'hero' && 'border-accent shadow-glow'
+            ? 'bg-white/98 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] border border-white/50 rounded-2xl hover:shadow-[0_12px_50px_rgba(0,0,0,0.2)]'
+            : 'bg-muted/50 border border-border rounded-xl',
+          isFocused && variant === 'hero' && 'shadow-[0_12px_50px_rgba(0,0,0,0.25)] border-gold-400/30'
         )}
       >
         <Search
           className={cn(
-            'absolute left-4 w-5 h-5 transition-colors',
-            isFocused ? 'text-primary' : 'text-muted-foreground'
+            'absolute left-5 w-5 h-5 transition-colors',
+            isFocused ? 'text-gold-600' : 'text-muted-foreground'
           )}
         />
         <Input
@@ -55,15 +55,15 @@ export const SearchBar = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
-            'border-0 bg-transparent pl-12 pr-12 focus-visible:ring-0 focus-visible:ring-offset-0',
-            variant === 'hero' ? 'h-14 text-base' : 'h-11'
+            'border-0 bg-transparent pl-14 pr-14 focus-visible:ring-0 focus-visible:ring-offset-0',
+            variant === 'hero' ? 'h-16 text-base placeholder:text-muted-foreground/70' : 'h-11'
           )}
         />
         {value && (
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-2 h-8 w-8 text-muted-foreground hover:text-foreground"
+            className="absolute right-3 h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-full"
             onClick={() => onChange('')}
           >
             <X className="w-4 h-4" />

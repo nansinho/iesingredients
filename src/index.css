@@ -265,23 +265,39 @@
     text-wrap: balance;
   }
 
-  /* Ken Burns Animation for Hero Slideshow */
+  /* Ken Burns Animation for Hero Slideshow - Improved */
   @keyframes kenburns {
     0% {
-      transform: scale(1);
+      transform: scale(1) translate(0, 0);
     }
     100% {
-      transform: scale(1.15);
+      transform: scale(1.12) translate(-1%, -1%);
     }
   }
 
   .animate-kenburns {
-    animation: kenburns 8s ease-out forwards;
+    animation: kenburns 10s ease-out forwards;
   }
 
-  /* Transition duration for image crossfade */
-  .duration-1500 {
-    transition-duration: 1500ms;
+  /* Transition duration for image crossfade - Longer for smoother feel */
+  .duration-2000 {
+    transition-duration: 2000ms;
+  }
+
+  /* Scroll bounce animation for hero indicator */
+  @keyframes scrollBounce {
+    0%, 100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(6px);
+      opacity: 0.6;
+    }
+  }
+
+  .animate-scroll-bounce {
+    animation: scrollBounce 2s ease-in-out infinite;
   }
 
   /* Reveal animations */
