@@ -27,8 +27,7 @@ export const SearchBar = ({
     <div
       className={cn(
         'relative transition-all duration-300',
-        variant === 'hero' && 'max-w-2xl mx-auto',
-        isFocused && variant === 'hero' && 'scale-[1.02]',
+        variant === 'hero' && 'max-w-xl mx-auto',
         className
       )}
     >
@@ -36,9 +35,9 @@ export const SearchBar = ({
         className={cn(
           'relative flex items-center overflow-hidden transition-all duration-300',
           variant === 'hero'
-            ? 'bg-white shadow-2xl border border-gray-200 rounded-xl hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]'
+            ? 'bg-white shadow-lg rounded-full hover:shadow-xl'
             : 'bg-muted/50 border border-border rounded-xl',
-          isFocused && variant === 'hero' && 'shadow-[0_16px_50px_rgba(0,0,0,0.2)] border-forest-300'
+          isFocused && variant === 'hero' && 'shadow-xl ring-2 ring-white/50'
         )}
       >
         <Search
@@ -56,7 +55,7 @@ export const SearchBar = ({
           onBlur={() => setIsFocused(false)}
           className={cn(
             'border-0 bg-transparent pl-14 pr-14 focus-visible:ring-0 focus-visible:ring-offset-0',
-            variant === 'hero' ? 'h-16 text-base placeholder:text-muted-foreground/70' : 'h-11'
+            variant === 'hero' ? 'h-14 text-base placeholder:text-gray-400' : 'h-11'
           )}
         />
         {value && (
