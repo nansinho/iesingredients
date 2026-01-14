@@ -2,6 +2,7 @@ import { Layout } from '@/components/layout/Layout';
 import { Language } from '@/lib/i18n';
 import { SEOHead, createFAQSchema } from '@/components/SEOHead';
 import { MinimalHero } from '@/components/home/MinimalHero';
+import { LogoStrip } from '@/components/home/LogoStrip';
 import { BentoExpertise } from '@/components/home/BentoExpertise';
 import { MinimalAbout } from '@/components/home/MinimalAbout';
 import { MinimalProducts } from '@/components/home/MinimalProducts';
@@ -38,6 +39,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
 
       {/* Hero Section - Light & Airy */}
       <MinimalHero lang={lang} />
+
+      {/* Certification Logos Strip */}
+      <LogoStrip lang={lang} />
 
       {/* Bento Grid Expertise */}
       <BentoExpertise lang={lang} />

@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 // Import images
 import botanicalsFlat from '@/assets/botanicals-flat.jpg';
 import serumCollection from '@/assets/serum-collection.jpg';
-import pumpBottle from '@/assets/pump-bottle.jpg';
-import heroBotanical from '@/assets/hero-botanical.jpg';
 
 interface BentoExpertiseProps {
   lang: Language;
@@ -18,14 +16,22 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { 
+      duration: 0.6
+    } 
+  },
 };
 
 export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
@@ -38,18 +44,30 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4"
+          >
             {lang === 'fr' ? 'Notre Expertise' : 'Our Expertise'}
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-muted-foreground text-lg max-w-2xl mx-auto"
+          >
             {lang === 'fr'
               ? 'Des ingrédients soigneusement sélectionnés depuis plus de 30 ans'
               : 'Carefully selected ingredients for over 30 years'}
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Bento Grid */}
@@ -57,36 +75,52 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
         >
           {/* Large Image Card - Botanicals */}
           <motion.div
             variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.3 }}
             className="col-span-2 row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer"
           >
-            <img
+            <motion.img
               src={botanicalsFlat}
               alt="Botanicals"
-              className="w-full h-full object-cover min-h-[400px] md:min-h-[500px] transition-transform duration-700 group-hover:scale-105"
+              className="w-full h-full object-cover min-h-[400px] md:min-h-[500px]"
+              whileHover={{ scale: 1.08 }}
+              transition={{ duration: 0.7 }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6">
+            <motion.div 
+              className="absolute bottom-6 left-6 right-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
               <span className="text-gold-400 text-sm uppercase tracking-widest mb-2 block">
                 {lang === 'fr' ? 'Naturel' : 'Natural'}
               </span>
               <h3 className="font-serif text-2xl md:text-3xl text-white">
                 {lang === 'fr' ? 'Ingrédients Botaniques' : 'Botanical Ingredients'}
               </h3>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Cosmétique Card - Dark */}
           <motion.div
             variants={itemVariants}
-            className="col-span-1 bg-cosmetique rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group"
+            whileHover={{ scale: 1.03, y: -5 }}
+            className="col-span-1 bg-cosmetique rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer"
           >
-            <Leaf className="w-8 h-8 text-white/80" />
+            <motion.div
+              whileHover={{ rotate: 10, scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <Leaf className="w-8 h-8 text-white/80" />
+            </motion.div>
             <div>
               <span className="text-white/60 text-xs uppercase tracking-widest">
                 {t.categories.cosmetic}
@@ -96,11 +130,11 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
                 {lang === 'fr' ? 'actifs naturels' : 'natural actives'}
               </p>
               <Link
-                to={`/${lang}/catalogue?category=cosmetic`}
+                to={`/${lang}/catalogue?category=cosmetique`}
                 className="inline-flex items-center text-white/80 hover:text-white text-sm mt-3 group-hover:gap-2 transition-all"
               >
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
-                <ArrowRight className="w-4 h-4 ml-1" />
+                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </motion.div>
@@ -108,9 +142,15 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
           {/* Parfumerie Card - Dark */}
           <motion.div
             variants={itemVariants}
-            className="col-span-1 bg-parfum rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group"
+            whileHover={{ scale: 1.03, y: -5 }}
+            className="col-span-1 bg-parfum rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer"
           >
-            <Droplets className="w-8 h-8 text-white/80" />
+            <motion.div
+              whileHover={{ rotate: -10, scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <Droplets className="w-8 h-8 text-white/80" />
+            </motion.div>
             <div>
               <span className="text-white/60 text-xs uppercase tracking-widest">
                 {t.categories.perfume}
@@ -120,11 +160,11 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
                 {lang === 'fr' ? 'essences rares' : 'rare essences'}
               </p>
               <Link
-                to={`/${lang}/catalogue?category=perfume`}
+                to={`/${lang}/catalogue?category=parfum`}
                 className="inline-flex items-center text-white/80 hover:text-white text-sm mt-3 group-hover:gap-2 transition-all"
               >
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
-                <ArrowRight className="w-4 h-4 ml-1" />
+                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </motion.div>
@@ -132,27 +172,41 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
           {/* Wide Image Card */}
           <motion.div
             variants={itemVariants}
+            whileHover={{ scale: 1.02 }}
             className="col-span-2 md:col-span-1 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[200px]"
           >
-            <img
+            <motion.img
               src={serumCollection}
               alt="Serums"
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              className="w-full h-full object-cover"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.6 }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className="absolute bottom-4 left-4">
+            <motion.div 
+              className="absolute bottom-4 left-4"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+            >
               <span className="text-white/90 text-sm font-medium">
                 {lang === 'fr' ? 'Collection Sérums' : 'Serum Collection'}
               </span>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Arômes Card - Dark */}
           <motion.div
             variants={itemVariants}
-            className="col-span-1 bg-arome rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group"
+            whileHover={{ scale: 1.03, y: -5 }}
+            className="col-span-1 bg-arome rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer"
           >
-            <Cherry className="w-8 h-8 text-white/80" />
+            <motion.div
+              whileHover={{ rotate: 15, scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <Cherry className="w-8 h-8 text-white/80" />
+            </motion.div>
             <div>
               <span className="text-white/60 text-xs uppercase tracking-widest">
                 {t.categories.aroma}
@@ -162,11 +216,11 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
                 {lang === 'fr' ? 'arômes alimentaires' : 'food flavors'}
               </p>
               <Link
-                to={`/${lang}/catalogue?category=aroma`}
+                to={`/${lang}/catalogue?category=arome`}
                 className="inline-flex items-center text-white/80 hover:text-white text-sm mt-3 group-hover:gap-2 transition-all"
               >
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
-                <ArrowRight className="w-4 h-4 ml-1" />
+                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </motion.div>
