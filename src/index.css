@@ -4,40 +4,52 @@
 
 @layer base {
   :root {
-    /* Luxury Palette - Refined & Elegant */
-    --background: 40 20% 98%;
-    --foreground: 0 0% 9%;
+    /* Minimalist Luxury Palette - Light & Airy */
+    --background: 40 30% 99%;
+    --foreground: 0 0% 8%;
     
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
+    --card-foreground: 0 0% 8%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
+    --popover-foreground: 0 0% 8%;
     
-    /* Deep Forest Green - Primary */
-    --primary: 165 35% 20%;
+    /* Deep Navy - Primary */
+    --primary: 195 35% 15%;
     --primary-foreground: 40 30% 98%;
     
     /* Warm Cream - Secondary */
     --secondary: 40 25% 96%;
-    --secondary-foreground: 0 0% 15%;
+    --secondary-foreground: 0 0% 12%;
     
     /* Muted */
-    --muted: 40 15% 94%;
+    --muted: 40 20% 96%;
     --muted-foreground: 0 0% 45%;
     
     /* Champagne Gold - Accent */
     --accent: 38 55% 65%;
-    --accent-foreground: 0 0% 9%;
+    --accent-foreground: 0 0% 8%;
     
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 40 15% 90%;
+    --border: 40 15% 92%;
     --input: 40 15% 90%;
-    --ring: 165 35% 20%;
+    --ring: 195 35% 15%;
     
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Cream/Beige Scale - New */
+    --cream-50: 40 30% 99%;
+    --cream-100: 40 25% 97%;
+    --cream-200: 40 20% 94%;
+    --cream-300: 40 15% 88%;
+    
+    /* Navy Scale - New */
+    --navy-900: 195 35% 15%;
+    --navy-800: 195 30% 20%;
+    --navy-700: 195 25% 28%;
+    --navy-600: 195 20% 38%;
     
     /* Extended Forest Palette */
     --forest-950: 165 45% 6%;
@@ -66,19 +78,19 @@
 
     /* Category Colors - Aligned with Catalog Cards */
     /* Cosmétique - Forest Green */
-    --cosmetique: 140 26% 39%;         /* #4A7C59 */
-    --cosmetique-light: 140 15% 97%;   /* #F5F8F6 */
-    --cosmetique-dark: 140 33% 27%;    /* #2D5A3D */
+    --cosmetique: 140 26% 39%;
+    --cosmetique-light: 140 15% 97%;
+    --cosmetique-dark: 140 33% 27%;
     
     /* Parfum - Amber/Brown */
-    --parfum: 25 30% 50%;              /* #A67B5B */
-    --parfum-light: 30 25% 97%;        /* #FBF8F5 */
-    --parfum-dark: 25 30% 32%;         /* #6B4C3A */
+    --parfum: 25 30% 50%;
+    --parfum-light: 30 25% 97%;
+    --parfum-dark: 25 30% 32%;
     
     /* Arôme - Pink/Magenta */
-    --arome: 345 35% 63%;              /* #C97B8B */
-    --arome-light: 345 40% 97%;        /* #FDF5F7 */
-    --arome-dark: 345 35% 42%;         /* #8B4A5E */
+    --arome: 345 35% 63%;
+    --arome-light: 345 40% 97%;
+    --arome-dark: 345 35% 42%;
 
     /* Elegant Shadows */
     --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.04);
@@ -87,13 +99,13 @@
     --shadow-xl: 0 20px 48px hsl(0 0% 0% / 0.1);
 
     /* Sidebar */
-    --sidebar-background: 165 45% 6%;
+    --sidebar-background: 195 35% 15%;
     --sidebar-foreground: 40 30% 96%;
     --sidebar-primary: 38 55% 65%;
-    --sidebar-primary-foreground: 0 0% 9%;
-    --sidebar-accent: 165 38% 12%;
+    --sidebar-primary-foreground: 0 0% 8%;
+    --sidebar-accent: 195 30% 20%;
     --sidebar-accent-foreground: 40 30% 96%;
-    --sidebar-border: 165 35% 15%;
+    --sidebar-border: 195 25% 22%;
     --sidebar-ring: 38 55% 65%;
   }
 
