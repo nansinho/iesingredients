@@ -21,9 +21,13 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
   const navigate = useNavigate();
   const t = useTranslation(lang);
 
-  // Check if we're on a page with dark hero (product page)
-  const isProductPage = location.pathname.includes('/produit/');
-  const isDarkHero = isProductPage && !isScrolled;
+  // Check if we're on a page with dark hero
+  const hasDarkHero = location.pathname.includes('/produit/') || 
+                      location.pathname.includes('/contact') ||
+                      location.pathname.includes('/entreprise') ||
+                      location.pathname.includes('/equipe') ||
+                      location.pathname.includes('/actualites');
+  const isDarkHero = hasDarkHero && !isScrolled;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
