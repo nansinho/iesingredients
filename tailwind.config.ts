@@ -62,6 +62,20 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Cream/Beige palette - NEW
+        cream: {
+          50: "hsl(var(--cream-50))",
+          100: "hsl(var(--cream-100))",
+          200: "hsl(var(--cream-200))",
+          300: "hsl(var(--cream-300))",
+        },
+        // Navy palette - NEW
+        navy: {
+          600: "hsl(var(--navy-600))",
+          700: "hsl(var(--navy-700))",
+          800: "hsl(var(--navy-800))",
+          900: "hsl(var(--navy-900))",
+        },
         // Forest green palette
         forest: {
           50: "hsl(var(--forest-50))",
@@ -92,19 +106,19 @@ export default {
         },
         // Category colors - Aligned with Catalog Cards
         cosmetique: {
-          light: "#F5F8F6",      // Vert très subtil
-          DEFAULT: "#4A7C59",    // Vert forêt
-          dark: "#2D5A3D",       // Vert profond
+          light: "#F5F8F6",
+          DEFAULT: "#4A7C59",
+          dark: "#2D5A3D",
         },
         parfum: {
-          light: "#FBF8F5",      // Ambre très subtil
-          DEFAULT: "#A67B5B",    // Ambre/brown
-          dark: "#6B4C3A",       // Ambre profond
+          light: "#FBF8F5",
+          DEFAULT: "#A67B5B",
+          dark: "#6B4C3A",
         },
         arome: {
-          light: "#FDF5F7",      // Rose très subtil
-          DEFAULT: "#C97B8B",    // Rose/magenta
-          dark: "#8B4A5E",       // Rose profond
+          light: "#FDF5F7",
+          DEFAULT: "#C97B8B",
+          dark: "#8B4A5E",
         },
       },
       borderRadius: {

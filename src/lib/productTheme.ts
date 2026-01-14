@@ -1,6 +1,12 @@
 // Shared product category theme configuration
 import { Droplets, Sparkles, Leaf } from 'lucide-react';
 
+// Import fallback images
+import creamJar from '@/assets/cream-jar.jpg';
+import essentialOil from '@/assets/essential-oil.jpg';
+import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
+import botanicalsFlat from '@/assets/botanicals-flat.jpg';
+
 export type ProductCategory = 'COSMETIQUE' | 'PARFUMERIE' | 'ARÔMES' | 'default';
 
 export interface CategoryConfig {
@@ -13,6 +19,7 @@ export interface CategoryConfig {
   icon: typeof Droplets;
   label: string;
   gradient: string;
+  image: string;
 }
 
 export function getCategoryConfig(typologie: string | null): CategoryConfig {
@@ -25,10 +32,11 @@ export function getCategoryConfig(typologie: string | null): CategoryConfig {
       border: 'border-cosmetique-200',
       text: 'text-cosmetique-600',
       textDark: 'text-cosmetique-700',
-      accent: 'text-cosmetique-500',
+      accent: '#4A7C59',
       icon: Droplets,
       label: 'COSMÉTIQUE',
       gradient: 'from-cosmetique-500/20 to-cosmetique-600/10',
+      image: creamJar,
     };
   }
   
@@ -39,10 +47,11 @@ export function getCategoryConfig(typologie: string | null): CategoryConfig {
       border: 'border-parfum-200',
       text: 'text-parfum-600',
       textDark: 'text-parfum-700',
-      accent: 'text-parfum-500',
+      accent: '#A67B5B',
       icon: Sparkles,
       label: 'PARFUMERIE',
       gradient: 'from-parfum-500/20 to-parfum-600/10',
+      image: essentialOil,
     };
   }
   
@@ -53,10 +62,11 @@ export function getCategoryConfig(typologie: string | null): CategoryConfig {
       border: 'border-arome-200',
       text: 'text-arome-600',
       textDark: 'text-arome-700',
-      accent: 'text-arome-500',
+      accent: '#C97B8B',
       icon: Leaf,
       label: 'ARÔMES',
       gradient: 'from-arome-500/20 to-arome-600/10',
+      image: blueberriesHerbs,
     };
   }
   
@@ -67,10 +77,11 @@ export function getCategoryConfig(typologie: string | null): CategoryConfig {
     border: 'border-forest-200',
     text: 'text-forest-600',
     textDark: 'text-forest-700',
-    accent: 'text-forest-500',
+    accent: '#2D5A3D',
     icon: Leaf,
     label: 'INGRÉDIENT',
     gradient: 'from-forest-500/20 to-forest-600/10',
+    image: botanicalsFlat,
   };
 }
 
