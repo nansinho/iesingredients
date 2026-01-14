@@ -27,34 +27,37 @@ const getProductBanner = (typologie: string | null) => {
   return 'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=1200&h=300&fit=crop';
 };
 
-// Category color config - Luxe Palette Travaillée
+// Category color config - Aligned with catalog category cards
 const getCategoryConfig = (typologie: string | null) => {
   const t = typologie?.toUpperCase() || '';
+  // Cosmétique: Forest green tones (matching the green category card)
   if (t.includes('COSMET') || t.includes('COSMÉT')) return { 
-    bg: 'bg-[#D4A5A5]', 
-    light: 'bg-[#FAF5F5]', 
-    text: 'text-[#8B5E5E]',
-    border: 'border-[#D4A5A5]',
-    accent: '#D4A5A5',
-    dark: '#8B5E5E',
+    bg: 'bg-[#4A7C59]', 
+    light: 'bg-[#F5F8F6]', 
+    text: 'text-[#2D5A3D]',
+    border: 'border-[#4A7C59]',
+    accent: '#4A7C59',
+    dark: '#2D5A3D',
     label: 'COSMÉTIQUE'
   };
+  // Parfumerie: Amber/brown tones (matching the amber category card)
   if (t.includes('PARFUM')) return { 
-    bg: 'bg-[#8B7EC8]', 
-    light: 'bg-[#F5F3FA]', 
-    text: 'text-[#5B4F8C]',
-    border: 'border-[#8B7EC8]',
-    accent: '#8B7EC8',
-    dark: '#5B4F8C',
+    bg: 'bg-[#A67B5B]', 
+    light: 'bg-[#FBF8F5]', 
+    text: 'text-[#6B4C3A]',
+    border: 'border-[#A67B5B]',
+    accent: '#A67B5B',
+    dark: '#6B4C3A',
     label: 'PARFUMERIE'
   };
+  // Arômes: Pink/magenta tones (matching the pink category card)
   if (t.includes('AROME') || t.includes('ARÔME')) return { 
-    bg: 'bg-[#D4915C]', 
-    light: 'bg-[#FBF7F2]', 
-    text: 'text-[#8B5A2B]',
-    border: 'border-[#D4915C]',
-    accent: '#D4915C',
-    dark: '#8B5A2B',
+    bg: 'bg-[#C97B8B]', 
+    light: 'bg-[#FDF5F7]', 
+    text: 'text-[#8B4A5E]',
+    border: 'border-[#C97B8B]',
+    accent: '#C97B8B',
+    dark: '#8B4A5E',
     label: 'ARÔMES'
   };
   return { 
