@@ -109,8 +109,17 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Outfit", "system-ui", "sans-serif"],
-        serif: ["Playfair Display", "Georgia", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
+      },
+      fontSize: {
+        "display-xl": ["5rem", { lineHeight: "0.9", letterSpacing: "-0.02em" }],
+        "display-lg": ["4rem", { lineHeight: "0.95", letterSpacing: "-0.02em" }],
+        "display-md": ["3rem", { lineHeight: "1", letterSpacing: "-0.01em" }],
+        "display-sm": ["2rem", { lineHeight: "1.1", letterSpacing: "-0.01em" }],
+      },
+      letterSpacing: {
+        luxury: "0.15em",
       },
       keyframes: {
         "accordion-down": {
@@ -121,10 +130,20 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        reveal: {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        reveal: "reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "fade-in": "fadeIn 0.6s ease-out forwards",
       },
     },
   },
