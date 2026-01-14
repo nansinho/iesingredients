@@ -236,17 +236,17 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
         <html lang={lang} />
       </Helmet>
 
-      {/* Hero Banner - Mobile First */}
-      <section className="relative h-48 sm:h-56 md:h-72 overflow-hidden">
+      {/* Hero Banner - With Title & Reference */}
+      <section className="relative h-72 sm:h-80 md:h-96 overflow-hidden">
         <img 
           src={bannerImage}
           alt={productName}
           className="w-full h-full object-cover"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/60 to-forest-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/70 to-forest-950/40" />
         
-        {/* Breadcrumb */}
+        {/* Breadcrumb - Top */}
         <div className="absolute top-16 sm:top-20 left-0 right-0">
           <div className="container-luxe px-4">
             <nav className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-white/70 overflow-x-auto pb-2">
@@ -258,85 +258,61 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
             </nav>
           </div>
         </div>
+
+        {/* Centered Hero Content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          {/* Category Badge */}
+          <span 
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-full text-white mb-3"
+            style={{ backgroundColor: config.accent }}
+          >
+            {config.label}
+            {product.origine && (
+              <>
+                <span className="mx-1.5 opacity-50">•</span>
+                {product.origine}
+              </>
+            )}
+          </span>
+
+          {/* Product Reference - Centered & Prominent */}
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="font-mono text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-lg">
+              {product.code}
+            </span>
+            <CopyField 
+              label="" 
+              value={product.code || ''} 
+              mono 
+              className="text-white/80 hover:text-white p-2 hover:bg-white/10 rounded-lg"
+              successMessage={lang === 'fr' ? 'Code copié !' : 'Code copied!'}
+            />
+          </div>
+
+          {/* Product Name */}
+          <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-white font-semibold max-w-3xl leading-tight drop-shadow-md">
+            {productName}
+          </h1>
+        </div>
       </section>
 
-      {/* Main Content - Mobile First Layout */}
-      <section className="bg-background py-6 sm:py-10 md:py-12">
+      {/* Main Content */}
+      <section className="bg-background py-8 sm:py-10 md:py-12">
         <div className="container-luxe px-4">
-          
-          {/* === MOBILE: CODE PRODUIT EN PREMIER === */}
-          <div className="lg:hidden -mt-20 sm:-mt-24 relative z-10 mb-6">
-            {/* Code Produit Card - TRÈS VISIBLE */}
-            <div 
-              className="rounded-2xl overflow-hidden shadow-2xl"
-              style={{ backgroundColor: config.accent }}
-            >
-              <div className="p-5 sm:p-6 text-center text-white">
-                <p className="text-[10px] uppercase tracking-widest opacity-80 mb-1">
-                  {lang === 'fr' ? 'RÉFÉRENCE PRODUIT' : 'PRODUCT REFERENCE'}
-                </p>
-                <div className="flex items-center justify-center gap-3">
-                  <span className="font-mono text-3xl sm:text-4xl font-black tracking-tight">
-                    {product.code}
-                  </span>
-                  <CopyField 
-                    label="" 
-                    value={product.code || ''} 
-                    mono 
-                    className="text-white/80 hover:text-white"
-                    successMessage={lang === 'fr' ? 'Code copié !' : 'Code copied!'}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
             
             {/* === LEFT SIDEBAR - Desktop Only === */}
-            <div className="hidden lg:block lg:col-span-3 -mt-28 relative z-10">
+            <div className="hidden lg:block lg:col-span-3">
               <div className="sticky top-24 space-y-4">
-                {/* Code Produit Card */}
-                <div 
-                  className="rounded-2xl overflow-hidden shadow-xl"
-                  style={{ backgroundColor: config.accent }}
-                >
-                  <div className="p-6 text-center text-white">
-                    <p className="text-[10px] uppercase tracking-widest opacity-80 mb-2">
-                      {lang === 'fr' ? 'RÉFÉRENCE' : 'REFERENCE'}
-                    </p>
-                    <div className="flex items-center justify-center gap-2 mb-3">
-                      <span className="font-mono text-3xl font-black tracking-tight">
-                        {product.code}
-                      </span>
-                    </div>
-                    <CopyField 
-                      label="" 
-                      value={product.code || ''} 
-                      mono 
-                      className="text-white/70 hover:text-white text-xs"
-                      successMessage={lang === 'fr' ? 'Code copié !' : 'Code copied!'}
-                    />
-                  </div>
-                </div>
 
                 {/* Info Card */}
                 <div className={cn("rounded-2xl border p-5", config.light, config.border)}>
-                  {/* Category Badge */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <span 
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-full text-white"
-                      style={{ backgroundColor: config.accent }}
-                    >
-                      {config.label}
-                    </span>
-                  </div>
-
                   {/* CAS */}
                   {product.cas_no && (
                     <div className="mb-4">
-                      <p className="text-[9px] uppercase tracking-wider text-muted-foreground mb-1">CAS N°</p>
+                      <p className="text-[9px] uppercase tracking-widest text-muted-foreground mb-1 font-sans">CAS N°</p>
                       <CopyField 
                         label="CAS" 
                         value={product.cas_no} 
@@ -349,24 +325,24 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
 
                   {/* Origine */}
                   {product.origine && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <MapPin className="w-4 h-4" />
-                      <span>{product.origine}</span>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                      <MapPin className="w-4 h-4" style={{ color: config.accent }} />
+                      <span className="font-sans font-medium">{product.origine}</span>
                     </div>
                   )}
 
                   {/* Famille Olfactive */}
                   {product.famille_olfactive && (
-                    <div className="mt-3 flex items-center gap-2">
+                    <div className="flex items-center gap-2 mb-3">
                       <Flower2 className="w-4 h-4" style={{ color: config.accent }} />
-                      <span className="text-sm font-medium">{product.famille_olfactive}</span>
+                      <span className="text-sm font-sans font-medium">{product.famille_olfactive}</span>
                     </div>
                   )}
 
                   {/* Aspect */}
                   {product.aspect && (
-                    <div className="mt-3">
-                      <Badge variant="outline" className="text-xs">{product.aspect}</Badge>
+                    <div>
+                      <Badge variant="outline" className="text-xs font-sans">{product.aspect}</Badge>
                     </div>
                   )}
                 </div>
@@ -374,7 +350,7 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                 {/* CTA Desktop */}
                 <Button 
                   size="lg" 
-                  className="w-full rounded-xl h-14 font-semibold text-base"
+                  className="w-full rounded-xl h-14 font-semibold text-base font-sans"
                   style={{ backgroundColor: config.accent }}
                   onClick={handleAddToCart}
                 >
@@ -385,30 +361,16 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
             </div>
 
             {/* === MAIN CONTENT === */}
-            <div className="lg:col-span-9 lg:-mt-28 relative z-10 space-y-6">
-              {/* Title Card */}
+            <div className="lg:col-span-9 space-y-6">
+              {/* Description Card */}
               <div className="bg-card rounded-2xl border border-border p-5 sm:p-6 md:p-8 shadow-lg">
-                {/* Category Badge - Mobile */}
-                <div className="lg:hidden mb-4">
-                  <span 
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-full text-white"
-                    style={{ backgroundColor: config.accent }}
-                  >
-                    {config.label}
-                  </span>
-                </div>
-
-                <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-foreground mb-4 leading-tight">
-                  {productName}
-                </h1>
-                
                 {/* Profil Olfactif Tags */}
                 {profilOlfactifTags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {profilOlfactifTags.map((tag, i) => (
                       <Badge 
                         key={i} 
-                        className="text-xs border"
+                        className="text-xs border font-sans"
                         style={{ 
                           backgroundColor: `${config.accent}15`,
                           color: config.dark,
@@ -422,7 +384,7 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
                 )}
 
                 {productDescription && (
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-6 font-sans">
                     {productDescription}
                   </p>
                 )}
@@ -626,43 +588,51 @@ export const ProductPage = ({ lang }: ProductPageProps) => {
             </div>
           )}
 
-          {/* Technical Specifications */}
+          {/* Technical Specifications - Uniform Design */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8">
             {[
-              { icon: Beaker, label: t.product.inci, value: product.inci, copyable: true },
-              { icon: FileText, label: t.product.cas, value: product.cas_no, copyable: true },
-              { icon: MapPin, label: t.product.origin, value: product.origine },
-              { icon: Droplet, label: t.product.solubility, value: product.solubilite },
-              { icon: Leaf, label: t.product.aspect, value: product.aspect },
-              { icon: CheckCircle, label: lang === 'fr' ? 'Conservateurs' : 'Preservatives', value: product.conservateurs },
-              { icon: FileText, label: lang === 'fr' ? 'Traçabilité' : 'Traceability', value: product.tracabilite },
-              { icon: Award, label: lang === 'fr' ? 'Valorisations' : 'Valorizations', value: product.valorisations },
-              { icon: Calendar, label: lang === 'fr' ? 'Récolte' : 'Harvest', value: product.calendrier_des_recoltes },
-              { icon: Leaf, label: lang === 'fr' ? 'Nom latin' : 'Latin name', value: product.nom_latin },
-              { icon: CheckCircle, label: 'Food Grade', value: product.food_grade },
+              { icon: Beaker, label: t.product.inci, value: product.inci, copyable: true, mono: true },
+              { icon: FileText, label: t.product.cas, value: product.cas_no, copyable: true, mono: true },
+              { icon: MapPin, label: t.product.origin, value: product.origine, copyable: false, mono: false },
+              { icon: Droplet, label: t.product.solubility, value: product.solubilite, copyable: false, mono: false },
+              { icon: Leaf, label: t.product.aspect, value: product.aspect, copyable: false, mono: false },
+              { icon: CheckCircle, label: lang === 'fr' ? 'Conservateurs' : 'Preservatives', value: product.conservateurs, copyable: false, mono: false },
+              { icon: FileText, label: lang === 'fr' ? 'Traçabilité' : 'Traceability', value: product.tracabilite, copyable: false, mono: false },
+              { icon: Award, label: lang === 'fr' ? 'Valorisations' : 'Valorizations', value: product.valorisations, copyable: false, mono: false },
+              { icon: Calendar, label: lang === 'fr' ? 'Récolte' : 'Harvest', value: product.calendrier_des_recoltes, copyable: false, mono: false },
+              { icon: Leaf, label: lang === 'fr' ? 'Nom latin' : 'Latin name', value: product.nom_latin, copyable: false, mono: true },
+              { icon: CheckCircle, label: 'Food Grade', value: product.food_grade, copyable: false, mono: false },
             ].filter(item => item.value).map((item, i) => (
               <div 
                 key={i} 
-                className="bg-card border border-border rounded-xl p-3 sm:p-4 flex items-start gap-3 overflow-hidden hover:shadow-md transition-shadow"
+                className="bg-card border border-border rounded-xl p-4 hover:shadow-md transition-shadow"
               >
-                <div 
-                  className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${config.accent}15` }}
-                >
-                  <item.icon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: config.accent }} />
+                <div className="flex items-center gap-3 mb-2">
+                  <div 
+                    className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${config.accent}15` }}
+                  >
+                    <item.icon className="w-5 h-5" style={{ color: config.accent }} />
+                  </div>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-sans font-medium">{item.label}</p>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider mb-1">{item.label}</p>
+                <div className="min-w-0">
                   {item.copyable ? (
                     <CopyField 
                       label={item.label} 
                       value={item.value || ''} 
-                      mono 
-                      className="text-[10px] sm:text-xs font-medium text-foreground break-all"
+                      mono={item.mono}
+                      className={cn(
+                        "text-sm font-semibold text-foreground break-all",
+                        item.mono ? "font-mono" : "font-sans"
+                      )}
                       successMessage={lang === 'fr' ? `${item.label} copié !` : `${item.label} copied!`}
                     />
                   ) : (
-                    <p className="text-[10px] sm:text-xs font-medium text-foreground break-words">{item.value}</p>
+                    <p className={cn(
+                      "text-sm font-semibold text-foreground break-words",
+                      item.mono ? "font-mono" : "font-sans"
+                    )}>{item.value}</p>
                   )}
                 </div>
               </div>
