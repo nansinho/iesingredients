@@ -178,7 +178,7 @@ export default function ProductPage() {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-cream-50 pb-24 md:pb-8">
+      <div className="min-h-screen bg-background pb-24 md:pb-8">
         {/* Hero */}
         <ProductHero
           code={product.code}
@@ -196,11 +196,7 @@ export default function ProductPage() {
             <Button
               onClick={handleAddToCart}
               size="lg"
-              className={`w-full sm:w-auto font-sans font-semibold gap-2 ${
-                isInCart 
-                  ? 'bg-forest-100 text-forest-700 border border-forest-300 hover:bg-forest-200' 
-                  : 'bg-gold-500 text-forest-900 hover:bg-gold-400'
-              }`}
+              className="w-full sm:w-auto font-sans font-semibold gap-2"
               variant={isInCart ? "outline" : "default"}
             >
               <ShoppingBag className="w-5 h-5" />
