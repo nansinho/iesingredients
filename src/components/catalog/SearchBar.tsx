@@ -36,15 +36,15 @@ export const SearchBar = ({
         className={cn(
           'relative flex items-center overflow-hidden transition-all duration-300',
           variant === 'hero'
-            ? 'bg-white/98 backdrop-blur-xl shadow-[0_8px_40px_rgba(0,0,0,0.15)] border border-white/50 rounded-2xl hover:shadow-[0_12px_50px_rgba(0,0,0,0.2)]'
+            ? 'bg-white shadow-2xl border border-gray-200 rounded-xl hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]'
             : 'bg-muted/50 border border-border rounded-xl',
-          isFocused && variant === 'hero' && 'shadow-[0_12px_50px_rgba(0,0,0,0.25)] border-gold-400/30'
+          isFocused && variant === 'hero' && 'shadow-[0_16px_50px_rgba(0,0,0,0.2)] border-forest-300'
         )}
       >
         <Search
           className={cn(
             'absolute left-5 w-5 h-5 transition-colors',
-            isFocused ? 'text-gold-600' : 'text-muted-foreground'
+            isFocused ? 'text-forest-600' : 'text-muted-foreground'
           )}
         />
         <Input
