@@ -90,21 +90,21 @@ export default {
           900: "hsl(var(--gold-900))",
           950: "hsl(var(--gold-950))",
         },
-        // Category colors with light variants
+        // Category colors - Luxe Palette Travaillée
         cosmetique: {
-          light: "hsl(var(--cosmetique-light))",
-          DEFAULT: "hsl(var(--cosmetique))",
-          dark: "hsl(var(--cosmetique-dark))",
+          light: "#FAF5F5",      // Rose très subtil
+          DEFAULT: "#D4A5A5",    // Rose poudré
+          dark: "#8B5E5E",       // Rose profond
         },
         parfum: {
-          light: "hsl(var(--parfum-light))",
-          DEFAULT: "hsl(var(--parfum))",
-          dark: "hsl(var(--parfum-dark))",
+          light: "#F5F3FA",      // Lavande très subtil
+          DEFAULT: "#8B7EC8",    // Violet iris
+          dark: "#5B4F8C",       // Violet profond
         },
         arome: {
-          light: "hsl(var(--arome-light))",
-          DEFAULT: "hsl(var(--arome))",
-          dark: "hsl(var(--arome-dark))",
+          light: "#FBF7F2",      // Crème chaud
+          DEFAULT: "#D4915C",    // Ambre chaud
+          dark: "#8B5A2B",       // Ambre profond
         },
       },
       borderRadius: {
