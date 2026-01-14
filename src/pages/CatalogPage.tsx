@@ -48,10 +48,9 @@ const CategoryPill = ({
     className={cn(
       "inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
       isActive 
-        ? "text-white shadow-lg" 
-        : "bg-cream-100 text-foreground hover:bg-cream-200"
+        ? "text-forest-900 shadow-lg bg-gold-400" 
+        : "bg-forest-100 text-forest-800 hover:bg-forest-200"
     )}
-    style={isActive ? { backgroundColor: accentColor } : undefined}
   >
     <Icon className="w-4 h-4" />
     {name}
@@ -81,10 +80,10 @@ const MinimalProductCard = ({
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-white rounded-2xl border border-cream-200 overflow-hidden hover:shadow-lg hover:border-cream-300 transition-all duration-300"
+        className="bg-white rounded-2xl border border-forest-100 overflow-hidden hover:shadow-xl hover:border-gold-300 transition-all duration-300"
       >
         {/* Image */}
-        <div className="relative aspect-[4/3] bg-cream-50 overflow-hidden">
+        <div className="relative aspect-[4/3] bg-forest-50 overflow-hidden">
           {product.image_url ? (
             <img
               src={product.image_url}
@@ -99,36 +98,33 @@ const MinimalProductCard = ({
             />
           )}
           {/* Category Badge */}
-          <div
-            className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium text-white"
-            style={{ backgroundColor: config.accent }}
-          >
+          <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium bg-forest-900 text-gold-400">
             {config.label}
           </div>
         </div>
 
         {/* Content */}
         <div className="p-4 space-y-2">
-          <h3 className="font-serif text-lg text-foreground group-hover:text-navy-700 transition-colors line-clamp-1">
+          <h3 className="font-serif text-lg text-forest-900 group-hover:text-gold-600 transition-colors line-clamp-1">
             {product.nom_commercial}
           </h3>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground font-mono">
+            <span className="text-sm text-forest-600 font-mono">
               {product.code}
             </span>
             <button
               onClick={(e) => onCopy(product.code || '', e)}
-              className="p-1.5 rounded-lg hover:bg-cream-100 transition-colors"
+              className="p-1.5 rounded-lg hover:bg-forest-100 transition-colors"
             >
               {copiedCode === product.code ? (
-                <Check className="w-4 h-4 text-green-600" />
+                <Check className="w-4 h-4 text-forest-600" />
               ) : (
-                <Copy className="w-4 h-4 text-muted-foreground" />
+                <Copy className="w-4 h-4 text-forest-500" />
               )}
             </button>
           </div>
           {product.origine && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-forest-500">
               {lang === 'fr' ? 'Origine' : 'Origin'}: {product.origine}
             </p>
           )}
@@ -254,14 +250,14 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
     return (
       <div className="border-b border-cream-200 last:border-b-0">
-        <button
+          <button
           onClick={() => setOpenSections(prev => prev.includes(sectionKey) ? prev.filter(s => s !== sectionKey) : [...prev, sectionKey])}
-          className="w-full flex items-center justify-between py-3 text-sm font-medium text-foreground hover:text-navy-700 transition-colors"
+          className="w-full flex items-center justify-between py-3 text-sm font-medium text-forest-900 hover:text-gold-600 transition-colors"
         >
           <span>{title}</span>
           <div className="flex items-center gap-2">
             {selected.length > 0 && (
-              <span className="text-xs bg-navy-900 text-white px-2 py-0.5 rounded-full font-medium">
+              <span className="text-xs bg-forest-900 text-gold-400 px-2 py-0.5 rounded-full font-medium">
                 {selected.length}
               </span>
             )}
@@ -275,9 +271,9 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                 <Checkbox
                   checked={selected.includes(option)}
                   onCheckedChange={() => toggleFilter(filterKey, option)}
-                  className="border-cream-300 data-[state=checked]:bg-navy-900 data-[state=checked]:border-navy-900"
+                  className="border-forest-300 data-[state=checked]:bg-forest-900 data-[state=checked]:border-forest-900"
                 />
-                <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors truncate">
+                <span className="text-sm text-forest-600 group-hover:text-forest-900 transition-colors truncate">
                   {option}
                 </span>
               </label>
@@ -310,15 +306,15 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       />
 
       {/* Hero Section - Minimal */}
-      <section className="bg-cream-50 pt-32 pb-12">
+      <section className="bg-gradient-to-b from-forest-50 to-white pt-32 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-            <Link to={`/${lang}`} className="hover:text-foreground transition-colors">
+          <nav className="flex items-center gap-2 text-sm text-forest-500 mb-6">
+            <Link to={`/${lang}`} className="hover:text-forest-900 transition-colors">
               {lang === 'fr' ? 'Accueil' : 'Home'}
             </Link>
             <span>/</span>
-            <span className="text-foreground">{t.nav.catalog}</span>
+            <span className="text-forest-900">{t.nav.catalog}</span>
           </nav>
 
           <motion.div
@@ -326,10 +322,10 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="font-serif text-4xl md:text-5xl text-foreground mb-4">
+            <h1 className="font-serif text-4xl md:text-5xl text-forest-900 mb-4">
               {t.nav.catalog}
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mb-8">
+            <p className="text-forest-600 text-lg max-w-2xl mb-8">
               {lang === 'fr' 
                 ? 'Découvrez notre sélection de plus de 5000 ingrédients naturels de qualité premium.'
                 : 'Discover our selection of over 5000 premium quality natural ingredients.'}
@@ -338,17 +334,17 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
           {/* Search Bar */}
           <div className="relative max-w-2xl mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-forest-500" />
             <Input
               placeholder={t.hero.search}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              className="pl-12 h-14 bg-white border-cream-200 focus:border-navy-400 rounded-2xl text-base shadow-sm"
+              className="pl-12 h-14 bg-white border-forest-200 focus:border-gold-400 focus:ring-gold-400 rounded-2xl text-base shadow-sm"
             />
             {searchValue && (
               <button 
                 onClick={() => setSearchValue('')} 
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-forest-500 hover:text-forest-900"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -378,14 +374,14 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
           <div className="flex items-center justify-between gap-4 mb-6">
             {/* Results count + Active Filters */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-forest-600">
                 {isLoading ? '...' : `${products?.length || 0} ${lang === 'fr' ? 'résultats' : 'results'}`}
               </span>
               
               {activeCategory && (
                 <Badge
                   variant="secondary"
-                  className="gap-1.5 pr-1.5 cursor-pointer bg-cream-100 hover:bg-cream-200"
+                  className="gap-1.5 pr-1.5 cursor-pointer bg-gold-100 text-forest-900 hover:bg-gold-200"
                   onClick={() => setActiveCategory('')}
                 >
                   {categories.find(c => c.id === activeCategory)?.name}
@@ -398,7 +394,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   <Badge
                     key={`${key}-${value}`}
                     variant="secondary"
-                    className="gap-1.5 pr-1.5 cursor-pointer bg-cream-100 hover:bg-cream-200"
+                    className="gap-1.5 pr-1.5 cursor-pointer bg-forest-100 text-forest-800 hover:bg-forest-200"
                     onClick={() => toggleFilter(key as keyof FilterState, value)}
                   >
                     <span className="truncate max-w-[100px]">{value}</span>
@@ -413,20 +409,20 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               {/* Mobile Filter */}
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="lg:hidden gap-2 border-cream-200">
+                  <Button variant="outline" className="lg:hidden gap-2 border-forest-200">
                     <SlidersHorizontal className="w-4 h-4" />
                     <span className="hidden xs:inline">{t.filters.title}</span>
                     {activeFiltersCount > 0 && (
-                      <Badge className="ml-1 bg-navy-900 text-white text-xs">{activeFiltersCount}</Badge>
+                      <Badge className="ml-1 bg-forest-900 text-gold-400 text-xs">{activeFiltersCount}</Badge>
                     )}
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[85vw] sm:w-80 overflow-y-auto">
                   <SheetHeader>
-                    <SheetTitle className="flex items-center justify-between">
+                    <SheetTitle className="flex items-center justify-between text-forest-900">
                       {t.filters.title}
                       {activeFiltersCount > 0 && (
-                        <Button variant="ghost" size="sm" onClick={clearFilters} className="text-muted-foreground">
+                        <Button variant="ghost" size="sm" onClick={clearFilters} className="text-forest-600">
                           {t.filters.reset}
                         </Button>
                       )}
@@ -439,12 +435,12 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
               </Sheet>
 
               {/* View Toggle */}
-              <div className="flex border border-cream-200 rounded-xl p-1 bg-cream-50">
+              <div className="flex border border-forest-200 rounded-xl p-1 bg-forest-50">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('grid')}
-                  className={cn("h-9 w-9", viewMode === 'grid' && "bg-navy-900 text-white hover:bg-navy-800")}
+                  className={cn("h-9 w-9", viewMode === 'grid' && "bg-forest-900 text-gold-400 hover:bg-forest-800")}
                 >
                   <Grid3X3 className="h-4 w-4" />
                 </Button>
@@ -452,14 +448,14 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="icon"
                   onClick={() => setViewMode('list')}
-                  className={cn("h-9 w-9", viewMode === 'list' && "bg-navy-900 text-white hover:bg-navy-800")}
+                  className={cn("h-9 w-9", viewMode === 'list' && "bg-forest-900 text-gold-400 hover:bg-forest-800")}
                 >
                   <LayoutList className="h-4 w-4" />
                 </Button>
               </div>
 
               {activeFiltersCount > 0 && (
-                <Button variant="ghost" onClick={clearFilters} className="text-muted-foreground hidden md:flex">
+                <Button variant="ghost" onClick={clearFilters} className="text-forest-600 hidden md:flex hover:text-forest-900">
                   <X className="w-4 h-4 mr-2" />
                   {t.filters.reset}
                 </Button>
@@ -470,11 +466,11 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
           <div className="flex gap-8">
             {/* Desktop Sidebar */}
             <aside className="hidden lg:block w-64 shrink-0">
-              <div className="sticky top-28 bg-cream-50 rounded-2xl border border-cream-200 p-5">
+              <div className="sticky top-28 bg-forest-50 rounded-2xl border border-forest-200 p-5">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium text-foreground">{t.filters.title}</h3>
+                  <h3 className="font-medium text-forest-900">{t.filters.title}</h3>
                   {activeFiltersCount > 0 && (
-                    <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs text-muted-foreground h-auto p-0 hover:text-navy-700">
+                    <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs text-forest-600 h-auto p-0 hover:text-gold-600">
                       {t.filters.reset}
                     </Button>
                   )}
@@ -493,7 +489,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                     : 'grid-cols-1'
                 )}>
                   {[...Array(9)].map((_, i) => (
-                    <div key={i} className="bg-cream-50 rounded-2xl overflow-hidden">
+                    <div key={i} className="bg-forest-50 rounded-2xl overflow-hidden">
                       <Skeleton className="aspect-[4/3]" />
                       <div className="p-4 space-y-2">
                         <Skeleton className="h-5 w-3/4" />
@@ -528,7 +524,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                         variant="outline"
                         size="lg"
                         onClick={() => setDisplayCount(prev => prev + 12)}
-                        className="border-cream-300 hover:bg-cream-100"
+                        className="border-forest-300 hover:bg-forest-100 text-forest-900"
                       >
                         {lang === 'fr' ? 'Voir plus' : 'Load more'}
                         <ArrowRight className="ml-2 w-4 h-4" />
@@ -538,18 +534,18 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                 </>
               ) : (
                 <div className="text-center py-20">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-cream-100 flex items-center justify-center">
-                    <Search className="w-8 h-8 text-muted-foreground" />
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-forest-100 flex items-center justify-center">
+                    <Search className="w-8 h-8 text-forest-500" />
                   </div>
-                  <h3 className="text-lg font-medium text-foreground mb-2">
+                  <h3 className="text-lg font-medium text-forest-900 mb-2">
                     {lang === 'fr' ? 'Aucun produit trouvé' : 'No products found'}
                   </h3>
-                  <p className="text-muted-foreground mb-6">
+                  <p className="text-forest-600 mb-6">
                     {lang === 'fr' 
                       ? 'Essayez de modifier vos critères de recherche'
                       : 'Try adjusting your search criteria'}
                   </p>
-                  <Button variant="outline" onClick={clearFilters} className="border-cream-300">
+                  <Button variant="outline" onClick={clearFilters} className="border-forest-300 text-forest-900">
                     {t.filters.reset}
                   </Button>
                 </div>

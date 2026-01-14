@@ -38,7 +38,7 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
   const t = useTranslation(lang);
 
   return (
-    <section className="py-24 px-4 bg-cream-100">
+    <section className="py-24 px-4 bg-forest-900">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -48,12 +48,21 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
+          <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-gold-400 text-sm uppercase tracking-widest font-medium mb-4 block"
+          >
+            {lang === 'fr' ? 'Notre savoir-faire' : 'Our know-how'}
+          </motion.span>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="font-serif text-3xl md:text-4xl lg:text-5xl text-foreground mb-4"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-4"
           >
             {lang === 'fr' ? 'Notre Expertise' : 'Our Expertise'}
           </motion.h2>
@@ -62,7 +71,7 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-muted-foreground text-lg max-w-2xl mx-auto"
+            className="text-white/70 text-lg max-w-2xl mx-auto"
           >
             {lang === 'fr'
               ? 'Des ingrédients soigneusement sélectionnés depuis plus de 30 ans'
@@ -109,29 +118,29 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Cosmétique Card - Dark */}
+          {/* Cosmétique Card - Gold Accent */}
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="col-span-1 bg-cosmetique rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer"
+            className="col-span-1 bg-forest-800 rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer border border-forest-700"
           >
             <motion.div
               whileHover={{ rotate: 10, scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <Leaf className="w-8 h-8 text-white/80" />
+              <Leaf className="w-8 h-8 text-gold-400" />
             </motion.div>
             <div>
-              <span className="text-white/60 text-xs uppercase tracking-widest">
+              <span className="text-gold-400/80 text-xs uppercase tracking-widest">
                 {t.categories.cosmetic}
               </span>
               <p className="text-2xl md:text-3xl font-serif text-white mt-1">2000+</p>
-              <p className="text-white/70 text-sm mt-1">
+              <p className="text-white/60 text-sm mt-1">
                 {lang === 'fr' ? 'actifs naturels' : 'natural actives'}
               </p>
               <Link
                 to={`/${lang}/catalogue?category=cosmetique`}
-                className="inline-flex items-center text-white/80 hover:text-white text-sm mt-3 group-hover:gap-2 transition-all"
+                className="inline-flex items-center text-gold-400 hover:text-gold-300 text-sm mt-3 group-hover:gap-2 transition-all"
               >
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -139,29 +148,29 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
             </div>
           </motion.div>
 
-          {/* Parfumerie Card - Dark */}
+          {/* Parfumerie Card - Gold Accent */}
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="col-span-1 bg-parfum rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer"
+            className="col-span-1 bg-forest-800 rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer border border-forest-700"
           >
             <motion.div
               whileHover={{ rotate: -10, scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <Droplets className="w-8 h-8 text-white/80" />
+              <Droplets className="w-8 h-8 text-gold-400" />
             </motion.div>
             <div>
-              <span className="text-white/60 text-xs uppercase tracking-widest">
+              <span className="text-gold-400/80 text-xs uppercase tracking-widest">
                 {t.categories.perfume}
               </span>
               <p className="text-2xl md:text-3xl font-serif text-white mt-1">1500+</p>
-              <p className="text-white/70 text-sm mt-1">
+              <p className="text-white/60 text-sm mt-1">
                 {lang === 'fr' ? 'essences rares' : 'rare essences'}
               </p>
               <Link
                 to={`/${lang}/catalogue?category=parfum`}
-                className="inline-flex items-center text-white/80 hover:text-white text-sm mt-3 group-hover:gap-2 transition-all"
+                className="inline-flex items-center text-gold-400 hover:text-gold-300 text-sm mt-3 group-hover:gap-2 transition-all"
               >
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -195,29 +204,29 @@ export const BentoExpertise = ({ lang }: BentoExpertiseProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Arômes Card - Dark */}
+          {/* Arômes Card - Gold Accent */}
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="col-span-1 bg-arome rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer"
+            className="col-span-1 bg-forest-800 rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer border border-forest-700"
           >
             <motion.div
               whileHover={{ rotate: 15, scale: 1.1 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <Cherry className="w-8 h-8 text-white/80" />
+              <Cherry className="w-8 h-8 text-gold-400" />
             </motion.div>
             <div>
-              <span className="text-white/60 text-xs uppercase tracking-widest">
+              <span className="text-gold-400/80 text-xs uppercase tracking-widest">
                 {t.categories.aroma}
               </span>
               <p className="text-2xl md:text-3xl font-serif text-white mt-1">1500+</p>
-              <p className="text-white/70 text-sm mt-1">
+              <p className="text-white/60 text-sm mt-1">
                 {lang === 'fr' ? 'arômes alimentaires' : 'food flavors'}
               </p>
               <Link
                 to={`/${lang}/catalogue?category=arome`}
-                className="inline-flex items-center text-white/80 hover:text-white text-sm mt-3 group-hover:gap-2 transition-all"
+                className="inline-flex items-center text-gold-400 hover:text-gold-300 text-sm mt-3 group-hover:gap-2 transition-all"
               >
                 {lang === 'fr' ? 'Explorer' : 'Explore'}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
