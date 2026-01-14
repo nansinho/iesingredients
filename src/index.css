@@ -64,18 +64,21 @@
     --gold-200: 44 70% 92%;
     --gold-100: 45 75% 96%;
 
-    /* Category Colors - Subtle & Refined */
-    --cosmetique: 165 35% 25%;
-    --cosmetique-light: 165 25% 96%;
-    --cosmetique-dark: 165 40% 15%;
+    /* Category Colors - Distinct per Pole */
+    /* Cosmétique - Rose/Pêche subtil */
+    --cosmetique: 350 45% 55%;
+    --cosmetique-light: 350 40% 97%;
+    --cosmetique-dark: 350 50% 35%;
     
-    --parfum: 38 55% 55%;
-    --parfum-light: 40 45% 96%;
-    --parfum-dark: 35 50% 35%;
+    /* Parfum - Violet/Lavande */
+    --parfum: 270 45% 55%;
+    --parfum-light: 270 35% 97%;
+    --parfum-dark: 270 50% 35%;
     
-    --arome: 15 45% 45%;
-    --arome-light: 18 40% 96%;
-    --arome-dark: 12 45% 30%;
+    /* Arôme - Orange/Miel */
+    --arome: 25 75% 50%;
+    --arome-light: 30 50% 97%;
+    --arome-dark: 20 70% 35%;
 
     /* Elegant Shadows */
     --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.04);
@@ -161,6 +164,7 @@
     width: 100%;
   }
 
+  /* Typography Hierarchy - Consistent */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', Georgia, serif;
     @apply font-semibold tracking-tight;
@@ -188,6 +192,10 @@
 
   .font-serif {
     font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
   }
 
   ::selection {
@@ -257,6 +265,25 @@
     text-wrap: balance;
   }
 
+  /* Ken Burns Animation for Hero Slideshow */
+  @keyframes kenburns {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.15);
+    }
+  }
+
+  .animate-kenburns {
+    animation: kenburns 8s ease-out forwards;
+  }
+
+  /* Transition duration for image crossfade */
+  .duration-1500 {
+    transition-duration: 1500ms;
+  }
+
   /* Reveal animations */
   .animate-reveal {
     animation: reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -298,6 +325,22 @@
     to { opacity: 1; }
   }
 
+  /* Fade in up */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* Scale in */
   .animate-scale-in {
     animation: scaleIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -313,6 +356,12 @@
       transform: scale(1);
     }
   }
+
+  /* Stagger delays */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
 }
 
 /* Elegant Scrollbar */

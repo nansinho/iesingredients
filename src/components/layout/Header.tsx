@@ -65,12 +65,12 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                 "text-[10px] uppercase tracking-luxury font-medium transition-colors duration-300 block",
                 isScrolled ? "text-muted-foreground" : "text-white/60"
               )}>
-                Ingredients
+                INGREDIENTS
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation - Centered */}
+          {/* Desktop Navigation - Centered - UPPERCASE */}
           <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = location.pathname === item.href;
@@ -78,7 +78,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                 <Link key={item.href} to={item.href}>
                   <span
                     className={cn(
-                      "px-4 py-2 text-sm font-medium transition-colors duration-300 link-underline",
+                      "px-4 py-2 text-xs font-medium uppercase tracking-widest transition-colors duration-300 link-underline",
                       isActive
                         ? isScrolled 
                           ? "text-foreground" 
@@ -136,13 +136,13 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
             <Link to={`/${lang}/contact`} className="hidden lg:block">
               <Button 
                 className={cn(
-                  "rounded-full h-10 px-6 text-sm font-medium transition-all duration-300",
+                  "rounded-full h-10 px-6 text-xs font-medium uppercase tracking-wider transition-all duration-300",
                   isScrolled
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "bg-white text-foreground hover:bg-white/90"
                 )}
               >
-                {lang === 'fr' ? 'Demander un devis' : 'Request Quote'}
+                {lang === 'fr' ? 'DEMANDER UN DEVIS' : 'REQUEST QUOTE'}
               </Button>
             </Link>
 
@@ -167,7 +167,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                   <div className="flex items-center justify-between mb-12">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl font-serif font-semibold text-white">IES</span>
-                      <span className="text-[10px] uppercase tracking-luxury text-white/50">Ingredients</span>
+                      <span className="text-[10px] uppercase tracking-luxury text-white/50">INGREDIENTS</span>
                     </div>
                     <button 
                       onClick={() => setIsOpen(false)}
@@ -177,7 +177,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                     </button>
                   </div>
                   
-                  {/* Mobile Navigation */}
+                  {/* Mobile Navigation - UPPERCASE */}
                   <nav className="flex flex-col gap-2 flex-1">
                     {navItems.map((item) => {
                       const isActive = location.pathname === item.href;
@@ -187,7 +187,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                           to={item.href}
                           onClick={() => setIsOpen(false)}
                           className={cn(
-                            'py-4 px-5 rounded-xl text-lg font-medium transition-all duration-300 flex items-center justify-between group',
+                            'py-4 px-5 rounded-xl text-sm font-medium uppercase tracking-widest transition-all duration-300 flex items-center justify-between group',
                             isActive
                               ? 'bg-white/10 text-white'
                               : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -206,17 +206,17 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                   {/* Mobile CTA */}
                   <div className="pt-8 border-t border-white/10">
                     <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
-                      <Button className="w-full h-14 rounded-xl bg-white text-forest-950 hover:bg-white/90 font-medium text-base">
-                        {lang === 'fr' ? 'Demander un devis' : 'Request Quote'}
+                      <Button className="w-full h-14 rounded-xl bg-white text-forest-950 hover:bg-white/90 font-medium text-sm uppercase tracking-wider">
+                        {lang === 'fr' ? 'DEMANDER UN DEVIS' : 'REQUEST QUOTE'}
                       </Button>
                     </Link>
                     
                     {/* Language toggle in mobile */}
                     <button
                       onClick={() => { toggleLanguage(); setIsOpen(false); }}
-                      className="w-full mt-4 py-3 text-sm font-medium uppercase tracking-wider text-white/50 hover:text-white transition-colors"
+                      className="w-full mt-4 py-3 text-xs font-medium uppercase tracking-widest text-white/50 hover:text-white transition-colors"
                     >
-                      {lang === 'fr' ? 'English version' : 'Version française'}
+                      {lang === 'fr' ? 'ENGLISH VERSION' : 'VERSION FRANÇAISE'}
                     </button>
                   </div>
                 </div>
@@ -240,9 +240,9 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
               )} />
               <input
                 type="text"
-                placeholder={lang === 'fr' ? 'Rechercher un ingrédient...' : 'Search ingredients...'}
+                placeholder={lang === 'fr' ? 'RECHERCHER UN INGRÉDIENT...' : 'SEARCH INGREDIENTS...'}
                 className={cn(
-                  "w-full h-12 pl-12 pr-4 rounded-full text-base outline-none transition-colors",
+                  "w-full h-12 pl-12 pr-4 rounded-full text-sm uppercase tracking-wider outline-none transition-colors",
                   isScrolled 
                     ? "bg-muted text-foreground placeholder:text-muted-foreground" 
                     : "bg-white/10 text-white placeholder:text-white/50 border border-white/20"
