@@ -1,6 +1,7 @@
 import { Copy, Check, Droplets, MapPin, Eye, Shield, Award, FlaskConical, Leaf, Tag } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { getCategoryConfig } from '@/lib/productTheme';
 
@@ -38,8 +39,8 @@ function SpecCard({
   icon: Icon, 
   copyable, 
   mono, 
-  accentColor 
-}: SpecItem & { accentColor: string }) {
+  index 
+}: SpecItem & { index: number }) {
   const [copied, setCopied] = useState(false);
 
   if (!value || value === '-' || value.trim() === '') return null;
@@ -56,45 +57,49 @@ function SpecCard({
   };
 
   return (
-    <Card className="border border-border/50 shadow-sm hover:shadow-md transition-shadow bg-card">
-      <CardContent className="p-3 sm:p-4">
-        {/* Header: Icon + Label */}
-        <div className="flex items-center gap-2 mb-2">
-          <div className={`w-8 h-8 rounded-lg ${accentColor} bg-opacity-10 flex items-center justify-center shrink-0`}>
-            <Icon className={`w-4 h-4 ${accentColor}`} />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+    >
+      <Card className="group border border-forest-200 shadow-sm hover:shadow-lg hover:border-gold-400/50 transition-all duration-300 bg-white overflow-hidden h-full">
+        <CardContent className="p-4 sm:p-5">
+          {/* Header: Icon + Label */}
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-forest-100 group-hover:bg-gold-100 flex items-center justify-center shrink-0 transition-colors duration-300">
+              <Icon className="w-5 h-5 text-forest-600 group-hover:text-gold-600 transition-colors duration-300" />
+            </div>
+            <span className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-semibold">
+              {label}
+            </span>
           </div>
-          <span className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-            {label}
-          </span>
-        </div>
 
-        {/* Value + Copy */}
-        <div className="flex items-start justify-between gap-2">
-          <p className={`${mono ? 'font-mono text-xs' : 'font-sans text-sm'} font-semibold text-foreground leading-snug break-words flex-1`}>
-            {value}
-          </p>
-          {copyable && (
-            <button
-              onClick={handleCopy}
-              className="shrink-0 p-1.5 rounded-md hover:bg-muted transition-colors"
-              title={`Copier ${label}`}
-            >
-              {copied ? (
-                <Check className="w-3.5 h-3.5 text-green-500" />
-              ) : (
-                <Copy className="w-3.5 h-3.5 text-muted-foreground" />
-              )}
-            </button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+          {/* Value + Copy */}
+          <div className="flex items-start justify-between gap-2">
+            <p className={`${mono ? 'font-mono text-xs' : 'font-sans text-sm'} font-bold text-forest-900 leading-snug break-words flex-1`}>
+              {value}
+            </p>
+            {copyable && (
+              <button
+                onClick={handleCopy}
+                className="shrink-0 p-2 rounded-lg hover:bg-forest-100 transition-colors"
+                title={`Copier ${label}`}
+              >
+                {copied ? (
+                  <Check className="w-4 h-4 text-green-600" />
+                ) : (
+                  <Copy className="w-4 h-4 text-forest-400 hover:text-forest-600" />
+                )}
+              </button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
 
 export function ProductSpecsGrid({ product }: ProductSpecsGridProps) {
-  const config = getCategoryConfig(product.typologie_de_produit || null);
-
   const specs: SpecItem[] = [
     { label: 'INCI', value: product.inci, icon: FlaskConical, copyable: true, mono: true },
     { label: 'N° CAS', value: product.cas_no, icon: Tag, copyable: true, mono: true },
@@ -117,19 +122,29 @@ export function ProductSpecsGrid({ product }: ProductSpecsGridProps) {
   if (visibleSpecs.length === 0) return null;
 
   return (
-    <section className="space-y-3 sm:space-y-4">
-      <h2 className="font-serif text-lg sm:text-xl font-semibold text-foreground">
-        Caractéristiques techniques
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
+    <motion.section 
+      className="space-y-4 sm:space-y-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+    >
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-forest-900 flex items-center justify-center">
+          <FlaskConical className="w-5 h-5 text-gold-400" />
+        </div>
+        <h2 className="font-serif text-xl sm:text-2xl font-bold text-forest-900">
+          Caractéristiques techniques
+        </h2>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {visibleSpecs.map((spec, i) => (
           <SpecCard 
             key={i} 
             {...spec} 
-            accentColor={config.accent}
+            index={i}
           />
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

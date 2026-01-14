@@ -1,5 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { motion } from 'framer-motion';
+import { Sparkles, Award, Leaf } from 'lucide-react';
 import { getCategoryConfig } from '@/lib/productTheme';
 
 interface ProductSummaryCardProps {
@@ -35,74 +37,112 @@ export function ProductSummaryCard({
   if (!hasContent) return null;
 
   return (
-    <Card className="border-0 shadow-sm bg-card">
-      <CardContent className="p-4 sm:p-6 space-y-4">
-        {/* Description */}
-        {description && description !== '-' && (
-          <p className="font-sans text-sm sm:text-base text-muted-foreground leading-relaxed">
-            {description}
-          </p>
-        )}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card className="border border-forest-200 shadow-xl bg-white overflow-hidden">
+        {/* Gold accent bar */}
+        <div className="h-1 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400" />
+        
+        <CardContent className="p-5 sm:p-8 space-y-6">
+          {/* Description */}
+          {description && description !== '-' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1 }}
+            >
+              <p className="font-sans text-base sm:text-lg text-forest-800 leading-relaxed">
+                {description}
+              </p>
+            </motion.div>
+          )}
 
-        {/* Profil Olfactif */}
-        {profilList.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-              Profil olfactif
-            </h3>
-            <div className="flex flex-wrap gap-1.5">
-              {profilList.map((tag, i) => (
-                <Badge 
-                  key={i} 
-                  variant="secondary" 
-                  className="font-sans text-xs font-medium px-2.5 py-0.5"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
+          {/* Profil Olfactif */}
+          {profilList.length > 0 && (
+            <motion.div 
+              className="space-y-3"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-gold-500" />
+                <h3 className="font-sans text-xs uppercase tracking-widest text-forest-600 font-semibold">
+                  Profil olfactif
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {profilList.map((tag, i) => (
+                  <Badge 
+                    key={i} 
+                    className="bg-forest-100 text-forest-800 border border-forest-200 font-sans text-sm font-medium px-3 py-1.5 hover:bg-forest-200 transition-colors"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
-        {/* Bénéfices */}
-        {beneficesList.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-              Bénéfices
-            </h3>
-            <div className="flex flex-wrap gap-1.5">
-              {beneficesList.map((tag, i) => (
-                <Badge 
-                  key={i} 
-                  className={`${config.bgLight} ${config.text} border-0 font-sans text-xs font-medium px-2.5 py-0.5`}
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
+          {/* Bénéfices */}
+          {beneficesList.length > 0 && (
+            <motion.div 
+              className="space-y-3"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <div className="flex items-center gap-2">
+                <Leaf className="w-4 h-4 text-forest-600" />
+                <h3 className="font-sans text-xs uppercase tracking-widest text-forest-600 font-semibold">
+                  Bénéfices
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {beneficesList.map((tag, i) => (
+                  <Badge 
+                    key={i} 
+                    className="bg-gold-100 text-gold-800 border border-gold-300 font-sans text-sm font-medium px-3 py-1.5 hover:bg-gold-200 transition-colors"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
-        {/* Certifications */}
-        {certificationsList.length > 0 && (
-          <div className="space-y-2">
-            <h3 className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-              Certifications
-            </h3>
-            <div className="flex flex-wrap gap-1.5">
-              {certificationsList.map((tag, i) => (
-                <Badge 
-                  key={i} 
-                  variant="outline"
-                  className="font-sans text-xs font-medium px-2.5 py-0.5"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          {/* Certifications */}
+          {certificationsList.length > 0 && (
+            <motion.div 
+              className="space-y-3"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="flex items-center gap-2">
+                <Award className="w-4 h-4 text-gold-600" />
+                <h3 className="font-sans text-xs uppercase tracking-widest text-forest-600 font-semibold">
+                  Certifications
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {certificationsList.map((tag, i) => (
+                  <Badge 
+                    key={i} 
+                    className="bg-forest-900 text-gold-400 border-0 font-sans text-sm font-medium px-3 py-1.5 shadow-md hover:bg-forest-800 transition-colors"
+                  >
+                    <Award className="w-3 h-3 mr-1.5" />
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }

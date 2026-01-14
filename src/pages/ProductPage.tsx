@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Check, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 
 import { useProduct, useSimilarProducts } from '@/hooks/useProducts';
 import { useSampleCart } from '@/contexts/SampleCartContext';
@@ -41,19 +42,21 @@ function parseRating(value: string | null | undefined): number {
 // Loading skeleton
 function ProductPageSkeleton() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Hero skeleton */}
-      <Skeleton className="w-full h-48 sm:h-56" />
+      <div className="bg-forest-900 animate-pulse">
+        <Skeleton className="w-full h-56 sm:h-64 bg-forest-800" />
+      </div>
       
-      <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-5xl mx-auto space-y-6">
-        <Skeleton className="h-32 w-full rounded-lg" />
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-5xl mx-auto space-y-8">
+        <Skeleton className="h-40 w-full rounded-xl bg-forest-100" />
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {[...Array(6)].map((_, i) => (
-            <Skeleton key={i} className="h-24 rounded-lg" />
+            <Skeleton key={i} className="h-28 rounded-xl bg-forest-100" />
           ))}
         </div>
-        <Skeleton className="h-12 w-full rounded-lg" />
-        <Skeleton className="h-12 w-full rounded-lg" />
+        <Skeleton className="h-16 w-full rounded-xl bg-forest-100" />
+        <Skeleton className="h-16 w-full rounded-xl bg-forest-100" />
       </div>
     </div>
   );
@@ -62,18 +65,25 @@ function ProductPageSkeleton() {
 // Error state
 function ProductPageError() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="text-center space-y-4">
-        <h1 className="font-serif text-2xl font-semibold text-foreground">
+    <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white flex items-center justify-center px-4">
+      <motion.div 
+        className="text-center space-y-6 max-w-md"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="w-20 h-20 rounded-full bg-forest-100 flex items-center justify-center mx-auto">
+          <Sparkles className="w-10 h-10 text-forest-400" />
+        </div>
+        <h1 className="font-serif text-3xl font-bold text-forest-900">
           Produit introuvable
         </h1>
-        <p className="text-muted-foreground font-sans text-sm">
+        <p className="text-forest-600 font-sans">
           Le produit que vous recherchez n'existe pas ou a été supprimé.
         </p>
-        <Button asChild>
+        <Button asChild className="bg-forest-900 text-gold-400 hover:bg-forest-800">
           <a href="/fr/catalogue">Retour au catalogue</a>
         </Button>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -178,7 +188,7 @@ export default function ProductPage() {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-background pb-24 md:pb-8">
+      <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white pb-28 md:pb-12">
         {/* Hero */}
         <ProductHero
           code={product.code}
@@ -190,19 +200,37 @@ export default function ProductPage() {
         />
 
         {/* Main Content */}
-        <main className="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-5xl mx-auto space-y-6 sm:space-y-8">
+        <main className="px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-5xl mx-auto space-y-8 sm:space-y-10">
           {/* Desktop CTA */}
-          <div className="hidden md:block">
+          <motion.div 
+            className="hidden md:block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <Button
               onClick={handleAddToCart}
               size="lg"
-              className="w-full sm:w-auto font-sans font-semibold gap-2"
-              variant={isInCart ? "outline" : "default"}
+              className={`w-full sm:w-auto font-sans font-bold gap-3 h-14 px-8 rounded-xl shadow-lg transition-all duration-300 ${
+                isInCart 
+                  ? 'bg-forest-100 text-forest-800 border-2 border-forest-300 hover:bg-forest-200' 
+                  : 'bg-forest-900 text-gold-400 hover:bg-forest-800 shadow-forest-900/20'
+              }`}
+              variant="ghost"
             >
-              <ShoppingBag className="w-5 h-5" />
-              {isInCart ? 'Déjà dans le panier' : "Demande d'échantillon"}
+              {isInCart ? (
+                <>
+                  <Check className="w-5 h-5" />
+                  Déjà dans le panier
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="w-5 h-5" />
+                  Demande d'échantillon
+                </>
+              )}
             </Button>
-          </div>
+          </motion.div>
 
           {/* Summary Card */}
           <ProductSummaryCard
