@@ -8,6 +8,7 @@ import { useProduct, useSimilarProducts } from '@/hooks/useProducts';
 import { useSampleCart } from '@/contexts/SampleCartContext';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Layout } from '@/components/layout/Layout';
 
 // Product components
 import { ProductHero } from '@/components/product/ProductHero';
@@ -40,56 +41,60 @@ function parseRating(value: string | null | undefined): number {
 }
 
 // Loading skeleton
-function ProductPageSkeleton() {
+function ProductPageSkeleton({ lang }: { lang: 'fr' | 'en' }) {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero skeleton */}
-      <div className="bg-forest-900 animate-pulse">
-        <Skeleton className="w-full h-56 sm:h-64 bg-forest-800" />
-      </div>
-      
-      <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-5xl mx-auto space-y-8">
-        <Skeleton className="h-40 w-full rounded-xl bg-forest-100" />
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <Skeleton key={i} className="h-28 rounded-xl bg-forest-100" />
-          ))}
+    <Layout lang={lang}>
+      <div className="min-h-screen bg-white">
+        {/* Hero skeleton */}
+        <div className="bg-forest-900 animate-pulse">
+          <Skeleton className="w-full h-56 sm:h-72 bg-forest-800" />
         </div>
-        <Skeleton className="h-16 w-full rounded-xl bg-forest-100" />
-        <Skeleton className="h-16 w-full rounded-xl bg-forest-100" />
+        
+        <div className="px-4 sm:px-6 lg:px-8 py-8 max-w-5xl mx-auto space-y-8">
+          <Skeleton className="h-40 w-full rounded-xl bg-forest-100" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-28 rounded-xl bg-forest-100" />
+            ))}
+          </div>
+          <Skeleton className="h-16 w-full rounded-xl bg-forest-100" />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 
 // Error state
-function ProductPageError() {
+function ProductPageError({ lang }: { lang: 'fr' | 'en' }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white flex items-center justify-center px-4">
-      <motion.div 
-        className="text-center space-y-6 max-w-md"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <div className="w-20 h-20 rounded-full bg-forest-100 flex items-center justify-center mx-auto">
-          <Sparkles className="w-10 h-10 text-forest-400" />
-        </div>
-        <h1 className="font-serif text-3xl font-bold text-forest-900">
-          Produit introuvable
-        </h1>
-        <p className="text-forest-600 font-sans">
-          Le produit que vous recherchez n'existe pas ou a été supprimé.
-        </p>
-        <Button asChild className="bg-forest-900 text-gold-400 hover:bg-forest-800">
-          <a href="/fr/catalogue">Retour au catalogue</a>
-        </Button>
-      </motion.div>
-    </div>
+    <Layout lang={lang}>
+      <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white flex items-center justify-center px-4">
+        <motion.div 
+          className="text-center space-y-6 max-w-md"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="w-20 h-20 rounded-full bg-forest-100 flex items-center justify-center mx-auto">
+            <Sparkles className="w-10 h-10 text-forest-400" />
+          </div>
+          <h1 className="font-serif text-3xl font-bold text-forest-900">
+            Produit introuvable
+          </h1>
+          <p className="text-forest-600 font-sans">
+            Le produit que vous recherchez n'existe pas ou a été supprimé.
+          </p>
+          <Button asChild className="bg-forest-900 text-gold-400 hover:bg-forest-800">
+            <a href={`/${lang}/catalogue`}>Retour au catalogue</a>
+          </Button>
+        </motion.div>
+      </div>
+    </Layout>
   );
 }
 
 export default function ProductPage() {
   const { code, lang = 'fr' } = useParams<{ code: string; lang: string }>();
+  const currentLang = (lang === 'en' ? 'en' : 'fr') as 'fr' | 'en';
   const { data: product, isLoading, error } = useProduct(code || '');
   const { data: similarProducts = [] } = useSimilarProducts(product);
   const { addItem, items } = useSampleCart();
@@ -109,12 +114,12 @@ export default function ProductPage() {
 
   // Loading state
   if (isLoading) {
-    return <ProductPageSkeleton />;
+    return <ProductPageSkeleton lang={currentLang} />;
   }
 
   // Error state
   if (error || !product) {
-    return <ProductPageError />;
+    return <ProductPageError lang={currentLang} />;
   }
 
   // Build performance data (for parfums)
@@ -179,7 +184,7 @@ export default function ProductPage() {
   const productName = product.nom_commercial || 'Produit';
 
   return (
-    <>
+    <Layout lang={currentLang}>
       <Helmet>
         <title>{productName} - IES Ingredients</title>
         <meta 
@@ -188,7 +193,7 @@ export default function ProductPage() {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white pb-28 md:pb-12">
+      <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white pb-28 md:pb-0">
         {/* Hero */}
         <ProductHero
           code={product.code}
@@ -196,7 +201,8 @@ export default function ProductPage() {
           typologie={product.typologie_de_produit}
           origine={product.origine}
           gamme={product.gamme}
-          lang={lang}
+          lang={currentLang}
+          imageUrl={product.image_url}
         />
 
         {/* Main Content */}
@@ -211,7 +217,7 @@ export default function ProductPage() {
             <Button
               onClick={handleAddToCart}
               size="lg"
-              className={`w-full sm:w-auto font-sans font-bold gap-3 h-14 px-8 rounded-xl shadow-lg transition-all duration-300 ${
+              className={`font-sans font-bold gap-3 h-14 px-8 rounded-xl shadow-lg transition-all duration-300 ${
                 isInCart 
                   ? 'bg-forest-100 text-forest-800 border-2 border-forest-300 hover:bg-forest-200' 
                   : 'bg-forest-900 text-gold-400 hover:bg-forest-800 shadow-forest-900/20'
@@ -253,10 +259,10 @@ export default function ProductPage() {
             typologie={product.typologie_de_produit}
             additionalFields={additionalFields}
           />
-
-          {/* Similar Products */}
-          <SimilarProducts products={similarProducts} lang={lang} />
         </main>
+
+        {/* Similar Products - Full width section */}
+        <SimilarProducts products={similarProducts} lang={currentLang} />
 
         {/* Mobile Sticky CTA */}
         <ProductStickyCTA
@@ -265,6 +271,6 @@ export default function ProductPage() {
           isInCart={isInCart}
         />
       </div>
-    </>
+    </Layout>
   );
 }
