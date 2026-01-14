@@ -87,7 +87,7 @@ export function ProductDetailsAccordion({
                 <div className="w-9 h-9 rounded-lg bg-forest-900 flex items-center justify-center">
                   <Target className="w-4 h-4 text-gold-400" />
                 </div>
-                <span className="font-sans text-sm font-bold text-forest-900">Applications</span>
+                <span className="font-sans text-base sm:text-lg font-semibold text-forest-900">Applications</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-5">
@@ -113,7 +113,7 @@ export function ProductDetailsAccordion({
                 <div className="w-9 h-9 rounded-lg bg-forest-900 flex items-center justify-center">
                   <Users className="w-4 h-4 text-gold-400" />
                 </div>
-                <span className="font-sans text-sm font-bold text-forest-900">Types de peau</span>
+                <span className="font-sans text-base sm:text-lg font-semibold text-forest-900">Types de peau</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-5">
@@ -139,7 +139,7 @@ export function ProductDetailsAccordion({
                 <div className="w-9 h-9 rounded-lg bg-gold-500 flex items-center justify-center">
                   <Star className="w-4 h-4 text-forest-900" />
                 </div>
-                <span className="font-sans text-sm font-bold text-forest-900">Performance</span>
+                <span className="font-sans text-base sm:text-lg font-semibold text-forest-900">Performance</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-5">
@@ -175,7 +175,7 @@ export function ProductDetailsAccordion({
                 <div className="w-9 h-9 rounded-lg bg-forest-600 flex items-center justify-center">
                   <Beaker className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-sans text-sm font-bold text-forest-900">Stabilité</span>
+                <span className="font-sans text-base sm:text-lg font-semibold text-forest-900">Stabilité</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-5">
@@ -213,7 +213,7 @@ export function ProductDetailsAccordion({
                 <div className="w-9 h-9 rounded-lg bg-forest-100 flex items-center justify-center">
                   <Info className="w-4 h-4 text-forest-600" />
                 </div>
-                <span className="font-sans text-sm font-bold text-forest-900">Données complémentaires</span>
+                <span className="font-sans text-base sm:text-lg font-semibold text-forest-900">Données complémentaires</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-5">
