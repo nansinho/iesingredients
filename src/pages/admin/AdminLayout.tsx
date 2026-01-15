@@ -66,16 +66,16 @@ export default function AdminLayout() {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
+      {/* Sidebar - Fixed 100vh with internal scroll */}
       <aside
         className={cn(
-          "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-300 ease-in-out lg:transform-none",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-300 ease-in-out lg:translate-x-0 h-screen",
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="p-5 border-b border-border flex items-center justify-between">
+          {/* Logo - Fixed */}
+          <div className="p-5 border-b border-border flex items-center justify-between shrink-0">
             <NavLink to="/admin" className="flex items-center gap-2.5">
               <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">IES</span>
@@ -92,8 +92,8 @@ export default function AdminLayout() {
             </Button>
           </div>
 
-          {/* User Info */}
-          <div className="p-4 border-b border-border">
+          {/* User Info - Fixed */}
+          <div className="p-4 border-b border-border shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
                 <User className="h-5 w-5 text-primary" />
@@ -109,7 +109,7 @@ export default function AdminLayout() {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation - Scrollable */}
           <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
             {navItems.map((item) => (
               <NavLink
@@ -132,8 +132,8 @@ export default function AdminLayout() {
             ))}
           </nav>
 
-          {/* Footer actions */}
-          <div className="p-4 border-t border-border space-y-2">
+          {/* Footer actions - Fixed */}
+          <div className="p-4 border-t border-border space-y-2 shrink-0">
             <div className="flex items-center justify-between px-2 mb-2">
               <span className="text-xs text-muted-foreground">Thème</span>
               <ThemeToggle />
@@ -156,8 +156,8 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      {/* Main content - offset by sidebar width on desktop */}
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-64">
         {/* Mobile header */}
         <header className="lg:hidden sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
