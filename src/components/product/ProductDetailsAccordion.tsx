@@ -84,10 +84,6 @@ export function ProductDetailsAccordion({
     return null;
   }
 
-  const defaultOpen: string[] = [];
-  if (hasApplications) defaultOpen.push('applications');
-  if (hasSkinTypes) defaultOpen.push('skin-types');
-
   return (
     <motion.div
       variants={accordionVariants}
@@ -107,12 +103,12 @@ export function ProductDetailsAccordion({
                   Applications
                 </h2>
               </div>
-              <div className="flex flex-wrap gap-2 pl-7">
+              <div className="flex flex-wrap gap-2">
                 {applicationTags.map((tag, i) => (
                   <Badge 
                     key={i}
                     variant="gold"
-                    className="text-sm px-3 py-1.5"
+                    className="font-sans text-sm font-medium px-3 py-1.5"
                   >
                     {tag}
                   </Badge>
@@ -130,12 +126,12 @@ export function ProductDetailsAccordion({
                   Types de peau
                 </h2>
               </div>
-              <div className="flex flex-wrap gap-2 pl-7">
+              <div className="flex flex-wrap gap-2">
                 {skinTypeTags.map((tag, i) => (
                   <Badge 
                     key={i}
                     variant="forest"
-                    className="text-sm px-3 py-1.5"
+                    className="font-sans text-sm font-medium px-3 py-1.5"
                   >
                     {tag}
                   </Badge>
