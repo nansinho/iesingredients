@@ -307,7 +307,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
       {/* Hero Section - Minimal */}
       <section className="bg-gradient-to-b from-forest-50 to-white pt-32 pb-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="container-luxe">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-forest-500 mb-6">
             <Link to={`/${lang}`} className="hover:text-forest-900 transition-colors">
@@ -369,7 +369,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
       {/* Main Content */}
       <section className="bg-white py-10 min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="container-luxe">
           {/* Controls Bar */}
           <div className="flex items-center justify-between gap-4 mb-6">
             {/* Results count + Active Filters */}
