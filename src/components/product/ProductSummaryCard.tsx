@@ -68,7 +68,7 @@ export function ProductSummaryCard({
 
       {/* Content with cascade animation */}
       <motion.div 
-        className="space-y-5 pl-7"
+        className="space-y-5"
         variants={contentVariants}
         initial="hidden"
         animate="visible"
@@ -152,7 +152,7 @@ export function ProductSummaryCard({
               {beneficesList.map((tag, i) => (
                 <Badge 
                   key={i} 
-                  variant="forest"
+                  variant="gold"
                   className="font-sans text-sm font-medium px-3 py-1.5"
                 >
                   {tag}
