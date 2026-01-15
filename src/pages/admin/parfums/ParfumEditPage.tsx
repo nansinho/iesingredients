@@ -1,5 +1,6 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useBlocker } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { UnsavedChangesDialog } from "@/components/admin/UnsavedChangesDialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -222,6 +223,12 @@ export default function ParfumEditPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasChanges]);
 
+  // Block internal SPA navigation with custom dialog
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      hasChanges && currentLocation.pathname !== nextLocation.pathname
+  );
+
   const handleSaveAll = async () => {
     // Clear auto-save timer
     if (autoSaveTimerRef.current) {
@@ -325,7 +332,11 @@ export default function ParfumEditPage() {
   }
 
   return (
-    <div className="space-y-6 pb-20 lg:pb-6">
+    <>
+      {/* Unsaved changes dialog for internal navigation */}
+      <UnsavedChangesDialog blocker={blocker} />
+      
+      <div className="space-y-6 pb-20 lg:pb-6">
       {/* Header with status and save button */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
         <div className="flex items-center gap-4">
@@ -662,6 +673,7 @@ export default function ParfumEditPage() {
           Enregistrer
         </Button>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

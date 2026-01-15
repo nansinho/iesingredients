@@ -2,7 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
@@ -69,8 +75,8 @@ const PageLoader = () => (
   </div>
 );
 
-// Routes component
-const AppRoutes = () => {
+// Root layout wrapper for context providers
+const RootLayout = () => {
   const location = useLocation();
   const lang = getCurrentLang(location.pathname);
 
@@ -80,93 +86,105 @@ const AppRoutes = () => {
       <QuoteRequestDialog lang={lang} />
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            {/* Redirect root to French */}
-            <Route path="/" element={<Navigate to="/fr" replace />} />
-
-            {/* Auth Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-
-            {/* French Routes */}
-            <Route path="/fr" element={<HomePage lang="fr" />} />
-            <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
-            <Route path="/fr/produit/:code" element={<ProductPage />} />
-            <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
-            <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
-            <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
-            <Route path="/fr/actualites/:slug" element={<BlogArticlePage lang="fr" />} />
-            <Route path="/fr/podcast" element={<PodcastPage lang="fr" />} />
-            <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
-            <Route path="/fr/mon-compte" element={<ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute>} />
-
-            {/* English Routes */}
-            <Route path="/en" element={<HomePage lang="en" />} />
-            <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
-            <Route path="/en/produit/:code" element={<ProductPage />} />
-            <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
-            <Route path="/en/equipe" element={<TeamPage lang="en" />} />
-            <Route path="/en/actualites" element={<NewsPage lang="en" />} />
-            <Route path="/en/actualites/:slug" element={<BlogArticlePage lang="en" />} />
-            <Route path="/en/podcast" element={<PodcastPage lang="en" />} />
-            <Route path="/en/contact" element={<ContactPage lang="en" />} />
-            <Route path="/en/my-account" element={<ProtectedRoute><AccountPage lang="en" /></ProtectedRoute>} />
-
-            {/* Admin Routes - Protected */}
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute requireAdmin>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<AdminDashboard />} />
-              <Route path="demandes" element={<DemandesListPage />} />
-              <Route path="demandes/:id" element={<DemandeDetailPage />} />
-              <Route path="blog" element={<BlogListPage />} />
-              <Route path="blog/new" element={<BlogEditPage />} />
-              <Route path="blog/:id" element={<BlogEditPage />} />
-              <Route path="contacts" element={<ContactsListPage />} />
-              <Route path="cosmetiques" element={<CosmetiqueListPage />} />
-              <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
-              <Route path="cosmetiques/:code" element={<CosmetiqueEditPage />} />
-              <Route path="parfums" element={<ParfumListPage />} />
-              <Route path="parfums/new" element={<ParfumEditPage />} />
-              <Route path="parfums/:code" element={<ParfumEditPage />} />
-              <Route path="parfums/:code/performance" element={<ParfumPerformancePage />} />
-              <Route path="aromes" element={<AromeListPage />} />
-              <Route path="aromes/new" element={<AromeEditPage />} />
-              <Route path="aromes/:code" element={<AromeEditPage />} />
-              <Route path="equipe" element={<TeamListPage />} />
-              <Route path="equipe/new" element={<TeamEditPage />} />
-              <Route path="equipe/:id" element={<TeamEditPage />} />
-            </Route>
-
-            {/* 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Outlet />
         </AnimatePresence>
       </Suspense>
     </>
   );
 };
 
+// Admin layout wrapper
+const AdminWrapper = () => (
+  <ProtectedRoute requireAdmin>
+    <AdminLayout />
+  </ProtectedRoute>
+);
+
+// Create the router with future flags to enable useBlocker
+const router = createBrowserRouter(
+  [
+    {
+      element: <RootLayout />,
+      children: [
+        // Redirect root to French
+        { path: "/", element: <Navigate to="/fr" replace /> },
+
+        // Auth Routes
+        { path: "/login", element: <LoginPage /> },
+        { path: "/register", element: <RegisterPage /> },
+
+        // French Routes
+        { path: "/fr", element: <HomePage lang="fr" /> },
+        { path: "/fr/catalogue", element: <CatalogPage lang="fr" /> },
+        { path: "/fr/produit/:code", element: <ProductPage /> },
+        { path: "/fr/entreprise", element: <CompanyPage lang="fr" /> },
+        { path: "/fr/equipe", element: <TeamPage lang="fr" /> },
+        { path: "/fr/actualites", element: <NewsPage lang="fr" /> },
+        { path: "/fr/actualites/:slug", element: <BlogArticlePage lang="fr" /> },
+        { path: "/fr/podcast", element: <PodcastPage lang="fr" /> },
+        { path: "/fr/contact", element: <ContactPage lang="fr" /> },
+        { path: "/fr/mon-compte", element: <ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute> },
+
+        // English Routes
+        { path: "/en", element: <HomePage lang="en" /> },
+        { path: "/en/catalogue", element: <CatalogPage lang="en" /> },
+        { path: "/en/produit/:code", element: <ProductPage /> },
+        { path: "/en/entreprise", element: <CompanyPage lang="en" /> },
+        { path: "/en/equipe", element: <TeamPage lang="en" /> },
+        { path: "/en/actualites", element: <NewsPage lang="en" /> },
+        { path: "/en/actualites/:slug", element: <BlogArticlePage lang="en" /> },
+        { path: "/en/podcast", element: <PodcastPage lang="en" /> },
+        { path: "/en/contact", element: <ContactPage lang="en" /> },
+        { path: "/en/my-account", element: <ProtectedRoute><AccountPage lang="en" /></ProtectedRoute> },
+
+        // Admin Routes - Protected
+        {
+          path: "/admin",
+          element: <AdminWrapper />,
+          children: [
+            { index: true, element: <AdminDashboard /> },
+            { path: "demandes", element: <DemandesListPage /> },
+            { path: "demandes/:id", element: <DemandeDetailPage /> },
+            { path: "blog", element: <BlogListPage /> },
+            { path: "blog/new", element: <BlogEditPage /> },
+            { path: "blog/:id", element: <BlogEditPage /> },
+            { path: "contacts", element: <ContactsListPage /> },
+            { path: "cosmetiques", element: <CosmetiqueListPage /> },
+            { path: "cosmetiques/new", element: <CosmetiqueEditPage /> },
+            { path: "cosmetiques/:code", element: <CosmetiqueEditPage /> },
+            { path: "parfums", element: <ParfumListPage /> },
+            { path: "parfums/new", element: <ParfumEditPage /> },
+            { path: "parfums/:code", element: <ParfumEditPage /> },
+            { path: "parfums/:code/performance", element: <ParfumPerformancePage /> },
+            { path: "aromes", element: <AromeListPage /> },
+            { path: "aromes/new", element: <AromeEditPage /> },
+            { path: "aromes/:code", element: <AromeEditPage /> },
+            { path: "equipe", element: <TeamListPage /> },
+            { path: "equipe/new", element: <TeamEditPage /> },
+            { path: "equipe/:id", element: <TeamEditPage /> },
+          ],
+        },
+
+        // 404
+        { path: "*", element: <NotFound /> },
+      ],
+    },
+  ]
+);
+
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <BrowserRouter>
-          <AuthProvider>
-            <SampleCartProvider>
-              <Toaster />
-              <Sonner />
-              <ErrorBoundary>
-                <AppRoutes />
-              </ErrorBoundary>
-            </SampleCartProvider>
-          </AuthProvider>
-        </BrowserRouter>
+        <AuthProvider>
+          <SampleCartProvider>
+            <Toaster />
+            <Sonner />
+            <ErrorBoundary>
+              <RouterProvider router={router} />
+            </ErrorBoundary>
+          </SampleCartProvider>
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
