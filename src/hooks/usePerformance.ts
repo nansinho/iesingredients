@@ -7,6 +7,7 @@ export interface PerformanceRow {
   product_code: string;
   ordre: number;
   option_name: string | null;
+  performance_value: string | null;
   performance_rating: number | null;
 }
 
@@ -26,7 +27,7 @@ export function useProductPerformance(productCode: string | null) {
         .order("ordre");
 
       if (error) throw error;
-      return data || [];
+      return (data || []) as PerformanceRow[];
     },
     enabled: !!productCode,
   });
@@ -49,11 +50,12 @@ export function useUpdatePerformance() {
 
       // Insérer les nouvelles données (filtrer les lignes vides)
       const rowsToInsert = performanceData
-        .filter((row) => row.option_name || row.performance_rating !== null)
+        .filter((row) => row.option_name || row.performance_rating !== null || row.performance_value)
         .map((row) => ({
           product_code: productCode,
           ordre: row.ordre,
           option_name: row.option_name,
+          performance_value: row.performance_value,
           performance_rating: row.performance_rating,
         }));
 
@@ -87,6 +89,7 @@ export function createInitialPerformanceData(productCode: string): Omit<Performa
     product_code: productCode,
     ordre: i + 1,
     option_name: null,
+    performance_value: null,
     performance_rating: null,
   }));
 }

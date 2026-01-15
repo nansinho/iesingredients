@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.translate-products]
 verify_jwt = false
+
+[functions.insert-parfum-data]
+verify_jwt = false
