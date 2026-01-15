@@ -26,7 +26,8 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                       location.pathname.includes('/contact') ||
                       location.pathname.includes('/entreprise') ||
                       location.pathname.includes('/equipe') ||
-                      location.pathname.includes('/actualites');
+                      location.pathname.includes('/actualites') ||
+                      location.pathname.includes('/catalogue');
   const isDarkHero = hasDarkHero && !isScrolled;
 
   useEffect(() => {

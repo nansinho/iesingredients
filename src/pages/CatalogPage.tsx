@@ -66,6 +66,21 @@ const getCategoryGlow = (typologie: string | null) => {
   return 'rgba(74, 124, 89, 0.25)';
 };
 
+// Helper function to get category badge gradient color
+const getCategoryBadgeColor = (typologie: string | null) => {
+  const type = typologie?.toUpperCase() || '';
+  if (type.includes('COSMET') || type.includes('COSMÉT')) {
+    return 'bg-gradient-to-r from-[#2D5A3D] to-[#4A7C59] text-white';
+  }
+  if (type.includes('PARFUM')) {
+    return 'bg-gradient-to-r from-[#A67B5B] to-[#D4A574] text-white';
+  }
+  if (type.includes('AROME') || type.includes('ARÔME')) {
+    return 'bg-gradient-to-r from-[#8B4A5E] to-[#C97B8B] text-white';
+  }
+  return 'bg-forest-900 text-gold-400';
+};
+
 // Minimal Product Card with enhanced hover effects
 const MinimalProductCard = ({ 
   product, 
@@ -114,7 +129,10 @@ const MinimalProductCard = ({
             />
           )}
           {/* Category Badge */}
-          <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium bg-forest-900 text-gold-400">
+          <div className={cn(
+            "absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium shadow-md",
+            getCategoryBadgeColor(product.typologie_de_produit)
+          )}>
             {config.label}
           </div>
         </div>
