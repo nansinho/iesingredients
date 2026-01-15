@@ -53,10 +53,10 @@ export const MinimalProducts = ({ lang }: MinimalProductsProps) => {
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
         >
           <div>
-            <h2 className="font-serif text-3xl md:text-4xl text-foreground">
+            <h2 className="font-serif text-3xl md:text-4xl text-forest-900">
               {lang === 'fr' ? 'Produits Vedettes' : 'Featured Products'}
             </h2>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-forest-600 mt-2">
               {lang === 'fr'
                 ? 'Une sélection de nos meilleurs ingrédients'
                 : 'A selection of our finest ingredients'}
@@ -122,11 +122,11 @@ export const MinimalProducts = ({ lang }: MinimalProductsProps) => {
                     </div>
 
                     <div className="space-y-2">
-                      <h3 className="font-serif text-lg text-foreground group-hover:text-navy-700 transition-colors line-clamp-1">
+                      <h3 className="font-serif text-lg text-forest-900 group-hover:text-forest-700 transition-colors line-clamp-1">
                         {product.nom_commercial}
                       </h3>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground font-mono">
+                        <span className="text-sm text-forest-600 font-mono">
                           {product.code}
                         </span>
                         <button
@@ -136,12 +136,12 @@ export const MinimalProducts = ({ lang }: MinimalProductsProps) => {
                           {copiedCode === product.code ? (
                             <Check className="w-4 h-4 text-green-600" />
                           ) : (
-                            <Copy className="w-4 h-4 text-muted-foreground" />
+                            <Copy className="w-4 h-4 text-forest-500" />
                           )}
                         </button>
                       </div>
                       {product.origine && (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-forest-500">
                           {lang === 'fr' ? 'Origine' : 'Origin'}: {product.origine}
                         </p>
                       )}

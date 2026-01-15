@@ -40,6 +40,9 @@ export const HomePage = ({ lang }: HomePageProps) => {
       {/* Hero Section - Light & Airy */}
       <MinimalHero lang={lang} />
 
+      {/* Featured Products - Directly after hero */}
+      <MinimalProducts lang={lang} />
+
       {/* Certification Logos Strip */}
       <LogoStrip lang={lang} />
 
@@ -48,9 +51,6 @@ export const HomePage = ({ lang }: HomePageProps) => {
 
       {/* About Section */}
       <MinimalAbout lang={lang} />
-
-      {/* Featured Products */}
-      <MinimalProducts lang={lang} />
 
       {/* CTA Section */}
       <MinimalCTA lang={lang} />
