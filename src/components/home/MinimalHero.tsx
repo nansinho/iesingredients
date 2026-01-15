@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Leaf, FlaskConical, Cherry } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Language, useTranslation } from '@/lib/i18n';
 import { motion } from 'framer-motion';
 
@@ -12,6 +13,45 @@ import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
 interface MinimalHeroProps {
   lang: Language;
 }
+
+const categories = [
+  {
+    key: 'cosmetic',
+    icon: Leaf,
+    image: creamJar,
+    gradient: 'from-[#2D5A3D] to-[#4A7C59]',
+    count: '2000+',
+    titleFr: 'Cosmétique',
+    titleEn: 'Cosmetics',
+    descFr: 'Actifs botaniques et extraits naturels',
+    descEn: 'Botanical actives and natural extracts',
+    filter: 'COSMETIQUE',
+  },
+  {
+    key: 'perfumery',
+    icon: FlaskConical,
+    image: essentialOil,
+    gradient: 'from-[#A67B5B] to-[#D4A574]',
+    count: '1500+',
+    titleFr: 'Parfumerie',
+    titleEn: 'Perfumery',
+    descFr: 'Huiles essentielles et absolues',
+    descEn: 'Essential oils and absolutes',
+    filter: 'PARFUMERIE',
+  },
+  {
+    key: 'aromas',
+    icon: Cherry,
+    image: blueberriesHerbs,
+    gradient: 'from-[#8B4A5E] to-[#C97B8B]',
+    count: '1500+',
+    titleFr: 'Arômes',
+    titleEn: 'Aromas',
+    descFr: 'Arômes alimentaires naturels',
+    descEn: 'Natural food flavors',
+    filter: 'AROMES',
+  },
+];
 
 export const MinimalHero = ({ lang }: MinimalHeroProps) => {
   const t = useTranslation(lang);
@@ -111,72 +151,63 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
         </motion.div>
       </motion.div>
 
-      {/* Floating Image Trio */}
+      {/* Category Cards */}
       <motion.div
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.7, type: 'spring', stiffness: 50 }}
-        className="mt-16 flex items-end justify-center gap-4 md:gap-6 relative z-10"
+        className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 w-full max-w-5xl relative z-10 px-4"
       >
-        <motion.div
-          whileHover={{ y: -12, rotate: -3, scale: 1.02 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          className="relative w-28 h-36 sm:w-36 sm:h-44 md:w-44 md:h-56 rounded-2xl overflow-hidden shadow-xl cursor-pointer"
-        >
-          <img
-            src={creamJar}
-            alt="Cosmétique"
-            className="w-full h-full object-cover"
-          />
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-            className="absolute bottom-2 left-2 px-2 py-1 bg-forest-900/90 backdrop-blur-sm rounded-full"
-          >
-            <span className="text-[10px] font-medium text-white uppercase tracking-wide">Cosmétique</span>
-          </motion.div>
-        </motion.div>
+        {categories.map((cat, i) => {
+          const IconComponent = cat.icon;
+          return (
+            <Link
+              key={cat.key}
+              to={`/${lang}/catalogue?typologie=${cat.filter}`}
+            >
+              <motion.div
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className={`relative w-full h-64 sm:h-72 md:h-80 rounded-3xl overflow-hidden cursor-pointer bg-gradient-to-br ${cat.gradient} shadow-xl`}
+              >
+                {/* Background Image with Overlay */}
+                <img
+                  src={cat.image}
+                  alt={lang === 'fr' ? cat.titleFr : cat.titleEn}
+                  className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-        <motion.div
-          whileHover={{ y: -16, scale: 1.03 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          className="relative w-32 h-44 sm:w-44 sm:h-56 md:w-52 md:h-72 rounded-2xl overflow-hidden shadow-2xl -mb-4 cursor-pointer"
-        >
-          <img
-            src={essentialOil}
-            alt="Parfumerie"
-            className="w-full h-full object-cover"
-          />
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-            className="absolute bottom-2 left-2 px-2 py-1 bg-gold-600/90 backdrop-blur-sm rounded-full"
-          >
-            <span className="text-[10px] font-medium text-white uppercase tracking-wide">Parfumerie</span>
-          </motion.div>
-        </motion.div>
+                {/* Content */}
+                <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col justify-between">
+                  {/* Header: Icon + Counter */}
+                  <div className="flex justify-between items-start">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <Badge className="bg-white/20 backdrop-blur-sm text-white border-0 font-semibold">
+                      {cat.count}
+                    </Badge>
+                  </div>
 
-        <motion.div
-          whileHover={{ y: -12, rotate: 3, scale: 1.02 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          className="relative w-28 h-36 sm:w-36 sm:h-44 md:w-44 md:h-56 rounded-2xl overflow-hidden shadow-xl cursor-pointer"
-        >
-          <img
-            src={blueberriesHerbs}
-            alt="Arômes"
-            className="w-full h-full object-cover"
-          />
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className="absolute bottom-2 left-2 px-2 py-1 bg-arome/90 backdrop-blur-sm rounded-full"
-          >
-            <span className="text-[10px] font-medium text-white uppercase tracking-wide">Arômes</span>
-          </motion.div>
-        </motion.div>
+                  {/* Footer: Title + Description + Link */}
+                  <div className="space-y-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white">
+                      {lang === 'fr' ? cat.titleFr : cat.titleEn}
+                    </h3>
+                    <p className="text-white/80 text-sm leading-relaxed">
+                      {lang === 'fr' ? cat.descFr : cat.descEn}
+                    </p>
+                    <div className="flex items-center gap-2 text-white text-sm font-medium pt-2">
+                      {lang === 'fr' ? 'Explorer' : 'Explore'}
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+          );
+        })}
       </motion.div>
     </section>
   );

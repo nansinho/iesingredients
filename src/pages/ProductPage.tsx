@@ -18,6 +18,7 @@ import { ProductSummaryCard } from '@/components/product/ProductSummaryCard';
 import { ProductSpecsGrid } from '@/components/product/ProductSpecsGrid';
 import { ProductDetailsAccordion } from '@/components/product/ProductDetailsAccordion';
 import { SimilarProducts } from '@/components/product/SimilarProducts';
+import { PerformanceStabilitySection } from '@/components/product/PerformanceStabilitySection';
 
 // Animation variants for cascade effect
 const containerVariants = {
@@ -153,8 +154,10 @@ export default function ProductPage() {
     return <ProductPageError lang={currentLang} />;
   }
 
-  // Build performance data (for parfums)
-  const performanceData: { option: string; rating: number }[] = [];
+  // Build performance data (for parfums) - with mock data if no real data
+  const isParfum = product.typologie_de_produit?.toUpperCase().includes('PARFUM');
+  
+  let performanceData: { option: string; rating: number }[] = [];
   const perfOptions = [
     { key: 'option_1', perf: 'performance_1' },
     { key: 'option_2', perf: 'performance_2' },
@@ -175,8 +178,20 @@ export default function ProductPage() {
     }
   }
 
+  // Mock performance data for parfums if no real data exists
+  if (isParfum && performanceData.length === 0) {
+    performanceData = [
+      { option: "Niveau d'utilisation (0,1% - 2%)", rating: 0 },
+      { option: "Ténacité sur buvard", rating: 5 },
+      { option: "Efficacité de combustion", rating: 5 },
+      { option: "Amortissement de substance", rating: 5 },
+      { option: "Substance sèche", rating: 5 },
+      { option: "Éclosion dans le savon", rating: 5 },
+    ];
+  }
+
   // Build stability data (for parfums)
-  const stabilityData: { base: string; odeur: number; ph: string }[] = [];
+  let stabilityData: { base: string; odeur: number; ph: string }[] = [];
   const stabBases = [
     { base: 'Shampooing', odeur: 'odeur_shampooing', ph: 'ph_shampooing' },
     { base: 'Savon', odeur: 'odeur_savon', ph: 'ph_savon' },
@@ -200,6 +215,31 @@ export default function ProductPage() {
       });
     }
   }
+
+  // Mock stability data for parfums if no real data exists
+  if (isParfum && stabilityData.length === 0) {
+    stabilityData = [
+      { ph: "2", base: "Nettoyant acide", odeur: 5 },
+      { ph: "3", base: "Assouplissant textile", odeur: 5 },
+      { ph: "3.5", base: "Anti-transpirant", odeur: 5 },
+      { ph: "6", base: "Shampooing", odeur: 5 },
+      { ph: "9", base: "APC", odeur: 5 },
+      { ph: "9", base: "Détergent liquide", odeur: 4 },
+      { ph: "10", base: "Savon", odeur: 4 },
+      { ph: "10.5", base: "Détergent poudre", odeur: 3 },
+      { ph: "11", base: "Eau de Javel", odeur: 5 },
+    ];
+  }
+
+  // Performance data for new section (with text values)
+  const performanceSectionData = isParfum ? [
+    { option: "Niveau d'utilisation", value: "0,1% - 2%", isText: true },
+    { option: "Ténacité sur buvard", value: "Plusieurs jours", isText: true },
+    { option: "Efficacité de combustion", rating: 5, isText: false },
+    { option: "Amortissement de substance", rating: 5, isText: false },
+    { option: "Substance sèche", rating: 5, isText: false },
+    { option: "Éclosion dans le savon", rating: 5, isText: false },
+  ] : [];
 
   // Additional fields for accordion
   const additionalFields: Record<string, string | null> = {
@@ -300,13 +340,30 @@ export default function ProductPage() {
             <Separator className="bg-forest-200/50" />
           </motion.div>
 
+          {/* Performance & Stability Section (Parfums only) */}
+          {isParfum && (
+            <motion.div variants={itemVariants}>
+              <PerformanceStabilitySection
+                performanceData={performanceSectionData}
+                stabilityData={stabilityData}
+              />
+            </motion.div>
+          )}
+
+          {/* Separator */}
+          {isParfum && (
+            <motion.div variants={separatorVariants} className="origin-left">
+              <Separator className="bg-forest-200/50" />
+            </motion.div>
+          )}
+
           {/* Details Accordion */}
           <motion.div variants={itemVariants}>
             <ProductDetailsAccordion
               application={product.application}
               typeDePeau={(product as any).type_de_peau}
-              performanceData={performanceData}
-              stabilityData={stabilityData}
+              performanceData={[]}
+              stabilityData={[]}
               typologie={product.typologie_de_produit}
               additionalFields={additionalFields}
             />
