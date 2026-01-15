@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Save, Loader2 } from "lucide-react";
+import { Save, Loader2, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { StarRatingInput } from "./StarRatingInput";
 import {
   useProductPerformance,
@@ -36,6 +37,7 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
       const existingRows = existingData.map((row) => ({
         ordre: row.ordre,
         option_name: row.option_name,
+        performance_value: row.performance_value,
         performance_rating: row.performance_rating,
       }));
 
@@ -45,6 +47,7 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
         allRows.push({
           ordre: i + 1,
           option_name: null,
+          performance_value: null,
           performance_rating: null,
         });
       }
@@ -56,6 +59,7 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
         Array.from({ length: DEFAULT_PERFORMANCE_COUNT }, (_, i) => ({
           ordre: i + 1,
           option_name: null,
+          performance_value: null,
           performance_rating: null,
         }))
       );
@@ -64,11 +68,24 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
 
   const updateRow = (
     ordre: number,
-    field: "option_name" | "performance_rating",
+    field: "option_name" | "performance_value" | "performance_rating",
     value: string | number | null
   ) => {
     setRows((prev) =>
-      prev.map((row) => (row.ordre === ordre ? { ...row, [field]: value } : row))
+      prev.map((row) => {
+        if (row.ordre !== ordre) return row;
+        
+        const updated = { ...row, [field]: value };
+        
+        // Clear the other field when one is set
+        if (field === "performance_value" && value) {
+          updated.performance_rating = null;
+        } else if (field === "performance_rating" && value) {
+          updated.performance_value = null;
+        }
+        
+        return updated;
+      })
     );
   };
 
@@ -95,7 +112,27 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Options & Performance</CardTitle>
+        <div>
+          <CardTitle className="flex items-center gap-2">
+            Options & Performance
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent className="max-w-xs">
+                  <p>
+                    Pour chaque option, saisissez soit une <strong>valeur texte</strong> (ex: "Jusqu'à 3%"), 
+                    soit une <strong>note étoiles</strong> (1-5). Les deux sont mutuellement exclusifs.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </CardTitle>
+          <CardDescription>
+            6 options avec valeur texte ou notation étoiles
+          </CardDescription>
+        </div>
         <Button onClick={handleSave} disabled={updateMutation.isPending}>
           {updateMutation.isPending ? (
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -112,6 +149,7 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
               <TableRow>
                 <TableHead className="w-12">#</TableHead>
                 <TableHead>Option</TableHead>
+                <TableHead className="w-36">Valeur (texte)</TableHead>
                 <TableHead className="w-32 text-center">Performance</TableHead>
               </TableRow>
             </TableHeader>
@@ -130,7 +168,18 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
                     />
                   </TableCell>
                   <TableCell>
-                    <div className="flex justify-center">
+                    <Input
+                      value={row.performance_value || ""}
+                      onChange={(e) =>
+                        updateRow(row.ordre, "performance_value", e.target.value || null)
+                      }
+                      placeholder="Ex: Jusqu'à 3%"
+                      className="h-8"
+                      disabled={row.performance_rating !== null}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <div className={`flex justify-center ${row.performance_value ? "opacity-50 pointer-events-none" : ""}`}>
                       <StarRatingInput
                         value={row.performance_rating}
                         onChange={(value) => updateRow(row.ordre, "performance_rating", value)}
@@ -145,7 +194,7 @@ export function PerformanceTable({ productCode }: PerformanceTableProps) {
         </div>
 
         <p className="text-xs text-muted-foreground mt-4 text-center">
-          Définissez jusqu'à 6 options avec leur note de performance (1-5 étoiles).
+          💡 Utilisez "Valeur" pour du texte libre (dosage, durée) ou "Performance" pour une note sur 5 étoiles.
         </p>
       </CardContent>
     </Card>

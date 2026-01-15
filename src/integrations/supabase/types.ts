@@ -351,6 +351,7 @@ export type Database = {
           option_name: string | null
           ordre: number
           performance_rating: number | null
+          performance_value: string | null
           product_code: string
           updated_at: string | null
         }
@@ -360,6 +361,7 @@ export type Database = {
           option_name?: string | null
           ordre: number
           performance_rating?: number | null
+          performance_value?: string | null
           product_code: string
           updated_at?: string | null
         }
@@ -369,6 +371,7 @@ export type Database = {
           option_name?: string | null
           ordre?: number
           performance_rating?: number | null
+          performance_value?: string | null
           product_code?: string
           updated_at?: string | null
         }
