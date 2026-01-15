@@ -25,6 +25,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // Auth pages
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
+const AccountPage = lazy(() => import("./pages/AccountPage").then(m => ({ default: m.AccountPage })));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
@@ -84,6 +85,7 @@ const AppRoutes = () => {
           <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
           <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
           <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
+          <Route path="/fr/mon-compte" element={<ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute>} />
 
           {/* English Routes */}
           <Route path="/en" element={<HomePage lang="en" />} />
@@ -93,6 +95,7 @@ const AppRoutes = () => {
           <Route path="/en/equipe" element={<TeamPage lang="en" />} />
           <Route path="/en/actualites" element={<NewsPage lang="en" />} />
           <Route path="/en/contact" element={<ContactPage lang="en" />} />
+          <Route path="/en/my-account" element={<ProtectedRoute><AccountPage lang="en" /></ProtectedRoute>} />
 
           {/* Admin Routes - Protected */}
           <Route

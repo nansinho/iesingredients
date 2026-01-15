@@ -440,6 +440,74 @@ export type Database = {
         }
         Relationships: []
       }
+      sample_request_items: {
+        Row: {
+          created_at: string | null
+          id: string
+          product_category: string | null
+          product_code: string
+          product_name: string
+          quantity: number | null
+          request_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          product_category?: string | null
+          product_code: string
+          product_name: string
+          quantity?: number | null
+          request_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          product_category?: string | null
+          product_code?: string
+          product_name?: string
+          quantity?: number | null
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sample_request_items_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "sample_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sample_requests: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          id: string
+          message: string | null
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          id?: string
+          message?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          id?: string
+          message?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
