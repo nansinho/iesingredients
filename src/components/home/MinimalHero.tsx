@@ -20,6 +20,7 @@ const categories = [
     icon: Leaf,
     image: creamJar,
     gradient: 'from-[#2D5A3D] to-[#4A7C59]',
+    glowColor: 'rgba(74, 124, 89, 0.5)',
     count: '2000+',
     titleFr: 'Cosmétique',
     titleEn: 'Cosmetics',
@@ -32,6 +33,7 @@ const categories = [
     icon: FlaskConical,
     image: essentialOil,
     gradient: 'from-[#A67B5B] to-[#D4A574]',
+    glowColor: 'rgba(212, 165, 116, 0.5)',
     count: '1500+',
     titleFr: 'Parfumerie',
     titleEn: 'Perfumery',
@@ -44,6 +46,7 @@ const categories = [
     icon: Cherry,
     image: blueberriesHerbs,
     gradient: 'from-[#8B4A5E] to-[#C97B8B]',
+    glowColor: 'rgba(201, 123, 139, 0.5)',
     count: '1500+',
     titleFr: 'Arômes',
     titleEn: 'Aromas',
@@ -165,11 +168,15 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
               key={cat.key}
               to={`/${lang}/catalogue?typologie=${cat.filter}`}
             >
-              <motion.div
-                whileHover={{ y: -8, scale: 1.02 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className={`relative w-full h-64 sm:h-72 md:h-80 rounded-3xl overflow-hidden cursor-pointer bg-gradient-to-br ${cat.gradient} shadow-xl`}
-              >
+          <motion.div
+            whileHover={{ 
+              y: -12, 
+              scale: 1.05,
+              boxShadow: `0 30px 60px -15px ${cat.glowColor}`
+            }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            className={`relative w-full h-64 sm:h-72 md:h-80 rounded-3xl overflow-hidden cursor-pointer bg-gradient-to-br ${cat.gradient} shadow-xl`}
+          >
                 {/* Background Image with Overlay */}
                 <img
                   src={cat.image}
