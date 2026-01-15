@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
 import { SampleCartProvider } from "./contexts/SampleCartContext";
@@ -71,61 +72,63 @@ const AppRoutes = () => {
       <SampleCartDrawer lang={lang} />
       <QuoteRequestDialog lang={lang} />
       <Suspense fallback={<PageLoader />}>
-        <Routes>
-          {/* Redirect root to French */}
-          <Route path="/" element={<Navigate to="/fr" replace />} />
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            {/* Redirect root to French */}
+            <Route path="/" element={<Navigate to="/fr" replace />} />
 
-          {/* Auth Routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+            {/* Auth Routes */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
-          {/* French Routes */}
-          <Route path="/fr" element={<HomePage lang="fr" />} />
-          <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
-          <Route path="/fr/produit/:code" element={<ProductPage />} />
-          <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
-          <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
-          <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
-          <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
-          <Route path="/fr/mon-compte" element={<ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute>} />
+            {/* French Routes */}
+            <Route path="/fr" element={<HomePage lang="fr" />} />
+            <Route path="/fr/catalogue" element={<CatalogPage lang="fr" />} />
+            <Route path="/fr/produit/:code" element={<ProductPage />} />
+            <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
+            <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
+            <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
+            <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
+            <Route path="/fr/mon-compte" element={<ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute>} />
 
-          {/* English Routes */}
-          <Route path="/en" element={<HomePage lang="en" />} />
-          <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
-          <Route path="/en/produit/:code" element={<ProductPage />} />
-          <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
-          <Route path="/en/equipe" element={<TeamPage lang="en" />} />
-          <Route path="/en/actualites" element={<NewsPage lang="en" />} />
-          <Route path="/en/contact" element={<ContactPage lang="en" />} />
-          <Route path="/en/my-account" element={<ProtectedRoute><AccountPage lang="en" /></ProtectedRoute>} />
+            {/* English Routes */}
+            <Route path="/en" element={<HomePage lang="en" />} />
+            <Route path="/en/catalogue" element={<CatalogPage lang="en" />} />
+            <Route path="/en/produit/:code" element={<ProductPage />} />
+            <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
+            <Route path="/en/equipe" element={<TeamPage lang="en" />} />
+            <Route path="/en/actualites" element={<NewsPage lang="en" />} />
+            <Route path="/en/contact" element={<ContactPage lang="en" />} />
+            <Route path="/en/my-account" element={<ProtectedRoute><AccountPage lang="en" /></ProtectedRoute>} />
 
-          {/* Admin Routes - Protected */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute requireAdmin>
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<AdminDashboard />} />
-            <Route path="demandes" element={<DemandesListPage />} />
-            <Route path="demandes/:id" element={<DemandeDetailPage />} />
-            <Route path="cosmetiques" element={<CosmetiqueListPage />} />
-            <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
-            <Route path="cosmetiques/:code" element={<CosmetiqueEditPage />} />
-            <Route path="parfums" element={<ParfumListPage />} />
-            <Route path="parfums/new" element={<ParfumEditPage />} />
-            <Route path="parfums/:code" element={<ParfumEditPage />} />
-            <Route path="parfums/:code/performance" element={<ParfumPerformancePage />} />
-            <Route path="aromes" element={<AromeListPage />} />
-            <Route path="aromes/new" element={<AromeEditPage />} />
-            <Route path="aromes/:code" element={<AromeEditPage />} />
-          </Route>
+            {/* Admin Routes - Protected */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<AdminDashboard />} />
+              <Route path="demandes" element={<DemandesListPage />} />
+              <Route path="demandes/:id" element={<DemandeDetailPage />} />
+              <Route path="cosmetiques" element={<CosmetiqueListPage />} />
+              <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
+              <Route path="cosmetiques/:code" element={<CosmetiqueEditPage />} />
+              <Route path="parfums" element={<ParfumListPage />} />
+              <Route path="parfums/new" element={<ParfumEditPage />} />
+              <Route path="parfums/:code" element={<ParfumEditPage />} />
+              <Route path="parfums/:code/performance" element={<ParfumPerformancePage />} />
+              <Route path="aromes" element={<AromeListPage />} />
+              <Route path="aromes/new" element={<AromeEditPage />} />
+              <Route path="aromes/:code" element={<AromeEditPage />} />
+            </Route>
 
-          {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AnimatePresence>
       </Suspense>
     </>
   );
