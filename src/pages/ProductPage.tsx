@@ -251,10 +251,10 @@ export default function ProductPage() {
             <Button
               onClick={handleAddToCart}
               size="lg"
-              className={`font-sans font-bold gap-3 h-14 px-8 rounded-xl shadow-lg transition-all duration-300 ${
+              className={`font-sans font-bold gap-3 h-14 px-8 rounded-xl transition-all duration-300 ${
                 isInCart 
-                  ? 'bg-forest-100 text-forest-800 border-2 border-forest-300 hover:bg-forest-200' 
-                  : 'bg-forest-900 text-gold-400 hover:bg-forest-800 shadow-forest-900/20'
+                  ? 'bg-forest-100 text-forest-800 border border-forest-200 hover:bg-forest-50' 
+                  : 'bg-forest-900 text-gold-400 hover:bg-forest-800 shadow-md hover:shadow-lg'
               }`}
               variant="ghost"
             >
