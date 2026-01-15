@@ -2,8 +2,6 @@ import { Copy, Check, Droplets, MapPin, Eye, Shield, Award, FlaskConical, Leaf, 
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { getCategoryConfig } from '@/lib/productTheme';
 
 interface SpecItem {
   label: string;
@@ -58,43 +56,38 @@ function SpecCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
+      transition={{ duration: 0.3, delay: index * 0.03 }}
+      className="group bg-forest-50/40 rounded-xl p-4 hover:bg-forest-100/50 transition-colors duration-200"
     >
-      <Card className="group border border-forest-200 shadow-sm hover:shadow-lg hover:border-gold-400/50 transition-all duration-300 bg-white overflow-hidden h-full">
-        <CardContent className="p-4 sm:p-5">
-          {/* Header: Icon + Label */}
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-forest-100 group-hover:bg-gold-100 flex items-center justify-center shrink-0 transition-colors duration-300">
-              <Icon className="w-5 h-5 text-forest-600 group-hover:text-gold-600 transition-colors duration-300" />
-            </div>
-            <span className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-medium">
-              {label}
-            </span>
-          </div>
+      {/* Label with icon */}
+      <div className="flex items-center gap-2 mb-2">
+        <Icon className="w-4 h-4 text-forest-500" />
+        <span className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-medium">
+          {label}
+        </span>
+      </div>
 
-          {/* Value + Copy */}
-          <div className="flex items-start justify-between gap-2">
-            <p className={`${mono ? 'font-mono text-xs' : 'font-sans text-sm'} font-semibold text-forest-900 leading-snug break-words flex-1`}>
-              {value}
-            </p>
-            {copyable && (
-              <button
-                onClick={handleCopy}
-                className="shrink-0 p-2 rounded-lg hover:bg-forest-100 transition-colors"
-                title={`Copier ${label}`}
-              >
-                {copied ? (
-                  <Check className="w-4 h-4 text-green-600" />
-                ) : (
-                  <Copy className="w-4 h-4 text-forest-400 hover:text-forest-600" />
-                )}
-              </button>
+      {/* Value + Copy */}
+      <div className="flex items-start justify-between gap-2">
+        <p className={`${mono ? 'font-mono text-xs' : 'font-sans text-sm'} font-semibold text-forest-900 leading-snug break-words flex-1`}>
+          {value}
+        </p>
+        {copyable && (
+          <button
+            onClick={handleCopy}
+            className="shrink-0 p-1.5 rounded-lg hover:bg-forest-200/50 transition-colors opacity-0 group-hover:opacity-100"
+            title={`Copier ${label}`}
+          >
+            {copied ? (
+              <Check className="w-3.5 h-3.5 text-green-600" />
+            ) : (
+              <Copy className="w-3.5 h-3.5 text-forest-400" />
             )}
-          </div>
-        </CardContent>
-      </Card>
+          </button>
+        )}
+      </div>
     </motion.div>
   );
 }
@@ -123,20 +116,20 @@ export function ProductSpecsGrid({ product }: ProductSpecsGridProps) {
 
   return (
     <motion.section 
-      className="space-y-4 sm:space-y-6"
+      className="space-y-5"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-forest-900 flex items-center justify-center">
-          <FlaskConical className="w-5 h-5 text-gold-400" />
-        </div>
-        <h2 className="font-sans text-lg sm:text-xl font-semibold text-forest-900">
+      {/* Section title - inline icon */}
+      <div className="flex items-center gap-2">
+        <FlaskConical className="w-5 h-5 text-forest-600" />
+        <h2 className="font-sans text-lg font-semibold text-forest-900">
           Caractéristiques techniques
         </h2>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {visibleSpecs.map((spec, i) => (
           <SpecCard 
             key={i} 
