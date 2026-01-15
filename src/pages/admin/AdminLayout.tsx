@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/admin/ThemeToggle";
+import { usePendingRequestsCount } from "@/hooks/usePendingRequestsCount";
 
 const navItems = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
@@ -44,11 +45,34 @@ export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, profile, signOut } = useAuth();
+  const { count: pendingCount, hasNewRequest } = usePendingRequestsCount();
 
   const handleSignOut = async () => {
     await signOut();
     toast.success("Déconnexion réussie");
     navigate("/fr");
+  };
+
+  // Helper to render badge for nav items
+  const renderBadge = (itemTo: string, isActive: boolean) => {
+    if (itemTo === "/admin/demandes" && pendingCount > 0) {
+      return (
+        <motion.span
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className={cn(
+            "ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold rounded-full",
+            isActive
+              ? "bg-primary-foreground/20 text-primary-foreground"
+              : "bg-destructive text-destructive-foreground",
+            hasNewRequest && "animate-pulse"
+          )}
+        >
+          {pendingCount > 99 ? "99+" : pendingCount}
+        </motion.span>
+      );
+    }
+    return null;
   };
 
   return (
@@ -126,8 +150,13 @@ export default function AdminLayout() {
                   )
                 }
               >
-                <item.icon className="h-5 w-5" />
-                {item.label}
+                {({ isActive }) => (
+                  <>
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
+                    {renderBadge(item.to, isActive)}
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
@@ -200,14 +229,28 @@ export default function AdminLayout() {
               end={item.end}
               className={({ isActive }) =>
                 cn(
-                  "flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors min-h-[52px] justify-center rounded-lg",
+                  "flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors min-h-[52px] justify-center rounded-lg relative",
                   isActive
                     ? "text-primary"
                     : "text-muted-foreground"
                 )
               }
             >
-              <item.icon className="h-5 w-5" />
+              <div className="relative">
+                <item.icon className="h-5 w-5" />
+                {item.to === "/admin/demandes" && pendingCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className={cn(
+                      "absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 text-[10px] font-bold rounded-full bg-destructive text-destructive-foreground",
+                      hasNewRequest && "animate-pulse"
+                    )}
+                  >
+                    {pendingCount > 9 ? "9+" : pendingCount}
+                  </motion.span>
+                )}
+              </div>
               <span className="truncate max-w-[60px]">{item.label}</span>
             </NavLink>
           ))}
