@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, Droplets, Cookie, Package, Image, Clock } from "lucide-react";
+import { Sparkles, Droplets, Cookie, Package, Image, Clock, Mail, FileText, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { StatCard } from "@/components/admin/StatCard";
@@ -13,17 +13,23 @@ interface Stats {
   aromes: number;
   withImages: number;
   pendingRequests: number;
+  newContacts: number;
+  publishedArticles: number;
+  activeTeamMembers: number;
 }
 
 export default function AdminDashboard() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async (): Promise<Stats> => {
-      const [cosmetiques, parfums, aromes, pendingRequests] = await Promise.all([
+      const [cosmetiques, parfums, aromes, pendingRequests, contacts, articles, teamMembers] = await Promise.all([
         supabase.from("cosmetique_fr").select("id, image_url", { count: "exact", head: false }),
         supabase.from("parfum_fr").select("id, image_url", { count: "exact", head: false }),
         supabase.from("aromes_fr").select("id, image_url", { count: "exact", head: false }),
         supabase.from("sample_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
+        supabase.from("contact_submissions").select("*", { count: "exact", head: true }).eq("status", "new"),
+        supabase.from("blog_articles").select("*", { count: "exact", head: true }).eq("published", true),
+        supabase.from("team_members").select("*", { count: "exact", head: true }).eq("is_active", true),
       ]);
 
       const allProducts = [
@@ -40,6 +46,9 @@ export default function AdminDashboard() {
         aromes: aromes.count || 0,
         withImages,
         pendingRequests: pendingRequests.count || 0,
+        newContacts: contacts.count || 0,
+        publishedArticles: articles.count || 0,
+        activeTeamMembers: teamMembers.count || 0,
       };
     },
   });
@@ -54,46 +63,87 @@ export default function AdminDashboard() {
         subtitle="Vue d'ensemble de votre catalogue produits"
       />
 
-      {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
-        <StatCard
-          title="Demandes en attente"
-          value={stats?.pendingRequests || 0}
-          icon={Clock}
-          variant="warning"
-          to="/admin/demandes"
-          isLoading={isLoading}
-        />
-        <StatCard
-          title="Cosmétiques"
-          value={stats?.cosmetiques || 0}
-          icon={Sparkles}
-          variant="cosmetique"
-          to="/admin/cosmetiques"
-          isLoading={isLoading}
-        />
-        <StatCard
-          title="Parfums"
-          value={stats?.parfums || 0}
-          icon={Droplets}
-          variant="parfum"
-          to="/admin/parfums"
-          isLoading={isLoading}
-        />
-        <StatCard
-          title="Arômes"
-          value={stats?.aromes || 0}
-          icon={Cookie}
-          variant="arome"
-          to="/admin/aromes"
-          isLoading={isLoading}
-        />
-        <StatCard
-          title="Avec images"
-          value={stats?.withImages || 0}
-          icon={Image}
-          isLoading={isLoading}
-        />
+      {/* Alerts section */}
+      <div className="space-y-2">
+        <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Alertes & Actions</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <StatCard
+            title="Demandes en attente"
+            value={stats?.pendingRequests || 0}
+            icon={Clock}
+            variant="warning"
+            to="/admin/demandes"
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Messages non lus"
+            value={stats?.newContacts || 0}
+            icon={Mail}
+            variant="warning"
+            to="/admin/contacts"
+            isLoading={isLoading}
+          />
+        </div>
+      </div>
+
+      {/* Catalogue section */}
+      <div className="space-y-2">
+        <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Catalogue</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <StatCard
+            title="Cosmétiques"
+            value={stats?.cosmetiques || 0}
+            icon={Sparkles}
+            variant="cosmetique"
+            to="/admin/cosmetiques"
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Parfums"
+            value={stats?.parfums || 0}
+            icon={Droplets}
+            variant="parfum"
+            to="/admin/parfums"
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Arômes"
+            value={stats?.aromes || 0}
+            icon={Cookie}
+            variant="arome"
+            to="/admin/aromes"
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Avec images"
+            value={stats?.withImages || 0}
+            icon={Image}
+            isLoading={isLoading}
+          />
+        </div>
+      </div>
+
+      {/* Content section */}
+      <div className="space-y-2">
+        <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Contenu</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <StatCard
+            title="Articles publiés"
+            value={stats?.publishedArticles || 0}
+            icon={FileText}
+            variant="info"
+            to="/admin/blog"
+            isLoading={isLoading}
+          />
+          <StatCard
+            title="Membres équipe"
+            value={stats?.activeTeamMembers || 0}
+            icon={Users}
+            variant="success"
+            to="/admin/equipe"
+            isLoading={isLoading}
+          />
+        </div>
       </div>
 
       {/* Total card */}
