@@ -57,7 +57,16 @@ const CategoryPill = ({
   </button>
 );
 
-// Minimal Product Card
+// Helper function to get category glow color
+const getCategoryGlow = (typologie: string | null) => {
+  const type = typologie?.toUpperCase() || '';
+  if (type.includes('COSMET') || type.includes('COSMÉT')) return 'rgba(74, 124, 89, 0.25)';
+  if (type.includes('PARFUM')) return 'rgba(212, 165, 116, 0.25)';
+  if (type.includes('AROME') || type.includes('ARÔME')) return 'rgba(201, 123, 139, 0.25)';
+  return 'rgba(74, 124, 89, 0.25)';
+};
+
+// Minimal Product Card with enhanced hover effects
 const MinimalProductCard = ({ 
   product, 
   lang, 
@@ -70,6 +79,7 @@ const MinimalProductCard = ({
   onCopy: (code: string, e: React.MouseEvent) => void;
 }) => {
   const config = getCategoryConfig(product.typologie_de_produit);
+  const glowColor = getCategoryGlow(product.typologie_de_produit);
   
   return (
     <Link
@@ -79,8 +89,14 @@ const MinimalProductCard = ({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
+        whileHover={{ 
+          y: -8, 
+          scale: 1.02,
+          boxShadow: `0 25px 50px -12px ${glowColor}`
+        }}
         viewport={{ once: true }}
-        className="bg-white rounded-2xl border border-forest-100 overflow-hidden hover:shadow-xl hover:border-gold-300 transition-all duration-300"
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        className="bg-white rounded-2xl border border-forest-100 overflow-hidden hover:border-gold-300 transition-colors duration-300"
       >
         {/* Image */}
         <div className="relative aspect-[4/3] bg-forest-50 overflow-hidden">
@@ -88,13 +104,13 @@ const MinimalProductCard = ({
             <img
               src={product.image_url}
               alt={product.nom_commercial || ''}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
             <img
               src={config.image}
               alt={product.nom_commercial || ''}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
           )}
           {/* Category Badge */}
