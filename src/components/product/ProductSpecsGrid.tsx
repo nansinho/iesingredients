@@ -1,7 +1,7 @@
 import { Copy, Check, Droplets, MapPin, Eye, Shield, Award, FlaskConical, Leaf, Tag } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
 interface SpecItem {
   label: string;
@@ -31,14 +31,32 @@ interface ProductSpecsGridProps {
   };
 }
 
+// Animation variants for grid cascade
+const gridVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04, delayChildren: 0.05 }
+  }
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 12, scale: 0.97 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.3 }
+  }
+};
+
 function SpecCard({ 
   label, 
   value, 
   icon: Icon, 
   copyable, 
   mono, 
-  index 
-}: SpecItem & { index: number }) {
+}: SpecItem) {
   const [copied, setCopied] = useState(false);
 
   if (!value || value === '-' || value.trim() === '') return null;
@@ -56,9 +74,7 @@ function SpecCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.03 }}
+      variants={cardVariants}
       className="group bg-forest-50/40 rounded-xl p-4 hover:bg-forest-100/50 transition-colors duration-200"
     >
       {/* Label with icon */}
@@ -115,12 +131,7 @@ export function ProductSpecsGrid({ product }: ProductSpecsGridProps) {
   if (visibleSpecs.length === 0) return null;
 
   return (
-    <motion.section 
-      className="space-y-5"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-    >
+    <section className="space-y-5">
       {/* Section title - inline icon */}
       <div className="flex items-center gap-2">
         <FlaskConical className="w-5 h-5 text-forest-600" />
@@ -129,15 +140,19 @@ export function ProductSpecsGrid({ product }: ProductSpecsGridProps) {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+      <motion.div 
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"
+        variants={gridVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {visibleSpecs.map((spec, i) => (
           <SpecCard 
             key={i} 
             {...spec} 
-            index={i}
           />
         ))}
-      </div>
-    </motion.section>
+      </motion.div>
+    </section>
   );
 }
