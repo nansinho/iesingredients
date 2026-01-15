@@ -49,7 +49,7 @@ const CategoryPill = ({
       "inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300",
       isActive 
         ? "text-forest-900 shadow-lg bg-gold-400" 
-        : "bg-forest-100 text-forest-800 hover:bg-forest-200"
+        : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
     )}
   >
     <Icon className="w-4 h-4" />
@@ -321,16 +321,16 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
           : 'Explore our catalog of over 5000 natural ingredients for cosmetics, perfumes and flavors. Filter by range, origin and certifications.'}
       />
 
-      {/* Hero Section - Minimal */}
-      <section className="bg-gradient-to-b from-forest-50 to-white pt-32 pb-12">
-      <div className="container-luxe">
+      {/* Hero Section - Dark Green to match other pages */}
+      <section className="bg-forest-900 pt-32 pb-12">
+        <div className="container-luxe">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-forest-500 mb-6">
-            <Link to={`/${lang}`} className="hover:text-forest-900 transition-colors">
+          <nav className="flex items-center gap-2 text-sm text-cream-300 mb-6">
+            <Link to={`/${lang}`} className="hover:text-gold-400 transition-colors">
               {lang === 'fr' ? 'Accueil' : 'Home'}
             </Link>
-            <span>/</span>
-            <span className="text-forest-900">{t.nav.catalog}</span>
+            <span className="text-cream-500">/</span>
+            <span className="text-white">{t.nav.catalog}</span>
           </nav>
 
           <motion.div
@@ -338,10 +338,10 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="font-serif text-4xl md:text-5xl text-forest-900 mb-4">
+            <h1 className="font-serif text-4xl md:text-5xl text-white mb-4">
               {t.nav.catalog}
             </h1>
-            <p className="text-forest-600 text-lg max-w-2xl mb-8">
+            <p className="text-cream-200 text-lg max-w-2xl mb-8">
               {lang === 'fr' 
                 ? 'Découvrez notre sélection de plus de 5000 ingrédients naturels de qualité premium.'
                 : 'Discover our selection of over 5000 premium quality natural ingredients.'}
@@ -350,17 +350,17 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
 
           {/* Search Bar */}
           <div className="relative max-w-2xl mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-forest-500" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cream-400" />
             <Input
               placeholder={t.hero.search}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              className="pl-12 h-14 bg-white border-forest-200 focus:border-gold-400 focus:ring-gold-400 rounded-2xl text-base shadow-sm"
+              className="pl-12 h-14 bg-white/10 border-white/20 text-white placeholder:text-cream-400 focus:border-gold-400 focus:ring-gold-400 rounded-2xl text-base backdrop-blur-sm"
             />
             {searchValue && (
               <button 
                 onClick={() => setSearchValue('')} 
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-forest-500 hover:text-forest-900"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-cream-400 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -384,7 +384,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       </section>
 
       {/* Main Content */}
-      <section className="bg-white py-10 min-h-screen">
+      <section className="bg-cream-50 py-10 min-h-screen">
         <div className="container-luxe">
           {/* Controls Bar */}
           <div className="flex items-center justify-between gap-4 mb-6">
