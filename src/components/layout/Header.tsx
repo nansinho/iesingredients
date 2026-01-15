@@ -11,6 +11,7 @@ import { Language, useTranslation } from '@/lib/i18n';
 import { CartButton } from '@/components/cart/CartButton';
 import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
+import logoIes from '@/assets/logo-ies.png';
 
 interface HeaderProps {
   lang: Language;
@@ -74,21 +75,17 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
       <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
         <nav className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
-          <Link to={`/${lang}`} className="flex items-center gap-3 group">
-            <span className={cn(
-              "text-2xl md:text-3xl font-serif font-semibold transition-colors duration-300",
-              isScrolled ? "text-forest-900" : isDarkHero ? "text-white" : "text-forest-900"
-            )}>
-              IES
-            </span>
-            <div className="hidden sm:block">
-              <span className={cn(
-                "text-[10px] uppercase tracking-luxury font-medium block transition-colors duration-300",
-                isScrolled ? "text-forest-600" : isDarkHero ? "text-gold-400" : "text-forest-600"
-              )}>
-                INGREDIENTS
-              </span>
-            </div>
+          <Link to={`/${lang}`} className="flex items-center">
+            <img 
+              src={logoIes} 
+              alt="IES Ingredients" 
+              className={cn(
+                "transition-all duration-300",
+                isScrolled ? "h-10 md:h-12" : "h-12 md:h-14",
+                // Apply filter for dark backgrounds when not scrolled
+                !isScrolled && isDarkHero ? "brightness-0 invert" : ""
+              )}
+            />
           </Link>
 
           {/* Desktop Navigation - Centered */}
@@ -294,10 +291,11 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                 <div className="p-6 sm:p-8 h-full flex flex-col">
                   {/* Mobile Header */}
                   <div className="flex items-center justify-between mb-8 sm:mb-12">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <span className="text-xl sm:text-2xl font-serif font-semibold text-white">IES</span>
-                      <span className="text-[9px] sm:text-[10px] uppercase tracking-luxury text-gold-400">INGREDIENTS</span>
-                    </div>
+                    <img 
+                      src={logoIes} 
+                      alt="IES Ingredients" 
+                      className="h-8 sm:h-10 brightness-0 invert"
+                    />
                     <button 
                       onClick={() => setIsOpen(false)}
                       className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors"

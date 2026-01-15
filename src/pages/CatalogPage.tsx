@@ -180,12 +180,25 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
   
   const initialSearch = searchParams.get('search') || searchParams.get('q') || '';
   const initialCategory = searchParams.get('category') || '';
+  const initialTypologie = searchParams.get('typologie') || '';
+  
+  // Process initial category from both 'category' and 'typologie' params
+  const getInitialCategory = () => {
+    if (initialCategory) return initialCategory.toLowerCase();
+    if (initialTypologie) {
+      const typeLower = initialTypologie.toLowerCase();
+      if (typeLower.includes('cosmet') || typeLower.includes('cosmét')) return 'cosmetique';
+      if (typeLower.includes('parfum')) return 'parfum';
+      if (typeLower.includes('arome') || typeLower.includes('arôme')) return 'arome';
+    }
+    return '';
+  };
   
   const [searchValue, setSearchValue] = useState(initialSearch);
   const [displayCount, setDisplayCount] = useState(12);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [openSections, setOpenSections] = useState<string[]>(['gamme', 'origine']);
-  const [activeCategory, setActiveCategory] = useState<string>(initialCategory);
+  const [activeCategory, setActiveCategory] = useState<string>(getInitialCategory());
 
   const [filters, setFilters] = useState<FilterState>({
     gamme: [],

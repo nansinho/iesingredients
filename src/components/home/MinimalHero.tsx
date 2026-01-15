@@ -26,7 +26,7 @@ const categories = [
     titleEn: 'Cosmetics',
     descFr: 'Actifs botaniques et extraits naturels',
     descEn: 'Botanical actives and natural extracts',
-    filter: 'COSMETIQUE',
+    filter: 'cosmetique',
   },
   {
     key: 'perfumery',
@@ -39,7 +39,7 @@ const categories = [
     titleEn: 'Perfumery',
     descFr: 'Huiles essentielles et absolues',
     descEn: 'Essential oils and absolutes',
-    filter: 'PARFUMERIE',
+    filter: 'parfum',
   },
   {
     key: 'aromas',
@@ -52,7 +52,7 @@ const categories = [
     titleEn: 'Aromas',
     descFr: 'Arômes alimentaires naturels',
     descEn: 'Natural food flavors',
-    filter: 'AROMES',
+    filter: 'arome',
   },
 ];
 
@@ -169,7 +169,7 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
           return (
             <Link
               key={cat.key}
-              to={`/${lang}/catalogue?typologie=${cat.filter}`}
+              to={`/${lang}/catalogue?category=${cat.filter}`}
             >
               <motion.div
                 whileHover={{ 
