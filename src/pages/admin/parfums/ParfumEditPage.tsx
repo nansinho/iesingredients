@@ -26,6 +26,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { useAdminProduct, useUpsertProduct } from "@/hooks/useAdminProducts";
+import { PerformanceTable } from "@/components/admin/PerformanceTable";
+import { StabilityTable } from "@/components/admin/StabilityTable";
 
 const formSchema = z.object({
   code: z.string().min(1, "Le code est requis"),
@@ -386,6 +388,14 @@ export default function ParfumEditPage() {
           </div>
         </form>
       </Form>
+
+      {/* Performance & Stability sections - only for existing products */}
+      {!isNew && code && (
+        <div className="space-y-6 mt-8">
+          <PerformanceTable productCode={code} />
+          <StabilityTable productCode={code} />
+        </div>
+      )}
     </div>
   );
 }

@@ -21,6 +21,7 @@ const ContactPage = lazy(() => import("./pages/ContactPage").then(m => ({ defaul
 const CompanyPage = lazy(() => import("./pages/CompanyPage").then(m => ({ default: m.CompanyPage })));
 const TeamPage = lazy(() => import("./pages/TeamPage").then(m => ({ default: m.TeamPage })));
 const NewsPage = lazy(() => import("./pages/NewsPage").then(m => ({ default: m.NewsPage })));
+const BlogArticlePage = lazy(() => import("./pages/BlogArticlePage").then(m => ({ default: m.BlogArticlePage })));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Auth pages
@@ -40,6 +41,11 @@ const AromeListPage = lazy(() => import("./pages/admin/aromes/AromeListPage"));
 const AromeEditPage = lazy(() => import("./pages/admin/aromes/AromeEditPage"));
 const DemandesListPage = lazy(() => import("./pages/admin/demandes/DemandesListPage"));
 const DemandeDetailPage = lazy(() => import("./pages/admin/demandes/DemandeDetailPage"));
+const BlogListPage = lazy(() => import("./pages/admin/blog/BlogListPage").then(m => ({ default: m.BlogListPage })));
+const BlogEditPage = lazy(() => import("./pages/admin/blog/BlogEditPage").then(m => ({ default: m.BlogEditPage })));
+const ContactsListPage = lazy(() => import("./pages/admin/contacts/ContactsListPage").then(m => ({ default: m.ContactsListPage })));
+const TeamListPage = lazy(() => import("./pages/admin/team/TeamListPage").then(m => ({ default: m.TeamListPage })));
+const TeamEditPage = lazy(() => import("./pages/admin/team/TeamEditPage").then(m => ({ default: m.TeamEditPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -88,6 +94,7 @@ const AppRoutes = () => {
             <Route path="/fr/entreprise" element={<CompanyPage lang="fr" />} />
             <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
             <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
+            <Route path="/fr/actualites/:slug" element={<BlogArticlePage lang="fr" />} />
             <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
             <Route path="/fr/mon-compte" element={<ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute>} />
 
@@ -98,6 +105,7 @@ const AppRoutes = () => {
             <Route path="/en/entreprise" element={<CompanyPage lang="en" />} />
             <Route path="/en/equipe" element={<TeamPage lang="en" />} />
             <Route path="/en/actualites" element={<NewsPage lang="en" />} />
+            <Route path="/en/actualites/:slug" element={<BlogArticlePage lang="en" />} />
             <Route path="/en/contact" element={<ContactPage lang="en" />} />
             <Route path="/en/my-account" element={<ProtectedRoute><AccountPage lang="en" /></ProtectedRoute>} />
 
@@ -113,6 +121,10 @@ const AppRoutes = () => {
               <Route index element={<AdminDashboard />} />
               <Route path="demandes" element={<DemandesListPage />} />
               <Route path="demandes/:id" element={<DemandeDetailPage />} />
+              <Route path="blog" element={<BlogListPage />} />
+              <Route path="blog/new" element={<BlogEditPage />} />
+              <Route path="blog/:id" element={<BlogEditPage />} />
+              <Route path="contacts" element={<ContactsListPage />} />
               <Route path="cosmetiques" element={<CosmetiqueListPage />} />
               <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
               <Route path="cosmetiques/:code" element={<CosmetiqueEditPage />} />
@@ -123,6 +135,9 @@ const AppRoutes = () => {
               <Route path="aromes" element={<AromeListPage />} />
               <Route path="aromes/new" element={<AromeEditPage />} />
               <Route path="aromes/:code" element={<AromeEditPage />} />
+              <Route path="equipe" element={<TeamListPage />} />
+              <Route path="equipe/new" element={<TeamEditPage />} />
+              <Route path="equipe/:id" element={<TeamEditPage />} />
             </Route>
 
             {/* 404 */}
