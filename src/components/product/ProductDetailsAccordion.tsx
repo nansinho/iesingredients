@@ -110,7 +110,8 @@ export function ProductDetailsAccordion({
                   {applicationTags.map((tag, i) => (
                     <Badge 
                       key={i}
-                      className="bg-gold-100/60 text-gold-800 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                      variant="gold"
+                      className="text-sm px-3 py-1.5"
                     >
                       {tag}
                     </Badge>
@@ -136,7 +137,8 @@ export function ProductDetailsAccordion({
                   {skinTypeTags.map((tag, i) => (
                     <Badge 
                       key={i}
-                      className="bg-forest-100/60 text-forest-700 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                      variant="forest"
+                      className="text-sm px-3 py-1.5"
                     >
                       {tag}
                     </Badge>
