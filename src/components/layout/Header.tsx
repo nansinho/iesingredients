@@ -25,8 +25,10 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
   const t = useTranslation(lang);
   const { user, profile, isLoading: authLoading, signOut, isAdmin } = useAuth();
 
-  // Check if we're on a page with dark hero
-  const hasDarkHero = location.pathname.includes('/produit/') || 
+  // Check if we're on a page with dark hero (including homepage)
+  const isHomePage = location.pathname === '/fr' || location.pathname === '/en' || location.pathname === '/';
+  const hasDarkHero = isHomePage ||
+                      location.pathname.includes('/produit/') || 
                       location.pathname.includes('/contact') ||
                       location.pathname.includes('/entreprise') ||
                       location.pathname.includes('/equipe') ||
