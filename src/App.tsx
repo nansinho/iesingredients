@@ -37,6 +37,8 @@ const ParfumEditPage = lazy(() => import("./pages/admin/parfums/ParfumEditPage")
 const ParfumPerformancePage = lazy(() => import("./pages/admin/parfums/ParfumPerformancePage"));
 const AromeListPage = lazy(() => import("./pages/admin/aromes/AromeListPage"));
 const AromeEditPage = lazy(() => import("./pages/admin/aromes/AromeEditPage"));
+const DemandesListPage = lazy(() => import("./pages/admin/demandes/DemandesListPage"));
+const DemandeDetailPage = lazy(() => import("./pages/admin/demandes/DemandeDetailPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -107,6 +109,8 @@ const AppRoutes = () => {
             }
           >
             <Route index element={<AdminDashboard />} />
+            <Route path="demandes" element={<DemandesListPage />} />
+            <Route path="demandes/:id" element={<DemandeDetailPage />} />
             <Route path="cosmetiques" element={<CosmetiqueListPage />} />
             <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
             <Route path="cosmetiques/:code" element={<CosmetiqueEditPage />} />

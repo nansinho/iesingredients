@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useSampleCart, CartCategory } from '@/contexts/SampleCartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { Language } from '@/lib/i18n';
 import { toast } from 'sonner';
 import { Send, ShoppingBag, Sparkles, Droplet, Flower2, CheckCircle } from 'lucide-react';
@@ -37,8 +39,34 @@ const categoryConfig: Record<CartCategory, { label: { fr: string; en: string }; 
 
 export const QuoteRequestDialog = ({ lang }: QuoteRequestDialogProps) => {
   const { isQuoteFormOpen, closeQuoteForm, items, getItemsByCategory, clearCart, totalItems } = useSampleCart();
+  const { user, profile } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  
+  // Form state with pre-fill from profile
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    company: '',
+    phone: '',
+    message: '',
+  });
+
+  // Pre-fill form when dialog opens and user is logged in
+  useEffect(() => {
+    if (isQuoteFormOpen && profile) {
+      const nameParts = (profile.full_name || '').split(' ');
+      setFormData({
+        firstName: nameParts[0] || '',
+        lastName: nameParts.slice(1).join(' ') || '',
+        email: profile.email || user?.email || '',
+        company: profile.company || '',
+        phone: profile.phone || '',
+        message: '',
+      });
+    }
+  }, [isQuoteFormOpen, profile, user]);
 
   const itemsByCategory = getItemsByCategory();
 
@@ -46,24 +74,63 @@ export const QuoteRequestDialog = ({ lang }: QuoteRequestDialogProps) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // 1. Create the sample request
+      const { data: request, error: requestError } = await supabase
+        .from('sample_requests')
+        .insert({
+          user_id: user?.id || null,
+          company: formData.company || null,
+          message: formData.message || null,
+          contact_name: `${formData.firstName} ${formData.lastName}`.trim(),
+          contact_email: formData.email,
+          contact_phone: formData.phone || null,
+          status: 'pending',
+        })
+        .select()
+        .single();
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
+      if (requestError) throw requestError;
 
-    toast.success(
-      lang === 'fr' 
-        ? 'Votre demande de devis a été envoyée !' 
-        : 'Your quote request has been sent!'
-    );
+      // 2. Insert cart items
+      const itemsToInsert = items.map((item) => ({
+        request_id: request.id,
+        product_code: item.product.code || '',
+        product_name: item.product.nom_commercial || '',
+        product_category: item.category,
+        quantity: item.quantity,
+      }));
 
-    // Reset after showing success
-    setTimeout(() => {
-      setIsSuccess(false);
-      closeQuoteForm();
-      clearCart();
-    }, 2000);
+      const { error: itemsError } = await supabase
+        .from('sample_request_items')
+        .insert(itemsToInsert);
+
+      if (itemsError) throw itemsError;
+
+      // 3. Success
+      setIsSuccess(true);
+      toast.success(
+        lang === 'fr' 
+          ? 'Votre demande de devis a été envoyée !' 
+          : 'Your quote request has been sent!'
+      );
+
+      setTimeout(() => {
+        setIsSuccess(false);
+        closeQuoteForm();
+        clearCart();
+        setFormData({ firstName: '', lastName: '', email: '', company: '', phone: '', message: '' });
+      }, 2000);
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      toast.error(
+        lang === 'fr' 
+          ? 'Erreur lors de l\'envoi de la demande' 
+          : 'Error sending request'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderCategorySummary = (category: CartCategory) => {
@@ -154,33 +221,63 @@ export const QuoteRequestDialog = ({ lang }: QuoteRequestDialogProps) => {
                 <Label htmlFor="firstName">
                   {lang === 'fr' ? 'Prénom' : 'First Name'} *
                 </Label>
-                <Input id="firstName" required className="rounded-lg" />
+                <Input 
+                  id="firstName" 
+                  required 
+                  className="rounded-lg" 
+                  value={formData.firstName}
+                  onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastName">
                   {lang === 'fr' ? 'Nom' : 'Last Name'} *
                 </Label>
-                <Input id="lastName" required className="rounded-lg" />
+                <Input 
+                  id="lastName" 
+                  required 
+                  className="rounded-lg"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Email *</Label>
-              <Input id="email" type="email" required className="rounded-lg" />
+              <Input 
+                id="email" 
+                type="email" 
+                required 
+                className="rounded-lg"
+                value={formData.email}
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="company">
                 {lang === 'fr' ? 'Société' : 'Company'}
               </Label>
-              <Input id="company" className="rounded-lg" />
+              <Input 
+                id="company" 
+                className="rounded-lg"
+                value={formData.company}
+                onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="phone">
                 {lang === 'fr' ? 'Téléphone' : 'Phone'}
               </Label>
-              <Input id="phone" type="tel" className="rounded-lg" />
+              <Input 
+                id="phone" 
+                type="tel" 
+                className="rounded-lg"
+                value={formData.phone}
+                onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+              />
             </div>
 
             <div className="space-y-2">
@@ -191,6 +288,8 @@ export const QuoteRequestDialog = ({ lang }: QuoteRequestDialogProps) => {
                 id="message" 
                 rows={3} 
                 className="rounded-lg resize-none"
+                value={formData.message}
+                onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 placeholder={lang === 'fr' 
                   ? 'Précisez vos besoins, quantités souhaitées...' 
                   : 'Specify your needs, desired quantities...'}

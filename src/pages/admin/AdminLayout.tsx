@@ -6,6 +6,7 @@ import {
   Sparkles,
   Droplets,
   Cookie,
+  ClipboardList,
   Menu,
   X,
   ChevronLeft,
@@ -19,6 +20,7 @@ import { toast } from "sonner";
 
 const navItems = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
+  { to: "/admin/demandes", icon: ClipboardList, label: "Demandes" },
   { to: "/admin/cosmetiques", icon: Sparkles, label: "Cosmétiques" },
   { to: "/admin/parfums", icon: Droplets, label: "Parfums" },
   { to: "/admin/aromes", icon: Cookie, label: "Arômes" },

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, ArrowRight } from 'lucide-react';
+import { Menu, X, Search, ArrowRight, User, LogOut, Settings, ShoppingBag, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { Language, useTranslation } from '@/lib/i18n';
 import { CartButton } from '@/components/cart/CartButton';
+import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 
 interface HeaderProps {
@@ -20,6 +23,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
   const location = useLocation();
   const navigate = useNavigate();
   const t = useTranslation(lang);
+  const { user, profile, isLoading: authLoading, signOut, isAdmin } = useAuth();
 
   // Check if we're on a page with dark hero
   const hasDarkHero = location.pathname.includes('/produit/') || 
@@ -172,6 +176,85 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
               {lang === 'fr' ? 'EN' : 'FR'}
             </motion.button>
 
+            {/* User Button */}
+            {!authLoading && (
+              user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={cn(
+                        "p-2.5 rounded-full transition-colors duration-300",
+                        isScrolled 
+                          ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                          : isDarkHero 
+                            ? "text-white/80 hover:text-white hover:bg-white/10"
+                            : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                      )}
+                    >
+                      <User className="w-5 h-5" />
+                    </motion.button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-3 py-2">
+                      <p className="font-medium text-sm">{profile?.full_name || 'Mon compte'}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to={lang === 'fr' ? '/fr/mon-compte' : '/en/my-account'} className="cursor-pointer">
+                        <Settings className="w-4 h-4 mr-2" />
+                        {lang === 'fr' ? 'Mon profil' : 'My profile'}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to={lang === 'fr' ? '/fr/mon-compte' : '/en/my-account'} className="cursor-pointer">
+                        <ShoppingBag className="w-4 h-4 mr-2" />
+                        {lang === 'fr' ? 'Mes demandes' : 'My requests'}
+                      </Link>
+                    </DropdownMenuItem>
+                    {isAdmin && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link to="/admin" className="cursor-pointer">
+                            <Shield className="w-4 h-4 mr-2" />
+                            Administration
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={() => signOut()} 
+                      className="text-red-600 focus:text-red-600 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {lang === 'fr' ? 'Déconnexion' : 'Sign out'}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link to="/login">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={cn(
+                      "p-2.5 rounded-full transition-colors duration-300",
+                      isScrolled 
+                        ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                        : isDarkHero 
+                          ? "text-white/80 hover:text-white hover:bg-white/10"
+                          : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                    )}
+                  >
+                    <User className="w-5 h-5" />
+                  </motion.button>
+                </Link>
+              )
+            )}
+
             {/* CTA Button - Desktop only */}
             <Link to={`/${lang}/contact`} className="hidden lg:block">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
@@ -253,8 +336,52 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                     })}
                   </nav>
                   
+                  {/* Mobile User Section */}
+                  <div className="pt-6 border-t border-white/10">
+                    {user ? (
+                      <div className="space-y-2">
+                        <div className="px-2 py-3">
+                          <p className="text-sm font-medium text-white">{profile?.full_name || 'Mon compte'}</p>
+                          <p className="text-xs text-white/50">{user.email}</p>
+                        </div>
+                        <Link
+                          to={lang === 'fr' ? '/fr/mon-compte' : '/en/my-account'}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                        >
+                          <Settings className="w-5 h-5" />
+                          {lang === 'fr' ? 'Mon profil' : 'My profile'}
+                        </Link>
+                        {isAdmin && (
+                          <Link
+                            to="/admin"
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+                          >
+                            <Shield className="w-5 h-5" />
+                            Administration
+                          </Link>
+                        )}
+                        <button
+                          onClick={() => { signOut(); setIsOpen(false); }}
+                          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors w-full"
+                        >
+                          <LogOut className="w-5 h-5" />
+                          {lang === 'fr' ? 'Déconnexion' : 'Sign out'}
+                        </button>
+                      </div>
+                    ) : (
+                      <Link to="/login" onClick={() => setIsOpen(false)}>
+                        <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white/10">
+                          <User className="w-5 h-5 mr-2" />
+                          {lang === 'fr' ? 'Connexion' : 'Sign in'}
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+
                   {/* Mobile CTA */}
-                  <div className="pt-8 border-t border-white/10">
+                  <div className="pt-4">
                     <Link to={`/${lang}/contact`} onClick={() => setIsOpen(false)}>
                       <Button className="w-full h-14 rounded-xl bg-gold-500 text-forest-950 hover:bg-gold-400 font-medium text-sm uppercase tracking-wider">
                         {lang === 'fr' ? 'DEMANDER UN DEVIS' : 'REQUEST QUOTE'}
