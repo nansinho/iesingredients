@@ -288,19 +288,19 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                   <Menu className="w-6 h-6" />
                 </motion.button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-md bg-forest-950 border-forest-800 p-0">
-                <div className="p-8 h-full flex flex-col">
+              <SheetContent side="right" className="w-[85vw] max-w-sm bg-forest-950 border-forest-800 p-0">
+                <div className="p-6 sm:p-8 h-full flex flex-col">
                   {/* Mobile Header */}
-                  <div className="flex items-center justify-between mb-12">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl font-serif font-semibold text-white">IES</span>
-                      <span className="text-[10px] uppercase tracking-luxury text-gold-400">INGREDIENTS</span>
+                  <div className="flex items-center justify-between mb-8 sm:mb-12">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <span className="text-xl sm:text-2xl font-serif font-semibold text-white">IES</span>
+                      <span className="text-[9px] sm:text-[10px] uppercase tracking-luxury text-gold-400">INGREDIENTS</span>
                     </div>
                     <button 
                       onClick={() => setIsOpen(false)}
                       className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors"
                     >
-                      <X className="w-6 h-6" />
+                      <X className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                   </div>
                   
@@ -319,7 +319,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
                             to={item.href}
                             onClick={() => setIsOpen(false)}
                             className={cn(
-                              'py-4 px-5 rounded-xl text-sm font-medium uppercase tracking-widest transition-all duration-300 flex items-center justify-between group',
+                              'py-3 sm:py-4 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-medium uppercase tracking-widest transition-all duration-300 flex items-center justify-between group',
                               isActive
                                 ? 'bg-gold-500 text-forest-950'
                                 : 'text-white/70 hover:text-white hover:bg-white/10'
