@@ -4,6 +4,7 @@ import { Sparkles, Droplets, Cookie, Package, Image, Clock, Mail, FileText, User
 import { NavLink } from "react-router-dom";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { StatCard } from "@/components/admin/StatCard";
+import { RequestsChart } from "@/components/admin/RequestsChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -145,6 +146,9 @@ export default function AdminDashboard() {
           />
         </div>
       </div>
+
+      {/* Requests chart */}
+      <RequestsChart />
 
       {/* Total card */}
       <Card className="bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 border-primary/20">
