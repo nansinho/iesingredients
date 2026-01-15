@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Droplets, Cookie, Package, TrendingUp, Image } from "lucide-react";
+import { Sparkles, Droplets, Cookie, Package, Image, ClipboardList, Clock } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -10,16 +10,18 @@ interface Stats {
   parfums: number;
   aromes: number;
   withImages: number;
+  pendingRequests: number;
 }
 
 export default function AdminDashboard() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ["admin-stats"],
     queryFn: async (): Promise<Stats> => {
-      const [cosmetiques, parfums, aromes] = await Promise.all([
+      const [cosmetiques, parfums, aromes, pendingRequests] = await Promise.all([
         supabase.from("cosmetique_fr").select("id, image_url", { count: "exact", head: false }),
         supabase.from("parfum_fr").select("id, image_url", { count: "exact", head: false }),
         supabase.from("aromes_fr").select("id, image_url", { count: "exact", head: false }),
+        supabase.from("sample_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
       ]);
 
       const allProducts = [
@@ -35,11 +37,20 @@ export default function AdminDashboard() {
         parfums: parfums.count || 0,
         aromes: aromes.count || 0,
         withImages,
+        pendingRequests: pendingRequests.count || 0,
       };
     },
   });
 
   const cards = [
+    {
+      title: "Demandes en attente",
+      value: stats?.pendingRequests || 0,
+      icon: Clock,
+      color: "text-orange-500",
+      bgColor: "bg-orange-500/10",
+      to: "/admin/demandes",
+    },
     {
       title: "Cosmétiques",
       value: stats?.cosmetiques || 0,
@@ -87,7 +98,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {cards.map((card) => (
           <Card
             key={card.title}
