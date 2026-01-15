@@ -48,6 +48,7 @@ export const Header = React.forwardRef<HTMLElement, HeaderProps>(({ lang }, ref)
     { label: t.nav.company, href: `/${lang}/entreprise` },
     { label: t.nav.team, href: `/${lang}/equipe` },
     { label: t.nav.news, href: `/${lang}/actualites` },
+    { label: t.nav.podcast, href: `/${lang}/podcast` },
     { label: t.nav.contact, href: `/${lang}/contact` },
   ];
 

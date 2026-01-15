@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, Save, Loader2, AlertCircle } from "lucide-react";
+import { ArrowLeft, Save, Loader2, AlertCircle, Check, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,6 +33,9 @@ import { StabilityTable, type StabilityTableRef } from "@/components/admin/Stabi
 import { useUpdatePerformance } from "@/hooks/usePerformance";
 import { useUpdateStability } from "@/hooks/useStability";
 import { toast } from "sonner";
+
+// Auto-save status type
+type AutoSaveStatus = 'idle' | 'pending' | 'saving' | 'saved' | 'error';
 
 const formSchema = z.object({
   code: z.string().min(1, "Le code est requis"),
@@ -68,6 +71,8 @@ export default function ParfumEditPage() {
 
   const [hasChanges, setHasChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [autoSaveStatus, setAutoSaveStatus] = useState<AutoSaveStatus>('idle');
+  const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -93,6 +98,7 @@ export default function ParfumEditPage() {
   useEffect(() => {
     const subscription = form.watch(() => {
       setHasChanges(true);
+      setAutoSaveStatus('pending');
     });
     return () => subscription.unsubscribe();
   }, [form]);
@@ -117,10 +123,97 @@ export default function ParfumEditPage() {
         image_url: (product.image_url as string) || "",
       });
       setHasChanges(false);
+      setAutoSaveStatus('idle');
     }
   }, [product, form]);
 
+  // Auto-save function
+  const performAutoSave = useCallback(async () => {
+    const isValid = await form.trigger();
+    if (!isValid) {
+      setAutoSaveStatus('error');
+      return false;
+    }
+
+    setAutoSaveStatus('saving');
+    try {
+      const formValues = form.getValues();
+
+      // Save main product data
+      await upsertMutation.mutateAsync(formValues);
+
+      // Save performance data if we have a product code
+      const productCode = formValues.code;
+      if (productCode && performanceRef.current) {
+        const performanceData = performanceRef.current.getData();
+        await updatePerformance.mutateAsync({
+          productCode,
+          performanceData,
+        });
+      }
+
+      // Save stability data
+      if (productCode && stabilityRef.current) {
+        const stabilityData = stabilityRef.current.getData();
+        await updateStability.mutateAsync({
+          productCode,
+          stabilityData,
+        });
+      }
+
+      setHasChanges(false);
+      setAutoSaveStatus('saved');
+      
+      // Reset to idle after 2 seconds
+      setTimeout(() => {
+        setAutoSaveStatus('idle');
+      }, 2000);
+      
+      return true;
+    } catch (error) {
+      console.error("Error auto-saving:", error);
+      setAutoSaveStatus('error');
+      return false;
+    }
+  }, [form, upsertMutation, updatePerformance, updateStability]);
+
+  // Auto-save with debounce (3 seconds)
+  useEffect(() => {
+    // Don't auto-save for new products or if no changes
+    if (isNew || !hasChanges || autoSaveStatus === 'saving') return;
+
+    // Clear previous timer
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+
+    // Set new timer for auto-save
+    autoSaveTimerRef.current = setTimeout(() => {
+      performAutoSave();
+    }, 3000);
+
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [hasChanges, isNew, performAutoSave, autoSaveStatus]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, []);
+
   const handleSaveAll = async () => {
+    // Clear auto-save timer
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+    }
+
     const isValid = await form.trigger();
     if (!isValid) {
       toast.error("Veuillez corriger les erreurs du formulaire");
@@ -154,12 +247,57 @@ export default function ParfumEditPage() {
       }
 
       setHasChanges(false);
+      setAutoSaveStatus('saved');
       toast.success("Produit enregistré avec succès");
+      
+      // Reset to idle after 2 seconds
+      setTimeout(() => {
+        setAutoSaveStatus('idle');
+      }, 2000);
     } catch (error) {
       console.error("Error saving:", error);
       toast.error("Erreur lors de l'enregistrement");
+      setAutoSaveStatus('error');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  // Auto-save status indicator component
+  const AutoSaveIndicator = () => {
+    if (autoSaveStatus === 'idle' && !hasChanges) return null;
+    
+    switch (autoSaveStatus) {
+      case 'pending':
+        return (
+          <Badge variant="outline" className="text-orange-500 border-orange-500 gap-1.5">
+            <AlertCircle className="h-3 w-3" />
+            Non enregistré
+          </Badge>
+        );
+      case 'saving':
+        return (
+          <Badge variant="outline" className="text-blue-500 border-blue-500 gap-1.5">
+            <RefreshCw className="h-3 w-3 animate-spin" />
+            Sauvegarde...
+          </Badge>
+        );
+      case 'saved':
+        return (
+          <Badge variant="outline" className="text-green-500 border-green-500 gap-1.5">
+            <Check className="h-3 w-3" />
+            Sauvegardé
+          </Badge>
+        );
+      case 'error':
+        return (
+          <Badge variant="outline" className="text-red-500 border-red-500 gap-1.5">
+            <AlertCircle className="h-3 w-3" />
+            Erreur
+          </Badge>
+        );
+      default:
+        return null;
     }
   };
 
@@ -226,13 +364,8 @@ export default function ParfumEditPage() {
             />
           </Form>
 
-          {/* Changes indicator */}
-          {hasChanges && (
-            <Badge variant="outline" className="text-orange-500 border-orange-500">
-              <AlertCircle className="h-3 w-3 mr-1" />
-              Non enregistré
-            </Badge>
-          )}
+          {/* Auto-save status indicator */}
+          <AutoSaveIndicator />
 
           {/* Save button */}
           <Button onClick={handleSaveAll} disabled={isSaving}>
