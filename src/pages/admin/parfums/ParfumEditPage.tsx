@@ -208,6 +208,20 @@ export default function ParfumEditPage() {
     };
   }, []);
 
+  // Prevent leaving page with unsaved changes (browser navigation)
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasChanges]);
+
   const handleSaveAll = async () => {
     // Clear auto-save timer
     if (autoSaveTimerRef.current) {
