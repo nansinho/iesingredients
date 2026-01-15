@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ProductCardSkeleton } from '@/components/catalog/ProductCardSkeleton';
 import { Search, SlidersHorizontal, X, ChevronDown, Grid3X3, LayoutList, Leaf, FlaskConical, Droplets, ArrowRight, Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -523,13 +523,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
                     : 'grid-cols-1'
                 )}>
                   {[...Array(9)].map((_, i) => (
-                    <div key={i} className="bg-forest-50 rounded-2xl overflow-hidden">
-                      <Skeleton className="aspect-[4/3]" />
-                      <div className="p-4 space-y-2">
-                        <Skeleton className="h-5 w-3/4" />
-                        <Skeleton className="h-4 w-1/2" />
-                      </div>
-                    </div>
+                    <ProductCardSkeleton key={i} />
                   ))}
                 </div>
               ) : displayedProducts.length > 0 ? (

@@ -148,11 +148,12 @@ export const MinimalHero = ({ lang }: MinimalHeroProps) => {
           </Button>
         </motion.div>
         <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-          <Button asChild variant="outline" size="lg" className="w-full sm:w-auto h-12 sm:h-auto rounded-full px-8 border-white/50 text-white hover:bg-white/20 hover:border-white">
-            <Link to={`/${lang}/contact`}>
-              {t.nav.contact}
-            </Link>
-          </Button>
+          <Link 
+            to={`/${lang}/contact`}
+            className="inline-flex items-center justify-center w-full sm:w-auto h-12 sm:h-auto rounded-full px-8 py-3 border-2 border-white/60 text-white font-medium hover:bg-white/20 hover:border-white transition-all duration-300"
+          >
+            {t.nav.contact}
+          </Link>
         </motion.div>
       </motion.div>
 
