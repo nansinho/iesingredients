@@ -92,6 +92,105 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_articles: {
+        Row: {
+          author_name: string | null
+          category: string
+          content_en: string | null
+          content_fr: string | null
+          cover_image_url: string | null
+          created_at: string | null
+          excerpt_en: string | null
+          excerpt_fr: string | null
+          id: string
+          published: boolean | null
+          published_at: string | null
+          slug: string
+          title_en: string | null
+          title_fr: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_name?: string | null
+          category?: string
+          content_en?: string | null
+          content_fr?: string | null
+          cover_image_url?: string | null
+          created_at?: string | null
+          excerpt_en?: string | null
+          excerpt_fr?: string | null
+          id?: string
+          published?: boolean | null
+          published_at?: string | null
+          slug: string
+          title_en?: string | null
+          title_fr: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_name?: string | null
+          category?: string
+          content_en?: string | null
+          content_fr?: string | null
+          cover_image_url?: string | null
+          created_at?: string | null
+          excerpt_en?: string | null
+          excerpt_fr?: string | null
+          id?: string
+          published?: boolean | null
+          published_at?: string | null
+          slug?: string
+          title_en?: string | null
+          title_fr?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          message: string
+          notes: string | null
+          phone: string | null
+          status: string | null
+          subject: string
+          updated_at: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          message: string
+          notes?: string | null
+          phone?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          message?: string
+          notes?: string | null
+          phone?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       cosmetique_fr: {
         Row: {
           application: string | null
@@ -517,6 +616,57 @@ export type Database = {
           status?: string
           updated_at?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          bio_en: string | null
+          bio_fr: string | null
+          created_at: string | null
+          display_order: number | null
+          email: string | null
+          id: string
+          is_active: boolean | null
+          linkedin_url: string | null
+          name: string
+          phone: string | null
+          photo_url: string | null
+          role_en: string | null
+          role_fr: string
+          updated_at: string | null
+        }
+        Insert: {
+          bio_en?: string | null
+          bio_fr?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          email?: string | null
+          id?: string
+          is_active?: boolean | null
+          linkedin_url?: string | null
+          name: string
+          phone?: string | null
+          photo_url?: string | null
+          role_en?: string | null
+          role_fr: string
+          updated_at?: string | null
+        }
+        Update: {
+          bio_en?: string | null
+          bio_fr?: string | null
+          created_at?: string | null
+          display_order?: number | null
+          email?: string | null
+          id?: string
+          is_active?: boolean | null
+          linkedin_url?: string | null
+          name?: string
+          phone?: string | null
+          photo_url?: string | null
+          role_en?: string | null
+          role_fr?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
