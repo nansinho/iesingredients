@@ -12,10 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -39,8 +39,14 @@ import {
   Clock,
   Package,
   RefreshCw,
+  User,
+  Building2,
+  Mail,
 } from "lucide-react";
 import { toast } from "sonner";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { StatCard } from "@/components/admin/StatCard";
+import { cn } from "@/lib/utils";
 
 interface SampleRequest {
   id: string;
@@ -67,12 +73,39 @@ interface SampleRequestItem {
   quantity: number;
 }
 
-const statusConfig: Record<string, { label: string; color: string; icon: React.ElementType }> = {
-  pending: { label: "En attente", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: Clock },
-  approved: { label: "Approuvée", color: "bg-green-100 text-green-800 border-green-200", icon: CheckCircle },
-  rejected: { label: "Refusée", color: "bg-red-100 text-red-800 border-red-200", icon: XCircle },
-  completed: { label: "Traitée", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package },
+const statusConfig: Record<string, { label: string; variant: "warning" | "success" | "default" | "info"; icon: React.ElementType }> = {
+  pending: { label: "En attente", variant: "warning", icon: Clock },
+  approved: { label: "Approuvée", variant: "success", icon: CheckCircle },
+  rejected: { label: "Refusée", variant: "default", icon: XCircle },
+  completed: { label: "Traitée", variant: "info", icon: Package },
 };
+
+const statusBadgeClasses: Record<string, string> = {
+  pending: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-800/50",
+  approved: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800/50",
+  rejected: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50",
+  completed: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/50",
+};
+
+function TableSkeleton() {
+  return (
+    <div className="space-y-3">
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card animate-pulse"
+        >
+          <Skeleton className="w-10 h-10 rounded-full shrink-0" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-3 w-1/4" />
+          </div>
+          <Skeleton className="h-6 w-20 rounded-full" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function DemandesListPage() {
   const [search, setSearch] = useState("");
@@ -158,49 +191,48 @@ export default function DemandesListPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 md:space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-          Demandes d'échantillons
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Gérez les demandes de devis et d'échantillons
-        </p>
-      </div>
+      <AdminPageHeader
+        title="Demandes d'échantillons"
+        subtitle="Gérez les demandes de devis et d'échantillons"
+      />
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold">{stats.total}</div>
-            <p className="text-xs text-muted-foreground">Total</p>
-          </CardContent>
-        </Card>
-        <Card className="border-yellow-200 bg-yellow-50/50">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-yellow-700">{stats.pending}</div>
-            <p className="text-xs text-yellow-600">En attente</p>
-          </CardContent>
-        </Card>
-        <Card className="border-green-200 bg-green-50/50">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-green-700">{stats.approved}</div>
-            <p className="text-xs text-green-600">Approuvées</p>
-          </CardContent>
-        </Card>
-        <Card className="border-blue-200 bg-blue-50/50">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-blue-700">{stats.completed}</div>
-            <p className="text-xs text-blue-600">Traitées</p>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <StatCard
+          title="Total"
+          value={stats.total}
+          icon={Package}
+          isLoading={isLoading}
+        />
+        <StatCard
+          title="En attente"
+          value={stats.pending}
+          icon={Clock}
+          variant="warning"
+          isLoading={isLoading}
+        />
+        <StatCard
+          title="Approuvées"
+          value={stats.approved}
+          icon={CheckCircle}
+          variant="success"
+          isLoading={isLoading}
+        />
+        <StatCard
+          title="Traitées"
+          value={stats.completed}
+          icon={Package}
+          variant="info"
+          isLoading={isLoading}
+        />
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="border-border">
         <CardHeader className="pb-4">
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -226,76 +258,195 @@ export default function DemandesListPage() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full" />
-              ))}
-            </div>
+            <TableSkeleton />
           ) : filteredRequests?.length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>Aucune demande trouvée</p>
+            <div className="text-center py-16 text-muted-foreground rounded-xl border border-dashed border-border bg-muted/20">
+              <Package className="h-12 w-12 mx-auto mb-3 opacity-40" />
+              <p className="font-medium">Aucune demande trouvée</p>
+              <p className="text-sm mt-1">Essayez de modifier vos filtres</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Client</TableHead>
-                    <TableHead>Société</TableHead>
-                    <TableHead className="text-center">Produits</TableHead>
-                    <TableHead>Statut</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredRequests?.map((request) => {
-                    const status = statusConfig[request.status] || statusConfig.pending;
-                    const StatusIcon = status.icon;
-                    const clientName = request.contact_name || request.profile?.full_name || "—";
-                    const clientEmail = request.contact_email || request.profile?.email || "—";
+            <>
+              {/* Desktop table */}
+              <div className="hidden md:block overflow-hidden rounded-xl border border-border">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/50 hover:bg-muted/50">
+                      <TableHead className="font-semibold">Date</TableHead>
+                      <TableHead className="font-semibold">Client</TableHead>
+                      <TableHead className="font-semibold">Société</TableHead>
+                      <TableHead className="text-center font-semibold">Produits</TableHead>
+                      <TableHead className="font-semibold">Statut</TableHead>
+                      <TableHead className="text-right font-semibold">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredRequests?.map((request, index) => {
+                      const status = statusConfig[request.status] || statusConfig.pending;
+                      const StatusIcon = status.icon;
+                      const clientName = request.contact_name || request.profile?.full_name || "—";
+                      const clientEmail = request.contact_email || request.profile?.email || "—";
 
-                    return (
-                      <TableRow key={request.id}>
-                        <TableCell className="whitespace-nowrap">
-                          <div className="text-sm font-medium">
-                            {format(new Date(request.created_at), "dd MMM yyyy", { locale: fr })}
+                      return (
+                        <TableRow
+                          key={request.id}
+                          className={cn(
+                            "transition-colors",
+                            index % 2 === 0 ? "bg-background" : "bg-muted/20"
+                          )}
+                        >
+                          <TableCell className="whitespace-nowrap py-3">
+                            <div className="text-sm font-medium">
+                              {format(new Date(request.created_at), "dd MMM yyyy", { locale: fr })}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {format(new Date(request.created_at), "HH:mm")}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-sm font-medium">{clientName}</div>
+                            <div className="text-xs text-muted-foreground">{clientEmail}</div>
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-sm text-muted-foreground">{request.company || "—"}</span>
+                          </TableCell>
+                          <TableCell className="text-center">
+                            <Badge variant="secondary" className="font-medium">
+                              {request.items?.length || 0}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className={cn("font-medium", statusBadgeClasses[request.status])}>
+                              <StatusIcon className="h-3 w-3 mr-1" />
+                              {status.label}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem asChild>
+                                  <NavLink to={`/admin/demandes/${request.id}`}>
+                                    <Eye className="h-4 w-4 mr-2" />
+                                    Voir détails
+                                  </NavLink>
+                                </DropdownMenuItem>
+                                {request.status === "pending" && (
+                                  <>
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        updateStatusMutation.mutate({ id: request.id, status: "approved" })
+                                      }
+                                    >
+                                      <CheckCircle className="h-4 w-4 mr-2 text-green-600" />
+                                      Approuver
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={() =>
+                                        updateStatusMutation.mutate({ id: request.id, status: "rejected" })
+                                      }
+                                    >
+                                      <XCircle className="h-4 w-4 mr-2 text-red-600" />
+                                      Refuser
+                                    </DropdownMenuItem>
+                                  </>
+                                )}
+                                {request.status === "approved" && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      updateStatusMutation.mutate({ id: request.id, status: "completed" })
+                                    }
+                                  >
+                                    <Package className="h-4 w-4 mr-2 text-blue-600" />
+                                    Marquer comme traitée
+                                  </DropdownMenuItem>
+                                )}
+                                {request.status !== "pending" && (
+                                  <DropdownMenuItem
+                                    onClick={() =>
+                                      updateStatusMutation.mutate({ id: request.id, status: "pending" })
+                                    }
+                                  >
+                                    <RefreshCw className="h-4 w-4 mr-2" />
+                                    Remettre en attente
+                                  </DropdownMenuItem>
+                                )}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile cards */}
+              <div className="md:hidden space-y-3">
+                {filteredRequests?.map((request) => {
+                  const status = statusConfig[request.status] || statusConfig.pending;
+                  const StatusIcon = status.icon;
+                  const clientName = request.contact_name || request.profile?.full_name || "—";
+                  const clientEmail = request.contact_email || request.profile?.email || "—";
+
+                  return (
+                    <div
+                      key={request.id}
+                      className="p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:shadow-md"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <User className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <p className="font-medium text-foreground truncate">{clientName}</p>
+                              <p className="text-xs text-muted-foreground truncate">{clientEmail}</p>
+                            </div>
+                            <Badge variant="outline" className={cn("shrink-0 text-xs", statusBadgeClasses[request.status])}>
+                              <StatusIcon className="h-3 w-3 mr-1" />
+                              {status.label}
+                            </Badge>
                           </div>
-                          <div className="text-xs text-muted-foreground">
-                            {format(new Date(request.created_at), "HH:mm")}
+                          
+                          <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
+                            {request.company && (
+                              <span className="flex items-center gap-1">
+                                <Building2 className="h-3 w-3" />
+                                {request.company}
+                              </span>
+                            )}
+                            <span className="flex items-center gap-1">
+                              <Package className="h-3 w-3" />
+                              {request.items?.length || 0} produits
+                            </span>
                           </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="text-sm font-medium">{clientName}</div>
-                          <div className="text-xs text-muted-foreground">{clientEmail}</div>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-sm">{request.company || "—"}</span>
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <Badge variant="secondary">{request.items?.length || 0}</Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className={status.color}>
-                            <StatusIcon className="h-3 w-3 mr-1" />
-                            {status.label}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
+                        <span className="text-xs text-muted-foreground">
+                          {format(new Date(request.created_at), "dd MMM yyyy à HH:mm", { locale: fr })}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Button variant="outline" size="sm" asChild className="h-8">
+                            <NavLink to={`/admin/demandes/${request.id}`}>
+                              <Eye className="h-3.5 w-3.5 mr-1" />
+                              Détails
+                            </NavLink>
+                          </Button>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
                                 <MoreVertical className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem asChild>
-                                <NavLink to={`/admin/demandes/${request.id}`}>
-                                  <Eye className="h-4 w-4 mr-2" />
-                                  Voir détails
-                                </NavLink>
-                              </DropdownMenuItem>
                               {request.status === "pending" && (
                                 <>
                                   <DropdownMenuItem
@@ -338,13 +489,13 @@ export default function DemandesListPage() {
                               )}
                             </DropdownMenuContent>
                           </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

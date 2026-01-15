@@ -47,6 +47,27 @@ interface ProductDataTableProps {
   showPerformance?: boolean;
 }
 
+function TableSkeleton() {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card animate-pulse"
+        >
+          <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-3 w-1/4" />
+          </div>
+          <Skeleton className="h-6 w-16 rounded-full" />
+          <Skeleton className="h-8 w-20 hidden md:block" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function ProductDataTable({
   products,
   isLoading,
@@ -61,19 +82,15 @@ export function ProductDataTable({
   const [deleteCode, setDeleteCode] = useState<string | null>(null);
 
   if (isLoading) {
-    return (
-      <div className="space-y-4">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Skeleton key={i} className="h-16 w-full" />
-        ))}
-      </div>
-    );
+    return <TableSkeleton />;
   }
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-12 text-muted-foreground">
-        Aucun produit trouvé
+      <div className="text-center py-16 text-muted-foreground rounded-xl border border-dashed border-border bg-muted/20">
+        <Image className="h-12 w-12 mx-auto mb-3 opacity-40" />
+        <p className="font-medium">Aucun produit trouvé</p>
+        <p className="text-sm mt-1">Essayez de modifier vos filtres</p>
       </div>
     );
   }
@@ -81,58 +98,71 @@ export function ProductDataTable({
   return (
     <div className="space-y-4">
       {/* Desktop table */}
-      <div className="hidden md:block overflow-x-auto rounded-lg border border-border">
+      <div className="hidden md:block overflow-hidden rounded-xl border border-border bg-card">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead className="w-12"></TableHead>
-              <TableHead>Code</TableHead>
-              <TableHead>Nom commercial</TableHead>
-              <TableHead>Gamme</TableHead>
-              <TableHead>Origine</TableHead>
-              <TableHead>Statut</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+            <TableRow className="bg-muted/50 hover:bg-muted/50">
+              <TableHead className="w-14 font-semibold">Image</TableHead>
+              <TableHead className="font-semibold">Code</TableHead>
+              <TableHead className="font-semibold">Nom commercial</TableHead>
+              <TableHead className="font-semibold">Gamme</TableHead>
+              <TableHead className="font-semibold">Origine</TableHead>
+              <TableHead className="font-semibold">Statut</TableHead>
+              <TableHead className="text-right font-semibold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>
+            {products.map((product, index) => (
+              <TableRow
+                key={product.id}
+                className={cn(
+                  "transition-colors",
+                  index % 2 === 0 ? "bg-background" : "bg-muted/20"
+                )}
+              >
+                <TableCell className="py-3">
                   {product.image_url ? (
                     <img
                       src={product.image_url}
                       alt=""
-                      className="w-10 h-10 object-cover rounded"
+                      className="w-11 h-11 object-cover rounded-lg border border-border"
                     />
                   ) : (
-                    <div className="w-10 h-10 bg-muted rounded flex items-center justify-center">
+                    <div className="w-11 h-11 bg-muted rounded-lg flex items-center justify-center border border-border">
                       <Image className="w-4 h-4 text-muted-foreground" />
                     </div>
                   )}
                 </TableCell>
-                <TableCell className="font-mono text-sm">{product.code}</TableCell>
-                <TableCell className="font-medium max-w-48 truncate">
-                  {product.nom_commercial || "-"}
+                <TableCell className="font-mono text-sm text-muted-foreground">
+                  {product.code}
                 </TableCell>
-                <TableCell>{product.gamme || "-"}</TableCell>
-                <TableCell>{product.origine || "-"}</TableCell>
+                <TableCell className="font-medium max-w-[200px] truncate">
+                  {product.nom_commercial || "—"}
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {product.gamme || "—"}
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {product.origine || "—"}
+                </TableCell>
                 <TableCell>
                   <Badge
                     variant={product.statut === "ACTIF" ? "default" : "secondary"}
+                    className="font-medium"
                   >
                     {product.statut || "N/A"}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell>
                   <div className="flex items-center justify-end gap-1">
                     {showPerformance && (
-                      <Button variant="ghost" size="icon" asChild>
+                      <Button variant="ghost" size="icon" asChild className="h-8 w-8">
                         <NavLink to={`${editBasePath}/${product.code}/performance`}>
                           <BarChart3 className="h-4 w-4" />
                         </NavLink>
                       </Button>
                     )}
-                    <Button variant="ghost" size="icon" asChild>
+                    <Button variant="ghost" size="icon" asChild className="h-8 w-8">
                       <NavLink to={`${editBasePath}/${product.code}`}>
                         <Edit className="h-4 w-4" />
                       </NavLink>
@@ -142,7 +172,7 @@ export function ProductDataTable({
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-destructive hover:text-destructive"
+                          className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
                           onClick={() => setDeleteCode(product.code)}
                         >
                           <Trash2 className="h-4 w-4" />
@@ -180,52 +210,89 @@ export function ProductDataTable({
         {products.map((product) => (
           <div
             key={product.id}
-            className="p-4 rounded-lg border border-border bg-card"
+            className="p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:shadow-md"
           >
             <div className="flex items-start gap-3">
               {product.image_url ? (
                 <img
                   src={product.image_url}
                   alt=""
-                  className="w-14 h-14 object-cover rounded"
+                  className="w-14 h-14 object-cover rounded-lg border border-border shrink-0"
                 />
               ) : (
-                <div className="w-14 h-14 bg-muted rounded flex items-center justify-center shrink-0">
+                <div className="w-14 h-14 bg-muted rounded-lg flex items-center justify-center shrink-0 border border-border">
                   <Image className="w-5 h-5 text-muted-foreground" />
                 </div>
               )}
 
               <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">{product.nom_commercial || "Sans nom"}</p>
-                <p className="text-sm text-muted-foreground font-mono">{product.code}</p>
-                <div className="flex items-center gap-2 mt-1">
+                <p className="font-medium truncate text-foreground">
+                  {product.nom_commercial || "Sans nom"}
+                </p>
+                <p className="text-sm text-muted-foreground font-mono">
+                  {product.code}
+                </p>
+                <div className="flex flex-wrap items-center gap-1.5 mt-2">
                   {product.gamme && (
                     <Badge variant="outline" className="text-xs">
                       {product.gamme}
                     </Badge>
                   )}
-                  <Badge variant={product.statut === "ACTIF" ? "default" : "secondary"} className="text-xs">
+                  <Badge
+                    variant={product.statut === "ACTIF" ? "default" : "secondary"}
+                    className="text-xs"
+                  >
                     {product.statut || "N/A"}
                   </Badge>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 mt-3 pt-3 border-t border-border">
+            <div className="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-border">
               {showPerformance && (
-                <Button variant="outline" size="sm" asChild>
+                <Button variant="outline" size="sm" asChild className="h-9">
                   <NavLink to={`${editBasePath}/${product.code}/performance`}>
-                    <BarChart3 className="h-4 w-4 mr-1" />
+                    <BarChart3 className="h-4 w-4 mr-1.5" />
                     Perf.
                   </NavLink>
                 </Button>
               )}
-              <Button variant="outline" size="sm" asChild>
+              <Button variant="outline" size="sm" asChild className="h-9">
                 <NavLink to={`${editBasePath}/${product.code}`}>
-                  <Edit className="h-4 w-4 mr-1" />
+                  <Edit className="h-4 w-4 mr-1.5" />
                   Éditer
                 </NavLink>
               </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-9 text-destructive border-destructive/30 hover:bg-destructive/10"
+                    onClick={() => setDeleteCode(product.code)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Supprimer ce produit ?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Cette action est irréversible. Le produit "{product.nom_commercial}" sera définitivement supprimé.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => onDelete(product.code)}
+                      disabled={isDeleting}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Supprimer
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
         ))}
@@ -233,12 +300,13 @@ export function ProductDataTable({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-center gap-2 pt-4">
           <Button
             variant="outline"
             size="icon"
             onClick={() => onPageChange(page - 1)}
             disabled={page <= 1}
+            className="h-9 w-9"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -262,7 +330,7 @@ export function ProductDataTable({
                   variant={page === pageNum ? "default" : "outline"}
                   size="icon"
                   onClick={() => onPageChange(pageNum)}
-                  className="w-8 h-8"
+                  className="h-9 w-9 text-sm"
                 >
                   {pageNum}
                 </Button>
@@ -275,6 +343,7 @@ export function ProductDataTable({
             size="icon"
             onClick={() => onPageChange(page + 1)}
             disabled={page >= totalPages}
+            className="h-9 w-9"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>

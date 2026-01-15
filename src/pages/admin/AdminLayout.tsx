@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import { ThemeToggle } from "@/components/admin/ThemeToggle";
 
 const navItems = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
@@ -25,6 +26,12 @@ const navItems = [
   { to: "/admin/parfums", icon: Droplets, label: "Parfums" },
   { to: "/admin/aromes", icon: Cookie, label: "Arômes" },
 ];
+
+const pageVariants = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+};
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -39,7 +46,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex font-sans">
       {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -62,12 +69,12 @@ export default function AdminLayout() {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="p-6 border-b border-border flex items-center justify-between">
-            <NavLink to="/admin" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+          <div className="p-5 border-b border-border flex items-center justify-between">
+            <NavLink to="/admin" className="flex items-center gap-2.5">
+              <div className="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">IES</span>
               </div>
-              <span className="font-semibold text-foreground">Admin</span>
+              <span className="font-semibold text-foreground text-lg">Admin</span>
             </NavLink>
             <Button
               variant="ghost"
@@ -82,7 +89,7 @@ export default function AdminLayout() {
           {/* User Info */}
           <div className="p-4 border-b border-border">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
                 <User className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
@@ -97,7 +104,7 @@ export default function AdminLayout() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1">
+          <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -106,9 +113,9 @@ export default function AdminLayout() {
                 onClick={() => setSidebarOpen(false)}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
+                    "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-primary text-primary-foreground shadow-md"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )
                 }
@@ -121,16 +128,20 @@ export default function AdminLayout() {
 
           {/* Footer actions */}
           <div className="p-4 border-t border-border space-y-2">
+            <div className="flex items-center justify-between px-2 mb-2">
+              <span className="text-xs text-muted-foreground">Thème</span>
+              <ThemeToggle />
+            </div>
             <NavLink
               to="/fr"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
             >
               <ChevronLeft className="h-4 w-4" />
               Retour au site
             </NavLink>
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50 dark:hover:bg-red-950/20 w-full"
+              className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:text-red-600 transition-colors rounded-lg hover:bg-red-500/10 w-full"
             >
               <LogOut className="h-4 w-4" />
               Déconnexion
@@ -142,26 +153,40 @@ export default function AdminLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile header */}
-        <header className="lg:hidden sticky top-0 z-30 bg-background border-b border-border px-4 py-3 flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-          <span className="font-semibold">IES Admin</span>
+        <header className="lg:hidden sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <span className="font-semibold">IES Admin</span>
+          </div>
+          <ThemeToggle />
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto">
-          <Outlet />
+        {/* Page content with animations */}
+        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto pb-24 lg:pb-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 
       {/* Mobile bottom navigation */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-background border-t border-border safe-bottom">
-        <div className="flex justify-around py-2">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-background/95 backdrop-blur-sm border-t border-border safe-bottom">
+        <div className="flex justify-around py-1.5">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -169,7 +194,7 @@ export default function AdminLayout() {
               end={item.end}
               className={({ isActive }) =>
                 cn(
-                  "flex flex-col items-center gap-1 px-3 py-2 text-xs transition-colors min-h-[44px] justify-center",
+                  "flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors min-h-[52px] justify-center rounded-lg",
                   isActive
                     ? "text-primary"
                     : "text-muted-foreground"
@@ -177,7 +202,7 @@ export default function AdminLayout() {
               }
             >
               <item.icon className="h-5 w-5" />
-              <span>{item.label}</span>
+              <span className="truncate max-w-[60px]">{item.label}</span>
             </NavLink>
           ))}
         </div>
