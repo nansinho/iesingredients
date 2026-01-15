@@ -92,7 +92,7 @@ export const TeamEditPage = () => {
   const saveMutation = useMutation({
     mutationFn: async (data: Partial<TeamMember>) => {
       if (isNew) {
-        const { error } = await supabase.from('team_members').insert(data);
+        const { error } = await supabase.from('team_members').insert([data as any]);
         if (error) throw error;
       } else {
         const { error } = await supabase
@@ -295,9 +295,8 @@ export const TeamEditPage = () => {
             </CardHeader>
             <CardContent>
               <ImageUpload
-                currentImageUrl={formData.photo_url || undefined}
-                onImageUploaded={(url) => setFormData(prev => ({ ...prev, photo_url: url }))}
-                onImageRemoved={() => setFormData(prev => ({ ...prev, photo_url: null }))}
+                value={formData.photo_url}
+                onChange={(url) => setFormData(prev => ({ ...prev, photo_url: url }))}
                 folder="team"
               />
             </CardContent>

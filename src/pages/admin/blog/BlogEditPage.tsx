@@ -103,7 +103,7 @@ export const BlogEditPage = () => {
       };
 
       if (isNew) {
-        const { error } = await supabase.from('blog_articles').insert(payload);
+        const { error } = await supabase.from('blog_articles').insert([payload as any]);
         if (error) throw error;
       } else {
         const { error } = await supabase
@@ -327,9 +327,8 @@ export const BlogEditPage = () => {
             </CardHeader>
             <CardContent>
               <ImageUpload
-                currentImageUrl={formData.cover_image_url || undefined}
-                onImageUploaded={(url) => setFormData(prev => ({ ...prev, cover_image_url: url }))}
-                onImageRemoved={() => setFormData(prev => ({ ...prev, cover_image_url: null }))}
+                value={formData.cover_image_url}
+                onChange={(url) => setFormData(prev => ({ ...prev, cover_image_url: url }))}
                 folder="blog"
               />
             </CardContent>
