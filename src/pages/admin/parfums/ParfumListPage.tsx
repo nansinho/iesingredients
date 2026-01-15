@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import { ImportCSV } from "@/components/admin/ImportCSV";
 import { ProductDataTable } from "@/components/admin/ProductDataTable";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   useAdminProducts,
   useAdminFilterOptions,
@@ -63,46 +64,43 @@ export default function ParfumListPage() {
   const hasFilters = search || famille || origine || statut;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 md:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Parfums</h1>
-          <p className="text-muted-foreground">
-            {data?.total || 0} produits
-          </p>
-        </div>
+      <AdminPageHeader
+        title="Parfums"
+        subtitle={`${data?.total || 0} produits`}
+        actions={
+          <>
+            <Sheet open={importOpen} onOpenChange={setImportOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="h-10">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Import CSV
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-full sm:max-w-lg">
+                <SheetHeader>
+                  <SheetTitle>Importer des parfums</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6">
+                  <ImportCSV
+                    onImport={handleImport}
+                    expectedColumns={["code", "nom_commercial"]}
+                    isLoading={importMutation.isPending}
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
 
-        <div className="flex items-center gap-2">
-          <Sheet open={importOpen} onOpenChange={setImportOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline">
-                <Upload className="h-4 w-4 mr-2" />
-                Import CSV
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:max-w-lg">
-              <SheetHeader>
-                <SheetTitle>Importer des parfums</SheetTitle>
-              </SheetHeader>
-              <div className="mt-6">
-                <ImportCSV
-                  onImport={handleImport}
-                  expectedColumns={["code", "nom_commercial"]}
-                  isLoading={importMutation.isPending}
-                />
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          <Button asChild>
-            <NavLink to="/admin/parfums/new">
-              <Plus className="h-4 w-4 mr-2" />
-              Nouveau
-            </NavLink>
-          </Button>
-        </div>
-      </div>
+            <Button asChild className="h-10">
+              <NavLink to="/admin/parfums/new">
+                <Plus className="h-4 w-4 mr-2" />
+                Nouveau
+              </NavLink>
+            </Button>
+          </>
+        }
+      />
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -115,7 +113,7 @@ export default function ParfumListPage() {
               setPage(1);
             }}
             placeholder="Rechercher par nom, code..."
-            className="pl-9"
+            className="pl-9 h-10"
           />
         </div>
 
@@ -126,15 +124,13 @@ export default function ParfumListPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-full sm:w-44">
+          <SelectTrigger className="w-full sm:w-44 h-10">
             <SelectValue placeholder="Famille olfactive" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="__all__">Toutes</SelectItem>
             {filterOptions?.gammes.map((g) => (
-              <SelectItem key={g} value={g}>
-                {g}
-              </SelectItem>
+              <SelectItem key={g} value={g}>{g}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -146,15 +142,13 @@ export default function ParfumListPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-full sm:w-40">
+          <SelectTrigger className="w-full sm:w-40 h-10">
             <SelectValue placeholder="Origine" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="__all__">Toutes</SelectItem>
             {filterOptions?.origines.map((o) => (
-              <SelectItem key={o} value={o}>
-                {o}
-              </SelectItem>
+              <SelectItem key={o} value={o}>{o}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -166,21 +160,19 @@ export default function ParfumListPage() {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-full sm:w-32">
+          <SelectTrigger className="w-full sm:w-32 h-10">
             <SelectValue placeholder="Statut" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="__all__">Tous</SelectItem>
             {filterOptions?.statuts.map((s) => (
-              <SelectItem key={s} value={s}>
-                {s}
-              </SelectItem>
+              <SelectItem key={s} value={s}>{s}</SelectItem>
             ))}
           </SelectContent>
         </Select>
 
         {hasFilters && (
-          <Button variant="ghost" size="icon" onClick={clearFilters}>
+          <Button variant="ghost" size="icon" onClick={clearFilters} className="h-10 w-10 shrink-0">
             <X className="h-4 w-4" />
           </Button>
         )}
