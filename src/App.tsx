@@ -22,6 +22,7 @@ const CompanyPage = lazy(() => import("./pages/CompanyPage").then(m => ({ defaul
 const TeamPage = lazy(() => import("./pages/TeamPage").then(m => ({ default: m.TeamPage })));
 const NewsPage = lazy(() => import("./pages/NewsPage").then(m => ({ default: m.NewsPage })));
 const BlogArticlePage = lazy(() => import("./pages/BlogArticlePage").then(m => ({ default: m.BlogArticlePage })));
+const PodcastPage = lazy(() => import("./pages/PodcastPage").then(m => ({ default: m.PodcastPage })));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Auth pages
@@ -95,6 +96,7 @@ const AppRoutes = () => {
             <Route path="/fr/equipe" element={<TeamPage lang="fr" />} />
             <Route path="/fr/actualites" element={<NewsPage lang="fr" />} />
             <Route path="/fr/actualites/:slug" element={<BlogArticlePage lang="fr" />} />
+            <Route path="/fr/podcast" element={<PodcastPage lang="fr" />} />
             <Route path="/fr/contact" element={<ContactPage lang="fr" />} />
             <Route path="/fr/mon-compte" element={<ProtectedRoute><AccountPage lang="fr" /></ProtectedRoute>} />
 
@@ -106,6 +108,7 @@ const AppRoutes = () => {
             <Route path="/en/equipe" element={<TeamPage lang="en" />} />
             <Route path="/en/actualites" element={<NewsPage lang="en" />} />
             <Route path="/en/actualites/:slug" element={<BlogArticlePage lang="en" />} />
+            <Route path="/en/podcast" element={<PodcastPage lang="en" />} />
             <Route path="/en/contact" element={<ContactPage lang="en" />} />
             <Route path="/en/my-account" element={<ProtectedRoute><AccountPage lang="en" /></ProtectedRoute>} />
 

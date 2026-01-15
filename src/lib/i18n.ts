@@ -7,6 +7,7 @@ export const translations = {
       catalog: 'Catalogue',
       team: 'Équipe',
       news: 'Actualités',
+      podcast: 'Podcast',
       contact: 'Contact',
     },
     hero: {
@@ -52,6 +53,12 @@ export const translations = {
       perfume: 'Parfum',
       aroma: 'Arôme',
     },
+    podcast: {
+      title: 'Podcast À Fleur De Nez',
+      subtitle: 'Explorez l\'univers de la parfumerie à travers des interviews et des histoires captivantes',
+      listenOn: 'Écouter sur',
+      featured: 'À la une',
+    },
     footer: {
       rights: 'Tous droits réservés',
       privacy: 'Politique de confidentialité',
@@ -64,6 +71,7 @@ export const translations = {
       catalog: 'Catalog',
       team: 'Team',
       news: 'News',
+      podcast: 'Podcast',
       contact: 'Contact',
     },
     hero: {
@@ -108,6 +116,12 @@ export const translations = {
       cosmetic: 'Cosmetic',
       perfume: 'Perfume',
       aroma: 'Aroma',
+    },
+    podcast: {
+      title: 'Podcast À Fleur De Nez',
+      subtitle: 'Explore the world of perfumery through captivating interviews and stories',
+      listenOn: 'Listen on',
+      featured: 'Featured',
     },
     footer: {
       rights: 'All rights reserved',

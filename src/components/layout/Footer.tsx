@@ -35,6 +35,7 @@ export const Footer = React.forwardRef<HTMLElement, FooterProps>(({ lang }, ref)
               <li><Link to={`/${lang}/entreprise`} className="text-white/60 hover:text-gold-400 transition-colors">{t.nav.company}</Link></li>
               <li><Link to={`/${lang}/equipe`} className="text-white/60 hover:text-gold-400 transition-colors">{t.nav.team}</Link></li>
               <li><Link to={`/${lang}/actualites`} className="text-white/60 hover:text-gold-400 transition-colors">{t.nav.news}</Link></li>
+              <li><Link to={`/${lang}/podcast`} className="text-white/60 hover:text-gold-400 transition-colors">{t.nav.podcast}</Link></li>
             </ul>
           </div>
 
