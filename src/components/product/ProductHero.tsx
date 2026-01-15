@@ -4,7 +4,12 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { getCategoryConfig } from '@/lib/productTheme';
-import defaultProductImage from '@/assets/cream-jar.jpg';
+
+// Import category images for defaults
+import creamJar from '@/assets/cream-jar.jpg';
+import essentialOil from '@/assets/essential-oil.jpg';
+import blueberriesHerbs from '@/assets/blueberries-herbs.jpg';
+import productBottle from '@/assets/product-bottle.jpg';
 
 interface ProductHeroProps {
   code: string | null;
@@ -14,6 +19,15 @@ interface ProductHeroProps {
   gamme: string | null;
   lang: string;
   imageUrl?: string | null;
+}
+
+// Get default image based on category
+function getDefaultImage(typologie: string | null) {
+  const type = typologie?.toUpperCase() || '';
+  if (type.includes('COSMET') || type.includes('COSMÉT')) return creamJar;
+  if (type.includes('PARFUM')) return essentialOil;
+  if (type.includes('AROME') || type.includes('ARÔME')) return blueberriesHerbs;
+  return productBottle;
 }
 
 // Get placeholder icon based on category
@@ -142,7 +156,7 @@ export function ProductHero({ code, name, typologie, origine, gamme, lang, image
                               group-hover:from-gold-400/10 group-hover:via-gold-400/5 group-hover:to-transparent 
                               transition-all duration-500 pointer-events-none" />
               <img 
-                src={imageUrl || defaultProductImage} 
+                src={imageUrl || getDefaultImage(typologie)} 
                 alt={productName}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
               />
