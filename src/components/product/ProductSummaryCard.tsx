@@ -80,13 +80,19 @@ export function ProductSummaryCard({
             variants={itemVariants}
           >
             {origine && (
-              <Badge className="bg-gold-50 text-gold-700 border-0 font-sans text-xs font-medium px-3 py-1.5 inline-flex items-center gap-1.5">
+              <Badge 
+                variant="forest"
+                className="font-sans text-xs font-medium px-3 py-1.5 inline-flex items-center gap-1.5"
+              >
                 <MapPin className="w-3 h-3" />
                 {origine}
               </Badge>
             )}
             {gamme && (
-              <Badge className="bg-forest-50 text-forest-700 border-0 font-sans text-xs font-medium px-3 py-1.5 inline-flex items-center gap-1.5">
+              <Badge 
+                variant="forest"
+                className="font-sans text-xs font-medium px-3 py-1.5 inline-flex items-center gap-1.5"
+              >
                 <Tag className="w-3 h-3" />
                 {gamme}
               </Badge>
@@ -120,7 +126,8 @@ export function ProductSummaryCard({
               {profilList.map((tag, i) => (
                 <Badge 
                   key={i} 
-                  className="bg-forest-100/60 text-forest-700 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                  variant="forest"
+                  className="font-sans text-sm font-medium px-3 py-1.5"
                 >
                   {tag}
                 </Badge>
@@ -145,7 +152,8 @@ export function ProductSummaryCard({
               {beneficesList.map((tag, i) => (
                 <Badge 
                   key={i} 
-                  className="bg-gold-100/60 text-gold-800 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                  variant="forest"
+                  className="font-sans text-sm font-medium px-3 py-1.5"
                 >
                   {tag}
                 </Badge>
@@ -170,9 +178,10 @@ export function ProductSummaryCard({
               {certificationsList.map((tag, i) => (
                 <Badge 
                   key={i} 
-                  className="bg-forest-800 text-gold-300 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                  variant="gold"
+                  className="font-sans text-sm font-medium px-3 py-1.5 inline-flex items-center gap-1.5"
                 >
-                  <Award className="w-3 h-3 mr-1.5" />
+                  <Award className="w-3 h-3" />
                   {tag}
                 </Badge>
               ))}

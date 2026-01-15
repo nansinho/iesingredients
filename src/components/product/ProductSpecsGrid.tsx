@@ -75,11 +75,14 @@ function SpecCard({
   return (
     <motion.div
       variants={cardVariants}
-      className="group bg-forest-50/40 rounded-xl p-4 hover:bg-forest-100/50 transition-colors duration-200"
+      className="group bg-white rounded-xl p-4 border border-forest-100 shadow-sm
+                 hover:shadow-md hover:border-forest-200 transition-all duration-200"
     >
       {/* Label with icon */}
       <div className="flex items-center gap-2 mb-2">
-        <Icon className="w-4 h-4 text-forest-500" />
+        <div className="p-1.5 rounded-lg bg-forest-50">
+          <Icon className="w-3.5 h-3.5 text-forest-500" />
+        </div>
         <span className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-medium">
           {label}
         </span>
@@ -93,7 +96,7 @@ function SpecCard({
         {copyable && (
           <button
             onClick={handleCopy}
-            className="shrink-0 p-1.5 rounded-lg hover:bg-forest-200/50 transition-colors opacity-0 group-hover:opacity-100"
+            className="shrink-0 p-1.5 rounded-lg bg-forest-50 hover:bg-forest-100 transition-colors opacity-0 group-hover:opacity-100"
             title={`Copier ${label}`}
           >
             {copied ? (
