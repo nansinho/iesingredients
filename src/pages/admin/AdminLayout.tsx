@@ -12,6 +12,9 @@ import {
   ChevronLeft,
   LogOut,
   User,
+  Newspaper,
+  Mail,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -22,9 +25,12 @@ import { ThemeToggle } from "@/components/admin/ThemeToggle";
 const navItems = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
   { to: "/admin/demandes", icon: ClipboardList, label: "Demandes" },
+  { to: "/admin/blog", icon: Newspaper, label: "Blog" },
+  { to: "/admin/contacts", icon: Mail, label: "Messages" },
   { to: "/admin/cosmetiques", icon: Sparkles, label: "Cosmétiques" },
   { to: "/admin/parfums", icon: Droplets, label: "Parfums" },
   { to: "/admin/aromes", icon: Cookie, label: "Arômes" },
+  { to: "/admin/equipe", icon: Users, label: "Équipe" },
 ];
 
 const pageVariants = {
