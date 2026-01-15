@@ -6,9 +6,11 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
 import { SampleCartProvider } from "./contexts/SampleCartContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { SampleCartDrawer } from "./components/cart/SampleCartDrawer";
 import { QuoteRequestDialog } from "./components/cart/QuoteRequestDialog";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import("./pages/HomePage").then(m => ({ default: m.HomePage })));
@@ -19,6 +21,10 @@ const CompanyPage = lazy(() => import("./pages/CompanyPage").then(m => ({ defaul
 const TeamPage = lazy(() => import("./pages/TeamPage").then(m => ({ default: m.TeamPage })));
 const NewsPage = lazy(() => import("./pages/NewsPage").then(m => ({ default: m.NewsPage })));
 const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Auth pages
+const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
 
 // Admin pages
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
@@ -47,8 +53,8 @@ const getCurrentLang = (pathname: string): 'fr' | 'en' => {
 
 // Loading fallback
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-background">
-    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  <div className="min-h-screen flex items-center justify-center bg-forest-950">
+    <div className="w-8 h-8 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
   </div>
 );
 
@@ -65,6 +71,10 @@ const AppRoutes = () => {
         <Routes>
           {/* Redirect root to French */}
           <Route path="/" element={<Navigate to="/fr" replace />} />
+
+          {/* Auth Routes */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
           {/* French Routes */}
           <Route path="/fr" element={<HomePage lang="fr" />} />
@@ -84,8 +94,15 @@ const AppRoutes = () => {
           <Route path="/en/actualites" element={<NewsPage lang="en" />} />
           <Route path="/en/contact" element={<ContactPage lang="en" />} />
 
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+          {/* Admin Routes - Protected */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<AdminDashboard />} />
             <Route path="cosmetiques" element={<CosmetiqueListPage />} />
             <Route path="cosmetiques/new" element={<CosmetiqueEditPage />} />
@@ -111,15 +128,17 @@ const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <SampleCartProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <ErrorBoundary>
-              <AppRoutes />
-            </ErrorBoundary>
-          </BrowserRouter>
-        </SampleCartProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <SampleCartProvider>
+              <Toaster />
+              <Sonner />
+              <ErrorBoundary>
+                <AppRoutes />
+              </ErrorBoundary>
+            </SampleCartProvider>
+          </AuthProvider>
+        </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
