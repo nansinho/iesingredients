@@ -340,15 +340,15 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
       />
 
       {/* Hero Section - Dark Green to match other pages */}
-      <section className="bg-forest-900 pt-32 pb-12">
+      <section className="bg-forest-950 pt-28 sm:pt-32 pb-10 sm:pb-12">
         <div className="container-luxe">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-cream-300 mb-6">
-            <Link to={`/${lang}`} className="hover:text-gold-400 transition-colors">
+          <nav className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-cream-300 mb-4 sm:mb-6 flex-wrap">
+            <Link to={`/${lang}`} className="hover:text-gold-400 transition-colors whitespace-nowrap">
               {lang === 'fr' ? 'Accueil' : 'Home'}
             </Link>
             <span className="text-cream-500">/</span>
-            <span className="text-white">{t.nav.catalog}</span>
+            <span className="text-white whitespace-nowrap">{t.nav.catalog}</span>
           </nav>
 
           <motion.div
@@ -386,7 +386,7 @@ export const CatalogPage = ({ lang }: CatalogPageProps) => {
           </div>
 
           {/* Category Pills */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide">
             {categories.map(cat => (
               <CategoryPill
                 key={cat.id}
