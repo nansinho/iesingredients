@@ -67,7 +67,7 @@ export function ProductHero({ code, name, typologie, origine, gamme, lang, image
       </div>
 
       {/* Content */}
-      <div className="container-luxe relative z-10 px-4 sm:px-6">
+      <div className="container-luxe relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 sm:gap-8">
           {/* Left side - Text content */}
           <div className="flex-1 order-2 lg:order-1 text-center lg:text-left">
