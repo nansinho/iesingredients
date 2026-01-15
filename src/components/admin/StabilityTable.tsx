@@ -1,6 +1,7 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -59,12 +60,38 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
       }
     }, [existingData, isLoading, productCode, initialDataLoaded]);
 
-    const updateRow = (ordre: number, field: "ph_value" | "odeur_rating", value: string | number | null) => {
+    const updateRow = (
+      ordre: number,
+      field: "ph_value" | "odeur_rating" | "base_name",
+      value: string | number | null
+    ) => {
       setRows((prev) => {
-        const updated = prev.map((row) => (row.ordre === ordre ? { ...row, [field]: value } : row));
+        const updated = prev.map((row) =>
+          row.ordre === ordre ? { ...row, [field]: value } : row
+        );
         onChange?.(true);
         return updated;
       });
+    };
+
+    const addRow = () => {
+      const maxOrdre = Math.max(...rows.map((r) => r.ordre), 0);
+      setRows((prev) => [
+        ...prev,
+        {
+          product_code: productCode,
+          ordre: maxOrdre + 1,
+          ph_value: "",
+          base_name: "",
+          odeur_rating: null,
+        },
+      ]);
+      onChange?.(true);
+    };
+
+    const removeRow = (ordre: number) => {
+      setRows((prev) => prev.filter((r) => r.ordre !== ordre));
+      onChange?.(true);
     };
 
     useImperativeHandle(ref, () => ({
@@ -85,10 +112,17 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
       );
     }
 
+    // Get default base names for comparison
+    const defaultBaseNames = DEFAULT_STABILITY_BASES.map((b) => b.base_name);
+
     return (
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Stabilité & Odeurs</CardTitle>
+          <Button variant="outline" size="sm" onClick={addRow}>
+            <Plus className="h-4 w-4 mr-2" />
+            Ajouter une base
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -97,37 +131,68 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
                 <TableRow>
                   <TableHead className="w-20">pH</TableHead>
                   <TableHead>Base</TableHead>
-                  <TableHead className="w-32 text-center">Odeur</TableHead>
+                  <TableHead className="w-[200px]">Odeur</TableHead>
+                  <TableHead className="w-10"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.ordre}>
-                    <TableCell>
-                      <Input
-                        value={row.ph_value || ""}
-                        onChange={(e) => updateRow(row.ordre, "ph_value", e.target.value || null)}
-                        className="w-16 h-8 text-center"
-                        placeholder="pH"
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium">{row.base_name}</TableCell>
-                    <TableCell>
-                      <div className="flex justify-center">
+                {rows.map((row) => {
+                  const isDefaultBase = defaultBaseNames.includes(row.base_name);
+                  const isCustomRow = !isDefaultBase;
+
+                  return (
+                    <TableRow key={row.ordre}>
+                      <TableCell>
+                        <Input
+                          value={row.ph_value || ""}
+                          onChange={(e) =>
+                            updateRow(row.ordre, "ph_value", e.target.value || null)
+                          }
+                          className="w-16 h-8 text-center"
+                          placeholder="pH"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {isDefaultBase ? (
+                          <span className="font-medium">{row.base_name}</span>
+                        ) : (
+                          <Input
+                            value={row.base_name || ""}
+                            onChange={(e) =>
+                              updateRow(row.ordre, "base_name", e.target.value)
+                            }
+                            className="h-8"
+                            placeholder="Nom de la base"
+                          />
+                        )}
+                      </TableCell>
+                      <TableCell>
                         <StarRatingInput
                           value={row.odeur_rating}
                           onChange={(value) => updateRow(row.ordre, "odeur_rating", value)}
                           size="md"
                         />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>
+                        {isCustomRow && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-destructive hover:text-destructive"
+                            onClick={() => removeRow(row.ordre)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
           <p className="text-xs text-muted-foreground mt-4 text-center">
-            Cliquez sur les étoiles pour définir la note d'odeur (1-5). Cliquez à nouveau pour effacer.
+            Cliquez sur les étoiles ou saisissez la note (1-5) pour définir l'odeur.
           </p>
         </CardContent>
       </Card>

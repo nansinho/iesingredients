@@ -1,5 +1,6 @@
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 interface StarRatingInputProps {
   value: number | null;
@@ -7,6 +8,7 @@ interface StarRatingInputProps {
   max?: number;
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  showNumericInput?: boolean;
 }
 
 const sizeClasses = {
@@ -21,6 +23,7 @@ export function StarRatingInput({
   max = 5,
   size = "md",
   disabled = false,
+  showNumericInput = true,
 }: StarRatingInputProps) {
   const handleClick = (rating: number) => {
     if (disabled) return;
@@ -28,36 +31,66 @@ export function StarRatingInput({
     onChange(rating === value ? null : rating);
   };
 
-  return (
-    <div className="flex items-center gap-0.5">
-      {Array.from({ length: max }, (_, i) => {
-        const rating = i + 1;
-        const isFilled = value !== null && rating <= value;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val === "") {
+      onChange(null);
+      return;
+    }
+    const num = parseInt(val, 10);
+    if (!isNaN(num) && num >= 1 && num <= max) {
+      onChange(num);
+    } else if (!isNaN(num) && num < 1) {
+      onChange(1);
+    } else if (!isNaN(num) && num > max) {
+      onChange(max);
+    }
+  };
 
-        return (
-          <button
-            key={rating}
-            type="button"
-            onClick={() => handleClick(rating)}
-            disabled={disabled}
-            className={cn(
-              "p-0.5 rounded transition-all",
-              !disabled && "hover:scale-110 cursor-pointer",
-              disabled && "cursor-default opacity-60"
-            )}
-          >
-            <Star
+  return (
+    <div className="flex items-center gap-2">
+      {showNumericInput && (
+        <Input
+          type="number"
+          min={1}
+          max={max}
+          value={value ?? ""}
+          onChange={handleInputChange}
+          disabled={disabled}
+          className="w-14 h-8 text-center text-sm"
+          placeholder="-"
+        />
+      )}
+      <div className="flex items-center gap-0.5">
+        {Array.from({ length: max }, (_, i) => {
+          const rating = i + 1;
+          const isFilled = value !== null && rating <= value;
+
+          return (
+            <button
+              key={rating}
+              type="button"
+              onClick={() => handleClick(rating)}
+              disabled={disabled}
               className={cn(
-                sizeClasses[size],
-                "transition-colors",
-                isFilled
-                  ? "fill-gold text-gold"
-                  : "fill-transparent text-muted-foreground/40"
+                "p-0.5 rounded transition-all",
+                !disabled && "hover:scale-110 cursor-pointer",
+                disabled && "cursor-default opacity-60"
               )}
-            />
-          </button>
-        );
-      })}
+            >
+              <Star
+                className={cn(
+                  sizeClasses[size],
+                  "transition-colors",
+                  isFilled
+                    ? "fill-gold text-gold"
+                    : "fill-transparent text-muted-foreground/40"
+                )}
+              />
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Plus, Upload, Search, X } from "lucide-react";
+import { Plus, Upload, Search, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +26,7 @@ import {
   useDeleteProduct,
   useBulkImport,
 } from "@/hooks/useAdminProducts";
+import { useExportCSV } from "@/hooks/useExportCSV";
 
 export default function ParfumListPage() {
   const [search, setSearch] = useState("");
@@ -47,6 +48,7 @@ export default function ParfumListPage() {
   const { data: filterOptions } = useAdminFilterOptions("parfum");
   const deleteMutation = useDeleteProduct("parfum");
   const importMutation = useBulkImport("parfum");
+  const { exportToCSV, isExporting } = useExportCSV();
 
   const handleImport = async (importedData: Record<string, unknown>[]) => {
     await importMutation.mutateAsync(importedData);
@@ -71,6 +73,16 @@ export default function ParfumListPage() {
         subtitle={`${data?.total || 0} produits`}
         actions={
           <>
+            <Button
+              variant="outline"
+              className="h-10"
+              onClick={() => exportToCSV("parfum")}
+              disabled={isExporting}
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Export CSV
+            </Button>
+
             <Sheet open={importOpen} onOpenChange={setImportOpen}>
               <SheetTrigger asChild>
                 <Button variant="outline" className="h-10">
