@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Star, Beaker, Target, Users, Info } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 
 interface PerformanceData {
   option: string;
@@ -23,6 +23,24 @@ interface ProductDetailsAccordionProps {
   typologie: string | null;
   additionalFields?: Record<string, string | null>;
 }
+
+// Animation variants for accordion cascade
+const accordionVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.4 }
+  }
+};
 
 function parseTags(value: string | null): string[] {
   if (!value || value === '-') return [];
@@ -72,153 +90,163 @@ export function ProductDetailsAccordion({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      variants={accordionVariants}
+      initial="hidden"
+      animate="visible"
     >
       <Accordion type="multiple" defaultValue={defaultOpen} className="space-y-2">
         {/* Applications */}
         {hasApplications && (
-          <AccordionItem value="applications" className="bg-forest-50/30 rounded-xl px-5 border-0">
-            <AccordionTrigger className="hover:no-underline py-4">
-              <div className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-forest-600" />
-                <span className="font-sans text-base font-semibold text-forest-900">Applications</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-5">
-              <div className="flex flex-wrap gap-2 pl-7">
-                {applicationTags.map((tag, i) => (
-                  <Badge 
-                    key={i}
-                    className="bg-gold-100/60 text-gold-800 border-0 font-sans text-sm font-medium px-3 py-1.5"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+          <motion.div variants={itemVariants}>
+            <AccordionItem value="applications" className="bg-forest-50/30 rounded-xl px-5 border-0">
+              <AccordionTrigger className="hover:no-underline py-4">
+                <div className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-forest-600" />
+                  <span className="font-sans text-base font-semibold text-forest-900">Applications</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5">
+                <div className="flex flex-wrap gap-2 pl-7">
+                  {applicationTags.map((tag, i) => (
+                    <Badge 
+                      key={i}
+                      className="bg-gold-100/60 text-gold-800 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
         )}
 
         {/* Types de peau */}
         {hasSkinTypes && (
-          <AccordionItem value="skin-types" className="bg-forest-50/30 rounded-xl px-5 border-0">
-            <AccordionTrigger className="hover:no-underline py-4">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-forest-600" />
-                <span className="font-sans text-base font-semibold text-forest-900">Types de peau</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-5">
-              <div className="flex flex-wrap gap-2 pl-7">
-                {skinTypeTags.map((tag, i) => (
-                  <Badge 
-                    key={i}
-                    className="bg-forest-100/60 text-forest-700 border-0 font-sans text-sm font-medium px-3 py-1.5"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+          <motion.div variants={itemVariants}>
+            <AccordionItem value="skin-types" className="bg-forest-50/30 rounded-xl px-5 border-0">
+              <AccordionTrigger className="hover:no-underline py-4">
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-forest-600" />
+                  <span className="font-sans text-base font-semibold text-forest-900">Types de peau</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5">
+                <div className="flex flex-wrap gap-2 pl-7">
+                  {skinTypeTags.map((tag, i) => (
+                    <Badge 
+                      key={i}
+                      className="bg-forest-100/60 text-forest-700 border-0 font-sans text-sm font-medium px-3 py-1.5"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
         )}
 
         {/* Performance (Parfums) */}
         {hasPerformance && (
-          <AccordionItem value="performance" className="bg-forest-50/30 rounded-xl px-5 border-0">
-            <AccordionTrigger className="hover:no-underline py-4">
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-gold-500" />
-                <span className="font-sans text-base font-semibold text-forest-900">Performance</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-5">
-              <div className="rounded-lg overflow-hidden ml-7">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-forest-100/50 hover:bg-forest-100/50 border-0">
-                      <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider">Application</TableHead>
-                      <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider text-right">Note</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {performanceData.map((item, i) => (
-                      <TableRow key={i} className="hover:bg-forest-50/50 border-0">
-                        <TableCell className="font-sans text-sm text-forest-800 font-medium">{item.option}</TableCell>
-                        <TableCell className="text-right">
-                          <StarRating rating={item.rating} />
-                        </TableCell>
+          <motion.div variants={itemVariants}>
+            <AccordionItem value="performance" className="bg-forest-50/30 rounded-xl px-5 border-0">
+              <AccordionTrigger className="hover:no-underline py-4">
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-gold-500" />
+                  <span className="font-sans text-base font-semibold text-forest-900">Performance</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5">
+                <div className="rounded-lg overflow-hidden ml-7">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-forest-100/50 hover:bg-forest-100/50 border-0">
+                        <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider">Application</TableHead>
+                        <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider text-right">Note</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+                    </TableHeader>
+                    <TableBody>
+                      {performanceData.map((item, i) => (
+                        <TableRow key={i} className="hover:bg-forest-50/50 border-0">
+                          <TableCell className="font-sans text-sm text-forest-800 font-medium">{item.option}</TableCell>
+                          <TableCell className="text-right">
+                            <StarRating rating={item.rating} />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
         )}
 
         {/* Stabilité (Parfums) */}
         {hasStability && (
-          <AccordionItem value="stability" className="bg-forest-50/30 rounded-xl px-5 border-0">
-            <AccordionTrigger className="hover:no-underline py-4">
-              <div className="flex items-center gap-2">
-                <Beaker className="w-5 h-5 text-forest-600" />
-                <span className="font-sans text-base font-semibold text-forest-900">Stabilité</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-5">
-              <div className="rounded-lg overflow-hidden ml-7">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-forest-100/50 hover:bg-forest-100/50 border-0">
-                      <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider">Base</TableHead>
-                      <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider">Odeur</TableHead>
-                      <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider text-right">pH</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {stabilityData.map((item, i) => (
-                      <TableRow key={i} className="hover:bg-forest-50/50 border-0">
-                        <TableCell className="font-sans text-sm text-forest-800 font-medium">{item.base}</TableCell>
-                        <TableCell>
-                          <StarRating rating={item.odeur} />
-                        </TableCell>
-                        <TableCell className="font-mono text-sm text-forest-600 font-medium text-right">{item.ph}</TableCell>
+          <motion.div variants={itemVariants}>
+            <AccordionItem value="stability" className="bg-forest-50/30 rounded-xl px-5 border-0">
+              <AccordionTrigger className="hover:no-underline py-4">
+                <div className="flex items-center gap-2">
+                  <Beaker className="w-5 h-5 text-forest-600" />
+                  <span className="font-sans text-base font-semibold text-forest-900">Stabilité</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5">
+                <div className="rounded-lg overflow-hidden ml-7">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-forest-100/50 hover:bg-forest-100/50 border-0">
+                        <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider">Base</TableHead>
+                        <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider">Odeur</TableHead>
+                        <TableHead className="font-sans text-xs font-semibold text-forest-600 uppercase tracking-wider text-right">pH</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+                    </TableHeader>
+                    <TableBody>
+                      {stabilityData.map((item, i) => (
+                        <TableRow key={i} className="hover:bg-forest-50/50 border-0">
+                          <TableCell className="font-sans text-sm text-forest-800 font-medium">{item.base}</TableCell>
+                          <TableCell>
+                            <StarRating rating={item.odeur} />
+                          </TableCell>
+                          <TableCell className="font-mono text-sm text-forest-600 font-medium text-right">{item.ph}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
         )}
 
         {/* Données complémentaires */}
         {hasAdditional && (
-          <AccordionItem value="additional" className="bg-forest-50/30 rounded-xl px-5 border-0">
-            <AccordionTrigger className="hover:no-underline py-4">
-              <div className="flex items-center gap-2">
-                <Info className="w-5 h-5 text-forest-600" />
-                <span className="font-sans text-base font-semibold text-forest-900">Données complémentaires</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="pb-5">
-              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 ml-7">
-                {Object.entries(additionalFields)
-                  .filter(([_, v]) => v && v !== '-')
-                  .map(([key, value]) => (
-                    <div key={key} className="bg-forest-100/40 rounded-lg p-3">
-                      <dt className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-medium mb-1">
-                        {key.replace(/_/g, ' ')}
-                      </dt>
-                      <dd className="font-sans text-sm text-forest-900 font-medium">{value}</dd>
-                    </div>
-                  ))}
-              </dl>
-            </AccordionContent>
-          </AccordionItem>
+          <motion.div variants={itemVariants}>
+            <AccordionItem value="additional" className="bg-forest-50/30 rounded-xl px-5 border-0">
+              <AccordionTrigger className="hover:no-underline py-4">
+                <div className="flex items-center gap-2">
+                  <Info className="w-5 h-5 text-forest-600" />
+                  <span className="font-sans text-base font-semibold text-forest-900">Données complémentaires</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-5">
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3 ml-7">
+                  {Object.entries(additionalFields)
+                    .filter(([_, v]) => v && v !== '-')
+                    .map(([key, value]) => (
+                      <div key={key} className="bg-forest-100/40 rounded-lg p-3">
+                        <dt className="font-sans text-[10px] uppercase tracking-widest text-forest-500 font-medium mb-1">
+                          {key.replace(/_/g, ' ')}
+                        </dt>
+                        <dd className="font-sans text-sm text-forest-900 font-medium">{value}</dd>
+                      </div>
+                    ))}
+                </dl>
+              </AccordionContent>
+            </AccordionItem>
+          </motion.div>
         )}
       </Accordion>
     </motion.div>

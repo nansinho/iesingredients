@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { Sparkles, Award, Leaf, FileText, MapPin, Tag } from 'lucide-react';
 
 interface ProductSummaryCardProps {
@@ -20,6 +20,24 @@ function parseTags(value: string | null): string[] {
     .filter(s => s.length > 0 && s !== '-');
 }
 
+// Animation variants for internal cascade
+const contentVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.4 }
+  }
+};
+
 export function ProductSummaryCard({ 
   description, 
   benefices, 
@@ -39,12 +57,7 @@ export function ProductSummaryCard({
   if (!hasContent) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="space-y-5"
-    >
+    <div className="space-y-5">
       {/* Section title - inline icon */}
       <div className="flex items-center gap-2">
         <FileText className="w-5 h-5 text-forest-600" />
@@ -53,15 +66,18 @@ export function ProductSummaryCard({
         </h2>
       </div>
 
-      {/* Content without card wrapper */}
-      <div className="space-y-5 pl-7">
+      {/* Content with cascade animation */}
+      <motion.div 
+        className="space-y-5 pl-7"
+        variants={contentVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Origine & Gamme Badges */}
         {hasBadges && (
           <motion.div 
             className="flex flex-wrap items-center gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.05 }}
+            variants={itemVariants}
           >
             {origine && (
               <Badge className="bg-gold-50 text-gold-700 border-0 font-sans text-xs font-medium px-3 py-1.5 inline-flex items-center gap-1.5">
@@ -82,9 +98,7 @@ export function ProductSummaryCard({
         {description && description !== '-' && (
           <motion.p
             className="font-sans text-base text-forest-700 leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
+            variants={itemVariants}
           >
             {description}
           </motion.p>
@@ -94,9 +108,7 @@ export function ProductSummaryCard({
         {profilList.length > 0 && (
           <motion.div 
             className="space-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            variants={itemVariants}
           >
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-gold-500" />
@@ -121,9 +133,7 @@ export function ProductSummaryCard({
         {beneficesList.length > 0 && (
           <motion.div 
             className="space-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            variants={itemVariants}
           >
             <div className="flex items-center gap-2">
               <Leaf className="w-4 h-4 text-forest-600" />
@@ -148,9 +158,7 @@ export function ProductSummaryCard({
         {certificationsList.length > 0 && (
           <motion.div 
             className="space-y-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
+            variants={itemVariants}
           >
             <div className="flex items-center gap-2">
               <Award className="w-4 h-4 text-gold-600" />
@@ -171,7 +179,7 @@ export function ProductSummaryCard({
             </div>
           </motion.div>
         )}
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

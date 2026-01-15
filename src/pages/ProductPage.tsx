@@ -8,6 +8,7 @@ import { useProduct, useSimilarProducts } from '@/hooks/useProducts';
 import { useSampleCart } from '@/contexts/SampleCartContext';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Separator } from '@/components/ui/separator';
 import { Layout } from '@/components/layout/Layout';
 
 // Product components
@@ -17,6 +18,36 @@ import { ProductSummaryCard } from '@/components/product/ProductSummaryCard';
 import { ProductSpecsGrid } from '@/components/product/ProductSpecsGrid';
 import { ProductDetailsAccordion } from '@/components/product/ProductDetailsAccordion';
 import { SimilarProducts } from '@/components/product/SimilarProducts';
+
+// Animation variants for cascade effect
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5 }
+  }
+};
+
+const separatorVariants = {
+  hidden: { scaleX: 0, opacity: 0 },
+  visible: { 
+    scaleX: 1, 
+    opacity: 1,
+    transition: { duration: 0.6 }
+  }
+};
 
 // Helper to parse rating strings like "5/5", "★★★★", etc.
 function parseRating(value: string | null | undefined): number {
@@ -206,13 +237,16 @@ export default function ProductPage() {
         />
 
         {/* Main Content */}
-        <main className="container-luxe py-8 sm:py-12 space-y-8 sm:space-y-10">
+        <motion.main 
+          className="container-luxe py-8 sm:py-12 space-y-8 sm:space-y-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* Desktop CTA */}
           <motion.div 
             className="hidden md:block"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            variants={itemVariants}
           >
             <Button
               onClick={handleAddToCart}
@@ -239,29 +273,45 @@ export default function ProductPage() {
           </motion.div>
 
           {/* Summary Card */}
-          <ProductSummaryCard
-            description={product.description}
-            benefices={product.benefices}
-            certifications={product.certifications}
-            profilOlfactif={(product as any).profil_olfactif}
-            typologie={product.typologie_de_produit}
-            origine={product.origine}
-            gamme={product.gamme}
-          />
+          <motion.div variants={itemVariants}>
+            <ProductSummaryCard
+              description={product.description}
+              benefices={product.benefices}
+              certifications={product.certifications}
+              profilOlfactif={(product as any).profil_olfactif}
+              typologie={product.typologie_de_produit}
+              origine={product.origine}
+              gamme={product.gamme}
+            />
+          </motion.div>
+
+          {/* Separator */}
+          <motion.div variants={separatorVariants} className="origin-left">
+            <Separator className="bg-forest-200/50" />
+          </motion.div>
 
           {/* Technical Specs Grid */}
-          <ProductSpecsGrid product={product} />
+          <motion.div variants={itemVariants}>
+            <ProductSpecsGrid product={product} />
+          </motion.div>
+
+          {/* Separator */}
+          <motion.div variants={separatorVariants} className="origin-left">
+            <Separator className="bg-forest-200/50" />
+          </motion.div>
 
           {/* Details Accordion */}
-          <ProductDetailsAccordion
-            application={product.application}
-            typeDePeau={(product as any).type_de_peau}
-            performanceData={performanceData}
-            stabilityData={stabilityData}
-            typologie={product.typologie_de_produit}
-            additionalFields={additionalFields}
-          />
-        </main>
+          <motion.div variants={itemVariants}>
+            <ProductDetailsAccordion
+              application={product.application}
+              typeDePeau={(product as any).type_de_peau}
+              performanceData={performanceData}
+              stabilityData={stabilityData}
+              typologie={product.typologie_de_produit}
+              additionalFields={additionalFields}
+            />
+          </motion.div>
+        </motion.main>
 
         {/* Similar Products - Full width section */}
         <SimilarProducts products={similarProducts} lang={currentLang} />
