@@ -15,6 +15,7 @@ import {
   Newspaper,
   Mail,
   Users,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/admin/ThemeToggle";
 import { usePendingRequestsCount } from "@/hooks/usePendingRequestsCount";
+import { useUnreadContactsCount } from "@/hooks/useUnreadContactsCount";
 
 const navItems = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
@@ -32,6 +34,7 @@ const navItems = [
   { to: "/admin/parfums", icon: Droplets, label: "Parfums" },
   { to: "/admin/aromes", icon: Cookie, label: "Arômes" },
   { to: "/admin/equipe", icon: Users, label: "Équipe" },
+  { to: "/admin/settings", icon: Settings, label: "Paramètres" },
 ];
 
 const pageVariants = {
@@ -46,6 +49,7 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const { user, profile, signOut } = useAuth();
   const { count: pendingCount, hasNewRequest } = usePendingRequestsCount();
+  const { count: unreadContactsCount, hasNewMessage } = useUnreadContactsCount();
 
   const handleSignOut = async () => {
     await signOut();
@@ -69,6 +73,23 @@ export default function AdminLayout() {
           )}
         >
           {pendingCount > 99 ? "99+" : pendingCount}
+        </motion.span>
+      );
+    }
+    if (itemTo === "/admin/contacts" && unreadContactsCount > 0) {
+      return (
+        <motion.span
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          className={cn(
+            "ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold rounded-full",
+            isActive
+              ? "bg-primary-foreground/20 text-primary-foreground"
+              : "bg-blue-500 text-white",
+            hasNewMessage && "animate-pulse"
+          )}
+        >
+          {unreadContactsCount > 99 ? "99+" : unreadContactsCount}
         </motion.span>
       );
     }
@@ -248,6 +269,18 @@ export default function AdminLayout() {
                     )}
                   >
                     {pendingCount > 9 ? "9+" : pendingCount}
+                  </motion.span>
+                )}
+                {item.to === "/admin/contacts" && unreadContactsCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className={cn(
+                      "absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 text-[10px] font-bold rounded-full bg-blue-500 text-white",
+                      hasNewMessage && "animate-pulse"
+                    )}
+                  >
+                    {unreadContactsCount > 9 ? "9+" : unreadContactsCount}
                   </motion.span>
                 )}
               </div>

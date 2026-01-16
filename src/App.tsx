@@ -14,6 +14,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { lazy, Suspense } from "react";
 import { SampleCartProvider } from "./contexts/SampleCartContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { NotificationPreferencesProvider } from "./contexts/NotificationPreferencesContext";
 import { SampleCartDrawer } from "./components/cart/SampleCartDrawer";
 import { QuoteRequestDialog } from "./components/cart/QuoteRequestDialog";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -53,6 +54,7 @@ const BlogEditPage = lazy(() => import("./pages/admin/blog/BlogEditPage").then(m
 const ContactsListPage = lazy(() => import("./pages/admin/contacts/ContactsListPage").then(m => ({ default: m.ContactsListPage })));
 const TeamListPage = lazy(() => import("./pages/admin/team/TeamListPage").then(m => ({ default: m.TeamListPage })));
 const TeamEditPage = lazy(() => import("./pages/admin/team/TeamEditPage").then(m => ({ default: m.TeamEditPage })));
+const SettingsPage = lazy(() => import("./pages/admin/settings/SettingsPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -162,6 +164,7 @@ const router = createBrowserRouter(
             { path: "equipe", element: <TeamListPage /> },
             { path: "equipe/new", element: <TeamEditPage /> },
             { path: "equipe/:id", element: <TeamEditPage /> },
+            { path: "settings", element: <SettingsPage /> },
           ],
         },
 
@@ -178,11 +181,13 @@ const App = () => (
       <TooltipProvider>
         <AuthProvider>
           <SampleCartProvider>
-            <Toaster />
-            <Sonner />
-            <ErrorBoundary>
-              <RouterProvider router={router} />
-            </ErrorBoundary>
+            <NotificationPreferencesProvider>
+              <Toaster />
+              <Sonner />
+              <ErrorBoundary>
+                <RouterProvider router={router} />
+              </ErrorBoundary>
+            </NotificationPreferencesProvider>
           </SampleCartProvider>
         </AuthProvider>
       </TooltipProvider>
