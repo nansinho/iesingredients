@@ -4,7 +4,7 @@ import { UnsavedChangesDialog } from "@/components/admin/UnsavedChangesDialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, Save, Loader2, AlertCircle, Check, RefreshCw } from "lucide-react";
+import { ArrowLeft, Save, Loader2, AlertCircle, Check, RefreshCw, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -289,9 +289,10 @@ export default function ParfumEditPage() {
       setTimeout(() => {
         setAutoSaveStatus('idle');
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving:", error);
-      toast.error("Erreur lors de l'enregistrement");
+      const errorMessage = error?.message || "Erreur lors de l'enregistrement";
+      toast.error(`Erreur: ${errorMessage}`);
       setAutoSaveStatus('error');
     } finally {
       setIsSaving(false);
@@ -368,6 +369,18 @@ export default function ParfumEditPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Preview button */}
+          {!isNew && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open(`/produit/parfum/${code}`, '_blank')}
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Aperçu
+            </Button>
+          )}
+          
           {/* Status badge */}
           <Form {...form}>
             <FormField

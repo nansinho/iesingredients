@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, Save, Loader2, Sparkles } from "lucide-react";
+import { ArrowLeft, Save, Loader2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -132,18 +132,32 @@ export default function AromeEditPage() {
   return (
     <div className="space-y-6 pb-20 lg:pb-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate("/admin/aromes")}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">
-            {isNew ? "Nouvel arôme" : "Modifier l'arôme"}
-          </h1>
-          {!isNew && product?.nom_commercial && (
-            <p className="text-muted-foreground">{String(product.nom_commercial)}</p>
-          )}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => navigate("/admin/aromes")}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">
+              {isNew ? "Nouvel arôme" : "Modifier l'arôme"}
+            </h1>
+            {!isNew && product?.nom_commercial && (
+              <p className="text-muted-foreground">{String(product.nom_commercial)}</p>
+            )}
+          </div>
         </div>
+        
+        {/* Preview button */}
+        {!isNew && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => window.open(`/produit/arome/${code}`, '_blank')}
+          >
+            <ExternalLink className="h-4 w-4 mr-2" />
+            Aperçu
+          </Button>
+        )}
       </div>
 
       <Form {...form}>
