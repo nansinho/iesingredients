@@ -1,5 +1,5 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus, Trash2, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -164,31 +164,46 @@ export const PerformanceTable = forwardRef<PerformanceTableRef, PerformanceTable
                 {rows.map((row) => (
                   <TableRow key={row.ordre}>
                     <TableCell>
-                      <Input
-                        value={row.option_name || ""}
-                        onChange={(e) => updateRow(row.ordre, "option_name", e.target.value)}
-                        className="h-8"
-                        placeholder="Nom de l'option"
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <Input
+                          value={row.option_name || ""}
+                          onChange={(e) => updateRow(row.ordre, "option_name", e.target.value)}
+                          className="h-8 flex-1"
+                          placeholder="Nom de l'option"
+                        />
+                        {hasExistingData && row.option_name && (
+                          <Sparkles className="h-3 w-3 text-purple-400 shrink-0" />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <Input
-                        value={row.performance_value || ""}
-                        onChange={(e) =>
-                          updateRow(row.ordre, "performance_value", e.target.value || null)
-                        }
-                        className="h-8"
-                        placeholder="Valeur"
-                        disabled={row.performance_rating !== null}
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <Input
+                          value={row.performance_value || ""}
+                          onChange={(e) =>
+                            updateRow(row.ordre, "performance_value", e.target.value || null)
+                          }
+                          className="h-8 flex-1"
+                          placeholder="Valeur"
+                          disabled={row.performance_rating !== null}
+                        />
+                        {hasExistingData && row.performance_value && (
+                          <Sparkles className="h-3 w-3 text-purple-400 shrink-0" />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <StarRatingInput
-                        value={row.performance_rating}
-                        onChange={(value) => updateRow(row.ordre, "performance_rating", value)}
-                        size="md"
-                        disabled={!!row.performance_value}
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <StarRatingInput
+                          value={row.performance_rating}
+                          onChange={(value) => updateRow(row.ordre, "performance_rating", value)}
+                          size="md"
+                          disabled={!!row.performance_value}
+                        />
+                        {hasExistingData && row.performance_rating && (
+                          <Sparkles className="h-3 w-3 text-purple-400 shrink-0" />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Button
