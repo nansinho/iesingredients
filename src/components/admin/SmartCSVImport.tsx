@@ -109,10 +109,10 @@ export function SmartCSVImport({
       <div className="space-y-4">
         <div
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 text-center transition-all",
+            "rounded-lg p-8 text-center transition-all bg-muted/30",
             isDragOver
-              ? "border-primary bg-primary/5"
-              : "border-forest-200 hover:border-primary/50"
+              ? "bg-primary/10"
+              : "hover:bg-muted/50"
           )}
           onDrop={handleDrop}
           onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}

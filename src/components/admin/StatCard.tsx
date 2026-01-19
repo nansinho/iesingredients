@@ -13,37 +13,37 @@ interface StatCardProps {
 
 const variantStyles = {
   default: {
-    card: "bg-card border-0",
+    card: "bg-card",
     icon: "bg-primary/10 text-primary",
     value: "text-foreground",
   },
   warning: {
-    card: "bg-orange-500/5 dark:bg-orange-500/10 border-orange-200 dark:border-orange-800/50",
+    card: "bg-orange-500/5 dark:bg-orange-500/10",
     icon: "bg-orange-500/20 text-orange-600 dark:text-orange-400",
     value: "text-orange-700 dark:text-orange-400",
   },
   success: {
-    card: "bg-green-500/5 dark:bg-green-500/10 border-green-200 dark:border-green-800/50",
+    card: "bg-green-500/5 dark:bg-green-500/10",
     icon: "bg-green-500/20 text-green-600 dark:text-green-400",
     value: "text-green-700 dark:text-green-400",
   },
   info: {
-    card: "bg-blue-500/5 dark:bg-blue-500/10 border-blue-200 dark:border-blue-800/50",
+    card: "bg-blue-500/5 dark:bg-blue-500/10",
     icon: "bg-blue-500/20 text-blue-600 dark:text-blue-400",
     value: "text-blue-700 dark:text-blue-400",
   },
   cosmetique: {
-    card: "bg-cosmetique/5 dark:bg-cosmetique/10 border-cosmetique/20 dark:border-cosmetique/30",
+    card: "bg-cosmetique/5 dark:bg-cosmetique/10",
     icon: "bg-cosmetique/20 text-cosmetique",
     value: "text-cosmetique",
   },
   parfum: {
-    card: "bg-parfum/5 dark:bg-parfum/10 border-parfum/20 dark:border-parfum/30",
+    card: "bg-parfum/5 dark:bg-parfum/10",
     icon: "bg-parfum/20 text-parfum",
     value: "text-parfum",
   },
   arome: {
-    card: "bg-arome/5 dark:bg-arome/10 border-arome/20 dark:border-arome/30",
+    card: "bg-arome/5 dark:bg-arome/10",
     icon: "bg-arome/20 text-arome",
     value: "text-arome",
   },
