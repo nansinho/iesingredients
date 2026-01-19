@@ -54,6 +54,7 @@ const BlogEditPage = lazy(() => import("./pages/admin/blog/BlogEditPage").then(m
 const ContactsListPage = lazy(() => import("./pages/admin/contacts/ContactsListPage").then(m => ({ default: m.ContactsListPage })));
 const TeamListPage = lazy(() => import("./pages/admin/team/TeamListPage").then(m => ({ default: m.TeamListPage })));
 const TeamEditPage = lazy(() => import("./pages/admin/team/TeamEditPage").then(m => ({ default: m.TeamEditPage })));
+const UsersListPage = lazy(() => import("./pages/admin/users/UsersListPage"));
 const SettingsPage = lazy(() => import("./pages/admin/settings/SettingsPage"));
 
 const queryClient = new QueryClient({
@@ -164,6 +165,7 @@ const router = createBrowserRouter(
             { path: "equipe", element: <TeamListPage /> },
             { path: "equipe/new", element: <TeamEditPage /> },
             { path: "equipe/:id", element: <TeamEditPage /> },
+            { path: "utilisateurs", element: <UsersListPage /> },
             { path: "settings", element: <SettingsPage /> },
           ],
         },
