@@ -1,9 +1,9 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, Save, Loader2, ExternalLink } from "lucide-react";
+import { ArrowLeft, Save, Loader2, ExternalLink, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,7 +26,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { AIFieldBadge } from "@/components/admin/AIFieldBadge";
+import { ProductHistory } from "@/components/admin/ProductHistory";
 import { useAdminProduct, useUpsertProduct } from "@/hooks/useAdminProducts";
+import { useRecordProductHistory, getChangedFields } from "@/hooks/useProductHistory";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   code: z.string().min(1, "Le code est requis"),
@@ -53,11 +56,15 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function CosmetiqueEditPage() {
   const { code } = useParams<{ code: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const isNew = code === "new";
+  const duplicateFrom = searchParams.get("duplicate");
 
   const { data: product, isLoading } = useAdminProduct("cosmetique", isNew ? null : code || null);
+  const { data: sourceProduct } = useAdminProduct("cosmetique", duplicateFrom);
   const upsertMutation = useUpsertProduct("cosmetique");
+  const recordHistory = useRecordProductHistory();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -109,9 +116,62 @@ export default function CosmetiqueEditPage() {
     }
   }, [product, form]);
 
+  // Populate form when duplicating
+  useEffect(() => {
+    if (sourceProduct && isNew && duplicateFrom) {
+      form.reset({
+        code: "", // Laisser vide pour nouveau code
+        nom_commercial: (sourceProduct.nom_commercial as string) || "",
+        inci: (sourceProduct.inci as string) || "",
+        cas_no: (sourceProduct.cas_no as string) || "",
+        gamme: (sourceProduct.gamme as string) || "",
+        origine: (sourceProduct.origine as string) || "",
+        tracabilite: (sourceProduct.tracabilite as string) || "",
+        description: (sourceProduct.description as string) || "",
+        benefices: (sourceProduct.benefices as string) || "",
+        application: (sourceProduct.application as string) || "",
+        type_de_peau: (sourceProduct.type_de_peau as string) || "",
+        solubilite: (sourceProduct.solubilite as string) || "",
+        aspect: (sourceProduct.aspect as string) || "",
+        partie_utilisee: (sourceProduct.partie_utilisee as string) || "",
+        certifications: (sourceProduct.certifications as string) || "",
+        valorisations: (sourceProduct.valorisations as string) || "",
+        statut: (sourceProduct.statut as string) || "ACTIF",
+        image_url: (sourceProduct.image_url as string) || "",
+      });
+    }
+  }, [sourceProduct, isNew, duplicateFrom, form]);
+
   const onSubmit = async (values: FormValues) => {
-    await upsertMutation.mutateAsync(values);
+    const isCreating = isNew || !!duplicateFrom;
+    
+    // Enregistrer l'historique
+    if (isCreating) {
+      await upsertMutation.mutateAsync(values);
+      await recordHistory.mutateAsync({
+        productType: "cosmetique",
+        productCode: values.code,
+        action: duplicateFrom ? "duplicate" : "create",
+      });
+    } else {
+      const changes = product ? getChangedFields(product as Record<string, unknown>, values) : null;
+      await upsertMutation.mutateAsync(values);
+      if (changes) {
+        await recordHistory.mutateAsync({
+          productType: "cosmetique",
+          productCode: values.code,
+          action: "update",
+          changes,
+        });
+      }
+    }
+    
+    toast.success(isCreating ? "Produit créé avec succès" : "Produit mis à jour");
     navigate("/admin/cosmetiques");
+  };
+
+  const handleDuplicate = () => {
+    navigate(`/admin/cosmetiques/new?duplicate=${code}`);
   };
 
   if (!isNew && isLoading) {
@@ -141,16 +201,26 @@ export default function CosmetiqueEditPage() {
           </div>
         </div>
         
-        {/* Preview button */}
+        {/* Action buttons */}
         {!isNew && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => window.open(`/fr/produit/${code}`, '_blank')}
-          >
-            <ExternalLink className="h-4 w-4 mr-2" />
-            Aperçu
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDuplicate}
+            >
+              <Copy className="h-4 w-4 mr-2" />
+              Dupliquer
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.open(`/fr/produit/${code}`, '_blank')}
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Aperçu
+            </Button>
+          </div>
         )}
       </div>
 
@@ -431,8 +501,9 @@ export default function CosmetiqueEditPage() {
               </Card>
             </div>
 
-            {/* Image sidebar */}
+            {/* Sidebar */}
             <div className="space-y-6">
+              {/* Image */}
               <Card>
                 <CardHeader>
                   <CardTitle>Image</CardTitle>
@@ -456,6 +527,11 @@ export default function CosmetiqueEditPage() {
                   />
                 </CardContent>
               </Card>
+
+              {/* Historique */}
+              {!isNew && !duplicateFrom && (
+                <ProductHistory productType="cosmetique" productCode={code || null} />
+              )}
             </div>
           </div>
 
