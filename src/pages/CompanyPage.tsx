@@ -88,7 +88,7 @@ export const CompanyPage = ({ lang }: CompanyPageProps) => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {values.map((v, i) => (
-                <div key={i} className="bg-card border border-border rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                <div key={i} className="bg-card border border-forest-100 rounded-2xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
                   <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <v.icon className="w-7 h-7 text-primary" />
                   </div>

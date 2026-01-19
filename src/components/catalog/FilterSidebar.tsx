@@ -102,7 +102,7 @@ export const FilterSidebar = ({
     const selectedValues = filters[filterKey] as string[];
 
     return (
-      <div className="border-b border-border/50 last:border-b-0">
+      <div className="border-b border-forest-100/50 last:border-b-0">
         <button
           onClick={() => toggleSection(sectionKey)}
           className="w-full flex items-center justify-between py-4 text-left hover:text-primary transition-colors"
@@ -148,7 +148,7 @@ export const FilterSidebar = ({
   const FilterContent = () => (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-border">
+      <div className="flex items-center justify-between pb-4 border-b border-forest-100">
         <h3 className="font-display text-lg font-semibold">{t.filters.title}</h3>
         {hasActiveFilters && (
           <Button
@@ -164,7 +164,7 @@ export const FilterSidebar = ({
       </div>
 
       {/* Results Count */}
-      <div className="py-4 border-b border-border/50">
+      <div className="py-4 border-b border-forest-100/50">
         <p className="text-sm text-muted-foreground">
           <span className="font-semibold text-foreground">{productCount}</span>{' '}
           {t.catalog.products}
@@ -230,7 +230,7 @@ export const FilterSidebar = ({
     <>
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-72 flex-shrink-0">
-        <div className="sticky top-28 bg-card rounded-2xl border border-border/50 p-6 shadow-soft">
+        <div className="sticky top-28 bg-card rounded-2xl border border-forest-100/50 p-6 shadow-soft">
           <FilterContent />
         </div>
       </aside>

@@ -194,7 +194,7 @@ export const PodcastPage = ({ lang }: PodcastPageProps) => {
             viewport={{ once: true }}
             className="mt-20 text-center"
           >
-            <div className="inline-flex flex-col items-center p-8 rounded-2xl bg-muted/50 border border-border">
+            <div className="inline-flex flex-col items-center p-8 rounded-2xl bg-muted/50 border border-forest-100">
               <Headphones className="w-12 h-12 text-muted-foreground mb-4" />
               <h3 className="font-serif text-xl text-foreground mb-2">
                 {lang === 'fr' ? 'Plus de podcasts à venir' : 'More podcasts coming soon'}

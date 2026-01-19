@@ -36,7 +36,7 @@ export const SearchBar = ({
           'relative flex items-center overflow-hidden transition-all duration-300',
           variant === 'hero'
             ? 'bg-white shadow-lg rounded-full hover:shadow-xl'
-            : 'bg-muted/50 border border-border rounded-xl',
+            : 'bg-muted/50 border border-forest-100 rounded-xl',
           isFocused && variant === 'hero' && 'shadow-xl ring-2 ring-white/50'
         )}
       >

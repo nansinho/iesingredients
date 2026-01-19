@@ -151,7 +151,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-forest-100;
   }
 
   html {
@@ -223,7 +223,7 @@
 
   /* Glass Card */
   .glass-card {
-    @apply bg-card/90 backdrop-blur-xl border border-border/50 shadow-sm rounded-2xl;
+    @apply bg-card/90 backdrop-blur-xl border border-forest-100/50 shadow-sm rounded-2xl;
   }
 
   /* Gradient Card - Forest */

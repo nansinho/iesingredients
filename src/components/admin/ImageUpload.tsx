@@ -72,7 +72,7 @@ export function ImageUpload({ value, onChange, folder = "", className }: ImageUp
           <img
             src={previewUrl}
             alt="Preview"
-            className="w-full h-48 object-cover rounded-lg border border-border"
+            className="w-full h-48 object-cover rounded-lg border border-forest-100"
           />
 
           {isUploading && (
@@ -113,7 +113,7 @@ export function ImageUpload({ value, onChange, folder = "", className }: ImageUp
           onClick={() => inputRef.current?.click()}
           disabled={isUploading}
           className={cn(
-            "w-full h-48 border-2 border-dashed border-border rounded-lg",
+            "w-full h-48 border-2 border-dashed border-forest-200 rounded-lg",
             "flex flex-col items-center justify-center gap-2",
             "text-muted-foreground hover:text-foreground hover:border-primary/50",
             "transition-colors cursor-pointer",

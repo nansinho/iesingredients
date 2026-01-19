@@ -93,7 +93,7 @@ function TableSkeleton() {
       {[...Array(5)].map((_, i) => (
         <div
           key={i}
-          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card animate-pulse"
+          className="flex items-center gap-4 p-4 rounded-xl border border-forest-100 bg-card animate-pulse"
         >
           <Skeleton className="w-10 h-10 rounded-full shrink-0" />
           <div className="flex-1 space-y-2">
@@ -260,7 +260,7 @@ export default function DemandesListPage() {
           {isLoading ? (
             <TableSkeleton />
           ) : filteredRequests?.length === 0 ? (
-            <div className="text-center py-16 text-muted-foreground rounded-xl border border-dashed border-border bg-muted/20">
+            <div className="text-center py-16 text-muted-foreground rounded-xl border border-dashed border-forest-200 bg-muted/20">
               <Package className="h-12 w-12 mx-auto mb-3 opacity-40" />
               <p className="font-medium">Aucune demande trouvée</p>
               <p className="text-sm mt-1">Essayez de modifier vos filtres</p>
@@ -268,7 +268,7 @@ export default function DemandesListPage() {
           ) : (
             <>
               {/* Desktop table */}
-              <div className="hidden md:block overflow-hidden rounded-xl border border-border">
+              <div className="hidden md:block overflow-hidden rounded-xl border border-forest-100">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50 hover:bg-muted/50">
@@ -396,7 +396,7 @@ export default function DemandesListPage() {
                   return (
                     <div
                       key={request.id}
-                      className="p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:shadow-md"
+                      className="p-4 rounded-xl border border-forest-100 bg-card transition-all duration-200 hover:shadow-md"
                     >
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
@@ -429,7 +429,7 @@ export default function DemandesListPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between mt-4 pt-3 border-t border-border">
+                      <div className="flex items-center justify-between mt-4 pt-3 border-t border-forest-100">
                         <span className="text-xs text-muted-foreground">
                           {format(new Date(request.created_at), "dd MMM yyyy à HH:mm", { locale: fr })}
                         </span>

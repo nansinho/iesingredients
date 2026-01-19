@@ -13,7 +13,7 @@ interface StatCardProps {
 
 const variantStyles = {
   default: {
-    card: "bg-card border-border",
+    card: "bg-card border-forest-100",
     icon: "bg-primary/10 text-primary",
     value: "text-foreground",
   },

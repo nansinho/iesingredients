@@ -110,9 +110,9 @@ export function SmartCSVImport({
         <div
           className={cn(
             "border-2 border-dashed rounded-lg p-8 text-center transition-all",
-            isDragOver 
-              ? "border-primary bg-primary/5" 
-              : "border-muted-foreground/25 hover:border-primary/50"
+            isDragOver
+              ? "border-primary bg-primary/5"
+              : "border-forest-200 hover:border-primary/50"
           )}
           onDrop={handleDrop}
           onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
@@ -304,7 +304,7 @@ export function SmartCSVImport({
               </Table>
             </ScrollArea>
             {parseResult.products.length > 10 && (
-              <p className="text-xs text-muted-foreground text-center py-2 border-t">
+              <p className="text-xs text-muted-foreground text-center py-2 border-t border-forest-100">
                 ... et {parseResult.products.length - 10} autres produits
               </p>
             )}

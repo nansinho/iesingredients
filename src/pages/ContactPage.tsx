@@ -182,7 +182,7 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 + index * 0.1 }}
                   >
-                    <Card className="border-border hover:shadow-md hover:border-primary/20 transition-all duration-300">
+                    <Card className="border-forest-100 hover:shadow-md hover:border-primary/20 transition-all duration-300">
                       <CardContent className="p-5 flex items-start gap-4">
                         <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <item.icon className="w-5 h-5 text-primary" />
@@ -240,7 +240,7 @@ export const ContactPage = ({ lang }: ContactPageProps) => {
               transition={{ delay: 0.2 }}
               className="lg:col-span-2"
             >
-              <Card className="border-border shadow-sm">
+              <Card className="border-forest-100 shadow-sm">
                 <CardContent className="p-8">
                   <div className="mb-8">
                     <h2 className="font-serif text-2xl mb-2">

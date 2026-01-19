@@ -29,7 +29,7 @@ export const FeaturedProducts = ({ lang }: FeaturedProductsProps) => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="rounded-xl overflow-hidden border border-border/50">
+              <div key={i} className="rounded-xl overflow-hidden border border-forest-100/50">
                 <Skeleton className="h-2" />
                 <div className="p-4 space-y-3">
                   <div className="flex gap-3">
