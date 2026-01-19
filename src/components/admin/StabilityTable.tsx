@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { StarRatingInput } from "./StarRatingInput";
+import { AIFieldBadge } from "./AIFieldBadge";
 import {
   useProductStability,
   DEFAULT_STABILITY_BASES,
@@ -33,6 +34,7 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
     const { data: existingData, isLoading } = useProductStability(productCode);
     const [rows, setRows] = useState<Omit<StabilityRow, "id">[]>([]);
     const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+    const [hasExistingData, setHasExistingData] = useState(false);
 
     useEffect(() => {
       if (existingData && existingData.length > 0) {
@@ -46,6 +48,7 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
           }))
         );
         setInitialDataLoaded(true);
+        setHasExistingData(true);
       } else if (!isLoading && !initialDataLoaded) {
         setRows(
           DEFAULT_STABILITY_BASES.map((base) => ({
@@ -57,6 +60,7 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
           }))
         );
         setInitialDataLoaded(true);
+        setHasExistingData(false);
       }
     }, [existingData, isLoading, productCode, initialDataLoaded]);
 
@@ -112,13 +116,13 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
       );
     }
 
-    // Get default base names for comparison
-    const defaultBaseNames = DEFAULT_STABILITY_BASES.map((b) => b.base_name);
-
     return (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Stabilité & Odeurs</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Stabilité & Odeurs</CardTitle>
+            {hasExistingData && <AIFieldBadge />}
+          </div>
           <Button variant="outline" size="sm" onClick={addRow}>
             <Plus className="h-4 w-4 mr-2" />
             Ajouter une base
@@ -136,63 +140,52 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((row) => {
-                  const isDefaultBase = defaultBaseNames.includes(row.base_name);
-                  const isCustomRow = !isDefaultBase;
-
-                  return (
-                    <TableRow key={row.ordre}>
-                      <TableCell>
-                        <Input
-                          value={row.ph_value || ""}
-                          onChange={(e) =>
-                            updateRow(row.ordre, "ph_value", e.target.value || null)
-                          }
-                          className="w-16 h-8 text-center"
-                          placeholder="pH"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {isDefaultBase ? (
-                          <span className="font-medium">{row.base_name}</span>
-                        ) : (
-                          <Input
-                            value={row.base_name || ""}
-                            onChange={(e) =>
-                              updateRow(row.ordre, "base_name", e.target.value)
-                            }
-                            className="h-8"
-                            placeholder="Nom de la base"
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <StarRatingInput
-                          value={row.odeur_rating}
-                          onChange={(value) => updateRow(row.ordre, "odeur_rating", value)}
-                          size="md"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {isCustomRow && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-destructive hover:text-destructive"
-                            onClick={() => removeRow(row.ordre)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                {rows.map((row) => (
+                  <TableRow key={row.ordre}>
+                    <TableCell>
+                      <Input
+                        value={row.ph_value || ""}
+                        onChange={(e) =>
+                          updateRow(row.ordre, "ph_value", e.target.value || null)
+                        }
+                        className="w-16 h-8 text-center"
+                        placeholder="pH"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        value={row.base_name || ""}
+                        onChange={(e) =>
+                          updateRow(row.ordre, "base_name", e.target.value)
+                        }
+                        className="h-8"
+                        placeholder="Nom de la base"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <StarRatingInput
+                        value={row.odeur_rating}
+                        onChange={(value) => updateRow(row.ordre, "odeur_rating", value)}
+                        size="md"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-destructive hover:text-destructive"
+                        onClick={() => removeRow(row.ordre)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
           <p className="text-xs text-muted-foreground mt-4 text-center">
-            Cliquez sur les étoiles ou saisissez la note (1-5) pour définir l'odeur.
+            Cliquez sur les étoiles pour définir l'odeur (1-5). Tous les champs sont éditables.
           </p>
         </CardContent>
       </Card>

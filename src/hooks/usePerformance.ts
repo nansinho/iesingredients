@@ -93,3 +93,23 @@ export function createInitialPerformanceData(productCode: string): Omit<Performa
     performance_rating: null,
   }));
 }
+
+// Hook public pour récupérer les données de performance (frontend)
+export function useProductPerformancePublic(productCode: string | null) {
+  return useQuery({
+    queryKey: ["product-performance-public", productCode],
+    queryFn: async () => {
+      if (!productCode) return [];
+
+      const { data, error } = await supabase
+        .from("parfum_performance")
+        .select("*")
+        .eq("product_code", productCode)
+        .order("ordre");
+
+      if (error) throw error;
+      return (data || []) as PerformanceRow[];
+    },
+    enabled: !!productCode,
+  });
+}

@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 
 import { useProduct, useSimilarProducts } from '@/hooks/useProducts';
+import { useProductPerformancePublic } from '@/hooks/usePerformance';
+import { useProductStabilityPublic } from '@/hooks/useStability';
 import { useSampleCart } from '@/contexts/SampleCartContext';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -49,28 +51,6 @@ const separatorVariants = {
     transition: { duration: 0.6 }
   }
 };
-
-// Helper to parse rating strings like "5/5", "★★★★", etc.
-function parseRating(value: string | null | undefined): number {
-  if (!value) return 0;
-  const str = value.toString().trim();
-  
-  // Handle "X/Y" format
-  const slashMatch = str.match(/^(\d+)\s*\/\s*(\d+)$/);
-  if (slashMatch) {
-    return parseInt(slashMatch[1], 10);
-  }
-  
-  // Handle star characters
-  const starCount = (str.match(/★/g) || []).length;
-  if (starCount > 0) return starCount;
-  
-  // Handle plain number
-  const num = parseInt(str, 10);
-  if (!isNaN(num) && num >= 0 && num <= 5) return num;
-  
-  return 0;
-}
 
 // Loading skeleton
 function ProductPageSkeleton({ lang }: { lang: 'fr' | 'en' }) {
@@ -131,6 +111,10 @@ export default function ProductPage() {
   const { data: similarProducts = [] } = useSimilarProducts(product);
   const { addItem, items } = useSampleCart();
 
+  // Fetch performance and stability data from dedicated tables
+  const { data: perfData } = useProductPerformancePublic(product?.code || null);
+  const { data: stabData } = useProductStabilityPublic(product?.code || null);
+
   // Check if product is in cart
   const isInCart = items.some(item => item.product.id === product?.id);
 
@@ -154,92 +138,24 @@ export default function ProductPage() {
     return <ProductPageError lang={currentLang} />;
   }
 
-  // Build performance data (for parfums) - with mock data if no real data
+  // Build performance data from parfum_performance table
   const isParfum = product.typologie_de_produit?.toUpperCase().includes('PARFUM');
   
-  let performanceData: { option: string; rating: number }[] = [];
-  const perfOptions = [
-    { key: 'option_1', perf: 'performance_1' },
-    { key: 'option_2', perf: 'performance_2' },
-    { key: 'option_3', perf: 'performance_3' },
-    { key: 'option_4', perf: 'performance_4' },
-    { key: 'option_5', perf: 'performance_5' },
-    { key: 'option_6', perf: 'performance_6' },
-  ];
-  
-  for (const { key, perf } of perfOptions) {
-    const optionValue = (product as any)[key];
-    const perfValue = (product as any)[perf];
-    if (optionValue && optionValue !== '-') {
-      performanceData.push({
-        option: optionValue,
-        rating: parseRating(perfValue),
-      });
-    }
-  }
+  // Build performance section data from the new table
+  const performanceSectionData = (perfData || []).map(row => ({
+    option: row.option_name || '',
+    value: row.performance_value || undefined,
+    rating: row.performance_rating || undefined,
+    isText: !!row.performance_value,
+  })).filter(item => item.option);
 
-  // Mock performance data for parfums if no real data exists
-  if (isParfum && performanceData.length === 0) {
-    performanceData = [
-      { option: "Niveau d'utilisation (0,1% - 2%)", rating: 0 },
-      { option: "Ténacité sur buvard", rating: 5 },
-      { option: "Efficacité de combustion", rating: 5 },
-      { option: "Amortissement de substance", rating: 5 },
-      { option: "Substance sèche", rating: 5 },
-      { option: "Éclosion dans le savon", rating: 5 },
-    ];
-  }
-
-  // Build stability data (for parfums)
-  let stabilityData: { base: string; odeur: number; ph: string }[] = [];
-  const stabBases = [
-    { base: 'Shampooing', odeur: 'odeur_shampooing', ph: 'ph_shampooing' },
-    { base: 'Savon', odeur: 'odeur_savon', ph: 'ph_savon' },
-    { base: 'Détergent liquide', odeur: 'odeur_detergent_liquide', ph: 'ph_detergent_liquide' },
-    { base: 'Détergent poudre', odeur: 'odeur_detergent_poudre', ph: 'ph_detergent_poudre' },
-    { base: 'Eau de Javel', odeur: 'odeur_eau_javel', ph: 'ph_eau_javel' },
-    { base: 'Antisudorifique', odeur: 'odeur_antisudorifique', ph: 'ph_antisudorifique' },
-    { base: 'APC', odeur: 'odeur_apc', ph: 'ph_apc' },
-    { base: 'Assouplissant textile', odeur: 'odeur_assouplissant_textile', ph: 'ph_assouplissant_textile' },
-    { base: 'Nettoyant acide', odeur: 'odeur_nettoyant_acide', ph: 'ph_nettoyant_acide' },
-  ];
-
-  for (const { base, odeur, ph } of stabBases) {
-    const odeurValue = (product as any)[odeur];
-    const phValue = (product as any)[ph];
-    if (odeurValue && odeurValue !== '-') {
-      stabilityData.push({
-        base,
-        odeur: parseRating(odeurValue),
-        ph: phValue || '-',
-      });
-    }
-  }
-
-  // Mock stability data for parfums if no real data exists
-  if (isParfum && stabilityData.length === 0) {
-    stabilityData = [
-      { ph: "2", base: "Nettoyant acide", odeur: 5 },
-      { ph: "3", base: "Assouplissant textile", odeur: 5 },
-      { ph: "3.5", base: "Anti-transpirant", odeur: 5 },
-      { ph: "6", base: "Shampooing", odeur: 5 },
-      { ph: "9", base: "APC", odeur: 5 },
-      { ph: "9", base: "Détergent liquide", odeur: 4 },
-      { ph: "10", base: "Savon", odeur: 4 },
-      { ph: "10.5", base: "Détergent poudre", odeur: 3 },
-      { ph: "11", base: "Eau de Javel", odeur: 5 },
-    ];
-  }
-
-  // Performance data for new section (with text values)
-  const performanceSectionData = isParfum ? [
-    { option: "Niveau d'utilisation", value: "0,1% - 2%", isText: true },
-    { option: "Ténacité sur buvard", value: "Plusieurs jours", isText: true },
-    { option: "Efficacité de combustion", rating: 5, isText: false },
-    { option: "Amortissement de substance", rating: 5, isText: false },
-    { option: "Substance sèche", rating: 5, isText: false },
-    { option: "Éclosion dans le savon", rating: 5, isText: false },
-  ] : [];
+  // Build stability data from parfum_stabilite table
+  // odeur_rating (1-5) directly maps to star count
+  const stabilityData = (stabData || []).map(row => ({
+    ph: row.ph_value || '-',
+    base: row.base_name,
+    odeur: row.odeur_rating || 0, // Direct mapping: 1-5 rating = 1-5 stars
+  })).filter(item => item.base);
 
   // Additional fields for accordion
   const additionalFields: Record<string, string | null> = {
@@ -253,6 +169,11 @@ export default function ProductPage() {
   };
 
   const productName = product.nom_commercial || 'Produit';
+
+  // Only show Performance & Stability section if there's data
+  const hasPerformanceData = performanceSectionData.length > 0;
+  const hasStabilityData = stabilityData.length > 0;
+  const showPerfStabSection = isParfum && (hasPerformanceData || hasStabilityData);
 
   return (
     <Layout lang={currentLang}>
@@ -340,8 +261,8 @@ export default function ProductPage() {
             <Separator className="bg-forest-200/50" />
           </motion.div>
 
-          {/* Performance & Stability Section (Parfums only) */}
-          {isParfum && (
+          {/* Performance & Stability Section (Parfums only, if data exists) */}
+          {showPerfStabSection && (
             <motion.div variants={itemVariants}>
               <PerformanceStabilitySection
                 performanceData={performanceSectionData}
@@ -351,7 +272,7 @@ export default function ProductPage() {
           )}
 
           {/* Separator */}
-          {isParfum && (
+          {showPerfStabSection && (
             <motion.div variants={separatorVariants} className="origin-left">
               <Separator className="bg-forest-200/50" />
             </motion.div>

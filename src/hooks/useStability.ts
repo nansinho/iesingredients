@@ -103,3 +103,23 @@ export function createInitialStabilityData(productCode: string): Omit<StabilityR
     odeur_rating: null,
   }));
 }
+
+// Hook public pour récupérer les données de stabilité (frontend)
+export function useProductStabilityPublic(productCode: string | null) {
+  return useQuery({
+    queryKey: ["product-stability-public", productCode],
+    queryFn: async () => {
+      if (!productCode) return [];
+
+      const { data, error } = await supabase
+        .from("parfum_stabilite")
+        .select("*")
+        .eq("product_code", productCode)
+        .order("ordre");
+
+      if (error) throw error;
+      return (data || []) as StabilityRow[];
+    },
+    enabled: !!productCode,
+  });
+}

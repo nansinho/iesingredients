@@ -27,7 +27,9 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { AIFieldBadge } from "@/components/admin/AIFieldBadge";
 import { useAdminProduct, useUpsertProduct } from "@/hooks/useAdminProducts";
 import { PerformanceTable, type PerformanceTableRef } from "@/components/admin/PerformanceTable";
 import { StabilityTable, type StabilityTableRef } from "@/components/admin/StabilityTable";
@@ -42,6 +44,8 @@ const formSchema = z.object({
   code: z.string().min(1, "Le code est requis"),
   nom_commercial: z.string().optional().nullable(),
   nom_latin: z.string().optional().nullable(),
+  cas_no: z.string().optional().nullable(),
+  typologie_de_produit: z.string().optional().nullable(),
   famille_olfactive: z.string().optional().nullable(),
   profil_olfactif: z.string().optional().nullable(),
   origine: z.string().optional().nullable(),
@@ -51,6 +55,8 @@ const formSchema = z.object({
   certifications: z.string().optional().nullable(),
   valorisations: z.string().optional().nullable(),
   food_grade: z.string().optional().nullable(),
+  flavouring_preparation: z.string().optional().nullable(),
+  calendrier_des_recoltes: z.string().optional().nullable(),
   statut: z.string().default("ACTIF"),
   image_url: z.string().optional().nullable(),
 });
@@ -81,6 +87,8 @@ export default function ParfumEditPage() {
       code: "",
       nom_commercial: "",
       nom_latin: "",
+      cas_no: "",
+      typologie_de_produit: "PARFUM",
       famille_olfactive: "",
       profil_olfactif: "",
       origine: "",
@@ -90,6 +98,8 @@ export default function ParfumEditPage() {
       certifications: "",
       valorisations: "",
       food_grade: "",
+      flavouring_preparation: "",
+      calendrier_des_recoltes: "",
       statut: "ACTIF",
       image_url: "",
     },
@@ -111,6 +121,8 @@ export default function ParfumEditPage() {
         code: (product.code as string) || "",
         nom_commercial: (product.nom_commercial as string) || "",
         nom_latin: (product.nom_latin as string) || "",
+        cas_no: (product.cas_no as string) || "",
+        typologie_de_produit: (product.typologie_de_produit as string) || "PARFUM",
         famille_olfactive: (product.famille_olfactive as string) || "",
         profil_olfactif: (product.profil_olfactif as string) || "",
         origine: (product.origine as string) || "",
@@ -120,6 +132,8 @@ export default function ParfumEditPage() {
         certifications: (product.certifications as string) || "",
         valorisations: (product.valorisations as string) || "",
         food_grade: (product.food_grade as string) || "",
+        flavouring_preparation: (product.flavouring_preparation as string) || "",
+        calendrier_des_recoltes: (product.calendrier_des_recoltes as string) || "",
         statut: (product.statut as string) || "ACTIF",
         image_url: (product.image_url as string) || "",
       });
@@ -332,7 +346,7 @@ export default function ParfumEditPage() {
   }
 
   return (
-    <>
+    <TooltipProvider>
       {/* Unsaved changes dialog for internal navigation */}
       <UnsavedChangesDialog blocker={blocker} />
       
@@ -467,6 +481,46 @@ export default function ParfumEditPage() {
 
                     <FormField
                       control={form.control}
+                      name="cas_no"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>CAS No.</FormLabel>
+                          <FormControl>
+                            <Input {...field} value={field.value || ""} placeholder="ex: 8008-79-5" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="typologie_de_produit"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Typologie de produit</FormLabel>
+                          <Select onValueChange={field.onChange} value={field.value || "PARFUM"}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Sélectionner..." />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="PARFUM">Parfum</SelectItem>
+                              <SelectItem value="HUILE ESSENTIELLE">Huile essentielle</SelectItem>
+                              <SelectItem value="ABSOLUE">Absolue</SelectItem>
+                              <SelectItem value="RESINOIDES">Résinoïdes</SelectItem>
+                              <SelectItem value="CONCENTRE">Concentré</SelectItem>
+                              <SelectItem value="EXTRAIT">Extrait</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
                       name="famille_olfactive"
                       render={({ field }) => (
                         <FormItem>
@@ -521,13 +575,46 @@ export default function ParfumEditPage() {
                       )}
                     />
 
+                    <FormField
+                      control={form.control}
+                      name="flavouring_preparation"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Flavouring preparation</FormLabel>
+                          <FormControl>
+                            <Input {...field} value={field.value || ""} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="md:col-span-2">
+                      <FormField
+                        control={form.control}
+                        name="calendrier_des_recoltes"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Calendrier des récoltes</FormLabel>
+                            <FormControl>
+                              <Input {...field} value={field.value || ""} placeholder="ex: Mars - Mai" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
                     <div className="md:col-span-2">
                       <FormField
                         control={form.control}
                         name="description"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Description</FormLabel>
+                            <FormLabel className="flex items-center">
+                              Description
+                              {field.value && <AIFieldBadge />}
+                            </FormLabel>
                             <FormControl>
                               <Textarea {...field} value={field.value || ""} rows={3} />
                             </FormControl>
@@ -543,7 +630,10 @@ export default function ParfumEditPage() {
                         name="profil_olfactif"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Profil olfactif</FormLabel>
+                            <FormLabel className="flex items-center">
+                              Profil olfactif
+                              {field.value && <AIFieldBadge />}
+                            </FormLabel>
                             <FormControl>
                               <Textarea {...field} value={field.value || ""} rows={2} />
                             </FormControl>
@@ -674,6 +764,6 @@ export default function ParfumEditPage() {
         </Button>
       </div>
       </div>
-    </>
+    </TooltipProvider>
   );
 }

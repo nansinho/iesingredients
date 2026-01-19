@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { StarRatingInput } from "./StarRatingInput";
+import { AIFieldBadge } from "./AIFieldBadge";
 import {
   useProductPerformance,
   type PerformanceRow,
@@ -42,6 +43,7 @@ export const PerformanceTable = forwardRef<PerformanceTableRef, PerformanceTable
     const { data: existingData, isLoading } = useProductPerformance(productCode);
     const [rows, setRows] = useState<Omit<PerformanceRow, "id">[]>([]);
     const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+    const [hasExistingData, setHasExistingData] = useState(false);
 
     useEffect(() => {
       if (existingData && existingData.length > 0) {
@@ -55,6 +57,7 @@ export const PerformanceTable = forwardRef<PerformanceTableRef, PerformanceTable
           }))
         );
         setInitialDataLoaded(true);
+        setHasExistingData(true);
       } else if (!isLoading && !initialDataLoaded) {
         // Create default rows
         setRows(
@@ -67,6 +70,7 @@ export const PerformanceTable = forwardRef<PerformanceTableRef, PerformanceTable
           }))
         );
         setInitialDataLoaded(true);
+        setHasExistingData(false);
       }
     }, [existingData, isLoading, productCode, initialDataLoaded]);
 
@@ -136,7 +140,10 @@ export const PerformanceTable = forwardRef<PerformanceTableRef, PerformanceTable
     return (
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Performance</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Performance</CardTitle>
+            {hasExistingData && <AIFieldBadge />}
+          </div>
           <Button variant="outline" size="sm" onClick={addRow}>
             <Plus className="h-4 w-4 mr-2" />
             Ajouter une option
@@ -154,63 +161,52 @@ export const PerformanceTable = forwardRef<PerformanceTableRef, PerformanceTable
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rows.map((row) => {
-                  const isCustomRow = row.ordre > DEFAULT_OPTIONS.length;
-                  const isDefaultOption = DEFAULT_OPTIONS.includes(row.option_name || "");
-                  
-                  return (
-                    <TableRow key={row.ordre}>
-                      <TableCell>
-                        {isDefaultOption && !isCustomRow ? (
-                          <span className="font-medium text-sm">{row.option_name}</span>
-                        ) : (
-                          <Input
-                            value={row.option_name || ""}
-                            onChange={(e) => updateRow(row.ordre, "option_name", e.target.value)}
-                            className="h-8"
-                            placeholder="Nom de l'option"
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Input
-                          value={row.performance_value || ""}
-                          onChange={(e) =>
-                            updateRow(row.ordre, "performance_value", e.target.value || null)
-                          }
-                          className="h-8"
-                          placeholder="Valeur"
-                          disabled={row.performance_rating !== null}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <StarRatingInput
-                          value={row.performance_rating}
-                          onChange={(value) => updateRow(row.ordre, "performance_rating", value)}
-                          size="md"
-                          disabled={!!row.performance_value}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {isCustomRow && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-destructive hover:text-destructive"
-                            onClick={() => removeRow(row.ordre)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                {rows.map((row) => (
+                  <TableRow key={row.ordre}>
+                    <TableCell>
+                      <Input
+                        value={row.option_name || ""}
+                        onChange={(e) => updateRow(row.ordre, "option_name", e.target.value)}
+                        className="h-8"
+                        placeholder="Nom de l'option"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        value={row.performance_value || ""}
+                        onChange={(e) =>
+                          updateRow(row.ordre, "performance_value", e.target.value || null)
+                        }
+                        className="h-8"
+                        placeholder="Valeur"
+                        disabled={row.performance_rating !== null}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <StarRatingInput
+                        value={row.performance_rating}
+                        onChange={(value) => updateRow(row.ordre, "performance_rating", value)}
+                        size="md"
+                        disabled={!!row.performance_value}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-destructive hover:text-destructive"
+                        onClick={() => removeRow(row.ordre)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
           <p className="text-xs text-muted-foreground mt-4 text-center">
-            Utilisez soit la valeur texte, soit la note étoilée (pas les deux).
+            Utilisez soit la valeur texte, soit la note étoilée (pas les deux). Tous les champs sont éditables.
           </p>
         </CardContent>
       </Card>
