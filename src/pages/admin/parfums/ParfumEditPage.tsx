@@ -1,10 +1,10 @@
-import { useParams, useNavigate, useBlocker } from "react-router-dom";
+import { useParams, useNavigate, useBlocker, useSearchParams } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { UnsavedChangesDialog } from "@/components/admin/UnsavedChangesDialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, Save, Loader2, AlertCircle, Check, RefreshCw, ExternalLink } from "lucide-react";
+import { ArrowLeft, Save, Loader2, AlertCircle, Check, RefreshCw, ExternalLink, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,7 +30,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { AIFieldBadge } from "@/components/admin/AIFieldBadge";
+import { ProductHistory } from "@/components/admin/ProductHistory";
 import { useAdminProduct, useUpsertProduct } from "@/hooks/useAdminProducts";
+import { useRecordProductHistory, getChangedFields } from "@/hooks/useProductHistory";
 import { PerformanceTable, type PerformanceTableRef } from "@/components/admin/PerformanceTable";
 import { StabilityTable, type StabilityTableRef } from "@/components/admin/StabilityTable";
 import { useUpdatePerformance } from "@/hooks/usePerformance";
@@ -65,11 +67,15 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function ParfumEditPage() {
   const { code } = useParams<{ code: string }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const isNew = code === "new";
+  const duplicateFrom = searchParams.get("duplicate");
 
   const { data: product, isLoading } = useAdminProduct("parfum", isNew ? null : code || null);
+  const { data: sourceProduct } = useAdminProduct("parfum", duplicateFrom);
   const upsertMutation = useUpsertProduct("parfum");
+  const recordHistory = useRecordProductHistory();
   const updatePerformance = useUpdatePerformance();
   const updateStability = useUpdateStability();
 
@@ -141,6 +147,38 @@ export default function ParfumEditPage() {
       setAutoSaveStatus('idle');
     }
   }, [product, form]);
+
+  // Populate form when duplicating
+  useEffect(() => {
+    if (sourceProduct && isNew && duplicateFrom) {
+      form.reset({
+        code: "", // Laisser vide pour nouveau code
+        nom_commercial: (sourceProduct.nom_commercial as string) || "",
+        nom_latin: (sourceProduct.nom_latin as string) || "",
+        cas_no: (sourceProduct.cas_no as string) || "",
+        typologie_de_produit: (sourceProduct.typologie_de_produit as string) || "PARFUM",
+        famille_olfactive: (sourceProduct.famille_olfactive as string) || "",
+        profil_olfactif: (sourceProduct.profil_olfactif as string) || "",
+        origine: (sourceProduct.origine as string) || "",
+        tracabilite: (sourceProduct.tracabilite as string) || "",
+        description: (sourceProduct.description as string) || "",
+        aspect: (sourceProduct.aspect as string) || "",
+        certifications: (sourceProduct.certifications as string) || "",
+        valorisations: (sourceProduct.valorisations as string) || "",
+        food_grade: (sourceProduct.food_grade as string) || "",
+        flavouring_preparation: (sourceProduct.flavouring_preparation as string) || "",
+        calendrier_des_recoltes: (sourceProduct.calendrier_des_recoltes as string) || "",
+        statut: (sourceProduct.statut as string) || "ACTIF",
+        image_url: (sourceProduct.image_url as string) || "",
+      });
+      setHasChanges(true);
+      setAutoSaveStatus('pending');
+    }
+  }, [sourceProduct, isNew, duplicateFrom, form]);
+
+  const handleDuplicate = () => {
+    navigate(`/admin/parfums/new?duplicate=${code}`);
+  };
 
   // Auto-save function
   const performAutoSave = useCallback(async () => {
@@ -369,16 +407,26 @@ export default function ParfumEditPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Preview button */}
+          {/* Action buttons */}
           {!isNew && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open(`/fr/produit/${code}`, '_blank')}
-            >
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Aperçu
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDuplicate}
+              >
+                <Copy className="h-4 w-4 mr-2" />
+                Dupliquer
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.open(`/fr/produit/${code}`, '_blank')}
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                Aperçu
+              </Button>
+            </div>
           )}
           
           {/* Status badge */}
@@ -708,7 +756,7 @@ export default function ParfumEditPage() {
                 </Card>
               </div>
 
-              {/* Image sidebar */}
+              {/* Sidebar */}
               <div className="space-y-6">
                 <Card>
                   <CardHeader>
@@ -733,6 +781,11 @@ export default function ParfumEditPage() {
                     />
                   </CardContent>
                 </Card>
+
+                {/* Historique */}
+                {!isNew && !duplicateFrom && (
+                  <ProductHistory productType="parfum" productCode={code || null} />
+                )}
               </div>
             </div>
           </Form>

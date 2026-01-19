@@ -509,6 +509,39 @@ export type Database = {
         }
         Relationships: []
       }
+      product_history: {
+        Row: {
+          action: string
+          changes: Json | null
+          created_at: string | null
+          id: string
+          product_code: string
+          product_type: string
+          user_email: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          changes?: Json | null
+          created_at?: string | null
+          id?: string
+          product_code: string
+          product_type: string
+          user_email?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          changes?: Json | null
+          created_at?: string | null
+          id?: string
+          product_code?: string
+          product_type?: string
+          user_email?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
