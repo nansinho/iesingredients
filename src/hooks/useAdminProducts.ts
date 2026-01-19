@@ -138,7 +138,7 @@ export function useUpsertProduct(type: ProductType) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-products", type] });
       queryClient.invalidateQueries({ queryKey: ["admin-stats"] });
-      toast.success("Produit enregistré avec succès");
+      // Toast removed - pages handle their own success messages
     },
     onError: (error) => {
       toast.error(`Erreur: ${error.message}`);
