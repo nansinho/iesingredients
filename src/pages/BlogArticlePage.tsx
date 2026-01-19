@@ -235,7 +235,7 @@ export const BlogArticlePage = ({ lang }: BlogArticlePageProps) => {
             </motion.div>
 
             {/* Share Button */}
-            <div className="mt-12 pt-8 border-t border-border">
+            <div className="mt-12 pt-8 border-t border-forest-100">
               <Button variant="outline" onClick={handleShare} className="gap-2">
                 <Share2 className="w-4 h-4" />
                 {lang === 'fr' ? 'Partager cet article' : 'Share this article'}

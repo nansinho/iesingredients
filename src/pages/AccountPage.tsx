@@ -239,7 +239,7 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
       <section className="py-10 sm:py-16 bg-background">
         <div className="container-luxe">
           <Tabs defaultValue="profile" className="space-y-8">
-            <TabsList className="bg-card border border-border p-1.5 rounded-xl inline-flex">
+            <TabsList className="bg-card border border-forest-100 p-1.5 rounded-xl inline-flex">
               <TabsTrigger
                 value="profile"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-5 py-2.5 transition-all"
@@ -268,8 +268,8 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
                   animate={{ opacity: 1, y: 0 }}
                   className="lg:col-span-2"
                 >
-                  <Card className="border-border shadow-sm">
-                    <CardHeader className="border-b border-border">
+                  <Card className="border-forest-100 shadow-sm">
+                    <CardHeader className="border-b border-forest-100">
                       <CardTitle className="font-serif text-xl">
                         {lang === 'fr' ? 'Informations personnelles' : 'Personal information'}
                       </CardTitle>
@@ -336,7 +336,7 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
                           </div>
                         </div>
 
-                        <div className="flex justify-end pt-4 border-t border-border">
+                        <div className="flex justify-end pt-4 border-t border-forest-100">
                           <Button type="submit" disabled={isUpdating} size="lg">
                             {isUpdating ? (
                               <>
@@ -364,7 +364,7 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
                   className="space-y-6"
                 >
                   {/* Quick Actions */}
-                  <Card className="border-border shadow-sm">
+                  <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
                       <CardTitle className="font-serif text-lg">
                         {lang === 'fr' ? 'Actions rapides' : 'Quick actions'}
@@ -387,7 +387,7 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
                   </Card>
 
                   {/* Logout */}
-                  <Card className="border-border shadow-sm">
+                  <Card className="border-forest-100 shadow-sm">
                     <CardContent className="pt-6">
                       <Button
                         variant="outline"
@@ -409,8 +409,8 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="border-border shadow-sm">
-                  <CardHeader className="border-b border-border">
+                <Card className="border-forest-100 shadow-sm">
+                  <CardHeader className="border-b border-forest-100">
                     <CardTitle className="font-serif text-xl">
                       {lang === 'fr' ? 'Historique des demandes' : 'Request history'}
                     </CardTitle>
@@ -456,7 +456,7 @@ export const AccountPage = ({ lang }: AccountPageProps) => {
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: index * 0.05 }}
-                              className="border border-border rounded-xl p-5 hover:shadow-md hover:border-primary/20 transition-all"
+                              className="border border-forest-100 rounded-xl p-5 hover:shadow-md hover:border-primary/20 transition-all"
                             >
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                                 <div className="flex items-center gap-3">

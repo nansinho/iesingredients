@@ -120,7 +120,7 @@ export const TeamPage = ({ lang }: TeamPageProps) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card className="group border-border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                  <Card className="group border-forest-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                     {/* Photo or Initials */}
                     <div className="aspect-[4/3] bg-gradient-to-br from-forest-100 to-gold-100 dark:from-forest-900 dark:to-gold-900/50 flex items-center justify-center relative overflow-hidden">
                       {member.photo_url ? (

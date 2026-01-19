@@ -493,7 +493,7 @@ export default function AromeEditPage() {
           </div>
 
           {/* Fixed save button on mobile */}
-          <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t border-border lg:static lg:border-0 lg:p-0 lg:bg-transparent">
+          <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t border-forest-100 lg:static lg:border-0 lg:p-0 lg:bg-transparent">
             <Button
               type="submit"
               className="w-full lg:w-auto"

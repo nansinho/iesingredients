@@ -129,7 +129,7 @@ export const NewsPage = ({ lang }: NewsPageProps) => {
       </section>
 
       {/* Filters Section */}
-      <section className="bg-muted/30 border-b border-border/50 py-6 sticky top-[72px] z-30 backdrop-blur-sm">
+      <section className="bg-muted/30 border-b border-forest-100/50 py-6 sticky top-[72px] z-30 backdrop-blur-sm">
         <div className="container-luxe">
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="relative flex-1 max-w-md w-full">

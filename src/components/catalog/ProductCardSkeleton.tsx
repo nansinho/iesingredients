@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export const ProductCardSkeleton = () => {
   return (
-    <div className="relative h-full rounded-2xl border overflow-hidden bg-secondary/50 border-border/50">
+    <div className="relative h-full rounded-2xl border overflow-hidden bg-secondary/50 border-forest-100/50">
       {/* Image Section Skeleton */}
       <Skeleton className="h-40 w-full rounded-none" />
       

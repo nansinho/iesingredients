@@ -62,7 +62,7 @@ const getCategoryConfig = (typologie: string | null) => {
   }
   return { 
     bg: 'bg-secondary',
-    border: 'border-border',
+    border: 'border-forest-100',
     accent: 'text-primary',
     badge: 'bg-primary text-primary-foreground',
     badgeLight: 'bg-primary/10 text-primary border-primary/20',
