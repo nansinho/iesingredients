@@ -264,10 +264,10 @@ export function ImportCSV({
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
       className={cn(
-        "border-2 border-dashed rounded-lg p-8 text-center transition-colors",
+        "rounded-lg p-8 text-center transition-colors bg-muted/30",
         isDragging
-          ? "border-primary bg-primary/5"
-          : "border-forest-200 hover:border-primary/50"
+          ? "bg-primary/10"
+          : "hover:bg-muted/50"
       )}
     >
       <input
