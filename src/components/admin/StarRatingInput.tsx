@@ -83,8 +83,8 @@ export function StarRatingInput({
                   sizeClasses[size],
                   "transition-colors",
                   isFilled
-                    ? "fill-gold text-gold"
-                    : "fill-transparent text-muted-foreground/40"
+                    ? "fill-amber-400 text-amber-400"
+                    : "fill-transparent text-muted-foreground/50"
                 )}
               />
             </button>
@@ -117,8 +117,8 @@ export function StarRatingDisplay({
             className={cn(
               sizeClasses[size],
               isFilled
-                ? "fill-gold text-gold"
-                : "fill-transparent text-muted-foreground/40"
+                ? "fill-amber-400 text-amber-400"
+                : "fill-transparent text-muted-foreground/50"
             )}
           />
         );

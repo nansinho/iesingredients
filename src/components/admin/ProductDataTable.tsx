@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -80,6 +80,14 @@ export function ProductDataTable({
   showPerformance = false,
 }: ProductDataTableProps) {
   const [deleteCode, setDeleteCode] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleRowClick = (e: React.MouseEvent, code: string) => {
+    // Don't navigate if clicking on buttons or links
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('a')) return;
+    navigate(`${editBasePath}/${code}`);
+  };
 
   if (isLoading) {
     return <TableSkeleton />;
@@ -116,9 +124,10 @@ export function ProductDataTable({
               <TableRow
                 key={product.id}
                 className={cn(
-                  "transition-colors",
+                  "transition-colors cursor-pointer hover:bg-muted/50",
                   index % 2 === 0 ? "bg-background" : "bg-muted/20"
                 )}
+                onClick={(e) => handleRowClick(e, product.code)}
               >
                 <TableCell className="py-3">
                   {product.image_url ? (
@@ -210,7 +219,8 @@ export function ProductDataTable({
         {products.map((product) => (
           <div
             key={product.id}
-            className="p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:shadow-md"
+            className="p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:shadow-md cursor-pointer"
+            onClick={(e) => handleRowClick(e, product.code)}
           >
             <div className="flex items-start gap-3">
               {product.image_url ? (

@@ -1,5 +1,5 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus, Trash2, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -143,31 +143,46 @@ export const StabilityTable = forwardRef<StabilityTableRef, StabilityTableProps>
                 {rows.map((row) => (
                   <TableRow key={row.ordre}>
                     <TableCell>
-                      <Input
-                        value={row.ph_value || ""}
-                        onChange={(e) =>
-                          updateRow(row.ordre, "ph_value", e.target.value || null)
-                        }
-                        className="w-16 h-8 text-center"
-                        placeholder="pH"
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <Input
+                          value={row.ph_value || ""}
+                          onChange={(e) =>
+                            updateRow(row.ordre, "ph_value", e.target.value || null)
+                          }
+                          className="w-16 h-8 text-center"
+                          placeholder="pH"
+                        />
+                        {hasExistingData && row.ph_value && (
+                          <Sparkles className="h-3 w-3 text-purple-400 shrink-0" />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <Input
-                        value={row.base_name || ""}
-                        onChange={(e) =>
-                          updateRow(row.ordre, "base_name", e.target.value)
-                        }
-                        className="h-8"
-                        placeholder="Nom de la base"
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <Input
+                          value={row.base_name || ""}
+                          onChange={(e) =>
+                            updateRow(row.ordre, "base_name", e.target.value)
+                          }
+                          className="h-8 flex-1"
+                          placeholder="Nom de la base"
+                        />
+                        {hasExistingData && row.base_name && (
+                          <Sparkles className="h-3 w-3 text-purple-400 shrink-0" />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <StarRatingInput
-                        value={row.odeur_rating}
-                        onChange={(value) => updateRow(row.ordre, "odeur_rating", value)}
-                        size="md"
-                      />
+                      <div className="flex items-center gap-1.5">
+                        <StarRatingInput
+                          value={row.odeur_rating}
+                          onChange={(value) => updateRow(row.ordre, "odeur_rating", value)}
+                          size="md"
+                        />
+                        {hasExistingData && row.odeur_rating && (
+                          <Sparkles className="h-3 w-3 text-purple-400 shrink-0" />
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Button
