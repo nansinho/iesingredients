@@ -146,7 +146,7 @@ export default function CosmetiqueEditPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`/produit/cosmetique/${code}`, '_blank')}
+            onClick={() => window.open(`/fr/produit/${code}`, '_blank')}
           >
             <ExternalLink className="h-4 w-4 mr-2" />
             Aperçu
