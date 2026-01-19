@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,6 +25,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { AIFieldBadge } from "@/components/admin/AIFieldBadge";
 import { useAdminProduct, useUpsertProduct } from "@/hooks/useAdminProducts";
 
 const formSchema = z.object({
@@ -281,7 +282,10 @@ export default function AromeEditPage() {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Description</FormLabel>
+                          <FormLabel className="flex items-center">
+                            Description
+                            {field.value && <AIFieldBadge />}
+                          </FormLabel>
                           <FormControl>
                             <Textarea {...field} value={field.value || ""} rows={3} />
                           </FormControl>
@@ -297,7 +301,10 @@ export default function AromeEditPage() {
                       name="profil_aromatique"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Profil aromatique</FormLabel>
+                          <FormLabel className="flex items-center">
+                            Profil aromatique
+                            {field.value && <AIFieldBadge />}
+                          </FormLabel>
                           <FormControl>
                             <Textarea {...field} value={field.value || ""} rows={2} />
                           </FormControl>
