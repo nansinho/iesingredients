@@ -193,7 +193,7 @@ export function ImportCSV({
           )}
 
           {/* Preview table */}
-          <ScrollArea className="h-64 rounded-md border border-forest-100">
+          <ScrollArea className="h-64 rounded-md border-0">
             <Table>
               <TableHeader>
                 <TableRow>

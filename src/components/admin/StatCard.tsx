@@ -13,7 +13,7 @@ interface StatCardProps {
 
 const variantStyles = {
   default: {
-    card: "bg-card border-forest-100",
+    card: "bg-card border-0",
     icon: "bg-primary/10 text-primary",
     value: "text-foreground",
   },
@@ -62,7 +62,7 @@ export function StatCard({
   const content = (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl border p-4 md:p-5 transition-all duration-200",
+        "relative overflow-hidden rounded-xl p-4 md:p-5 transition-all duration-200",
         "hover:shadow-md hover:-translate-y-0.5",
         styles.card
       )}

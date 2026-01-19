@@ -176,7 +176,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         <NavLink
           to="/admin/cosmetiques"
-          className="group p-5 md:p-6 rounded-xl border border-forest-100 bg-card hover:border-cosmetique/50 hover:bg-cosmetique/5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+          className="group p-5 md:p-6 rounded-xl border-0 bg-card hover:border-cosmetique/50 hover:bg-cosmetique/5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
         >
           <Sparkles className="h-8 w-8 text-cosmetique mb-4" />
           <h3 className="font-semibold text-foreground group-hover:text-cosmetique transition-colors">
@@ -189,7 +189,7 @@ export default function AdminDashboard() {
 
         <NavLink
           to="/admin/parfums"
-          className="group p-5 md:p-6 rounded-xl border border-forest-100 bg-card hover:border-parfum/50 hover:bg-parfum/5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+          className="group p-5 md:p-6 rounded-xl border-0 bg-card hover:border-parfum/50 hover:bg-parfum/5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
         >
           <Droplets className="h-8 w-8 text-parfum mb-4" />
           <h3 className="font-semibold text-foreground group-hover:text-parfum transition-colors">
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
 
         <NavLink
           to="/admin/aromes"
-          className="group p-5 md:p-6 rounded-xl border border-forest-100 bg-card hover:border-arome/50 hover:bg-arome/5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+          className="group p-5 md:p-6 rounded-xl border-0 bg-card hover:border-arome/50 hover:bg-arome/5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
         >
           <Cookie className="h-8 w-8 text-arome mb-4" />
           <h3 className="font-semibold text-foreground group-hover:text-arome transition-colors">

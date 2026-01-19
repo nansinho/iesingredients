@@ -762,7 +762,7 @@ export default function ParfumEditPage() {
       </Tabs>
 
       {/* Fixed save button on mobile */}
-      <div className="fixed bottom-16 left-0 right-0 p-4 bg-background border-t border-forest-100 lg:hidden">
+      <div className="fixed bottom-16 left-0 right-0 p-4 bg-background lg:hidden">
         <Button
           onClick={handleSaveAll}
           className="w-full"
