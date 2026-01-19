@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useImageUpload } from "@/hooks/useImageUpload";
@@ -15,6 +15,11 @@ export function ImageUpload({ value, onChange, folder = "", className }: ImageUp
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(value || null);
   const { upload, deleteImage, isUploading, progress } = useImageUpload({ folder });
+
+  // Synchroniser previewUrl quand value change (ex: après chargement des données)
+  useEffect(() => {
+    setPreviewUrl(value || null);
+  }, [value]);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
