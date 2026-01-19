@@ -269,13 +269,13 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                   transition={{ duration: 0.18, ease: 'easeOut' }}
                   className="w-full max-w-3xl"
                 >
-                  <div className="bg-card border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+                  <div className="bg-card border border-forest-100 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
                 {/* Header with input */}
                 <div className="relative">
                   {/* Gradient decoration */}
                   <div className="absolute inset-0 bg-gradient-to-r from-gold-500/5 via-transparent to-primary/5 pointer-events-none" />
                   
-                  <div className="flex items-center gap-3 px-4 sm:px-6 py-4 sm:py-5 border-b border-border relative">
+                  <div className="flex items-center gap-3 px-4 sm:px-6 py-4 sm:py-5 border-b border-forest-100 relative">
                     <div className="relative flex-1 flex items-center gap-3">
                       <Search className="w-5 h-5 sm:w-6 sm:h-6 text-gold-500 shrink-0" />
                       <input
@@ -308,7 +308,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                       onClick={() => setIsOpen(false)} 
                       className="text-muted-foreground hover:text-foreground transition-colors ml-2"
                     >
-                      <kbd className="hidden sm:inline-flex h-6 items-center rounded border border-border bg-muted px-1.5 text-xs font-mono">
+                      <kbd className="hidden sm:inline-flex h-6 items-center rounded border border-forest-100 bg-muted px-1.5 text-xs font-mono">
                         ESC
                       </kbd>
                       <X className="w-5 h-5 sm:hidden" />
@@ -317,7 +317,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                 </div>
 
                 {/* Category Tabs */}
-                <div className="flex items-center gap-1 px-4 sm:px-6 py-2 sm:py-3 border-b border-border bg-muted/30 overflow-x-auto">
+                <div className="flex items-center gap-1 px-4 sm:px-6 py-2 sm:py-3 border-b border-forest-100 bg-muted/30 overflow-x-auto">
                   <Filter className="w-4 h-4 text-muted-foreground shrink-0 mr-1" />
                   {categoryTabs.map((tab) => (
                     <button
@@ -466,7 +466,7 @@ export const HeaderSearch = React.forwardRef<HTMLDivElement, HeaderSearchProps>(
                 {query.trim() && (
                   <button
                     onClick={navigateToSearch}
-                    className="w-full flex items-center justify-between px-4 sm:px-6 py-4 bg-gradient-to-r from-primary/5 to-gold-500/5 hover:from-primary/10 hover:to-gold-500/10 transition-colors border-t border-border"
+                    className="w-full flex items-center justify-between px-4 sm:px-6 py-4 bg-gradient-to-r from-primary/5 to-gold-500/5 hover:from-primary/10 hover:to-gold-500/10 transition-colors border-t border-forest-100"
                   >
                     <span className="text-sm font-semibold text-foreground">
                       {lang === 'fr' ? `Voir tous les résultats pour "${query}"` : `See all results for "${query}"`}

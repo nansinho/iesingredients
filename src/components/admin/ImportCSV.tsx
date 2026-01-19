@@ -193,7 +193,7 @@ export function ImportCSV({
           )}
 
           {/* Preview table */}
-          <ScrollArea className="h-64 rounded-md border">
+          <ScrollArea className="h-64 rounded-md border border-forest-100">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -267,7 +267,7 @@ export function ImportCSV({
         "border-2 border-dashed rounded-lg p-8 text-center transition-colors",
         isDragging
           ? "border-primary bg-primary/5"
-          : "border-border hover:border-primary/50"
+          : "border-forest-200 hover:border-primary/50"
       )}
     >
       <input

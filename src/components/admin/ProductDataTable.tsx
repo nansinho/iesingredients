@@ -53,7 +53,7 @@ function TableSkeleton() {
       {Array.from({ length: 5 }).map((_, i) => (
         <div
           key={i}
-          className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card animate-pulse"
+          className="flex items-center gap-4 p-4 rounded-xl border border-forest-100 bg-card animate-pulse"
         >
           <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
           <div className="flex-1 space-y-2">
@@ -95,7 +95,7 @@ export function ProductDataTable({
 
   if (products.length === 0) {
     return (
-      <div className="text-center py-16 text-muted-foreground rounded-xl border border-dashed border-border bg-muted/20">
+      <div className="text-center py-16 text-muted-foreground rounded-xl border border-dashed border-forest-200 bg-muted/20">
         <Image className="h-12 w-12 mx-auto mb-3 opacity-40" />
         <p className="font-medium">Aucun produit trouvé</p>
         <p className="text-sm mt-1">Essayez de modifier vos filtres</p>
@@ -106,7 +106,7 @@ export function ProductDataTable({
   return (
     <div className="space-y-4">
       {/* Desktop table */}
-      <div className="hidden md:block overflow-hidden rounded-xl border border-border bg-card">
+      <div className="hidden md:block overflow-hidden rounded-xl border border-forest-100 bg-card">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
@@ -134,10 +134,10 @@ export function ProductDataTable({
                     <img
                       src={product.image_url}
                       alt=""
-                      className="w-11 h-11 object-cover rounded-lg border border-border"
+                      className="w-11 h-11 object-cover rounded-lg border border-forest-100"
                     />
                   ) : (
-                    <div className="w-11 h-11 bg-muted rounded-lg flex items-center justify-center border border-border">
+                    <div className="w-11 h-11 bg-muted rounded-lg flex items-center justify-center border border-forest-100">
                       <Image className="w-4 h-4 text-muted-foreground" />
                     </div>
                   )}
@@ -219,7 +219,7 @@ export function ProductDataTable({
         {products.map((product) => (
           <div
             key={product.id}
-            className="p-4 rounded-xl border border-border bg-card transition-all duration-200 hover:shadow-md cursor-pointer"
+            className="p-4 rounded-xl border border-forest-100 bg-card transition-all duration-200 hover:shadow-md cursor-pointer"
             onClick={(e) => handleRowClick(e, product.code)}
           >
             <div className="flex items-start gap-3">
@@ -227,10 +227,10 @@ export function ProductDataTable({
                 <img
                   src={product.image_url}
                   alt=""
-                  className="w-14 h-14 object-cover rounded-lg border border-border shrink-0"
+                  className="w-14 h-14 object-cover rounded-lg border border-forest-100 shrink-0"
                 />
               ) : (
-                <div className="w-14 h-14 bg-muted rounded-lg flex items-center justify-center shrink-0 border border-border">
+                <div className="w-14 h-14 bg-muted rounded-lg flex items-center justify-center shrink-0 border border-forest-100">
                   <Image className="w-5 h-5 text-muted-foreground" />
                 </div>
               )}
@@ -258,7 +258,7 @@ export function ProductDataTable({
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-border">
+            <div className="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-forest-100">
               {showPerformance && (
                 <Button variant="outline" size="sm" asChild className="h-9">
                   <NavLink to={`${editBasePath}/${product.code}/performance`}>

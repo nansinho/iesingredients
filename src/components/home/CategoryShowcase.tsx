@@ -74,7 +74,7 @@ export const CategoryShowcase = ({ lang }: CategoryShowcaseProps) => {
               key={category.key}
               to={`/${lang}/catalogue?category=${category.key}`}
               className={cn(
-                'group relative overflow-hidden rounded-2xl border border-border bg-card p-8 transition-all duration-500 hover-lift animate-fade-in-up',
+                'group relative overflow-hidden rounded-2xl border border-forest-100 bg-card p-8 transition-all duration-500 hover-lift animate-fade-in-up',
                 category.borderColor
               )}
               style={{ animationDelay: `${index * 0.1}s` }}
