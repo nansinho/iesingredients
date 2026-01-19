@@ -152,7 +152,7 @@ export default function AromeEditPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => window.open(`/produit/arome/${code}`, '_blank')}
+            onClick={() => window.open(`/fr/produit/${code}`, '_blank')}
           >
             <ExternalLink className="h-4 w-4 mr-2" />
             Aperçu
