@@ -15,6 +15,7 @@ import {
   Newspaper,
   Mail,
   Users,
+  UserCog,
   Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,7 @@ const navItems = [
   { to: "/admin/parfums", icon: Droplets, label: "Parfums" },
   { to: "/admin/aromes", icon: Cookie, label: "Arômes" },
   { to: "/admin/equipe", icon: Users, label: "Équipe" },
+  { to: "/admin/utilisateurs", icon: UserCog, label: "Utilisateurs" },
   { to: "/admin/settings", icon: Settings, label: "Paramètres" },
 ];
 
