@@ -1,7 +1,7 @@
-// Force refresh - v2
+// Force refresh - v3
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Plus, Upload, Search, X, Download } from "lucide-react";
+import { Plus, Upload, Search, X, Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,17 +17,18 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
+  SheetDescription,
 } from "@/components/ui/sheet";
-import { ImportCSV } from "@/components/admin/ImportCSV";
+import { SmartCSVImport } from "@/components/admin/SmartCSVImport";
 import { ProductDataTable } from "@/components/admin/ProductDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   useAdminProducts,
   useAdminFilterOptions,
   useDeleteProduct,
-  useBulkImport,
 } from "@/hooks/useAdminProducts";
 import { useExportCSV } from "@/hooks/useExportCSV";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ParfumListPage() {
   const [search, setSearch] = useState("");
@@ -48,12 +49,14 @@ export default function ParfumListPage() {
 
   const { data: filterOptions } = useAdminFilterOptions("parfum");
   const deleteMutation = useDeleteProduct("parfum");
-  const importMutation = useBulkImport("parfum");
   const { exportToCSV, isExporting } = useExportCSV();
+  const queryClient = useQueryClient();
 
-  const handleImport = async (importedData: Record<string, unknown>[]) => {
-    await importMutation.mutateAsync(importedData);
-    setImportOpen(false);
+  const handleImportSuccess = () => {
+    // Invalidate all relevant queries
+    queryClient.invalidateQueries({ queryKey: ["admin-products", "parfum"] });
+    queryClient.invalidateQueries({ queryKey: ["product-performance"] });
+    queryClient.invalidateQueries({ queryKey: ["product-stability"] });
   };
 
   const clearFilters = () => {
@@ -86,20 +89,23 @@ export default function ParfumListPage() {
 
             <Sheet open={importOpen} onOpenChange={setImportOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" className="h-10">
-                  <Upload className="h-4 w-4 mr-2" />
-                  Import CSV
+                <Button variant="outline" className="h-10 gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  Import intelligent
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-full sm:max-w-lg">
                 <SheetHeader>
-                  <SheetTitle>Importer des parfums</SheetTitle>
+                  <SheetTitle>Import intelligent</SheetTitle>
+                  <SheetDescription>
+                    Importez vos données CSV avec détection automatique des colonnes et synchronisation des performances et stabilités.
+                  </SheetDescription>
                 </SheetHeader>
                 <div className="mt-6">
-                  <ImportCSV
-                    onImport={handleImport}
-                    expectedColumns={["code", "nom_commercial"]}
-                    isLoading={importMutation.isPending}
+                  <SmartCSVImport
+                    defaultProductType="parfum"
+                    onSuccess={handleImportSuccess}
+                    onClose={() => setImportOpen(false)}
                   />
                 </div>
               </SheetContent>
