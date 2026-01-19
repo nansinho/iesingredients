@@ -304,7 +304,7 @@ export function SmartCSVImport({
               </Table>
             </ScrollArea>
             {parseResult.products.length > 10 && (
-              <p className="text-xs text-muted-foreground text-center py-2 border-t border-forest-100">
+              <p className="text-xs text-muted-foreground text-center py-2 border-t-0">
                 ... et {parseResult.products.length - 10} autres produits
               </p>
             )}
