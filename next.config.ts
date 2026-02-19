@@ -3,6 +3,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseHost = supabaseUrl ? new URL(supabaseUrl).hostname : "";
+const supabaseProtocol = supabaseUrl.startsWith("https") ? "https" : "http";
+
 const nextConfig: NextConfig = {
   output: "standalone",
   images: {
@@ -20,6 +24,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.supabase.in",
       },
+      ...(supabaseHost
+        ? [
+            {
+              protocol: supabaseProtocol as "http" | "https",
+              hostname: supabaseHost,
+            },
+          ]
+        : []),
     ],
   },
   async headers() {
@@ -51,8 +63,8 @@ const nextConfig: NextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://*.supabase.in",
-              "connect-src 'self' https://*.supabase.co https://*.supabase.in",
+              `img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://*.supabase.in${supabaseHost ? ` ${supabaseProtocol}://${supabaseHost}` : ""}`,
+              `connect-src 'self' https://*.supabase.co https://*.supabase.in${supabaseHost ? ` ${supabaseProtocol}://${supabaseHost}` : ""}`,
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
