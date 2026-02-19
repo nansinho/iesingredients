@@ -43,25 +43,44 @@ interface TranslationRequest {
   forceRetranslate?: boolean;
 }
 
+/**
+ * Translate a single text from French to English using self-hosted LibreTranslate.
+ */
+async function translateText(text: string, libreTranslateUrl: string): Promise<string> {
+  const response = await fetch(`${libreTranslateUrl}/translate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      q: text,
+      source: "fr",
+      target: "en",
+      format: "text",
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`LibreTranslate error: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.translatedText || text;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LIBRETRANSLATE_URL = Deno.env.get("LIBRETRANSLATE_URL") || "http://libretranslate:5000";
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
-    }
 
     const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
     const { productCode, batchSize = 10, forceRetranslate = false }: TranslationRequest = await req.json();
 
-    console.log(`Starting translation: productCode=${productCode}, batchSize=${batchSize}, forceRetranslate=${forceRetranslate}`);
+    console.log(`Starting translation via LibreTranslate: productCode=${productCode}, batchSize=${batchSize}, forceRetranslate=${forceRetranslate}`);
 
     // Get products from French table that need translation
     let query = supabase
@@ -83,7 +102,6 @@ serve(async (req) => {
     }
 
     if (!frenchProducts || frenchProducts.length === 0) {
-      console.log("No French products found");
       return new Response(
         JSON.stringify({ message: "No products to translate", translated: 0 }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -100,12 +118,11 @@ serve(async (req) => {
     const existingMap = new Map(existingEnglish?.map(e => [e.code, e.translated_at]) || []);
 
     // Filter products that need translation
-    const productsToTranslate = forceRetranslate 
-      ? frenchProducts 
+    const productsToTranslate = forceRetranslate
+      ? frenchProducts
       : frenchProducts.filter(p => !existingMap.has(p.code));
 
     if (productsToTranslate.length === 0) {
-      console.log("All products already translated");
       return new Response(
         JSON.stringify({ message: "All products already translated", translated: 0 }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -118,109 +135,6 @@ serve(async (req) => {
 
     for (const product of productsToTranslate) {
       try {
-        // Build content to translate
-        const fieldsToTranslate: Record<string, string> = {};
-        
-        for (const field of TRANSLATABLE_FIELDS) {
-          const value = product[field];
-          if (value && typeof value === 'string' && value.trim()) {
-            fieldsToTranslate[field] = value;
-          }
-        }
-
-        if (Object.keys(fieldsToTranslate).length === 0) {
-          console.log(`Product ${product.code} has no fields to translate, copying as-is`);
-          
-          // Just copy the product without translation
-          const englishProduct: Record<string, any> = {
-            source_id: product.id,
-            translated_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          };
-          
-          for (const field of COPY_FIELDS) {
-            if (product[field] !== undefined) {
-              englishProduct[field] = product[field];
-            }
-          }
-
-          await supabase
-            .from('cosmetique_en')
-            .upsert(englishProduct, { onConflict: 'code' });
-          
-          translatedProducts.push(product.code);
-          continue;
-        }
-
-        console.log(`Translating product ${product.code}: ${product.nom_commercial}`);
-
-        // Call Lovable AI for translation
-        const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${LOVABLE_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
-            messages: [
-              {
-                role: "system",
-                content: `You are a professional translator specializing in cosmetics, perfumes, and food ingredients. Translate the following French content to English. 
-                
-IMPORTANT RULES:
-- Maintain technical terminology accuracy
-- Keep proper nouns and brand names unchanged
-- Preserve formatting (commas, slashes, etc.)
-- Return ONLY a valid JSON object with the same keys, containing the English translations
-- Do NOT add any explanation or markdown, just the JSON object`
-              },
-              {
-                role: "user",
-                content: JSON.stringify(fieldsToTranslate)
-              }
-            ],
-            temperature: 0.3,
-          }),
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`AI API error for product ${product.code}:`, response.status, errorText);
-          
-          if (response.status === 429) {
-            console.log("Rate limited, stopping batch");
-            break;
-          }
-          if (response.status === 402) {
-            console.log("Payment required, stopping batch");
-            break;
-          }
-          continue;
-        }
-
-        const aiData = await response.json();
-        const translatedContent = aiData.choices?.[0]?.message?.content;
-
-        if (!translatedContent) {
-          console.error(`No translation content for product ${product.code}`);
-          continue;
-        }
-
-        // Parse the translated JSON
-        let translations: Record<string, string>;
-        try {
-          let cleanContent = translatedContent.trim();
-          if (cleanContent.startsWith('```')) {
-            cleanContent = cleanContent.replace(/```json?\n?/g, '').replace(/```$/g, '').trim();
-          }
-          translations = JSON.parse(cleanContent);
-        } catch (parseError) {
-          console.error(`Failed to parse translation for product ${product.code}:`, parseError, translatedContent);
-          continue;
-        }
-
-        // Build English product record
         const englishProduct: Record<string, any> = {
           source_id: product.id,
           translated_at: new Date().toISOString(),
@@ -234,11 +148,25 @@ IMPORTANT RULES:
           }
         }
 
-        // Add translated fields
-        for (const [key, value] of Object.entries(translations)) {
-          if (TRANSLATABLE_FIELDS.includes(key) && value) {
-            englishProduct[key] = value;
+        // Translate each field via self-hosted LibreTranslate
+        let hasTranslations = false;
+        for (const field of TRANSLATABLE_FIELDS) {
+          const value = product[field];
+          if (value && typeof value === 'string' && value.trim()) {
+            try {
+              englishProduct[field] = await translateText(value, LIBRETRANSLATE_URL);
+              hasTranslations = true;
+            } catch (err) {
+              console.error(`Translation failed for field ${field} of product ${product.code}:`, err);
+              englishProduct[field] = value; // Keep French as fallback
+            }
           }
+        }
+
+        if (!hasTranslations) {
+          console.log(`Product ${product.code} has no fields to translate, copying as-is`);
+        } else {
+          console.log(`Successfully translated product ${product.code}`);
         }
 
         // Upsert to English table
@@ -251,11 +179,10 @@ IMPORTANT RULES:
           continue;
         }
 
-        console.log(`Successfully translated product ${product.code}`);
         translatedProducts.push(product.code);
 
-        // Small delay to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 200));
+        // Small delay to avoid overwhelming LibreTranslate
+        await new Promise(resolve => setTimeout(resolve, 100));
 
       } catch (productError) {
         console.error(`Error translating product ${product.code}:`, productError);
@@ -266,10 +193,10 @@ IMPORTANT RULES:
     console.log(`Translation complete: ${translatedProducts.length} products translated`);
 
     return new Response(
-      JSON.stringify({ 
-        message: "Translation complete", 
+      JSON.stringify({
+        message: "Translation complete",
         translated: translatedProducts.length,
-        productCodes: translatedProducts 
+        productCodes: translatedProducts,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
