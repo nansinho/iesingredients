@@ -15,11 +15,23 @@ export function ProductCard({ product }: { product: Product }) {
   const t = useTranslations("products");
   const config = getCategoryConfig(product.typologie_de_produit);
 
-  const handleCopyCode = (e: React.MouseEvent) => {
+  const handleCopyCode = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!product.code) return;
-    navigator.clipboard.writeText(product.code);
+    try {
+      await navigator.clipboard.writeText(product.code);
+    } catch {
+      // Fallback for non-secure contexts (HTTP)
+      const textarea = document.createElement("textarea");
+      textarea.value = product.code;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
     setCopied(true);
     toast.success(t("referenceCopied"));
     setTimeout(() => setCopied(false), 2000);
