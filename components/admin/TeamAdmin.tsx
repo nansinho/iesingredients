@@ -69,8 +69,8 @@ export function TeamAdmin({
         subtitle={`${members.length} membres`}
         actions={
           <Link href={`/${locale}/admin/equipe/new`}>
-            <Button size="sm" className="bg-forest-900 text-white">
-              <Plus className="w-4 h-4 mr-2" />
+            <Button size="sm" className="bg-forest-900 text-white hover:bg-forest-800 rounded-lg gap-2">
+              <Plus className="w-4 h-4" />
               Nouveau membre
             </Button>
           </Link>

@@ -60,13 +60,13 @@ export function AdminDataTable<T extends Record<string, any>>({
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         {onSearchChange && (
-          <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-forest-400" />
             <Input
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
-              className="pl-9 h-10"
+              className="pl-9 h-10 rounded-xl border-gray-200 focus:border-forest-400"
             />
           </div>
         )}
@@ -78,14 +78,14 @@ export function AdminDataTable<T extends Record<string, any>>({
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b bg-gray-50">
+              <tr className="border-b bg-forest-50/50">
                 {columns.map((col) => (
-                  <th key={col.key} className="text-left px-4 py-3 font-medium text-gray-600">
+                  <th key={col.key} className="text-left px-4 py-3 font-medium text-forest-700">
                     {col.label}
                   </th>
                 ))}
                 {(editPath || onDelete) && (
-                  <th className="text-right px-4 py-3 font-medium text-gray-600 w-24">
+                  <th className="text-right px-4 py-3 font-medium text-forest-700 w-28">
                     Actions
                   </th>
                 )}
@@ -96,16 +96,19 @@ export function AdminDataTable<T extends Record<string, any>>({
                 <tr>
                   <td
                     colSpan={columns.length + (editPath || onDelete ? 1 : 0)}
-                    className="text-center py-12 text-gray-500"
+                    className="text-center py-16 text-gray-400"
                   >
-                    Aucun résultat
+                    <div className="flex flex-col items-center gap-2">
+                      <Search className="w-8 h-8 opacity-30" />
+                      <p className="text-sm">Aucun résultat</p>
+                    </div>
                   </td>
                 </tr>
               ) : (
                 data.map((item) => (
                   <tr
                     key={item[idKey]}
-                    className="border-b last:border-0 hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="border-b last:border-0 hover:bg-forest-50/30 transition-colors cursor-pointer"
                     onClick={() => editPath && router.push(`${editPath}/${item[idKey]}` as any)}
                   >
                     {columns.map((col) => (
@@ -115,31 +118,31 @@ export function AdminDataTable<T extends Record<string, any>>({
                     ))}
                     {(editPath || onDelete) && (
                       <td className="px-4 py-3 text-right">
-                        <div className="flex items-center justify-end gap-1">
+                        <div className="flex items-center justify-end gap-1.5">
                           {editPath && (
                             <Button
-                              variant="ghost"
+                              variant="outline"
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 router.push(`${editPath}/${item[idKey]}` as any);
                               }}
-                              className="h-8 w-8 p-0"
+                              className="h-8 px-2.5 text-forest-600 hover:text-forest-900 hover:bg-forest-50 border-gray-200"
                             >
-                              <Pencil className="w-4 h-4" />
+                              <Pencil className="w-3.5 h-3.5" />
                             </Button>
                           )}
                           {onDelete && (
                             <Button
-                              variant="ghost"
+                              variant="outline"
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setDeleteId(item[idKey]);
                               }}
-                              className="h-8 w-8 p-0 text-red-500 hover:text-red-700"
+                              className="h-8 px-2.5 text-red-500 hover:text-red-700 hover:bg-red-50 border-gray-200 hover:border-red-200"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <Trash2 className="w-3.5 h-3.5" />
                             </Button>
                           )}
                         </div>
@@ -154,8 +157,8 @@ export function AdminDataTable<T extends Record<string, any>>({
 
         {/* Pagination */}
         {totalPages > 1 && onPageChange && (
-          <div className="flex items-center justify-between px-4 py-3 border-t bg-gray-50">
-            <p className="text-sm text-gray-600">
+          <div className="flex items-center justify-between px-4 py-3 border-t bg-forest-50/30">
+            <p className="text-sm text-forest-600">
               Page {page} / {totalPages}
             </p>
             <div className="flex items-center gap-2">
@@ -164,6 +167,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                 size="sm"
                 onClick={() => onPageChange(page - 1)}
                 disabled={page <= 1}
+                className="rounded-lg"
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
@@ -172,6 +176,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                 size="sm"
                 onClick={() => onPageChange(page + 1)}
                 disabled={page >= totalPages}
+                className="rounded-lg"
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>

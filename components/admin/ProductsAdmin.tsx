@@ -123,16 +123,21 @@ export function ProductsAdmin({
         subtitle={`${total} produits`}
         actions={
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={handleExportCSV}>
-              <Download className="w-4 h-4 mr-2" />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExportCSV}
+              className="rounded-lg gap-2 border-gray-200 hover:bg-forest-50"
+            >
+              <Download className="w-4 h-4" />
               Export CSV
             </Button>
             <Button
               size="sm"
               onClick={() => router.push(`${editBasePath}/new` as any)}
-              className="bg-forest-900 text-white"
+              className="bg-forest-900 text-white hover:bg-forest-800 rounded-lg gap-2"
             >
-              <Plus className="w-4 h-4 mr-2" />
+              <Plus className="w-4 h-4" />
               Nouveau
             </Button>
           </div>

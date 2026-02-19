@@ -4,7 +4,6 @@
 import { useState } from "react";
 import { Shield, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { AdminDataTable } from "@/components/admin/AdminDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
@@ -71,27 +70,25 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       key: "role",
       label: "Rôle",
       render: (item: any) => (
-        <Button
-          variant="ghost"
-          size="sm"
+        <button
           onClick={(e) => {
             e.stopPropagation();
             toggleRole(item.id, item.role);
           }}
-          className="gap-1.5"
+          title={`Cliquer pour changer en ${item.role === "admin" ? "user" : "admin"}`}
         >
           {item.role === "admin" ? (
-            <Badge className="bg-purple-100 text-purple-800">
+            <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors cursor-pointer">
               <Shield className="w-3 h-3 mr-1" />
               Admin
             </Badge>
           ) : (
-            <Badge variant="secondary">
+            <Badge variant="secondary" className="hover:bg-gray-200 transition-colors cursor-pointer">
               <User className="w-3 h-3 mr-1" />
               User
             </Badge>
           )}
-        </Button>
+        </button>
       ),
     },
     {

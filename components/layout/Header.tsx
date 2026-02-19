@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut } from "lucide-react";
+import { Menu, X, Search, ArrowRight, User, LogOut, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -25,6 +25,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
@@ -48,9 +49,29 @@ export function Header() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+
+    const checkAdmin = async (userId: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data } = await (supabase.from("user_roles") as any)
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      setIsUserAdmin(data !== null);
+    };
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+      if (user) checkAdmin(user.id);
+      else setIsUserAdmin(false);
+    });
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => setUser(session?.user ?? null)
+      (_event, session) => {
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        if (currentUser) checkAdmin(currentUser.id);
+        else setIsUserAdmin(false);
+      }
     );
     return () => subscription.unsubscribe();
   }, []);
@@ -59,6 +80,7 @@ export function Header() {
     const supabase = createClient();
     await supabase.auth.signOut();
     setUser(null);
+    setIsUserAdmin(false);
     router.refresh();
   };
 
@@ -228,7 +250,18 @@ export function Header() {
                       {t("myProfile")}
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  {isUserAdmin && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="cursor-pointer">
+                          <Shield className="w-4 h-4 mr-2" />
+                          {t("admin")}
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  )}
+                  {!isUserAdmin && <DropdownMenuSeparator />}
                   <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
                     <LogOut className="w-4 h-4 mr-2" />
                     {t("signOut")}
@@ -360,6 +393,17 @@ export function Header() {
                             {t("myProfile")}
                           </Button>
                         </Link>
+                        {isUserAdmin && (
+                          <Link href="/admin" onClick={() => setIsOpen(false)}>
+                            <Button
+                              variant="outline"
+                              className="w-full h-12 rounded-xl border-gold-500/30 text-gold-400 hover:bg-gold-500/10"
+                            >
+                              <Shield className="w-5 h-5 mr-2" />
+                              {t("admin")}
+                            </Button>
+                          </Link>
+                        )}
                         <Button
                           variant="ghost"
                           onClick={() => { handleSignOut(); setIsOpen(false); }}

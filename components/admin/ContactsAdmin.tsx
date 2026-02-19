@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import { Mail, Eye, MailCheck, Clock } from "lucide-react";
+import { Mail, Eye, MailCheck, Clock, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import {
@@ -59,14 +60,16 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
       />
 
       {/* Search */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Rechercher par nom, email ou sujet..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full sm:w-72 px-3 py-2 rounded-lg border text-sm"
-        />
+      <div className="mb-6">
+        <div className="relative w-full sm:w-80">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-forest-400" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Rechercher par nom, email ou sujet..."
+            className="pl-9 h-10 rounded-xl border-gray-200 focus:border-forest-400"
+          />
+        </div>
       </div>
 
       {/* List */}
@@ -153,20 +156,24 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
                 </p>
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-2 pt-4 border-t border-gray-100">
                 <Button
                   size="sm"
                   variant={selected.status === "read" ? "default" : "outline"}
                   onClick={() => updateStatus(selected.id, "read")}
+                  disabled={selected.status === "read"}
+                  className="rounded-lg gap-1.5"
                 >
-                  <Eye className="w-4 h-4 mr-1" /> Lu
+                  <Eye className="w-4 h-4" /> Lu
                 </Button>
                 <Button
                   size="sm"
                   variant={selected.status === "replied" ? "default" : "outline"}
                   onClick={() => updateStatus(selected.id, "replied")}
+                  disabled={selected.status === "replied"}
+                  className="rounded-lg gap-1.5"
                 >
-                  <MailCheck className="w-4 h-4 mr-1" /> Répondu
+                  <MailCheck className="w-4 h-4" /> Répondu
                 </Button>
               </div>
             </div>

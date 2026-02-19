@@ -92,11 +92,11 @@ export function BlogAdmin({
           className="flex items-center gap-1.5"
         >
           {item.published ? (
-            <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
+            <Badge className="bg-green-100 text-green-800 hover:bg-green-200 transition-colors cursor-pointer">
               <Eye className="w-3 h-3 mr-1" /> Publié
             </Badge>
           ) : (
-            <Badge variant="secondary">
+            <Badge variant="secondary" className="hover:bg-gray-200 transition-colors cursor-pointer">
               <EyeOff className="w-3 h-3 mr-1" /> Brouillon
             </Badge>
           )}
@@ -120,8 +120,8 @@ export function BlogAdmin({
         subtitle={`${articles.length} articles`}
         actions={
           <Link href={`/${locale}/admin/blog/new`}>
-            <Button size="sm" className="bg-forest-900 text-white">
-              <Plus className="w-4 h-4 mr-2" />
+            <Button size="sm" className="bg-forest-900 text-white hover:bg-forest-800 rounded-lg gap-2">
+              <Plus className="w-4 h-4" />
               Nouvel article
             </Button>
           </Link>

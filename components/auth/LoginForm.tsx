@@ -36,8 +36,22 @@ export function LoginForm() {
       }
 
       toast.success(isFr ? "Connexion réussie" : "Login successful");
+
+      // Check if user is admin to redirect to admin dashboard
+      const { data: { user: loggedUser } } = await supabase.auth.getUser();
+      let redirectPath = "/";
+      if (loggedUser) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: roleData } = await (supabase.from("user_roles") as any)
+          .select("role")
+          .eq("user_id", loggedUser.id)
+          .eq("role", "admin")
+          .maybeSingle();
+        if (roleData) redirectPath = "/admin";
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      router.push("/" as any);
+      router.push(redirectPath as any);
       router.refresh();
     } catch {
       toast.error(isFr ? "Une erreur est survenue" : "An error occurred");
