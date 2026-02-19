@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+// ─── Password ─────────────────────────────────────────
+export const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
 // ─── Contact Form ──────────────────────────────────────
 export const contactSchema = z.object({
   firstName: z
@@ -83,7 +86,8 @@ export const registerSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .max(200)
     .regex(/[A-Z]/, "Password must contain an uppercase letter")
-    .regex(/[0-9]/, "Password must contain a digit"),
+    .regex(/[0-9]/, "Password must contain a digit")
+    .regex(SPECIAL_CHAR_REGEX, "Password must contain a special character"),
   fullName: z.string().min(1).max(200).trim(),
   company: z.string().max(200).trim().optional().default(""),
 });

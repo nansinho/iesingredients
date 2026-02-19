@@ -97,6 +97,7 @@ export function ProductCard({ product }: { product: Product }) {
               </span>
               <button
                 onClick={handleCopyCode}
+                aria-label="Copier la référence"
                 className="p-1 rounded-md hover:bg-black/5 transition-colors active:scale-95"
               >
                 {copied ? (

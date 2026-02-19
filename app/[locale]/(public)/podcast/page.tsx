@@ -87,7 +87,7 @@ export default async function PodcastPage({
           <div className="w-20 h-20 rounded-full bg-forest-100 flex items-center justify-center mx-auto mb-6">
             <Headphones className="w-10 h-10 text-forest-400" />
           </div>
-          <h2 className="font-serif text-3xl text-forest-900 mb-4">
+          <h2 className="font-serif text-3xl md:text-4xl text-forest-900 mb-4">
             {isFr ? "Épisodes à venir" : "Episodes coming soon"}
           </h2>
           <p className="text-forest-600 text-lg leading-relaxed">

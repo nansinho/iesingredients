@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { getLocale } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -86,13 +87,20 @@ export const metadata: Metadata = {
   category: "business",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let locale = "fr";
+  try {
+    locale = await getLocale();
+  } catch {
+    // Fallback to "fr" when no request context (e.g. global-error prerender)
+  }
+
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         {/* Google Fonts - loaded via link tag for now.
             Will be replaced by next/font/google when deployed on VPS. */}

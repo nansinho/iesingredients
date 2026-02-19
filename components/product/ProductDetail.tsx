@@ -118,6 +118,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 </span>
                 <button
                   onClick={handleCopy}
+                  aria-label="Copier le code"
                   className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
                 >
                   {copied ? (
@@ -183,7 +184,7 @@ export function ProductDetail({ product }: { product: Product }) {
       </section>
 
       {/* Specs Grid */}
-      <section className="container-luxe py-12">
+      <section className="container-luxe py-24">
         <h2 className="font-serif text-2xl text-forest-900 mb-6">
           {t("specifications")}
         </h2>
@@ -207,7 +208,7 @@ export function ProductDetail({ product }: { product: Product }) {
       <Separator className="max-w-7xl mx-auto bg-forest-100" />
 
       {/* Details Accordion */}
-      <section className="container-luxe py-12">
+      <section className="container-luxe py-24">
         <Accordion type="multiple" className="space-y-2">
           {product.benefices && (
             <AccordionItem value="benefits" className="border border-forest-100 rounded-2xl px-4">
