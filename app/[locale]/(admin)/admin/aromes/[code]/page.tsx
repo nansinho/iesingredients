@@ -8,17 +8,26 @@ export default async function AromeEditPage({
 }) {
   const { locale, code } = await params;
   const isNew = code === "new";
-  let product = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let product: Record<string, any> | null = null;
 
   if (!isNew) {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("aromes_fr")
-      .select("*")
-      .eq("code", decodeURIComponent(code))
-      .maybeSingle();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    product = data as Record<string, any> | null;
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("aromes_fr")
+        .select("*")
+        .eq("code", decodeURIComponent(code))
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to fetch aroma product:", error.message);
+      } else {
+        product = data;
+      }
+    } catch (error) {
+      console.error("Failed to fetch aroma product:", error);
+    }
   }
 
   return (

@@ -8,17 +8,26 @@ export default async function TeamEditPage({
 }) {
   const { locale, id } = await params;
   const isNew = id === "new";
-  let member = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let member: Record<string, any> | null = null;
 
   if (!isNew) {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("team_members")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    member = data as Record<string, any> | null;
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("team_members")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to fetch team member:", error.message);
+      } else {
+        member = data;
+      }
+    } catch (error) {
+      console.error("Failed to fetch team member:", error);
+    }
   }
 
   return (
