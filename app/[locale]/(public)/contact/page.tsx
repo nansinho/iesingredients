@@ -10,11 +10,22 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const description = locale === "fr"
+    ? "Contactez IES Ingredients pour vos besoins en ingrédients naturels. Notre équipe est à votre disposition à Nice, France."
+    : "Contact IES Ingredients for your natural ingredient needs. Our team is available in Nice, France.";
+
   return {
     title: t("contactTitle"),
+    description,
     alternates: {
       canonical: `/${locale}/contact`,
       languages: { fr: "/fr/contact", en: "/en/contact" },
+    },
+    openGraph: {
+      title: t("contactTitle"),
+      description,
+      url: `https://ies-ingredients.com/${locale}/contact`,
+      type: "website",
     },
   };
 }

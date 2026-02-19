@@ -11,11 +11,22 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const description = locale === "fr"
+    ? "Actualités et articles sur les ingrédients naturels, tendances cosmétiques et innovations en parfumerie."
+    : "News and articles about natural ingredients, cosmetic trends and perfumery innovations.";
+
   return {
     title: t("newsTitle"),
+    description,
     alternates: {
       canonical: `/${locale}/actualites`,
       languages: { fr: "/fr/actualites", en: "/en/news" },
+    },
+    openGraph: {
+      title: t("newsTitle"),
+      description,
+      url: `https://ies-ingredients.com/${locale}/${locale === "fr" ? "actualites" : "news"}`,
+      type: "website",
     },
   };
 }

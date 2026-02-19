@@ -10,11 +10,22 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const description = locale === "fr"
+    ? "Découvrez IES Ingredients : 30 ans d'expertise en distribution d'ingrédients naturels pour la cosmétique, la parfumerie et l'agroalimentaire."
+    : "Discover IES Ingredients: 30 years of expertise in distributing natural ingredients for cosmetics, perfumery and food industry.";
+
   return {
     title: t("companyTitle"),
+    description,
     alternates: {
       canonical: `/${locale}/entreprise`,
       languages: { fr: "/fr/entreprise", en: "/en/company" },
+    },
+    openGraph: {
+      title: t("companyTitle"),
+      description,
+      url: `https://ies-ingredients.com/${locale}/${locale === "fr" ? "entreprise" : "company"}`,
+      type: "website",
     },
   };
 }

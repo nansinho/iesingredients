@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sheet";
 import { useSampleCart } from "@/hooks/useSampleCart";
 import { createClient } from "@/lib/supabase/client";
+import { sampleRequestSchema } from "@/lib/validations";
 import { toast } from "sonner";
 
 export function SampleCartSheet() {
@@ -42,43 +43,50 @@ export function SampleCartSheet() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Client-side Zod validation
+    const payload = {
+      ...form,
+      items: items.map((item) => ({
+        code: item.code,
+        name: item.name,
+        category: item.category,
+        quantity: item.quantity,
+      })),
+    };
+
+    const parsed = sampleRequestSchema.safeParse(payload);
+    if (!parsed.success) {
+      toast.error(isFr ? "Données invalides" : "Invalid data", {
+        description: Object.values(parsed.error.flatten().fieldErrors).flat().join(", "),
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
 
-      // Check if user is logged in
-      const { data: { user } } = await supabase.auth.getUser();
+      const res = await fetch("/api/samples", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
+        body: JSON.stringify(parsed.data),
+      });
 
-      // Create sample request
-      const { data: request, error: requestError } = await supabase
-        .from("sample_requests")
-        .insert({
-          user_id: user?.id || null,
-          status: "pending",
-          contact_name: form.name || null,
-          contact_email: form.email || null,
-          contact_phone: form.phone || null,
-          company: form.company || null,
-          message: form.message || null,
-        } as any)
-        .select("id")
-        .single();
-
-      if (requestError) throw requestError;
-
-      // Add items
-      const itemsToInsert = items.map((item) => ({
-        request_id: (request as any).id,
-        product_code: item.code,
-        product_name: item.name,
-        product_category: item.category,
-        quantity: item.quantity,
-      }));
-
-      const { error: itemsError } = await supabase
-        .from("sample_request_items")
-        .insert(itemsToInsert as any);
-
-      if (itemsError) throw itemsError;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 429) {
+          toast.error(isFr ? "Trop de tentatives" : "Too many requests", {
+            description: data.error,
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        throw new Error(data.error || "Failed");
+      }
 
       toast.success(
         isFr ? "Demande envoyée !" : "Request submitted!",

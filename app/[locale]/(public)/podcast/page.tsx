@@ -10,11 +10,22 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const description = locale === "fr"
+    ? "Écoutez notre podcast À Fleur De Nez : interviews et découvertes de l'univers de la parfumerie et des ingrédients naturels."
+    : "Listen to our podcast À Fleur De Nez: interviews and discoveries from the world of perfumery and natural ingredients.";
+
   return {
     title: t("podcastTitle"),
+    description,
     alternates: {
       canonical: `/${locale}/podcast`,
       languages: { fr: "/fr/podcast", en: "/en/podcast" },
+    },
+    openGraph: {
+      title: t("podcastTitle"),
+      description,
+      url: `https://ies-ingredients.com/${locale}/podcast`,
+      type: "website",
     },
   };
 }

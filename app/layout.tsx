@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -12,29 +12,78 @@ import "./globals.css";
 // And add className={`${inter.variable} ${cormorant.variable}`} to <html>.
 // This will enable self-hosted Google Fonts with zero CLS.
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ies-ingredients.com";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#0a2e1f" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a2e1f" },
+  ],
+};
+
 export const metadata: Metadata = {
   title: {
-    default: "IES Ingredients - Ingr\u00e9dients Naturels B2B",
+    default: "IES Ingredients - Ingrédients Naturels B2B | Cosmétique, Parfumerie, Arômes",
     template: "%s | IES Ingredients",
   },
   description:
-    "Plus de 5000 ingr\u00e9dients cosm\u00e9tiques, parfums et ar\u00f4mes alimentaires. Distribution B2B d'ingr\u00e9dients naturels de qualit\u00e9.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://ies-ingredients.com"
-  ),
+    "Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires. Distribution B2B d'ingrédients naturels de qualité. Basé à Nice, livraison internationale.",
+  keywords: [
+    "ingrédients naturels",
+    "cosmétique B2B",
+    "parfumerie",
+    "arômes alimentaires",
+    "huiles essentielles",
+    "extraits botaniques",
+    "distribution ingrédients",
+    "natural ingredients",
+    "cosmetic ingredients",
+    "essential oils",
+  ],
+  metadataBase: new URL(siteUrl),
   openGraph: {
     type: "website",
     locale: "fr_FR",
     alternateLocale: "en_US",
     siteName: "IES Ingredients",
+    title: "IES Ingredients - Ingrédients Naturels B2B",
+    description:
+      "Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires. Distribution B2B d'ingrédients naturels de qualité.",
+    images: [
+      {
+        url: `${siteUrl}/images/og-default.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "IES Ingredients - Ingrédients Naturels B2B",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    title: "IES Ingredients - Ingrédients Naturels B2B",
+    description:
+      "Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires.",
+    images: [`${siteUrl}/images/og-default.jpg`],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
+  verification: {
+    // Add Google Search Console verification when available
+    // google: "verification-code",
+  },
+  category: "business",
 };
 
 export default function RootLayout({

@@ -5,7 +5,7 @@ import { MinimalAbout } from "@/components/home/MinimalAbout";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { MinimalCTA } from "@/components/home/MinimalCTA";
 import { LogoStrip } from "@/components/home/LogoStrip";
-import { OrganizationJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
+import { OrganizationJsonLd, WebSiteJsonLd, LocalBusinessJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -88,6 +88,8 @@ export default async function HomePage({
   return (
     <>
       <OrganizationJsonLd />
+      <WebSiteJsonLd />
+      <LocalBusinessJsonLd />
       <FAQJsonLd items={faqItems} />
       <ParallaxHero />
       <MinimalProducts />

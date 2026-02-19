@@ -21,6 +21,12 @@ export async function generateMetadata({
         en: "/en/catalog",
       },
     },
+    openGraph: {
+      title: t("catalogTitle"),
+      description: t("catalogDescription"),
+      url: `https://ies-ingredients.com/${locale}/${locale === "fr" ? "catalogue" : "catalog"}`,
+      type: "website",
+    },
   };
 }
 

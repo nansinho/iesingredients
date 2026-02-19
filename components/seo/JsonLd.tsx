@@ -1,16 +1,19 @@
+const SITE_URL = "https://ies-ingredients.com";
+
 export function OrganizationJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "IES Ingredients",
-    url: "https://ies-ingredients.com",
-    logo: "https://ies-ingredients.com/images/logo-ies.png",
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/logo-ies.png`,
     description:
       "Distribution B2B d'ingrédients naturels pour la cosmétique, la parfumerie et l'agroalimentaire.",
     foundingDate: "1994",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Nice",
+      addressRegion: "Provence-Alpes-Côte d'Azur",
       addressCountry: "FR",
     },
     contactPoint: {
@@ -20,6 +23,41 @@ export function OrganizationJsonLd() {
       availableLanguage: ["French", "English"],
     },
     sameAs: [],
+    knowsAbout: [
+      "Natural ingredients",
+      "Cosmetic ingredients",
+      "Perfumery ingredients",
+      "Food flavors",
+      "Essential oils",
+      "Botanical extracts",
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export function WebSiteJsonLd() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "IES Ingredients",
+    url: SITE_URL,
+    description:
+      "Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires. Distribution B2B d'ingrédients naturels de qualité.",
+    inLanguage: ["fr", "en"],
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/fr/catalogue?search={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (
@@ -34,12 +72,14 @@ export function WebPageJsonLd({
   name,
   description,
   url,
+  speakable,
 }: {
   name: string;
   description: string;
   url: string;
+  speakable?: string[];
 }) {
-  const jsonLd = {
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name,
@@ -48,9 +88,16 @@ export function WebPageJsonLd({
     isPartOf: {
       "@type": "WebSite",
       name: "IES Ingredients",
-      url: "https://ies-ingredients.com",
+      url: SITE_URL,
     },
   };
+
+  if (speakable && speakable.length > 0) {
+    jsonLd.speakable = {
+      "@type": "SpeakableSpecification",
+      cssSelector: speakable,
+    };
+  }
 
   return (
     <script
@@ -100,6 +147,40 @@ export function BreadcrumbJsonLd({
       name: item.name,
       item: item.url,
     })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export function LocalBusinessJsonLd() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "IES Ingredients",
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/logo-ies.png`,
+    image: `${SITE_URL}/images/og-default.jpg`,
+    telephone: "+33-4-93-00-00-00",
+    email: "contact@ies-ingredients.com",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Nice",
+      addressRegion: "Provence-Alpes-Côte d'Azur",
+      postalCode: "06000",
+      addressCountry: "FR",
+    },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+    priceRange: "$$",
   };
 
   return (

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { createClient } from "@/lib/supabase/client";
+import { contactSchema } from "@/lib/validations";
 
 interface FormData {
   firstName: string;
@@ -35,30 +35,56 @@ export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus("idle");
+    setFieldErrors({});
+
+    // Client-side Zod validation
+    const parsed = contactSchema.safeParse(formData);
+    if (!parsed.success) {
+      const errors: Record<string, string> = {};
+      for (const [key, msgs] of Object.entries(parsed.error.flatten().fieldErrors)) {
+        if (msgs && msgs.length > 0) errors[key] = msgs[0];
+      }
+      setFieldErrors(errors);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.from("contact_submissions").insert({
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        email: formData.email,
-        company: formData.company || null,
-        phone: formData.phone || null,
-        subject: formData.subject,
-        message: formData.message,
-      } as any);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(parsed.data),
+      });
 
-      if (error) throw error;
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 429) {
+          setFieldErrors({
+            _form: data.error || (isFr ? "Trop de tentatives" : "Too many attempts"),
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        throw new Error(data.error || "Failed");
+      }
 
       setStatus("success");
       setFormData(initialFormData);
@@ -104,6 +130,12 @@ export function ContactForm() {
         </div>
       )}
 
+      {fieldErrors._form && (
+        <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800">
+          <p className="font-medium">{fieldErrors._form}</p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
@@ -117,6 +149,9 @@ export function ContactForm() {
               className="h-12"
               placeholder="Jean"
             />
+            {fieldErrors.firstName && (
+              <p className="text-xs text-red-600">{fieldErrors.firstName}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="lastName">{isFr ? "Nom" : "Last name"} *</Label>
@@ -129,6 +164,9 @@ export function ContactForm() {
               className="h-12"
               placeholder="Dupont"
             />
+            {fieldErrors.lastName && (
+              <p className="text-xs text-red-600">{fieldErrors.lastName}</p>
+            )}
           </div>
         </div>
 
@@ -145,6 +183,9 @@ export function ContactForm() {
               className="h-12"
               placeholder="jean.dupont@exemple.com"
             />
+            {fieldErrors.email && (
+              <p className="text-xs text-red-600">{fieldErrors.email}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">{isFr ? "Téléphone" : "Phone"}</Label>
@@ -183,6 +224,9 @@ export function ContactForm() {
               className="h-12"
               placeholder={isFr ? "Objet de votre message" : "Subject of your message"}
             />
+            {fieldErrors.subject && (
+              <p className="text-xs text-red-600">{fieldErrors.subject}</p>
+            )}
           </div>
         </div>
 
@@ -202,6 +246,9 @@ export function ContactForm() {
                 : "Describe your project or ask us your questions..."
             }
           />
+          {fieldErrors.message && (
+            <p className="text-xs text-red-600">{fieldErrors.message}</p>
+          )}
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">

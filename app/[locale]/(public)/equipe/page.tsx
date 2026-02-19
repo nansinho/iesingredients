@@ -10,11 +10,22 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
+  const description = locale === "fr"
+    ? "Rencontrez l'équipe IES Ingredients : des experts passionnés en ingrédients naturels au service de votre réussite."
+    : "Meet the IES Ingredients team: passionate natural ingredient experts dedicated to your success.";
+
   return {
     title: t("teamTitle"),
+    description,
     alternates: {
       canonical: `/${locale}/equipe`,
       languages: { fr: "/fr/equipe", en: "/en/team" },
+    },
+    openGraph: {
+      title: t("teamTitle"),
+      description,
+      url: `https://ies-ingredients.com/${locale}/${locale === "fr" ? "equipe" : "team"}`,
+      type: "website",
     },
   };
 }
