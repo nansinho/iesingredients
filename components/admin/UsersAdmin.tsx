@@ -1,0 +1,111 @@
+"use client";
+
+import { useState } from "react";
+import { UserCog, Shield, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { AdminDataTable } from "@/components/admin/AdminDataTable";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
+
+export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
+  const [users, setUsers] = useState(initialUsers);
+  const [search, setSearch] = useState("");
+
+  const filtered = users.filter(
+    (u) =>
+      !search ||
+      u.full_name?.toLowerCase().includes(search.toLowerCase()) ||
+      u.email?.toLowerCase().includes(search.toLowerCase()) ||
+      u.company?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const toggleRole = async (userId: string, currentRole: string) => {
+    const newRole = currentRole === "admin" ? "user" : "admin";
+    const supabase = createClient();
+
+    // Upsert role
+    const { error } = await (supabase.from("user_roles") as any)
+      .upsert({ user_id: userId, role: newRole }, { onConflict: "user_id" });
+
+    if (error) {
+      toast.error("Erreur lors du changement de rôle");
+      return;
+    }
+
+    setUsers((prev) =>
+      prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
+    );
+    toast.success(`Rôle modifié: ${newRole}`);
+  };
+
+  const columns = [
+    {
+      key: "full_name",
+      label: "Nom",
+      render: (item: any) => (
+        <div>
+          <span className="font-medium">{item.full_name || "Sans nom"}</span>
+          {item.company && (
+            <p className="text-xs text-gray-500">{item.company}</p>
+          )}
+        </div>
+      ),
+    },
+    { key: "email", label: "Email" },
+    {
+      key: "role",
+      label: "Rôle",
+      render: (item: any) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleRole(item.id, item.role);
+          }}
+          className="gap-1.5"
+        >
+          {item.role === "admin" ? (
+            <Badge className="bg-purple-100 text-purple-800">
+              <Shield className="w-3 h-3 mr-1" />
+              Admin
+            </Badge>
+          ) : (
+            <Badge variant="secondary">
+              <User className="w-3 h-3 mr-1" />
+              User
+            </Badge>
+          )}
+        </Button>
+      ),
+    },
+    {
+      key: "created_at",
+      label: "Inscrit le",
+      render: (item: any) =>
+        item.created_at
+          ? new Date(item.created_at).toLocaleDateString("fr-FR")
+          : "",
+    },
+  ];
+
+  return (
+    <>
+      <AdminPageHeader
+        title="Utilisateurs"
+        subtitle={`${users.length} comptes`}
+      />
+
+      <AdminDataTable
+        data={filtered}
+        columns={columns}
+        idKey="id"
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Rechercher par nom, email ou entreprise..."
+      />
+    </>
+  );
+}
