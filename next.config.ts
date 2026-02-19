@@ -68,6 +68,26 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // 301 redirects from old Lovable/SPA routes to new Next.js routes
+      { source: "/catalog", destination: "/fr/catalogue", permanent: true },
+      { source: "/catalog/:code", destination: "/fr/catalogue/:code", permanent: true },
+      { source: "/company", destination: "/fr/entreprise", permanent: true },
+      { source: "/team", destination: "/fr/equipe", permanent: true },
+      { source: "/news", destination: "/fr/actualites", permanent: true },
+      { source: "/news/:slug", destination: "/fr/actualites/:slug", permanent: true },
+      { source: "/blog", destination: "/fr/actualites", permanent: true },
+      { source: "/blog/:slug", destination: "/fr/actualites/:slug", permanent: true },
+      // Redirect www to non-www
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.ies-ingredients.com" }],
+        destination: "https://ies-ingredients.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
