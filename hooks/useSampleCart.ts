@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { useEffect, useState } from "react";
 
 export interface CartItem {
   code: string;
@@ -17,7 +18,7 @@ interface SampleCartState {
   itemCount: () => number;
 }
 
-export const useSampleCart = create<SampleCartState>()(
+const useCartStore = create<SampleCartState>()(
   persist(
     (set, get) => ({
       items: [],
@@ -60,3 +61,27 @@ export const useSampleCart = create<SampleCartState>()(
     }
   )
 );
+
+/**
+ * Hydration-safe wrapper around the cart store.
+ * Returns empty state during SSR/hydration to prevent mismatches,
+ * then syncs with localStorage after mount.
+ */
+export function useSampleCart() {
+  const store = useCartStore();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  if (!hydrated) {
+    return {
+      ...store,
+      items: [],
+      itemCount: () => 0,
+    };
+  }
+
+  return store;
+}

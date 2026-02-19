@@ -29,9 +29,21 @@ export function ProductDetail({ product }: { product: Product }) {
 
   const config = getCategoryConfig(product.typologie_de_produit);
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (!product.code) return;
-    navigator.clipboard.writeText(product.code);
+    try {
+      await navigator.clipboard.writeText(product.code);
+    } catch {
+      // Fallback for non-secure contexts (HTTP)
+      const textarea = document.createElement("textarea");
+      textarea.value = product.code;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
     setCopied(true);
     toast.success("Code copied!");
     setTimeout(() => setCopied(false), 2000);
