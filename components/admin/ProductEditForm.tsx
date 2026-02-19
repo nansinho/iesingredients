@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -78,7 +78,7 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
         toast.success("Produit mis à jour");
       }
 
-      router.push(backPath as any);
+      router.push(backPath);
       router.refresh();
     } catch (err: unknown) {
       toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec de la sauvegarde"));

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "next/navigation";
 import { Plus, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -134,7 +134,7 @@ export function ProductsAdmin({
             </Button>
             <Button
               size="sm"
-              onClick={() => router.push(`${editBasePath}/new` as any)}
+              onClick={() => router.push(`${editBasePath}/new`)}
               className="bg-forest-900 text-white hover:bg-forest-800 rounded-lg gap-2"
             >
               <Plus className="w-4 h-4" />

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "next/navigation";
 import { Trash2, Pencil, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -109,7 +109,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                   <tr
                     key={item[idKey]}
                     className="border-b last:border-0 hover:bg-forest-50/30 transition-colors cursor-pointer"
-                    onClick={() => editPath && router.push(`${editPath}/${item[idKey]}` as any)}
+                    onClick={() => editPath && router.push(`${editPath}/${item[idKey]}`)}
                   >
                     {columns.map((col) => (
                       <td key={col.key} className="px-4 py-3 text-gray-900">
@@ -125,7 +125,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                router.push(`${editPath}/${item[idKey]}` as any);
+                                router.push(`${editPath}/${item[idKey]}`);
                               }}
                               className="h-8 px-2.5 text-forest-600 hover:text-forest-900 hover:bg-forest-50 border-gray-200"
                             >
