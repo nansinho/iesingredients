@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { PasswordStrengthIndicator } from "@/components/auth/PasswordStrengthIndicator";
+import { SPECIAL_CHAR_REGEX } from "@/lib/validations";
 
 export function RegisterForm() {
   const locale = useLocale();
@@ -33,6 +35,7 @@ export function RegisterForm() {
     if (password.length < 8) return isFr ? "Minimum 8 caractères" : "Minimum 8 characters";
     if (!/[A-Z]/.test(password)) return isFr ? "Au moins une majuscule" : "At least one uppercase";
     if (!/[0-9]/.test(password)) return isFr ? "Au moins un chiffre" : "At least one digit";
+    if (!SPECIAL_CHAR_REGEX.test(password)) return isFr ? "Au moins un caractère spécial" : "At least one special character";
     return null;
   };
 
@@ -159,16 +162,13 @@ export function RegisterForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? (isFr ? "Masquer le mot de passe" : "Hide password") : (isFr ? "Afficher le mot de passe" : "Show password")}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white/90"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
-          <p className="text-xs text-cream-400">
-            {isFr
-              ? "8 caractères min., 1 majuscule, 1 chiffre"
-              : "8 chars min., 1 uppercase, 1 digit"}
-          </p>
+          <PasswordStrengthIndicator password={form.password} isFr={isFr} />
         </div>
 
         <div className="space-y-2">

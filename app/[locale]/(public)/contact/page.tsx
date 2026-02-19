@@ -69,7 +69,7 @@ export default async function ContactPage({
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
           {/* Contact Info */}
           <div>
-            <h2 className="font-serif text-3xl text-forest-900 mb-8">
+            <h2 className="font-serif text-3xl md:text-4xl text-forest-900 mb-8">
               {isFr ? "Nos Coordonnées" : "Our Details"}
             </h2>
             <div className="space-y-6">
