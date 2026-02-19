@@ -17,6 +17,7 @@ export default async function CosmetiqueEditPage({
       .select("*")
       .eq("code", decodeURIComponent(code))
       .maybeSingle();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     product = data as Record<string, any> | null;
   }
 

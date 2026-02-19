@@ -17,6 +17,7 @@ export default async function BlogEditPage({
       .select("*")
       .eq("id", id)
       .maybeSingle();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     article = data as Record<string, any> | null;
   }
 

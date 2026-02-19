@@ -95,6 +95,7 @@ export function AccountClient({
   const handleSignOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router.push("/" as any);
     router.refresh();
   };

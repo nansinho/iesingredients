@@ -14,6 +14,7 @@ export default async function BlogListPage({
     .select("*")
     .order("created_at", { ascending: false });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const articles = (rawArticles || []) as any[];
 
   return <BlogAdmin initialArticles={articles} locale={locale} />;

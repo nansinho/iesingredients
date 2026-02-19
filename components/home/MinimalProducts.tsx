@@ -5,8 +5,6 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { Skeleton } from "@/components/ui/skeleton";
-
 // Static showcase products (real data will come from Supabase in Phase 3)
 const showcaseProducts = [
   {

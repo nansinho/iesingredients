@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, MapPin, ShoppingBag, Copy, Check, ExternalLink } from "lucide-react";
+import { MapPin, ShoppingBag, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/accordion";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
 import { type Product, getCategoryConfig } from "@/lib/product-types";
 import { useSampleCart } from "@/hooks/useSampleCart";
 import { motion } from "framer-motion";
@@ -23,7 +22,6 @@ import { toast } from "sonner";
 export function ProductDetail({ product }: { product: Product }) {
   const t = useTranslations("product");
   const nav = useTranslations("nav");
-  const common = useTranslations("common");
   const [copied, setCopied] = useState(false);
   const { addItem } = useSampleCart();
 

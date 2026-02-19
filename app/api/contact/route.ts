@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     const { firstName, lastName, email, company, phone, subject, message } = parsed.data;
 
     const supabase = createAdminClient();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("contact_submissions") as any).insert({
       first_name: firstName,
       last_name: lastName,

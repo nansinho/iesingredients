@@ -17,6 +17,7 @@ export default async function TeamEditPage({
       .select("*")
       .eq("id", id)
       .maybeSingle();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     member = data as Record<string, any> | null;
   }
 

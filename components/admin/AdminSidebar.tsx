@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useLocale } from "next-intl";
 import { usePathname, useRouter, Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
@@ -37,7 +36,6 @@ const navItems = [
 ];
 
 export function AdminSidebar() {
-  const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +43,7 @@ export function AdminSidebar() {
   const handleSignOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router.push("/" as any);
   };
 
@@ -73,6 +72,7 @@ export function AdminSidebar() {
         {navItems.map((item) => (
           <Link
             key={item.href}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             href={item.href as any}
             onClick={() => setIsOpen(false)}
             className={cn(

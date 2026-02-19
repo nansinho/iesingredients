@@ -1,4 +1,3 @@
-import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { UsersAdmin } from "@/components/admin/UsersAdmin";
 
@@ -11,6 +10,7 @@ export default async function UsersPage() {
     .select("*")
     .order("created_at", { ascending: false });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const profiles = (rawProfiles || []) as any[];
 
   // Get all user roles
@@ -18,10 +18,12 @@ export default async function UsersPage() {
     .from("user_roles")
     .select("*");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const roles = (rawRoles || []) as any[];
 
   // Merge roles into profiles
   const users = profiles.map((profile) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const userRole = roles.find((r: any) => r.user_id === profile.id);
     return {
       ...profile,
