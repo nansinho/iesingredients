@@ -1,73 +1,102 @@
-# Welcome to your Lovable project
+# IES Ingredients
 
-## Project info
+Site B2B de distribution d'ingrédients naturels pour la cosmétique, la parfumerie et l'agroalimentaire.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Stack technique
 
-## How can I edit this code?
+- **Framework** : Next.js 16 (App Router, Turbopack)
+- **Langage** : TypeScript
+- **Styling** : Tailwind CSS v4 + shadcn/ui
+- **i18n** : next-intl v4 (FR/EN)
+- **Base de données** : Supabase (PostgreSQL) self-hosted
+- **Auth** : Supabase Auth + RBAC (admin/user)
+- **State** : Zustand (panier d'échantillons)
+- **Animations** : Framer Motion
+- **Traduction** : LibreTranslate self-hosted
+- **Déploiement** : Docker + Nginx + Let's Encrypt sur VPS
 
-There are several ways of editing your application.
+## Structure du projet
 
-**Use Lovable**
+```
+app/
+├── [locale]/(public)/     # Pages publiques (FR/EN)
+│   ├── page.tsx           # Accueil avec hero parallax
+│   ├── catalogue/         # Catalogue + fiches produits (ISR)
+│   ├── entreprise/        # Page entreprise
+│   ├── equipe/            # Équipe
+│   ├── actualites/        # Blog articles
+│   ├── contact/           # Formulaire de contact
+│   ├── podcast/           # Podcast
+│   └── mon-compte/        # Espace utilisateur
+├── [locale]/(auth)/       # Login / Register
+├── [locale]/(admin)/      # Dashboard admin (protégé RBAC)
+└── api/                   # Routes API (contact, samples, translate, revalidate, health)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+components/
+├── home/                  # Composants accueil (ParallaxHero, BentoExpertise, etc.)
+├── catalog/               # CatalogClient
+├── product/               # ProductDetail
+├── admin/                 # Dashboard admin (CRUD produits, blog, équipe, etc.)
+├── auth/                  # LoginForm, RegisterForm
+├── cart/                  # SampleCartSheet (panier d'échantillons)
+├── contact/               # ContactForm
+├── layout/                # Header, Footer
+├── seo/                   # JSON-LD (Organization, WebSite, FAQ, Breadcrumb, etc.)
+└── ui/                    # shadcn/ui components
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+lib/
+├── supabase/              # Clients Supabase (server, client, admin, middleware)
+├── products.ts            # Recherche produits SSR
+├── auth.ts                # Helpers auth serveur
+├── rate-limit.ts          # Rate limiting en mémoire
+└── validations.ts         # Schémas Zod
 ```
 
-**Edit a file directly in GitHub**
+## Développement local
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Installer les dépendances
+npm install
 
-**Use GitHub Codespaces**
+# Créer le fichier .env.local
+cp .env.example .env.local
+# Remplir NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Lancer le serveur de développement
+npm run dev
 
-## What technologies are used for this project?
+# Type-check
+npm run type-check
 
-This project is built with:
+# Build production
+npm run build
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Base de données
 
-## How can I deploy this project?
+Le schéma SQL complet est dans `supabase/schema.sql`. L'exécuter dans le SQL Editor de Supabase pour créer les 13 tables avec RLS, triggers et indexes.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Déploiement VPS
 
-## Can I connect a custom domain to my Lovable project?
+```bash
+# Premier déploiement
+cd docker
+./scripts/deploy.sh first-run
 
-Yes, you can!
+# Mise à jour
+./scripts/deploy.sh update
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# SSL (première fois uniquement)
+./scripts/init-ssl.sh ies-ingredients.com admin@ies-ingredients.com
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Variables d'environnement
+
+| Variable | Description |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | URL Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clé anonyme Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clé service role (serveur uniquement) |
+| `NEXT_PUBLIC_SITE_URL` | `https://ies-ingredients.com` |
+| `REVALIDATE_SECRET` | Secret pour l'API ISR on-demand |
+| `LIBRETRANSLATE_URL` | URL LibreTranslate (défaut: `http://libretranslate:5000`) |

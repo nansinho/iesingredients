@@ -70,7 +70,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // 301 redirects from old Lovable/SPA routes to new Next.js routes
+      // 301 redirects from old SPA routes to new Next.js routes
       { source: "/catalog", destination: "/fr/catalogue", permanent: true },
       { source: "/catalog/:code", destination: "/fr/catalogue/:code", permanent: true },
       { source: "/company", destination: "/fr/entreprise", permanent: true },
