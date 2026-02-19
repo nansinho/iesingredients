@@ -68,6 +68,19 @@ export function BlogEditForm({
 
     try {
       const supabase = createClient();
+
+      // Check slug uniqueness
+      const { data: existing } = await (supabase.from("blog_articles") as any)
+        .select("id")
+        .eq("slug", form.slug)
+        .maybeSingle();
+
+      if (existing && existing.id !== article?.id) {
+        toast.error("Ce slug est déjà utilisé par un autre article");
+        setIsSaving(false);
+        return;
+      }
+
       const data = {
         ...form,
         published_at: form.published ? article?.published_at || new Date().toISOString() : null,

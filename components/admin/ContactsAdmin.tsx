@@ -41,7 +41,7 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
       .eq("id", id);
 
     if (error) {
-      toast.error("Erreur");
+      toast.error(`Impossible de mettre à jour le statut: ${error.message}`);
       return;
     }
     setContacts((prev) =>

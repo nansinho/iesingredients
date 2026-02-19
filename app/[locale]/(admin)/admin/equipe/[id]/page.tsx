@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { TeamEditForm } from "@/components/admin/TeamEditForm";
+import { notFound } from "next/navigation";
 
 export default async function TeamEditPage({
   params,
@@ -28,6 +29,8 @@ export default async function TeamEditPage({
     } catch (error) {
       console.error("Failed to fetch team member:", error);
     }
+
+    if (!member) notFound();
   }
 
   return (

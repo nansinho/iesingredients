@@ -35,7 +35,7 @@ export function TeamAdmin({
       .eq("id", id);
 
     if (error) {
-      toast.error("Erreur");
+      toast.error(`Impossible de supprimer le membre: ${error.message}`);
       return;
     }
     setMembers((prev) => prev.filter((m) => m.id !== id));

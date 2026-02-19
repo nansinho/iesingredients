@@ -38,7 +38,7 @@ export function BlogAdmin({
       .eq("id", id);
 
     if (error) {
-      toast.error("Erreur");
+      toast.error(`Impossible de modifier la publication: ${error.message}`);
       return;
     }
     setArticles((prev) =>
@@ -58,7 +58,7 @@ export function BlogAdmin({
       .eq("id", id);
 
     if (error) {
-      toast.error("Erreur lors de la suppression");
+      toast.error(`Impossible de supprimer l'article: ${error.message}`);
       return;
     }
     setArticles((prev) => prev.filter((a) => a.id !== id));

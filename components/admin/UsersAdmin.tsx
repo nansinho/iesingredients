@@ -10,9 +10,12 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
+const PAGE_SIZE = 20;
+
 export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
   const [users, setUsers] = useState(initialUsers);
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
 
   const filtered = users.filter(
     (u) =>
@@ -21,6 +24,9 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       u.email?.toLowerCase().includes(search.toLowerCase()) ||
       u.company?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const toggleRole = async (userId: string, currentRole: string) => {
     const newRole = currentRole === "admin" ? "user" : "admin";
@@ -31,7 +37,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       .upsert({ user_id: userId, role: newRole }, { onConflict: "user_id" });
 
     if (error) {
-      toast.error("Erreur lors du changement de rôle");
+      toast.error(`Impossible de changer le rôle: ${error.message}`);
       return;
     }
 
@@ -100,12 +106,18 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       />
 
       <AdminDataTable
-        data={filtered}
+        data={paginated}
         columns={columns}
         idKey="id"
         searchValue={search}
-        onSearchChange={setSearch}
+        onSearchChange={(v) => {
+          setSearch(v);
+          setPage(1);
+        }}
         searchPlaceholder="Rechercher par nom, email ou entreprise..."
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
       />
     </>
   );

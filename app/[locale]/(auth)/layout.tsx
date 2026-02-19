@@ -1,13 +1,29 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Link } from "@/i18n/routing";
+import { redirect } from "next/navigation";
+import { getUser, isAdmin } from "@/lib/auth";
 
 export default async function AuthLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const messages = await getMessages();
+
+  // Redirect authenticated users away from login/register
+  const user = await getUser();
+  if (user) {
+    const admin = await isAdmin();
+    if (admin) {
+      redirect(`/${locale}/admin`);
+    } else {
+      redirect(`/${locale}`);
+    }
+  }
 
   return (
     <NextIntlClientProvider messages={messages}>

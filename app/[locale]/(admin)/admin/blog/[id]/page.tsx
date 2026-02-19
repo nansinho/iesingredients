@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { BlogEditForm } from "@/components/admin/BlogEditForm";
+import { notFound } from "next/navigation";
 
 export default async function BlogEditPage({
   params,
@@ -28,6 +29,8 @@ export default async function BlogEditPage({
     } catch (error) {
       console.error("Failed to fetch blog article:", error);
     }
+
+    if (!article) notFound();
   }
 
   return (

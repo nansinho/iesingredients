@@ -54,17 +54,43 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.code) {
+    if (!form.code.trim()) {
       toast.error("Le code est obligatoire");
+      return;
+    }
+    if (!form.nom_commercial.trim()) {
+      toast.error("Le nom commercial est obligatoire");
       return;
     }
     setIsSaving(true);
 
     try {
       const supabase = createClient();
-      const data = Object.fromEntries(
-        Object.entries(form).filter(([, v]) => v !== "")
-      );
+
+      // Check code uniqueness for new products
+      if (isNew) {
+        const { data: existing } = await (supabase.from(tableName) as any)
+          .select("code")
+          .eq("code", form.code.trim())
+          .maybeSingle();
+
+        if (existing) {
+          toast.error("Ce code existe déjà");
+          setIsSaving(false);
+          return;
+        }
+      }
+
+      const data: Record<string, string> = {};
+      for (const [key, value] of Object.entries(form)) {
+        if (typeof value === "string" && value.trim() !== "") {
+          data[key] = value.trim();
+        } else if (typeof value === "string") {
+          data[key] = value;
+        }
+      }
+      // Always include statut
+      data.statut = form.statut;
 
       if (isNew) {
         const { error } = await (supabase.from(tableName) as any).insert(data);

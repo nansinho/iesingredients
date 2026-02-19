@@ -1,4 +1,5 @@
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { RevalidateButton } from "@/components/admin/RevalidateButton";
 import { Settings } from "lucide-react";
 
 export default async function SettingsPage() {
@@ -49,14 +50,7 @@ export default async function SettingsPage() {
                 <p className="font-medium text-sm">Revalider le cache</p>
                 <p className="text-xs text-gray-500">Force la régénération des pages statiques</p>
               </div>
-              <form action="/api/revalidate" method="POST">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-forest-900 text-white text-sm rounded-lg hover:bg-forest-800 transition-colors"
-                >
-                  Revalider
-                </button>
-              </form>
+              <RevalidateButton />
             </div>
           </div>
         </div>

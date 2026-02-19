@@ -38,7 +38,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
       .eq("id", id);
 
     if (error) {
-      toast.error("Erreur");
+      toast.error(`Impossible de changer le statut: ${error.message}`);
       return;
     }
     setRequests((prev) =>

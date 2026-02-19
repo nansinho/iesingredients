@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProductEditForm } from "@/components/admin/ProductEditForm";
+import { notFound } from "next/navigation";
 
 export default async function CosmetiqueEditPage({
   params,
@@ -28,6 +29,8 @@ export default async function CosmetiqueEditPage({
     } catch (error) {
       console.error("Failed to fetch cosmetic product:", error);
     }
+
+    if (!product) notFound();
   }
 
   return (

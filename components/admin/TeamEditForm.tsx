@@ -41,8 +41,16 @@ export function TeamEditForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name) {
+    if (!form.name.trim()) {
       toast.error("Le nom est obligatoire");
+      return;
+    }
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error("L'adresse email n'est pas valide");
+      return;
+    }
+    if (form.display_order < 0) {
+      toast.error("L'ordre d'affichage doit être positif");
       return;
     }
     setIsSaving(true);
