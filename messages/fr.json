@@ -2,71 +2,129 @@
   "nav": {
     "company": "Entreprise",
     "catalog": "Catalogue",
-    "team": "\u00c9quipe",
-    "news": "Actualit\u00e9s",
+    "team": "Équipe",
+    "news": "Actualités",
     "podcast": "Podcast",
     "contact": "Contact",
     "login": "Connexion",
     "account": "Mon compte",
-    "admin": "Administration"
+    "admin": "Administration",
+    "requestQuote": "Demander un devis",
+    "myProfile": "Mon profil",
+    "myRequests": "Mes demandes",
+    "signOut": "Déconnexion",
+    "signIn": "Connexion",
+    "searchPlaceholder": "Rechercher un ingrédient...",
+    "englishVersion": "English version",
+    "frenchVersion": "Version française"
   },
   "hero": {
-    "badge": "Plus de 5000 ingr\u00e9dients",
-    "title": "D\u00e9couvrez l'ensemble de nos produits",
-    "subtitle": "Plus de 5000 ingr\u00e9dients cosm\u00e9tiques, parfums et ar\u00f4mes alimentaires",
+    "badge": "Plus de 5000 ingrédients",
+    "titleLine1": "Excellence Naturelle.",
+    "titleLine2": "Ingrédients Premium.",
+    "title": "Découvrez l'ensemble de nos produits",
+    "subtitle": "Découvrez nos ingrédients cosmétiques, parfums et arômes de qualité exceptionnelle depuis 1994.",
     "cta": "Explorer le catalogue",
-    "ctaSecondary": "En savoir plus",
-    "search": "Rechercher un produit, une famille olfactive..."
+    "ctaSecondary": "Nous contacter",
+    "search": "Rechercher un produit, une famille olfactive...",
+    "scrollDown": "Défiler vers le bas"
+  },
+  "categories": {
+    "cosmetic": "Cosmétique",
+    "perfume": "Parfumerie",
+    "aroma": "Arômes",
+    "cosmeticDesc": "Actifs botaniques et extraits naturels",
+    "perfumeDesc": "Huiles essentielles et absolues",
+    "aromaDesc": "Arômes alimentaires naturels",
+    "explore": "Explorer"
+  },
+  "expertise": {
+    "surtitle": "Notre savoir-faire",
+    "title": "Notre Expertise",
+    "subtitle": "Des ingrédients soigneusement sélectionnés depuis plus de 30 ans",
+    "natural": "Naturel",
+    "botanicalIngredients": "Ingrédients Botaniques",
+    "naturalActives": "actifs naturels",
+    "rareEssences": "essences rares",
+    "foodFlavors": "arômes alimentaires",
+    "serumCollection": "Collection Sérums"
+  },
+  "about": {
+    "surtitle": "À propos",
+    "title": "Notre Engagement",
+    "description": "Depuis 1994, nous sélectionnons les meilleurs ingrédients naturels pour l'industrie cosmétique, la parfumerie et l'agroalimentaire. Notre expertise et notre réseau mondial nous permettent de vous offrir des produits d'exception.",
+    "yearsExpertise": "ans d'expertise",
+    "ethicalTitle": "Éthique",
+    "ethicalDesc": "Sourcing responsable",
+    "certifiedTitle": "Certifié",
+    "certifiedDesc": "ISO, COSMOS, BIO",
+    "fastTitle": "Rapide",
+    "fastDesc": "Livraison 48h",
+    "expertTitle": "Expert",
+    "expertDesc": "Conseil personnalisé",
+    "discoverStory": "Découvrir notre histoire"
+  },
+  "products": {
+    "title": "Produits Vedettes",
+    "subtitle": "Une sélection de nos meilleurs ingrédients",
+    "referenceCopied": "Référence copiée !",
+    "origin": "Origine"
+  },
+  "cta": {
+    "surtitle": "Collaborons ensemble",
+    "title": "Prêt à découvrir nos ingrédients ?",
+    "subtitle": "Contactez notre équipe pour une consultation personnalisée ou parcourez notre catalogue.",
+    "contact": "Nous contacter",
+    "viewCatalog": "Voir le catalogue"
+  },
+  "certifications": {
+    "title": "Nos certifications"
   },
   "filters": {
-    "title": "S\u00e9lectionnez vos crit\u00e8res",
-    "category": "Cat\u00e9gorie",
+    "title": "Sélectionnez vos critères",
+    "category": "Catégorie",
     "range": "Gamme",
     "olfactoryFamily": "Famille olfactive",
     "origin": "Origine",
     "foodGrade": "Food Grade",
-    "solubility": "Solubilit\u00e9",
+    "solubility": "Solubilité",
     "certifications": "Certifications",
-    "reset": "R\u00e9initialiser",
+    "reset": "Réinitialiser",
     "apply": "Appliquer"
   },
   "catalog": {
     "title": "Catalogue",
-    "results": "Vos r\u00e9sultats de recherche",
+    "results": "Vos résultats de recherche",
     "products": "produits",
-    "noResults": "Aucun produit trouv\u00e9",
+    "noResults": "Aucun produit trouvé",
     "loadMore": "Charger plus",
-    "requestSample": "Demande d'\u00e9chantillon"
+    "requestSample": "Demande d'échantillon"
   },
   "product": {
     "description": "Description",
-    "benefits": "B\u00e9n\u00e9fices",
+    "benefits": "Bénéfices",
     "performance": "Performance",
     "certifications": "Certifications",
     "similar": "Produits similaires",
-    "specifications": "Sp\u00e9cifications",
+    "specifications": "Spécifications",
     "inci": "INCI",
-    "cas": "N\u00b0 CAS",
+    "cas": "N° CAS",
     "origin": "Origine",
-    "solubility": "Solubilit\u00e9",
+    "solubility": "Solubilité",
     "aspect": "Aspect"
   },
-  "categories": {
-    "cosmetic": "Cosm\u00e9tique",
-    "perfume": "Parfum",
-    "aroma": "Ar\u00f4me"
-  },
   "podcast": {
-    "title": "Podcast \u00c0 Fleur De Nez",
-    "subtitle": "Explorez l'univers de la parfumerie \u00e0 travers des interviews et des histoires captivantes",
-    "listenOn": "\u00c9couter sur",
-    "featured": "\u00c0 la une"
+    "title": "Podcast À Fleur De Nez",
+    "subtitle": "Explorez l'univers de la parfumerie à travers des interviews et des histoires captivantes",
+    "listenOn": "Écouter sur",
+    "featured": "À la une"
   },
   "footer": {
-    "rights": "Tous droits r\u00e9serv\u00e9s",
-    "privacy": "Politique de confidentialit\u00e9",
+    "rights": "Tous droits réservés",
+    "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
-    "description": "Distribution B2B d'ingr\u00e9dients naturels pour la cosm\u00e9tique, la parfumerie et l'agroalimentaire."
+    "description": "Votre partenaire pour les ingrédients cosmétiques, parfums et arômes depuis plus de 30 ans.",
+    "navigation": "Navigation"
   },
   "common": {
     "learnMore": "En savoir plus",
@@ -78,19 +136,19 @@
     "cancel": "Annuler",
     "delete": "Supprimer",
     "edit": "Modifier",
-    "create": "Cr\u00e9er",
+    "create": "Créer",
     "search": "Rechercher",
     "close": "Fermer"
   },
   "metadata": {
-    "homeTitle": "IES Ingredients - Ingr\u00e9dients Naturels B2B",
-    "homeDescription": "Plus de 5000 ingr\u00e9dients cosm\u00e9tiques, parfums et ar\u00f4mes alimentaires. Distribution B2B d'ingr\u00e9dients naturels de qualit\u00e9.",
+    "homeTitle": "IES Ingredients - Ingrédients Naturels B2B",
+    "homeDescription": "Plus de 5000 ingrédients cosmétiques, parfums et arômes alimentaires. Distribution B2B d'ingrédients naturels de qualité.",
     "catalogTitle": "Catalogue - IES Ingredients",
-    "catalogDescription": "Parcourez notre catalogue de plus de 5000 ingr\u00e9dients naturels pour la cosm\u00e9tique, la parfumerie et les ar\u00f4mes.",
+    "catalogDescription": "Parcourez notre catalogue de plus de 5000 ingrédients naturels pour la cosmétique, la parfumerie et les arômes.",
     "companyTitle": "Notre Entreprise - IES Ingredients",
-    "teamTitle": "Notre \u00c9quipe - IES Ingredients",
-    "newsTitle": "Actualit\u00e9s - IES Ingredients",
+    "teamTitle": "Notre Équipe - IES Ingredients",
+    "newsTitle": "Actualités - IES Ingredients",
     "contactTitle": "Contact - IES Ingredients",
-    "podcastTitle": "Podcast \u00c0 Fleur De Nez - IES Ingredients"
+    "podcastTitle": "Podcast À Fleur De Nez - IES Ingredients"
   }
 }

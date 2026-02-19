@@ -1,4 +1,11 @@
 import { getTranslations } from "next-intl/server";
+import { ParallaxHero } from "@/components/home/ParallaxHero";
+import { BentoExpertise } from "@/components/home/BentoExpertise";
+import { MinimalAbout } from "@/components/home/MinimalAbout";
+import { MinimalProducts } from "@/components/home/MinimalProducts";
+import { MinimalCTA } from "@/components/home/MinimalCTA";
+import { LogoStrip } from "@/components/home/LogoStrip";
+import { OrganizationJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -18,40 +25,76 @@ export async function generateMetadata({
         en: "/en",
       },
     },
+    openGraph: {
+      title: t("homeTitle"),
+      description: t("homeDescription"),
+      url: `https://ies-ingredients.com/${locale}`,
+      siteName: "IES Ingredients",
+      locale: locale === "fr" ? "fr_FR" : "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("homeTitle"),
+      description: t("homeDescription"),
+    },
   };
 }
 
-export default async function HomePage() {
-  const t = await getTranslations("hero");
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  const faqItems =
+    locale === "fr"
+      ? [
+          {
+            question: "Quels types d'ingrédients proposez-vous ?",
+            answer:
+              "Nous proposons plus de 5000 ingrédients naturels pour la cosmétique, la parfumerie et les arômes alimentaires, incluant des actifs botaniques, huiles essentielles, absolues et extraits naturels.",
+          },
+          {
+            question: "Livrez-vous à l'international ?",
+            answer:
+              "Oui, IES Ingredients livre dans le monde entier. Nous disposons d'un réseau logistique international avec livraison en 48h en Europe.",
+          },
+          {
+            question: "Vos ingrédients sont-ils certifiés ?",
+            answer:
+              "Nos ingrédients sont certifiés COSMOS, ECOCERT, BIO et répondent aux normes ISO 9001. Nous proposons également des options Vegan.",
+          },
+        ]
+      : [
+          {
+            question: "What types of ingredients do you offer?",
+            answer:
+              "We offer over 5000 natural ingredients for cosmetics, perfumery and food flavors, including botanical actives, essential oils, absolutes and natural extracts.",
+          },
+          {
+            question: "Do you deliver internationally?",
+            answer:
+              "Yes, IES Ingredients delivers worldwide. We have an international logistics network with 48h delivery in Europe.",
+          },
+          {
+            question: "Are your ingredients certified?",
+            answer:
+              "Our ingredients are COSMOS, ECOCERT, BIO certified and meet ISO 9001 standards. We also offer Vegan options.",
+          },
+        ];
 
   return (
-    <div>
-      {/* Hero Parallax - Phase 2 */}
-      <section className="relative min-h-screen flex items-center justify-center bg-forest-950">
-        <div className="container-luxe text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 mb-8">
-            <span className="text-gold-500 text-sm font-medium tracking-luxury uppercase">
-              {t("badge")}
-            </span>
-          </div>
-          <h1 className="text-white mb-6">
-            {t("title")}
-          </h1>
-          <p className="text-lg md:text-xl text-forest-300 max-w-2xl mx-auto mb-10">
-            {t("subtitle")}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="btn-luxury-primary rounded-lg">
-              {t("cta")}
-            </button>
-            <button className="btn-luxury-outline text-white rounded-lg">
-              {t("ctaSecondary")}
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Other sections will be added in Phase 2 */}
-    </div>
+    <>
+      <OrganizationJsonLd />
+      <FAQJsonLd items={faqItems} />
+      <ParallaxHero />
+      <MinimalProducts />
+      <BentoExpertise />
+      <MinimalAbout />
+      <LogoStrip />
+      <MinimalCTA />
+    </>
   );
 }
