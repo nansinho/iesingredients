@@ -15,6 +15,7 @@ import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { type Product, getCategoryConfig } from "@/lib/product-types";
+import { useSampleCart } from "@/hooks/useSampleCart";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -24,6 +25,7 @@ export function ProductDetail({ product }: { product: Product }) {
   const nav = useTranslations("nav");
   const common = useTranslations("common");
   const [copied, setCopied] = useState(false);
+  const { addItem } = useSampleCart();
 
   const config = getCategoryConfig(product.typologie_de_produit);
 
@@ -144,6 +146,18 @@ export function ProductDetail({ product }: { product: Product }) {
               {/* CTA */}
               <Button
                 size="lg"
+                onClick={() => {
+                  addItem({
+                    code: product.code || "",
+                    name: product.nom_commercial || "",
+                    category: config.label,
+                  });
+                  toast.success(
+                    t("specifications") === "Spécifications"
+                      ? "Ajouté au panier"
+                      : "Added to cart"
+                  );
+                }}
                 className="bg-gold-500 hover:bg-gold-400 text-forest-900 rounded-full px-8 font-medium shadow-lg shadow-gold-500/20"
               >
                 <ShoppingBag className="w-5 h-5 mr-2" />

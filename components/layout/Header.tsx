@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut, Settings, ShoppingBag, Shield } from "lucide-react";
+import { Menu, X, Search, ArrowRight, User, LogOut, ShoppingBag, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -16,11 +16,15 @@ import { cn } from "@/lib/utils";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import { motion } from "framer-motion";
+import { createClient } from "@/lib/supabase/client";
+import { SampleCartSheet } from "@/components/cart/SampleCartSheet";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
@@ -41,6 +45,22 @@ export function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => setUser(session?.user ?? null)
+    );
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setUser(null);
+    router.refresh();
+  };
 
   const navItems = [
     { label: t("catalog"), href: "/catalogue" as const },
@@ -169,23 +189,69 @@ export function Header() {
               {locale === "fr" ? "EN" : "FR"}
             </motion.button>
 
-            {/* User Button (placeholder - will connect to auth in Phase 5) */}
-            <Link href="/login">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={cn(
-                  "p-2.5 rounded-full transition-colors duration-300",
-                  isScrolled
-                    ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                    : isDarkHero
-                      ? "text-white/80 hover:text-white hover:bg-white/10"
-                      : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                )}
-              >
-                <User className="w-5 h-5" />
-              </motion.button>
-            </Link>
+            {/* Sample Cart */}
+            <div className={cn(
+              "rounded-full transition-colors duration-300",
+              isScrolled
+                ? "[&_button]:text-forest-600 [&_button]:hover:text-forest-900"
+                : isDarkHero
+                  ? "[&_button]:text-white/80 [&_button]:hover:text-white"
+                  : "[&_button]:text-forest-600 [&_button]:hover:text-forest-900"
+            )}>
+              <SampleCartSheet />
+            </div>
+
+            {/* User Button */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={cn(
+                      "p-2.5 rounded-full transition-colors duration-300",
+                      isScrolled
+                        ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                        : isDarkHero
+                          ? "text-white/80 hover:text-white hover:bg-white/10"
+                          : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                    )}
+                  >
+                    <User className="w-5 h-5" />
+                  </motion.button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link href="/mon-compte" className="cursor-pointer">
+                      <User className="w-4 h-4 mr-2" />
+                      {t("myProfile")}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t("signOut")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={cn(
+                    "p-2.5 rounded-full transition-colors duration-300",
+                    isScrolled
+                      ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                      : isDarkHero
+                        ? "text-white/80 hover:text-white hover:bg-white/10"
+                        : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
+                  )}
+                >
+                  <User className="w-5 h-5" />
+                </motion.button>
+              </Link>
+            )}
 
             {/* CTA Button - Desktop */}
             <Link href="/contact" className="hidden lg:block">
@@ -282,15 +348,37 @@ export function Header() {
 
                   {/* Mobile Footer */}
                   <div className="pt-6 border-t border-white/10">
-                    <Link href="/login" onClick={() => setIsOpen(false)}>
-                      <Button
-                        variant="outline"
-                        className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white/10"
-                      >
-                        <User className="w-5 h-5 mr-2" />
-                        {t("signIn")}
-                      </Button>
-                    </Link>
+                    {user ? (
+                      <div className="space-y-2">
+                        <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
+                          <Button
+                            variant="outline"
+                            className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white/10"
+                          >
+                            <User className="w-5 h-5 mr-2" />
+                            {t("myProfile")}
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="ghost"
+                          onClick={() => { handleSignOut(); setIsOpen(false); }}
+                          className="w-full h-12 rounded-xl text-red-400 hover:text-red-300 hover:bg-white/5"
+                        >
+                          <LogOut className="w-5 h-5 mr-2" />
+                          {t("signOut")}
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link href="/login" onClick={() => setIsOpen(false)}>
+                        <Button
+                          variant="outline"
+                          className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white/10"
+                        >
+                          <User className="w-5 h-5 mr-2" />
+                          {t("signIn")}
+                        </Button>
+                      </Link>
+                    )}
                   </div>
 
                   {/* Mobile CTA */}
