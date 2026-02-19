@@ -8,17 +8,26 @@ export default async function BlogEditPage({
 }) {
   const { locale, id } = await params;
   const isNew = id === "new";
-  let article = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let article: Record<string, any> | null = null;
 
   if (!isNew) {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("blog_articles")
-      .select("*")
-      .eq("id", id)
-      .maybeSingle();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    article = data as Record<string, any> | null;
+    try {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("blog_articles")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to fetch blog article:", error.message);
+      } else {
+        article = data;
+      }
+    } catch (error) {
+      console.error("Failed to fetch blog article:", error);
+    }
   }
 
   return (

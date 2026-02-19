@@ -7,21 +7,35 @@ export default async function AromesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let products: any[] = [];
+  let total = 0;
 
-  const { data, count } = await supabase
-    .from("aromes_fr")
-    .select("*", { count: "exact" })
-    .order("nom_commercial", { ascending: true })
-    .range(0, 19);
+  try {
+    const supabase = await createClient();
+    const { data, count, error } = await supabase
+      .from("aromes_fr")
+      .select("*", { count: "exact" })
+      .order("nom_commercial", { ascending: true })
+      .range(0, 19);
+
+    if (error) {
+      console.error("Failed to fetch aromas:", error.message);
+    } else {
+      products = data ?? [];
+      total = count ?? 0;
+    }
+  } catch (error) {
+    console.error("Failed to fetch aromas:", error);
+  }
 
   return (
     <ProductsAdmin
       tableName="aromes_fr"
       title="Arômes"
       editBasePath={`/${locale}/admin/aromes`}
-      initialProducts={data || []}
-      initialTotal={count || 0}
+      initialProducts={products}
+      initialTotal={total}
     />
   );
 }

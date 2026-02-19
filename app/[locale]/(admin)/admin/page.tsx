@@ -13,28 +13,41 @@ import {
 import Link from "next/link";
 
 async function getStats() {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const [cosmetique, parfum, aromes, requests, contacts, articles, team] =
-    await Promise.all([
-      supabase.from("cosmetique_fr").select("*", { count: "exact", head: true }).eq("statut", "ACTIF"),
-      supabase.from("parfum_fr").select("*", { count: "exact", head: true }).eq("statut", "ACTIF"),
-      supabase.from("aromes_fr").select("*", { count: "exact", head: true }).eq("statut", "ACTIF"),
-      supabase.from("sample_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
-      supabase.from("contact_submissions").select("*", { count: "exact", head: true }).eq("status", "new"),
-      supabase.from("blog_articles").select("*", { count: "exact", head: true }).eq("published", true),
-      supabase.from("team_members").select("*", { count: "exact", head: true }),
-    ]);
+    const [cosmetique, parfum, aromes, requests, contacts, articles, team] =
+      await Promise.all([
+        supabase.from("cosmetique_fr").select("*", { count: "exact", head: true }).eq("statut", "ACTIF"),
+        supabase.from("parfum_fr").select("*", { count: "exact", head: true }).eq("statut", "ACTIF"),
+        supabase.from("aromes_fr").select("*", { count: "exact", head: true }).eq("statut", "ACTIF"),
+        supabase.from("sample_requests").select("*", { count: "exact", head: true }).eq("status", "pending"),
+        supabase.from("contact_submissions").select("*", { count: "exact", head: true }).eq("status", "new"),
+        supabase.from("blog_articles").select("*", { count: "exact", head: true }).eq("published", true),
+        supabase.from("team_members").select("*", { count: "exact", head: true }),
+      ]);
 
-  return {
-    cosmetiques: cosmetique.count || 0,
-    parfums: parfum.count || 0,
-    aromes: aromes.count || 0,
-    pendingRequests: requests.count || 0,
-    newContacts: contacts.count || 0,
-    publishedArticles: articles.count || 0,
-    teamMembers: team.count || 0,
-  };
+    return {
+      cosmetiques: cosmetique.count ?? 0,
+      parfums: parfum.count ?? 0,
+      aromes: aromes.count ?? 0,
+      pendingRequests: requests.count ?? 0,
+      newContacts: contacts.count ?? 0,
+      publishedArticles: articles.count ?? 0,
+      teamMembers: team.count ?? 0,
+    };
+  } catch (error) {
+    console.error("Failed to fetch dashboard stats:", error);
+    return {
+      cosmetiques: 0,
+      parfums: 0,
+      aromes: 0,
+      pendingRequests: 0,
+      newContacts: 0,
+      publishedArticles: 0,
+      teamMembers: 0,
+    };
+  }
 }
 
 function StatCard({
