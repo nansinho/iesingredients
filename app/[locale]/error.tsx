@@ -26,6 +26,12 @@ export default function Error({
         <p className="text-forest-600 mb-6">
           Nous nous excusons pour ce désagrément. Veuillez réessayer.
         </p>
+        {process.env.NODE_ENV !== "production" || true ? (
+          <pre className="text-left text-xs bg-red-50 border border-red-200 rounded-xl p-4 mb-6 overflow-auto max-h-40 text-red-800">
+            {error?.message || "Unknown error"}
+            {error?.digest && `\nDigest: ${error.digest}`}
+          </pre>
+        ) : null}
         <div className="flex gap-3 justify-center">
           <Button onClick={reset} className="bg-forest-900 hover:bg-forest-800 text-white rounded-full px-6">
             Réessayer
