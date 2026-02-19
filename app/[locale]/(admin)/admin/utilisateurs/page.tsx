@@ -37,6 +37,7 @@ export default async function UsersPage() {
     users = profiles.map((profile: Record<string, unknown>) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userRoles = roles.filter((r: any) => r.user_id === profile.id);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const isAdmin = userRoles.some((r: any) => r.role === "admin");
       return {
         ...profile,
