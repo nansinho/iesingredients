@@ -1,7 +1,8 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import { UserCog, Shield, User } from "lucide-react";
+import { Shield, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AdminDataTable } from "@/components/admin/AdminDataTable";

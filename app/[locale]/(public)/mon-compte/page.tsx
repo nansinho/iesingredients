@@ -65,6 +65,7 @@ export default async function AccountPage({
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const requests = (rawRequests || []) as any[];
 
   return (

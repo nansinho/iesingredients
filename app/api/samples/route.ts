@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { sampleRequestSchema } from "@/lib/validations";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";

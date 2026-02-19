@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
 import { Clock, CheckCircle, XCircle, Package } from "lucide-react";

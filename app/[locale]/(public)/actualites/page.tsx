@@ -77,6 +77,7 @@ export default async function NewsPage({
         <div className="max-w-7xl mx-auto">
           {articles && articles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {articles.map((article: any) => (
                 <Link
                   key={article.id}

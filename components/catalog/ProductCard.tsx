@@ -4,7 +4,6 @@ import Image from "next/image";
 import { ArrowUpRight, Copy, Check, MapPin } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
 import { type Product, getCategoryConfig } from "@/lib/product-types";

@@ -14,6 +14,7 @@ export default async function EquipePage({
     .select("*")
     .order("display_order", { ascending: true });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const members = (rawMembers || []) as any[];
 
   return <TeamAdmin initialMembers={members} locale={locale} />;

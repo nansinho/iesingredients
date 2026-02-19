@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-import { getProduct, getAllProductCodes, getCategoryConfig } from "@/lib/products";
+import { getProduct, getCategoryConfig } from "@/lib/products";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ProductDetail } from "@/components/product/ProductDetail";
 

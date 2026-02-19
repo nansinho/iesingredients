@@ -36,6 +36,7 @@ export function LoginForm() {
       }
 
       toast.success(isFr ? "Connexion réussie" : "Login successful");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       router.push("/" as any);
       router.refresh();
     } catch {

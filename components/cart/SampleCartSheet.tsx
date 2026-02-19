@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLocale } from "next-intl";
-import { useRouter } from "@/i18n/routing";
 import { ShoppingBag, Trash2, Minus, Plus, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,7 +23,6 @@ import { toast } from "sonner";
 export function SampleCartSheet() {
   const locale = useLocale();
   const isFr = locale === "fr";
-  const router = useRouter();
   const { items, removeItem, updateQuantity, clearCart, itemCount } = useSampleCart();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

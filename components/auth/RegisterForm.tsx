@@ -88,6 +88,7 @@ export function RegisterForm() {
             : "Check your email to confirm your account.",
         }
       );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       router.push("/login" as any);
     } catch {
       toast.error(isFr ? "Une erreur est survenue" : "An error occurred");

@@ -9,6 +9,7 @@ export default async function DemandesPage() {
     .select("*, sample_request_items(*)")
     .order("created_at", { ascending: false });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const requests = (rawRequests || []) as any[];
 
   return <DemandesAdmin initialRequests={requests} />;

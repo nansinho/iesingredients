@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
@@ -86,8 +87,8 @@ export function BlogEditForm({
 
       router.push(backPath as any);
       router.refresh();
-    } catch (err: any) {
-      toast.error("Erreur: " + (err.message || "Échec"));
+    } catch (err: unknown) {
+      toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec"));
     } finally {
       setIsSaving(false);
     }

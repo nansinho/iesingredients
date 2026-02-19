@@ -1,14 +1,13 @@
 "use client";
 
 import { useCallback, useTransition } from "react";
-import { Search, SlidersHorizontal, X, Leaf, FlaskConical, Droplets, Grid3X3, LayoutList, ArrowRight } from "lucide-react";
+import { Search, X, Leaf, FlaskConical, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { type Product } from "@/lib/product-types";
 import { motion } from "framer-motion";
@@ -48,16 +47,6 @@ export function CatalogClient({
   const [searchValue, setSearchValue] = useState(searchParams.search || "");
   const activeCategory = searchParams.category || "";
 
-  // Debounced search
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (searchValue !== (searchParams.search || "")) {
-        updateParams({ search: searchValue || undefined, page: undefined });
-      }
-    }, 400);
-    return () => clearTimeout(timeout);
-  }, [searchValue]);
-
   const updateParams = useCallback(
     (updates: Record<string, string | undefined>) => {
       const current = new URLSearchParams();
@@ -80,11 +69,22 @@ export function CatalogClient({
 
       startTransition(() => {
         const qs = current.toString();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         router.push((`/catalogue${qs ? `?${qs}` : ""}`) as any);
       });
     },
     [router, searchParams]
   );
+
+  // Debounced search
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (searchValue !== (searchParams.search || "")) {
+        updateParams({ search: searchValue || undefined, page: undefined });
+      }
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [searchValue, searchParams.search, updateParams]);
 
   const toggleCategory = (catId: string) => {
     updateParams({

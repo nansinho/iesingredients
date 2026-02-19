@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut, ShoppingBag, Shield } from "lucide-react";
+import { Menu, X, Search, ArrowRight, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -73,6 +73,7 @@ export function Header() {
 
   const toggleLanguage = () => {
     const newLocale = locale === "fr" ? "en" : "fr";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     router.replace(pathname as any, { locale: newLocale });
   };
 
@@ -427,7 +428,7 @@ export function Header() {
                     router.push({
                       pathname: "/catalogue",
                       query: { search: e.currentTarget.value },
-                    } as any);
+                    } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
                     setSearchOpen(false);
                   }
                   if (e.key === "Escape") {

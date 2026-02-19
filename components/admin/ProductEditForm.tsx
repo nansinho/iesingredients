@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
@@ -79,8 +80,8 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
 
       router.push(backPath as any);
       router.refresh();
-    } catch (err: any) {
-      toast.error("Erreur: " + (err.message || "Échec de la sauvegarde"));
+    } catch (err: unknown) {
+      toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec de la sauvegarde"));
     } finally {
       setIsSaving(false);
     }

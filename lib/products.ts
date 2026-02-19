@@ -58,6 +58,7 @@ export async function searchProducts(params: SearchParams) {
     if (!error && data) {
       allProducts = [
         ...allProducts,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ...data.map((p: any) => ({ ...p, _table: table }) as Product),
       ];
     }
@@ -104,6 +105,7 @@ export async function getAllProductCodes(): Promise<string[]> {
       .not("code", "is", null);
 
     if (data) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       codes.push(...data.map((p: any) => p.code).filter(Boolean));
     }
   }
