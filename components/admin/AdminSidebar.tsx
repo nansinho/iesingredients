@@ -22,17 +22,37 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-const navItems = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard, end: true },
-  { label: "Demandes", href: "/admin/demandes", icon: ClipboardList },
-  { label: "Blog", href: "/admin/blog", icon: Newspaper },
-  { label: "Messages", href: "/admin/contacts", icon: Mail },
-  { label: "Cosmétiques", href: "/admin/cosmetiques", icon: Sparkles },
-  { label: "Parfums", href: "/admin/parfums", icon: Droplets },
-  { label: "Arômes", href: "/admin/aromes", icon: Cookie },
-  { label: "Équipe", href: "/admin/equipe", icon: Users },
-  { label: "Utilisateurs", href: "/admin/utilisateurs", icon: UserCog },
-  { label: "Paramètres", href: "/admin/settings", icon: Settings },
+const navGroups = [
+  {
+    label: null,
+    items: [
+      { label: "Dashboard", href: "/admin", icon: LayoutDashboard, end: true },
+    ],
+  },
+  {
+    label: "Gestion",
+    items: [
+      { label: "Demandes", href: "/admin/demandes", icon: ClipboardList },
+      { label: "Messages", href: "/admin/contacts", icon: Mail },
+      { label: "Blog", href: "/admin/blog", icon: Newspaper },
+    ],
+  },
+  {
+    label: "Catalogue",
+    items: [
+      { label: "Cosmétiques", href: "/admin/cosmetiques", icon: Sparkles },
+      { label: "Parfums", href: "/admin/parfums", icon: Droplets },
+      { label: "Arômes", href: "/admin/aromes", icon: Cookie },
+    ],
+  },
+  {
+    label: "Administration",
+    items: [
+      { label: "Équipe", href: "/admin/equipe", icon: Users },
+      { label: "Utilisateurs", href: "/admin/utilisateurs", icon: UserCog },
+      { label: "Paramètres", href: "/admin/settings", icon: Settings },
+    ],
+  },
 ];
 
 export function AdminSidebar() {
@@ -65,26 +85,40 @@ export function AdminSidebar() {
             className="h-8 w-auto brightness-0 invert"
           />
         </Link>
+        <p className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-gold-500/70">
+          Administration
+        </p>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            href={item.href as any}
-            onClick={() => setIsOpen(false)}
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
-              isActive(item.href, item.end)
-                ? "bg-gold-500 text-forest-950"
-                : "text-white/70 hover:text-white hover:bg-white/10"
+      <nav className="flex-1 overflow-y-auto py-4 px-3">
+        {navGroups.map((group, groupIndex) => (
+          <div key={groupIndex} className={cn(groupIndex > 0 && "mt-6")}>
+            {group.label && (
+              <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/40">
+                {group.label}
+              </p>
             )}
-          >
-            <item.icon className="w-5 h-5 shrink-0" />
-            <span>{item.label}</span>
-          </Link>
+            <div className="space-y-1">
+              {group.items.map((item) => (
+                <Link
+                  key={item.href}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  href={item.href as any}
+                  onClick={() => setIsOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                    isActive(item.href, "end" in item ? item.end : undefined)
+                      ? "bg-gold-500 text-forest-950 shadow-lg shadow-gold-500/20"
+                      : "text-white/70 hover:text-white hover:bg-white/10"
+                  )}
+                >
+                  <item.icon className="w-5 h-5 shrink-0" />
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 
@@ -92,14 +126,14 @@ export function AdminSidebar() {
       <div className="p-4 border-t border-white/10 space-y-2">
         <Link
           href="/"
-          className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-colors group"
         >
-          <ExternalLink className="w-4 h-4" />
+          <ExternalLink className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
           <span>Retour au site</span>
         </Link>
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-white/5 transition-colors w-full"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-white/5 transition-colors w-full"
         >
           <LogOut className="w-4 h-4" />
           <span>Déconnexion</span>

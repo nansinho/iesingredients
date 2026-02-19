@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -65,25 +66,35 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
 
       {/* Status pills */}
       <div className="flex flex-wrap gap-2 mb-6">
-        <button
+        <Button
+          variant={filter === "all" ? "default" : "outline"}
+          size="sm"
           onClick={() => setFilter("all")}
-          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-            filter === "all" ? "bg-forest-900 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={cn(
+            "rounded-full",
+            filter === "all" && "bg-forest-900 hover:bg-forest-800"
+          )}
         >
           Tous ({requests.length})
-        </button>
-        {Object.entries(statusConfig).map(([key, cfg]) => (
-          <button
-            key={key}
-            onClick={() => setFilter(key)}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              filter === key ? "bg-forest-900 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            {cfg.label} ({statusCounts[key] || 0})
-          </button>
-        ))}
+        </Button>
+        {Object.entries(statusConfig).map(([key, cfg]) => {
+          const Icon = cfg.icon;
+          return (
+            <Button
+              key={key}
+              variant={filter === key ? "default" : "outline"}
+              size="sm"
+              onClick={() => setFilter(key)}
+              className={cn(
+                "rounded-full gap-1.5",
+                filter === key && "bg-forest-900 hover:bg-forest-800"
+              )}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {cfg.label} ({statusCounts[key] || 0})
+            </Button>
+          );
+        })}
       </div>
 
       {/* List */}
@@ -176,18 +187,24 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
                 </div>
               </div>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
                 {["pending", "approved", "rejected", "completed"].map((s) => {
                   const cfg = statusConfig[s];
                   const Icon = cfg.icon;
+                  const isCurrentStatus = selected.status === s;
                   return (
                     <Button
                       key={s}
                       size="sm"
-                      variant={selected.status === s ? "default" : "outline"}
+                      variant={isCurrentStatus ? "default" : "outline"}
                       onClick={() => updateStatus(selected.id, s)}
+                      disabled={isCurrentStatus}
+                      className={cn(
+                        "rounded-lg gap-1.5",
+                        isCurrentStatus && "bg-forest-900"
+                      )}
                     >
-                      <Icon className="w-4 h-4 mr-1" />
+                      <Icon className="w-4 h-4" />
                       {cfg.label}
                     </Button>
                   );
