@@ -1,11 +1,16 @@
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const messages = await getMessages();
+
   return (
+    <NextIntlClientProvider messages={messages}>
     <div className="min-h-screen bg-forest-950 flex flex-col">
       {/* Minimal header */}
       <header className="p-6">
@@ -25,5 +30,6 @@ export default function AuthLayout({
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-forest-700/20 rounded-full blur-3xl" />
       </div>
     </div>
+    </NextIntlClientProvider>
   );
 }
