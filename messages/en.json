@@ -1,0 +1,96 @@
+{
+  "nav": {
+    "company": "Company",
+    "catalog": "Catalog",
+    "team": "Team",
+    "news": "News",
+    "podcast": "Podcast",
+    "contact": "Contact",
+    "login": "Login",
+    "account": "My Account",
+    "admin": "Administration"
+  },
+  "hero": {
+    "badge": "Over 5000 ingredients",
+    "title": "Discover our complete range of products",
+    "subtitle": "Over 5000 cosmetic ingredients, perfumes and food flavors",
+    "cta": "Explore catalog",
+    "ctaSecondary": "Learn more",
+    "search": "Search for a product, olfactory family..."
+  },
+  "filters": {
+    "title": "Select your criteria",
+    "category": "Category",
+    "range": "Range",
+    "olfactoryFamily": "Olfactory Family",
+    "origin": "Origin",
+    "foodGrade": "Food Grade",
+    "solubility": "Solubility",
+    "certifications": "Certifications",
+    "reset": "Reset",
+    "apply": "Apply"
+  },
+  "catalog": {
+    "title": "Catalog",
+    "results": "Your search results",
+    "products": "products",
+    "noResults": "No products found",
+    "loadMore": "Load more",
+    "requestSample": "Request sample"
+  },
+  "product": {
+    "description": "Description",
+    "benefits": "Benefits",
+    "performance": "Performance",
+    "certifications": "Certifications",
+    "similar": "Similar products",
+    "specifications": "Specifications",
+    "inci": "INCI",
+    "cas": "CAS No.",
+    "origin": "Origin",
+    "solubility": "Solubility",
+    "aspect": "Aspect"
+  },
+  "categories": {
+    "cosmetic": "Cosmetic",
+    "perfume": "Perfume",
+    "aroma": "Aroma"
+  },
+  "podcast": {
+    "title": "Podcast \u00c0 Fleur De Nez",
+    "subtitle": "Explore the world of perfumery through captivating interviews and stories",
+    "listenOn": "Listen on",
+    "featured": "Featured"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "description": "B2B distribution of natural ingredients for cosmetics, perfumery and food industry."
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "viewAll": "View all",
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "close": "Close"
+  },
+  "metadata": {
+    "homeTitle": "IES Ingredients - Natural B2B Ingredients",
+    "homeDescription": "Over 5000 cosmetic ingredients, perfumes and food flavors. B2B distribution of quality natural ingredients.",
+    "catalogTitle": "Catalog - IES Ingredients",
+    "catalogDescription": "Browse our catalog of over 5000 natural ingredients for cosmetics, perfumery and flavors.",
+    "companyTitle": "Our Company - IES Ingredients",
+    "teamTitle": "Our Team - IES Ingredients",
+    "newsTitle": "News - IES Ingredients",
+    "contactTitle": "Contact - IES Ingredients",
+    "podcastTitle": "Podcast \u00c0 Fleur De Nez - IES Ingredients"
+  }
+}
