@@ -26,11 +26,23 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
     const newRole = currentRole === "admin" ? "user" : "admin";
     const supabase = createClient();
 
-    // Upsert role
-    const { error } = await (supabase.from("user_roles") as any)
-      .upsert({ user_id: userId, role: newRole }, { onConflict: "user_id" });
+    // Delete all existing roles for this user, then insert the new one.
+    // The unique constraint is on (user_id, role), not just user_id,
+    // so upsert with onConflict: "user_id" would fail.
+    const { error: deleteError } = await supabase
+      .from("user_roles")
+      .delete()
+      .eq("user_id", userId);
 
-    if (error) {
+    if (deleteError) {
+      toast.error("Erreur lors du changement de rôle");
+      return;
+    }
+
+    const { error: insertError } = await (supabase.from("user_roles") as any)
+      .insert({ user_id: userId, role: newRole });
+
+    if (insertError) {
       toast.error("Erreur lors du changement de rôle");
       return;
     }

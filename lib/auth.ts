@@ -57,15 +57,16 @@ export async function getUserRole() {
     const { data, error } = await supabase
       .from("user_roles")
       .select("role")
-      .eq("user_id", user.id)
-      .maybeSingle();
+      .eq("user_id", user.id);
 
     if (error) {
       console.error("Failed to fetch user role:", error.message);
       return "user";
     }
 
-    return (data as { role: string } | null)?.role || "user";
+    const roles = (data as { role: string }[] | null) ?? [];
+    if (roles.some((r) => r.role === "admin")) return "admin";
+    return "user";
   } catch (error) {
     console.error("Failed to get user role:", error);
     return null;
@@ -73,8 +74,28 @@ export async function getUserRole() {
 }
 
 export async function isAdmin() {
-  const role = await getUserRole();
-  return role === "admin";
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) return false;
+
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "admin")
+      .maybeSingle();
+
+    if (error) {
+      console.error("Failed to check admin role:", error.message);
+      return false;
+    }
+
+    return data !== null;
+  } catch (error) {
+    console.error("Failed to check admin status:", error);
+    return false;
+  }
 }
 
 export async function requireAuth(locale: string) {
