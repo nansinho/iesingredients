@@ -21,7 +21,6 @@ export function ProductCard({ product }: { product: Product }) {
     try {
       await navigator.clipboard.writeText(product.code);
     } catch {
-      // Fallback for non-secure contexts (HTTP)
       const textarea = document.createElement("textarea");
       textarea.value = product.code;
       textarea.style.position = "fixed";
@@ -53,43 +52,45 @@ export function ProductCard({ product }: { product: Product }) {
       className="group block h-full"
     >
       <motion.article
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="relative h-full rounded-2xl border border-forest-100 overflow-hidden bg-white hover:shadow-xl hover:border-gold-300 transition-colors duration-300"
+        whileHover={{ y: -6 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="relative h-full rounded-[20px] border border-forest-100 overflow-hidden bg-white hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] hover:border-gold-400 transition-all duration-500"
       >
-        {/* Image */}
-        <div className="relative h-40 overflow-hidden bg-forest-50">
-          <Image
-            src={product.image_url || config.image}
-            alt={product.nom_commercial || "Product"}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+        {/* Image with 10px border radius */}
+        <div className="p-3">
+          <div className="relative h-44 overflow-hidden rounded-[10px] bg-forest-50">
+            <Image
+              src={product.image_url || config.image}
+              alt={product.nom_commercial || "Product"}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
 
-          {/* Category Badge */}
-          <div className="absolute top-3 left-3">
-            <span
-              className="inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full text-white"
-              style={{ backgroundColor: config.accent }}
-            >
-              {config.label}
-            </span>
-          </div>
+            {/* Category Badge */}
+            <div className="absolute top-3 left-3">
+              <span
+                className="inline-flex items-center px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider rounded-full text-white shadow-lg"
+                style={{ backgroundColor: config.accent }}
+              >
+                {config.label}
+              </span>
+            </div>
 
-          {/* Arrow on hover */}
-          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div className="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center">
-              <ArrowUpRight className="w-4 h-4 text-foreground" />
+            {/* Arrow on hover */}
+            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
+              <div className="w-9 h-9 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center shadow-lg">
+                <ArrowUpRight className="w-4 h-4 text-forest-950" />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="px-4 pb-5 pt-0">
           {/* Code + Copy */}
-          <div className="text-center mb-3">
+          <div className="text-center mb-2.5">
             <div className="flex items-center justify-center gap-2">
               <span className="font-mono text-xl font-black tracking-tight text-forest-900">
                 {product.code}
@@ -97,37 +98,37 @@ export function ProductCard({ product }: { product: Product }) {
               <button
                 onClick={handleCopyCode}
                 aria-label="Copier la référence"
-                className="p-1 rounded-md hover:bg-black/5 transition-colors active:scale-95"
+                className="p-1.5 rounded-lg hover:bg-forest-50 transition-colors active:scale-95"
               >
                 {copied ? (
                   <Check className="w-3.5 h-3.5 text-green-500" />
                 ) : (
-                  <Copy className="w-3.5 h-3.5 opacity-60 hover:opacity-100 transition-opacity text-forest-600" />
+                  <Copy className="w-3.5 h-3.5 opacity-40 hover:opacity-80 transition-opacity text-forest-600" />
                 )}
               </button>
             </div>
           </div>
 
-          {/* Separator */}
-          <div className="flex justify-center mb-3">
+          {/* Separator - gold accent */}
+          <div className="flex justify-center mb-2.5">
             <div
-              className="h-0.5 w-12 rounded-full"
-              style={{ backgroundColor: config.accent }}
+              className="h-[2px] w-14 rounded-full"
+              style={{ background: `linear-gradient(90deg, transparent, ${config.accent}, transparent)` }}
             />
           </div>
 
           {/* Title */}
-          <h3 className="font-serif text-base font-semibold text-foreground leading-tight mb-2 line-clamp-2 min-h-[2.5rem] text-center group-hover:text-gold-600 transition-colors duration-300">
+          <h3 className="font-serif text-base font-semibold text-foreground leading-tight mb-2.5 line-clamp-2 min-h-[2.5rem] text-center group-hover:text-gold-700 transition-colors duration-300">
             {product.nom_commercial || "Produit sans nom"}
           </h3>
 
           {/* Benefits */}
           {benefitsArray.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-1 mb-3">
+            <div className="flex flex-wrap justify-center gap-1.5 mb-3">
               {benefitsArray.map((benefit, i) => (
                 <span
                   key={i}
-                  className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border border-forest-200 bg-forest-50 text-forest-700"
+                  className="inline-block text-[10px] font-medium px-2.5 py-1 rounded-full border border-gold-200 bg-gold-50 text-gold-800"
                 >
                   {benefit}
                 </span>
@@ -136,15 +137,15 @@ export function ProductCard({ product }: { product: Product }) {
           )}
 
           {/* Bottom Info */}
-          <div className="mt-auto pt-3 border-t border-forest-100 flex items-center justify-between text-[11px] text-muted-foreground">
+          <div className="mt-auto pt-3 border-t border-forest-100 flex items-center justify-between text-[11px] text-forest-400">
             {product.origine && (
               <span className="flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
+                <MapPin className="w-3 h-3 text-gold-500" />
                 {product.origine}
               </span>
             )}
             {product.solubilite && (
-              <span className="font-medium text-forest-700">
+              <span className="font-medium text-forest-600">
                 {product.solubilite.length > 12
                   ? product.solubilite.substring(0, 12) + "..."
                   : product.solubilite}
