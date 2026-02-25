@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-// Static showcase products (real data will come from Supabase in Phase 3)
+
 const showcaseProducts = [
   {
     id: "1",
@@ -57,23 +57,10 @@ const showcaseProducts = [
   },
 ];
 
-const categoryConfig: Record<string, { label: string; accent: string }> = {
-  cosmetique: { label: "Cosmétique", accent: "#4A7C59" },
-  parfum: { label: "Parfumerie", accent: "#A67B5B" },
-  arome: { label: "Arômes", accent: "#C97B8B" },
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+const categoryConfig: Record<string, { label: string; color: string }> = {
+  cosmetique: { label: "Cosmétique", color: "#4A7C59" },
+  parfum: { label: "Parfumerie", color: "#A67B5B" },
+  arome: { label: "Arômes", color: "#C97B8B" },
 };
 
 export function MinimalProducts() {
@@ -81,79 +68,89 @@ export function MinimalProducts() {
   const nav = useTranslations("nav");
 
   return (
-    <section className="py-24 px-4 bg-white">
+    <section className="py-32 md:py-40 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Header - Centered Apple Style */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
+          className="text-center mb-16"
         >
-          <div>
-            <h2 className="font-serif text-3xl md:text-4xl text-forest-900">
-              {t("title")}
-            </h2>
-            <p className="text-forest-600 mt-2">{t("subtitle")}</p>
-          </div>
-          <Link
-            href="/catalogue"
-            className="inline-flex items-center gap-2 text-navy-900 font-medium hover:gap-3 transition-all group"
-          >
-            {nav("catalog")}
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          <h2 className="text-4xl md:text-5xl font-bold text-forest-950 tracking-tight">
+            {t("title")}
+          </h2>
+          <p className="text-lg text-gray-500 mt-4 max-w-2xl mx-auto">
+            {t("subtitle")}
+          </p>
         </motion.div>
 
         {/* Products Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {showcaseProducts.map((product) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {showcaseProducts.map((product, index) => {
             const config = categoryConfig[product.category] || categoryConfig.cosmetique;
             return (
-              <motion.div key={product.id} variants={itemVariants}>
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+              >
                 <Link href="/catalogue" className="group block">
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-cream-100 mb-4">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div
-                      className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium text-white"
-                      style={{ backgroundColor: config.accent }}
-                    >
-                      {config.label}
+                  <div className="card-apple p-3 hover:shadow-[0_8px_60px_rgba(0,0,0,0.08)] transition-all duration-500">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#F5F5F7]">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      <div
+                        className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium text-white backdrop-blur-sm"
+                        style={{ backgroundColor: `${config.color}cc` }}
+                      >
+                        {config.label}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    <h3 className="font-serif text-lg text-forest-900 group-hover:text-forest-700 transition-colors line-clamp-1">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-forest-600 font-mono">
+                    <div className="p-4 space-y-1.5">
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-forest-700 transition-colors line-clamp-1">
+                        {product.name}
+                      </h3>
+                      <p className="text-sm text-gray-400 font-mono">
                         {product.code}
-                      </span>
-                    </div>
-                    {product.origin && (
-                      <p className="text-sm text-forest-500">
-                        {t("origin")}: {product.origin}
                       </p>
-                    )}
+                      {product.origin && (
+                        <p className="text-sm text-gray-500">
+                          {t("origin")}: {product.origin}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </Link>
               </motion.div>
             );
           })}
+        </div>
+
+        {/* View Catalog Link - Apple "Learn more" style */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-center mt-12"
+        >
+          <Link
+            href="/catalogue"
+            className="inline-flex items-center gap-1.5 text-lg font-medium text-forest-700 hover:text-forest-500 hover:gap-2.5 transition-all duration-300"
+          >
+            {nav("catalog")}
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </motion.div>
       </div>
     </section>
