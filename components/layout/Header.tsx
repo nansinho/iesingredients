@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut, Shield } from "lucide-react";
+import { Menu, X, Search, ArrowRight, User, LogOut, Shield, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -15,7 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { SampleCartSheet } from "@/components/cart/SampleCartSheet";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -31,20 +31,25 @@ export function Header() {
   const locale = useLocale();
   const t = useTranslations("nav");
 
-  const isHomePage = pathname === "/";
-  const hasDarkHero =
-    isHomePage ||
-    pathname.includes("/catalogue") ||
-    pathname.includes("/contact") ||
-    pathname.includes("/entreprise") ||
-    pathname.includes("/equipe") ||
-    pathname.includes("/actualites");
-  const isDarkHero = hasDarkHero && !isScrolled;
-
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Keyboard shortcut for search (Cmd+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+      if (e.key === "Escape") {
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -100,390 +105,321 @@ export function Header() {
   };
 
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled
-          ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-forest-100"
-          : "bg-transparent"
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-12">
-        <nav className="flex items-center justify-between h-20 md:h-24">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/images/logo-ies.png"
-              alt="IES Ingredients"
-              width={140}
-              height={56}
-              priority
-              className={cn(
-                "transition-all duration-300 w-auto",
-                isScrolled ? "h-10 md:h-12" : "h-12 md:h-14",
-                !isScrolled && isDarkHero ? "brightness-0 invert" : ""
-              )}
-            />
-          </Link>
+    <>
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          isScrolled
+            ? "glass-nav shadow-sm"
+            : "bg-white/80 backdrop-blur-2xl border-b border-black/5"
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-5 md:px-8">
+          <nav className="flex items-center justify-between h-14">
+            {/* Logo */}
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/images/logo-ies.png"
+                alt="IES Ingredients"
+                width={120}
+                height={48}
+                priority
+                className="h-8 md:h-9 w-auto transition-all duration-300"
+              />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navItems.map((item, index) => {
-              const isActive = pathname === item.href;
-              return (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
-                >
-                  <Link href={item.href}>
+            {/* Desktop Navigation - Center */}
+            <div className="hidden lg:flex items-center gap-0.5">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link key={item.href} href={item.href}>
                     <span
                       className={cn(
-                        "px-4 py-2 text-xs font-medium uppercase tracking-widest transition-all duration-300 relative",
-                        isScrolled
-                          ? isActive
-                            ? "text-forest-900"
-                            : "text-forest-600 hover:text-forest-900"
-                          : isDarkHero
-                            ? isActive
-                              ? "text-gold-400"
-                              : "text-white/80 hover:text-white"
-                            : isActive
-                              ? "text-forest-900"
-                              : "text-forest-600 hover:text-forest-900"
+                        "px-3.5 py-1.5 text-sm transition-colors duration-200 rounded-full",
+                        isActive
+                          ? "font-semibold text-forest-900"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-black/[0.03]"
                       )}
                     >
                       {item.label}
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeNav"
-                          className={cn(
-                            "absolute -bottom-1 left-4 right-4 h-0.5 rounded-full",
-                            isDarkHero ? "bg-gold-400" : "bg-gold-500"
-                          )}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
                     </span>
                   </Link>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-2 md:gap-3">
-            {/* Search */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setSearchOpen(!searchOpen)}
-              className={cn(
-                "p-2.5 rounded-full transition-colors duration-300",
-                isScrolled
-                  ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                  : isDarkHero
-                    ? "text-white/80 hover:text-white hover:bg-white/10"
-                    : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-              )}
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5" />
-            </motion.button>
-
-            {/* Language Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleLanguage}
-              className={cn(
-                "px-3 py-1.5 text-xs font-medium uppercase tracking-wider transition-colors duration-300 rounded-full border",
-                isScrolled
-                  ? "text-forest-600 hover:text-forest-900 border-forest-200 hover:border-forest-300 hover:bg-forest-50"
-                  : isDarkHero
-                    ? "text-white/80 hover:text-white border-white/30 hover:border-white/50 hover:bg-white/10"
-                    : "text-forest-600 hover:text-forest-900 border-forest-200 hover:border-forest-300 hover:bg-forest-50"
-              )}
-            >
-              {locale === "fr" ? "EN" : "FR"}
-            </motion.button>
-
-            {/* Sample Cart */}
-            <div className={cn(
-              "rounded-full transition-colors duration-300",
-              isScrolled
-                ? "[&_button]:text-forest-600 [&_button]:hover:text-forest-900"
-                : isDarkHero
-                  ? "[&_button]:text-white/80 [&_button]:hover:text-white"
-                  : "[&_button]:text-forest-600 [&_button]:hover:text-forest-900"
-            )}>
-              <SampleCartSheet />
+                );
+              })}
             </div>
 
-            {/* User Button */}
-            {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={cn(
-                      "p-2.5 rounded-full transition-colors duration-300",
-                      isScrolled
-                        ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                        : isDarkHero
-                          ? "text-white/80 hover:text-white hover:bg-white/10"
-                          : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                    )}
-                  >
-                    <User className="w-5 h-5" />
-                  </motion.button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem asChild>
-                    <Link href="/mon-compte" className="cursor-pointer">
-                      <User className="w-4 h-4 mr-2" />
-                      {t("myProfile")}
-                    </Link>
-                  </DropdownMenuItem>
-                  {isUserAdmin && (
-                    <>
-                      <DropdownMenuItem asChild>
-                        <Link href="/admin" className="cursor-pointer">
-                          <Shield className="w-4 h-4 mr-2" />
-                          {t("admin")}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                    </>
-                  )}
-                  {!isUserAdmin && <DropdownMenuSeparator />}
-                  <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {t("signOut")}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Link href="/login">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={cn(
-                    "p-2.5 rounded-full transition-colors duration-300",
-                    isScrolled
-                      ? "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                      : isDarkHero
-                        ? "text-white/80 hover:text-white hover:bg-white/10"
-                        : "text-forest-600 hover:text-forest-900 hover:bg-forest-50"
-                  )}
-                >
-                  <User className="w-5 h-5" />
-                </motion.button>
-              </Link>
-            )}
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-1.5">
+              {/* Search */}
+              <button
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200"
+                aria-label="Search"
+              >
+                <Search className="w-[18px] h-[18px]" />
+              </button>
 
-            {/* CTA Button - Desktop */}
-            <Link href="/contact" className="hidden lg:block">
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              {/* Language Toggle */}
+              <button
+                onClick={toggleLanguage}
+                className="px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] rounded-full transition-colors duration-200"
+              >
+                {locale === "fr" ? "EN" : "FR"}
+              </button>
+
+              {/* Sample Cart */}
+              <div className="[&_button]:text-gray-500 [&_button]:hover:text-gray-900">
+                <SampleCartSheet />
+              </div>
+
+              {/* User Button */}
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200">
+                      <User className="w-[18px] h-[18px]" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 rounded-xl">
+                    <DropdownMenuItem asChild>
+                      <Link href="/mon-compte" className="cursor-pointer">
+                        <User className="w-4 h-4 mr-2" />
+                        {t("myProfile")}
+                      </Link>
+                    </DropdownMenuItem>
+                    {isUserAdmin && (
+                      <>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="cursor-pointer">
+                            <Shield className="w-4 h-4 mr-2" />
+                            {t("admin")}
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {!isUserAdmin && <DropdownMenuSeparator />}
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t("signOut")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/login">
+                  <button className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200">
+                    <User className="w-[18px] h-[18px]" />
+                  </button>
+                </Link>
+              )}
+
+              {/* CTA Button - Desktop */}
+              <Link href="/contact" className="hidden lg:block ml-2">
                 <Button
-                  className={cn(
-                    "rounded-full h-10 px-6 text-xs font-medium uppercase tracking-wider transition-all duration-300",
-                    isDarkHero
-                      ? "bg-gold-400 text-forest-900 hover:bg-gold-300"
-                      : "bg-forest-900 text-white hover:bg-forest-800"
-                  )}
+                  className="rounded-full h-8 px-5 text-sm font-medium bg-forest-900 text-white hover:bg-forest-800 transition-all duration-200"
                 >
                   {t("requestQuote")}
                 </Button>
-              </motion.div>
-            </Link>
+              </Link>
 
-            {/* Mobile Menu */}
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild className="lg:hidden">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={cn(
-                    "p-2 rounded-full transition-colors duration-300",
-                    isScrolled
-                      ? "text-forest-900 hover:bg-forest-50"
-                      : isDarkHero
-                        ? "text-white hover:bg-white/10"
-                        : "text-forest-900 hover:bg-forest-50"
-                  )}
-                  aria-label="Menu"
+              {/* Mobile Menu */}
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild className="lg:hidden">
+                  <button
+                    className="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200 ml-1"
+                    aria-label="Menu"
+                  >
+                    <Menu className="w-5 h-5" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent
+                  side="right"
+                  className="w-[85vw] max-w-sm bg-white border-gray-200 p-0"
                 >
-                  <Menu className="w-6 h-6" />
-                </motion.button>
-              </SheetTrigger>
-              <SheetContent
-                side="right"
-                className="w-[85vw] max-w-sm bg-forest-950 border-forest-800 p-0"
-              >
-                <div className="p-6 sm:p-8 h-full flex flex-col">
-                  {/* Mobile Header */}
-                  <div className="flex items-center justify-between mb-8 sm:mb-12">
-                    <Image
-                      src="/images/logo-ies.png"
-                      alt="IES Ingredients"
-                      width={120}
-                      height={40}
-                      className="h-8 sm:h-10 w-auto brightness-0 invert"
-                    />
-                    <button
-                      onClick={() => setIsOpen(false)}
-                      className="p-2 text-white/60 hover:text-white rounded-full hover:bg-white/10 transition-colors"
-                    >
-                      <X className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </button>
-                  </div>
+                  <div className="p-6 h-full flex flex-col">
+                    {/* Mobile Header */}
+                    <div className="flex items-center justify-between mb-8">
+                      <Image
+                        src="/images/logo-ies.png"
+                        alt="IES Ingredients"
+                        width={120}
+                        height={40}
+                        className="h-8 w-auto"
+                      />
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="p-2 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
 
-                  {/* Mobile Nav */}
-                  <nav className="flex flex-col gap-2 flex-1">
-                    {navItems.map((item, index) => {
-                      const isActive = pathname === item.href;
-                      return (
-                        <motion.div
-                          key={item.href}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.05, duration: 0.3 }}
-                        >
-                          <Link
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
-                            className={cn(
-                              "py-3 sm:py-4 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-medium uppercase tracking-widest transition-all duration-300 flex items-center justify-between group",
-                              isActive
-                                ? "bg-gold-500 text-forest-950"
-                                : "text-white/70 hover:text-white hover:bg-white/10"
-                            )}
+                    {/* Mobile Nav */}
+                    <nav className="flex flex-col gap-1 flex-1">
+                      {navItems.map((item, index) => {
+                        const isActive = pathname === item.href;
+                        return (
+                          <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.04, duration: 0.3 }}
                           >
-                            <span>{item.label}</span>
-                            <ArrowRight
+                            <Link
+                              href={item.href}
+                              onClick={() => setIsOpen(false)}
                               className={cn(
-                                "w-5 h-5 transition-transform duration-300",
+                                "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "opacity-100"
-                                  : "opacity-0 group-hover:opacity-100 group-hover:translate-x-1"
+                                  ? "bg-forest-50 text-forest-900"
+                                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                               )}
-                            />
-                          </Link>
-                        </motion.div>
-                      );
-                    })}
-                  </nav>
+                            >
+                              <span>{item.label}</span>
+                              <ArrowRight
+                                className={cn(
+                                  "w-4 h-4 transition-all duration-200",
+                                  isActive
+                                    ? "opacity-100 text-forest-600"
+                                    : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
+                                )}
+                              />
+                            </Link>
+                          </motion.div>
+                        );
+                      })}
+                    </nav>
 
-                  {/* Mobile Footer */}
-                  <div className="pt-6 border-t border-white/10">
-                    {user ? (
-                      <div className="space-y-2">
-                        <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
-                          <Button
-                            variant="outline"
-                            className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white/10"
-                          >
-                            <User className="w-5 h-5 mr-2" />
-                            {t("myProfile")}
-                          </Button>
-                        </Link>
-                        {isUserAdmin && (
-                          <Link href="/admin" onClick={() => setIsOpen(false)}>
+                    {/* Mobile Footer */}
+                    <div className="pt-6 border-t border-gray-100">
+                      {user ? (
+                        <div className="space-y-2">
+                          <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
                             <Button
                               variant="outline"
-                              className="w-full h-12 rounded-xl border-gold-500/30 text-gold-400 hover:bg-gold-500/10"
+                              className="w-full h-11 rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50"
                             >
-                              <Shield className="w-5 h-5 mr-2" />
-                              {t("admin")}
+                              <User className="w-4 h-4 mr-2" />
+                              {t("myProfile")}
                             </Button>
                           </Link>
-                        )}
-                        <Button
-                          variant="ghost"
-                          onClick={() => { handleSignOut(); setIsOpen(false); }}
-                          className="w-full h-12 rounded-xl text-red-400 hover:text-red-300 hover:bg-white/5"
-                        >
-                          <LogOut className="w-5 h-5 mr-2" />
-                          {t("signOut")}
-                        </Button>
-                      </div>
-                    ) : (
-                      <Link href="/login" onClick={() => setIsOpen(false)}>
-                        <Button
-                          variant="outline"
-                          className="w-full h-12 rounded-xl border-white/20 text-white hover:bg-white/10"
-                        >
-                          <User className="w-5 h-5 mr-2" />
-                          {t("signIn")}
+                          {isUserAdmin && (
+                            <Link href="/admin" onClick={() => setIsOpen(false)}>
+                              <Button
+                                variant="outline"
+                                className="w-full h-11 rounded-xl border-forest-200 text-forest-700 hover:bg-forest-50"
+                              >
+                                <Shield className="w-4 h-4 mr-2" />
+                                {t("admin")}
+                              </Button>
+                            </Link>
+                          )}
+                          <Button
+                            variant="ghost"
+                            onClick={() => { handleSignOut(); setIsOpen(false); }}
+                            className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50"
+                          >
+                            <LogOut className="w-4 h-4 mr-2" />
+                            {t("signOut")}
+                          </Button>
+                        </div>
+                      ) : (
+                        <Link href="/login" onClick={() => setIsOpen(false)}>
+                          <Button
+                            variant="outline"
+                            className="w-full h-11 rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50"
+                          >
+                            <User className="w-4 h-4 mr-2" />
+                            {t("signIn")}
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+
+                    {/* Mobile CTA */}
+                    <div className="pt-4">
+                      <Link href="/contact" onClick={() => setIsOpen(false)}>
+                        <Button className="w-full h-12 rounded-full bg-forest-900 text-white hover:bg-forest-800 font-medium text-sm">
+                          {t("requestQuote")}
                         </Button>
                       </Link>
-                    )}
+
+                      <button
+                        onClick={() => {
+                          toggleLanguage();
+                          setIsOpen(false);
+                        }}
+                        className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors text-center"
+                      >
+                        {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
+                      </button>
+                    </div>
                   </div>
-
-                  {/* Mobile CTA */}
-                  <div className="pt-4">
-                    <Link href="/contact" onClick={() => setIsOpen(false)}>
-                      <Button className="w-full h-14 rounded-xl bg-gold-500 text-forest-950 hover:bg-gold-400 font-medium text-sm uppercase tracking-wider">
-                        {t("requestQuote")}
-                      </Button>
-                    </Link>
-
-                    <button
-                      onClick={() => {
-                        toggleLanguage();
-                        setIsOpen(false);
-                      }}
-                      className="w-full mt-4 py-3 text-xs font-medium uppercase tracking-widest text-white/50 hover:text-white transition-colors"
-                    >
-                      {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
-                    </button>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </nav>
-      </div>
-
-      {/* Search Overlay */}
-      {searchOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="absolute top-full left-0 right-0 p-4 bg-white border-b border-forest-100 shadow-lg"
-        >
-          <div className="max-w-2xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-forest-400" />
-              <input
-                type="text"
-                placeholder={t("searchPlaceholder")}
-                className="w-full h-12 pl-12 pr-4 rounded-full text-sm bg-forest-50 border border-forest-200 outline-none focus:border-forest-400 transition-colors"
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && e.currentTarget.value) {
-                    router.push({
-                      pathname: "/catalogue",
-                      query: { search: e.currentTarget.value },
-                    } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
-                    setSearchOpen(false);
-                  }
-                  if (e.key === "Escape") {
-                    setSearchOpen(false);
-                  }
-                }}
-              />
+                </SheetContent>
+              </Sheet>
             </div>
-          </div>
-        </motion.div>
-      )}
-    </motion.header>
+          </nav>
+        </div>
+      </motion.header>
+
+      {/* Command Palette Search Overlay */}
+      <AnimatePresence>
+        {searchOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60]"
+              onClick={() => setSearchOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -10 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed top-[20%] left-1/2 -translate-x-1/2 w-full max-w-xl z-[61] px-4"
+            >
+              <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/60 overflow-hidden">
+                <div className="relative flex items-center">
+                  <Search className="absolute left-4 w-5 h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder={t("searchPlaceholder")}
+                    className="w-full h-14 pl-12 pr-4 text-base bg-transparent outline-none placeholder:text-gray-400"
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && e.currentTarget.value) {
+                        router.push({
+                          pathname: "/catalogue",
+                          query: { search: e.currentTarget.value },
+                        } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+                        setSearchOpen(false);
+                      }
+                      if (e.key === "Escape") {
+                        setSearchOpen(false);
+                      }
+                    }}
+                  />
+                  <kbd className="absolute right-4 text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-md font-mono">
+                    ESC
+                  </kbd>
+                </div>
+                <div className="border-t border-gray-100 px-4 py-3">
+                  <p className="text-xs text-gray-400">
+                    {locale === "fr" ? "Appuyez sur Entrée pour rechercher" : "Press Enter to search"}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
