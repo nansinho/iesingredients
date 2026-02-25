@@ -15,12 +15,11 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -29,7 +28,7 @@ export function BentoExpertise() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-24 px-4 bg-forest-900">
+    <section className="py-32 md:py-40 px-4 bg-[#F5F5F7]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -39,13 +38,13 @@ export function BentoExpertise() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="text-gold-400 text-sm uppercase tracking-widest font-medium mb-4 block">
+          <span className="text-forest-600 text-sm uppercase tracking-widest font-medium mb-4 block">
             {t("surtitle")}
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-forest-950 tracking-tight mb-4">
             {t("title")}
           </h2>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">{t("subtitle")}</p>
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto">{t("subtitle")}</p>
         </motion.div>
 
         {/* Bento Grid */}
@@ -61,21 +60,21 @@ export function BentoExpertise() {
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.3 }}
-            className="col-span-2 row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer"
+            className="col-span-2 row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer shadow-sm"
           >
             <Image
               src="/images/botanicals-flat.jpg"
               alt="Botanicals"
               fill
-              className="object-cover min-h-[400px] md:min-h-[500px] group-hover:scale-[1.08] transition-transform duration-700"
+              className="object-cover min-h-[400px] md:min-h-[500px] group-hover:scale-[1.05] transition-transform duration-700"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6">
-              <span className="text-gold-400 text-sm uppercase tracking-widest mb-2 block">
+              <span className="text-white/70 text-sm uppercase tracking-widest mb-2 block">
                 {t("natural")}
               </span>
-              <h3 className="font-serif text-2xl md:text-3xl text-white">
+              <h3 className="text-2xl md:text-3xl font-bold text-white">
                 {t("botanicalIngredients")}
               </h3>
             </div>
@@ -85,18 +84,18 @@ export function BentoExpertise() {
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="col-span-1 bg-forest-800 rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer border border-forest-700"
+            className="col-span-1 bg-white rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-500"
           >
-            <Leaf className="w-8 h-8 text-gold-400" />
+            <Leaf className="w-8 h-8 text-forest-700" />
             <div>
-              <span className="text-gold-400/80 text-xs uppercase tracking-widest">
+              <span className="text-gray-400 text-xs uppercase tracking-widest">
                 {cat("cosmetic")}
               </span>
-              <p className="text-2xl md:text-3xl font-serif text-white mt-1">2000+</p>
-              <p className="text-white/60 text-sm mt-1">{t("naturalActives")}</p>
+              <p className="text-3xl md:text-4xl font-black text-forest-900 mt-1">2000+</p>
+              <p className="text-gray-500 text-sm mt-1">{t("naturalActives")}</p>
               <Link
                 href={{ pathname: "/catalogue", query: { category: "cosmetique" } }}
-                className="inline-flex items-center text-gold-400 hover:text-gold-300 text-sm mt-3 group-hover:gap-2 transition-all"
+                className="inline-flex items-center text-forest-700 hover:text-forest-500 text-sm mt-3 group-hover:gap-2 transition-all duration-300"
               >
                 {cat("explore")}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -108,18 +107,18 @@ export function BentoExpertise() {
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="col-span-1 bg-forest-800 rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer border border-forest-700"
+            className="col-span-1 bg-white rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-500"
           >
-            <Droplets className="w-8 h-8 text-gold-400" />
+            <Droplets className="w-8 h-8 text-forest-700" />
             <div>
-              <span className="text-gold-400/80 text-xs uppercase tracking-widest">
+              <span className="text-gray-400 text-xs uppercase tracking-widest">
                 {cat("perfume")}
               </span>
-              <p className="text-2xl md:text-3xl font-serif text-white mt-1">1500+</p>
-              <p className="text-white/60 text-sm mt-1">{t("rareEssences")}</p>
+              <p className="text-3xl md:text-4xl font-black text-forest-900 mt-1">1500+</p>
+              <p className="text-gray-500 text-sm mt-1">{t("rareEssences")}</p>
               <Link
                 href={{ pathname: "/catalogue", query: { category: "parfum" } }}
-                className="inline-flex items-center text-gold-400 hover:text-gold-300 text-sm mt-3 group-hover:gap-2 transition-all"
+                className="inline-flex items-center text-forest-700 hover:text-forest-500 text-sm mt-3 group-hover:gap-2 transition-all duration-300"
               >
                 {cat("explore")}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
@@ -131,13 +130,13 @@ export function BentoExpertise() {
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
-            className="col-span-2 md:col-span-1 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[200px]"
+            className="col-span-2 md:col-span-1 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[200px] shadow-sm"
           >
             <Image
               src="/images/serum-collection.jpg"
               alt="Serums"
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-600"
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
               sizes="(max-width: 768px) 100vw, 25vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -152,18 +151,18 @@ export function BentoExpertise() {
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="col-span-1 bg-forest-800 rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer border border-forest-700"
+            className="col-span-1 bg-white rounded-3xl p-6 flex flex-col justify-between min-h-[200px] group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-500"
           >
-            <Cherry className="w-8 h-8 text-gold-400" />
+            <Cherry className="w-8 h-8 text-forest-700" />
             <div>
-              <span className="text-gold-400/80 text-xs uppercase tracking-widest">
+              <span className="text-gray-400 text-xs uppercase tracking-widest">
                 {cat("aroma")}
               </span>
-              <p className="text-2xl md:text-3xl font-serif text-white mt-1">1500+</p>
-              <p className="text-white/60 text-sm mt-1">{t("foodFlavors")}</p>
+              <p className="text-3xl md:text-4xl font-black text-forest-900 mt-1">1500+</p>
+              <p className="text-gray-500 text-sm mt-1">{t("foodFlavors")}</p>
               <Link
                 href={{ pathname: "/catalogue", query: { category: "arome" } }}
-                className="inline-flex items-center text-gold-400 hover:text-gold-300 text-sm mt-3 group-hover:gap-2 transition-all"
+                className="inline-flex items-center text-forest-700 hover:text-forest-500 text-sm mt-3 group-hover:gap-2 transition-all duration-300"
               >
                 {cat("explore")}
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />

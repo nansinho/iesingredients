@@ -20,11 +20,14 @@
   },
   "hero": {
     "badge": "Over 5000 ingredients",
-    "titleLine1": "Natural Excellence.",
-    "titleLine2": "Premium Ingredients.",
+    "surtitle": "QUALITY INGREDIENTS",
+    "titleLine1": "Excellence at the service",
+    "titleLine2": "of your creations.",
     "title": "Discover our complete range of products",
     "subtitle": "Discover our exceptional quality cosmetic ingredients, perfumes and flavors since 1994.",
-    "cta": "Explore catalog",
+    "bannerText": "The intensity of taste",
+    "bannerCta": "Discover",
+    "cta": "Open catalog",
     "ctaSecondary": "Contact us",
     "search": "Search for a product, olfactory family...",
     "scrollDown": "Scroll down"
@@ -65,10 +68,12 @@
     "discoverStory": "Discover our story"
   },
   "products": {
-    "title": "Featured Products",
+    "title": "Our key ingredients",
     "subtitle": "A selection of our finest ingredients",
     "referenceCopied": "Reference copied!",
-    "origin": "Origin"
+    "origin": "Origin",
+    "sample": "Sample",
+    "viewCatalog": "View catalog"
   },
   "cta": {
     "surtitle": "Let's collaborate",
@@ -79,6 +84,45 @@
   },
   "certifications": {
     "title": "Our certifications"
+  },
+  "threeUniverses": {
+    "title": "Three universes. One expertise.",
+    "subtitle": "From cosmetics to food flavors, we cover all your natural ingredient needs."
+  },
+  "samplesBanner": {
+    "title": "Free samples",
+    "description": "Test our ingredients before ordering. We send free samples so you can validate the quality.",
+    "cta": "Request a sample"
+  },
+  "commitments": {
+    "surtitle": "Quality & Ethics",
+    "title": "Our commitments.",
+    "stat1": "100%",
+    "stat1Label": "Natural",
+    "stat2": "40+",
+    "stat2Label": "Years of experience",
+    "stat3": "Gold",
+    "stat3Label": "Certifications",
+    "stat4": "200+",
+    "stat4Label": "Suppliers",
+    "feature1Title": "Responsible sourcing",
+    "feature1Desc": "We select suppliers committed to sustainable and ethical practices.",
+    "feature2Title": "Complete traceability",
+    "feature2Desc": "Every ingredient is traced from source to delivery to guarantee quality.",
+    "feature3Title": "International certifications",
+    "feature3Desc": "COSMOS, ECOCERT, BIO, ISO 9001 — our products meet the highest standards.",
+    "feature4Title": "Personalized advice",
+    "feature4Desc": "Our team of experts guides you in choosing your ingredients.",
+    "link": "Learn more about our commitments"
+  },
+  "latestPublications": {
+    "title": "Latest publications",
+    "viewMore": "View more",
+    "readMore": "Read more"
+  },
+  "homeContact": {
+    "title": "Let's talk about your projects.",
+    "subtitle": "Our team is here to answer all your questions."
   },
   "filters": {
     "title": "Select your criteria",
