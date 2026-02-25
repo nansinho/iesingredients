@@ -1,10 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { ParallaxHero } from "@/components/home/ParallaxHero";
-import { BentoExpertise } from "@/components/home/BentoExpertise";
-import { MinimalAbout } from "@/components/home/MinimalAbout";
+import { ThreeUniverses } from "@/components/home/ThreeUniverses";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
+import { SamplesBanner } from "@/components/home/SamplesBanner";
+import { Commitments } from "@/components/home/Commitments";
+import { LatestPublications } from "@/components/home/LatestPublications";
+import { HomeContactForm } from "@/components/home/HomeContactForm";
 import { MinimalCTA } from "@/components/home/MinimalCTA";
-import { LogoStrip } from "@/components/home/LogoStrip";
 import { OrganizationJsonLd, WebSiteJsonLd, LocalBusinessJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
@@ -92,10 +94,12 @@ export default async function HomePage({
       <LocalBusinessJsonLd />
       <FAQJsonLd items={faqItems} />
       <ParallaxHero />
+      <ThreeUniverses />
       <MinimalProducts />
-      <BentoExpertise />
-      <MinimalAbout />
-      <LogoStrip />
+      <SamplesBanner />
+      <Commitments />
+      <LatestPublications />
+      <HomeContactForm />
       <MinimalCTA />
     </>
   );

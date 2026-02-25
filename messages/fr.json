@@ -20,11 +20,14 @@
   },
   "hero": {
     "badge": "Plus de 5000 ingrédients",
-    "titleLine1": "Excellence Naturelle.",
-    "titleLine2": "Ingrédients Premium.",
+    "surtitle": "INGRÉDIENTS DE QUALITÉ",
+    "titleLine1": "L'excellence au service",
+    "titleLine2": "de vos créations.",
     "title": "Découvrez l'ensemble de nos produits",
     "subtitle": "Découvrez nos ingrédients cosmétiques, parfums et arômes de qualité exceptionnelle depuis 1994.",
-    "cta": "Explorer le catalogue",
+    "bannerText": "L'intensité du goût",
+    "bannerCta": "Découvrir",
+    "cta": "Ouvrir le catalogue",
     "ctaSecondary": "Nous contacter",
     "search": "Rechercher un produit, une famille olfactive...",
     "scrollDown": "Défiler vers le bas"
@@ -65,10 +68,12 @@
     "discoverStory": "Découvrir notre histoire"
   },
   "products": {
-    "title": "Produits Vedettes",
+    "title": "Nos ingrédients phares",
     "subtitle": "Une sélection de nos meilleurs ingrédients",
     "referenceCopied": "Référence copiée !",
-    "origin": "Origine"
+    "origin": "Origine",
+    "sample": "Échantillon",
+    "viewCatalog": "Voir le catalogue"
   },
   "cta": {
     "surtitle": "Collaborons ensemble",
@@ -79,6 +84,45 @@
   },
   "certifications": {
     "title": "Nos certifications"
+  },
+  "threeUniverses": {
+    "title": "Trois univers. Une expertise.",
+    "subtitle": "De la cosmétique aux arômes alimentaires, nous couvrons tous vos besoins en ingrédients naturels."
+  },
+  "samplesBanner": {
+    "title": "Échantillons gratuits",
+    "description": "Testez nos ingrédients avant de commander. Nous envoyons des échantillons gratuitement pour que vous puissiez valider la qualité.",
+    "cta": "Demander un échantillon"
+  },
+  "commitments": {
+    "surtitle": "Qualité & Éthique",
+    "title": "Nos engagements.",
+    "stat1": "100%",
+    "stat1Label": "Naturel",
+    "stat2": "40+",
+    "stat2Label": "Ans d'expérience",
+    "stat3": "Gold",
+    "stat3Label": "Certifications",
+    "stat4": "200+",
+    "stat4Label": "Fournisseurs",
+    "feature1Title": "Sourcing responsable",
+    "feature1Desc": "Nous sélectionnons des fournisseurs engagés dans des pratiques durables et éthiques.",
+    "feature2Title": "Traçabilité complète",
+    "feature2Desc": "Chaque ingrédient est tracé de la source à la livraison pour garantir la qualité.",
+    "feature3Title": "Certifications internationales",
+    "feature3Desc": "COSMOS, ECOCERT, BIO, ISO 9001 — nos produits répondent aux standards les plus exigeants.",
+    "feature4Title": "Conseil personnalisé",
+    "feature4Desc": "Notre équipe d'experts vous accompagne dans le choix de vos ingrédients.",
+    "link": "En savoir plus sur nos engagements"
+  },
+  "latestPublications": {
+    "title": "Dernières publications",
+    "viewMore": "Voir plus",
+    "readMore": "Lire la suite"
+  },
+  "homeContact": {
+    "title": "Parlons de vos projets.",
+    "subtitle": "Notre équipe est à votre écoute pour répondre à toutes vos questions."
   },
   "filters": {
     "title": "Sélectionnez vos critères",
