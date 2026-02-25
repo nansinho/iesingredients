@@ -9,7 +9,7 @@ export function HomeContactForm() {
   const t = useTranslations("homeContact");
 
   return (
-    <section className="py-24 md:py-32 px-4 bg-white">
+    <section className="py-24 md:py-32 px-4 bg-forest-50">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -50,9 +50,9 @@ export function HomeContactForm() {
           >
             <div className="space-y-6 lg:mt-12">
               {/* Address */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-forest-50">
-                <div className="w-10 h-10 rounded-xl bg-forest-100 flex items-center justify-center shrink-0">
-                  <MapPin className="w-5 h-5 text-forest-700" />
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-forest-200">
+                <div className="w-10 h-10 rounded-xl bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5 text-gold-700" />
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">Adresse</p>
@@ -61,9 +61,9 @@ export function HomeContactForm() {
               </div>
 
               {/* Phone */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-forest-50">
-                <div className="w-10 h-10 rounded-xl bg-forest-100 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5 text-forest-700" />
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-forest-200">
+                <div className="w-10 h-10 rounded-xl bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
+                  <Phone className="w-5 h-5 text-gold-700" />
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">Téléphone</p>
@@ -77,9 +77,9 @@ export function HomeContactForm() {
               </div>
 
               {/* Email */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-forest-50">
-                <div className="w-10 h-10 rounded-xl bg-forest-100 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-forest-700" />
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-forest-200">
+                <div className="w-10 h-10 rounded-xl bg-gold-100 border border-gold-200 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-gold-700" />
                 </div>
                 <div>
                   <p className="font-medium text-gray-900">Email</p>

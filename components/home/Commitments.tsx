@@ -32,9 +32,9 @@ export function Commitments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="text-center mb-14"
         >
-          <span className="text-sm uppercase tracking-[0.2em] text-forest-600 font-medium block mb-3">
+          <span className="text-xs sm:text-sm uppercase tracking-[0.25em] text-forest-500 font-medium block mb-4">
             {t("surtitle")}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-forest-950 tracking-tight">
@@ -48,7 +48,7 @@ export function Commitments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="relative w-full aspect-[21/9] sm:aspect-[2.5/1] rounded-2xl sm:rounded-3xl overflow-hidden mb-12"
+          className="relative w-full aspect-[16/7] sm:aspect-[2.4/1] rounded-2xl sm:rounded-3xl overflow-hidden mb-10 border border-forest-200"
         >
           <Image
             src="/images/leaves-hero.jpg"
@@ -57,10 +57,10 @@ export function Commitments() {
             className="object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-forest-950/70 via-forest-950/20 to-transparent" />
 
           {/* Stats Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-10">
+          <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8 md:p-10">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
               {stats.map((stat, index) => (
                 <motion.div
@@ -69,20 +69,20 @@ export function Commitments() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                  className="text-center sm:text-left"
+                  className="text-center"
                 >
-                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white">
+                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-none">
                     {stat.value}
                   </p>
-                  <p className="text-white/70 text-sm mt-1">{stat.label}</p>
+                  <p className="text-white/60 text-xs sm:text-sm mt-1.5 font-medium">{stat.label}</p>
                 </motion.div>
               ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Feature Cards Grid — with borders */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {features.map((feature, index) => (
             <motion.div
               key={feature.titleKey}
@@ -90,13 +90,13 @@ export function Commitments() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="bg-forest-50 rounded-2xl p-6 hover:shadow-md transition-shadow duration-500"
+              className="bg-white rounded-2xl p-6 border border-forest-200 hover:border-gold-400 hover:shadow-lg transition-all duration-500 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-forest-100 flex items-center justify-center mb-4">
-                <feature.icon className="w-5 h-5 text-forest-700" />
+              <div className="w-11 h-11 rounded-xl bg-gold-100 border border-gold-200 flex items-center justify-center mb-4 group-hover:bg-gold-200 transition-colors duration-300">
+                <feature.icon className="w-5 h-5 text-gold-700" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-1.5">{t(feature.titleKey)}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{t(feature.descKey)}</p>
+              <h3 className="font-bold text-forest-950 mb-1.5 text-sm">{t(feature.titleKey)}</h3>
+              <p className="text-sm text-forest-400 leading-relaxed">{t(feature.descKey)}</p>
             </motion.div>
           ))}
         </div>
@@ -111,7 +111,7 @@ export function Commitments() {
         >
           <Link
             href="/entreprise"
-            className="inline-flex items-center gap-1.5 text-base font-medium text-forest-700 hover:text-forest-500 hover:gap-2.5 transition-all duration-300"
+            className="inline-flex items-center gap-1.5 text-base font-semibold text-gold-600 hover:text-gold-500 hover:gap-2.5 transition-all duration-300"
           >
             {t("link")}
             <ArrowRight className="w-4 h-4" />
