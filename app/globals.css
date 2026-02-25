@@ -119,23 +119,23 @@
   --color-gold-900: hsl(var(--gold-900));
   --color-gold-950: hsl(var(--gold-950));
 
-  /* Apple gray palette */
-  --color-apple-gray-50: #FAFAFA;
-  --color-apple-gray-100: #F5F5F7;
-  --color-apple-gray-200: #E8E8ED;
-  --color-apple-gray-300: #D2D2D7;
+  /* Warm gray palette (replaces Apple gray) */
+  --color-apple-gray-50: #F8F5F2;
+  --color-apple-gray-100: #F2EDE8;
+  --color-apple-gray-200: #E8E2DC;
+  --color-apple-gray-300: #D4CCC6;
   --color-apple-dark: #1d1d1f;
 
-  /* Category colors */
-  --color-cosmetique-light: #F5F8F6;
-  --color-cosmetique: #4A7C59;
-  --color-cosmetique-dark: #2D5A3D;
-  --color-parfum-light: #FBF8F5;
-  --color-parfum: #A67B5B;
-  --color-parfum-dark: #6B4C3A;
-  --color-arome-light: #FDF5F7;
-  --color-arome: #C97B8B;
-  --color-arome-dark: #8B4A5E;
+  /* Category colors (warm palette) */
+  --color-cosmetique-light: #F2EDE8;
+  --color-cosmetique: #918279;
+  --color-cosmetique-dark: #4E4340;
+  --color-parfum-light: #F8F0ED;
+  --color-parfum: #D4A99A;
+  --color-parfum-dark: #8B5B4E;
+  --color-arome-light: #F2EDE8;
+  --color-arome: #B8ADA6;
+  --color-arome-dark: #6B5E58;
 
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -195,70 +195,70 @@
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 12%;
 
-  --primary: 150 40% 12%;
+  --primary: 240 3% 12%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 12%;
+  --secondary: 30 20% 95%;
+  --secondary-foreground: 240 3% 12%;
 
-  --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 45%;
+  --muted: 30 15% 93%;
+  --muted-foreground: 22 10% 45%;
 
-  --accent: 150 40% 12%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 16 39% 72%;
+  --accent-foreground: 240 3% 12%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 0 0% 90%;
-  --input: 0 0% 90%;
-  --ring: 150 40% 12%;
+  --border: 25 12% 88%;
+  --input: 25 12% 88%;
+  --ring: 240 3% 12%;
 
   --radius: 0.75rem;
 
-  /* Chart colors */
-  --chart-1: 150 40% 30%;
-  --chart-2: 42 75% 55%;
-  --chart-3: 35 60% 45%;
-  --chart-4: 350 50% 50%;
-  --chart-5: 200 50% 45%;
+  /* Chart colors (warm) */
+  --chart-1: 13 10% 28%;
+  --chart-2: 16 39% 72%;
+  --chart-3: 22 10% 52%;
+  --chart-4: 15 28% 42%;
+  --chart-5: 30 26% 80%;
 
-  /* Cream/Beige Scale */
-  --cream-50: 45 30% 99%;
-  --cream-100: 45 25% 96%;
-  --cream-200: 45 20% 92%;
-  --cream-300: 45 15% 85%;
+  /* Cream/Beige Scale (from palette) */
+  --cream-50: 30 30% 97%;
+  --cream-100: 30 26% 93%;
+  --cream-200: 30 17% 89%;
+  --cream-300: 26 13% 80%;
 
-  /* Navy/Forest Scale */
-  --navy-900: 150 40% 12%;
-  --navy-800: 150 35% 18%;
-  --navy-700: 150 30% 25%;
-  --navy-600: 150 25% 35%;
+  /* Navy → Dark brown/noir matt Scale */
+  --navy-900: 240 3% 12%;
+  --navy-800: 15 5% 16%;
+  --navy-700: 13 10% 28%;
+  --navy-600: 19 10% 38%;
 
-  /* Extended Forest Palette */
-  --forest-950: 150 50% 5%;
-  --forest-900: 150 45% 8%;
-  --forest-800: 150 42% 12%;
-  --forest-700: 150 38% 18%;
-  --forest-600: 150 35% 25%;
-  --forest-500: 150 30% 35%;
-  --forest-400: 150 25% 45%;
-  --forest-300: 150 20% 60%;
-  --forest-200: 150 15% 80%;
-  --forest-100: 150 10% 92%;
-  --forest-50: 150 8% 97%;
+  /* Forest → Warm Brown / Noir Matt Palette */
+  --forest-950: 240 3% 12%;
+  --forest-900: 15 6% 16%;
+  --forest-800: 17 6% 21%;
+  --forest-700: 13 10% 28%;
+  --forest-600: 19 10% 38%;
+  --forest-500: 22 10% 52%;
+  --forest-400: 22 10% 61%;
+  --forest-300: 23 11% 69%;
+  --forest-200: 26 13% 80%;
+  --forest-100: 30 17% 89%;
+  --forest-50: 30 26% 93%;
 
-  /* Champagne Gold Scale */
-  --gold-950: 40 70% 10%;
-  --gold-900: 40 65% 18%;
-  --gold-800: 40 60% 28%;
-  --gold-700: 42 65% 40%;
-  --gold-600: 42 70% 50%;
-  --gold-500: 42 75% 55%;
-  --gold-400: 44 80% 65%;
-  --gold-300: 45 85% 78%;
-  --gold-200: 46 90% 88%;
-  --gold-100: 47 95% 94%;
+  /* Gold → Rose / Blush Palette */
+  --gold-950: 10 38% 14%;
+  --gold-900: 12 35% 22%;
+  --gold-800: 13 35% 32%;
+  --gold-700: 15 28% 42%;
+  --gold-600: 15 30% 55%;
+  --gold-500: 16 39% 72%;
+  --gold-400: 16 35% 78%;
+  --gold-300: 16 30% 84%;
+  --gold-200: 16 30% 90%;
+  --gold-100: 16 30% 95%;
 
   /* Apple-style Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -267,59 +267,59 @@
   --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.1);
 
   /* Sidebar */
-  --sidebar-background: 150 45% 8%;
-  --sidebar-foreground: 45 30% 96%;
-  --sidebar-primary: 42 75% 55%;
-  --sidebar-primary-foreground: 150 45% 8%;
-  --sidebar-accent: 150 40% 12%;
-  --sidebar-accent-foreground: 45 30% 96%;
-  --sidebar-border: 150 35% 15%;
-  --sidebar-ring: 42 75% 55%;
+  --sidebar-background: 240 3% 12%;
+  --sidebar-foreground: 30 26% 93%;
+  --sidebar-primary: 16 39% 72%;
+  --sidebar-primary-foreground: 240 3% 12%;
+  --sidebar-accent: 15 6% 16%;
+  --sidebar-accent-foreground: 30 26% 93%;
+  --sidebar-border: 15 6% 18%;
+  --sidebar-ring: 16 39% 72%;
 }
 
 .dark {
-  --background: 150 50% 4%;
-  --foreground: 45 20% 96%;
+  --background: 240 3% 8%;
+  --foreground: 30 20% 93%;
 
-  --card: 150 45% 6%;
-  --card-foreground: 45 20% 96%;
+  --card: 240 3% 10%;
+  --card-foreground: 30 20% 93%;
 
-  --popover: 150 45% 6%;
-  --popover-foreground: 45 20% 96%;
+  --popover: 240 3% 10%;
+  --popover-foreground: 30 20% 93%;
 
-  --primary: 42 75% 55%;
-  --primary-foreground: 150 50% 5%;
+  --primary: 16 39% 72%;
+  --primary-foreground: 240 3% 12%;
 
-  --secondary: 150 40% 10%;
-  --secondary-foreground: 45 20% 92%;
+  --secondary: 15 6% 16%;
+  --secondary-foreground: 30 20% 90%;
 
-  --muted: 150 35% 12%;
-  --muted-foreground: 45 12% 55%;
+  --muted: 17 6% 14%;
+  --muted-foreground: 22 10% 52%;
 
-  --accent: 42 70% 50%;
-  --accent-foreground: 150 50% 5%;
+  --accent: 16 39% 72%;
+  --accent-foreground: 240 3% 12%;
 
   --destructive: 0 65% 50%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 150 35% 14%;
-  --input: 150 35% 14%;
-  --ring: 42 75% 55%;
+  --border: 15 6% 18%;
+  --input: 15 6% 18%;
+  --ring: 16 39% 72%;
 
-  --chart-1: 150 35% 45%;
-  --chart-2: 42 70% 60%;
-  --chart-3: 35 55% 55%;
-  --chart-4: 350 45% 55%;
-  --chart-5: 200 45% 55%;
+  --chart-1: 22 10% 52%;
+  --chart-2: 16 39% 72%;
+  --chart-3: 13 10% 40%;
+  --chart-4: 15 28% 55%;
+  --chart-5: 30 26% 70%;
 
-  --sidebar-background: 150 55% 3%;
-  --sidebar-foreground: 45 20% 96%;
-  --sidebar-primary: 42 75% 55%;
-  --sidebar-primary-foreground: 150 50% 5%;
-  --sidebar-accent: 150 40% 8%;
-  --sidebar-accent-foreground: 45 20% 96%;
-  --sidebar-border: 150 40% 8%;
-  --sidebar-ring: 42 75% 55%;
+  --sidebar-background: 240 3% 8%;
+  --sidebar-foreground: 30 20% 93%;
+  --sidebar-primary: 16 39% 72%;
+  --sidebar-primary-foreground: 240 3% 12%;
+  --sidebar-accent: 15 6% 12%;
+  --sidebar-accent-foreground: 30 20% 93%;
+  --sidebar-border: 15 6% 14%;
+  --sidebar-ring: 16 39% 72%;
 }
 
 /* ========================================
@@ -376,7 +376,7 @@
   }
 
   ::selection {
-    background: hsl(var(--forest-500) / 0.2);
+    background: hsl(var(--gold-500) / 0.3);
     color: hsl(var(--forest-950));
   }
 }
@@ -702,7 +702,7 @@
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--forest-500) / 0.4);
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--gold-500) / 0.4);
 }
 
 /* ========================================
