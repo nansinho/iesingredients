@@ -10,7 +10,7 @@ export function SamplesBanner() {
   const t = useTranslations("samplesBanner");
 
   return (
-    <section className="bg-[#1d1d1f]">
+    <section className="bg-forest-950">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export function SamplesBanner() {
         <Button
           asChild
           size="lg"
-          className="shrink-0 bg-white text-[#1d1d1f] hover:bg-gray-100 rounded-full px-8 h-12 text-sm font-medium transition-all duration-300"
+          className="shrink-0 bg-white text-forest-950 hover:bg-gray-100 rounded-full px-8 h-12 text-sm font-medium transition-all duration-300"
         >
           <Link href="/contact">
             {t("cta")}

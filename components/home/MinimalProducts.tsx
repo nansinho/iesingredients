@@ -97,7 +97,7 @@ export function MinimalProducts() {
               <Link href="/catalogue" className="group block">
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100">
                   {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#F5F5F7]">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-forest-50">
                     <Image
                       src={product.image}
                       alt={product.name}

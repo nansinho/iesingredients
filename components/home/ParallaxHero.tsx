@@ -117,7 +117,7 @@ export function ParallaxHero() {
           {certifications.map((cert) => (
             <div
               key={cert.name}
-              className="flex items-center justify-center h-10 px-4 rounded-lg bg-[#F5F5F7] text-xs font-semibold text-gray-600 tracking-wide"
+              className="flex items-center justify-center h-10 px-4 rounded-lg bg-forest-50 text-xs font-semibold text-gray-600 tracking-wide"
             >
               {cert.name}
             </div>

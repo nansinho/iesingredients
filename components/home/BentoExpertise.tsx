@@ -28,7 +28,7 @@ export function BentoExpertise() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-32 md:py-40 px-4 bg-[#F5F5F7]">
+    <section className="py-32 md:py-40 px-4 bg-forest-50">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

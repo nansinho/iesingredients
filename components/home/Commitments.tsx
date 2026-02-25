@@ -90,7 +90,7 @@ export function Commitments() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="bg-[#F5F5F7] rounded-2xl p-6 hover:shadow-md transition-shadow duration-500"
+              className="bg-forest-50 rounded-2xl p-6 hover:shadow-md transition-shadow duration-500"
             >
               <div className="w-10 h-10 rounded-xl bg-forest-100 flex items-center justify-center mb-4">
                 <feature.icon className="w-5 h-5 text-forest-700" />
