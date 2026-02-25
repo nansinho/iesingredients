@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut, Shield, ChevronDown } from "lucide-react";
+import { Menu, X, Search, ArrowRight, User, LogOut, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -114,20 +114,20 @@ export function Header() {
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled
             ? "glass-nav shadow-sm"
-            : "bg-white/80 backdrop-blur-2xl border-b border-black/5"
+            : "bg-transparent"
         )}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-8">
-          <nav className="flex items-center justify-between h-14">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10">
+          <nav className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
                 src="/images/logo-ies.png"
                 alt="IES Ingredients"
-                width={120}
-                height={48}
+                width={130}
+                height={52}
                 priority
-                className="h-8 md:h-9 w-auto transition-all duration-300"
+                className="h-9 md:h-10 w-auto transition-all duration-300"
               />
             </Link>
 
@@ -139,10 +139,14 @@ export function Header() {
                   <Link key={item.href} href={item.href}>
                     <span
                       className={cn(
-                        "px-3.5 py-1.5 text-sm transition-colors duration-200 rounded-full",
-                        isActive
-                          ? "font-semibold text-forest-900"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-black/[0.03]"
+                        "px-4 py-2 text-sm transition-all duration-200 rounded-full",
+                        isScrolled
+                          ? isActive
+                            ? "font-semibold text-forest-900"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-black/[0.03]"
+                          : isActive
+                            ? "font-semibold text-white"
+                            : "text-white/70 hover:text-white hover:bg-white/[0.08]"
                       )}
                     >
                       {item.label}
@@ -157,7 +161,12 @@ export function Header() {
               {/* Search */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200"
+                className={cn(
+                  "p-2 rounded-full transition-colors duration-200",
+                  isScrolled
+                    ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
+                    : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                )}
                 aria-label="Search"
               >
                 <Search className="w-[18px] h-[18px]" />
@@ -166,13 +175,22 @@ export function Header() {
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className="px-2.5 py-1 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] rounded-full transition-colors duration-200"
+                className={cn(
+                  "px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-200",
+                  isScrolled
+                    ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
+                    : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                )}
               >
                 {locale === "fr" ? "EN" : "FR"}
               </button>
 
               {/* Sample Cart */}
-              <div className="[&_button]:text-gray-500 [&_button]:hover:text-gray-900">
+              <div className={cn(
+                isScrolled
+                  ? "[&_button]:text-gray-500 [&_button]:hover:text-gray-900"
+                  : "[&_button]:text-white/70 [&_button]:hover:text-white"
+              )}>
                 <SampleCartSheet />
               </div>
 
@@ -180,7 +198,12 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200">
+                    <button className={cn(
+                      "p-2 rounded-full transition-colors duration-200",
+                      isScrolled
+                        ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
+                        : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                    )}>
                       <User className="w-[18px] h-[18px]" />
                     </button>
                   </DropdownMenuTrigger>
@@ -211,7 +234,12 @@ export function Header() {
                 </DropdownMenu>
               ) : (
                 <Link href="/login">
-                  <button className="p-2 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200">
+                  <button className={cn(
+                    "p-2 rounded-full transition-colors duration-200",
+                    isScrolled
+                      ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
+                      : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                  )}>
                     <User className="w-[18px] h-[18px]" />
                   </button>
                 </Link>
@@ -220,7 +248,12 @@ export function Header() {
               {/* CTA Button - Desktop */}
               <Link href="/contact" className="hidden lg:block ml-2">
                 <Button
-                  className="rounded-full h-8 px-5 text-sm font-medium bg-forest-900 text-white hover:bg-forest-800 transition-all duration-200"
+                  className={cn(
+                    "rounded-full h-9 px-6 text-sm font-medium transition-all duration-300",
+                    isScrolled
+                      ? "bg-forest-900 text-white hover:bg-forest-800"
+                      : "bg-gold-500 text-white hover:bg-gold-400 shadow-lg shadow-gold-500/25"
+                  )}
                 >
                   {t("requestQuote")}
                 </Button>
@@ -230,7 +263,12 @@ export function Header() {
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild className="lg:hidden">
                   <button
-                    className="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-black/[0.03] transition-colors duration-200 ml-1"
+                    className={cn(
+                      "p-2 rounded-full transition-colors duration-200 ml-1",
+                      isScrolled
+                        ? "text-gray-600 hover:text-gray-900 hover:bg-black/[0.03]"
+                        : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                    )}
                     aria-label="Menu"
                   >
                     <Menu className="w-5 h-5" />
@@ -275,7 +313,7 @@ export function Header() {
                               className={cn(
                                 "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "bg-forest-50 text-forest-900"
+                                  ? "bg-gold-50 text-forest-900 border border-gold-200"
                                   : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                               )}
                             >
@@ -284,7 +322,7 @@ export function Header() {
                                 className={cn(
                                   "w-4 h-4 transition-all duration-200",
                                   isActive
-                                    ? "opacity-100 text-forest-600"
+                                    ? "opacity-100 text-gold-600"
                                     : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
                                 )}
                               />
@@ -343,7 +381,7 @@ export function Header() {
                     {/* Mobile CTA */}
                     <div className="pt-4">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full h-12 rounded-full bg-forest-900 text-white hover:bg-forest-800 font-medium text-sm">
+                        <Button className="w-full h-12 rounded-full bg-gold-500 text-white hover:bg-gold-400 font-medium text-sm shadow-lg shadow-gold-500/20">
                           {t("requestQuote")}
                         </Button>
                       </Link>
@@ -375,7 +413,7 @@ export function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60]"
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
               onClick={() => setSearchOpen(false)}
             />
             <motion.div

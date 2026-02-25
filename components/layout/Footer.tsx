@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 
@@ -7,32 +7,61 @@ export async function Footer() {
   const nav = await getTranslations("nav");
   const currentYear = new Date().getFullYear();
 
+  const certifications = ["COSMOS", "ECOCERT", "BIO", "VEGAN", "ISO 9001"];
+
   return (
     <footer className="bg-forest-950 text-white">
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-16 md:py-20">
+      {/* Top section with CTA strip */}
+      <div className="border-b border-white/[0.06]">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-white/60 text-sm">
+            {t("description")}
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            {certifications.map((cert) => (
+              <span
+                key={cert}
+                className="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.03] text-[10px] font-semibold text-white/50 tracking-wider"
+              >
+                {cert}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main footer */}
+      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-5">
-              <span className="text-xl font-semibold text-white tracking-tight">
-                IES Ingredients
+              <span className="text-2xl font-bold text-white tracking-tight">
+                IES <span className="text-gold-400">Ingredients</span>
               </span>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-md">
+            <p className="text-white/40 text-sm leading-relaxed max-w-md mb-6">
               {t("description")}
             </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gold-500 hover:bg-gold-400 text-white text-sm font-semibold transition-all duration-300 shadow-lg shadow-gold-500/20 hover:shadow-gold-500/30"
+            >
+              Demander un devis
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-medium mb-5 text-white text-sm">
+            <h4 className="font-semibold mb-5 text-white text-sm uppercase tracking-wider">
               {t("navigation")}
             </h4>
             <ul className="space-y-3 text-sm">
               <li>
                 <Link
                   href="/catalogue"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   {nav("catalog")}
                 </Link>
@@ -40,7 +69,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/entreprise"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   {nav("company")}
                 </Link>
@@ -48,7 +77,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/equipe"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   {nav("team")}
                 </Link>
@@ -56,7 +85,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/actualites"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   {nav("news")}
                 </Link>
@@ -64,7 +93,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/podcast"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   {nav("podcast")}
                 </Link>
@@ -74,28 +103,28 @@ export async function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-medium mb-5 text-white text-sm">
+            <h4 className="font-semibold mb-5 text-white text-sm uppercase tracking-wider">
               {nav("contact")}
             </h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 mt-0.5 text-gray-500 shrink-0" />
-                <span className="text-gray-400">Nice, France</span>
+                <MapPin className="w-4 h-4 mt-0.5 text-gold-500/60 shrink-0" />
+                <span className="text-white/40">Nice, France</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-gray-500 shrink-0" />
+                <Phone className="w-4 h-4 text-gold-500/60 shrink-0" />
                 <a
                   href="tel:+33493000000"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   +33 4 93 00 00 00
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-gray-500 shrink-0" />
+                <Mail className="w-4 h-4 text-gold-500/60 shrink-0" />
                 <a
                   href="mailto:contact@ies-ingredients.com"
-                  className="text-gray-400 hover:text-white transition-colors duration-200"
+                  className="text-white/40 hover:text-gold-400 transition-colors duration-200"
                 >
                   contact@ies-ingredients.com
                 </a>
@@ -105,16 +134,16 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+      <div className="border-t border-white/[0.06]">
+        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/30">
           <p>
             &copy; {currentYear} IES Ingredients. {t("rights")}.
           </p>
           <div className="flex gap-6">
-            <span className="hover:text-gray-300 transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-gold-400 transition-colors duration-200 cursor-pointer">
               {t("privacy")}
             </span>
-            <span className="hover:text-gray-300 transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-gold-400 transition-colors duration-200 cursor-pointer">
               {t("terms")}
             </span>
           </div>
