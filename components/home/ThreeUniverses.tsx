@@ -101,7 +101,7 @@ export function ThreeUniverses() {
 
                 {/* Vertical rotated title — left edge */}
                 <div className="absolute left-4 top-0 bottom-0 flex items-center pointer-events-none">
-                  <span className="text-white/90 text-[13px] sm:text-sm font-semibold uppercase tracking-[0.25em] whitespace-nowrap -rotate-90">
+                  <span className="text-white text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] whitespace-nowrap -rotate-90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
                     {u.verticalTitle}
                   </span>
                 </div>
