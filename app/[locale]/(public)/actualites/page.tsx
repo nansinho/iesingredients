@@ -101,7 +101,7 @@ export default async function NewsPage({
                       }}
                       className="group block"
                     >
-                      <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(196,116,131,0.1)]">
+                      <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(168,140,100,0.1)]">
                         <div className="p-3 sm:p-4">
                           <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream dark:bg-dark">
                             {article.cover_image_url ? (
