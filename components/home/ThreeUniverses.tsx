@@ -15,6 +15,7 @@ const universes = [
     count: "2 000+",
     countLabel: "actifs",
     verticalTitle: "Cosmétique",
+    accent: "#4A7C59",
   },
   {
     titleKey: "perfume" as const,
@@ -24,6 +25,7 @@ const universes = [
     count: "1 500+",
     countLabel: "essences",
     verticalTitle: "Parfumerie",
+    accent: "#A67B5B",
   },
   {
     titleKey: "aroma" as const,
@@ -33,6 +35,7 @@ const universes = [
     count: "1 500+",
     countLabel: "arômes",
     verticalTitle: "Arômes",
+    accent: "#C97B8B",
   },
 ];
 
@@ -59,59 +62,71 @@ export function ThreeUniverses() {
           </p>
         </motion.div>
 
-        {/* 3 Cards — tall portrait with vertical title + Apple shop button */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
+        {/* 3 Cards — flush, 1px border, vertical title, accent colors */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-[20px] border border-brown/10 dark:border-white/10"
+        >
           {universes.map((u, index) => (
-            <motion.div
+            <Link
               key={u.titleKey}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.12 }}
+              href={{ pathname: "/catalogue", query: { category: u.filter } }}
+              className={
+                index < universes.length - 1
+                  ? "border-b sm:border-b-0 sm:border-r border-brown/10 dark:border-white/10"
+                  : ""
+              }
             >
-              <Link href={{ pathname: "/catalogue", query: { category: u.filter } }}>
-                <div className="group relative overflow-hidden rounded-[20px] cursor-pointer h-full">
-                  {/* Full-bleed image — tall portrait */}
-                  <div className="relative aspect-[3/4] sm:aspect-[3/4.5] overflow-hidden">
-                    <Image
-                      src={u.image}
-                      alt={cat(u.titleKey)}
-                      fill
-                      className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, 33vw"
-                    />
-                    {/* Subtle dark overlay for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark/50 via-dark/10 to-dark/5" />
-                  </div>
-
-                  {/* Vertical rotated title — left edge */}
-                  <div className="absolute left-4 top-0 bottom-0 flex items-center pointer-events-none">
-                    <span
-                      className="text-white/90 text-[13px] sm:text-sm font-semibold uppercase tracking-[0.25em] whitespace-nowrap -rotate-90"
-                    >
-                      {u.verticalTitle}
-                    </span>
-                  </div>
-
-                  {/* Shop button — bottom left, Apple pill style */}
-                  <div className="absolute bottom-5 left-5">
-                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/95 dark:bg-cream-light/95 backdrop-blur-sm text-dark text-[13px] font-medium transition-all duration-300 group-hover:bg-white group-hover:shadow-lg group-hover:scale-[1.03] shadow-sm">
-                      {cat("explore")}
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-                    </span>
-                  </div>
-
-                  {/* Count — bottom right */}
-                  <div className="absolute bottom-5 right-5">
-                    <span className="text-white/70 text-[11px] font-medium tracking-wide">
-                      {u.count} {u.countLabel}
-                    </span>
-                  </div>
+              <div className="group relative overflow-hidden cursor-pointer h-full">
+                {/* Full-bleed image — tall portrait */}
+                <div className="relative aspect-[3/4] sm:aspect-[3/4.5] overflow-hidden">
+                  <Image
+                    src={u.image}
+                    alt={cat(u.titleKey)}
+                    fill
+                    className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark/60 via-dark/15 to-dark/5 transition-opacity duration-500 group-hover:from-dark/50" />
                 </div>
-              </Link>
-            </motion.div>
+
+                {/* Accent line — top edge */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[3px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ background: u.accent }}
+                />
+
+                {/* Vertical rotated title — left edge */}
+                <div className="absolute left-4 top-0 bottom-0 flex items-center pointer-events-none">
+                  <span className="text-white/90 text-[13px] sm:text-sm font-semibold uppercase tracking-[0.25em] whitespace-nowrap -rotate-90">
+                    {u.verticalTitle}
+                  </span>
+                </div>
+
+                {/* Shop button — bottom left, Apple pill style with accent */}
+                <div className="absolute bottom-5 left-5">
+                  <span
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-[13px] font-medium transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.03] shadow-sm backdrop-blur-sm"
+                    style={{ background: u.accent }}
+                  >
+                    {cat("explore")}
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </span>
+                </div>
+
+                {/* Count — bottom right */}
+                <div className="absolute bottom-5 right-5">
+                  <span className="text-white/70 text-[11px] font-medium tracking-wide">
+                    {u.count} {u.countLabel}
+                  </span>
+                </div>
+              </div>
+            </Link>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

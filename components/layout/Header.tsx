@@ -1,8 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut, Shield, Sun, Moon } from "lucide-react";
+import {
+  Menu,
+  X,
+  Search,
+  ArrowRight,
+  User,
+  LogOut,
+  Shield,
+  Sun,
+  Moon,
+  Leaf,
+  FlaskConical,
+  Droplets,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -21,17 +36,50 @@ import { SampleCartSheet } from "@/components/cart/SampleCartSheet";
 import { useTheme } from "next-themes";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
+/* ────────────────────────────────────────
+   Mega-menu data — 3 category columns
+   ──────────────────────────────────────── */
+const catalogColumns = [
+  {
+    id: "cosmetique",
+    titleKey: "cosmetic" as const,
+    icon: Leaf,
+    accent: "#4A7C59",
+    subKeys: ["cosmeticSub1", "cosmeticSub2", "cosmeticSub3", "cosmeticSub4"] as const,
+  },
+  {
+    id: "parfum",
+    titleKey: "perfume" as const,
+    icon: FlaskConical,
+    accent: "#A67B5B",
+    subKeys: ["perfumeSub1", "perfumeSub2", "perfumeSub3", "perfumeSub4"] as const,
+  },
+  {
+    id: "arome",
+    titleKey: "aroma" as const,
+    icon: Droplets,
+    accent: "#C97B8B",
+    subKeys: ["aromaSub1", "aromaSub2", "aromaSub3", "aromaSub4"] as const,
+  },
+];
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
+  const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const megaRef = useRef<HTMLDivElement>(null);
+  const megaTriggerRef = useRef<HTMLButtonElement>(null);
+  const megaTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("nav");
+  const cat = useTranslations("categories");
   const { theme, setTheme } = useTheme();
 
   useEffect(() => setMounted(true), []);
@@ -51,6 +99,7 @@ export function Header() {
       }
       if (e.key === "Escape") {
         setSearchOpen(false);
+        setMegaOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -75,16 +124,22 @@ export function Header() {
       if (user) checkAdmin(user.id);
       else setIsUserAdmin(false);
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        if (currentUser) checkAdmin(currentUser.id);
-        else setIsUserAdmin(false);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      if (currentUser) checkAdmin(currentUser.id);
+      else setIsUserAdmin(false);
+    });
     return () => subscription.unsubscribe();
   }, []);
+
+  // Close mega on route change
+  useEffect(() => {
+    setMegaOpen(false);
+    setIsOpen(false);
+  }, [pathname]);
 
   const handleSignOut = async () => {
     const supabase = createClient();
@@ -95,7 +150,6 @@ export function Header() {
   };
 
   const navItems = [
-    { label: t("catalog"), href: "/catalogue" as const },
     { label: t("company"), href: "/entreprise" as const },
     { label: t("team"), href: "/equipe" as const },
     { label: t("news"), href: "/actualites" as const },
@@ -115,6 +169,20 @@ export function Header() {
 
   const isDark = theme === "dark";
 
+  /* Mega-menu hover intent */
+  const openMega = useCallback(() => {
+    clearTimeout(megaTimeout.current);
+    setMegaOpen(true);
+  }, []);
+
+  const closeMega = useCallback(() => {
+    megaTimeout.current = setTimeout(() => setMegaOpen(false), 200);
+  }, []);
+
+  const cancelClose = useCallback(() => {
+    clearTimeout(megaTimeout.current);
+  }, []);
+
   return (
     <>
       <motion.header
@@ -123,9 +191,7 @@ export function Header() {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
-            ? "glass-nav shadow-sm"
-            : "bg-transparent"
+          isScrolled ? "glass-nav shadow-sm" : "bg-transparent"
         )}
       >
         <div className="max-w-[1400px] w-[90%] mx-auto">
@@ -144,6 +210,31 @@ export function Header() {
 
             {/* Desktop Navigation - Center */}
             <div className="hidden lg:flex items-center gap-0.5">
+              {/* Catalogue — mega-menu trigger */}
+              <div
+                className="relative"
+                onMouseEnter={openMega}
+                onMouseLeave={closeMega}
+              >
+                <button
+                  ref={megaTriggerRef}
+                  className={cn(
+                    "inline-flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 rounded-full",
+                    megaOpen || pathname === "/catalogue"
+                      ? "font-semibold text-dark dark:text-cream-light"
+                      : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                  )}
+                >
+                  {t("catalog")}
+                  <ChevronDown
+                    className={cn(
+                      "w-3.5 h-3.5 transition-transform duration-200",
+                      megaOpen && "rotate-180"
+                    )}
+                  />
+                </button>
+              </div>
+
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -151,13 +242,9 @@ export function Header() {
                     <span
                       className={cn(
                         "px-4 py-2 text-sm transition-all duration-200 rounded-full",
-                        isScrolled
-                          ? isActive
-                            ? "font-semibold text-dark dark:text-cream-light"
-                            : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
-                          : isActive
-                            ? "font-semibold text-dark dark:text-cream-light"
-                            : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                        isActive
+                          ? "font-semibold text-dark dark:text-cream-light"
+                          : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                       )}
                     >
                       {item.label}
@@ -214,7 +301,10 @@ export function Header() {
                       <User className="w-[18px] h-[18px]" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 rounded-xl bg-white dark:bg-dark-card border-brown/10">
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-48 rounded-xl bg-white dark:bg-dark-card border-brown/10"
+                  >
                     <DropdownMenuItem asChild>
                       <Link href="/mon-compte" className="cursor-pointer">
                         <User className="w-4 h-4 mr-2" />
@@ -233,7 +323,10 @@ export function Header() {
                       </>
                     )}
                     {!isUserAdmin && <DropdownMenuSeparator />}
-                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
+                    <DropdownMenuItem
+                      onClick={handleSignOut}
+                      className="text-red-600 cursor-pointer"
+                    >
                       <LogOut className="w-4 h-4 mr-2" />
                       {t("signOut")}
                     </DropdownMenuItem>
@@ -249,9 +342,7 @@ export function Header() {
 
               {/* CTA Button - Desktop */}
               <Link href="/contact" className="hidden lg:block ml-2">
-                <Button
-                  className="rounded-full h-9 px-6 text-sm font-medium bg-peach text-dark hover:bg-peach-dark shadow-sm shadow-peach/20"
-                >
+                <Button className="rounded-full h-9 px-6 text-sm font-medium bg-peach text-dark hover:bg-peach-dark shadow-sm shadow-peach/20">
                   {t("requestQuote")}
                 </Button>
               </Link>
@@ -270,9 +361,9 @@ export function Header() {
                   side="right"
                   className="w-[85vw] max-w-sm bg-cream-light dark:bg-dark border-brown/10 p-0"
                 >
-                  <div className="p-6 h-full flex flex-col">
+                  <div className="p-6 h-full flex flex-col overflow-y-auto">
                     {/* Mobile Header */}
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center justify-between mb-6">
                       <Image
                         src="/images/logo-ies.png"
                         alt="IES Ingredients"
@@ -289,7 +380,92 @@ export function Header() {
                     </div>
 
                     {/* Mobile Nav */}
-                    <nav className="flex flex-col gap-1 flex-1">
+                    <nav className="flex flex-col gap-0.5 flex-1">
+                      {/* Catalogue — expandable with sub-categories */}
+                      <div>
+                        <button
+                          onClick={() =>
+                            setMobileExpandedCat(
+                              mobileExpandedCat === "catalogue" ? null : "catalogue"
+                            )
+                          }
+                          className={cn(
+                            "w-full py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between",
+                            pathname === "/catalogue"
+                              ? "bg-peach/15 text-dark dark:text-cream-light border border-peach/30"
+                              : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                          )}
+                        >
+                          <span>{t("catalog")}</span>
+                          <ChevronDown
+                            className={cn(
+                              "w-4 h-4 transition-transform duration-200",
+                              mobileExpandedCat === "catalogue" && "rotate-180"
+                            )}
+                          />
+                        </button>
+
+                        <AnimatePresence>
+                          {mobileExpandedCat === "catalogue" && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-4 pt-1 pb-2 space-y-3">
+                                {/* View all link */}
+                                <Link
+                                  href="/catalogue"
+                                  onClick={() => setIsOpen(false)}
+                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-brown hover:bg-brown/5 transition-colors"
+                                >
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                  {t("allProducts")}
+                                </Link>
+
+                                {catalogColumns.map((col) => {
+                                  const Icon = col.icon;
+                                  return (
+                                    <div key={col.id}>
+                                      <Link
+                                        href={{
+                                          pathname: "/catalogue",
+                                          query: { category: col.id },
+                                        }}
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex items-center gap-2 py-1.5 px-3 text-[13px] font-semibold uppercase tracking-wider"
+                                        style={{ color: col.accent }}
+                                      >
+                                        <Icon className="w-3.5 h-3.5" />
+                                        {cat(col.titleKey)}
+                                      </Link>
+                                      <div className="ml-3 mt-1 space-y-0.5">
+                                        {col.subKeys.map((subKey) => (
+                                          <Link
+                                            key={subKey}
+                                            href={{
+                                              pathname: "/catalogue",
+                                              query: { category: col.id },
+                                            }}
+                                            onClick={() => setIsOpen(false)}
+                                            className="block py-1.5 px-3 text-sm text-dark/50 hover:text-dark dark:text-cream-light/50 dark:hover:text-cream-light transition-colors rounded-lg hover:bg-brown/5"
+                                          >
+                                            {t(subKey)}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Other nav items */}
                       {navItems.map((item, index) => {
                         const isActive = pathname === item.href;
                         return (
@@ -350,7 +526,10 @@ export function Header() {
                           )}
                           <Button
                             variant="ghost"
-                            onClick={() => { handleSignOut(); setIsOpen(false); }}
+                            onClick={() => {
+                              handleSignOut();
+                              setIsOpen(false);
+                            }}
                             className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
                           >
                             <LogOut className="w-4 h-4 mr-2" />
@@ -394,7 +573,11 @@ export function Header() {
                             onClick={toggleTheme}
                             className="p-2 text-dark/40 hover:text-dark/60 dark:text-cream-light/40 dark:hover:text-cream-light/60 transition-colors rounded-full"
                           >
-                            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                            {isDark ? (
+                              <Sun className="w-4 h-4" />
+                            ) : (
+                              <Moon className="w-4 h-4" />
+                            )}
                           </button>
                         )}
                       </div>
@@ -405,7 +588,128 @@ export function Header() {
             </div>
           </nav>
         </div>
+
+        {/* ═══════════════════════════════════════
+           Desktop Mega-menu — full-width dropdown
+           ═══════════════════════════════════════ */}
+        <AnimatePresence>
+          {megaOpen && (
+            <motion.div
+              ref={megaRef}
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden lg:block absolute top-full left-0 right-0 z-40"
+              onMouseEnter={cancelClose}
+              onMouseLeave={closeMega}
+            >
+              <div className="bg-white/95 dark:bg-dark/95 backdrop-blur-xl border-t border-b border-brown/8 dark:border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+                <div className="max-w-[1400px] w-[90%] mx-auto py-8">
+                  {/* Top — "All products" link */}
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-brown/8 dark:border-white/8">
+                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-dark/40 dark:text-cream-light/40">
+                      {t("catalogueMenu")}
+                    </span>
+                    <Link
+                      href="/catalogue"
+                      onClick={() => setMegaOpen(false)}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-brown hover:text-brown-dark transition-colors"
+                    >
+                      {t("allProducts")}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+
+                  {/* 3-column categories */}
+                  <div className="grid grid-cols-3 gap-8">
+                    {catalogColumns.map((col) => {
+                      const Icon = col.icon;
+                      return (
+                        <div key={col.id} className="group/col">
+                          {/* Category header */}
+                          <Link
+                            href={{
+                              pathname: "/catalogue",
+                              query: { category: col.id },
+                            }}
+                            onClick={() => setMegaOpen(false)}
+                            className="flex items-center gap-2.5 mb-4 group/link"
+                          >
+                            <div
+                              className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover/link:scale-110"
+                              style={{ background: `${col.accent}15` }}
+                            >
+                              <Icon
+                                className="w-4 h-4"
+                                style={{ color: col.accent }}
+                              />
+                            </div>
+                            <span
+                              className="text-sm font-semibold tracking-[-0.01em]"
+                              style={{ color: col.accent }}
+                            >
+                              {cat(col.titleKey)}
+                            </span>
+                            <ChevronRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-60 group-hover/link:translate-x-0 transition-all duration-200" style={{ color: col.accent }} />
+                          </Link>
+
+                          {/* Sub-links */}
+                          <ul className="space-y-0.5">
+                            {col.subKeys.map((subKey) => (
+                              <li key={subKey}>
+                                <Link
+                                  href={{
+                                    pathname: "/catalogue",
+                                    query: { category: col.id },
+                                  }}
+                                  onClick={() => setMegaOpen(false)}
+                                  className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-dark/55 dark:text-cream-light/55 hover:text-dark dark:hover:text-cream-light hover:bg-brown/[0.04] dark:hover:bg-cream-light/[0.04] transition-all duration-150"
+                                >
+                                  {t(subKey)}
+                                </Link>
+                              </li>
+                            ))}
+                            <li>
+                              <Link
+                                href={{
+                                  pathname: "/catalogue",
+                                  query: { category: col.id },
+                                }}
+                                onClick={() => setMegaOpen(false)}
+                                className="inline-flex items-center gap-1 mt-2 py-1 text-[13px] font-medium transition-all duration-200 hover:gap-2"
+                                style={{ color: col.accent }}
+                              >
+                                {t("viewAll")}
+                                <ArrowRight className="w-3 h-3" />
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
+
+      {/* Mega-menu overlay — closes on click */}
+      <AnimatePresence>
+        {megaOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-40 hidden lg:block"
+            style={{ top: "128px" }}
+            onClick={() => setMegaOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Command Palette Search Overlay */}
       <AnimatePresence>
@@ -436,7 +740,9 @@ export function Header() {
                     autoFocus
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && e.currentTarget.value) {
-                        router.push(`/catalogue?search=${encodeURIComponent(e.currentTarget.value)}` as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+                        router.push(
+                          `/catalogue?search=${encodeURIComponent(e.currentTarget.value)}` as any // eslint-disable-line @typescript-eslint/no-explicit-any
+                        );
                         setSearchOpen(false);
                       }
                       if (e.key === "Escape") {
@@ -450,7 +756,9 @@ export function Header() {
                 </div>
                 <div className="border-t border-brown/10 px-4 py-3">
                   <p className="text-xs text-brown/40">
-                    {locale === "fr" ? "Appuyez sur Entrée pour rechercher" : "Press Enter to search"}
+                    {locale === "fr"
+                      ? "Appuyez sur Entrée pour rechercher"
+                      : "Press Enter to search"}
                   </p>
                 </div>
               </div>

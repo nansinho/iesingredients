@@ -16,7 +16,22 @@
     "signIn": "Sign in",
     "searchPlaceholder": "Search ingredients...",
     "englishVersion": "English version",
-    "frenchVersion": "Version française"
+    "frenchVersion": "Version française",
+    "catalogueMenu": "Catalogue",
+    "allProducts": "All products",
+    "viewAll": "View all",
+    "cosmeticSub1": "Botanical actives",
+    "cosmeticSub2": "Plant extracts",
+    "cosmeticSub3": "Vegetable oils",
+    "cosmeticSub4": "Butters & waxes",
+    "perfumeSub1": "Essential oils",
+    "perfumeSub2": "Absolutes",
+    "perfumeSub3": "Resinoids",
+    "perfumeSub4": "Isolates & bases",
+    "aromaSub1": "Natural flavors",
+    "aromaSub2": "Food extracts",
+    "aromaSub3": "Oleoresins",
+    "aromaSub4": "Aromatic preparations"
   },
   "hero": {
     "badge": "Over 5000 ingredients",
