@@ -75,7 +75,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-gold-400/80 font-medium">
+          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-gold-500/80 font-medium">
             {t("surtitle")}
           </span>
         </motion.div>
@@ -155,7 +155,7 @@ export function ParallaxHero() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-forest-950/60 via-forest-950/20 to-transparent" />
                   <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-14 md:left-14 max-w-md">
-                    <p className="text-gold-400/90 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
+                    <p className="text-gold-500/90 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
                       {t(slide.subtitleKey)}
                     </p>
                     <p className="text-white text-lg sm:text-xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-5 tracking-[-0.02em]">
@@ -223,13 +223,13 @@ export function ParallaxHero() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/40 tracking-[0.1em] uppercase font-medium"
         >
-          <span className="text-gold-400/60 mr-1">
+          <span className="text-gold-500/60 mr-1">
             {certT("title")}
           </span>
           {certifications.map((cert, i) => (
             <React.Fragment key={cert}>
               {i > 0 && <span className="text-white/15 hidden sm:inline">·</span>}
-              <span className="hover:text-gold-400/80 transition-colors duration-300 cursor-default">
+              <span className="hover:text-gold-500/80 transition-colors duration-300 cursor-default">
                 {cert}
               </span>
             </React.Fragment>

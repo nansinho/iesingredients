@@ -22,7 +22,7 @@ const buttonVariants = cva(
         premium:
           "bg-forest-900 text-white shadow-md hover:bg-forest-800 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] rounded-full",
         blush:
-          "bg-gradient-to-r from-gold-500 to-gold-600 text-white shadow-md shadow-gold-500/20 hover:from-gold-400 hover:to-gold-500 hover:shadow-lg hover:shadow-gold-500/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
+          "bg-gold-500 text-white shadow-md shadow-gold-500/20 hover:bg-gold-600 hover:shadow-lg hover:shadow-gold-500/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
       },
       size: {
         default: "h-10 px-5 py-2",

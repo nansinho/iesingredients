@@ -120,23 +120,23 @@
   --color-gold-900: hsl(var(--gold-900));
   --color-gold-950: hsl(var(--gold-950));
 
-  /* Warm gray palette (replaces Apple gray) */
-  --color-apple-gray-50: #F8F5F2;
-  --color-apple-gray-100: #F2EDE8;
-  --color-apple-gray-200: #E8E2DC;
-  --color-apple-gray-300: #D4CCC6;
+  /* Warm gray palette (terracotta-tinted) */
+  --color-apple-gray-50: #F7F3EF;
+  --color-apple-gray-100: #EDE6DF;
+  --color-apple-gray-200: #E8DFD8;
+  --color-apple-gray-300: #D4C8BF;
   --color-apple-dark: #1d1d1f;
 
-  /* Category colors (warm palette) */
-  --color-cosmetique-light: #F2EDE8;
-  --color-cosmetique: #918279;
-  --color-cosmetique-dark: #4E4340;
-  --color-parfum-light: #F8F0ED;
-  --color-parfum: #D4A99A;
-  --color-parfum-dark: #8B5B4E;
-  --color-arome-light: #F2EDE8;
-  --color-arome: #B8ADA6;
-  --color-arome-dark: #6B5E58;
+  /* Category colors (terracotta palette) */
+  --color-cosmetique-light: #F0E8E2;
+  --color-cosmetique: #D08560;
+  --color-cosmetique-dark: #8B5B3E;
+  --color-parfum-light: #F5EBE6;
+  --color-parfum: #B57068;
+  --color-parfum-dark: #7A4040;
+  --color-arome-light: #EDE6DF;
+  --color-arome: #C4A49A;
+  --color-arome-dark: #6B5E52;
 
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -186,8 +186,8 @@
     100% { background-position: 200% 0; }
   }
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(212, 169, 154, 0.15); }
-    50% { box-shadow: 0 0 40px rgba(212, 169, 154, 0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(208, 133, 96, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(208, 133, 96, 0.3); }
   }
 }
 
@@ -215,14 +215,14 @@
   --muted: 30 15% 93%;
   --muted-foreground: 22 10% 45%;
 
-  --accent: 16 39% 72%;
+  --accent: 20 55% 60%;
   --accent-foreground: 240 3% 12%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 25 12% 88%;
-  --input: 25 12% 88%;
+  --border: 26 18% 88%;
+  --input: 26 18% 88%;
   --ring: 240 3% 12%;
 
   --radius: 0.75rem;
@@ -234,11 +234,11 @@
   --chart-4: 15 28% 42%;
   --chart-5: 30 26% 80%;
 
-  /* Cream/Beige Scale (from palette) */
-  --cream-50: 30 30% 97%;
-  --cream-100: 30 26% 93%;
-  --cream-200: 30 17% 89%;
-  --cream-300: 26 13% 80%;
+  /* Cream/Beige Scale (warmer, matching terracotta) */
+  --cream-50: 28 35% 97%;
+  --cream-100: 28 30% 94%;
+  --cream-200: 26 25% 90%;
+  --cream-300: 24 18% 82%;
 
   /* Navy → Dark brown/noir matt Scale */
   --navy-900: 240 3% 12%;
@@ -259,18 +259,18 @@
   --forest-100: 30 17% 89%;
   --forest-50: 30 26% 93%;
 
-  /* Gold → Rose / Blush Palette */
-  --gold-950: 10 38% 14%;
-  --gold-900: 12 35% 22%;
-  --gold-800: 13 35% 32%;
-  --gold-700: 15 28% 42%;
-  --gold-600: 15 30% 55%;
-  --gold-500: 16 39% 72%;
-  --gold-400: 16 35% 78%;
-  --gold-300: 16 30% 84%;
-  --gold-200: 16 30% 90%;
-  --gold-100: 16 30% 95%;
-  --gold-50: 16 30% 97%;
+  /* Gold → Terracotta / Blush Palette (new palette) */
+  --gold-950: 8 28% 14%;
+  --gold-900: 8 30% 22%;
+  --gold-800: 8 32% 32%;
+  --gold-700: 6 34% 42%;
+  --gold-600: 6 34% 56%;
+  --gold-500: 20 55% 60%;
+  --gold-400: 14 24% 69%;
+  --gold-300: 22 35% 78%;
+  --gold-200: 31 50% 85%;
+  --gold-100: 26 22% 88%;
+  --gold-50: 26 22% 93%;
 
   /* Apple-style Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -710,20 +710,40 @@
   background: linear-gradient(135deg, hsl(var(--gold-100)) 0%, hsl(var(--gold-200)) 50%, hsl(var(--cream-100)) 100%);
 }
 
-/* Warm Dark Section — using cosmetique-dark/arome-dark tones */
+/* Peach Sand Light — Color 2 based (#EBDAC8) */
+.section-peach-light {
+  background: linear-gradient(180deg, #F5EDE3 0%, #EFDFCF 100%);
+}
+
+/* Blush Light Section — Color 1 based (#E8DFD8) */
+.section-blush-light {
+  background: linear-gradient(180deg, #F4EFEB 0%, #EDE6DF 100%);
+}
+
+/* Dusty Rose Light — Color 3 tint */
+.section-rose-light {
+  background: linear-gradient(180deg, #F5EBE6 0%, #F0E3DC 100%);
+}
+
+/* Terracotta Warm Section — subtle warm gradient */
+.section-terracotta-warm {
+  background: linear-gradient(180deg, #F7F0EA 0%, #F2E5DB 100%);
+}
+
+/* Warm Dark Section — noir matt with terracotta warmth */
 .section-warm-dark {
-  background: linear-gradient(180deg, #4E4340 0%, #3C2E2C 100%);
+  background: linear-gradient(180deg, #3A2E2A 0%, #2C2220 100%);
   color: white;
 }
 
-/* Parfum Light Section — coral/rose tint */
+/* Parfum Light Section — soft rose tint */
 .section-parfum-light {
-  background: linear-gradient(180deg, #F8F0ED 0%, #F5EBE6 100%);
+  background: linear-gradient(180deg, #F5EBE6 0%, #F0E3DC 100%);
 }
 
-/* Arome Light Section — warm beige tint */
+/* Arome Light Section — warm sand tint */
 .section-arome-light {
-  background: linear-gradient(180deg, #F2EDE8 0%, #EDE7E1 100%);
+  background: linear-gradient(180deg, #EDE6DF 0%, #E8DFD8 100%);
 }
 
 /* Taupe Section — warm brown dark */

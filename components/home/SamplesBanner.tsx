@@ -11,10 +11,10 @@ export function SamplesBanner() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Blush/Rose gradient background */}
-      <div className="absolute inset-0 section-parfum-light" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/15 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gold-400/10 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
+      {/* Terracotta warm gradient background */}
+      <div className="absolute inset-0 section-terracotta-warm" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gold-400/8 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -24,20 +24,20 @@ export function SamplesBanner() {
         className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10"
       >
         <div className="flex items-start gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-gold-500/20 border border-gold-500/30 flex items-center justify-center shrink-0 animate-glow-pulse">
-            <Gift className="w-7 h-7 text-gold-700" />
+          <div className="w-16 h-16 rounded-2xl bg-gold-500/15 border border-gold-500/25 flex items-center justify-center shrink-0 animate-glow-pulse">
+            <Gift className="w-7 h-7 text-gold-500" />
           </div>
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-gold-600" />
-              <span className="text-[11px] uppercase tracking-[0.15em] text-gold-700 font-semibold">
+              <Sparkles className="w-4 h-4 text-gold-500" />
+              <span className="text-[11px] uppercase tracking-[0.15em] text-gold-600 font-semibold">
                 Offre exclusive
               </span>
             </div>
             <h2 className="text-forest-950 tracking-tight">
               {t("title")}
             </h2>
-            <p className="text-forest-500 mt-2 max-w-xl text-sm md:text-base leading-relaxed">
+            <p className="text-forest-400 mt-2 max-w-xl text-sm md:text-base leading-relaxed">
               {t("description")}
             </p>
           </div>
@@ -45,7 +45,7 @@ export function SamplesBanner() {
         <Button
           asChild
           size="lg"
-          className="shrink-0 bg-forest-950 text-white hover:bg-forest-800 rounded-full px-10 h-13 text-sm font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.02]"
+          className="shrink-0 bg-gold-500 text-white hover:bg-gold-600 rounded-full px-10 h-13 text-sm font-semibold transition-all duration-300 shadow-xl shadow-gold-500/25 hover:shadow-gold-500/40 hover:scale-[1.02]"
         >
           <Link href="/contact">
             {t("cta")}
