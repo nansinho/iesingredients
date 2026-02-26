@@ -43,7 +43,7 @@ export function Commitments() {
             {t("surtitle")}
           </span>
           <h2 className="text-cream-light tracking-tight">
-            Nos <span className="font-playfair uppercase tracking-wide text-peach">engagements</span>.
+            Nos <span className="font-playfair tracking-wide text-peach">engagements</span>.
           </h2>
         </motion.div>
 

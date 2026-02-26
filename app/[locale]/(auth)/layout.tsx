@@ -31,7 +31,7 @@ export default async function AuthLayout({
             <AnimateIn delay={0.3}>
               <Link
                 href="/"
-                className="font-playfair uppercase tracking-wide text-3xl text-cream-light hover:text-peach transition-colors"
+                className="font-playfair tracking-wide text-3xl text-cream-light hover:text-peach transition-colors"
               >
                 IES Ingredients
               </Link>
@@ -59,7 +59,7 @@ export default async function AuthLayout({
           <header className="p-6 lg:p-8">
             <Link
               href="/"
-              className="font-playfair uppercase tracking-wide text-2xl text-dark dark:text-cream-light hover:text-brown dark:hover:text-peach transition-colors"
+              className="font-playfair tracking-wide text-2xl text-dark dark:text-cream-light hover:text-brown dark:hover:text-peach transition-colors"
             >
               IES Ingredients
             </Link>

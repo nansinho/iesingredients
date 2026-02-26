@@ -23,7 +23,7 @@ export function SamplesBanner() {
         </div>
 
         <h2 className="text-cream-light tracking-tight">
-          Échantillons <span className="font-playfair uppercase tracking-wide text-peach">gratuits</span>
+          Échantillons <span className="font-playfair tracking-wide text-peach">gratuits</span>
         </h2>
         <p className="text-cream-light/70 mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
           {t("description")}

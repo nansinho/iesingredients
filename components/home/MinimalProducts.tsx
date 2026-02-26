@@ -89,7 +89,7 @@ export function MinimalProducts() {
         >
           <div>
             <h2 className="text-dark dark:text-cream-light tracking-tight">
-              Nos ingrédients <span className="font-playfair uppercase tracking-wide text-brown">phares</span>
+              Nos ingrédients <span className="font-playfair tracking-wide text-brown">phares</span>
             </h2>
             <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
