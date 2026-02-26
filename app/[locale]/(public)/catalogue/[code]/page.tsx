@@ -49,7 +49,7 @@ export default async function ProductPage({
   const product = await getProduct(code);
 
   if (!product) {
-    notFound();
+    return notFound();
   }
 
   const config = getCategoryConfig(product.typologie_de_produit);

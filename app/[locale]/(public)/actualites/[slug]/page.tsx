@@ -68,7 +68,7 @@ export default async function ArticlePage({
     .maybeSingle();
 
   const article = articleData as BlogArticle | null;
-  if (!article) notFound();
+  if (!article) return notFound();
 
   const title = isFr ? article.title_fr : article.title_en || article.title_fr;
   const content = isFr ? article.content_fr : article.content_en || article.content_fr;

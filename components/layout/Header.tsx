@@ -433,10 +433,7 @@ export function Header() {
                     autoFocus
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && e.currentTarget.value) {
-                        router.push({
-                          pathname: "/catalogue",
-                          query: { search: e.currentTarget.value },
-                        } as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+                        router.push(`/catalogue?search=${encodeURIComponent(e.currentTarget.value)}` as any); // eslint-disable-line @typescript-eslint/no-explicit-any
                         setSearchOpen(false);
                       }
                       if (e.key === "Escape") {
