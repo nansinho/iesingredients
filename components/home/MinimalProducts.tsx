@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -13,6 +13,7 @@ const showcaseProducts = [
     desc: "Actif hydratant naturel",
     descEn: "Natural moisturizing active",
     category: "Cosmétique",
+    accent: "#8B6FA3",
     image: "/images/cream-jar.jpg",
     origin: "Mexique",
   },
@@ -22,6 +23,7 @@ const showcaseProducts = [
     desc: "Absolue de rose de Bulgarie",
     descEn: "Bulgarian rose absolute",
     category: "Parfumerie",
+    accent: "#A67B5B",
     image: "/images/essential-oil.jpg",
     origin: "Bulgarie",
   },
@@ -31,6 +33,7 @@ const showcaseProducts = [
     desc: "Oléorésine de vanille naturelle",
     descEn: "Natural vanilla oleoresin",
     category: "Arômes",
+    accent: "#C97B8B",
     image: "/images/blueberries-herbs.jpg",
     origin: "Madagascar",
   },
@@ -40,6 +43,7 @@ const showcaseProducts = [
     desc: "Huile végétale premium",
     descEn: "Premium vegetable oil",
     category: "Cosmétique",
+    accent: "#8B6FA3",
     image: "/images/cream-bowl.jpg",
     origin: "Israël",
   },
@@ -49,6 +53,7 @@ const showcaseProducts = [
     desc: "Huile essentielle d'Italie",
     descEn: "Essential oil from Italy",
     category: "Parfumerie",
+    accent: "#A67B5B",
     image: "/images/product-bottle.jpg",
     origin: "Italie",
   },
@@ -58,6 +63,7 @@ const showcaseProducts = [
     desc: "Extrait naturel de citron",
     descEn: "Natural lemon extract",
     category: "Arômes",
+    accent: "#C97B8B",
     image: "/images/pump-bottle.jpg",
     origin: "Sicile",
   },
@@ -108,35 +114,39 @@ export function MinimalProducts() {
             >
               <Link href="/catalogue" className="group block">
                 <div className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.1)] hover:-translate-y-2">
-                  {/* Image */}
-                  <div className="p-3">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
-                      {/* Category badge — olive */}
-                      <div className="absolute top-3 left-3">
-                        <span className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white backdrop-blur-md border border-white/20 bg-olive/80">
-                          {product.category}
-                        </span>
-                      </div>
-                      {/* Origin badge */}
-                      <div className="absolute bottom-3 right-3">
-                        <span className="px-2.5 py-1 rounded-full bg-cream-light/90 backdrop-blur-md text-[10px] font-medium text-dark shadow-sm">
-                          {product.origin}
-                        </span>
-                      </div>
+                  {/* Image — full bleed */}
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark/30 via-transparent to-transparent" />
+
+                    {/* Category badge — accent color */}
+                    <div className="absolute top-3 left-3">
+                      <span
+                        className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white backdrop-blur-sm shadow-sm"
+                        style={{ backgroundColor: product.accent }}
+                      >
+                        {product.category}
+                      </span>
+                    </div>
+
+                    {/* Origin badge */}
+                    <div className="absolute bottom-3 right-3">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-medium text-dark shadow-sm">
+                        <MapPin className="w-2.5 h-2.5 opacity-50" />
+                        {product.origin}
+                      </span>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="px-5 pb-5 pt-1">
-                    <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-brown transition-colors duration-300">
+                  <div className="px-5 pt-4 pb-5">
+                    <h3 className="text-base font-semibold text-dark dark:text-cream-light group-hover:text-brown transition-colors duration-300 leading-snug">
                       {product.name}
                     </h3>
                     <p className="text-sm text-dark/50 dark:text-cream-light/50 mt-1">
