@@ -35,11 +35,11 @@ interface SampleRequest {
 }
 
 const statusColors: Record<string, string> = {
-  pending: "bg-amber-100 text-amber-800",
-  processing: "bg-blue-100 text-blue-800",
-  shipped: "bg-purple-100 text-purple-800",
-  delivered: "bg-green-100 text-green-800",
-  cancelled: "bg-red-100 text-red-800",
+  pending: "bg-amber-100 text-amber-800 dark:bg-amber-500/15 dark:text-amber-300",
+  processing: "bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300",
+  shipped: "bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300",
+  delivered: "bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300",
+  cancelled: "bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300",
 };
 
 export function AccountClient({
@@ -182,7 +182,7 @@ export function AccountClient({
                 type="button"
                 variant="outline"
                 onClick={handleSignOut}
-                className="text-red-600 border-red-200 hover:bg-red-50"
+                className="text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20 hover:bg-red-50 dark:hover:bg-red-500/10"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 {isFr ? "Déconnexion" : "Sign Out"}

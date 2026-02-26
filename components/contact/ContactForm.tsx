@@ -259,7 +259,8 @@ export function ContactForm() {
             type="submit"
             disabled={isSubmitting}
             size="lg"
-            className="w-full sm:w-auto bg-peach hover:bg-peach-dark text-dark rounded-full px-8"
+            variant="peach"
+            className="w-full sm:w-auto rounded-full px-8"
           >
             {isSubmitting ? (
               <>
