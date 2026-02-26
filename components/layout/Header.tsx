@@ -307,7 +307,7 @@ export function Header() {
 
               {/* CTA Button */}
               <Link href="/contact" className="ml-1.5">
-                <Button className="rounded-full h-7 px-5 text-xs font-medium bg-peach text-dark hover:bg-peach-dark shadow-sm shadow-peach/20">
+                <Button className="rounded-full h-7 px-5 text-xs font-medium bg-olive-bright text-white hover:bg-lime shadow-sm shadow-olive-bright/20">
                   {t("requestQuote")}
                 </Button>
               </Link>
@@ -491,7 +491,7 @@ export function Header() {
                           className={cn(
                             "w-full py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between",
                             pathname === "/catalogue"
-                              ? "bg-peach/15 text-white border border-peach/30"
+                              ? "bg-lime/15 text-white border border-lime/30"
                               : "text-white/60 hover:text-white hover:bg-white/5"
                           )}
                         >
@@ -518,7 +518,7 @@ export function Header() {
                                 <Link
                                   href="/catalogue"
                                   onClick={() => setIsOpen(false)}
-                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-peach hover:bg-white/5 transition-colors"
+                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-lime hover:bg-white/5 transition-colors"
                                 >
                                   <ArrowRight className="w-3.5 h-3.5" />
                                   {t("allProducts")}
@@ -580,7 +580,7 @@ export function Header() {
                               className={cn(
                                 "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "bg-peach/15 text-white border border-peach/30"
+                                  ? "bg-lime/15 text-white border border-lime/30"
                                   : "text-white/60 hover:text-white hover:bg-white/5"
                               )}
                             >
@@ -589,7 +589,7 @@ export function Header() {
                                 className={cn(
                                   "w-4 h-4 transition-all duration-200",
                                   isActive
-                                    ? "opacity-100 text-peach-dark"
+                                    ? "opacity-100 text-lime"
                                     : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
                                 )}
                               />
@@ -651,7 +651,7 @@ export function Header() {
                     {/* Mobile CTA */}
                     <div className="pt-4">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full h-12 rounded-full bg-peach text-dark hover:bg-peach-dark font-medium text-sm shadow-lg shadow-peach/20">
+                        <Button className="w-full h-12 rounded-full bg-olive-bright text-white hover:bg-lime font-medium text-sm shadow-lg shadow-olive-bright/20">
                           {t("requestQuote")}
                         </Button>
                       </Link>
@@ -713,7 +713,7 @@ export function Header() {
                     <Link
                       href="/catalogue"
                       onClick={closeMenus}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-peach hover:text-peach-dark transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-lime hover:text-sage transition-colors"
                     >
                       {t("allProducts")}
                       <ArrowRight className="w-3.5 h-3.5" />

@@ -72,7 +72,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-peach/70 font-medium">
+          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-lime/70 font-medium">
             {t("surtitle")}
           </span>
         </motion.div>
@@ -86,7 +86,7 @@ export function ParallaxHero() {
         >
           {t("titleLine1")}
           <br />
-          <span className="font-playfair italic text-peach">{t("titleLine2")}</span>
+          <span className="font-playfair italic text-lime">{t("titleLine2")}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -152,7 +152,7 @@ export function ParallaxHero() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-dark/60 via-dark/20 to-transparent" />
                   <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-14 md:left-14 max-w-md">
-                    <p className="text-peach/90 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
+                    <p className="text-lime/90 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
                       {t(slide.subtitleKey)}
                     </p>
                     <p className="text-white text-lg sm:text-xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-5 tracking-[-0.02em]">
@@ -199,7 +199,7 @@ export function ParallaxHero() {
               >
                 {index === selectedIndex && (
                   <motion.div
-                    className="absolute inset-y-0 left-0 bg-peach rounded-full"
+                    className="absolute inset-y-0 left-0 bg-lime rounded-full"
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
                     transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
@@ -220,7 +220,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="max-w-[1400px] w-[90%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/30 tracking-[0.1em] uppercase font-medium"
         >
-          <span className="text-peach/50 mr-1">
+          <span className="text-lime/50 mr-1">
             {certT("title")}
           </span>
           {certifications.map((cert, i) => (
