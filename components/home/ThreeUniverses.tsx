@@ -99,9 +99,9 @@ export function ThreeUniverses() {
                   style={{ background: u.accent }}
                 />
 
-                {/* Vertical rotated title — left edge */}
-                <div className="absolute -left-1 top-0 bottom-0 flex items-center pointer-events-none">
-                  <span className="text-white text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] whitespace-nowrap -rotate-90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
+                {/* Vertical rotated title — flush left */}
+                <div className="absolute left-0 top-0 bottom-0 flex items-end justify-center pointer-events-none" style={{ width: "3rem" }}>
+                  <span className="text-white text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] whitespace-nowrap origin-bottom-left rotate-180 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]" style={{ writingMode: "vertical-lr" }}>
                     {u.verticalTitle}
                   </span>
                 </div>
