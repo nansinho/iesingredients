@@ -98,7 +98,7 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(216,138,160,0.06)]">
+    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(200,168,168,0.06)]">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="fullName" className="text-dark dark:text-cream-light">
@@ -110,7 +110,7 @@ export function RegisterForm() {
             value={form.fullName}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(216,138,160,0.15)]"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
             placeholder="Jean Dupont"
           />
         </div>
@@ -126,7 +126,7 @@ export function RegisterForm() {
             value={form.email}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(216,138,160,0.15)]"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
             placeholder="vous@exemple.com"
           />
         </div>
@@ -140,7 +140,7 @@ export function RegisterForm() {
             name="company"
             value={form.company}
             onChange={handleChange}
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(216,138,160,0.15)]"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
             placeholder={isFr ? "Votre entreprise" : "Your company"}
           />
         </div>
@@ -157,7 +157,7 @@ export function RegisterForm() {
               value={form.password}
               onChange={handleChange}
               required
-              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(216,138,160,0.15)]"
+              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
               placeholder="••••••••"
             />
             <button
@@ -183,7 +183,7 @@ export function RegisterForm() {
             value={form.confirmPassword}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(216,138,160,0.15)]"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
             placeholder="••••••••"
           />
         </div>

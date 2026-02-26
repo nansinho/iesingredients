@@ -92,7 +92,7 @@ export default async function TeamPage({
               {members.map((member: any) => (
                 <StaggerItem key={member.id}>
                   <HoverLift>
-                    <div className="group rounded-2xl overflow-hidden bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:shadow-[0_20px_60px_rgba(216,138,160,0.1)] transition-all duration-500">
+                    <div className="group rounded-2xl overflow-hidden bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:shadow-[0_20px_60px_rgba(200,168,168,0.1)] transition-all duration-500">
                       <div className="p-3">
                         <div className="aspect-[3/4] relative overflow-hidden rounded-xl bg-cream dark:bg-dark">
                           {member.photo_url ? (
