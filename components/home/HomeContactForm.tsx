@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, MapPin, ArrowRight, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ContactForm } from "@/components/contact/ContactForm";
