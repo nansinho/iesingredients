@@ -6,7 +6,7 @@
 
 /* ========================================
    IES Ingredients — Apple-Inspired Design System
-   Palette: nude / dusty rose / terracotta / brick
+   Palette: sage / lime / olive green accent / dark forest
    Fonts: DM Sans + Playfair Display (accent)
    Tailwind CSS v4 — CSS-first config
    ======================================== */
@@ -44,79 +44,79 @@
   --tracking-luxury: 0.15em;
   --tracking-widest: 0.1em;
 
-  /* ---- Brand palette — Nude & Terracotta Accent ---- */
-  --color-cream-light: #f8f0e8;
-  --color-cream: #febb5f;
-  --color-cream-dark: #e0ccc0;
+  /* ---- Brand palette — Green & Olive Accent ---- */
+  --color-cream-light: #e8edce;
+  --color-cream: #cdd5a0;
+  --color-cream-dark: #bcc890;
   --color-dark: #181818;
   --color-dark-card: #222222;
   --color-dark-lighter: #2c2c2c;
-  --color-brown: #c8a8a8;
-  --color-brown-light: #d8bcc0;
-  --color-brown-dark: #b09090;
-  --color-olive: #b47068;
-  --color-olive-light: #c88880;
-  --color-olive-dark: #985850;
-  --color-peach: #cc8860;
-  --color-peach-light: #d8a080;
-  --color-peach-dark: #b47048;
-  --color-lavender: #cc8860;
-  --color-lavender-light: #d8a080;
-  --color-lavender-dark: #b47048;
+  --color-brown: #c2d268;
+  --color-brown-light: #d0dc88;
+  --color-brown-dark: #a8bc48;
+  --color-olive: #4d5545;
+  --color-olive-light: #606858;
+  --color-olive-dark: #3a4030;
+  --color-peach: #8cb030;
+  --color-peach-light: #a0c048;
+  --color-peach-dark: #709020;
+  --color-lavender: #8cb030;
+  --color-lavender-light: #a0c048;
+  --color-lavender-dark: #709020;
 
-  /* Nude Terracotta palette */
+  /* Green palette */
   --color-navy: #181818;
   --color-charcoal: #2c2c2c;
-  --color-forest-green: #b47068;
-  --color-mint: #febb5f;
-  --color-blue-mist: #c8a8a8;
-  --color-sage: #cc8860;
+  --color-forest-green: #4d5545;
+  --color-mint: #cdd5a0;
+  --color-blue-mist: #c2d268;
+  --color-sage: #8cb030;
 
-  /* Legacy color aliases — nude/terracotta scale */
+  /* Legacy color aliases — green scale */
   --color-forest-950: #181818;
   --color-forest-900: #222222;
   --color-forest-800: #2c2c2c;
   --color-forest-700: #3d3d3d;
-  --color-forest-600: #985850;
-  --color-forest-500: #b47068;
-  --color-forest-400: #cc8860;
-  --color-forest-300: #c8a8a8;
-  --color-forest-200: #febb5f;
-  --color-forest-100: #f2e8e0;
-  --color-forest-50: #f8f0e8;
-  --color-gold-950: #3d2010;
-  --color-gold-900: #6c4028;
-  --color-gold-800: #b47048;
-  --color-gold-700: #cc8860;
-  --color-gold-600: #d8a080;
-  --color-gold-500: #c8a8a8;
-  --color-gold-400: #d8bcc0;
-  --color-gold-300: #e0ccc0;
-  --color-gold-200: #febb5f;
-  --color-gold-100: #f2e8e0;
-  --color-gold-50: #f8f0e8;
+  --color-forest-600: #3a4030;
+  --color-forest-500: #4d5545;
+  --color-forest-400: #8cb030;
+  --color-forest-300: #c2d268;
+  --color-forest-200: #cdd5a0;
+  --color-forest-100: #e0e8c0;
+  --color-forest-50: #e8edce;
+  --color-gold-950: #1a2010;
+  --color-gold-900: #3a4030;
+  --color-gold-800: #709020;
+  --color-gold-700: #8cb030;
+  --color-gold-600: #a0c048;
+  --color-gold-500: #c2d268;
+  --color-gold-400: #d0dc88;
+  --color-gold-300: #bcc890;
+  --color-gold-200: #cdd5a0;
+  --color-gold-100: #e0e8c0;
+  --color-gold-50: #e8edce;
   --color-navy-900: #181818;
   --color-navy-800: #222222;
   --color-navy-700: #2c2c2c;
   --color-navy-600: #3d3d3d;
-  --color-cream-50: #f8f0e8;
-  --color-cream-100: #febb5f;
-  --color-cream-200: #e0ccc0;
-  --color-cream-300: #d8bcc0;
-  --color-apple-gray-50: #f8f0e8;
-  --color-apple-gray-100: #febb5f;
-  --color-apple-gray-200: #e0ccc0;
-  --color-apple-gray-300: #c8a8a8;
+  --color-cream-50: #e8edce;
+  --color-cream-100: #cdd5a0;
+  --color-cream-200: #bcc890;
+  --color-cream-300: #d0dc88;
+  --color-apple-gray-50: #e8edce;
+  --color-apple-gray-100: #cdd5a0;
+  --color-apple-gray-200: #bcc890;
+  --color-apple-gray-300: #c2d268;
   --color-apple-dark: #181818;
-  --color-cosmetique-light: #f0d8c8;
-  --color-cosmetique: #cc8860;
-  --color-cosmetique-dark: #b47048;
-  --color-parfum-light: #d0b0b0;
-  --color-parfum: #b47068;
-  --color-parfum-dark: #985850;
-  --color-arome-light: #d8c0c0;
-  --color-arome: #c8a8a8;
-  --color-arome-dark: #b09090;
+  --color-cosmetique-light: #d0dc88;
+  --color-cosmetique: #8cb030;
+  --color-cosmetique-dark: #709020;
+  --color-parfum-light: #606858;
+  --color-parfum: #4d5545;
+  --color-parfum-dark: #3a4030;
+  --color-arome-light: #d8e0a0;
+  --color-arome: #c2d268;
+  --color-arome-dark: #a8bc48;
 
   /* Colors — shadcn/ui system */
   --color-border: hsl(var(--border));
@@ -205,8 +205,8 @@
     100% { background-position: 200% 0; }
   }
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(200, 168, 168, 0.15); }
-    50% { box-shadow: 0 0 40px rgba(200, 168, 168, 0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(140, 176, 48, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(140, 176, 48, 0.3); }
   }
 }
 
@@ -216,7 +216,7 @@
    ======================================== */
 
 :root {
-  --background: 30 50% 94%;
+  --background: 69 40% 91%;
   --foreground: 0 0% 9%;
 
   --card: 0 0% 100%;
@@ -226,64 +226,64 @@
   --popover-foreground: 0 0% 9%;
 
   --primary: 0 0% 9%;
-  --primary-foreground: 30 50% 94%;
+  --primary-foreground: 69 40% 91%;
 
-  --secondary: 35 99% 68%;
+  --secondary: 69 40% 73%;
   --secondary-foreground: 0 0% 9%;
 
-  --muted: 25 40% 88%;
-  --muted-foreground: 0 25% 55%;
+  --muted: 69 30% 85%;
+  --muted-foreground: 90 10% 40%;
 
-  --accent: 22 52% 59%;
+  --accent: 77 57% 44%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 25 30% 80%;
-  --input: 25 30% 80%;
-  --ring: 22 52% 59%;
+  --border: 69 25% 78%;
+  --input: 69 25% 78%;
+  --ring: 77 57% 44%;
 
   --radius: 0.75rem;
 
   /* Chart colors */
-  --chart-1: 22 52% 59%;
-  --chart-2: 6 34% 56%;
-  --chart-3: 0 25% 72%;
-  --chart-4: 35 99% 68%;
-  --chart-5: 30 50% 94%;
+  --chart-1: 77 57% 44%;
+  --chart-2: 90 10% 30%;
+  --chart-3: 69 55% 62%;
+  --chart-4: 69 40% 73%;
+  --chart-5: 69 40% 91%;
 
   /* Sidebar */
   --sidebar-background: 0 0% 9%;
-  --sidebar-foreground: 30 50% 94%;
-  --sidebar-primary: 22 52% 59%;
+  --sidebar-foreground: 69 40% 91%;
+  --sidebar-primary: 77 57% 44%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 13%;
-  --sidebar-accent-foreground: 30 50% 94%;
+  --sidebar-accent-foreground: 69 40% 91%;
   --sidebar-border: 0 0% 15%;
-  --sidebar-ring: 22 52% 59%;
+  --sidebar-ring: 77 57% 44%;
 }
 
 .dark {
   --background: 0 0% 9%;
-  --foreground: 30 50% 94%;
+  --foreground: 69 40% 91%;
 
   --card: 0 0% 13%;
-  --card-foreground: 30 50% 94%;
+  --card-foreground: 69 40% 91%;
 
   --popover: 0 0% 13%;
-  --popover-foreground: 30 50% 94%;
+  --popover-foreground: 69 40% 91%;
 
-  --primary: 22 52% 59%;
+  --primary: 77 57% 44%;
   --primary-foreground: 0 0% 9%;
 
   --secondary: 0 0% 13%;
-  --secondary-foreground: 35 99% 68%;
+  --secondary-foreground: 69 40% 73%;
 
   --muted: 0 0% 13%;
-  --muted-foreground: 25 30% 60%;
+  --muted-foreground: 69 20% 55%;
 
-  --accent: 22 52% 59%;
+  --accent: 77 57% 44%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 65% 50%;
@@ -291,22 +291,22 @@
 
   --border: 0 0% 18%;
   --input: 0 0% 18%;
-  --ring: 22 52% 59%;
+  --ring: 77 57% 44%;
 
-  --chart-1: 35 99% 68%;
-  --chart-2: 22 52% 59%;
-  --chart-3: 6 34% 56%;
-  --chart-4: 0 25% 72%;
-  --chart-5: 30 50% 94%;
+  --chart-1: 69 40% 73%;
+  --chart-2: 77 57% 44%;
+  --chart-3: 90 10% 30%;
+  --chart-4: 69 55% 62%;
+  --chart-5: 69 40% 91%;
 
   --sidebar-background: 0 0% 7%;
-  --sidebar-foreground: 30 50% 94%;
-  --sidebar-primary: 22 52% 59%;
+  --sidebar-foreground: 69 40% 91%;
+  --sidebar-primary: 77 57% 44%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 11%;
-  --sidebar-accent-foreground: 30 50% 94%;
+  --sidebar-accent-foreground: 69 40% 91%;
   --sidebar-border: 0 0% 13%;
-  --sidebar-ring: 22 52% 59%;
+  --sidebar-ring: 77 57% 44%;
 }
 
 /* ========================================
@@ -366,7 +366,7 @@
   }
 
   ::selection {
-    background: rgba(204, 136, 96, 0.3);
+    background: rgba(140, 176, 48, 0.3);
     color: var(--color-dark);
   }
 }
@@ -423,12 +423,12 @@
 .card-apple {
   border-radius: 1.5rem;
   background: white;
-  box-shadow: 0 2px 40px rgba(200, 168, 168, 0.06);
+  box-shadow: 0 2px 40px rgba(140, 176, 48, 0.06);
   transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-apple:hover {
-  box-shadow: 0 8px 60px rgba(200, 168, 168, 0.12);
+  box-shadow: 0 8px 60px rgba(140, 176, 48, 0.12);
 }
 
 .dark .card-apple {
@@ -439,20 +439,20 @@
   border-radius: 1rem;
   background: white;
   overflow: hidden;
-  box-shadow: 0 4px 30px rgba(200, 168, 168, 0.06);
+  box-shadow: 0 4px 30px rgba(140, 176, 48, 0.06);
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  border: 1px solid rgba(200, 168, 168, 0.1);
+  border: 1px solid rgba(140, 176, 48, 0.1);
 }
 
 .card-premium:hover {
-  box-shadow: 0 20px 60px rgba(200, 168, 168, 0.12);
+  box-shadow: 0 20px 60px rgba(140, 176, 48, 0.12);
   transform: translateY(-6px);
   border-color: var(--color-brown-light);
 }
 
 .dark .card-premium {
   background: var(--color-dark-card);
-  border-color: rgba(200, 168, 168, 0.1);
+  border-color: rgba(140, 176, 48, 0.1);
 }
 
 .dark .card-premium:hover {
@@ -464,7 +464,7 @@
   background: hsl(var(--card) / 0.9);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(200, 168, 168, 0.08);
+  border: 1px solid rgba(140, 176, 48, 0.08);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   border-radius: 1.5rem;
 }
@@ -492,13 +492,13 @@
   background: var(--color-peach);
   color: var(--color-dark);
   transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 4px 20px rgba(204, 136, 96, 0.35);
+  box-shadow: 0 4px 20px rgba(140, 176, 48, 0.35);
 }
 
 .btn-peach:hover {
   background: var(--color-peach-dark);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(204, 136, 96, 0.5);
+  box-shadow: 0 8px 30px rgba(140, 176, 48, 0.5);
 }
 
 /* Brown Outline Button */
@@ -632,9 +632,9 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: rgba(200, 168, 168, 0.1);
+  background: rgba(140, 176, 48, 0.1);
   color: var(--color-brown);
-  border: 1px solid rgba(200, 168, 168, 0.15);
+  border: 1px solid rgba(140, 176, 48, 0.15);
 }
 
 /* ========================================
@@ -692,8 +692,8 @@
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(200, 168, 168, 0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(200, 168, 168, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(140, 176, 48, 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(140, 176, 48, 0.4); }
 
 /* ========================================
    Focus & Accessibility
@@ -701,7 +701,7 @@
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(204, 136, 96, 0.5);
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(140, 176, 48, 0.5);
 }
 
 /* ========================================
