@@ -67,7 +67,7 @@ export function ParallaxHero() {
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/4" />
       <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-gold-500/3 rounded-full blur-[120px] -translate-x-1/3" />
 
-      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-0">
+      <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-0">
         {/* Surtitle — minimal, no badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -138,7 +138,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="mt-12 sm:mt-16 relative"
         >
-          <div className="overflow-hidden rounded-t-[20px] sm:rounded-t-[28px]" ref={emblaRef}>
+          <div className="overflow-hidden rounded-[20px] sm:rounded-[28px]" ref={emblaRef}>
             <div className="flex">
               {slides.map((slide, index) => (
                 <div
@@ -221,7 +221,7 @@ export function ParallaxHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/40 tracking-[0.1em] uppercase font-medium"
+          className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/40 tracking-[0.1em] uppercase font-medium"
         >
           <span className="text-gold-400/60 mr-1">
             {certT("title")}

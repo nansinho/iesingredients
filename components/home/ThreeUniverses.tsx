@@ -16,6 +16,7 @@ const universes = [
     countLabel: "actifs",
     accentColor: "#918279",
     accentDark: "#4E4340",
+    accentLight: "#F2EDE8",
   },
   {
     titleKey: "perfume" as const,
@@ -26,6 +27,7 @@ const universes = [
     countLabel: "essences",
     accentColor: "#D4A99A",
     accentDark: "#8B5B4E",
+    accentLight: "#F8F0ED",
   },
   {
     titleKey: "aroma" as const,
@@ -36,6 +38,7 @@ const universes = [
     countLabel: "arômes",
     accentColor: "#B8ADA6",
     accentDark: "#6B5E58",
+    accentLight: "#F2EDE8",
   },
 ];
 
@@ -45,8 +48,8 @@ export function ThreeUniverses() {
 
   return (
     <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 bg-white">
-      <div className="max-w-[90rem] mx-auto">
-        {/* Section Header — clean, Apple-style */}
+      <div className="max-w-[100rem] mx-auto">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -57,7 +60,7 @@ export function ThreeUniverses() {
           <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-forest-400 font-medium mb-4">
             {t("title")}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-forest-950 tracking-[-0.02em]">
+          <h2 className="text-forest-950 tracking-[-0.02em]">
             {t("title")}
           </h2>
           <p className="text-forest-400 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
@@ -65,56 +68,56 @@ export function ThreeUniverses() {
           </p>
         </motion.div>
 
-        {/* Full-bleed immersive banners — stacked */}
-        <div className="grid grid-cols-1 gap-4 md:gap-5">
+        {/* 3 Column Grid — colored category cards (NOT white product cards) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6">
           {universes.map((u, index) => (
             <motion.div
               key={u.titleKey}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: index * 0.12 }}
+              transition={{ duration: 0.6, delay: index * 0.12 }}
             >
               <Link href={{ pathname: "/catalogue", query: { category: u.filter } }}>
-                <div className="group relative overflow-hidden rounded-2xl sm:rounded-3xl cursor-pointer">
-                  {/* Full-bleed image */}
-                  <div className="relative aspect-[16/9] sm:aspect-[21/9] overflow-hidden">
+                <div className="group relative overflow-hidden rounded-3xl cursor-pointer h-full">
+                  {/* Full image background */}
+                  <div className="relative aspect-[3/4] sm:aspect-[3/4] overflow-hidden">
                     <Image
                       src={u.image}
                       alt={cat(u.titleKey)}
                       fill
                       className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
-                      sizes="100vw"
+                      sizes="(max-width: 640px) 100vw, 33vw"
                     />
                     {/* Category-colored gradient overlay */}
                     <div
-                      className="absolute inset-0 transition-opacity duration-700"
+                      className="absolute inset-0 transition-opacity duration-500"
                       style={{
-                        background: `linear-gradient(135deg, ${u.accentDark}E6 0%, ${u.accentDark}99 40%, transparent 70%)`,
+                        background: `linear-gradient(to top, ${u.accentDark}F0 0%, ${u.accentDark}80 35%, transparent 70%)`,
                       }}
                     />
                   </div>
 
-                  {/* Content overlay */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 md:p-14">
-                    {/* Category accent line */}
+                  {/* Content overlay — positioned at bottom */}
+                  <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+                    {/* Accent line */}
                     <div
-                      className="w-10 h-[3px] rounded-full mb-4 transition-all duration-500 group-hover:w-16"
+                      className="w-8 h-[3px] rounded-full mb-4 transition-all duration-500 group-hover:w-14"
                       style={{ backgroundColor: u.accentColor }}
                     />
 
                     {/* Count */}
-                    <span className="text-white/60 text-xs sm:text-sm font-medium tracking-wide mb-2">
+                    <span className="text-white/60 text-xs font-medium tracking-wide mb-1.5 block">
                       {u.count} {u.countLabel}
                     </span>
 
                     {/* Title */}
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-white tracking-[-0.02em] mb-3">
+                    <h3 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white tracking-[-0.02em] mb-2">
                       {cat(u.titleKey)}
                     </h3>
 
-                    {/* Description — hidden on mobile */}
-                    <p className="text-white/60 text-sm sm:text-base max-w-md leading-relaxed mb-6 hidden sm:block">
+                    {/* Description */}
+                    <p className="text-white/50 text-sm leading-relaxed mb-5 line-clamp-2">
                       {cat(u.descKey)}
                     </p>
 

@@ -13,7 +13,7 @@ export async function Footer() {
     <footer className="bg-forest-950 text-white">
       {/* Top section with CTA strip */}
       <div className="border-b border-white/[0.06]">
-        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/60 text-sm">
             {t("description")}
           </p>
@@ -31,7 +31,7 @@ export async function Footer() {
       </div>
 
       {/* Main footer */}
-      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-20">
+      <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
@@ -135,7 +135,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-white/[0.06]">
-        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/30">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/30">
           <p>
             &copy; {currentYear} IES Ingredients. {t("rights")}.
           </p>

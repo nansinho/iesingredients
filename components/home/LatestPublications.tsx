@@ -46,8 +46,8 @@ export function LatestPublications() {
   const t = useTranslations("latestPublications");
 
   return (
-    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 bg-cream-50">
-      <div className="max-w-[90rem] mx-auto">
+    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 section-arome-light">
+      <div className="max-w-[100rem] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ export function LatestPublications() {
             <div className="flex mb-5">
               <div className="divider-gold" />
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-forest-950 tracking-tight">
+            <h2 className="text-forest-950 tracking-tight">
               {t("title")}
             </h2>
           </div>

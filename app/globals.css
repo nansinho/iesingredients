@@ -378,8 +378,8 @@
   }
 
   h2 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
-    line-height: 0.95;
+    @apply text-3xl md:text-4xl lg:text-5xl font-semibold;
+    line-height: 1.05;
   }
 
   h3 {
@@ -397,9 +397,9 @@
    Premium Container - WIDER
    ======================================== */
 
-/* Wide Apple Container - max 1440px */
+/* Wide Apple Container - max 1600px */
 .container-apple {
-  max-width: 90rem;
+  max-width: 100rem;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
@@ -422,7 +422,7 @@
 
 /* Legacy container support - also wider */
 .container-luxe {
-  max-width: 90rem;
+  max-width: 100rem;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
@@ -707,6 +707,28 @@
 /* Rose Blush Accent Section */
 .section-blush {
   background: linear-gradient(135deg, hsl(var(--gold-100)) 0%, hsl(var(--gold-200)) 50%, hsl(var(--cream-100)) 100%);
+}
+
+/* Warm Dark Section — using cosmetique-dark/arome-dark tones */
+.section-warm-dark {
+  background: linear-gradient(180deg, #4E4340 0%, #3C2E2C 100%);
+  color: white;
+}
+
+/* Parfum Light Section — coral/rose tint */
+.section-parfum-light {
+  background: linear-gradient(180deg, #F8F0ED 0%, #F5EBE6 100%);
+}
+
+/* Arome Light Section — warm beige tint */
+.section-arome-light {
+  background: linear-gradient(180deg, #F2EDE8 0%, #EDE7E1 100%);
+}
+
+/* Taupe Section — warm brown dark */
+.section-taupe-dark {
+  background: linear-gradient(180deg, #6B5E58 0%, #4E4340 100%);
+  color: white;
 }
 
 /* Decorative gold line divider */

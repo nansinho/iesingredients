@@ -12,7 +12,7 @@ export function SamplesBanner() {
   return (
     <section className="relative overflow-hidden">
       {/* Blush/Rose gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gold-100 via-gold-200/80 to-cream-100" />
+      <div className="absolute inset-0 section-parfum-light" />
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/15 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gold-400/10 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
 
@@ -21,7 +21,7 @@ export function SamplesBanner() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10"
+        className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10"
       >
         <div className="flex items-start gap-5">
           <div className="w-16 h-16 rounded-2xl bg-gold-500/20 border border-gold-500/30 flex items-center justify-center shrink-0 animate-glow-pulse">
@@ -34,7 +34,7 @@ export function SamplesBanner() {
                 Offre exclusive
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-forest-950 tracking-tight">
+            <h2 className="text-forest-950 tracking-tight">
               {t("title")}
             </h2>
             <p className="text-forest-500 mt-2 max-w-xl text-sm md:text-base leading-relaxed">

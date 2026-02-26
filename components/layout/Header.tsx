@@ -117,7 +117,7 @@ export function Header() {
             : "bg-transparent"
         )}
       >
-        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
           <nav className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">

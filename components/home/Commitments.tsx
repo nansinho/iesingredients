@@ -29,7 +29,7 @@ export function Commitments() {
       <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[180px]" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gold-500/3 rounded-full blur-[120px]" />
 
-      <div className="max-w-[90rem] mx-auto relative z-10">
+      <div className="max-w-[100rem] mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,7 +42,7 @@ export function Commitments() {
             <Award className="w-3.5 h-3.5" />
             {t("surtitle")}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white tracking-tight">
+          <h2 className="text-white tracking-tight">
             {t("title")}
           </h2>
         </motion.div>
