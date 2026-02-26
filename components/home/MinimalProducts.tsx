@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -9,63 +8,57 @@ import { motion } from "framer-motion";
 const showcaseProducts = [
   {
     id: "1",
-    name: "Aloe Vera Extract",
-    desc: "Actif hydratant naturel",
-    descEn: "Natural moisturizing active",
+    name: "Acide Hyaluronique",
+    ref: "AH-2024",
+    desc: "Actif hydratant haute performance, poids moléculaire optimisé pour pénétration cutanée.",
     category: "Cosmétique",
     accent: "#8B6FA3",
-    image: "/images/cream-jar.jpg",
-    origin: "Mexique",
+    tags: ["Hydratation", "Anti-âge", "Naturel"],
   },
   {
     id: "2",
-    name: "Rose Absolute",
-    desc: "Absolue de rose de Bulgarie",
-    descEn: "Bulgarian rose absolute",
-    category: "Parfumerie",
-    accent: "#A67B5B",
-    image: "/images/essential-oil.jpg",
-    origin: "Bulgarie",
+    name: "Vitamine C Stabilisée",
+    ref: "VC-3300",
+    desc: "Ascorbyl glucoside stabilisé pour formulations éclat et anti-oxydantes.",
+    category: "Cosmétique",
+    accent: "#8B6FA3",
+    tags: ["Éclat", "Anti-oxydant", "Performance"],
   },
   {
     id: "3",
-    name: "Vanilla Oleoresin",
-    desc: "Oléorésine de vanille naturelle",
-    descEn: "Natural vanilla oleoresin",
-    category: "Arômes",
-    accent: "#C97B8B",
-    image: "/images/blueberries-herbs.jpg",
-    origin: "Madagascar",
+    name: "Ambrofix™",
+    ref: "5005809",
+    desc: "Molécule ambrée biosourcée, puissante et biodégradable. Notes boisées ambrées.",
+    category: "Parfumerie",
+    accent: "#A67B5B",
+    tags: ["Ambrée", "Biosourcé", "Biodégradable"],
   },
   {
     id: "4",
-    name: "Jojoba Oil",
-    desc: "Huile végétale premium",
-    descEn: "Premium vegetable oil",
-    category: "Cosmétique",
-    accent: "#8B6FA3",
-    image: "/images/cream-bowl.jpg",
-    origin: "Israël",
+    name: "Extrait de Vanille",
+    ref: "VN-1050",
+    desc: "Oléorésine de vanille naturelle de Madagascar, qualité premium pour arômes alimentaires.",
+    category: "Arômes",
+    accent: "#C97B8B",
+    tags: ["Vanille", "Naturel", "Premium"],
   },
   {
     id: "5",
-    name: "Bergamot Essential Oil",
-    desc: "Huile essentielle d'Italie",
-    descEn: "Essential oil from Italy",
+    name: "Rose Absolute",
+    ref: "RA-4400",
+    desc: "Absolue de rose de Bulgarie, ingrédient noble pour parfumerie fine et soins luxe.",
     category: "Parfumerie",
     accent: "#A67B5B",
-    image: "/images/product-bottle.jpg",
-    origin: "Italie",
+    tags: ["Rose", "Luxe", "Bulgarie"],
   },
   {
     id: "6",
-    name: "Lemon Extract Natural",
-    desc: "Extrait naturel de citron",
-    descEn: "Natural lemon extract",
-    category: "Arômes",
-    accent: "#C97B8B",
-    image: "/images/pump-bottle.jpg",
-    origin: "Sicile",
+    name: "Huile de Jojoba",
+    ref: "JB-2100",
+    desc: "Huile végétale premium, émolliente et non comédogène, idéale pour soins capillaires et cutanés.",
+    category: "Cosmétique",
+    accent: "#8B6FA3",
+    tags: ["Émollient", "Végétal", "Premium"],
   },
 ];
 
@@ -113,53 +106,54 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block">
-                <div className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.1)] hover:-translate-y-2">
-                  {/* Image — full bleed */}
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark/30 via-transparent to-transparent" />
-
-                    {/* Category badge — accent color */}
-                    <div className="absolute top-3 left-3">
+                <div className="bg-[#E8DDD3] dark:bg-dark-card rounded-2xl p-6 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 flex flex-col h-full">
+                  {/* Top row: category + ref */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
                       <span
-                        className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white backdrop-blur-sm shadow-sm"
+                        className="w-2.5 h-2.5 rounded-full shrink-0"
                         style={{ backgroundColor: product.accent }}
-                      >
+                      />
+                      <span className="text-[11px] font-semibold tracking-wider uppercase text-dark/70 dark:text-cream-light/70">
                         {product.category}
                       </span>
                     </div>
-
-                    {/* Origin badge */}
-                    <div className="absolute bottom-3 right-3">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-medium text-dark shadow-sm">
-                        <MapPin className="w-2.5 h-2.5 opacity-50" />
-                        {product.origin}
-                      </span>
-                    </div>
+                    <span className="text-[11px] font-medium text-dark/40 dark:text-cream-light/40">
+                      {product.ref}
+                    </span>
                   </div>
 
-                  {/* Content */}
-                  <div className="px-5 pt-4 pb-5">
-                    <h3 className="text-base font-semibold text-dark dark:text-cream-light group-hover:text-brown transition-colors duration-300 leading-snug">
-                      {product.name}
-                    </h3>
-                    <p className="text-sm text-dark/50 dark:text-cream-light/50 mt-1">
-                      {product.desc}
-                    </p>
-                    <div className="mt-4 pt-4 border-t border-brown/8 dark:border-brown/10">
-                      <button
-                        className="w-full h-10 rounded-full bg-peach text-dark text-xs font-semibold tracking-wide transition-all duration-300 shadow-md shadow-peach/20 hover:shadow-lg hover:shadow-peach/30 hover:scale-[1.02]"
-                        onClick={(e) => e.preventDefault()}
+                  {/* Product name */}
+                  <h3 className="text-xl font-playfair font-semibold text-dark dark:text-cream-light group-hover:text-brown transition-colors duration-300 leading-snug mb-2">
+                    {product.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-sm text-dark/60 dark:text-cream-light/50 leading-relaxed mb-5 flex-1">
+                    {product.desc}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {product.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 rounded-full text-[11px] font-medium border border-dark/15 dark:border-cream-light/15 text-dark/60 dark:text-cream-light/50 bg-white/30 dark:bg-white/5"
                       >
-                        {t("sample")}
-                      </button>
-                    </div>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Sample button */}
+                  <div className="flex justify-end">
+                    <button
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-brown text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-brown/90 hover:shadow-md hover:shadow-brown/20"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      {t("sample")}
+                    </button>
                   </div>
                 </div>
               </Link>
