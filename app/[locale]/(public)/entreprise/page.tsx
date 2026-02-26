@@ -71,7 +71,7 @@ export default async function CompanyPage({
           </AnimateIn>
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
-              IES <span className="font-playfair uppercase tracking-wide text-peach">Ingredients</span>
+              IES <span className="font-playfair tracking-wide text-peach">Ingredients</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -105,7 +105,7 @@ export default async function CompanyPage({
             </span>
             <h2 className="text-dark dark:text-cream-light tracking-tight mt-4 mb-6">
               {isFr ? "L'Excellence au Service de la" : "Excellence in Service of"}{" "}
-              <span className="font-playfair uppercase tracking-wide text-brown">{isFr ? "Nature" : "Nature"}</span>.
+              <span className="font-playfair tracking-wide text-brown">{isFr ? "Nature" : "Nature"}</span>.
             </h2>
             <div className="space-y-4 text-dark/60 dark:text-cream-light/50 text-lg leading-relaxed">
               <p>
@@ -136,7 +136,7 @@ export default async function CompanyPage({
             </span>
             <h2 className="text-cream-light tracking-tight">
               {isFr ? "Ce Qui Nous" : "What Drives"}{" "}
-              <span className="font-playfair uppercase tracking-wide text-peach">{isFr ? "Anime" : "Us"}</span>.
+              <span className="font-playfair tracking-wide text-peach">{isFr ? "Anime" : "Us"}</span>.
             </h2>
           </AnimateIn>
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">

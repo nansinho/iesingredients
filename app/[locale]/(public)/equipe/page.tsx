@@ -70,7 +70,7 @@ export default async function TeamPage({
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
               {isFr ? "Notre" : "Our"}{" "}
-              <span className="font-playfair uppercase tracking-wide text-peach">{isFr ? "Équipe" : "Team"}</span>
+              <span className="font-playfair tracking-wide text-peach">{isFr ? "Équipe" : "Team"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -105,7 +105,7 @@ export default async function TeamPage({
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
-                              <span className="text-4xl font-playfair uppercase tracking-wide text-brown/30">
+                              <span className="text-4xl font-playfair tracking-wide text-brown/30">
                                 {(member.name || "?").charAt(0)}
                               </span>
                             </div>

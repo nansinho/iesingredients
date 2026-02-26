@@ -55,7 +55,7 @@ export function ThreeUniverses() {
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-cream-light tracking-[-0.02em]">
-            Trois univers. Une <span className="font-playfair uppercase tracking-wide text-peach">expertise</span>.
+            Trois univers. Une <span className="font-playfair tracking-wide text-peach">expertise</span>.
           </h2>
           <p className="text-cream-light/50 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
             {t("subtitle")}

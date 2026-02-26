@@ -62,10 +62,7 @@ export function ParallaxHero() {
   }, [emblaApi]);
 
   return (
-    <section className="pt-24 sm:pt-28 pb-0 bg-cream-light dark:bg-dark relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/4" />
-      <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+    <section className="pt-24 sm:pt-28 pb-0 bg-black-matte relative overflow-hidden">
 
       <div className="max-w-[1400px] w-[90%] mx-auto pt-12 sm:pt-16 pb-0">
         {/* Surtitle */}
@@ -75,7 +72,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-brown/70 dark:text-brown-light/70 font-medium">
+          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-peach/70 font-medium">
             {t("surtitle")}
           </span>
         </motion.div>
@@ -85,11 +82,11 @@ export function ParallaxHero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-dark dark:text-cream-light tracking-[-0.03em] leading-[1.05] max-w-3xl mx-auto"
+          className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] max-w-3xl mx-auto"
         >
           {t("titleLine1")}
           <br />
-          <span className="font-playfair uppercase tracking-wide text-brown">{t("titleLine2")}</span>
+          <span className="font-playfair tracking-wide text-peach">{t("titleLine2")}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -97,7 +94,7 @@ export function ParallaxHero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center text-dark/50 dark:text-cream-light/50 text-sm sm:text-base mt-5 max-w-xl mx-auto leading-relaxed"
+          className="text-center text-cream-light/50 text-sm sm:text-base mt-5 max-w-xl mx-auto leading-relaxed"
         >
           {t("subtitle")}
         </motion.p>
@@ -121,8 +118,9 @@ export function ParallaxHero() {
           </Button>
           <Button
             asChild
-            variant="outline-brown"
+            variant="outline"
             size="lg"
+            className="border-cream-light/20 text-cream-light hover:bg-cream-light/10"
           >
             <Link href="/contact">
               {t("ctaSecondary")}
@@ -215,20 +213,20 @@ export function ParallaxHero() {
       </div>
 
       {/* Certifications Strip */}
-      <div className="bg-cream dark:bg-dark-card border-t border-brown/5 dark:border-brown/10">
+      <div className="bg-dark border-t border-cream-light/5">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="max-w-[1400px] w-[90%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-dark/30 dark:text-cream-light/30 tracking-[0.1em] uppercase font-medium"
+          className="max-w-[1400px] w-[90%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-cream-light/30 tracking-[0.1em] uppercase font-medium"
         >
-          <span className="text-brown/50 dark:text-brown-light/50 mr-1">
+          <span className="text-peach/50 mr-1">
             {certT("title")}
           </span>
           {certifications.map((cert, i) => (
             <React.Fragment key={cert}>
-              {i > 0 && <span className="text-brown/15 hidden sm:inline">&middot;</span>}
-              <span className="hover:text-brown/60 dark:hover:text-brown-light/60 transition-colors duration-300 cursor-default">
+              {i > 0 && <span className="text-cream-light/15 hidden sm:inline">&middot;</span>}
+              <span className="hover:text-cream-light/60 transition-colors duration-300 cursor-default">
                 {cert}
               </span>
             </React.Fragment>

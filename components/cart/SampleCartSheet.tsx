@@ -120,7 +120,7 @@ export function SampleCartSheet() {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-lg flex flex-col bg-white dark:bg-dark-card">
         <SheetHeader>
-          <SheetTitle className="font-playfair uppercase tracking-wide text-dark dark:text-cream-light">
+          <SheetTitle className="font-playfair tracking-wide text-dark dark:text-cream-light">
             {isFr ? "Panier d'échantillons" : "Sample Cart"}
           </SheetTitle>
           <SheetDescription className="text-dark/50 dark:text-cream-light/50">

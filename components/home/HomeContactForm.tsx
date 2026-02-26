@@ -24,7 +24,7 @@ export function HomeContactForm() {
             Contact
           </span>
           <h2 className="text-cream-light tracking-tight">
-            Parlons de vos <span className="font-playfair uppercase tracking-wide text-peach">projets</span>.
+            Parlons de vos <span className="font-playfair tracking-wide text-peach">projets</span>.
           </h2>
           <p className="text-cream-light/50 text-lg mt-3 max-w-xl">
             {t("subtitle")}

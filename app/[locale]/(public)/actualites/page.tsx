@@ -72,7 +72,7 @@ export default async function NewsPage({
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
               {isFr ? "Nos" : "Our"}{" "}
-              <span className="font-playfair uppercase tracking-wide text-peach">{isFr ? "Actualités" : "News"}</span>
+              <span className="font-playfair tracking-wide text-peach">{isFr ? "Actualités" : "News"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
