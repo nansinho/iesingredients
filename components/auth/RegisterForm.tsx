@@ -98,7 +98,7 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(163,123,104,0.04)]">
+    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(163,123,104,0.06)]">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="fullName" className="text-dark dark:text-cream-light">
@@ -110,7 +110,7 @@ export function RegisterForm() {
             value={form.fullName}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(254,190,152,0.15)]"
             placeholder="Jean Dupont"
           />
         </div>
@@ -126,7 +126,7 @@ export function RegisterForm() {
             value={form.email}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(254,190,152,0.15)]"
             placeholder="vous@exemple.com"
           />
         </div>
@@ -140,7 +140,7 @@ export function RegisterForm() {
             name="company"
             value={form.company}
             onChange={handleChange}
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(254,190,152,0.15)]"
             placeholder={isFr ? "Votre entreprise" : "Your company"}
           />
         </div>
@@ -157,14 +157,14 @@ export function RegisterForm() {
               value={form.password}
               onChange={handleChange}
               required
-              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl focus:border-brown/30"
+              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(254,190,152,0.15)]"
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? (isFr ? "Masquer le mot de passe" : "Hide password") : (isFr ? "Afficher le mot de passe" : "Show password")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-dark/40 dark:text-cream-light/40 hover:text-dark/70 dark:hover:text-cream-light/70"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-dark/40 dark:text-cream-light/40 hover:text-dark/70 dark:hover:text-cream-light/70 transition-colors"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -183,7 +183,7 @@ export function RegisterForm() {
             value={form.confirmPassword}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(254,190,152,0.15)]"
             placeholder="••••••••"
           />
         </div>
@@ -191,7 +191,9 @@ export function RegisterForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 bg-peach hover:bg-peach-dark text-dark font-medium rounded-full"
+          variant="peach"
+          size="lg"
+          className="w-full"
         >
           {isLoading ? (
             <>
@@ -207,7 +209,7 @@ export function RegisterForm() {
       <div className="mt-6 text-center text-sm">
         <p className="text-dark/50 dark:text-cream-light/50">
           {isFr ? "Déjà un compte ?" : "Already have an account?"}{" "}
-          <Link href="/login" className="text-brown dark:text-peach hover:text-brown-dark dark:hover:text-peach-light font-medium">
+          <Link href="/login" className="text-brown dark:text-peach hover:text-brown-dark dark:hover:text-peach-light font-medium transition-colors">
             {isFr ? "Se connecter" : "Sign In"}
           </Link>
         </p>

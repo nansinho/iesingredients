@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export async function generateMetadata({
   params,
@@ -53,19 +54,25 @@ export default async function ContactPage({
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
-            <MessageCircle className="w-3.5 h-3.5" />
-            Contact
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
-            {isFr ? "Contactez" : "Contact"}{" "}
-            <span className="font-playfair italic text-peach">{isFr ? "nous" : "Us"}</span>
-          </h1>
-          <p className="text-cream-light/50 text-lg max-w-2xl">
-            {isFr
-              ? "Notre équipe est à votre disposition pour répondre à toutes vos questions."
-              : "Our team is available to answer all your questions."}
-          </p>
+          <AnimateIn>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+              <MessageCircle className="w-3.5 h-3.5" />
+              Contact
+            </span>
+          </AnimateIn>
+          <AnimateIn delay={0.1} y={30}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+              {isFr ? "Contactez" : "Contact"}{" "}
+              <span className="font-playfair italic text-peach">{isFr ? "nous" : "Us"}</span>
+            </h1>
+          </AnimateIn>
+          <AnimateIn delay={0.2}>
+            <p className="text-cream-light/50 text-lg max-w-2xl">
+              {isFr
+                ? "Notre équipe est à votre disposition pour répondre à toutes vos questions."
+                : "Our team is available to answer all your questions."}
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
@@ -76,13 +83,13 @@ export default async function ContactPage({
 
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Contact Info */}
-          <div className="lg:col-span-2">
+          <AnimateIn delay={0.1} y={30} className="lg:col-span-2">
             <h2 className="text-dark dark:text-cream-light tracking-tight mb-8">
               {isFr ? "Nos" : "Our"}{" "}
               <span className="font-playfair italic text-brown">{isFr ? "coordonnées" : "details"}</span>.
             </h2>
             <div className="space-y-5">
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <MapPin className="w-5 h-5 text-peach-dark" />
                 </div>
@@ -92,7 +99,7 @@ export default async function ContactPage({
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Phone className="w-5 h-5 text-peach-dark" />
                 </div>
@@ -104,7 +111,7 @@ export default async function ContactPage({
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Mail className="w-5 h-5 text-peach-dark" />
                 </div>
@@ -116,7 +123,7 @@ export default async function ContactPage({
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Clock className="w-5 h-5 text-peach-dark" />
                 </div>
@@ -129,25 +136,27 @@ export default async function ContactPage({
               </div>
 
               {/* Trust badge */}
-              <div className="mt-6 p-5 rounded-2xl bg-peach/8 border border-peach/12">
-                <p className="text-brown-dark dark:text-peach font-semibold text-sm mb-1">
-                  {isFr ? "Réponse sous 24h" : "Response within 24h"}
-                </p>
-                <p className="text-dark/50 dark:text-cream-light/50 text-xs leading-relaxed">
-                  {isFr
-                    ? "Notre équipe commerciale vous répond rapidement pour toute demande d'échantillons ou de devis."
-                    : "Our sales team responds quickly for any sample or quote request."}
-                </p>
-              </div>
+              <AnimateIn delay={0.3}>
+                <div className="mt-6 p-5 rounded-2xl bg-peach/8 border border-peach/12">
+                  <p className="text-brown-dark dark:text-peach font-semibold text-sm mb-1">
+                    {isFr ? "Réponse sous 24h" : "Response within 24h"}
+                  </p>
+                  <p className="text-dark/50 dark:text-cream-light/50 text-xs leading-relaxed">
+                    {isFr
+                      ? "Notre équipe commerciale vous répond rapidement pour toute demande d'échantillons ou de devis."
+                      : "Our sales team responds quickly for any sample or quote request."}
+                  </p>
+                </div>
+              </AnimateIn>
             </div>
-          </div>
+          </AnimateIn>
 
           {/* Contact Form */}
-          <div className="lg:col-span-3">
+          <AnimateIn delay={0.2} y={30} className="lg:col-span-3">
             <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 border border-brown/8 dark:border-brown/10 shadow-[0_4px_30px_rgba(163,123,104,0.04)]">
               <ContactForm />
             </div>
-          </div>
+          </AnimateIn>
         </div>
       </section>
     </>

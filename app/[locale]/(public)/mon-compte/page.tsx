@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { User } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AccountClient } from "@/components/account/AccountClient";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export async function generateMetadata({
   params,
@@ -83,33 +84,39 @@ export default async function AccountPage({
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
-            <User className="w-3.5 h-3.5" />
-            {isFr ? "Espace client" : "Client space"}
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
-            {isFr ? "Mon" : "My"}{" "}
-            <span className="font-playfair italic text-peach">{isFr ? "Compte" : "Account"}</span>
-          </h1>
-          <p className="text-cream-light/50 text-lg max-w-2xl">
-            {user.email}
-            {role === "admin" && (
-              <span className="ml-3 px-2.5 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
-                Admin
-              </span>
-            )}
-          </p>
+          <AnimateIn>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+              <User className="w-3.5 h-3.5" />
+              {isFr ? "Espace client" : "Client space"}
+            </span>
+          </AnimateIn>
+          <AnimateIn delay={0.1} y={30}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+              {isFr ? "Mon" : "My"}{" "}
+              <span className="font-playfair italic text-peach">{isFr ? "Compte" : "Account"}</span>
+            </h1>
+          </AnimateIn>
+          <AnimateIn delay={0.2}>
+            <p className="text-cream-light/50 text-lg max-w-2xl">
+              {user.email}
+              {role === "admin" && (
+                <span className="ml-3 px-2.5 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
+                  Admin
+                </span>
+              )}
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
       <section className="py-24 md:py-32 bg-white dark:bg-dark">
-        <div className="max-w-[900px] w-[90%] mx-auto">
+        <AnimateIn delay={0.15} y={30} className="max-w-[900px] w-[90%] mx-auto">
           <AccountClient
             profile={profile}
             requests={requests}
             userEmail={user.email || ""}
           />
-        </div>
+        </AnimateIn>
       </section>
     </>
   );
