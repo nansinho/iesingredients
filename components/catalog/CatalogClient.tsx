@@ -101,7 +101,7 @@ export function CatalogClient({
   return (
     <>
       {/* Hero Section - Matt dark, wider */}
-      <section className="section-matt pt-28 sm:pt-32 pb-12 sm:pb-14 relative overflow-hidden">
+      <section className="section-matt pt-32 sm:pt-36 pb-12 sm:pb-14 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[150px]" />
         <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div

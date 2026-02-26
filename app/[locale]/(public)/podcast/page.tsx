@@ -49,7 +49,7 @@ export default async function PodcastPage({
       />
 
       {/* Hero */}
-      <section className="bg-gradient-to-b from-forest-950 to-forest-900 pt-28 sm:pt-32 pb-20">
+      <section className="bg-gradient-to-b from-forest-950 to-forest-900 pt-32 sm:pt-36 pb-20">
         <div className="container-luxe text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 mb-8">
             <Headphones className="w-4 h-4" />

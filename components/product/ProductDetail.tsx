@@ -63,7 +63,7 @@ export function ProductDetail({ product }: { product: Product }) {
     <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white">
       {/* Hero */}
       <section
-        className="relative pt-28 sm:pt-32 pb-12 overflow-hidden"
+        className="relative pt-32 sm:pt-36 pb-12 overflow-hidden"
         style={{
           background: `linear-gradient(135deg, ${config.accent}22 0%, transparent 60%), linear-gradient(to bottom, hsl(150 50% 5%) 0%, hsl(150 45% 8%) 100%)`,
         }}

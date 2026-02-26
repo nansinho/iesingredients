@@ -2,7 +2,7 @@ export default function CatalogueLoading() {
   return (
     <div className="min-h-screen">
       {/* Hero skeleton */}
-      <section className="bg-forest-950 pt-28 sm:pt-32 pb-12">
+      <section className="bg-forest-950 pt-32 sm:pt-36 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="h-4 w-24 bg-white/10 rounded animate-pulse mb-4" />
           <div className="h-10 w-64 bg-white/10 rounded animate-pulse mb-4" />

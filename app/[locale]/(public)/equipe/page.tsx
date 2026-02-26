@@ -54,7 +54,7 @@ export default async function TeamPage({
       />
 
       {/* Hero */}
-      <section className="bg-forest-950 pt-28 sm:pt-32 pb-16">
+      <section className="bg-forest-950 pt-32 sm:pt-36 pb-16">
         <div className="container-luxe">
           <span className="text-gold-400 text-sm uppercase tracking-widest font-medium mb-4 block">
             {isFr ? "Les personnes derrière IES" : "The people behind IES"}

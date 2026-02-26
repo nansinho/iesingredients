@@ -100,7 +100,7 @@ export default async function ArticlePage({
       />
 
       {/* Hero */}
-      <section className="bg-forest-950 pt-28 sm:pt-32 pb-12">
+      <section className="bg-forest-950 pt-32 sm:pt-36 pb-12">
         <div className="container-luxe max-w-4xl">
           <Link href="/actualites" className="inline-flex items-center gap-2 text-cream-300 hover:text-gold-400 transition-colors mb-6">
             <ArrowLeft className="w-4 h-4" />

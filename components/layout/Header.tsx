@@ -71,6 +71,7 @@ export function Header() {
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -79,6 +80,7 @@ export function Header() {
   const megaRef = useRef<HTMLDivElement>(null);
   const megaTriggerRef = useRef<HTMLButtonElement>(null);
   const megaTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
@@ -97,7 +99,12 @@ export function Header() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
-        setSearchOpen((prev) => !prev);
+        // Desktop: focus inline search; Mobile: toggle overlay
+        if (window.innerWidth >= 1024) {
+          searchInputRef.current?.focus();
+        } else {
+          setSearchOpen((prev) => !prev);
+        }
       }
       if (e.key === "Escape") {
         setSearchOpen(false);
@@ -184,6 +191,20 @@ export function Header() {
     clearTimeout(megaTimeout.current);
   }, []);
 
+  /* Inline search handler */
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchValue.trim()) {
+      router.push(
+        `/catalogue?search=${encodeURIComponent(searchValue.trim())}` as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      );
+      setSearchValue("");
+      e.currentTarget.blur();
+    }
+    if (e.key === "Escape") {
+      e.currentTarget.blur();
+    }
+  };
+
   return (
     <>
       <motion.header
@@ -195,8 +216,110 @@ export function Header() {
           isScrolled ? "glass-nav shadow-sm" : "bg-transparent"
         )}
       >
+        {/* ═══════════════════════════════════════
+           Top Bar — utility strip (desktop only)
+           ═══════════════════════════════════════ */}
+        <div
+          className={cn(
+            "hidden lg:block border-b transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            isScrolled
+              ? "max-h-0 opacity-0 border-b-transparent overflow-hidden"
+              : "max-h-9 opacity-100 border-brown/8 dark:border-cream-light/8 bg-brown/[0.03] dark:bg-cream-light/[0.03]"
+          )}
+        >
+          <div className="max-w-[1400px] w-[90%] mx-auto flex items-center justify-between h-9">
+            {/* Left: tagline */}
+            <span className="text-xs text-dark/40 dark:text-cream-light/40 truncate">
+              {t("tagline")}
+            </span>
+
+            {/* Right: utility actions */}
+            <div className="flex items-center gap-1">
+              {/* Language Toggle */}
+              <button
+                onClick={toggleLanguage}
+                className="px-2 py-0.5 text-xs font-medium rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+              >
+                {locale === "fr" ? "EN" : "FR"}
+              </button>
+
+              {/* Dark Mode Toggle */}
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="p-1.5 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  {isDark ? (
+                    <Sun className="w-3.5 h-3.5" />
+                  ) : (
+                    <Moon className="w-3.5 h-3.5" />
+                  )}
+                </button>
+              )}
+
+              {/* User Button */}
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="p-1.5 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
+                      <User className="w-3.5 h-3.5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-48 rounded-xl bg-white dark:bg-dark-card border-brown/10"
+                  >
+                    <DropdownMenuItem asChild>
+                      <Link href="/mon-compte" className="cursor-pointer">
+                        <User className="w-4 h-4 mr-2" />
+                        {t("myProfile")}
+                      </Link>
+                    </DropdownMenuItem>
+                    {isUserAdmin && (
+                      <>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="cursor-pointer">
+                            <Shield className="w-4 h-4 mr-2" />
+                            {t("admin")}
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {!isUserAdmin && <DropdownMenuSeparator />}
+                    <DropdownMenuItem
+                      onClick={handleSignOut}
+                      className="text-red-600 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t("signOut")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/login">
+                  <button className="p-1.5 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
+                    <User className="w-3.5 h-3.5" />
+                  </button>
+                </Link>
+              )}
+
+              {/* CTA Button */}
+              <Link href="/contact" className="ml-1.5">
+                <Button className="rounded-full h-7 px-5 text-xs font-medium bg-peach text-dark hover:bg-peach-dark shadow-sm shadow-peach/20">
+                  {t("requestQuote")}
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════
+           Main Nav Bar — primary navigation
+           ═══════════════════════════════════════ */}
         <div className="max-w-[1400px] w-[90%] mx-auto">
-          <nav className="flex items-center justify-between h-16">
+          <nav className="flex items-center justify-between h-14">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
@@ -257,96 +380,44 @@ export function Header() {
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-1.5">
-              {/* Search */}
+              {/* Desktop Inline Search */}
+              <div className="relative hidden lg:flex items-center">
+                <Search className="absolute left-3 w-4 h-4 text-brown/40 dark:text-cream-light/40 pointer-events-none" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={handleSearchKeyDown}
+                  placeholder={t("searchPlaceholder")}
+                  className={cn(
+                    "h-9 w-48 xl:w-56 pl-9 pr-10 text-sm rounded-full",
+                    "bg-brown/[0.06] dark:bg-cream-light/[0.06]",
+                    "border border-brown/10 dark:border-cream-light/10",
+                    "placeholder:text-brown/35 dark:placeholder:text-cream-light/35",
+                    "text-dark dark:text-cream-light",
+                    "focus:outline-none focus:ring-2 focus:ring-peach/40 focus:border-peach/30",
+                    "transition-all duration-200"
+                  )}
+                />
+                <kbd className="absolute right-3 text-[10px] text-brown/30 dark:text-cream-light/30 font-mono pointer-events-none">
+                  {"\u2318"}K
+                </kbd>
+              </div>
+
+              {/* Mobile Search Icon */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                 aria-label="Search"
               >
                 <Search className="w-[18px] h-[18px]" />
-              </button>
-
-              {/* Dark Mode Toggle */}
-              {mounted && (
-                <button
-                  onClick={toggleTheme}
-                  className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
-                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                  {isDark ? (
-                    <Sun className="w-[18px] h-[18px]" />
-                  ) : (
-                    <Moon className="w-[18px] h-[18px]" />
-                  )}
-                </button>
-              )}
-
-              {/* Language Toggle */}
-              <button
-                onClick={toggleLanguage}
-                className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
-              >
-                {locale === "fr" ? "EN" : "FR"}
               </button>
 
               {/* Sample Cart */}
               <div className="[&_button]:text-dark/60 [&_button]:hover:text-dark dark:[&_button]:text-cream-light/60 dark:[&_button]:hover:text-cream-light">
                 <SampleCartSheet />
               </div>
-
-              {/* User Button */}
-              {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
-                      <User className="w-[18px] h-[18px]" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="w-48 rounded-xl bg-white dark:bg-dark-card border-brown/10"
-                  >
-                    <DropdownMenuItem asChild>
-                      <Link href="/mon-compte" className="cursor-pointer">
-                        <User className="w-4 h-4 mr-2" />
-                        {t("myProfile")}
-                      </Link>
-                    </DropdownMenuItem>
-                    {isUserAdmin && (
-                      <>
-                        <DropdownMenuItem asChild>
-                          <Link href="/admin" className="cursor-pointer">
-                            <Shield className="w-4 h-4 mr-2" />
-                            {t("admin")}
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                      </>
-                    )}
-                    {!isUserAdmin && <DropdownMenuSeparator />}
-                    <DropdownMenuItem
-                      onClick={handleSignOut}
-                      className="text-red-600 cursor-pointer"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      {t("signOut")}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link href="/login">
-                  <button className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
-                    <User className="w-[18px] h-[18px]" />
-                  </button>
-                </Link>
-              )}
-
-              {/* CTA Button - Desktop */}
-              <Link href="/contact" className="hidden lg:block ml-2">
-                <Button className="rounded-full h-9 px-6 text-sm font-medium bg-peach text-dark hover:bg-peach-dark shadow-sm shadow-peach/20">
-                  {t("requestQuote")}
-                </Button>
-              </Link>
 
               {/* Mobile Menu */}
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -364,7 +435,7 @@ export function Header() {
                 >
                   <div className="p-6 h-full flex flex-col overflow-y-auto">
                     {/* Mobile Header */}
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center justify-between mb-4">
                       <Image
                         src="/images/logo-ies.png"
                         alt="IES Ingredients"
@@ -378,6 +449,33 @@ export function Header() {
                       >
                         <X className="w-5 h-5" />
                       </button>
+                    </div>
+
+                    {/* Mobile Search */}
+                    <div className="mb-4">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brown/40 dark:text-cream-light/40" />
+                        <input
+                          type="text"
+                          placeholder={t("searchPlaceholder")}
+                          className={cn(
+                            "w-full h-10 pl-9 pr-4 text-sm rounded-xl",
+                            "bg-brown/[0.06] dark:bg-cream-light/[0.06]",
+                            "border border-brown/10 dark:border-cream-light/10",
+                            "placeholder:text-brown/35 dark:placeholder:text-cream-light/35",
+                            "text-dark dark:text-cream-light",
+                            "focus:outline-none focus:ring-2 focus:ring-peach/40"
+                          )}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && e.currentTarget.value.trim()) {
+                              router.push(
+                                `/catalogue?search=${encodeURIComponent(e.currentTarget.value.trim())}` as any // eslint-disable-line @typescript-eslint/no-explicit-any
+                              );
+                              setIsOpen(false);
+                            }
+                          }}
+                        />
+                      </div>
                     </div>
 
                     {/* Mobile Nav */}
@@ -706,13 +804,13 @@ export function Header() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             className="fixed inset-0 z-40 hidden lg:block"
-            style={{ top: "128px" }}
+            style={{ top: isScrolled ? "56px" : "92px" }}
             onClick={closeMenus}
           />
         )}
       </AnimatePresence>
 
-      {/* Command Palette Search Overlay */}
+      {/* Command Palette Search Overlay (mobile fallback) */}
       <AnimatePresence>
         {searchOpen && (
           <>
