@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react";
 import Image from "next/image";
 import {
   Menu,
@@ -71,7 +71,11 @@ export function Header() {
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const megaRef = useRef<HTMLDivElement>(null);
   const megaTriggerRef = useRef<HTMLButtonElement>(null);
   const megaTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -81,8 +85,6 @@ export function Header() {
   const t = useTranslations("nav");
   const cat = useTranslations("categories");
   const { theme, setTheme } = useTheme();
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -135,11 +137,10 @@ export function Header() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Close mega on route change
-  useEffect(() => {
+  const closeMenus = useCallback(() => {
     setMegaOpen(false);
     setIsOpen(false);
-  }, [pathname]);
+  }, []);
 
   const handleSignOut = async () => {
     const supabase = createClient();
@@ -613,7 +614,7 @@ export function Header() {
                     </span>
                     <Link
                       href="/catalogue"
-                      onClick={() => setMegaOpen(false)}
+                      onClick={closeMenus}
                       className="inline-flex items-center gap-1.5 text-sm font-medium text-brown hover:text-brown-dark transition-colors"
                     >
                       {t("allProducts")}
@@ -633,7 +634,7 @@ export function Header() {
                               pathname: "/catalogue",
                               query: { category: col.id },
                             }}
-                            onClick={() => setMegaOpen(false)}
+                            onClick={closeMenus}
                             className="flex items-center gap-2.5 mb-4 group/link"
                           >
                             <div
@@ -663,7 +664,7 @@ export function Header() {
                                     pathname: "/catalogue",
                                     query: { category: col.id },
                                   }}
-                                  onClick={() => setMegaOpen(false)}
+                                  onClick={closeMenus}
                                   className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-dark/55 dark:text-cream-light/55 hover:text-dark dark:hover:text-cream-light hover:bg-brown/[0.04] dark:hover:bg-cream-light/[0.04] transition-all duration-150"
                                 >
                                   {t(subKey)}
@@ -676,7 +677,7 @@ export function Header() {
                                   pathname: "/catalogue",
                                   query: { category: col.id },
                                 }}
-                                onClick={() => setMegaOpen(false)}
+                                onClick={closeMenus}
                                 className="inline-flex items-center gap-1 mt-2 py-1 text-[13px] font-medium transition-all duration-200 hover:gap-2"
                                 style={{ color: col.accent }}
                               >
@@ -706,7 +707,7 @@ export function Header() {
             transition={{ duration: 0.15 }}
             className="fixed inset-0 z-40 hidden lg:block"
             style={{ top: "128px" }}
-            onClick={() => setMegaOpen(false)}
+            onClick={closeMenus}
           />
         )}
       </AnimatePresence>
