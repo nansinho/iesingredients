@@ -23,14 +23,14 @@ export default function GlobalError({
             alignItems: "center",
             justifyContent: "center",
             padding: "1rem",
-            backgroundColor: "#faf8f5",
+            backgroundColor: "#f2f8ec",
           }}
         >
           <div style={{ textAlign: "center", maxWidth: "400px" }}>
-            <h2 style={{ fontSize: "1.5rem", color: "#0a2e1f", marginBottom: "0.75rem" }}>
+            <h2 style={{ fontSize: "1.5rem", color: "#1a2e28", marginBottom: "0.75rem" }}>
               Une erreur est survenue
             </h2>
-            <p style={{ color: "#4a6e5c", marginBottom: "1.5rem" }}>
+            <p style={{ color: "#557069", marginBottom: "1.5rem" }}>
               Veuillez rafraîchir la page ou revenir à l&apos;accueil.
             </p>
             <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
@@ -38,7 +38,7 @@ export default function GlobalError({
                 onClick={reset}
                 style={{
                   padding: "0.75rem 1.5rem",
-                  backgroundColor: "#0a2e1f",
+                  backgroundColor: "#1a2e28",
                   color: "white",
                   border: "none",
                   borderRadius: "9999px",
@@ -53,8 +53,8 @@ export default function GlobalError({
                 style={{
                   padding: "0.75rem 1.5rem",
                   backgroundColor: "transparent",
-                  color: "#0a2e1f",
-                  border: "1px solid #c4d1ca",
+                  color: "#1a2e28",
+                  border: "1px solid #b6d0c2",
                   borderRadius: "9999px",
                   cursor: "pointer",
                   fontSize: "0.875rem",
