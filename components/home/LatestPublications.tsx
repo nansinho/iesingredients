@@ -46,7 +46,7 @@ export function LatestPublications() {
   const t = useTranslations("latestPublications");
 
   return (
-    <section className="py-24 md:py-32 bg-sage">
+    <section className="py-24 md:py-32" style={{ background: '#B47068' }}>
       <div className="w-[94%] mx-auto">
         {/* Header */}
         <motion.div
@@ -60,13 +60,13 @@ export function LatestPublications() {
             <div className="flex mb-5">
               <div className="divider-brown opacity-50" />
             </div>
-            <h2 className="text-dark tracking-tight">
-              Dernières <span className="font-playfair italic text-forest-green">publications</span>
+            <h2 className="text-white tracking-tight">
+              Dernières <span className="font-playfair italic text-white/80">publications</span>
             </h2>
           </div>
           <Link
             href="/actualites"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-dark hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-white hover:gap-3 transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />
@@ -134,7 +134,7 @@ export function LatestPublications() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/actualites"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-dark transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-white transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />

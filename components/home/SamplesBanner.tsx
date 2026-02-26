@@ -10,7 +10,7 @@ export function SamplesBanner() {
   const t = useTranslations("samplesBanner");
 
   return (
-    <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #e3cd8b 0%, #cc8860 50%, #b47068 100%)' }}>
+    <section className="relative overflow-hidden" style={{ background: '#FCFCFC' }}>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -19,14 +19,14 @@ export function SamplesBanner() {
         transition={{ duration: 0.6 }}
         className="w-[94%] mx-auto py-20 md:py-28 text-center relative z-10"
       >
-        <div className="w-16 h-16 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center mx-auto mb-6 animate-glow-pulse">
-          <Gift className="w-7 h-7 text-white" />
+        <div className="w-16 h-16 rounded-2xl bg-dark/5 border border-dark/10 flex items-center justify-center mx-auto mb-6 animate-glow-pulse">
+          <Gift className="w-7 h-7 text-dark" />
         </div>
 
-        <h2 className="text-white tracking-tight">
-          Échantillons <span className="font-playfair italic text-white/90">gratuits</span>
+        <h2 className="text-dark tracking-tight">
+          Échantillons <span className="font-playfair italic text-forest-green">gratuits</span>
         </h2>
-        <p className="text-white/70 mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
+        <p className="text-dark/50 mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
           {t("description")}
         </p>
 
