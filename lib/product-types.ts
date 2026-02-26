@@ -40,32 +40,32 @@ export function getCategoryConfig(typologie: string | null) {
   const t = (typologie || "").toUpperCase();
   if (t.includes("COSMET") || t.includes("COSMÉT")) {
     return {
-      accent: "var(--color-accent-cosmetique)",
+      accent: "#8B6FA3",
       label: "Cosmétique",
-      gradient: "var(--color-accent-cosmetique)",
+      gradient: "from-[#5E4878] to-[#8B6FA3]",
       image: "/images/cream-bowl.jpg",
     };
   }
   if (t.includes("PARFUM")) {
     return {
-      accent: "var(--color-accent-parfum)",
+      accent: "#A67B5B",
       label: "Parfumerie",
-      gradient: "var(--color-accent-parfum)",
+      gradient: "from-[#A67B5B] to-[#D4A574]",
       image: "/images/essential-oil.jpg",
     };
   }
   if (t.includes("AROME") || t.includes("ARÔME")) {
     return {
-      accent: "var(--color-accent-arome)",
+      accent: "#C97B8B",
       label: "Arômes",
-      gradient: "var(--color-accent-arome)",
+      gradient: "from-[#8B4A5E] to-[#C97B8B]",
       image: "/images/product-bottle.jpg",
     };
   }
   return {
-    accent: "var(--color-accent-cosmetique)",
+    accent: "#8B6FA3",
     label: "Produit",
-    gradient: "var(--color-accent-cosmetique)",
+    gradient: "from-[#5E4878] to-[#8B6FA3]",
     image: "/images/cream-bowl.jpg",
   };
 }

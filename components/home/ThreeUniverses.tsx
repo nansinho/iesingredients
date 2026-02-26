@@ -15,7 +15,7 @@ const universes = [
     count: "2 000+",
     countLabel: "actifs",
     verticalTitle: "Cosmétique",
-    accent: "var(--color-accent-cosmetique)",
+    accent: "#8B6FA3",
   },
   {
     titleKey: "perfume" as const,
@@ -25,7 +25,7 @@ const universes = [
     count: "1 500+",
     countLabel: "essences",
     verticalTitle: "Parfumerie",
-    accent: "var(--color-accent-parfum)",
+    accent: "#A67B5B",
   },
   {
     titleKey: "aroma" as const,
@@ -35,7 +35,7 @@ const universes = [
     count: "1 500+",
     countLabel: "arômes",
     verticalTitle: "Arômes",
-    accent: "var(--color-accent-arome)",
+    accent: "#C97B8B",
   },
 ];
 
@@ -44,7 +44,7 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-24 md:py-32 bg-black-matte">
+    <section className="py-24 md:py-32 bg-white dark:bg-dark">
       <div className="max-w-[1400px] w-[90%] mx-auto">
         {/* Section Header */}
         <motion.div
@@ -54,10 +54,10 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-cream-light tracking-[-0.02em]">
-            Trois univers. Une <span className="font-playfair tracking-wide text-peach">expertise</span>.
+          <h2 className="text-dark dark:text-cream-light tracking-[-0.02em]">
+            Trois univers. Une <span className="font-playfair italic text-brown">expertise</span>.
           </h2>
-          <p className="text-cream-light/50 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
+          <p className="text-dark/50 dark:text-cream-light/50 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -68,7 +68,7 @@ export function ThreeUniverses() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-[20px] border border-cream-light/10"
+          className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-[20px] border border-brown/10 dark:border-white/10"
         >
           {universes.map((u, index) => (
             <Link
@@ -76,7 +76,7 @@ export function ThreeUniverses() {
               href={{ pathname: "/catalogue", query: { category: u.filter } }}
               className={
                 index < universes.length - 1
-                  ? "border-b sm:border-b-0 sm:border-r border-cream-light/10"
+                  ? "border-b sm:border-b-0 sm:border-r border-brown/10 dark:border-white/10"
                   : ""
               }
             >

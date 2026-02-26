@@ -97,7 +97,7 @@ export function ContactForm() {
 
   return (
     <div>
-      <h2 className="font-playfair tracking-wide text-3xl text-dark dark:text-cream-light mb-2">
+      <h2 className="font-playfair italic text-3xl text-dark dark:text-cream-light mb-2">
         {isFr ? "Envoyez-nous un message" : "Send us a message"}
       </h2>
       <p className="text-dark/50 dark:text-cream-light/50 mb-8">

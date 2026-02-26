@@ -20,7 +20,7 @@ export default function Error({
         <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-100 dark:bg-red-500/15 flex items-center justify-center">
           <span className="text-2xl text-red-600 dark:text-red-400">!</span>
         </div>
-        <h2 className="font-playfair tracking-wide text-2xl text-dark dark:text-cream-light mb-3">
+        <h2 className="font-playfair italic text-2xl text-dark dark:text-cream-light mb-3">
           Une erreur est survenue
         </h2>
         <p className="text-dark/60 dark:text-cream-light/50 mb-6">
