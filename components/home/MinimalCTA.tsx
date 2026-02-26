@@ -20,7 +20,7 @@ export function MinimalCTA() {
         className="max-w-[1400px] w-[90%] mx-auto py-24 md:py-36 text-center relative z-10"
       >
         <h2 className="text-dark tracking-tight mb-5">
-          Prêt à découvrir nos <span className="font-playfair italic text-brown">ingrédients</span> ?
+          Prêt à découvrir nos <span className="font-playfair italic text-navy">ingrédients</span> ?
         </h2>
         <p className="text-dark/50 text-base sm:text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
           {t("subtitle")}

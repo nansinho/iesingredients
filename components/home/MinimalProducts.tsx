@@ -86,13 +86,13 @@ export function MinimalProducts() {
         >
           <div>
             <h2 className="text-dark dark:text-cream-light tracking-tight">
-              Nos ingrédients <span className="font-playfair italic text-brown">phares</span>
+              Nos ingrédients <span className="font-playfair italic text-navy">phares</span>
             </h2>
             <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
           <Link
             href="/catalogue"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-brown hover:text-peach-dark hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-olive-bright hover:gap-3 transition-all duration-300"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />
@@ -110,7 +110,7 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block">
-                <div className="bg-[#E8DDD3] dark:bg-dark-card rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 flex flex-col h-full">
+                <div className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(74,90,56,0.12)] hover:-translate-y-2 flex flex-col h-full">
                   {/* Banner image */}
                   <div className="relative aspect-[16/7] overflow-hidden">
                     <Image
@@ -120,7 +120,7 @@ export function MinimalProducts() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#E8DDD3]/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/40 to-transparent" />
                   </div>
 
                   {/* Content */}
@@ -142,7 +142,7 @@ export function MinimalProducts() {
                   </div>
 
                   {/* Product name */}
-                  <h3 className="text-xl font-playfair font-semibold text-dark dark:text-cream-light group-hover:text-brown transition-colors duration-300 leading-snug mb-2">
+                  <h3 className="text-xl font-playfair font-semibold text-dark dark:text-cream-light group-hover:text-navy transition-colors duration-300 leading-snug mb-2">
                     {product.name}
                   </h3>
 
@@ -166,7 +166,7 @@ export function MinimalProducts() {
                   {/* Sample button */}
                   <div className="flex justify-end">
                     <button
-                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-brown text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-brown/90 hover:shadow-md hover:shadow-brown/20"
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-navy text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-olive-bright hover:shadow-md hover:shadow-navy/20"
                       onClick={(e) => e.preventDefault()}
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export function MinimalProducts() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/catalogue"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-brown hover:text-peach-dark transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-olive-bright transition-all duration-300"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />
