@@ -73,10 +73,7 @@ export function MinimalProducts() {
   const t = useTranslations("products");
 
   return (
-    <section className="py-24 md:py-32 bg-cream-light dark:bg-dark relative overflow-hidden">
-      {/* Decorative */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px]" />
+    <section className="py-24 md:py-32 bg-white relative overflow-hidden">
 
       <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
         {/* Header */}

@@ -213,7 +213,7 @@ export function Header() {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "glass-nav shadow-sm" : "bg-transparent"
+          isScrolled ? "glass-nav shadow-sm" : "bg-navy"
         )}
       >
         {/* ═══════════════════════════════════════
@@ -224,12 +224,12 @@ export function Header() {
             "hidden lg:block border-b transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
             isScrolled
               ? "max-h-0 opacity-0 border-b-transparent overflow-hidden"
-              : "max-h-9 opacity-100 border-brown/8 dark:border-cream-light/8 bg-brown/[0.03] dark:bg-cream-light/[0.03]"
+              : "max-h-9 opacity-100 border-white/8 bg-white/[0.03]"
           )}
         >
           <div className="max-w-[1400px] w-[90%] mx-auto flex items-center justify-between h-9">
             {/* Left: tagline */}
-            <span className="text-xs text-dark/40 dark:text-cream-light/40 truncate">
+            <span className="text-xs text-white/40 truncate">
               {t("tagline")}
             </span>
 
@@ -238,7 +238,7 @@ export function Header() {
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className="px-2 py-0.5 text-xs font-medium rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                className="px-2 py-0.5 text-xs font-medium rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5"
               >
                 {locale === "fr" ? "EN" : "FR"}
               </button>
@@ -247,7 +247,7 @@ export function Header() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="p-1.5 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                  className="p-1.5 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5"
                   aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                 >
                   {isDark ? (
@@ -262,13 +262,13 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="p-1.5 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
+                    <button className="p-1.5 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5">
                       <User className="w-3.5 h-3.5" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="end"
-                    className="w-48 rounded-xl bg-white dark:bg-dark-card border-brown/10"
+                    className="w-48 rounded-xl bg-navy border-white/10"
                   >
                     <DropdownMenuItem asChild>
                       <Link href="/mon-compte" className="cursor-pointer">
@@ -299,7 +299,7 @@ export function Header() {
                 </DropdownMenu>
               ) : (
                 <Link href="/login">
-                  <button className="p-1.5 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-brown/5 dark:text-cream-light/50 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
+                  <button className="p-1.5 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5">
                     <User className="w-3.5 h-3.5" />
                   </button>
                 </Link>
@@ -345,8 +345,8 @@ export function Header() {
                   className={cn(
                     "inline-flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 rounded-full",
                     megaOpen || pathname === "/catalogue"
-                      ? "font-semibold text-dark dark:text-cream-light"
-                      : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                      ? "font-semibold text-white"
+                      : "text-white/60 hover:text-white hover:bg-white/5"
                   )}
                 >
                   {t("catalog")}
@@ -367,8 +367,8 @@ export function Header() {
                       className={cn(
                         "px-4 py-2 text-sm transition-all duration-200 rounded-full",
                         isActive
-                          ? "font-semibold text-dark dark:text-cream-light"
-                          : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                          ? "font-semibold text-white"
+                          : "text-white/60 hover:text-white hover:bg-white/5"
                       )}
                     >
                       {item.label}
@@ -382,7 +382,7 @@ export function Header() {
             <div className="flex items-center gap-1.5">
               {/* Desktop Inline Search */}
               <div className="relative hidden lg:flex items-center">
-                <Search className="absolute left-3 w-4 h-4 text-brown/40 dark:text-cream-light/40 pointer-events-none" />
+                <Search className="absolute left-3 w-4 h-4 text-white/40 pointer-events-none" />
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -392,15 +392,15 @@ export function Header() {
                   placeholder={t("searchPlaceholder")}
                   className={cn(
                     "h-9 w-48 xl:w-56 pl-9 pr-10 text-sm rounded-full",
-                    "bg-brown/[0.06] dark:bg-cream-light/[0.06]",
-                    "border border-brown/10 dark:border-cream-light/10",
-                    "placeholder:text-brown/35 dark:placeholder:text-cream-light/35",
-                    "text-dark dark:text-cream-light",
+                    "bg-white/[0.06]",
+                    "border border-white/10",
+                    "placeholder:text-white/35",
+                    "text-white",
                     "focus:outline-none focus:ring-2 focus:ring-peach/40 focus:border-peach/30",
                     "transition-all duration-200"
                   )}
                 />
-                <kbd className="absolute right-3 text-[10px] text-brown/30 dark:text-cream-light/30 font-mono pointer-events-none">
+                <kbd className="absolute right-3 text-[10px] text-white/30 font-mono pointer-events-none">
                   {"\u2318"}K
                 </kbd>
               </div>
@@ -408,14 +408,14 @@ export function Header() {
               {/* Mobile Search Icon */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-white/60 hover:text-white hover:bg-white/5"
                 aria-label="Search"
               >
                 <Search className="w-[18px] h-[18px]" />
               </button>
 
               {/* Sample Cart */}
-              <div className="[&_button]:text-dark/60 [&_button]:hover:text-dark dark:[&_button]:text-cream-light/60 dark:[&_button]:hover:text-cream-light">
+              <div className="[&_button]:text-white/60 [&_button]:hover:text-white">
                 <SampleCartSheet />
               </div>
 
@@ -423,7 +423,7 @@ export function Header() {
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild className="lg:hidden">
                   <button
-                    className="p-2 rounded-full transition-colors duration-200 ml-1 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                    className="p-2 rounded-full transition-colors duration-200 ml-1 text-white/60 hover:text-white hover:bg-white/5"
                     aria-label="Menu"
                   >
                     <Menu className="w-5 h-5" />
@@ -431,7 +431,7 @@ export function Header() {
                 </SheetTrigger>
                 <SheetContent
                   side="right"
-                  className="w-[85vw] max-w-sm bg-cream-light dark:bg-dark border-brown/10 p-0"
+                  className="w-[85vw] max-w-sm bg-navy border-white/10 p-0"
                 >
                   <div className="p-6 h-full flex flex-col overflow-y-auto">
                     {/* Mobile Header */}
@@ -445,7 +445,7 @@ export function Header() {
                       />
                       <button
                         onClick={() => setIsOpen(false)}
-                        className="p-2 text-dark/40 hover:text-dark dark:text-cream-light/40 dark:hover:text-cream-light rounded-full hover:bg-brown/5 transition-colors"
+                        className="p-2 text-white/40 hover:text-white rounded-full hover:bg-white/5 transition-colors"
                       >
                         <X className="w-5 h-5" />
                       </button>
@@ -454,16 +454,16 @@ export function Header() {
                     {/* Mobile Search */}
                     <div className="mb-4">
                       <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brown/40 dark:text-cream-light/40" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                         <input
                           type="text"
                           placeholder={t("searchPlaceholder")}
                           className={cn(
                             "w-full h-10 pl-9 pr-4 text-sm rounded-xl",
-                            "bg-brown/[0.06] dark:bg-cream-light/[0.06]",
-                            "border border-brown/10 dark:border-cream-light/10",
-                            "placeholder:text-brown/35 dark:placeholder:text-cream-light/35",
-                            "text-dark dark:text-cream-light",
+                            "bg-white/[0.06]",
+                            "border border-white/10",
+                            "placeholder:text-white/35",
+                            "text-white",
                             "focus:outline-none focus:ring-2 focus:ring-peach/40"
                           )}
                           onKeyDown={(e) => {
@@ -491,8 +491,8 @@ export function Header() {
                           className={cn(
                             "w-full py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between",
                             pathname === "/catalogue"
-                              ? "bg-peach/15 text-dark dark:text-cream-light border border-peach/30"
-                              : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                              ? "bg-peach/15 text-white border border-peach/30"
+                              : "text-white/60 hover:text-white hover:bg-white/5"
                           )}
                         >
                           <span>{t("catalog")}</span>
@@ -518,7 +518,7 @@ export function Header() {
                                 <Link
                                   href="/catalogue"
                                   onClick={() => setIsOpen(false)}
-                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-brown hover:bg-brown/5 transition-colors"
+                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-peach hover:bg-white/5 transition-colors"
                                 >
                                   <ArrowRight className="w-3.5 h-3.5" />
                                   {t("allProducts")}
@@ -549,7 +549,7 @@ export function Header() {
                                               query: { category: col.id },
                                             }}
                                             onClick={() => setIsOpen(false)}
-                                            className="block py-1.5 px-3 text-sm text-dark/50 hover:text-dark dark:text-cream-light/50 dark:hover:text-cream-light transition-colors rounded-lg hover:bg-brown/5"
+                                            className="block py-1.5 px-3 text-sm text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/5"
                                           >
                                             {t(subKey)}
                                           </Link>
@@ -580,8 +580,8 @@ export function Header() {
                               className={cn(
                                 "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "bg-peach/15 text-dark dark:text-cream-light border border-peach/30"
-                                  : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                                  ? "bg-peach/15 text-white border border-peach/30"
+                                  : "text-white/60 hover:text-white hover:bg-white/5"
                               )}
                             >
                               <span>{item.label}</span>
@@ -600,13 +600,13 @@ export function Header() {
                     </nav>
 
                     {/* Mobile Footer */}
-                    <div className="pt-6 border-t border-brown/10">
+                    <div className="pt-6 border-t border-white/10">
                       {user ? (
                         <div className="space-y-2">
                           <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
                             <Button
                               variant="outline"
-                              className="w-full h-11 rounded-xl border-brown/20 text-dark/70 hover:bg-brown/5 dark:text-cream-light/70 dark:border-brown/15"
+                              className="w-full h-11 rounded-xl border-white/15 text-white/70 hover:bg-white/5"
                             >
                               <User className="w-4 h-4 mr-2" />
                               {t("myProfile")}
@@ -616,7 +616,7 @@ export function Header() {
                             <Link href="/admin" onClick={() => setIsOpen(false)}>
                               <Button
                                 variant="outline"
-                                className="w-full h-11 rounded-xl border-brown/20 text-dark/70 hover:bg-brown/5 dark:text-cream-light/70 dark:border-brown/15"
+                                className="w-full h-11 rounded-xl border-white/15 text-white/70 hover:bg-white/5"
                               >
                                 <Shield className="w-4 h-4 mr-2" />
                                 {t("admin")}
@@ -639,7 +639,7 @@ export function Header() {
                         <Link href="/login" onClick={() => setIsOpen(false)}>
                           <Button
                             variant="outline"
-                            className="w-full h-11 rounded-xl border-brown/20 text-dark/70 hover:bg-brown/5 dark:text-cream-light/70 dark:border-brown/15"
+                            className="w-full h-11 rounded-xl border-white/15 text-white/70 hover:bg-white/5"
                           >
                             <User className="w-4 h-4 mr-2" />
                             {t("signIn")}
@@ -662,7 +662,7 @@ export function Header() {
                             toggleLanguage();
                             setIsOpen(false);
                           }}
-                          className="py-2 text-sm text-dark/40 hover:text-dark/60 dark:text-cream-light/40 dark:hover:text-cream-light/60 transition-colors"
+                          className="py-2 text-sm text-white/40 hover:text-white/60 transition-colors"
                         >
                           {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
                         </button>
@@ -670,7 +670,7 @@ export function Header() {
                         {mounted && (
                           <button
                             onClick={toggleTheme}
-                            className="p-2 text-dark/40 hover:text-dark/60 dark:text-cream-light/40 dark:hover:text-cream-light/60 transition-colors rounded-full"
+                            className="p-2 text-white/40 hover:text-white/60 transition-colors rounded-full"
                           >
                             {isDark ? (
                               <Sun className="w-4 h-4" />
@@ -703,17 +703,17 @@ export function Header() {
               onMouseEnter={cancelClose}
               onMouseLeave={closeMega}
             >
-              <div className="bg-white/95 dark:bg-dark/95 backdrop-blur-xl border-t border-b border-brown/8 dark:border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+              <div className="bg-[#2E3244]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
                 <div className="max-w-[1400px] w-[90%] mx-auto py-8">
                   {/* Top — "All products" link */}
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-brown/8 dark:border-white/8">
-                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-dark/40 dark:text-cream-light/40">
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/8">
+                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/40">
                       {t("catalogueMenu")}
                     </span>
                     <Link
                       href="/catalogue"
                       onClick={closeMenus}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-brown hover:text-brown-dark transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-peach hover:text-peach-dark transition-colors"
                     >
                       {t("allProducts")}
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -763,7 +763,7 @@ export function Header() {
                                     query: { category: col.id },
                                   }}
                                   onClick={closeMenus}
-                                  className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-dark/55 dark:text-cream-light/55 hover:text-dark dark:hover:text-cream-light hover:bg-brown/[0.04] dark:hover:bg-cream-light/[0.04] transition-all duration-150"
+                                  className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-white/55 hover:text-white hover:bg-white/[0.04] transition-all duration-150"
                                 >
                                   {t(subKey)}
                                 </Link>

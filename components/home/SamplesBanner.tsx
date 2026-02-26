@@ -10,9 +10,7 @@ export function SamplesBanner() {
   const t = useTranslations("samplesBanner");
 
   return (
-    <section className="bg-cream dark:bg-dark-card relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/8 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-lavender/5 rounded-full blur-[80px] translate-y-1/3 -translate-x-1/4" />
+    <section className="bg-navy relative overflow-hidden">
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -25,10 +23,10 @@ export function SamplesBanner() {
           <Gift className="w-7 h-7 text-peach-dark" />
         </div>
 
-        <h2 className="text-dark dark:text-cream-light tracking-tight">
-          Échantillons <span className="font-playfair italic text-brown">gratuits</span>
+        <h2 className="text-white tracking-tight">
+          Échantillons <span className="font-playfair italic text-peach">gratuits</span>
         </h2>
-        <p className="text-dark/50 dark:text-cream-light/50 mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
+        <p className="text-white/50 mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
           {t("description")}
         </p>
 

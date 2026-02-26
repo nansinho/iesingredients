@@ -46,7 +46,7 @@ export function LatestPublications() {
   const t = useTranslations("latestPublications");
 
   return (
-    <section className="py-24 md:py-32 bg-cream-light dark:bg-dark">
+    <section className="py-24 md:py-32 bg-blue-gray">
       <div className="max-w-[1400px] w-[90%] mx-auto">
         {/* Header */}
         <motion.div
@@ -58,15 +58,15 @@ export function LatestPublications() {
         >
           <div>
             <div className="flex mb-5">
-              <div className="divider-brown" />
+              <div className="divider-brown opacity-50" />
             </div>
-            <h2 className="text-dark dark:text-cream-light tracking-tight">
-              Dernières <span className="font-playfair italic text-brown">publications</span>
+            <h2 className="text-white tracking-tight">
+              Dernières <span className="font-playfair italic text-peach">publications</span>
             </h2>
           </div>
           <Link
             href="/actualites"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-brown hover:text-peach-dark hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-peach hover:text-peach-light hover:gap-3 transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />
@@ -84,7 +84,7 @@ export function LatestPublications() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link href="/actualites" className="group block">
-                <div className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.1)] hover:-translate-y-2">
+                <div className="bg-white/10 rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.15)] hover:-translate-y-2">
                   {/* Image */}
                   <div className="p-3 sm:p-4">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
@@ -106,20 +106,20 @@ export function LatestPublications() {
 
                   {/* Content */}
                   <div className="px-5 sm:px-6 pb-6 pt-1">
-                    <p className="text-xs text-olive mb-2 font-semibold uppercase tracking-wider">
+                    <p className="text-xs text-peach/80 mb-2 font-semibold uppercase tracking-wider">
                       {new Date(article.date).toLocaleDateString("fr-FR", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
                     </p>
-                    <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-brown transition-colors line-clamp-2 mb-2.5 leading-snug">
+                    <h3 className="text-base font-bold text-white group-hover:text-peach transition-colors line-clamp-2 mb-2.5 leading-snug">
                       {article.title}
                     </h3>
-                    <p className="text-sm text-dark/50 dark:text-cream-light/50 line-clamp-2 leading-relaxed">
+                    <p className="text-sm text-white/50 line-clamp-2 leading-relaxed">
                       {article.excerpt}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brown mt-4 group-hover:gap-2.5 transition-all duration-300">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-peach mt-4 group-hover:gap-2.5 transition-all duration-300">
                       {t("readMore")}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -134,7 +134,7 @@ export function LatestPublications() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/actualites"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-brown hover:text-peach-dark transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-peach hover:text-peach-light transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />

@@ -64,6 +64,12 @@
   --color-lavender-light: #d6cee4;
   --color-lavender-dark: #8f81a8;
 
+  /* Fun theme palette */
+  --color-navy: #2E3244;
+  --color-silver: #C5C6C6;
+  --color-orange-accent: #F1895C;
+  --color-blue-gray: #516079;
+
   /* Legacy color aliases — maps old tokens to new palette for non-homepage pages */
   --color-forest-950: #2d2a26;
   --color-forest-900: #352f2b;
@@ -400,13 +406,13 @@
 .glass-nav {
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-  background: rgba(255, 245, 235, 0.85);
-  border-bottom: 1px solid rgba(163, 123, 104, 0.1);
+  background: rgba(46, 50, 68, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .dark .glass-nav {
-  background: rgba(45, 42, 38, 0.85);
-  border-bottom: 1px solid rgba(163, 123, 104, 0.08);
+  background: rgba(46, 50, 68, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* ========================================

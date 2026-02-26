@@ -5,7 +5,6 @@ import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { SamplesBanner } from "@/components/home/SamplesBanner";
 import { Commitments } from "@/components/home/Commitments";
 import { LatestPublications } from "@/components/home/LatestPublications";
-import { HomeContactForm } from "@/components/home/HomeContactForm";
 import { MinimalCTA } from "@/components/home/MinimalCTA";
 import { OrganizationJsonLd, WebSiteJsonLd, LocalBusinessJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
 
@@ -99,7 +98,6 @@ export default async function HomePage({
       <SamplesBanner />
       <Commitments />
       <LatestPublications />
-      <HomeContactForm />
       <MinimalCTA />
     </>
   );

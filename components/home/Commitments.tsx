@@ -24,10 +24,7 @@ export function Commitments() {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-dark relative overflow-hidden">
-      {/* Decorative */}
-      <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brown/5 rounded-full blur-[180px]" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
+    <section className="py-24 md:py-32 bg-orange-accent relative overflow-hidden">
 
       <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
         {/* Header */}
@@ -38,12 +35,12 @@ export function Commitments() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-5">
             <Award className="w-3.5 h-3.5" />
             {t("surtitle")}
           </span>
-          <h2 className="text-cream-light tracking-tight">
-            Nos <span className="font-playfair italic text-peach">engagements</span>.
+          <h2 className="text-white tracking-tight">
+            Nos <span className="font-playfair italic text-dark">engagements</span>.
           </h2>
         </motion.div>
 
@@ -53,7 +50,7 @@ export function Commitments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="relative w-full aspect-[16/7] sm:aspect-[2.4/1] rounded-2xl overflow-hidden mb-10 border border-cream-light/[0.06]"
+          className="relative w-full aspect-[16/7] sm:aspect-[2.4/1] rounded-2xl overflow-hidden mb-10 border border-white/10"
         >
           <Image
             src="/images/leaves-hero.jpg"
@@ -76,10 +73,10 @@ export function Commitments() {
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="text-center"
                 >
-                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-peach leading-none">
+                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-dark leading-none">
                     {stat.value}
                   </p>
-                  <p className="text-cream-light/50 text-xs sm:text-sm mt-1.5 font-medium">{stat.label}</p>
+                  <p className="text-white/70 text-xs sm:text-sm mt-1.5 font-medium">{stat.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -95,13 +92,13 @@ export function Commitments() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="bg-cream-light/[0.04] backdrop-blur-sm rounded-2xl p-6 border border-cream-light/[0.06] hover:border-brown/30 hover:bg-cream-light/[0.06] transition-all duration-500 group"
+              className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-white/30 hover:bg-white/20 transition-all duration-500 group"
             >
-              <div className="w-11 h-11 rounded-xl bg-peach/15 border border-peach/25 flex items-center justify-center mb-4 group-hover:bg-peach/25 transition-all duration-300">
-                <feature.icon className="w-5 h-5 text-peach" />
+              <div className="w-11 h-11 rounded-xl bg-white/20 border border-white/15 flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all duration-300">
+                <feature.icon className="w-5 h-5 text-white" />
               </div>
-              <h3 className="font-bold text-cream-light mb-1.5 text-sm">{t(feature.titleKey)}</h3>
-              <p className="text-sm text-cream-light/40 leading-relaxed">{t(feature.descKey)}</p>
+              <h3 className="font-bold text-white mb-1.5 text-sm">{t(feature.titleKey)}</h3>
+              <p className="text-sm text-white/60 leading-relaxed">{t(feature.descKey)}</p>
             </motion.div>
           ))}
         </div>
@@ -116,7 +113,7 @@ export function Commitments() {
         >
           <Link
             href="/entreprise"
-            className="inline-flex items-center gap-2 text-base font-semibold text-peach hover:text-peach-light hover:gap-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-base font-semibold text-white hover:text-dark hover:gap-3 transition-all duration-300"
           >
             {t("link")}
             <ArrowRight className="w-4 h-4" />

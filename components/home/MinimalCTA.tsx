@@ -10,10 +10,7 @@ export function MinimalCTA() {
   const t = useTranslations("cta");
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-cream dark:bg-dark-card" />
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-peach/8 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-lavender/5 rounded-full blur-[120px]" />
+    <section className="relative overflow-hidden bg-white">
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -22,10 +19,10 @@ export function MinimalCTA() {
         transition={{ duration: 0.6 }}
         className="max-w-[1400px] w-[90%] mx-auto py-24 md:py-36 text-center relative z-10"
       >
-        <h2 className="text-dark dark:text-cream-light tracking-tight mb-5">
+        <h2 className="text-dark tracking-tight mb-5">
           Prêt à découvrir nos <span className="font-playfair italic text-brown">ingrédients</span> ?
         </h2>
-        <p className="text-dark/50 dark:text-cream-light/50 text-base sm:text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-dark/50 text-base sm:text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
           {t("subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
