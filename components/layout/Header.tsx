@@ -44,21 +44,21 @@ const catalogColumns = [
     id: "cosmetique",
     titleKey: "cosmetic" as const,
     icon: Leaf,
-    accent: "#8B6FA3",
+    accent: "#839b97",
     subKeys: ["cosmeticSub1", "cosmeticSub2", "cosmeticSub3", "cosmeticSub4"] as const,
   },
   {
     id: "parfum",
     titleKey: "perfume" as const,
     icon: FlaskConical,
-    accent: "#A67B5B",
+    accent: "#6b837e",
     subKeys: ["perfumeSub1", "perfumeSub2", "perfumeSub3", "perfumeSub4"] as const,
   },
   {
     id: "arome",
     titleKey: "aroma" as const,
     icon: Droplets,
-    accent: "#C97B8B",
+    accent: "#a8bcb6",
     subKeys: ["aromaSub1", "aromaSub2", "aromaSub3", "aromaSub4"] as const,
   },
 ];
@@ -703,7 +703,7 @@ export function Header() {
               onMouseEnter={cancelClose}
               onMouseLeave={closeMega}
             >
-              <div className="bg-[#181818]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#1a2e28]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
                 <div className="w-[94%] mx-auto py-8">
                   {/* Top — "All products" link */}
                   <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/8">
