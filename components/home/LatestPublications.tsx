@@ -47,7 +47,7 @@ export function LatestPublications() {
 
   return (
     <section className="py-24 md:py-32 bg-sage">
-      <div className="max-w-[1400px] w-[90%] mx-auto">
+      <div className="w-[94%] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

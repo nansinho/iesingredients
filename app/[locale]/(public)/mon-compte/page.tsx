@@ -83,7 +83,7 @@ export default async function AccountPage({
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+        <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <User className="w-3.5 h-3.5" />

@@ -17,7 +17,7 @@ export function MinimalCTA() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-[1400px] w-[90%] mx-auto py-24 md:py-36 text-center relative z-10"
+        className="w-[94%] mx-auto py-24 md:py-36 text-center relative z-10"
       >
         <h2 className="text-dark tracking-tight mb-5">
           Prêt à découvrir nos <span className="font-playfair italic text-forest-green">ingrédients</span> ?

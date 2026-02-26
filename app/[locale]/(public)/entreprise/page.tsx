@@ -62,7 +62,7 @@ export default async function CompanyPage({
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+        <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Building2 className="w-3.5 h-3.5" />
@@ -87,7 +87,7 @@ export default async function CompanyPage({
       {/* Mission */}
       <section className="py-24 md:py-32 bg-white dark:bg-dark relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
+        <div className="w-[94%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10">
               <Image
@@ -128,7 +128,7 @@ export default async function CompanyPage({
         <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brown/5 rounded-full blur-[180px]" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
 
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+        <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Award className="w-3.5 h-3.5" />
@@ -163,7 +163,7 @@ export default async function CompanyPage({
 
       {/* Stats */}
       <section className="py-24 md:py-32 bg-white dark:bg-dark">
-        <StaggerGrid className="max-w-[1400px] w-[90%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <StaggerGrid className="w-[94%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: "30+", labelFr: "Ans d'expertise", labelEn: "Years of expertise" },
             { value: "5000+", labelFr: "Ingrédients", labelEn: "Ingredients" },

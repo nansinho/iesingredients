@@ -68,7 +68,7 @@ export function ProductDetail({ product }: { product: Product }) {
           background: `linear-gradient(135deg, ${config.accent}22 0%, transparent 60%), linear-gradient(to bottom, hsl(30 15% 12%) 0%, hsl(30 10% 15%) 100%)`,
         }}
       >
-        <div className="max-w-[1400px] w-[90%] mx-auto">
+        <div className="w-[94%] mx-auto">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-cream-light/60 mb-6">
             <Link href="/catalogue" className="hover:text-peach transition-colors">
@@ -182,7 +182,7 @@ export function ProductDetail({ product }: { product: Product }) {
       </section>
 
       {/* Specs Grid */}
-      <section className="max-w-[1400px] w-[90%] mx-auto py-24">
+      <section className="w-[94%] mx-auto py-24">
         <motion.h2
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -219,10 +219,10 @@ export function ProductDetail({ product }: { product: Product }) {
         </motion.div>
       </section>
 
-      <Separator className="max-w-[1400px] w-[90%] mx-auto bg-brown/8" />
+      <Separator className="w-[94%] mx-auto bg-brown/8" />
 
       {/* Details Accordion */}
-      <section className="max-w-[1400px] w-[90%] mx-auto py-24">
+      <section className="w-[94%] mx-auto py-24">
         <Accordion type="multiple" className="space-y-2">
           {product.benefices && (
             <AccordionItem value="benefits" className="border border-brown/8 dark:border-brown/10 rounded-2xl px-4">

@@ -13,7 +13,7 @@ export async function Footer() {
     <footer className="bg-navy text-cream-light">
       {/* Top section with CTA strip */}
       <div className="border-b border-cream-light/[0.06]">
-        <div className="max-w-[1400px] w-[90%] mx-auto py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-[94%] mx-auto py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-cream-light/50 text-sm">
             {t("description")}
           </p>
@@ -31,7 +31,7 @@ export async function Footer() {
       </div>
 
       {/* Main footer */}
-      <div className="max-w-[1400px] w-[90%] mx-auto py-16 md:py-20">
+      <div className="w-[94%] mx-auto py-16 md:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
@@ -135,7 +135,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-cream-light/[0.06]">
-        <div className="max-w-[1400px] w-[90%] mx-auto py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-cream-light/30">
+        <div className="w-[94%] mx-auto py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-cream-light/30">
           <p>
             &copy; {currentYear} IES Ingredients. {t("rights")}.
           </p>
