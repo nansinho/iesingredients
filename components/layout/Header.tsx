@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Menu, X, Search, ArrowRight, User, LogOut, Shield } from "lucide-react";
+import { Menu, X, Search, ArrowRight, User, LogOut, Shield, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -18,6 +18,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { SampleCartSheet } from "@/components/cart/SampleCartSheet";
+import { useTheme } from "next-themes";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export function Header() {
@@ -26,10 +27,14 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("nav");
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -104,6 +109,12 @@ export function Header() {
     router.replace(pathname as any, { locale: newLocale });
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  const isDark = theme === "dark";
+
   return (
     <>
       <motion.header
@@ -117,7 +128,7 @@ export function Header() {
             : "bg-transparent"
         )}
       >
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[1400px] w-[90%] mx-auto">
           <nav className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
@@ -142,11 +153,11 @@ export function Header() {
                         "px-4 py-2 text-sm transition-all duration-200 rounded-full",
                         isScrolled
                           ? isActive
-                            ? "font-semibold text-forest-900"
-                            : "text-gray-600 hover:text-gray-900 hover:bg-black/[0.03]"
+                            ? "font-semibold text-dark dark:text-cream-light"
+                            : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                           : isActive
-                            ? "font-semibold text-white"
-                            : "text-white/70 hover:text-white hover:bg-white/[0.08]"
+                            ? "font-semibold text-dark dark:text-cream-light"
+                            : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                       )}
                     >
                       {item.label}
@@ -161,36 +172,37 @@ export function Header() {
               {/* Search */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className={cn(
-                  "p-2 rounded-full transition-colors duration-200",
-                  isScrolled
-                    ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
-                    : "text-white/70 hover:text-white hover:bg-white/[0.08]"
-                )}
+                className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                 aria-label="Search"
               >
                 <Search className="w-[18px] h-[18px]" />
               </button>
 
+              {/* Dark Mode Toggle */}
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
+                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  {isDark ? (
+                    <Sun className="w-[18px] h-[18px]" />
+                  ) : (
+                    <Moon className="w-[18px] h-[18px]" />
+                  )}
+                </button>
+              )}
+
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className={cn(
-                  "px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-200",
-                  isScrolled
-                    ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
-                    : "text-white/70 hover:text-white hover:bg-white/[0.08]"
-                )}
+                className="px-2.5 py-1 text-xs font-medium rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
               >
                 {locale === "fr" ? "EN" : "FR"}
               </button>
 
               {/* Sample Cart */}
-              <div className={cn(
-                isScrolled
-                  ? "[&_button]:text-gray-500 [&_button]:hover:text-gray-900"
-                  : "[&_button]:text-white/70 [&_button]:hover:text-white"
-              )}>
+              <div className="[&_button]:text-dark/60 [&_button]:hover:text-dark dark:[&_button]:text-cream-light/60 dark:[&_button]:hover:text-cream-light">
                 <SampleCartSheet />
               </div>
 
@@ -198,16 +210,11 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className={cn(
-                      "p-2 rounded-full transition-colors duration-200",
-                      isScrolled
-                        ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
-                        : "text-white/70 hover:text-white hover:bg-white/[0.08]"
-                    )}>
+                    <button className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
                       <User className="w-[18px] h-[18px]" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 rounded-xl">
+                  <DropdownMenuContent align="end" className="w-48 rounded-xl bg-white dark:bg-dark-card border-brown/10">
                     <DropdownMenuItem asChild>
                       <Link href="/mon-compte" className="cursor-pointer">
                         <User className="w-4 h-4 mr-2" />
@@ -234,12 +241,7 @@ export function Header() {
                 </DropdownMenu>
               ) : (
                 <Link href="/login">
-                  <button className={cn(
-                    "p-2 rounded-full transition-colors duration-200",
-                    isScrolled
-                      ? "text-gray-500 hover:text-gray-900 hover:bg-black/[0.03]"
-                      : "text-white/70 hover:text-white hover:bg-white/[0.08]"
-                  )}>
+                  <button className="p-2 rounded-full transition-colors duration-200 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5">
                     <User className="w-[18px] h-[18px]" />
                   </button>
                 </Link>
@@ -248,12 +250,7 @@ export function Header() {
               {/* CTA Button - Desktop */}
               <Link href="/contact" className="hidden lg:block ml-2">
                 <Button
-                  className={cn(
-                    "rounded-full h-9 px-6 text-sm font-medium transition-all duration-300",
-                    isScrolled
-                      ? "bg-forest-900 text-white hover:bg-forest-800"
-                      : "bg-gold-500 text-white hover:bg-gold-600 shadow-lg shadow-gold-500/25"
-                  )}
+                  className="rounded-full h-9 px-6 text-sm font-medium bg-peach text-dark hover:bg-peach-dark shadow-sm shadow-peach/20"
                 >
                   {t("requestQuote")}
                 </Button>
@@ -263,12 +260,7 @@ export function Header() {
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild className="lg:hidden">
                   <button
-                    className={cn(
-                      "p-2 rounded-full transition-colors duration-200 ml-1",
-                      isScrolled
-                        ? "text-gray-600 hover:text-gray-900 hover:bg-black/[0.03]"
-                        : "text-white/70 hover:text-white hover:bg-white/[0.08]"
-                    )}
+                    className="p-2 rounded-full transition-colors duration-200 ml-1 text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                     aria-label="Menu"
                   >
                     <Menu className="w-5 h-5" />
@@ -276,7 +268,7 @@ export function Header() {
                 </SheetTrigger>
                 <SheetContent
                   side="right"
-                  className="w-[85vw] max-w-sm bg-white border-gray-200 p-0"
+                  className="w-[85vw] max-w-sm bg-cream-light dark:bg-dark border-brown/10 p-0"
                 >
                   <div className="p-6 h-full flex flex-col">
                     {/* Mobile Header */}
@@ -290,7 +282,7 @@ export function Header() {
                       />
                       <button
                         onClick={() => setIsOpen(false)}
-                        className="p-2 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-colors"
+                        className="p-2 text-dark/40 hover:text-dark dark:text-cream-light/40 dark:hover:text-cream-light rounded-full hover:bg-brown/5 transition-colors"
                       >
                         <X className="w-5 h-5" />
                       </button>
@@ -313,8 +305,8 @@ export function Header() {
                               className={cn(
                                 "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "bg-gold-50 text-forest-900 border border-gold-200"
-                                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                                  ? "bg-peach/15 text-dark dark:text-cream-light border border-peach/30"
+                                  : "text-dark/60 hover:text-dark hover:bg-brown/5 dark:text-cream-light/60 dark:hover:text-cream-light dark:hover:bg-cream-light/5"
                               )}
                             >
                               <span>{item.label}</span>
@@ -322,7 +314,7 @@ export function Header() {
                                 className={cn(
                                   "w-4 h-4 transition-all duration-200",
                                   isActive
-                                    ? "opacity-100 text-gold-600"
+                                    ? "opacity-100 text-peach-dark"
                                     : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
                                 )}
                               />
@@ -333,13 +325,13 @@ export function Header() {
                     </nav>
 
                     {/* Mobile Footer */}
-                    <div className="pt-6 border-t border-gray-100">
+                    <div className="pt-6 border-t border-brown/10">
                       {user ? (
                         <div className="space-y-2">
                           <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
                             <Button
                               variant="outline"
-                              className="w-full h-11 rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50"
+                              className="w-full h-11 rounded-xl border-brown/20 text-dark/70 hover:bg-brown/5 dark:text-cream-light/70 dark:border-brown/15"
                             >
                               <User className="w-4 h-4 mr-2" />
                               {t("myProfile")}
@@ -349,7 +341,7 @@ export function Header() {
                             <Link href="/admin" onClick={() => setIsOpen(false)}>
                               <Button
                                 variant="outline"
-                                className="w-full h-11 rounded-xl border-forest-200 text-forest-700 hover:bg-forest-50"
+                                className="w-full h-11 rounded-xl border-brown/20 text-dark/70 hover:bg-brown/5 dark:text-cream-light/70 dark:border-brown/15"
                               >
                                 <Shield className="w-4 h-4 mr-2" />
                                 {t("admin")}
@@ -359,7 +351,7 @@ export function Header() {
                           <Button
                             variant="ghost"
                             onClick={() => { handleSignOut(); setIsOpen(false); }}
-                            className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50"
+                            className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
                           >
                             <LogOut className="w-4 h-4 mr-2" />
                             {t("signOut")}
@@ -369,7 +361,7 @@ export function Header() {
                         <Link href="/login" onClick={() => setIsOpen(false)}>
                           <Button
                             variant="outline"
-                            className="w-full h-11 rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50"
+                            className="w-full h-11 rounded-xl border-brown/20 text-dark/70 hover:bg-brown/5 dark:text-cream-light/70 dark:border-brown/15"
                           >
                             <User className="w-4 h-4 mr-2" />
                             {t("signIn")}
@@ -381,20 +373,31 @@ export function Header() {
                     {/* Mobile CTA */}
                     <div className="pt-4">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full h-12 rounded-full bg-gold-500 text-white hover:bg-gold-600 font-medium text-sm shadow-lg shadow-gold-500/20">
+                        <Button className="w-full h-12 rounded-full bg-peach text-dark hover:bg-peach-dark font-medium text-sm shadow-lg shadow-peach/20">
                           {t("requestQuote")}
                         </Button>
                       </Link>
 
-                      <button
-                        onClick={() => {
-                          toggleLanguage();
-                          setIsOpen(false);
-                        }}
-                        className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors text-center"
-                      >
-                        {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
-                      </button>
+                      <div className="flex items-center justify-center gap-4 mt-3">
+                        <button
+                          onClick={() => {
+                            toggleLanguage();
+                            setIsOpen(false);
+                          }}
+                          className="py-2 text-sm text-dark/40 hover:text-dark/60 dark:text-cream-light/40 dark:hover:text-cream-light/60 transition-colors"
+                        >
+                          {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
+                        </button>
+
+                        {mounted && (
+                          <button
+                            onClick={toggleTheme}
+                            className="p-2 text-dark/40 hover:text-dark/60 dark:text-cream-light/40 dark:hover:text-cream-light/60 transition-colors rounded-full"
+                          >
+                            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </SheetContent>
@@ -413,7 +416,7 @@ export function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
+              className="fixed inset-0 bg-dark/50 backdrop-blur-sm z-[60]"
               onClick={() => setSearchOpen(false)}
             />
             <motion.div
@@ -423,13 +426,13 @@ export function Header() {
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className="fixed top-[20%] left-1/2 -translate-x-1/2 w-full max-w-xl z-[61] px-4"
             >
-              <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/60 overflow-hidden">
+              <div className="bg-white dark:bg-dark-card rounded-2xl shadow-2xl border border-brown/10 overflow-hidden">
                 <div className="relative flex items-center">
-                  <Search className="absolute left-4 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-4 w-5 h-5 text-brown/50" />
                   <input
                     type="text"
                     placeholder={t("searchPlaceholder")}
-                    className="w-full h-14 pl-12 pr-4 text-base bg-transparent outline-none placeholder:text-gray-400"
+                    className="w-full h-14 pl-12 pr-4 text-base bg-transparent outline-none placeholder:text-brown/40 text-dark dark:text-cream-light"
                     autoFocus
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && e.currentTarget.value) {
@@ -441,12 +444,12 @@ export function Header() {
                       }
                     }}
                   />
-                  <kbd className="absolute right-4 text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-md font-mono">
+                  <kbd className="absolute right-4 text-xs text-brown/40 bg-cream dark:bg-dark-lighter px-2 py-1 rounded-md font-mono">
                     ESC
                   </kbd>
                 </div>
-                <div className="border-t border-gray-100 px-4 py-3">
-                  <p className="text-xs text-gray-400">
+                <div className="border-t border-brown/10 px-4 py-3">
+                  <p className="text-xs text-brown/40">
                     {locale === "fr" ? "Appuyez sur Entrée pour rechercher" : "Press Enter to search"}
                   </p>
                 </div>

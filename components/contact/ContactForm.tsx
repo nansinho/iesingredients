@@ -97,17 +97,17 @@ export function ContactForm() {
 
   return (
     <div>
-      <h2 className="font-serif text-3xl text-forest-900 mb-2">
+      <h2 className="font-playfair italic text-3xl text-dark dark:text-cream-light mb-2">
         {isFr ? "Envoyez-nous un message" : "Send us a message"}
       </h2>
-      <p className="text-forest-600 mb-8">
+      <p className="text-dark/50 dark:text-cream-light/50 mb-8">
         {isFr
           ? "Remplissez le formulaire ci-dessous et nous vous répondrons rapidement."
           : "Fill out the form below and we will get back to you quickly."}
       </p>
 
       {status === "success" && (
-        <div className="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800">
+        <div className="mb-6 p-4 rounded-xl bg-olive/10 border border-olive/20 text-olive-dark dark:text-olive-light">
           <p className="font-medium">
             {isFr ? "Message envoyé avec succès !" : "Message sent successfully!"}
           </p>
@@ -120,7 +120,7 @@ export function ContactForm() {
       )}
 
       {status === "error" && (
-        <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800">
+        <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 text-red-800 dark:text-red-300">
           <p className="font-medium">
             {isFr ? "Erreur lors de l'envoi" : "Error sending message"}
           </p>
@@ -131,7 +131,7 @@ export function ContactForm() {
       )}
 
       {fieldErrors._form && (
-        <div className="mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800">
+        <div className="mb-6 p-4 rounded-xl bg-peach/10 border border-peach/20 text-brown-dark dark:text-peach">
           <p className="font-medium">{fieldErrors._form}</p>
         </div>
       )}
@@ -139,40 +139,40 @@ export function ContactForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName">{isFr ? "Prénom" : "First name"} *</Label>
+            <Label htmlFor="firstName" className="text-dark dark:text-cream-light">{isFr ? "Prénom" : "First name"} *</Label>
             <Input
               id="firstName"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               required
-              className="h-12"
+              className="h-12 border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
               placeholder="Jean"
             />
             {fieldErrors.firstName && (
-              <p className="text-xs text-red-600">{fieldErrors.firstName}</p>
+              <p className="text-xs text-red-600 dark:text-red-400">{fieldErrors.firstName}</p>
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="lastName">{isFr ? "Nom" : "Last name"} *</Label>
+            <Label htmlFor="lastName" className="text-dark dark:text-cream-light">{isFr ? "Nom" : "Last name"} *</Label>
             <Input
               id="lastName"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               required
-              className="h-12"
+              className="h-12 border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
               placeholder="Dupont"
             />
             {fieldErrors.lastName && (
-              <p className="text-xs text-red-600">{fieldErrors.lastName}</p>
+              <p className="text-xs text-red-600 dark:text-red-400">{fieldErrors.lastName}</p>
             )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email" className="text-dark dark:text-cream-light">Email *</Label>
             <Input
               id="email"
               name="email"
@@ -180,22 +180,22 @@ export function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="h-12"
+              className="h-12 border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
               placeholder="jean.dupont@exemple.com"
             />
             {fieldErrors.email && (
-              <p className="text-xs text-red-600">{fieldErrors.email}</p>
+              <p className="text-xs text-red-600 dark:text-red-400">{fieldErrors.email}</p>
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone">{isFr ? "Téléphone" : "Phone"}</Label>
+            <Label htmlFor="phone" className="text-dark dark:text-cream-light">{isFr ? "Téléphone" : "Phone"}</Label>
             <Input
               id="phone"
               name="phone"
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              className="h-12"
+              className="h-12 border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
               placeholder="+33 4 93 00 00 00"
             />
           </div>
@@ -203,35 +203,35 @@ export function ContactForm() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="company">{isFr ? "Entreprise" : "Company"}</Label>
+            <Label htmlFor="company" className="text-dark dark:text-cream-light">{isFr ? "Entreprise" : "Company"}</Label>
             <Input
               id="company"
               name="company"
               value={formData.company}
               onChange={handleChange}
-              className="h-12"
+              className="h-12 border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
               placeholder={isFr ? "Votre entreprise" : "Your company"}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="subject">{isFr ? "Sujet" : "Subject"} *</Label>
+            <Label htmlFor="subject" className="text-dark dark:text-cream-light">{isFr ? "Sujet" : "Subject"} *</Label>
             <Input
               id="subject"
               name="subject"
               value={formData.subject}
               onChange={handleChange}
               required
-              className="h-12"
+              className="h-12 border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
               placeholder={isFr ? "Objet de votre message" : "Subject of your message"}
             />
             {fieldErrors.subject && (
-              <p className="text-xs text-red-600">{fieldErrors.subject}</p>
+              <p className="text-xs text-red-600 dark:text-red-400">{fieldErrors.subject}</p>
             )}
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="message">Message *</Label>
+          <Label htmlFor="message" className="text-dark dark:text-cream-light">Message *</Label>
           <Textarea
             id="message"
             name="message"
@@ -239,7 +239,7 @@ export function ContactForm() {
             onChange={handleChange}
             required
             rows={6}
-            className="resize-none"
+            className="resize-none border-brown/15 dark:border-brown/10 bg-white dark:bg-dark focus:border-brown/30 rounded-xl"
             placeholder={
               isFr
                 ? "Décrivez votre projet ou posez-nous vos questions..."
@@ -247,19 +247,19 @@ export function ContactForm() {
             }
           />
           {fieldErrors.message && (
-            <p className="text-xs text-red-600">{fieldErrors.message}</p>
+            <p className="text-xs text-red-600 dark:text-red-400">{fieldErrors.message}</p>
           )}
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-          <p className="text-xs text-forest-500">
+          <p className="text-xs text-dark/40 dark:text-cream-light/40">
             * {isFr ? "Champs obligatoires" : "Required fields"}
           </p>
           <Button
             type="submit"
             disabled={isSubmitting}
             size="lg"
-            className="w-full sm:w-auto bg-forest-900 hover:bg-forest-800 text-white rounded-full px-8"
+            className="w-full sm:w-auto bg-peach hover:bg-peach-dark text-dark rounded-full px-8"
           >
             {isSubmitting ? (
               <>

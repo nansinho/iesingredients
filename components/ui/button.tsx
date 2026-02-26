@@ -14,15 +14,19 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 rounded-full",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground rounded-full",
+          "border border-brown/30 bg-background shadow-sm hover:bg-cream hover:text-dark rounded-full",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 rounded-full",
-        ghost: "hover:bg-accent hover:text-accent-foreground rounded-full",
-        link: "text-primary underline-offset-4 hover:underline",
+        ghost: "hover:bg-brown/10 hover:text-dark rounded-full",
+        link: "text-brown underline-offset-4 hover:underline",
+        peach:
+          "bg-peach text-dark shadow-md shadow-peach/20 hover:bg-peach-dark hover:shadow-lg hover:shadow-peach/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
+        "outline-brown":
+          "border-[1.5px] border-brown text-brown hover:bg-brown hover:text-white hover:scale-[1.02] active:scale-[0.98] rounded-full",
         premium:
-          "bg-forest-900 text-white shadow-md hover:bg-forest-800 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] rounded-full",
+          "bg-dark text-cream-light shadow-md hover:bg-dark-lighter hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] rounded-full",
         blush:
-          "bg-gold-500 text-white shadow-md shadow-gold-500/20 hover:bg-gold-600 hover:shadow-lg hover:shadow-gold-500/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
+          "bg-peach text-dark shadow-md shadow-peach/20 hover:bg-peach-dark hover:shadow-lg hover:shadow-peach/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
       },
       size: {
         default: "h-10 px-5 py-2",

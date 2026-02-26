@@ -46,8 +46,8 @@ export function LatestPublications() {
   const t = useTranslations("latestPublications");
 
   return (
-    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 section-rose-light">
-      <div className="max-w-[100rem] mx-auto">
+    <section className="py-24 md:py-32 bg-cream-light dark:bg-dark">
+      <div className="max-w-[1400px] w-[90%] mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -57,19 +57,16 @@ export function LatestPublications() {
           className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-14 gap-4"
         >
           <div>
-            <span className="inline-block text-xs uppercase tracking-[0.2em] text-gold-500 font-semibold mb-4">
-              Blog & Actualités
-            </span>
             <div className="flex mb-5">
-              <div className="divider-gold" />
+              <div className="divider-brown" />
             </div>
-            <h2 className="text-forest-950 tracking-tight">
-              {t("title")}
+            <h2 className="text-dark dark:text-cream-light tracking-tight">
+              Dernières <span className="font-playfair italic text-brown">publications</span>
             </h2>
           </div>
           <Link
             href="/actualites"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-gold-500 hover:text-gold-600 hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-brown hover:text-peach-dark hover:gap-3 transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />
@@ -87,10 +84,10 @@ export function LatestPublications() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Link href="/actualites" className="group block">
-                <div className="bg-white rounded-[20px] overflow-hidden border border-forest-100 hover:border-gold-500/40 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2">
-                  {/* Image with padding */}
+                <div className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.1)] hover:-translate-y-2">
+                  {/* Image */}
                   <div className="p-3 sm:p-4">
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-[10px]">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
                       <Image
                         src={article.image}
                         alt={article.title}
@@ -98,9 +95,9 @@ export function LatestPublications() {
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
                       <div className="absolute top-3 left-3">
-                        <span className="px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-semibold text-forest-700 shadow-sm">
+                        <span className="px-3 py-1.5 rounded-full bg-cream-light/95 backdrop-blur-md text-[11px] font-semibold text-dark shadow-sm">
                           {article.category}
                         </span>
                       </div>
@@ -109,20 +106,20 @@ export function LatestPublications() {
 
                   {/* Content */}
                   <div className="px-5 sm:px-6 pb-6 pt-1">
-                    <p className="text-xs text-gold-500 mb-2 font-semibold uppercase tracking-wider">
+                    <p className="text-xs text-olive mb-2 font-semibold uppercase tracking-wider">
                       {new Date(article.date).toLocaleDateString("fr-FR", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
                     </p>
-                    <h3 className="text-base font-bold text-forest-950 group-hover:text-gold-500 transition-colors line-clamp-2 mb-2.5 leading-snug">
+                    <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-brown transition-colors line-clamp-2 mb-2.5 leading-snug">
                       {article.title}
                     </h3>
-                    <p className="text-sm text-forest-400 line-clamp-2 leading-relaxed">
+                    <p className="text-sm text-dark/50 dark:text-cream-light/50 line-clamp-2 leading-relaxed">
                       {article.excerpt}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold-500 mt-4 group-hover:gap-2.5 transition-all duration-300">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brown mt-4 group-hover:gap-2.5 transition-all duration-300">
                       {t("readMore")}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -137,7 +134,7 @@ export function LatestPublications() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/actualites"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gold-500 hover:text-gold-600 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-brown hover:text-peach-dark transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />

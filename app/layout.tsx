@@ -6,11 +6,11 @@ import "./globals.css";
 // NOTE: When deployed on VPS with internet access, replace this file's
 // font setup with next/font/google for optimal performance:
 //
-//   import { Inter, Cormorant_Garamond } from "next/font/google";
-//   const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-//   const cormorant = Cormorant_Garamond({ subsets: ["latin"], variable: "--font-cormorant", display: "swap", weight: ["400", "500", "600", "700"] });
+//   import { DM_Sans, Playfair_Display } from "next/font/google";
+//   const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
+//   const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap", weight: ["400", "500", "600", "700"] });
 //
-// And add className={`${inter.variable} ${cormorant.variable}`} to <html>.
+// And add className={`${dmSans.variable} ${playfair.variable}`} to <html>.
 // This will enable self-hosted Google Fonts with zero CLS.
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ies-ingredients.com";
@@ -20,8 +20,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0a2e1f" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a2e1f" },
+    { media: "(prefers-color-scheme: light)", color: "#fff5eb" },
+    { media: "(prefers-color-scheme: dark)", color: "#2d2a26" },
   ],
 };
 
@@ -102,13 +102,18 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* Google Fonts - loaded via link tag for now.
-            Will be replaced by next/font/google when deployed on VPS. */}
+        {/* Google Fonts — DM Sans (body) + Playfair Display (accent) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
+        />
+        {/* Dark mode FOUC prevention — set class before paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark')}else{d.classList.remove('dark')}}catch(e){}})()`,
+          }}
         />
       </head>
       <body className="font-sans antialiased">
