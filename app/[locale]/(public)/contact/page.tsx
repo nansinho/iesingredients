@@ -81,7 +81,7 @@ export default async function ContactPage({
         <div className="max-w-[1100px] w-[90%] mx-auto">
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <StaggerItem>
-              <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(216,138,160,0.08)] hover:shadow-[0_12px_40px_rgba(216,138,160,0.14)] hover:-translate-y-0.5 transition-all duration-300 group">
+              <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] hover:shadow-[0_12px_40px_rgba(200,168,168,0.14)] hover:-translate-y-0.5 transition-all duration-300 group">
                 <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Mail className="w-4.5 h-4.5 text-peach-dark" />
                 </div>
@@ -92,7 +92,7 @@ export default async function ContactPage({
               </a>
             </StaggerItem>
             <StaggerItem>
-              <a href="tel:+33493000000" className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(216,138,160,0.08)] hover:shadow-[0_12px_40px_rgba(216,138,160,0.14)] hover:-translate-y-0.5 transition-all duration-300 group">
+              <a href="tel:+33493000000" className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] hover:shadow-[0_12px_40px_rgba(200,168,168,0.14)] hover:-translate-y-0.5 transition-all duration-300 group">
                 <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Phone className="w-4.5 h-4.5 text-peach-dark" />
                 </div>
@@ -103,7 +103,7 @@ export default async function ContactPage({
               </a>
             </StaggerItem>
             <StaggerItem>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(216,138,160,0.08)] group">
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] group">
                 <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0">
                   <MapPin className="w-4.5 h-4.5 text-peach-dark" />
                 </div>
@@ -114,7 +114,7 @@ export default async function ContactPage({
               </div>
             </StaggerItem>
             <StaggerItem>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(216,138,160,0.08)] group">
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] group">
                 <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0">
                   <Clock className="w-4.5 h-4.5 text-peach-dark" />
                 </div>
@@ -136,7 +136,7 @@ export default async function ContactPage({
         <div className="w-[94%] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Form — main column */}
           <AnimateIn delay={0.1} y={30} className="lg:col-span-3">
-            <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 md:p-10 border border-brown/8 dark:border-brown/10 shadow-[0_8px_40px_rgba(216,138,160,0.06)]">
+            <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 md:p-10 border border-brown/8 dark:border-brown/10 shadow-[0_8px_40px_rgba(200,168,168,0.06)]">
               <ContactForm />
             </div>
           </AnimateIn>
