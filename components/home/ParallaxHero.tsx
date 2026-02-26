@@ -62,7 +62,7 @@ export function ParallaxHero() {
   }, [emblaApi]);
 
   return (
-    <section className="pt-20 sm:pt-24 pb-0 bg-cream-light dark:bg-dark relative overflow-hidden">
+    <section className="pt-24 sm:pt-28 pb-0 bg-cream-light dark:bg-dark relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/4" />
       <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />

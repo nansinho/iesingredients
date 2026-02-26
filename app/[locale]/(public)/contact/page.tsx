@@ -49,7 +49,7 @@ export default async function ContactPage({
       />
 
       {/* Hero */}
-      <section className="bg-dark pt-28 sm:pt-32 pb-20 relative overflow-hidden">
+      <section className="bg-dark pt-32 sm:pt-36 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 

@@ -101,7 +101,7 @@ export default async function ArticlePage({
       />
 
       {/* Hero */}
-      <section className="bg-dark pt-28 sm:pt-32 pb-12 relative overflow-hidden">
+      <section className="bg-dark pt-32 sm:pt-36 pb-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-peach/5 rounded-full blur-[150px]" />
 
         <div className="max-w-[900px] w-[90%] mx-auto relative z-10">
