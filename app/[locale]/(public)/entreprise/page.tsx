@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Shield, Award, Globe, Users, Leaf, Heart, Building2 } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
 
 export async function generateMetadata({
   params,
@@ -62,18 +63,24 @@ export default async function CompanyPage({
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
-            <Building2 className="w-3.5 h-3.5" />
-            {isFr ? "Notre histoire" : "Our story"}
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
-            IES <span className="font-playfair italic text-peach">Ingredients</span>
-          </h1>
-          <p className="text-cream-light/50 text-lg max-w-3xl">
-            {isFr
-              ? "Depuis 1994, nous sélectionnons et distribuons les meilleurs ingrédients naturels pour l'industrie cosmétique, la parfumerie et l'agroalimentaire."
-              : "Since 1994, we have been selecting and distributing the finest natural ingredients for the cosmetic industry, perfumery and food industry."}
-          </p>
+          <AnimateIn>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+              <Building2 className="w-3.5 h-3.5" />
+              {isFr ? "Notre histoire" : "Our story"}
+            </span>
+          </AnimateIn>
+          <AnimateIn delay={0.1} y={30}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+              IES <span className="font-playfair italic text-peach">Ingredients</span>
+            </h1>
+          </AnimateIn>
+          <AnimateIn delay={0.2}>
+            <p className="text-cream-light/50 text-lg max-w-3xl">
+              {isFr
+                ? "Depuis 1994, nous sélectionnons et distribuons les meilleurs ingrédients naturels pour l'industrie cosmétique, la parfumerie et l'agroalimentaire."
+                : "Since 1994, we have been selecting and distributing the finest natural ingredients for the cosmetic industry, perfumery and food industry."}
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
@@ -81,16 +88,18 @@ export default async function CompanyPage({
       <section className="py-24 md:py-32 bg-white dark:bg-dark relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
-          <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10">
-            <Image
-              src="/images/botanicals-flat.jpg"
-              alt={isFr ? "Ingrédients botaniques" : "Botanical ingredients"}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
-          <div>
+          <AnimateIn y={30}>
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10">
+              <Image
+                src="/images/botanicals-flat.jpg"
+                alt={isFr ? "Ingrédients botaniques" : "Botanical ingredients"}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+          </AnimateIn>
+          <AnimateIn delay={0.15} y={30}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brown/8 border border-brown/12 text-brown text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               {isFr ? "Notre mission" : "Our mission"}
             </span>
@@ -110,7 +119,7 @@ export default async function CompanyPage({
                   : "Based in Nice, in the heart of the French Riviera, we benefit from an ideal geographic position to serve the beauty and flavor industries internationally."}
               </p>
             </div>
-          </div>
+          </AnimateIn>
         </div>
       </section>
 
@@ -120,7 +129,7 @@ export default async function CompanyPage({
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
 
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
-          <div className="text-center mb-14">
+          <AnimateIn className="text-center mb-14">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Award className="w-3.5 h-3.5" />
               {isFr ? "Nos valeurs" : "Our values"}
@@ -129,45 +138,46 @@ export default async function CompanyPage({
               {isFr ? "Ce Qui Nous" : "What Drives"}{" "}
               <span className="font-playfair italic text-peach">{isFr ? "Anime" : "Us"}</span>.
             </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          </AnimateIn>
+          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {values.map((v) => (
-              <div
-                key={v.titleFr}
-                className="bg-cream-light/[0.04] backdrop-blur-sm rounded-2xl p-6 border border-cream-light/[0.06] hover:border-brown/30 hover:bg-cream-light/[0.06] transition-all duration-500 group"
-              >
-                <div className="w-11 h-11 rounded-xl bg-peach/15 border border-peach/25 flex items-center justify-center mb-4 group-hover:bg-peach/25 transition-all duration-300">
-                  <v.icon className="w-5 h-5 text-peach" />
-                </div>
-                <h3 className="font-bold text-cream-light mb-1.5 text-sm">
-                  {isFr ? v.titleFr : v.titleEn}
-                </h3>
-                <p className="text-sm text-cream-light/40 leading-relaxed">
-                  {isFr ? v.descFr : v.descEn}
-                </p>
-              </div>
+              <StaggerItem key={v.titleFr}>
+                <HoverLift>
+                  <div className="bg-cream-light/[0.04] backdrop-blur-sm rounded-2xl p-6 border border-cream-light/[0.06] hover:border-brown/30 hover:bg-cream-light/[0.06] transition-all duration-500 group">
+                    <div className="w-11 h-11 rounded-xl bg-peach/15 border border-peach/25 flex items-center justify-center mb-4 group-hover:bg-peach/25 transition-all duration-300">
+                      <v.icon className="w-5 h-5 text-peach" />
+                    </div>
+                    <h3 className="font-bold text-cream-light mb-1.5 text-sm">
+                      {isFr ? v.titleFr : v.titleEn}
+                    </h3>
+                    <p className="text-sm text-cream-light/40 leading-relaxed">
+                      {isFr ? v.descFr : v.descEn}
+                    </p>
+                  </div>
+                </HoverLift>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
         </div>
       </section>
 
       {/* Stats */}
       <section className="py-24 md:py-32 bg-white dark:bg-dark">
-        <div className="max-w-[1400px] w-[90%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <StaggerGrid className="max-w-[1400px] w-[90%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: "30+", labelFr: "Ans d'expertise", labelEn: "Years of expertise" },
             { value: "5000+", labelFr: "Ingrédients", labelEn: "Ingredients" },
             { value: "50+", labelFr: "Pays livrés", labelEn: "Countries served" },
             { value: "500+", labelFr: "Clients actifs", labelEn: "Active clients" },
           ].map((stat) => (
-            <div key={stat.value}>
+            <StaggerItem key={stat.value}>
               <p className="text-4xl md:text-5xl font-black text-peach leading-none">{stat.value}</p>
               <p className="text-dark/50 dark:text-cream-light/50 mt-2 text-sm font-medium">
                 {isFr ? stat.labelFr : stat.labelEn}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </section>
     </>
   );

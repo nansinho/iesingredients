@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Users } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
 
 export async function generateMetadata({
   params,
@@ -60,19 +61,25 @@ export default async function TeamPage({
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
         <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
-            <Users className="w-3.5 h-3.5" />
-            {isFr ? "Les personnes derrière IES" : "The people behind IES"}
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
-            {isFr ? "Notre" : "Our"}{" "}
-            <span className="font-playfair italic text-peach">{isFr ? "Équipe" : "Team"}</span>
-          </h1>
-          <p className="text-cream-light/50 text-lg max-w-2xl">
-            {isFr
-              ? "Une équipe passionnée d'experts en ingrédients naturels, au service de votre réussite."
-              : "A passionate team of natural ingredient experts, dedicated to your success."}
-          </p>
+          <AnimateIn>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+              <Users className="w-3.5 h-3.5" />
+              {isFr ? "Les personnes derrière IES" : "The people behind IES"}
+            </span>
+          </AnimateIn>
+          <AnimateIn delay={0.1} y={30}>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+              {isFr ? "Notre" : "Our"}{" "}
+              <span className="font-playfair italic text-peach">{isFr ? "Équipe" : "Team"}</span>
+            </h1>
+          </AnimateIn>
+          <AnimateIn delay={0.2}>
+            <p className="text-cream-light/50 text-lg max-w-2xl">
+              {isFr
+                ? "Une équipe passionnée d'experts en ingrédients naturels, au service de votre réussite."
+                : "A passionate team of natural ingredient experts, dedicated to your success."}
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
@@ -80,44 +87,48 @@ export default async function TeamPage({
       <section className="py-24 md:py-32 bg-white dark:bg-dark">
         <div className="max-w-[1400px] w-[90%] mx-auto">
           {members && members.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {members.map((member: any) => (
-                <div
-                  key={member.id}
-                  className="group rounded-2xl overflow-hidden bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:shadow-xl transition-all duration-500"
-                >
-                  <div className="aspect-[3/4] relative bg-cream dark:bg-dark">
-                    {member.photo_url ? (
-                      <Image
-                        src={member.photo_url}
-                        alt={member.name || ""}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-4xl font-playfair italic text-brown/30">
-                          {(member.name || "?").charAt(0)}
-                        </span>
+                <StaggerItem key={member.id}>
+                  <HoverLift>
+                    <div className="group rounded-2xl overflow-hidden bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:shadow-[0_20px_60px_rgba(163,123,104,0.1)] transition-all duration-500">
+                      <div className="p-3">
+                        <div className="aspect-[3/4] relative overflow-hidden rounded-xl bg-cream dark:bg-dark">
+                          {member.photo_url ? (
+                            <Image
+                              src={member.photo_url}
+                              alt={member.name || ""}
+                              fill
+                              className="object-cover transition-transform duration-700 group-hover:scale-110"
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <span className="text-4xl font-playfair italic text-brown/30">
+                                {(member.name || "?").charAt(0)}
+                              </span>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-dark/20 to-transparent" />
+                        </div>
                       </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-semibold text-xl text-dark dark:text-cream-light">{member.name}</h3>
-                    <p className="text-brown dark:text-peach text-sm mt-1">
-                      {isFr ? member.role_fr || member.role : member.role_en || member.role}
-                    </p>
-                    {member.bio && (
-                      <p className="text-dark/50 dark:text-cream-light/50 text-sm mt-3 leading-relaxed line-clamp-3">
-                        {isFr ? member.bio_fr || member.bio : member.bio_en || member.bio}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                      <div className="px-5 pb-5 pt-1">
+                        <h3 className="font-semibold text-xl text-dark dark:text-cream-light">{member.name}</h3>
+                        <p className="text-brown dark:text-peach text-sm mt-1">
+                          {isFr ? member.role_fr || member.role : member.role_en || member.role}
+                        </p>
+                        {member.bio && (
+                          <p className="text-dark/50 dark:text-cream-light/50 text-sm mt-3 leading-relaxed line-clamp-3">
+                            {isFr ? member.bio_fr || member.bio : member.bio_en || member.bio}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </HoverLift>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGrid>
           ) : (
             <div className="text-center py-20">
               <p className="text-dark/50 dark:text-cream-light/50">

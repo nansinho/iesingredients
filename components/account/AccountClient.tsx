@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 interface Profile {
   id: string;
@@ -189,7 +190,8 @@ export function AccountClient({
               <Button
                 type="submit"
                 disabled={isUpdating}
-                className="bg-peach hover:bg-peach-dark text-dark rounded-full px-8"
+                variant="peach"
+                size="lg"
               >
                 {isUpdating ? (
                   <>
@@ -208,7 +210,12 @@ export function AccountClient({
       <TabsContent value="requests">
         <div className="space-y-4">
           {requests.length === 0 ? (
-            <div className="text-center py-16 bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center py-16 bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10"
+            >
               <Package className="w-12 h-12 text-brown/30 mx-auto mb-4" />
               <p className="text-dark/60 dark:text-cream-light/60 text-lg">
                 {isFr ? "Aucune demande d'échantillon" : "No sample requests yet"}
@@ -218,12 +225,15 @@ export function AccountClient({
                   ? "Parcourez notre catalogue pour demander des échantillons."
                   : "Browse our catalog to request samples."}
               </p>
-            </div>
+            </motion.div>
           ) : (
-            requests.map((req) => (
-              <div
+            requests.map((req, index) => (
+              <motion.div
                 key={req.id}
-                className="bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10 p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                className="bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10 p-6 hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div>
@@ -268,7 +278,7 @@ export function AccountClient({
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))
           )}
         </div>

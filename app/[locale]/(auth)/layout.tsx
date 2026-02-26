@@ -2,6 +2,7 @@ import Image from "next/image";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Link } from "@/i18n/routing";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default async function AuthLayout({
   children,
@@ -20,20 +21,22 @@ export default async function AuthLayout({
             alt="Natural ingredients"
             fill
             priority
-            className="object-cover"
+            className="object-cover animate-kenburns"
             sizes="50vw"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-dark/80 via-dark/50 to-dark/70" />
 
           {/* Brand overlay */}
           <div className="absolute inset-0 flex flex-col justify-between p-12 z-10">
-            <Link
-              href="/"
-              className="font-playfair italic text-3xl text-cream-light hover:text-peach transition-colors"
-            >
-              IES Ingredients
-            </Link>
-            <div>
+            <AnimateIn delay={0.3}>
+              <Link
+                href="/"
+                className="font-playfair italic text-3xl text-cream-light hover:text-peach transition-colors"
+              >
+                IES Ingredients
+              </Link>
+            </AnimateIn>
+            <AnimateIn delay={0.5} y={15}>
               <p className="text-cream-light/80 text-lg leading-relaxed max-w-md">
                 Natural ingredients for cosmetics, perfumery &amp; food flavors since 1994.
               </p>
@@ -46,7 +49,7 @@ export default async function AuthLayout({
                 <span className="text-cream-light/15">&middot;</span>
                 <span>ISO 9001</span>
               </div>
-            </div>
+            </AnimateIn>
           </div>
         </div>
 
@@ -64,7 +67,9 @@ export default async function AuthLayout({
 
           {/* Centered content */}
           <main className="flex-1 flex items-center justify-center px-6 pb-16">
-            {children}
+            <AnimateIn y={25} delay={0.1} className="w-full max-w-md">
+              {children}
+            </AnimateIn>
           </main>
 
           {/* Decorative background blobs */}
