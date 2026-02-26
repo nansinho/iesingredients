@@ -62,7 +62,7 @@ export function ProductCard({ product }: { product: Product }) {
       <motion.article
         whileHover={{ y: -6 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative h-full rounded-2xl border border-brown/8 dark:border-brown/10 overflow-hidden bg-white dark:bg-dark-card hover:shadow-[0_20px_60px_rgba(168,140,100,0.1)] hover:border-brown/20 transition-all duration-500 flex flex-col"
+        className="relative h-full rounded-2xl border border-brown/8 dark:border-brown/10 overflow-hidden bg-white dark:bg-dark-card hover:shadow-[0_20px_60px_rgba(216,138,160,0.1)] hover:border-brown/20 transition-all duration-500 flex flex-col"
       >
         {/* Image — padded pattern */}
         <div className="p-3">

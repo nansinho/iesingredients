@@ -45,7 +45,7 @@ export function HomeContactForm() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-3"
           >
-            <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 border border-brown/8 dark:border-brown/10 shadow-[0_4px_30px_rgba(168,140,100,0.04)]">
+            <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 border border-brown/8 dark:border-brown/10 shadow-[0_4px_30px_rgba(216,138,160,0.04)]">
               <ContactForm />
             </div>
           </motion.div>

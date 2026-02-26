@@ -15,7 +15,7 @@ const universes = [
     count: "2 000+",
     countLabel: "actifs",
     verticalTitle: "Cosmétique",
-    accent: "#887ca0",
+    accent: "#d88aa0",
   },
   {
     titleKey: "perfume" as const,
@@ -25,7 +25,7 @@ const universes = [
     count: "1 500+",
     countLabel: "essences",
     verticalTitle: "Parfumerie",
-    accent: "#c89c72",
+    accent: "#9888b4",
   },
   {
     titleKey: "aroma" as const,
@@ -35,7 +35,7 @@ const universes = [
     count: "1 500+",
     countLabel: "arômes",
     verticalTitle: "Arômes",
-    accent: "#9cb090",
+    accent: "#a8c8bc",
   },
 ];
 
