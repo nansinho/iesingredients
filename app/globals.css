@@ -46,7 +46,7 @@
 
   /* ---- Brand palette — Nude & Terracotta Accent ---- */
   --color-cream-light: #f8f0e8;
-  --color-cream: #e3cd8b;
+  --color-cream: #febb5f;
   --color-cream-dark: #e0ccc0;
   --color-dark: #181818;
   --color-dark-card: #222222;
@@ -68,7 +68,7 @@
   --color-navy: #181818;
   --color-charcoal: #2c2c2c;
   --color-forest-green: #b47068;
-  --color-mint: #e3cd8b;
+  --color-mint: #febb5f;
   --color-blue-mist: #c8a8a8;
   --color-sage: #cc8860;
 
@@ -81,7 +81,7 @@
   --color-forest-500: #b47068;
   --color-forest-400: #cc8860;
   --color-forest-300: #c8a8a8;
-  --color-forest-200: #e3cd8b;
+  --color-forest-200: #febb5f;
   --color-forest-100: #f2e8e0;
   --color-forest-50: #f8f0e8;
   --color-gold-950: #3d2010;
@@ -92,7 +92,7 @@
   --color-gold-500: #c8a8a8;
   --color-gold-400: #d8bcc0;
   --color-gold-300: #e0ccc0;
-  --color-gold-200: #e3cd8b;
+  --color-gold-200: #febb5f;
   --color-gold-100: #f2e8e0;
   --color-gold-50: #f8f0e8;
   --color-navy-900: #181818;
@@ -100,11 +100,11 @@
   --color-navy-700: #2c2c2c;
   --color-navy-600: #3d3d3d;
   --color-cream-50: #f8f0e8;
-  --color-cream-100: #e3cd8b;
+  --color-cream-100: #febb5f;
   --color-cream-200: #e0ccc0;
   --color-cream-300: #d8bcc0;
   --color-apple-gray-50: #f8f0e8;
-  --color-apple-gray-100: #e3cd8b;
+  --color-apple-gray-100: #febb5f;
   --color-apple-gray-200: #e0ccc0;
   --color-apple-gray-300: #c8a8a8;
   --color-apple-dark: #181818;
@@ -228,7 +228,7 @@
   --primary: 0 0% 9%;
   --primary-foreground: 30 50% 94%;
 
-  --secondary: 46 60% 72%;
+  --secondary: 35 99% 68%;
   --secondary-foreground: 0 0% 9%;
 
   --muted: 25 40% 88%;
@@ -250,7 +250,7 @@
   --chart-1: 22 52% 59%;
   --chart-2: 6 34% 56%;
   --chart-3: 0 25% 72%;
-  --chart-4: 46 60% 72%;
+  --chart-4: 35 99% 68%;
   --chart-5: 30 50% 94%;
 
   /* Sidebar */
@@ -278,7 +278,7 @@
   --primary-foreground: 0 0% 9%;
 
   --secondary: 0 0% 13%;
-  --secondary-foreground: 46 60% 72%;
+  --secondary-foreground: 35 99% 68%;
 
   --muted: 0 0% 13%;
   --muted-foreground: 25 30% 60%;
@@ -293,7 +293,7 @@
   --input: 0 0% 18%;
   --ring: 22 52% 59%;
 
-  --chart-1: 46 60% 72%;
+  --chart-1: 35 99% 68%;
   --chart-2: 22 52% 59%;
   --chart-3: 6 34% 56%;
   --chart-4: 0 25% 72%;
