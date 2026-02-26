@@ -44,7 +44,7 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-24 md:py-32 bg-olive-bright">
+    <section className="py-24 md:py-32 bg-forest-green">
       <div className="max-w-[1400px] w-[90%] mx-auto">
         {/* Section Header */}
         <motion.div
@@ -55,7 +55,7 @@ export function ThreeUniverses() {
           className="text-center mb-12 sm:mb-16"
         >
           <h2 className="text-white tracking-[-0.02em]">
-            Trois univers. Une <span className="font-playfair italic text-dark">expertise</span>.
+            Trois univers. Une <span className="font-playfair italic text-mint">expertise</span>.
           </h2>
           <p className="text-white/70 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
             {t("subtitle")}

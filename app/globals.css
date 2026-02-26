@@ -64,12 +64,13 @@
   --color-lavender-light: #d6cee4;
   --color-lavender-dark: #8f81a8;
 
-  /* Fun theme palette — green */
-  --color-navy: #4A5A38;
-  --color-olive-bright: #8AAD18;
-  --color-lime: #B5C85A;
-  --color-sage: #C5CCA0;
-  --color-gray-light: #D6D8D2;
+  /* Vert Nature palette */
+  --color-navy: #181818;
+  --color-charcoal: #3C3C3C;
+  --color-forest-green: #556B5A;
+  --color-mint: #C8DCC8;
+  --color-blue-mist: #B0BEC5;
+  --color-sage: #B5B8A3;
 
   /* Legacy color aliases — maps old tokens to new palette for non-homepage pages */
   --color-forest-950: #2d2a26;
@@ -407,12 +408,12 @@
 .glass-nav {
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
-  background: rgba(74, 90, 56, 0.95);
+  background: rgba(24, 24, 24, 0.95);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .dark .glass-nav {
-  background: rgba(74, 90, 56, 0.95);
+  background: rgba(24, 24, 24, 0.95);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 

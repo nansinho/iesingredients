@@ -20,13 +20,13 @@ const buttonVariants = cva(
         ghost: "hover:bg-brown/10 hover:text-dark rounded-full",
         link: "text-brown underline-offset-4 hover:underline",
         peach:
-          "bg-olive-bright text-white shadow-md shadow-olive-bright/20 hover:bg-lime hover:shadow-lg hover:shadow-olive-bright/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
+          "bg-forest-green text-white shadow-md shadow-forest-green/20 hover:bg-charcoal hover:shadow-lg hover:shadow-forest-green/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
         "outline-brown":
-          "border-[1.5px] border-navy text-navy hover:bg-navy hover:text-white hover:scale-[1.02] active:scale-[0.98] rounded-full",
+          "border-[1.5px] border-forest-green text-forest-green hover:bg-forest-green hover:text-white hover:scale-[1.02] active:scale-[0.98] rounded-full",
         premium:
           "bg-dark text-cream-light shadow-md hover:bg-dark-lighter hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] rounded-full",
         blush:
-          "bg-olive-bright text-white shadow-md shadow-olive-bright/20 hover:bg-lime hover:shadow-lg hover:shadow-olive-bright/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
+          "bg-forest-green text-white shadow-md shadow-forest-green/20 hover:bg-charcoal hover:shadow-lg hover:shadow-forest-green/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
       },
       size: {
         default: "h-10 px-5 py-2",
