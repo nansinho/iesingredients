@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Shield, Award, Globe, Users, Leaf, Heart } from "lucide-react";
+import { Shield, Award, Globe, Users, Leaf, Heart, Building2 } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
@@ -57,15 +57,19 @@ export default async function CompanyPage({
       />
 
       {/* Hero */}
-      <section className="bg-forest-950 pt-28 sm:pt-32 pb-16">
-        <div className="container-luxe">
-          <span className="text-gold-400 text-sm uppercase tracking-widest font-medium mb-4 block">
+      <section className="bg-dark pt-28 sm:pt-32 pb-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+
+        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <Building2 className="w-3.5 h-3.5" />
             {isFr ? "Notre histoire" : "Our story"}
           </span>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            {isFr ? "IES Ingredients" : "IES Ingredients"}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+            IES <span className="font-playfair italic text-peach">Ingredients</span>
           </h1>
-          <p className="text-cream-200 text-lg max-w-3xl">
+          <p className="text-cream-light/50 text-lg max-w-3xl">
             {isFr
               ? "Depuis 1994, nous sélectionnons et distribuons les meilleurs ingrédients naturels pour l'industrie cosmétique, la parfumerie et l'agroalimentaire."
               : "Since 1994, we have been selecting and distributing the finest natural ingredients for the cosmetic industry, perfumery and food industry."}
@@ -74,9 +78,10 @@ export default async function CompanyPage({
       </section>
 
       {/* Mission */}
-      <section className="py-24 px-4 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div className="relative aspect-[4/5] rounded-3xl overflow-hidden">
+      <section className="py-24 md:py-32 bg-white dark:bg-dark relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
+        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
+          <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10">
             <Image
               src="/images/botanicals-flat.jpg"
               alt={isFr ? "Ingrédients botaniques" : "Botanical ingredients"}
@@ -86,13 +91,14 @@ export default async function CompanyPage({
             />
           </div>
           <div>
-            <span className="text-gold-600 text-sm uppercase tracking-widest font-medium">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brown/8 border border-brown/12 text-brown text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               {isFr ? "Notre mission" : "Our mission"}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-forest-900 mt-4 mb-6">
-              {isFr ? "L'Excellence au Service de la Nature" : "Excellence in Service of Nature"}
+            <h2 className="text-dark dark:text-cream-light tracking-tight mt-4 mb-6">
+              {isFr ? "L'Excellence au Service de la" : "Excellence in Service of"}{" "}
+              <span className="font-playfair italic text-brown">{isFr ? "Nature" : "Nature"}</span>.
             </h2>
-            <div className="space-y-4 text-forest-700 text-lg leading-relaxed">
+            <div className="space-y-4 text-dark/60 dark:text-cream-light/50 text-lg leading-relaxed">
               <p>
                 {isFr
                   ? "IES Ingredients est un distributeur B2B spécialisé dans les ingrédients naturels de haute qualité. Notre expertise couvre trois domaines clés : la cosmétique, la parfumerie et les arômes alimentaires."
@@ -109,27 +115,34 @@ export default async function CompanyPage({
       </section>
 
       {/* Values */}
-      <section className="py-24 px-4 bg-forest-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-gold-400 text-sm uppercase tracking-widest font-medium mb-4 block">
+      <section className="py-24 md:py-32 bg-dark relative overflow-hidden">
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brown/5 rounded-full blur-[180px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
+
+        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+          <div className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+              <Award className="w-3.5 h-3.5" />
               {isFr ? "Nos valeurs" : "Our values"}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-white">
-              {isFr ? "Ce Qui Nous Anime" : "What Drives Us"}
+            <h2 className="text-cream-light tracking-tight">
+              {isFr ? "Ce Qui Nous" : "What Drives"}{" "}
+              <span className="font-playfair italic text-peach">{isFr ? "Anime" : "Us"}</span>.
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {values.map((v) => (
               <div
                 key={v.titleFr}
-                className="bg-forest-800 rounded-3xl p-8 border border-forest-700 hover:border-gold-500/30 transition-colors"
+                className="bg-cream-light/[0.04] backdrop-blur-sm rounded-2xl p-6 border border-cream-light/[0.06] hover:border-brown/30 hover:bg-cream-light/[0.06] transition-all duration-500 group"
               >
-                <v.icon className="w-8 h-8 text-gold-400 mb-4" />
-                <h3 className="font-serif text-xl text-white mb-2">
+                <div className="w-11 h-11 rounded-xl bg-peach/15 border border-peach/25 flex items-center justify-center mb-4 group-hover:bg-peach/25 transition-all duration-300">
+                  <v.icon className="w-5 h-5 text-peach" />
+                </div>
+                <h3 className="font-bold text-cream-light mb-1.5 text-sm">
                   {isFr ? v.titleFr : v.titleEn}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed">
+                <p className="text-sm text-cream-light/40 leading-relaxed">
                   {isFr ? v.descFr : v.descEn}
                 </p>
               </div>
@@ -139,8 +152,8 @@ export default async function CompanyPage({
       </section>
 
       {/* Stats */}
-      <section className="py-24 px-4 bg-white">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <section className="py-24 md:py-32 bg-white dark:bg-dark">
+        <div className="max-w-[1400px] w-[90%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: "30+", labelFr: "Ans d'expertise", labelEn: "Years of expertise" },
             { value: "5000+", labelFr: "Ingrédients", labelEn: "Ingredients" },
@@ -148,8 +161,8 @@ export default async function CompanyPage({
             { value: "500+", labelFr: "Clients actifs", labelEn: "Active clients" },
           ].map((stat) => (
             <div key={stat.value}>
-              <p className="text-4xl md:text-5xl font-serif text-gold-600">{stat.value}</p>
-              <p className="text-forest-600 mt-2 text-sm">
+              <p className="text-4xl md:text-5xl font-black text-peach leading-none">{stat.value}</p>
+              <p className="text-dark/50 dark:text-cream-light/50 mt-2 text-sm font-medium">
                 {isFr ? stat.labelFr : stat.labelEn}
               </p>
             </div>

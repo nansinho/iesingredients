@@ -98,10 +98,10 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(163,123,104,0.04)]">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-cream-200">
+          <Label htmlFor="fullName" className="text-dark dark:text-cream-light">
             {isFr ? "Nom complet" : "Full name"} *
           </Label>
           <Input
@@ -110,13 +110,13 @@ export function RegisterForm() {
             value={form.fullName}
             onChange={handleChange}
             required
-            className="h-12 bg-white/10 border-white/20 text-white placeholder:text-white/40"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
             placeholder="Jean Dupont"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-cream-200">
+          <Label htmlFor="email" className="text-dark dark:text-cream-light">
             Email *
           </Label>
           <Input
@@ -126,13 +126,13 @@ export function RegisterForm() {
             value={form.email}
             onChange={handleChange}
             required
-            className="h-12 bg-white/10 border-white/20 text-white placeholder:text-white/40"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
             placeholder="vous@exemple.com"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="company" className="text-cream-200">
+          <Label htmlFor="company" className="text-dark dark:text-cream-light">
             {isFr ? "Entreprise" : "Company"}
           </Label>
           <Input
@@ -140,13 +140,13 @@ export function RegisterForm() {
             name="company"
             value={form.company}
             onChange={handleChange}
-            className="h-12 bg-white/10 border-white/20 text-white placeholder:text-white/40"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
             placeholder={isFr ? "Votre entreprise" : "Your company"}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-cream-200">
+          <Label htmlFor="password" className="text-dark dark:text-cream-light">
             {isFr ? "Mot de passe" : "Password"} *
           </Label>
           <div className="relative">
@@ -157,14 +157,14 @@ export function RegisterForm() {
               value={form.password}
               onChange={handleChange}
               required
-              className="h-12 bg-white/10 border-white/20 text-white placeholder:text-white/40 pr-12"
+              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl focus:border-brown/30"
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? (isFr ? "Masquer le mot de passe" : "Hide password") : (isFr ? "Afficher le mot de passe" : "Show password")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white/90"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-dark/40 dark:text-cream-light/40 hover:text-dark/70 dark:hover:text-cream-light/70"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -173,7 +173,7 @@ export function RegisterForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword" className="text-cream-200">
+          <Label htmlFor="confirmPassword" className="text-dark dark:text-cream-light">
             {isFr ? "Confirmer le mot de passe" : "Confirm password"} *
           </Label>
           <Input
@@ -183,7 +183,7 @@ export function RegisterForm() {
             value={form.confirmPassword}
             onChange={handleChange}
             required
-            className="h-12 bg-white/10 border-white/20 text-white placeholder:text-white/40"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl focus:border-brown/30"
             placeholder="••••••••"
           />
         </div>
@@ -191,7 +191,7 @@ export function RegisterForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 bg-gold-500 hover:bg-gold-400 text-forest-900 font-medium rounded-full"
+          className="w-full h-12 bg-peach hover:bg-peach-dark text-dark font-medium rounded-full"
         >
           {isLoading ? (
             <>
@@ -205,9 +205,9 @@ export function RegisterForm() {
       </form>
 
       <div className="mt-6 text-center text-sm">
-        <p className="text-cream-400">
+        <p className="text-dark/50 dark:text-cream-light/50">
           {isFr ? "Déjà un compte ?" : "Already have an account?"}{" "}
-          <Link href="/login" className="text-gold-400 hover:text-gold-300 font-medium">
+          <Link href="/login" className="text-brown dark:text-peach hover:text-brown-dark dark:hover:text-peach-light font-medium">
             {isFr ? "Se connecter" : "Sign In"}
           </Link>
         </p>

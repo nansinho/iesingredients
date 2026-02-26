@@ -60,18 +60,18 @@ export function ProductDetail({ product }: { product: Product }) {
   ].filter((s) => s.value);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-forest-50 to-white">
+    <div className="min-h-screen bg-cream-light dark:bg-dark">
       {/* Hero */}
       <section
         className="relative pt-28 sm:pt-32 pb-12 overflow-hidden"
         style={{
-          background: `linear-gradient(135deg, ${config.accent}22 0%, transparent 60%), linear-gradient(to bottom, hsl(150 50% 5%) 0%, hsl(150 45% 8%) 100%)`,
+          background: `linear-gradient(135deg, ${config.accent}22 0%, transparent 60%), linear-gradient(to bottom, hsl(30 15% 12%) 0%, hsl(30 10% 15%) 100%)`,
         }}
       >
-        <div className="container-luxe">
+        <div className="max-w-[1400px] w-[90%] mx-auto">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-cream-300 mb-6">
-            <Link href="/catalogue" className="hover:text-gold-400 transition-colors">
+          <nav className="flex items-center gap-2 text-sm text-cream-light/60 mb-6">
+            <Link href="/catalogue" className="hover:text-peach transition-colors">
               &larr; {nav("catalog")}
             </Link>
           </nav>
@@ -82,7 +82,7 @@ export function ProductDetail({ product }: { product: Product }) {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative aspect-square rounded-3xl overflow-hidden bg-white/5"
+              className="relative aspect-square rounded-2xl overflow-hidden bg-cream-light/5"
             >
               <Image
                 src={product.image_url || config.image}
@@ -111,37 +111,37 @@ export function ProductDetail({ product }: { product: Product }) {
             >
               {/* Code */}
               <div className="flex items-center gap-3">
-                <span className="font-mono text-2xl font-black text-gold-400 tracking-tight">
+                <span className="font-mono text-2xl font-black text-peach tracking-tight">
                   {product.code}
                 </span>
                 <button
                   onClick={handleCopy}
                   aria-label="Copier le code"
-                  className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-cream-light/10 transition-colors"
                 >
                   {copied ? (
                     <Check className="w-5 h-5 text-green-400" />
                   ) : (
-                    <Copy className="w-5 h-5 text-white/60" />
+                    <Copy className="w-5 h-5 text-cream-light/60" />
                   )}
                 </button>
               </div>
 
               {/* Name */}
-              <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white leading-tight">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-cream-light leading-tight tracking-[-0.03em]">
                 {product.nom_commercial}
               </h1>
 
               {/* Quick info */}
               <div className="flex flex-wrap gap-3">
                 {product.origine && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 text-white/80 text-sm">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cream-light/10 text-cream-light/80 text-sm">
                     <MapPin className="w-4 h-4" />
                     {product.origine}
                   </span>
                 )}
                 {product.gamme && (
-                  <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 text-white/80 text-sm">
+                  <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-cream-light/10 text-cream-light/80 text-sm">
                     {product.gamme}
                   </span>
                 )}
@@ -149,7 +149,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
               {/* Description */}
               {product.description && (
-                <p className="text-cream-200 leading-relaxed">
+                <p className="text-cream-light/60 leading-relaxed">
                   {product.description}
                 </p>
               )}
@@ -169,7 +169,7 @@ export function ProductDetail({ product }: { product: Product }) {
                       : "Added to cart"
                   );
                 }}
-                className="bg-gold-500 hover:bg-gold-400 text-forest-900 rounded-full px-8 font-medium shadow-lg shadow-gold-500/20"
+                className="bg-peach hover:bg-peach-dark text-dark rounded-full px-8 font-medium shadow-lg shadow-peach/20"
               >
                 <ShoppingBag className="w-5 h-5 mr-2" />
                 {t("specifications") === "Spécifications"
@@ -182,20 +182,20 @@ export function ProductDetail({ product }: { product: Product }) {
       </section>
 
       {/* Specs Grid */}
-      <section className="container-luxe py-24">
-        <h2 className="font-serif text-2xl text-forest-900 mb-6">
+      <section className="max-w-[1400px] w-[90%] mx-auto py-24">
+        <h2 className="font-semibold text-2xl text-dark dark:text-cream-light mb-6">
           {t("specifications")}
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {specs.map((spec) => (
             <div
               key={spec.label}
-              className="p-4 rounded-2xl bg-forest-50 border border-forest-100"
+              className="p-4 rounded-2xl bg-cream dark:bg-dark-card border border-brown/8 dark:border-brown/10"
             >
-              <p className="text-xs text-forest-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-dark/40 dark:text-cream-light/40 uppercase tracking-wider mb-1">
                 {spec.label}
               </p>
-              <p className="text-sm font-medium text-forest-900 break-words">
+              <p className="text-sm font-medium text-dark dark:text-cream-light break-words">
                 {spec.value}
               </p>
             </div>
@@ -203,61 +203,61 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
       </section>
 
-      <Separator className="max-w-7xl mx-auto bg-forest-100" />
+      <Separator className="max-w-[1400px] w-[90%] mx-auto bg-brown/8" />
 
       {/* Details Accordion */}
-      <section className="container-luxe py-24">
+      <section className="max-w-[1400px] w-[90%] mx-auto py-24">
         <Accordion type="multiple" className="space-y-2">
           {product.benefices && (
-            <AccordionItem value="benefits" className="border border-forest-100 rounded-2xl px-4">
-              <AccordionTrigger className="text-forest-900 font-medium">
+            <AccordionItem value="benefits" className="border border-brown/8 dark:border-brown/10 rounded-2xl px-4">
+              <AccordionTrigger className="text-dark dark:text-cream-light font-medium">
                 {t("benefits")}
               </AccordionTrigger>
-              <AccordionContent className="text-forest-700 leading-relaxed">
+              <AccordionContent className="text-dark/70 dark:text-cream-light/60 leading-relaxed">
                 {product.benefices}
               </AccordionContent>
             </AccordionItem>
           )}
 
           {product.application && (
-            <AccordionItem value="application" className="border border-forest-100 rounded-2xl px-4">
-              <AccordionTrigger className="text-forest-900 font-medium">
+            <AccordionItem value="application" className="border border-brown/8 dark:border-brown/10 rounded-2xl px-4">
+              <AccordionTrigger className="text-dark dark:text-cream-light font-medium">
                 Application
               </AccordionTrigger>
-              <AccordionContent className="text-forest-700 leading-relaxed">
+              <AccordionContent className="text-dark/70 dark:text-cream-light/60 leading-relaxed">
                 {product.application}
               </AccordionContent>
             </AccordionItem>
           )}
 
           {product.certifications && (
-            <AccordionItem value="certifications" className="border border-forest-100 rounded-2xl px-4">
-              <AccordionTrigger className="text-forest-900 font-medium">
+            <AccordionItem value="certifications" className="border border-brown/8 dark:border-brown/10 rounded-2xl px-4">
+              <AccordionTrigger className="text-dark dark:text-cream-light font-medium">
                 {t("certifications")}
               </AccordionTrigger>
-              <AccordionContent className="text-forest-700 leading-relaxed">
+              <AccordionContent className="text-dark/70 dark:text-cream-light/60 leading-relaxed">
                 {product.certifications}
               </AccordionContent>
             </AccordionItem>
           )}
 
           {product.profil_olfactif && (
-            <AccordionItem value="olfactory" className="border border-forest-100 rounded-2xl px-4">
-              <AccordionTrigger className="text-forest-900 font-medium">
+            <AccordionItem value="olfactory" className="border border-brown/8 dark:border-brown/10 rounded-2xl px-4">
+              <AccordionTrigger className="text-dark dark:text-cream-light font-medium">
                 Profil Olfactif
               </AccordionTrigger>
-              <AccordionContent className="text-forest-700 leading-relaxed">
+              <AccordionContent className="text-dark/70 dark:text-cream-light/60 leading-relaxed">
                 {product.profil_olfactif}
               </AccordionContent>
             </AccordionItem>
           )}
 
           {product.profil_aromatique && (
-            <AccordionItem value="aromatic" className="border border-forest-100 rounded-2xl px-4">
-              <AccordionTrigger className="text-forest-900 font-medium">
+            <AccordionItem value="aromatic" className="border border-brown/8 dark:border-brown/10 rounded-2xl px-4">
+              <AccordionTrigger className="text-dark dark:text-cream-light font-medium">
                 Profil Aromatique
               </AccordionTrigger>
-              <AccordionContent className="text-forest-700 leading-relaxed">
+              <AccordionContent className="text-dark/70 dark:text-cream-light/60 leading-relaxed">
                 {product.profil_aromatique}
               </AccordionContent>
             </AccordionItem>
