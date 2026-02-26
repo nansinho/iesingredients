@@ -1,14 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+
+const AUTOPLAY_DELAY = 5000;
 
 const slides = [
   {
@@ -35,9 +37,10 @@ export function ParallaxHero() {
   const certT = useTranslations("certifications");
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false }),
+    Autoplay({ delay: AUTOPLAY_DELAY, stopOnInteraction: false }),
   ]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [progressKey, setProgressKey] = useState(0);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -48,7 +51,10 @@ export function ParallaxHero() {
 
   useEffect(() => {
     if (!emblaApi) return;
-    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+      setProgressKey((prev) => prev + 1);
+    };
     emblaApi.on("select", onSelect);
     return () => {
       emblaApi.off("select", onSelect);
@@ -62,32 +68,41 @@ export function ParallaxHero() {
       <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-gold-500/3 rounded-full blur-[120px] -translate-x-1/3" />
 
       <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-16 pb-0">
-        {/* Surtitle with premium badge */}
+        {/* Surtitle — minimal, no badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-semibold uppercase tracking-[0.2em]">
-            <Sparkles className="w-3.5 h-3.5" />
+          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-gold-400/80 font-medium">
             {t("surtitle")}
           </span>
         </motion.div>
 
-        {/* Centered Main Title */}
+        {/* Centered Main Title — compact, 2 lines max */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white tracking-tight leading-[0.95] max-w-5xl mx-auto"
+          className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-white tracking-[-0.03em] leading-[1.05] max-w-3xl mx-auto"
         >
           {t("titleLine1")}
           <br />
           <span className="text-gradient-gold">{t("titleLine2")}</span>
         </motion.h1>
 
-        {/* Centered CTA Buttons */}
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-center text-white/50 text-sm sm:text-base mt-5 max-w-xl mx-auto leading-relaxed"
+        >
+          {t("subtitle")}
+        </motion.p>
+
+        {/* Centered CTA Buttons — colored */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -96,19 +111,19 @@ export function ParallaxHero() {
         >
           <Button
             asChild
+            variant="blush"
             size="lg"
-            className="h-13 bg-gold-500 hover:bg-gold-400 text-white rounded-full px-10 text-sm font-semibold transition-all duration-300 shadow-lg shadow-gold-500/25 hover:shadow-gold-500/40 hover:scale-[1.02]"
           >
             <Link href="/catalogue">
               {t("cta")}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-1.5 h-4 w-4" />
             </Link>
           </Button>
           <Button
             asChild
-            variant="outline"
+            variant="premium"
             size="lg"
-            className="h-13 rounded-full px-10 text-sm font-medium border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+            className="bg-forest-800 hover:bg-forest-700"
           >
             <Link href="/contact">
               {t("ctaSecondary")}
@@ -116,7 +131,7 @@ export function ParallaxHero() {
           </Button>
         </motion.div>
 
-        {/* Carousel Slider - Full width, premium */}
+        {/* Carousel Slider */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -138,20 +153,20 @@ export function ParallaxHero() {
                     className="object-cover"
                     sizes="100vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-forest-950/70 via-forest-950/30 to-transparent" />
-                  <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-14 md:left-14 max-w-lg">
-                    <p className="text-gold-400 text-xs sm:text-sm uppercase tracking-[0.2em] font-medium mb-2.5">
+                  <div className="absolute inset-0 bg-gradient-to-r from-forest-950/60 via-forest-950/20 to-transparent" />
+                  <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-14 md:left-14 max-w-md">
+                    <p className="text-gold-400/90 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
                       {t(slide.subtitleKey)}
                     </p>
-                    <p className="text-white text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5">
+                    <p className="text-white text-lg sm:text-xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-5 tracking-[-0.02em]">
                       {t(slide.titleKey)}
                     </p>
                     <Link
                       href="/catalogue"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-gold-50 text-forest-950 rounded-full text-sm font-semibold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-[1.03]"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/95 backdrop-blur-sm text-forest-950 rounded-full text-sm font-medium transition-all duration-300 hover:bg-white hover:shadow-lg hover:scale-[1.02]"
                     >
                       {t("bannerCta")}
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -159,58 +174,65 @@ export function ParallaxHero() {
             </div>
           </div>
 
-          {/* Carousel Navigation Arrows */}
+          {/* Navigation Arrows — subtle glass */}
           <button
             onClick={scrollPrev}
-            className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/90 backdrop-blur-md hover:bg-white flex items-center justify-center shadow-xl transition-all duration-300 z-10 hover:scale-105"
+            className="absolute left-5 sm:left-8 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 flex items-center justify-center transition-all duration-300 z-10 border border-white/10"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-forest-950" />
+            <ChevronLeft className="w-4 h-4 text-white/80" />
           </button>
           <button
             onClick={scrollNext}
-            className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/90 backdrop-blur-md hover:bg-white flex items-center justify-center shadow-xl transition-all duration-300 z-10 hover:scale-105"
+            className="absolute right-5 sm:right-8 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 flex items-center justify-center transition-all duration-300 z-10 border border-white/10"
             aria-label="Next slide"
           >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-forest-950" />
+            <ChevronRight className="w-4 h-4 text-white/80" />
           </button>
 
-          {/* Dots */}
-          <div className="absolute bottom-5 sm:bottom-8 right-6 sm:right-10 flex gap-2.5 z-10">
+          {/* Progress Indicators — Apple TV+ style */}
+          <div className="absolute bottom-5 sm:bottom-8 right-6 sm:right-10 flex gap-1.5 z-10">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
-                className={`h-2.5 rounded-full transition-all duration-500 ${
-                  index === selectedIndex
-                    ? "w-10 bg-gold-400"
-                    : "w-2.5 bg-white/40 hover:bg-white/60"
-                }`}
+                className="relative h-[3px] rounded-full overflow-hidden bg-white/20 transition-all duration-300"
+                style={{ width: index === selectedIndex ? 48 : 16 }}
                 aria-label={`Go to slide ${index + 1}`}
-              />
+              >
+                {index === selectedIndex && (
+                  <motion.div
+                    className="absolute inset-y-0 left-0 bg-white rounded-full"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
+                    key={`progress-${progressKey}`}
+                  />
+                )}
+              </button>
             ))}
           </div>
         </motion.div>
       </div>
 
-      {/* Certifications Strip - outside container, full width matt bar */}
-      <div className="bg-forest-900/80 backdrop-blur-sm border-t border-white/5">
+      {/* Certifications Strip — minimal text */}
+      <div className="bg-forest-900/60 backdrop-blur-sm border-t border-white/[0.06]">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-5 flex flex-wrap items-center justify-center gap-3 sm:gap-5"
+          className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/40 tracking-[0.1em] uppercase font-medium"
         >
-          <span className="text-[11px] uppercase tracking-[0.2em] text-gold-400/70 font-medium mr-2">
+          <span className="text-gold-400/60 mr-1">
             {certT("title")}
           </span>
-          {certifications.map((cert) => (
-            <div
-              key={cert}
-              className="flex items-center justify-center h-8 px-4 rounded-full border border-white/10 bg-white/5 text-[11px] font-semibold text-white/70 tracking-wider hover:border-gold-500/30 hover:text-gold-400 transition-all duration-300"
-            >
-              {cert}
-            </div>
+          {certifications.map((cert, i) => (
+            <React.Fragment key={cert}>
+              {i > 0 && <span className="text-white/15 hidden sm:inline">·</span>}
+              <span className="hover:text-gold-400/80 transition-colors duration-300 cursor-default">
+                {cert}
+              </span>
+            </React.Fragment>
           ))}
         </motion.div>
       </div>
