@@ -100,40 +100,42 @@ export function CatalogClient({
 
   return (
     <>
-      {/* Hero Section - Matt dark, wider */}
-      <section className="section-matt pt-32 sm:pt-36 pb-12 sm:pb-14 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[150px]" />
+      {/* Hero Section */}
+      <section className="bg-dark pt-32 sm:pt-36 pb-12 sm:pb-14 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+
         <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[11px] font-semibold uppercase tracking-[0.15em] mb-4">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach/10 border border-peach/20 text-peach text-[11px] font-semibold uppercase tracking-[0.15em] mb-4">
               <Sparkles className="w-3 h-3" />
               Catalogue
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-cream-light tracking-tight mb-4">
               {t("title")}
             </h1>
-            <p className="text-white/40 text-lg max-w-2xl mb-8">
+            <p className="text-cream-light/40 text-lg max-w-2xl mb-8">
               {t("results")}
             </p>
           </motion.div>
 
           {/* Search */}
           <div className="relative max-w-2xl mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-cream-light/30" />
             <Input
               placeholder={hero("search")}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              className="pl-12 h-14 bg-white/[0.06] border-white/[0.1] text-white placeholder:text-white/30 focus:border-gold-500/50 focus:ring-gold-500/30 rounded-2xl text-base backdrop-blur-sm"
+              className="pl-12 h-14 bg-cream-light/[0.06] border-cream-light/[0.1] text-cream-light placeholder:text-cream-light/30 focus:border-peach/50 focus:ring-peach/30 rounded-2xl text-base backdrop-blur-sm"
             />
             {searchValue && (
               <button
                 onClick={() => setSearchValue("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-cream-light/30 hover:text-cream-light"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -152,8 +154,8 @@ export function CatalogClient({
                   className={cn(
                     "inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap",
                     isActive
-                      ? "bg-gold-500 text-white shadow-lg shadow-gold-500/25"
-                      : "bg-white/[0.06] text-white/60 hover:bg-white/[0.1] hover:text-white backdrop-blur-sm border border-white/[0.08]"
+                      ? "bg-peach text-dark shadow-lg shadow-peach/25"
+                      : "bg-cream-light/[0.06] text-cream-light/60 hover:bg-cream-light/[0.1] hover:text-cream-light backdrop-blur-sm border border-cream-light/[0.08]"
                   )}
                 >
                   <Icon className="w-4 h-4" />
@@ -166,18 +168,18 @@ export function CatalogClient({
       </section>
 
       {/* Results */}
-      <section className="bg-cream-50 py-10 sm:py-14 min-h-screen">
+      <section className="bg-cream-light dark:bg-dark py-10 sm:py-14 min-h-screen">
         <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
           {/* Controls */}
           <div className="flex items-center justify-between gap-4 mb-8">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-forest-500 font-medium">
+              <span className="text-sm text-dark/50 dark:text-cream-light/50 font-medium">
                 {isPending ? "..." : `${total} ${t("products")}`}
               </span>
               {activeCategory && (
                 <Badge
                   variant="secondary"
-                  className="gap-1.5 pr-1.5 cursor-pointer bg-gold-100 text-gold-800 hover:bg-gold-200 border border-gold-200"
+                  className="gap-1.5 pr-1.5 cursor-pointer bg-peach/10 text-brown hover:bg-peach/20 border border-peach/20"
                   onClick={() => toggleCategory(activeCategory)}
                 >
                   {cat(
@@ -195,7 +197,7 @@ export function CatalogClient({
               <Button
                 variant="ghost"
                 onClick={clearFilters}
-                className="text-forest-500 hover:text-forest-900"
+                className="text-dark/50 hover:text-dark dark:text-cream-light/50 dark:hover:text-cream-light"
               >
                 <X className="w-4 h-4 mr-2" />
                 {filters("reset")}
@@ -217,26 +219,26 @@ export function CatalogClient({
                 ))}
               </div>
 
-              {/* Pagination - premium */}
+              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-14 flex items-center justify-center gap-3">
                   {page > 1 && (
                     <Button
                       variant="outline"
                       onClick={() => updateParams({ page: String(page - 1) })}
-                      className="border-forest-200 hover:border-gold-400 rounded-full px-6 h-11"
+                      className="border-brown/15 hover:border-peach rounded-full px-6 h-11"
                     >
                       &larr;
                     </Button>
                   )}
-                  <span className="px-5 py-2.5 text-sm text-forest-600 font-medium bg-white rounded-full border border-forest-100 shadow-sm">
+                  <span className="px-5 py-2.5 text-sm text-dark/60 dark:text-cream-light/60 font-medium bg-white dark:bg-dark-card rounded-full border border-brown/8 dark:border-brown/10 shadow-sm">
                     {page} / {totalPages}
                   </span>
                   {page < totalPages && (
                     <Button
                       variant="outline"
                       onClick={() => updateParams({ page: String(page + 1) })}
-                      className="border-forest-200 hover:border-gold-400 rounded-full px-6 h-11"
+                      className="border-brown/15 hover:border-peach rounded-full px-6 h-11"
                     >
                       &rarr;
                     </Button>
@@ -246,16 +248,16 @@ export function CatalogClient({
             </>
           ) : (
             <div className="text-center py-24">
-              <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-forest-100 flex items-center justify-center">
-                <Search className="w-9 h-9 text-forest-400" />
+              <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-cream dark:bg-dark-card flex items-center justify-center">
+                <Search className="w-9 h-9 text-brown/40" />
               </div>
-              <h3 className="text-lg font-semibold text-forest-900 mb-2">
+              <h3 className="text-lg font-semibold text-dark dark:text-cream-light mb-2">
                 {t("noResults")}
               </h3>
               <Button
                 variant="outline"
                 onClick={clearFilters}
-                className="mt-4 border-forest-200 text-forest-900 rounded-full px-8"
+                className="mt-4 border-brown/15 text-dark dark:text-cream-light rounded-full px-8"
               >
                 {filters("reset")}
               </Button>

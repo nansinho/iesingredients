@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getUser, getUserRole } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { User } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AccountClient } from "@/components/account/AccountClient";
 
@@ -77,18 +78,23 @@ export default async function AccountPage({
         ]}
       />
 
-      <section className="bg-forest-950 pt-32 sm:pt-36 pb-16">
-        <div className="container-luxe">
-          <span className="text-gold-400 text-sm uppercase tracking-widest font-medium mb-4 block">
+      <section className="bg-dark pt-32 sm:pt-36 pb-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+
+        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <User className="w-3.5 h-3.5" />
             {isFr ? "Espace client" : "Client space"}
           </span>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            {isFr ? "Mon Compte" : "My Account"}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+            {isFr ? "Mon" : "My"}{" "}
+            <span className="font-playfair italic text-peach">{isFr ? "Compte" : "Account"}</span>
           </h1>
-          <p className="text-cream-200 text-lg max-w-2xl">
+          <p className="text-cream-light/50 text-lg max-w-2xl">
             {user.email}
             {role === "admin" && (
-              <span className="ml-3 px-2 py-0.5 rounded-full text-xs font-medium bg-gold-500/20 text-gold-400">
+              <span className="ml-3 px-2.5 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
                 Admin
               </span>
             )}
@@ -96,8 +102,8 @@ export default async function AccountPage({
         </div>
       </section>
 
-      <section className="py-24 px-4 bg-white">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-24 md:py-32 bg-white dark:bg-dark">
+        <div className="max-w-[900px] w-[90%] mx-auto">
           <AccountClient
             profile={profile}
             requests={requests}

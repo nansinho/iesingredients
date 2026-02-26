@@ -62,10 +62,10 @@ export function ProductCard({ product }: { product: Product }) {
       <motion.article
         whileHover={{ y: -4 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative h-full rounded-[16px] border border-forest-100 overflow-hidden bg-white hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] hover:border-gold-300 transition-all duration-500 flex flex-col"
+        className="relative h-full rounded-[16px] border border-brown/8 dark:border-brown/10 overflow-hidden bg-white dark:bg-dark-card hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] hover:border-brown/25 transition-all duration-500 flex flex-col"
       >
         {/* Image — compact */}
-        <div className="relative h-36 overflow-hidden bg-forest-50">
+        <div className="relative h-36 overflow-hidden bg-cream-light dark:bg-dark">
           <Image
             src={product.image_url || config.image}
             alt={product.nom_commercial || "Product"}
@@ -78,7 +78,7 @@ export function ProductCard({ product }: { product: Product }) {
           {/* Arrow on hover */}
           <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
             <div className="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md">
-              <ArrowUpRight className="w-3.5 h-3.5 text-forest-950" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-dark" />
             </div>
           </div>
         </div>
@@ -94,31 +94,31 @@ export function ProductCard({ product }: { product: Product }) {
               {config.label}
             </span>
             <div className="flex items-center gap-1">
-              <span className="font-mono text-xs font-bold text-forest-500 tracking-tight">
+              <span className="font-mono text-xs font-bold text-dark/50 dark:text-cream-light/50 tracking-tight">
                 {product.code}
               </span>
               <button
                 onClick={handleCopyCode}
                 aria-label="Copier la référence"
-                className="p-1 rounded-md hover:bg-forest-50 transition-colors active:scale-95"
+                className="p-1 rounded-md hover:bg-cream dark:hover:bg-dark transition-colors active:scale-95"
               >
                 {copied ? (
                   <Check className="w-3 h-3 text-green-500" />
                 ) : (
-                  <Copy className="w-3 h-3 opacity-30 hover:opacity-70 transition-opacity text-forest-600" />
+                  <Copy className="w-3 h-3 opacity-30 hover:opacity-70 transition-opacity text-dark/60 dark:text-cream-light/60" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Product name */}
-          <h3 className="text-[15px] font-semibold text-foreground leading-snug mb-1.5 line-clamp-2 min-h-[2.25rem] group-hover:text-gold-700 transition-colors duration-300">
+          <h3 className="text-[15px] font-semibold text-dark dark:text-cream-light leading-snug mb-1.5 line-clamp-2 min-h-[2.25rem] group-hover:text-brown dark:group-hover:text-peach transition-colors duration-300">
             {product.nom_commercial || "Produit sans nom"}
           </h3>
 
           {/* Description */}
           {product.description && (
-            <p className="text-[12px] leading-relaxed text-forest-500 line-clamp-2 mb-3">
+            <p className="text-[12px] leading-relaxed text-dark/50 dark:text-cream-light/50 line-clamp-2 mb-3">
               {product.description}
             </p>
           )}
@@ -128,7 +128,7 @@ export function ProductCard({ product }: { product: Product }) {
             {benefitsArray.map((benefit, i) => (
               <span
                 key={`b-${i}`}
-                className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border border-gold-200 bg-gold-50 text-gold-800"
+                className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border border-peach/20 bg-peach/8 text-brown dark:text-peach"
               >
                 {benefit}
               </span>
@@ -136,7 +136,7 @@ export function ProductCard({ product }: { product: Product }) {
             {certArray.map((cert, i) => (
               <span
                 key={`c-${i}`}
-                className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border border-forest-200 bg-forest-50 text-forest-700"
+                className="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border border-brown/10 bg-brown/5 text-brown/70 dark:text-cream-light/50"
               >
                 {cert}
               </span>
@@ -144,10 +144,10 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
 
           {/* Bottom info — origin + aspect */}
-          <div className="mt-auto pt-2 border-t border-forest-100 flex items-center justify-between text-[11px] text-forest-400">
+          <div className="mt-auto pt-2 border-t border-brown/8 dark:border-brown/10 flex items-center justify-between text-[11px] text-dark/40 dark:text-cream-light/40">
             {product.origine && (
               <span className="flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-gold-500" />
+                <MapPin className="w-3 h-3 text-peach" />
                 {product.origine}
               </span>
             )}
