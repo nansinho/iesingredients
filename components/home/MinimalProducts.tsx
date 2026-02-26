@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowRight, Plus } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
@@ -13,6 +14,7 @@ const showcaseProducts = [
     desc: "Actif hydratant haute performance, poids moléculaire optimisé pour pénétration cutanée.",
     category: "Cosmétique",
     accent: "#8B6FA3",
+    image: "/images/cream-jar.jpg",
     tags: ["Hydratation", "Anti-âge", "Naturel"],
   },
   {
@@ -22,6 +24,7 @@ const showcaseProducts = [
     desc: "Ascorbyl glucoside stabilisé pour formulations éclat et anti-oxydantes.",
     category: "Cosmétique",
     accent: "#8B6FA3",
+    image: "/images/serum-collection.jpg",
     tags: ["Éclat", "Anti-oxydant", "Performance"],
   },
   {
@@ -31,6 +34,7 @@ const showcaseProducts = [
     desc: "Molécule ambrée biosourcée, puissante et biodégradable. Notes boisées ambrées.",
     category: "Parfumerie",
     accent: "#A67B5B",
+    image: "/images/essential-oil.jpg",
     tags: ["Ambrée", "Biosourcé", "Biodégradable"],
   },
   {
@@ -40,6 +44,7 @@ const showcaseProducts = [
     desc: "Oléorésine de vanille naturelle de Madagascar, qualité premium pour arômes alimentaires.",
     category: "Arômes",
     accent: "#C97B8B",
+    image: "/images/blueberries-herbs.jpg",
     tags: ["Vanille", "Naturel", "Premium"],
   },
   {
@@ -49,6 +54,7 @@ const showcaseProducts = [
     desc: "Absolue de rose de Bulgarie, ingrédient noble pour parfumerie fine et soins luxe.",
     category: "Parfumerie",
     accent: "#A67B5B",
+    image: "/images/botanicals-flat.jpg",
     tags: ["Rose", "Luxe", "Bulgarie"],
   },
   {
@@ -58,6 +64,7 @@ const showcaseProducts = [
     desc: "Huile végétale premium, émolliente et non comédogène, idéale pour soins capillaires et cutanés.",
     category: "Cosmétique",
     accent: "#8B6FA3",
+    image: "/images/cream-bowl.jpg",
     tags: ["Émollient", "Végétal", "Premium"],
   },
 ];
@@ -106,7 +113,21 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block">
-                <div className="bg-[#E8DDD3] dark:bg-dark-card rounded-2xl p-6 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 flex flex-col h-full">
+                <div className="bg-[#E8DDD3] dark:bg-dark-card rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 flex flex-col h-full">
+                  {/* Banner image */}
+                  <div className="relative aspect-[16/7] overflow-hidden">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#E8DDD3]/40 to-transparent" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 flex flex-col flex-1">
                   {/* Top row: category + ref */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
@@ -154,6 +175,7 @@ export function MinimalProducts() {
                       <Plus className="w-3.5 h-3.5" />
                       {t("sample")}
                     </button>
+                  </div>
                   </div>
                 </div>
               </Link>
