@@ -61,7 +61,7 @@ export function LatestPublications() {
               <div className="divider-brown" />
             </div>
             <h2 className="text-dark dark:text-cream-light tracking-tight">
-              Dernières <span className="font-playfair italic text-brown">publications</span>
+              Dernières <span className="font-playfair uppercase tracking-wide text-brown">publications</span>
             </h2>
           </div>
           <Link
