@@ -112,18 +112,18 @@ export function SampleCartSheet() {
         <button className="relative p-2 text-white/80 hover:text-white transition-colors">
           <ShoppingBag className="w-5 h-5" />
           {count > 0 && (
-            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-gold-500 text-forest-900 text-xs font-bold flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-peach text-dark text-xs font-bold flex items-center justify-center">
               {count}
             </span>
           )}
         </button>
       </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-lg flex flex-col">
+      <SheetContent className="w-full sm:max-w-lg flex flex-col bg-white dark:bg-dark-card">
         <SheetHeader>
-          <SheetTitle className="font-serif">
+          <SheetTitle className="font-playfair italic text-dark dark:text-cream-light">
             {isFr ? "Panier d'échantillons" : "Sample Cart"}
           </SheetTitle>
-          <SheetDescription>
+          <SheetDescription className="text-dark/50 dark:text-cream-light/50">
             {isFr
               ? `${count} produit${count > 1 ? "s" : ""} sélectionné${count > 1 ? "s" : ""}`
               : `${count} product${count > 1 ? "s" : ""} selected`}
@@ -133,57 +133,57 @@ export function SampleCartSheet() {
         <div className="flex-1 overflow-y-auto py-4">
           {items.length === 0 ? (
             <div className="text-center py-12">
-              <ShoppingBag className="w-12 h-12 text-forest-300 mx-auto mb-3" />
-              <p className="text-forest-600">
+              <ShoppingBag className="w-12 h-12 text-brown/30 dark:text-cream-light/20 mx-auto mb-3" />
+              <p className="text-dark/50 dark:text-cream-light/50">
                 {isFr ? "Votre panier est vide" : "Your cart is empty"}
               </p>
             </div>
           ) : showForm ? (
             <form onSubmit={handleSubmit} className="space-y-4 px-1">
               <div className="space-y-2">
-                <Label>{isFr ? "Nom" : "Name"} *</Label>
+                <Label className="text-dark dark:text-cream-light">{isFr ? "Nom" : "Name"} *</Label>
                 <Input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="h-10"
+                  className="h-10 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10"
                 />
               </div>
               <div className="space-y-2">
-                <Label>Email *</Label>
+                <Label className="text-dark dark:text-cream-light">Email *</Label>
                 <Input
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
-                  className="h-10"
+                  className="h-10 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10"
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
-                  <Label>{isFr ? "Entreprise" : "Company"}</Label>
+                  <Label className="text-dark dark:text-cream-light">{isFr ? "Entreprise" : "Company"}</Label>
                   <Input
                     value={form.company}
                     onChange={(e) => setForm({ ...form, company: e.target.value })}
-                    className="h-10"
+                    className="h-10 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>{isFr ? "Téléphone" : "Phone"}</Label>
+                  <Label className="text-dark dark:text-cream-light">{isFr ? "Téléphone" : "Phone"}</Label>
                   <Input
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="h-10"
+                    className="h-10 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Message</Label>
+                <Label className="text-dark dark:text-cream-light">Message</Label>
                 <Textarea
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                   rows={3}
-                  className="resize-none"
+                  className="resize-none bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10"
                 />
               </div>
 
@@ -192,14 +192,15 @@ export function SampleCartSheet() {
                   type="button"
                   variant="outline"
                   onClick={() => setShowForm(false)}
-                  className="flex-1"
+                  className="flex-1 border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light"
                 >
                   {isFr ? "Retour" : "Back"}
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 bg-forest-900 hover:bg-forest-800 text-white"
+                  variant="peach"
+                  className="flex-1"
                 >
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -217,34 +218,34 @@ export function SampleCartSheet() {
               {items.map((item) => (
                 <div
                   key={item.code}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-forest-50 border border-forest-100"
+                  className="flex items-center gap-3 p-3 rounded-xl bg-cream dark:bg-dark border border-brown/8 dark:border-brown/10"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-forest-900 truncate">
+                    <p className="font-medium text-sm text-dark dark:text-cream-light truncate">
                       {item.name}
                     </p>
-                    <p className="text-xs text-forest-500">{item.code}</p>
+                    <p className="text-xs text-dark/50 dark:text-cream-light/50">{item.code}</p>
                   </div>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => updateQuantity(item.code, item.quantity - 1)}
-                      className="w-7 h-7 rounded-full bg-white border border-forest-200 flex items-center justify-center hover:bg-forest-100"
+                      className="w-7 h-7 rounded-full bg-white dark:bg-dark-card border border-brown/15 dark:border-brown/10 flex items-center justify-center hover:bg-cream dark:hover:bg-dark text-dark dark:text-cream-light"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
-                    <span className="w-8 text-center text-sm font-medium">
+                    <span className="w-8 text-center text-sm font-medium text-dark dark:text-cream-light">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() => updateQuantity(item.code, item.quantity + 1)}
-                      className="w-7 h-7 rounded-full bg-white border border-forest-200 flex items-center justify-center hover:bg-forest-100"
+                      className="w-7 h-7 rounded-full bg-white dark:bg-dark-card border border-brown/15 dark:border-brown/10 flex items-center justify-center hover:bg-cream dark:hover:bg-dark text-dark dark:text-cream-light"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
                   </div>
                   <button
                     onClick={() => removeItem(item.code)}
-                    className="p-1.5 text-red-400 hover:text-red-600"
+                    className="p-1.5 text-red-400 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -255,10 +256,11 @@ export function SampleCartSheet() {
         </div>
 
         {items.length > 0 && !showForm && (
-          <div className="border-t pt-4 space-y-3">
+          <div className="border-t border-brown/8 dark:border-brown/10 pt-4 space-y-3">
             <Button
               onClick={() => setShowForm(true)}
-              className="w-full bg-gold-500 hover:bg-gold-400 text-forest-900 font-medium rounded-full"
+              variant="peach"
+              className="w-full rounded-full"
             >
               <Send className="w-4 h-4 mr-2" />
               {isFr ? "Demander les échantillons" : "Request Samples"}
@@ -266,7 +268,7 @@ export function SampleCartSheet() {
             <Button
               variant="ghost"
               onClick={clearCart}
-              className="w-full text-red-500 hover:text-red-700 hover:bg-red-50"
+              className="w-full text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-500/10"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               {isFr ? "Vider le panier" : "Clear Cart"}

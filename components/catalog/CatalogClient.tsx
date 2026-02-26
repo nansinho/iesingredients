@@ -115,7 +115,7 @@ export function CatalogClient({
               <Sparkles className="w-3 h-3" />
               Catalogue
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-cream-light tracking-tight mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-cream-light tracking-tight mb-4">
               {t("title")}
             </h1>
             <p className="text-cream-light/40 text-lg max-w-2xl mb-8">
