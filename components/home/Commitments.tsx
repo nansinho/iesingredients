@@ -24,7 +24,7 @@ export function Commitments() {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-lime relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-blue-mist relative overflow-hidden">
 
       <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
         {/* Header */}
@@ -40,7 +40,7 @@ export function Commitments() {
             {t("surtitle")}
           </span>
           <h2 className="text-dark tracking-tight">
-            Nos <span className="font-playfair italic text-navy">engagements</span>.
+            Nos <span className="font-playfair italic text-forest-green">engagements</span>.
           </h2>
         </motion.div>
 
@@ -113,7 +113,7 @@ export function Commitments() {
         >
           <Link
             href="/entreprise"
-            className="inline-flex items-center gap-2 text-base font-semibold text-dark hover:text-navy hover:gap-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-base font-semibold text-dark hover:text-forest-green hover:gap-3 transition-all duration-300"
           >
             {t("link")}
             <ArrowRight className="w-4 h-4" />

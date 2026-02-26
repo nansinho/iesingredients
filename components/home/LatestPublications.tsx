@@ -61,12 +61,12 @@ export function LatestPublications() {
               <div className="divider-brown opacity-50" />
             </div>
             <h2 className="text-dark tracking-tight">
-              Dernières <span className="font-playfair italic text-navy">publications</span>
+              Dernières <span className="font-playfair italic text-forest-green">publications</span>
             </h2>
           </div>
           <Link
             href="/actualites"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-dark hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-dark hover:gap-3 transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />
@@ -106,20 +106,20 @@ export function LatestPublications() {
 
                   {/* Content */}
                   <div className="px-5 sm:px-6 pb-6 pt-1">
-                    <p className="text-xs text-navy mb-2 font-semibold uppercase tracking-wider">
+                    <p className="text-xs text-forest-green mb-2 font-semibold uppercase tracking-wider">
                       {new Date(article.date).toLocaleDateString("fr-FR", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
                     </p>
-                    <h3 className="text-base font-bold text-dark group-hover:text-navy transition-colors line-clamp-2 mb-2.5 leading-snug">
+                    <h3 className="text-base font-bold text-dark group-hover:text-forest-green transition-colors line-clamp-2 mb-2.5 leading-snug">
                       {article.title}
                     </h3>
                     <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed">
                       {article.excerpt}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-navy mt-4 group-hover:gap-2.5 transition-all duration-300">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-forest-green mt-4 group-hover:gap-2.5 transition-all duration-300">
                       {t("readMore")}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -134,7 +134,7 @@ export function LatestPublications() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/actualites"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-dark transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-dark transition-all duration-300"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />

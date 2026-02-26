@@ -73,7 +73,7 @@ export function MinimalProducts() {
   const t = useTranslations("products");
 
   return (
-    <section className="py-24 md:py-32 bg-gray-light relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-mint relative overflow-hidden">
 
       <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
         {/* Header */}
@@ -86,13 +86,13 @@ export function MinimalProducts() {
         >
           <div>
             <h2 className="text-dark dark:text-cream-light tracking-tight">
-              Nos ingrédients <span className="font-playfair italic text-navy">phares</span>
+              Nos ingrédients <span className="font-playfair italic text-forest-green">phares</span>
             </h2>
             <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
           <Link
             href="/catalogue"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-olive-bright hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-charcoal hover:gap-3 transition-all duration-300"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />
@@ -142,7 +142,7 @@ export function MinimalProducts() {
                   </div>
 
                   {/* Product name */}
-                  <h3 className="text-xl font-playfair font-semibold text-dark dark:text-cream-light group-hover:text-navy transition-colors duration-300 leading-snug mb-2">
+                  <h3 className="text-xl font-playfair font-semibold text-dark dark:text-cream-light group-hover:text-forest-green transition-colors duration-300 leading-snug mb-2">
                     {product.name}
                   </h3>
 
@@ -166,7 +166,7 @@ export function MinimalProducts() {
                   {/* Sample button */}
                   <div className="flex justify-end">
                     <button
-                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-navy text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-olive-bright hover:shadow-md hover:shadow-navy/20"
+                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-forest-green text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-charcoal hover:shadow-md hover:shadow-forest-green/20"
                       onClick={(e) => e.preventDefault()}
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export function MinimalProducts() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/catalogue"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-olive-bright transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-charcoal transition-all duration-300"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />

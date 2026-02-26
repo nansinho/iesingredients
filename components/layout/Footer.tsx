@@ -37,7 +37,7 @@ export async function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-5">
               <span className="text-2xl font-bold text-cream-light tracking-tight">
-                IES <span className="text-lime">Ingredients</span>
+                IES <span className="text-mint">Ingredients</span>
               </span>
             </Link>
             <p className="text-cream-light/40 text-sm leading-relaxed max-w-md mb-6">
@@ -45,7 +45,7 @@ export async function Footer() {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-olive-bright hover:bg-lime text-white text-sm font-semibold transition-all duration-300 shadow-lg shadow-olive-bright/20 hover:shadow-olive-bright/30"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-forest-green hover:bg-charcoal text-white text-sm font-semibold transition-all duration-300 shadow-lg shadow-forest-green/20 hover:shadow-forest-green/30"
             >
               Demander un devis
               <ArrowRight className="w-4 h-4" />
@@ -61,7 +61,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/catalogue"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   {nav("catalog")}
                 </Link>
@@ -69,7 +69,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/entreprise"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   {nav("company")}
                 </Link>
@@ -77,7 +77,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/equipe"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   {nav("team")}
                 </Link>
@@ -85,7 +85,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/actualites"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   {nav("news")}
                 </Link>
@@ -93,7 +93,7 @@ export async function Footer() {
               <li>
                 <Link
                   href="/podcast"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   {nav("podcast")}
                 </Link>
@@ -108,23 +108,23 @@ export async function Footer() {
             </h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 mt-0.5 text-lime/60 shrink-0" />
+                <MapPin className="w-4 h-4 mt-0.5 text-mint/60 shrink-0" />
                 <span className="text-cream-light/40">Nice, France</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-lime/60 shrink-0" />
+                <Phone className="w-4 h-4 text-mint/60 shrink-0" />
                 <a
                   href="tel:+33493000000"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   +33 4 93 00 00 00
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-lime/60 shrink-0" />
+                <Mail className="w-4 h-4 text-mint/60 shrink-0" />
                 <a
                   href="mailto:contact@ies-ingredients.com"
-                  className="text-cream-light/40 hover:text-lime transition-colors duration-200"
+                  className="text-cream-light/40 hover:text-mint transition-colors duration-200"
                 >
                   contact@ies-ingredients.com
                 </a>
@@ -140,10 +140,10 @@ export async function Footer() {
             &copy; {currentYear} IES Ingredients. {t("rights")}.
           </p>
           <div className="flex gap-6">
-            <span className="hover:text-lime transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
               {t("privacy")}
             </span>
-            <span className="hover:text-lime transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
               {t("terms")}
             </span>
           </div>
