@@ -12,7 +12,7 @@ export function MinimalCTA() {
   return (
     <section className="relative overflow-hidden">
       {/* Rose Blush gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gold-200 via-gold-100 to-cream-50" />
+      <div className="absolute inset-0 section-cream" />
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gold-500/20 rounded-full blur-[150px]" />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-gold-400/15 rounded-full blur-[120px]" />
 
@@ -21,13 +21,13 @@ export function MinimalCTA() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 py-24 md:py-36 text-center relative z-10"
+        className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 py-24 md:py-36 text-center relative z-10"
       >
         <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-forest-950/10 border border-forest-950/10 text-forest-700 text-xs font-semibold uppercase tracking-[0.15em] mb-6">
           <Sparkles className="w-3.5 h-3.5" />
           {t("surtitle")}
         </span>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-forest-950 tracking-tight mb-5">
+        <h2 className="text-forest-950 tracking-tight mb-5">
           {t("title")}
         </h2>
         <p className="text-forest-500 text-base sm:text-lg mb-12 max-w-2xl mx-auto leading-relaxed">

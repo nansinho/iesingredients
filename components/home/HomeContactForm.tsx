@@ -9,12 +9,12 @@ export function HomeContactForm() {
   const t = useTranslations("homeContact");
 
   return (
-    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 section-matt relative overflow-hidden">
+    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 section-taupe-dark relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-gold-500/5 rounded-full blur-[180px]" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-gold-500/3 rounded-full blur-[120px]" />
 
-      <div className="max-w-[90rem] mx-auto relative z-10">
+      <div className="max-w-[100rem] mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export function HomeContactForm() {
             <MessageCircle className="w-3.5 h-3.5" />
             Contact
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+          <h2 className="text-white tracking-tight">
             {t("title")}
           </h2>
           <p className="text-white/40 text-lg mt-3 max-w-xl">

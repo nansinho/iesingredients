@@ -103,7 +103,7 @@ export function CatalogClient({
       {/* Hero Section - Matt dark, wider */}
       <section className="section-matt pt-28 sm:pt-32 pb-12 sm:pb-14 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[150px]" />
-        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,7 +167,7 @@ export function CatalogClient({
 
       {/* Results */}
       <section className="bg-cream-50 py-10 sm:py-14 min-h-screen">
-        <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
           {/* Controls */}
           <div className="flex items-center justify-between gap-4 mb-8">
             <div className="flex flex-wrap items-center gap-2">
