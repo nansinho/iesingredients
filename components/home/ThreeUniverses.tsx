@@ -14,6 +14,7 @@ const universes = [
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
+    verticalTitle: "Cosmétique",
   },
   {
     titleKey: "perfume" as const,
@@ -22,6 +23,7 @@ const universes = [
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
+    verticalTitle: "Parfumerie",
   },
   {
     titleKey: "aroma" as const,
@@ -30,6 +32,7 @@ const universes = [
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
+    verticalTitle: "Arômes",
   },
 ];
 
@@ -56,8 +59,8 @@ export function ThreeUniverses() {
           </p>
         </motion.div>
 
-        {/* 3 Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6">
+        {/* 3 Cards — tall portrait with vertical title + Apple shop button */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
           {universes.map((u, index) => (
             <motion.div
               key={u.titleKey}
@@ -67,9 +70,9 @@ export function ThreeUniverses() {
               transition={{ duration: 0.6, delay: index * 0.12 }}
             >
               <Link href={{ pathname: "/catalogue", query: { category: u.filter } }}>
-                <div className="group relative overflow-hidden rounded-2xl cursor-pointer h-full bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 hover:border-brown/20">
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                <div className="group relative overflow-hidden rounded-[20px] cursor-pointer h-full">
+                  {/* Full-bleed image — tall portrait */}
+                  <div className="relative aspect-[3/4] sm:aspect-[3/4.5] overflow-hidden">
                     <Image
                       src={u.image}
                       alt={cat(u.titleKey)}
@@ -77,26 +80,31 @@ export function ThreeUniverses() {
                       className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent" />
-                    {/* Count badge */}
-                    <div className="absolute bottom-4 left-4">
-                      <span className="px-3 py-1.5 rounded-full bg-cream-light/90 backdrop-blur-sm text-[11px] font-semibold text-dark">
-                        {u.count} {u.countLabel}
-                      </span>
-                    </div>
+                    {/* Subtle dark overlay for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark/50 via-dark/10 to-dark/5" />
                   </div>
 
-                  {/* Content */}
-                  <div className="p-5 sm:p-6">
-                    <h3 className="text-xl font-semibold text-dark dark:text-cream-light tracking-[-0.02em] mb-2">
-                      {cat(u.titleKey)}
-                    </h3>
-                    <p className="text-dark/50 dark:text-cream-light/50 text-sm leading-relaxed mb-4 line-clamp-2">
-                      {cat(u.descKey)}
-                    </p>
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-brown group-hover:gap-3 transition-all duration-300">
+                  {/* Vertical rotated title — left edge */}
+                  <div className="absolute left-4 top-0 bottom-0 flex items-center pointer-events-none">
+                    <span
+                      className="text-white/90 text-[13px] sm:text-sm font-semibold uppercase tracking-[0.25em] whitespace-nowrap -rotate-90"
+                    >
+                      {u.verticalTitle}
+                    </span>
+                  </div>
+
+                  {/* Shop button — bottom left, Apple pill style */}
+                  <div className="absolute bottom-5 left-5">
+                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/95 dark:bg-cream-light/95 backdrop-blur-sm text-dark text-[13px] font-medium transition-all duration-300 group-hover:bg-white group-hover:shadow-lg group-hover:scale-[1.03] shadow-sm">
                       {cat("explore")}
-                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+
+                  {/* Count — bottom right */}
+                  <div className="absolute bottom-5 right-5">
+                    <span className="text-white/70 text-[11px] font-medium tracking-wide">
+                      {u.count} {u.countLabel}
                     </span>
                   </div>
                 </div>
