@@ -252,7 +252,7 @@ export function Header() {
                     "rounded-full h-9 px-6 text-sm font-medium transition-all duration-300",
                     isScrolled
                       ? "bg-forest-900 text-white hover:bg-forest-800"
-                      : "bg-gold-500 text-white hover:bg-gold-400 shadow-lg shadow-gold-500/25"
+                      : "bg-gold-500 text-white hover:bg-gold-600 shadow-lg shadow-gold-500/25"
                   )}
                 >
                   {t("requestQuote")}
@@ -381,7 +381,7 @@ export function Header() {
                     {/* Mobile CTA */}
                     <div className="pt-4">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full h-12 rounded-full bg-gold-500 text-white hover:bg-gold-400 font-medium text-sm shadow-lg shadow-gold-500/20">
+                        <Button className="w-full h-12 rounded-full bg-gold-500 text-white hover:bg-gold-600 font-medium text-sm shadow-lg shadow-gold-500/20">
                           {t("requestQuote")}
                         </Button>
                       </Link>

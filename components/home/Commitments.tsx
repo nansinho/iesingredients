@@ -38,7 +38,7 @@ export function Commitments() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-500 text-xs font-semibold uppercase tracking-[0.15em] mb-5">
             <Award className="w-3.5 h-3.5" />
             {t("surtitle")}
           </span>
@@ -47,7 +47,7 @@ export function Commitments() {
           </h2>
         </motion.div>
 
-        {/* Large Image with Stats Overlay - 10px border radius */}
+        {/* Large Image with Stats Overlay */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ export function Commitments() {
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="text-center"
                 >
-                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-gold-400 leading-none">
+                  <p className="text-3xl sm:text-4xl md:text-5xl font-black text-gold-500 leading-none">
                     {stat.value}
                   </p>
                   <p className="text-white/50 text-xs sm:text-sm mt-1.5 font-medium">{stat.label}</p>
@@ -86,7 +86,7 @@ export function Commitments() {
           </div>
         </motion.div>
 
-        {/* Feature Cards Grid — dark premium cards */}
+        {/* Feature Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {features.map((feature, index) => (
             <motion.div
@@ -98,7 +98,7 @@ export function Commitments() {
               className="bg-white/[0.04] backdrop-blur-sm rounded-[16px] p-6 border border-white/[0.08] hover:border-gold-500/30 hover:bg-white/[0.06] transition-all duration-500 group"
             >
               <div className="w-11 h-11 rounded-xl bg-gold-500/15 border border-gold-500/25 flex items-center justify-center mb-4 group-hover:bg-gold-500/25 transition-all duration-300">
-                <feature.icon className="w-5 h-5 text-gold-400" />
+                <feature.icon className="w-5 h-5 text-gold-500" />
               </div>
               <h3 className="font-bold text-white mb-1.5 text-sm">{t(feature.titleKey)}</h3>
               <p className="text-sm text-white/40 leading-relaxed">{t(feature.descKey)}</p>
@@ -116,7 +116,7 @@ export function Commitments() {
         >
           <Link
             href="/entreprise"
-            className="inline-flex items-center gap-2 text-base font-semibold text-gold-400 hover:text-gold-300 hover:gap-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-base font-semibold text-gold-500 hover:text-gold-400 hover:gap-3 transition-all duration-300"
           >
             {t("link")}
             <ArrowRight className="w-4 h-4" />

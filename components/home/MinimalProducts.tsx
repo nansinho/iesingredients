@@ -15,7 +15,7 @@ const showcaseProducts = [
     category: "Cosmétique",
     image: "/images/cream-jar.jpg",
     origin: "Mexique",
-    accent: "#918279",
+    accent: "#D08560",
   },
   {
     id: "2",
@@ -25,7 +25,7 @@ const showcaseProducts = [
     category: "Parfumerie",
     image: "/images/essential-oil.jpg",
     origin: "Bulgarie",
-    accent: "#D4A99A",
+    accent: "#B57068",
   },
   {
     id: "3",
@@ -35,7 +35,7 @@ const showcaseProducts = [
     category: "Arômes",
     image: "/images/blueberries-herbs.jpg",
     origin: "Madagascar",
-    accent: "#B8ADA6",
+    accent: "#C4A49A",
   },
   {
     id: "4",
@@ -45,7 +45,7 @@ const showcaseProducts = [
     category: "Cosmétique",
     image: "/images/cream-bowl.jpg",
     origin: "Israël",
-    accent: "#918279",
+    accent: "#D08560",
   },
   {
     id: "5",
@@ -55,7 +55,7 @@ const showcaseProducts = [
     category: "Parfumerie",
     image: "/images/product-bottle.jpg",
     origin: "Italie",
-    accent: "#D4A99A",
+    accent: "#B57068",
   },
   {
     id: "6",
@@ -65,7 +65,7 @@ const showcaseProducts = [
     category: "Arômes",
     image: "/images/pump-bottle.jpg",
     origin: "Sicile",
-    accent: "#B8ADA6",
+    accent: "#C4A49A",
   },
 ];
 
@@ -73,10 +73,10 @@ export function MinimalProducts() {
   const t = useTranslations("products");
 
   return (
-    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 section-warm-dark relative overflow-hidden">
+    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 section-peach-light relative overflow-hidden">
       {/* Decorative blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-gold-500/3 rounded-full blur-[120px]" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/8 rounded-full blur-[150px]" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-gold-400/5 rounded-full blur-[120px]" />
 
       <div className="max-w-[100rem] mx-auto relative z-10">
         {/* Header */}
@@ -88,25 +88,25 @@ export function MinimalProducts() {
           className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-14 gap-4"
         >
           <div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[11px] font-semibold uppercase tracking-[0.15em] mb-4">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-600 text-[11px] font-semibold uppercase tracking-[0.15em] mb-4">
               <ShoppingBag className="w-3 h-3" />
               Premium
             </span>
-            <h2 className="text-white tracking-tight">
+            <h2 className="text-forest-950 tracking-tight">
               {t("title")}
             </h2>
-            <p className="text-white/40 mt-3 text-base max-w-lg">{t("subtitle")}</p>
+            <p className="text-forest-400 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
           <Link
             href="/catalogue"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-gold-400 hover:text-gold-300 hover:gap-3 transition-all duration-300"
+            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-gold-600 hover:text-gold-500 hover:gap-3 transition-all duration-300"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
 
-        {/* Products Grid */}
+        {/* Products Grid — white cards on warm background */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {showcaseProducts.map((product, index) => (
             <motion.div
@@ -117,8 +117,8 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block">
-                <div className="bg-forest-900/60 backdrop-blur-sm rounded-[20px] overflow-hidden border border-white/[0.08] hover:border-gold-500/30 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:-translate-y-2">
-                  {/* Image with 10px border radius */}
+                <div className="bg-white rounded-[20px] overflow-hidden border border-forest-100 hover:border-gold-500/40 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2">
+                  {/* Image with padding and rounded corners */}
                   <div className="p-3">
                     <div className="relative aspect-[4/3] overflow-hidden rounded-[10px]">
                       <Image
@@ -128,7 +128,7 @@ export function MinimalProducts() {
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                       {/* Category badge */}
                       <div className="absolute top-3 left-3">
                         <span
@@ -140,7 +140,7 @@ export function MinimalProducts() {
                       </div>
                       {/* Origin badge */}
                       <div className="absolute bottom-3 right-3">
-                        <span className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-[10px] font-medium text-white/80 border border-white/10">
+                        <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md text-[10px] font-medium text-forest-700 shadow-sm">
                           {product.origin}
                         </span>
                       </div>
@@ -149,15 +149,16 @@ export function MinimalProducts() {
 
                   {/* Content */}
                   <div className="px-5 pb-5 pt-1">
-                    <h3 className="text-base font-bold text-white group-hover:text-gold-400 transition-colors duration-300">
+                    <h3 className="text-base font-bold text-forest-950 group-hover:text-gold-500 transition-colors duration-300">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-white/40 mt-1">
+                    <p className="text-sm text-forest-400 mt-1">
                       {product.desc}
                     </p>
-                    <div className="mt-4 pt-4 border-t border-white/[0.08]">
+                    <div className="mt-4 pt-4 border-t border-forest-100">
                       <button
-                        className="w-full h-10 rounded-full bg-gold-500 hover:bg-gold-400 text-white text-xs font-semibold tracking-wide transition-all duration-300 shadow-lg shadow-gold-500/20 hover:shadow-gold-500/30"
+                        className="w-full h-10 rounded-full text-white text-xs font-semibold tracking-wide transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]"
+                        style={{ backgroundColor: product.accent }}
                         onClick={(e) => e.preventDefault()}
                       >
                         {t("sample")}
@@ -174,7 +175,7 @@ export function MinimalProducts() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/catalogue"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-gold-400 hover:text-gold-300 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-gold-600 hover:text-gold-500 transition-all duration-300"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />

@@ -14,9 +14,9 @@ const universes = [
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
-    accentColor: "#918279",
-    accentDark: "#4E4340",
-    accentLight: "#F2EDE8",
+    accentColor: "#D08560",
+    accentDark: "#8B5B3E",
+    accentLight: "#F0E8E2",
   },
   {
     titleKey: "perfume" as const,
@@ -25,9 +25,9 @@ const universes = [
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
-    accentColor: "#D4A99A",
-    accentDark: "#8B5B4E",
-    accentLight: "#F8F0ED",
+    accentColor: "#B57068",
+    accentDark: "#7A4040",
+    accentLight: "#F5EBE6",
   },
   {
     titleKey: "aroma" as const,
@@ -36,9 +36,9 @@ const universes = [
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
-    accentColor: "#B8ADA6",
-    accentDark: "#6B5E58",
-    accentLight: "#F2EDE8",
+    accentColor: "#C4A49A",
+    accentDark: "#6B5E52",
+    accentLight: "#EDE6DF",
   },
 ];
 
