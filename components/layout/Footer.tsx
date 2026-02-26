@@ -10,7 +10,7 @@ export async function Footer() {
   const certifications = ["COSMOS", "ECOCERT", "BIO", "VEGAN", "ISO 9001"];
 
   return (
-    <footer className="bg-dark text-cream-light">
+    <footer className="bg-navy text-cream-light">
       {/* Top section with CTA strip */}
       <div className="border-b border-cream-light/[0.06]">
         <div className="max-w-[1400px] w-[90%] mx-auto py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
