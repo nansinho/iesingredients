@@ -61,7 +61,7 @@ export function LoginForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(131,155,151,0.06)]">
+    <div className="bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(196,116,131,0.06)]">
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="email" className="text-dark dark:text-cream-light">
@@ -73,7 +73,7 @@ export function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(131,155,151,0.15)]"
+            className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(196,116,131,0.15)]"
             placeholder="vous@exemple.com"
           />
         </div>
@@ -89,7 +89,7 @@ export function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(131,155,151,0.15)]"
+              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(196,116,131,0.15)]"
               placeholder="••••••••"
             />
             <button

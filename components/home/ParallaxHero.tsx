@@ -213,7 +213,7 @@ export function ParallaxHero() {
       </div>
 
       {/* Certifications Strip */}
-      <div className="bg-[#132220] border-t border-white/5">
+      <div className="bg-[#181818] border-t border-white/5">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
