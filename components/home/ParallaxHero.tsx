@@ -64,7 +64,7 @@ export function ParallaxHero() {
   return (
     <section className="pt-24 sm:pt-28 pb-0 bg-navy relative overflow-hidden">
 
-      <div className="max-w-[1400px] w-[90%] mx-auto pt-12 sm:pt-16 pb-0">
+      <div className="w-[94%] mx-auto pt-12 sm:pt-16 pb-0">
         {/* Surtitle */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -218,7 +218,7 @@ export function ParallaxHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="max-w-[1400px] w-[90%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/30 tracking-[0.1em] uppercase font-medium"
+          className="w-[94%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/30 tracking-[0.1em] uppercase font-medium"
         >
           <span className="text-mint/50 mr-1">
             {certT("title")}

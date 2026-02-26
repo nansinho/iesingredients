@@ -26,7 +26,7 @@ export function Commitments() {
   return (
     <section className="py-24 md:py-32 bg-blue-mist relative overflow-hidden">
 
-      <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+      <div className="w-[94%] mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

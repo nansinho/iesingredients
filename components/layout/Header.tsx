@@ -227,7 +227,7 @@ export function Header() {
               : "max-h-9 opacity-100 border-white/8 bg-white/[0.03]"
           )}
         >
-          <div className="max-w-[1400px] w-[90%] mx-auto flex items-center justify-between h-9">
+          <div className="w-[94%] mx-auto flex items-center justify-between h-9">
             {/* Left: tagline */}
             <span className="text-xs text-white/40 truncate">
               {t("tagline")}
@@ -318,7 +318,7 @@ export function Header() {
         {/* ═══════════════════════════════════════
            Main Nav Bar — primary navigation
            ═══════════════════════════════════════ */}
-        <div className="max-w-[1400px] w-[90%] mx-auto">
+        <div className="w-[94%] mx-auto">
           <nav className="flex items-center justify-between h-14">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
@@ -704,7 +704,7 @@ export function Header() {
               onMouseLeave={closeMega}
             >
               <div className="bg-[#181818]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
-                <div className="max-w-[1400px] w-[90%] mx-auto py-8">
+                <div className="w-[94%] mx-auto py-8">
                   {/* Top — "All products" link */}
                   <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/8">
                     <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/40">

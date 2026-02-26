@@ -60,7 +60,7 @@ export default async function TeamPage({
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
+        <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Users className="w-3.5 h-3.5" />
@@ -85,7 +85,7 @@ export default async function TeamPage({
 
       {/* Team Grid */}
       <section className="py-24 md:py-32 bg-white dark:bg-dark">
-        <div className="max-w-[1400px] w-[90%] mx-auto">
+        <div className="w-[94%] mx-auto">
           {members && members.length > 0 ? (
             <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

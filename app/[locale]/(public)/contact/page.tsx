@@ -53,7 +53,7 @@ export default async function ContactPage({
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10 text-center">
+        <div className="w-[94%] mx-auto relative z-10 text-center">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-6">
               <MessageCircle className="w-3.5 h-3.5" />
@@ -133,7 +133,7 @@ export default async function ContactPage({
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-lavender/5 rounded-full blur-[180px]" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
 
-        <div className="max-w-[1400px] w-[90%] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+        <div className="w-[94%] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Form — main column */}
           <AnimateIn delay={0.1} y={30} className="lg:col-span-3">
             <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 md:p-10 border border-brown/8 dark:border-brown/10 shadow-[0_8px_40px_rgba(163,123,104,0.06)]">
