@@ -6,7 +6,7 @@
 
 /* ========================================
    IES Ingredients — Apple-Inspired Design System
-   Palette: sage / lime / olive green accent / dark forest
+   Palette: slate violet / aubergine / blush peach / saumon accent
    Fonts: DM Sans + Playfair Display (accent)
    Tailwind CSS v4 — CSS-first config
    ======================================== */
@@ -44,79 +44,79 @@
   --tracking-luxury: 0.15em;
   --tracking-widest: 0.1em;
 
-  /* ---- Brand palette — Green & Olive Accent ---- */
-  --color-cream-light: #e8edce;
-  --color-cream: #cdd5a0;
-  --color-cream-dark: #bcc890;
+  /* ---- Brand palette — Violet & Saumon Accent ---- */
+  --color-cream-light: #f8e8e0;
+  --color-cream: #f2c4ae;
+  --color-cream-dark: #e8b8a0;
   --color-dark: #181818;
   --color-dark-card: #222222;
   --color-dark-lighter: #2c2c2c;
-  --color-brown: #c2d268;
-  --color-brown-light: #d0dc88;
-  --color-brown-dark: #a8bc48;
-  --color-olive: #4d5545;
-  --color-olive-light: #606858;
-  --color-olive-dark: #3a4030;
-  --color-peach: #8cb030;
-  --color-peach-light: #a0c048;
-  --color-peach-dark: #709020;
-  --color-lavender: #8cb030;
-  --color-lavender-light: #a0c048;
-  --color-lavender-dark: #709020;
+  --color-brown: #5c5070;
+  --color-brown-light: #706488;
+  --color-brown-dark: #4a4060;
+  --color-olive: #3a2d42;
+  --color-olive-light: #5c5070;
+  --color-olive-dark: #2a1e30;
+  --color-peach: #d08878;
+  --color-peach-light: #d8a090;
+  --color-peach-dark: #c07060;
+  --color-lavender: #d08878;
+  --color-lavender-light: #d8a090;
+  --color-lavender-dark: #c07060;
 
-  /* Green palette */
+  /* Violet Peach palette */
   --color-navy: #181818;
   --color-charcoal: #2c2c2c;
-  --color-forest-green: #4d5545;
-  --color-mint: #cdd5a0;
-  --color-blue-mist: #c2d268;
-  --color-sage: #8cb030;
+  --color-forest-green: #3a2d42;
+  --color-mint: #f2c4ae;
+  --color-blue-mist: #5c5070;
+  --color-sage: #d08878;
 
-  /* Legacy color aliases — green scale */
+  /* Legacy color aliases — violet/peach scale */
   --color-forest-950: #181818;
   --color-forest-900: #222222;
   --color-forest-800: #2c2c2c;
   --color-forest-700: #3d3d3d;
-  --color-forest-600: #3a4030;
-  --color-forest-500: #4d5545;
-  --color-forest-400: #8cb030;
-  --color-forest-300: #c2d268;
-  --color-forest-200: #cdd5a0;
-  --color-forest-100: #e0e8c0;
-  --color-forest-50: #e8edce;
-  --color-gold-950: #1a2010;
-  --color-gold-900: #3a4030;
-  --color-gold-800: #709020;
-  --color-gold-700: #8cb030;
-  --color-gold-600: #a0c048;
-  --color-gold-500: #c2d268;
-  --color-gold-400: #d0dc88;
-  --color-gold-300: #bcc890;
-  --color-gold-200: #cdd5a0;
-  --color-gold-100: #e0e8c0;
-  --color-gold-50: #e8edce;
+  --color-forest-600: #2a1e30;
+  --color-forest-500: #3a2d42;
+  --color-forest-400: #d08878;
+  --color-forest-300: #5c5070;
+  --color-forest-200: #f2c4ae;
+  --color-forest-100: #f5d8c8;
+  --color-forest-50: #f8e8e0;
+  --color-gold-950: #1a1018;
+  --color-gold-900: #2a1e30;
+  --color-gold-800: #c07060;
+  --color-gold-700: #d08878;
+  --color-gold-600: #d8a090;
+  --color-gold-500: #5c5070;
+  --color-gold-400: #706488;
+  --color-gold-300: #e8b8a0;
+  --color-gold-200: #f2c4ae;
+  --color-gold-100: #f5d8c8;
+  --color-gold-50: #f8e8e0;
   --color-navy-900: #181818;
   --color-navy-800: #222222;
   --color-navy-700: #2c2c2c;
   --color-navy-600: #3d3d3d;
-  --color-cream-50: #e8edce;
-  --color-cream-100: #cdd5a0;
-  --color-cream-200: #bcc890;
-  --color-cream-300: #d0dc88;
-  --color-apple-gray-50: #e8edce;
-  --color-apple-gray-100: #cdd5a0;
-  --color-apple-gray-200: #bcc890;
-  --color-apple-gray-300: #c2d268;
+  --color-cream-50: #f8e8e0;
+  --color-cream-100: #f2c4ae;
+  --color-cream-200: #e8b8a0;
+  --color-cream-300: #706488;
+  --color-apple-gray-50: #f8e8e0;
+  --color-apple-gray-100: #f2c4ae;
+  --color-apple-gray-200: #e8b8a0;
+  --color-apple-gray-300: #5c5070;
   --color-apple-dark: #181818;
-  --color-cosmetique-light: #d0dc88;
-  --color-cosmetique: #8cb030;
-  --color-cosmetique-dark: #709020;
-  --color-parfum-light: #606858;
-  --color-parfum: #4d5545;
-  --color-parfum-dark: #3a4030;
-  --color-arome-light: #d8e0a0;
-  --color-arome: #c2d268;
-  --color-arome-dark: #a8bc48;
+  --color-cosmetique-light: #d8a090;
+  --color-cosmetique: #d08878;
+  --color-cosmetique-dark: #c07060;
+  --color-parfum-light: #706488;
+  --color-parfum: #5c5070;
+  --color-parfum-dark: #4a4060;
+  --color-arome-light: #4a4060;
+  --color-arome: #3a2d42;
+  --color-arome-dark: #2a1e30;
 
   /* Colors — shadcn/ui system */
   --color-border: hsl(var(--border));
@@ -205,8 +205,8 @@
     100% { background-position: 200% 0; }
   }
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(140, 176, 48, 0.15); }
-    50% { box-shadow: 0 0 40px rgba(140, 176, 48, 0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(208, 136, 120, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(208, 136, 120, 0.3); }
   }
 }
 
@@ -216,7 +216,7 @@
    ======================================== */
 
 :root {
-  --background: 69 40% 91%;
+  --background: 20 72% 95%;
   --foreground: 0 0% 9%;
 
   --card: 0 0% 100%;
@@ -226,64 +226,64 @@
   --popover-foreground: 0 0% 9%;
 
   --primary: 0 0% 9%;
-  --primary-foreground: 69 40% 91%;
+  --primary-foreground: 20 72% 95%;
 
-  --secondary: 69 40% 73%;
+  --secondary: 20 72% 82%;
   --secondary-foreground: 0 0% 9%;
 
-  --muted: 69 30% 85%;
-  --muted-foreground: 90 10% 40%;
+  --muted: 20 50% 90%;
+  --muted-foreground: 263 17% 45%;
 
-  --accent: 77 57% 44%;
+  --accent: 11 48% 64%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 69 25% 78%;
-  --input: 69 25% 78%;
-  --ring: 77 57% 44%;
+  --border: 20 40% 85%;
+  --input: 20 40% 85%;
+  --ring: 11 48% 64%;
 
   --radius: 0.75rem;
 
   /* Chart colors */
-  --chart-1: 77 57% 44%;
-  --chart-2: 90 10% 30%;
-  --chart-3: 69 55% 62%;
-  --chart-4: 69 40% 73%;
-  --chart-5: 69 40% 91%;
+  --chart-1: 11 48% 64%;
+  --chart-2: 263 17% 38%;
+  --chart-3: 277 19% 22%;
+  --chart-4: 20 72% 82%;
+  --chart-5: 20 72% 95%;
 
   /* Sidebar */
   --sidebar-background: 0 0% 9%;
-  --sidebar-foreground: 69 40% 91%;
-  --sidebar-primary: 77 57% 44%;
+  --sidebar-foreground: 20 72% 95%;
+  --sidebar-primary: 11 48% 64%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 13%;
-  --sidebar-accent-foreground: 69 40% 91%;
+  --sidebar-accent-foreground: 20 72% 95%;
   --sidebar-border: 0 0% 15%;
-  --sidebar-ring: 77 57% 44%;
+  --sidebar-ring: 11 48% 64%;
 }
 
 .dark {
   --background: 0 0% 9%;
-  --foreground: 69 40% 91%;
+  --foreground: 20 72% 95%;
 
   --card: 0 0% 13%;
-  --card-foreground: 69 40% 91%;
+  --card-foreground: 20 72% 95%;
 
   --popover: 0 0% 13%;
-  --popover-foreground: 69 40% 91%;
+  --popover-foreground: 20 72% 95%;
 
-  --primary: 77 57% 44%;
+  --primary: 11 48% 64%;
   --primary-foreground: 0 0% 9%;
 
   --secondary: 0 0% 13%;
-  --secondary-foreground: 69 40% 73%;
+  --secondary-foreground: 20 72% 82%;
 
   --muted: 0 0% 13%;
-  --muted-foreground: 69 20% 55%;
+  --muted-foreground: 20 40% 60%;
 
-  --accent: 77 57% 44%;
+  --accent: 11 48% 64%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 65% 50%;
@@ -291,22 +291,22 @@
 
   --border: 0 0% 18%;
   --input: 0 0% 18%;
-  --ring: 77 57% 44%;
+  --ring: 11 48% 64%;
 
-  --chart-1: 69 40% 73%;
-  --chart-2: 77 57% 44%;
-  --chart-3: 90 10% 30%;
-  --chart-4: 69 55% 62%;
-  --chart-5: 69 40% 91%;
+  --chart-1: 20 72% 82%;
+  --chart-2: 11 48% 64%;
+  --chart-3: 263 17% 38%;
+  --chart-4: 277 19% 22%;
+  --chart-5: 20 72% 95%;
 
   --sidebar-background: 0 0% 7%;
-  --sidebar-foreground: 69 40% 91%;
-  --sidebar-primary: 77 57% 44%;
+  --sidebar-foreground: 20 72% 95%;
+  --sidebar-primary: 11 48% 64%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 11%;
-  --sidebar-accent-foreground: 69 40% 91%;
+  --sidebar-accent-foreground: 20 72% 95%;
   --sidebar-border: 0 0% 13%;
-  --sidebar-ring: 77 57% 44%;
+  --sidebar-ring: 11 48% 64%;
 }
 
 /* ========================================
@@ -366,7 +366,7 @@
   }
 
   ::selection {
-    background: rgba(140, 176, 48, 0.3);
+    background: rgba(208, 136, 120, 0.3);
     color: var(--color-dark);
   }
 }
@@ -423,12 +423,12 @@
 .card-apple {
   border-radius: 1.5rem;
   background: white;
-  box-shadow: 0 2px 40px rgba(140, 176, 48, 0.06);
+  box-shadow: 0 2px 40px rgba(208, 136, 120, 0.06);
   transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-apple:hover {
-  box-shadow: 0 8px 60px rgba(140, 176, 48, 0.12);
+  box-shadow: 0 8px 60px rgba(208, 136, 120, 0.12);
 }
 
 .dark .card-apple {
@@ -439,20 +439,20 @@
   border-radius: 1rem;
   background: white;
   overflow: hidden;
-  box-shadow: 0 4px 30px rgba(140, 176, 48, 0.06);
+  box-shadow: 0 4px 30px rgba(208, 136, 120, 0.06);
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  border: 1px solid rgba(140, 176, 48, 0.1);
+  border: 1px solid rgba(208, 136, 120, 0.1);
 }
 
 .card-premium:hover {
-  box-shadow: 0 20px 60px rgba(140, 176, 48, 0.12);
+  box-shadow: 0 20px 60px rgba(208, 136, 120, 0.12);
   transform: translateY(-6px);
   border-color: var(--color-brown-light);
 }
 
 .dark .card-premium {
   background: var(--color-dark-card);
-  border-color: rgba(140, 176, 48, 0.1);
+  border-color: rgba(208, 136, 120, 0.1);
 }
 
 .dark .card-premium:hover {
@@ -464,7 +464,7 @@
   background: hsl(var(--card) / 0.9);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(140, 176, 48, 0.08);
+  border: 1px solid rgba(208, 136, 120, 0.08);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   border-radius: 1.5rem;
 }
@@ -490,15 +490,15 @@
   letter-spacing: 0.01em;
   border-radius: 9999px;
   background: var(--color-peach);
-  color: var(--color-dark);
+  color: white;
   transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 4px 20px rgba(140, 176, 48, 0.35);
+  box-shadow: 0 4px 20px rgba(208, 136, 120, 0.35);
 }
 
 .btn-peach:hover {
   background: var(--color-peach-dark);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(140, 176, 48, 0.5);
+  box-shadow: 0 8px 30px rgba(208, 136, 120, 0.5);
 }
 
 /* Brown Outline Button */
@@ -632,9 +632,9 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: rgba(140, 176, 48, 0.1);
+  background: rgba(208, 136, 120, 0.1);
   color: var(--color-brown);
-  border: 1px solid rgba(140, 176, 48, 0.15);
+  border: 1px solid rgba(208, 136, 120, 0.15);
 }
 
 /* ========================================
@@ -692,8 +692,8 @@
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(140, 176, 48, 0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(140, 176, 48, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(208, 136, 120, 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(208, 136, 120, 0.4); }
 
 /* ========================================
    Focus & Accessibility
@@ -701,7 +701,7 @@
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(140, 176, 48, 0.5);
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(208, 136, 120, 0.5);
 }
 
 /* ========================================
