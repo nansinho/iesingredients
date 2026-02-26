@@ -40,9 +40,9 @@ export function getCategoryConfig(typologie: string | null) {
   const t = (typologie || "").toUpperCase();
   if (t.includes("COSMET") || t.includes("COSMÉT")) {
     return {
-      accent: "#4A7C59",
+      accent: "#8B6FA3",
       label: "Cosmétique",
-      gradient: "from-[#2D5A3D] to-[#4A7C59]",
+      gradient: "from-[#5E4878] to-[#8B6FA3]",
       image: "/images/cream-bowl.jpg",
     };
   }
@@ -63,9 +63,9 @@ export function getCategoryConfig(typologie: string | null) {
     };
   }
   return {
-    accent: "#4A7C59",
+    accent: "#8B6FA3",
     label: "Produit",
-    gradient: "from-forest-800 to-forest-900",
+    gradient: "from-[#5E4878] to-[#8B6FA3]",
     image: "/images/cream-bowl.jpg",
   };
 }

@@ -44,7 +44,7 @@ const catalogColumns = [
     id: "cosmetique",
     titleKey: "cosmetic" as const,
     icon: Leaf,
-    accent: "#4A7C59",
+    accent: "#8B6FA3",
     subKeys: ["cosmeticSub1", "cosmeticSub2", "cosmeticSub3", "cosmeticSub4"] as const,
   },
   {
@@ -638,16 +638,16 @@ export function Header() {
                             className="flex items-center gap-2.5 mb-4 group/link"
                           >
                             <div
-                              className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover/link:scale-110"
+                              className="w-9 h-9 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover/link:scale-110"
                               style={{ background: `${col.accent}15` }}
                             >
                               <Icon
-                                className="w-4 h-4"
+                                className="w-5 h-5"
                                 style={{ color: col.accent }}
                               />
                             </div>
                             <span
-                              className="text-sm font-semibold tracking-[-0.01em]"
+                              className="text-lg font-bold tracking-[-0.01em]"
                               style={{ color: col.accent }}
                             >
                               {cat(col.titleKey)}
