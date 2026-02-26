@@ -14,9 +14,6 @@ const universes = [
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
-    accentColor: "#D08560",
-    accentDark: "#8B5B3E",
-    accentLight: "#F0E8E2",
   },
   {
     titleKey: "perfume" as const,
@@ -25,9 +22,6 @@ const universes = [
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
-    accentColor: "#B57068",
-    accentDark: "#7A4040",
-    accentLight: "#F5EBE6",
   },
   {
     titleKey: "aroma" as const,
@@ -36,9 +30,6 @@ const universes = [
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
-    accentColor: "#C4A49A",
-    accentDark: "#6B5E52",
-    accentLight: "#EDE6DF",
   },
 ];
 
@@ -47,8 +38,8 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-24 md:py-32 lg:py-40 px-4 sm:px-6 lg:px-10 bg-white">
-      <div className="max-w-[100rem] mx-auto">
+    <section className="py-24 md:py-32 bg-white dark:bg-dark">
+      <div className="max-w-[1400px] w-[90%] mx-auto">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -57,18 +48,15 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-forest-400 font-medium mb-4">
-            {t("title")}
-          </span>
-          <h2 className="text-forest-950 tracking-[-0.02em]">
-            {t("title")}
+          <h2 className="text-dark dark:text-cream-light tracking-[-0.02em]">
+            Trois univers. Une <span className="font-playfair italic text-brown">expertise</span>.
           </h2>
-          <p className="text-forest-400 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
+          <p className="text-dark/50 dark:text-cream-light/50 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
         </motion.div>
 
-        {/* 3 Column Grid — colored category cards (NOT white product cards) */}
+        {/* 3 Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6">
           {universes.map((u, index) => (
             <motion.div
@@ -79,9 +67,9 @@ export function ThreeUniverses() {
               transition={{ duration: 0.6, delay: index * 0.12 }}
             >
               <Link href={{ pathname: "/catalogue", query: { category: u.filter } }}>
-                <div className="group relative overflow-hidden rounded-3xl cursor-pointer h-full">
-                  {/* Full image background */}
-                  <div className="relative aspect-[3/4] sm:aspect-[3/4] overflow-hidden">
+                <div className="group relative overflow-hidden rounded-2xl cursor-pointer h-full bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 hover:border-brown/20">
+                  {/* Image */}
+                  <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={u.image}
                       alt={cat(u.titleKey)}
@@ -89,40 +77,24 @@ export function ThreeUniverses() {
                       className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, 33vw"
                     />
-                    {/* Category-colored gradient overlay */}
-                    <div
-                      className="absolute inset-0 transition-opacity duration-500"
-                      style={{
-                        background: `linear-gradient(to top, ${u.accentDark}F0 0%, ${u.accentDark}80 35%, transparent 70%)`,
-                      }}
-                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent" />
+                    {/* Count badge */}
+                    <div className="absolute bottom-4 left-4">
+                      <span className="px-3 py-1.5 rounded-full bg-cream-light/90 backdrop-blur-sm text-[11px] font-semibold text-dark">
+                        {u.count} {u.countLabel}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Content overlay — positioned at bottom */}
-                  <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-                    {/* Accent line */}
-                    <div
-                      className="w-8 h-[3px] rounded-full mb-4 transition-all duration-500 group-hover:w-14"
-                      style={{ backgroundColor: u.accentColor }}
-                    />
-
-                    {/* Count */}
-                    <span className="text-white/60 text-xs font-medium tracking-wide mb-1.5 block">
-                      {u.count} {u.countLabel}
-                    </span>
-
-                    {/* Title */}
-                    <h3 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white tracking-[-0.02em] mb-2">
+                  {/* Content */}
+                  <div className="p-5 sm:p-6">
+                    <h3 className="text-xl font-semibold text-dark dark:text-cream-light tracking-[-0.02em] mb-2">
                       {cat(u.titleKey)}
                     </h3>
-
-                    {/* Description */}
-                    <p className="text-white/50 text-sm leading-relaxed mb-5 line-clamp-2">
+                    <p className="text-dark/50 dark:text-cream-light/50 text-sm leading-relaxed mb-4 line-clamp-2">
                       {cat(u.descKey)}
                     </p>
-
-                    {/* Explore link */}
-                    <span className="inline-flex items-center gap-2 text-sm font-medium text-white group-hover:gap-3 transition-all duration-300">
+                    <span className="inline-flex items-center gap-2 text-sm font-medium text-brown group-hover:gap-3 transition-all duration-300">
                       {cat("explore")}
                       <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
