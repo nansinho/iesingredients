@@ -89,7 +89,7 @@ export function ParallaxHero() {
         >
           {t("titleLine1")}
           <br />
-          <span className="font-playfair italic text-brown">{t("titleLine2")}</span>
+          <span className="font-playfair uppercase tracking-wide text-brown">{t("titleLine2")}</span>
         </motion.h1>
 
         {/* Subtitle */}

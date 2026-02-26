@@ -14,7 +14,7 @@
 @theme inline {
   /* Font families */
   --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
-  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-playfair: "Oswald", "Arial Narrow", sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", monospace;
 
   /* Border radius */
@@ -110,6 +110,7 @@
   --color-dark: #2d2a26;
   --color-dark-card: #352f2b;
   --color-dark-lighter: #3e3632;
+  --color-black-matte: #0A0A0A;
   --color-brown: #a37b68;
   --color-brown-light: #c4a595;
   --color-brown-dark: #7d5a49;
