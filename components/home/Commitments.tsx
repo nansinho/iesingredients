@@ -24,7 +24,7 @@ export function Commitments() {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-orange-accent relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-lime relative overflow-hidden">
 
       <div className="max-w-[1400px] w-[90%] mx-auto relative z-10">
         {/* Header */}
@@ -35,12 +35,12 @@ export function Commitments() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark/10 border border-dark/15 text-dark text-xs font-semibold uppercase tracking-[0.15em] mb-5">
             <Award className="w-3.5 h-3.5" />
             {t("surtitle")}
           </span>
-          <h2 className="text-white tracking-tight">
-            Nos <span className="font-playfair italic text-dark">engagements</span>.
+          <h2 className="text-dark tracking-tight">
+            Nos <span className="font-playfair italic text-navy">engagements</span>.
           </h2>
         </motion.div>
 
@@ -50,7 +50,7 @@ export function Commitments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="relative w-full aspect-[16/7] sm:aspect-[2.4/1] rounded-2xl overflow-hidden mb-10 border border-white/10"
+          className="relative w-full aspect-[16/7] sm:aspect-[2.4/1] rounded-2xl overflow-hidden mb-10 border border-dark/10"
         >
           <Image
             src="/images/leaves-hero.jpg"
@@ -92,13 +92,13 @@ export function Commitments() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-white/30 hover:bg-white/20 transition-all duration-500 group"
+              className="bg-dark/8 backdrop-blur-sm rounded-2xl p-6 border border-dark/10 hover:border-dark/25 hover:bg-dark/12 transition-all duration-500 group"
             >
-              <div className="w-11 h-11 rounded-xl bg-white/20 border border-white/15 flex items-center justify-center mb-4 group-hover:bg-white/30 transition-all duration-300">
-                <feature.icon className="w-5 h-5 text-white" />
+              <div className="w-11 h-11 rounded-xl bg-dark/10 border border-dark/10 flex items-center justify-center mb-4 group-hover:bg-dark/15 transition-all duration-300">
+                <feature.icon className="w-5 h-5 text-dark" />
               </div>
-              <h3 className="font-bold text-white mb-1.5 text-sm">{t(feature.titleKey)}</h3>
-              <p className="text-sm text-white/60 leading-relaxed">{t(feature.descKey)}</p>
+              <h3 className="font-bold text-dark mb-1.5 text-sm">{t(feature.titleKey)}</h3>
+              <p className="text-sm text-dark/60 leading-relaxed">{t(feature.descKey)}</p>
             </motion.div>
           ))}
         </div>
@@ -113,7 +113,7 @@ export function Commitments() {
         >
           <Link
             href="/entreprise"
-            className="inline-flex items-center gap-2 text-base font-semibold text-white hover:text-dark hover:gap-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-base font-semibold text-dark hover:text-navy hover:gap-3 transition-all duration-300"
           >
             {t("link")}
             <ArrowRight className="w-4 h-4" />

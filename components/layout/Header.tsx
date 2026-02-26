@@ -703,7 +703,7 @@ export function Header() {
               onMouseEnter={cancelClose}
               onMouseLeave={closeMega}
             >
-              <div className="bg-[#2E3244]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#4A5A38]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
                 <div className="max-w-[1400px] w-[90%] mx-auto py-8">
                   {/* Top — "All products" link */}
                   <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/8">
