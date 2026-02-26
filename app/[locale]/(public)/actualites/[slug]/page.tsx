@@ -100,17 +100,19 @@ export default async function ArticlePage({
       />
 
       {/* Hero */}
-      <section className="bg-forest-950 pt-28 sm:pt-32 pb-12">
-        <div className="container-luxe max-w-4xl">
-          <Link href="/actualites" className="inline-flex items-center gap-2 text-cream-300 hover:text-gold-400 transition-colors mb-6">
+      <section className="bg-dark pt-28 sm:pt-32 pb-12 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-peach/5 rounded-full blur-[150px]" />
+
+        <div className="max-w-[900px] w-[90%] mx-auto relative z-10">
+          <Link href="/actualites" className="inline-flex items-center gap-2 text-cream-light/60 hover:text-peach transition-colors mb-6">
             <ArrowLeft className="w-4 h-4" />
             {isFr ? "Retour aux actualités" : "Back to news"}
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <span className="px-3 py-1 rounded-full text-xs font-medium bg-gold-500/20 text-gold-400">
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
               {article.category}
             </span>
-            <time className="text-xs text-cream-400">
+            <time className="text-xs text-cream-light/50">
               {new Date(article.published_at || article.created_at || "").toLocaleDateString(locale, {
                 year: "numeric",
                 month: "long",
@@ -118,11 +120,11 @@ export default async function ArticlePage({
               })}
             </time>
           </div>
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl text-white leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-cream-light leading-tight tracking-[-0.03em]">
             {title}
           </h1>
           {article.author_name && (
-            <p className="text-cream-300 mt-4">
+            <p className="text-cream-light/60 mt-4">
               {isFr ? "Par" : "By"} {article.author_name}
             </p>
           )}
@@ -131,8 +133,8 @@ export default async function ArticlePage({
 
       {/* Cover Image */}
       {article.cover_image_url && (
-        <div className="container-luxe max-w-4xl -mt-2 mb-12">
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden">
+        <div className="max-w-[900px] w-[90%] mx-auto -mt-2 mb-12">
+          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10">
             <Image
               src={article.cover_image_url}
               alt={title || ""}
@@ -146,9 +148,9 @@ export default async function ArticlePage({
       )}
 
       {/* Content */}
-      <article className="container-luxe max-w-4xl pb-24">
+      <article className="max-w-[900px] w-[90%] mx-auto pb-24">
         <div
-          className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-forest-900 prose-p:text-forest-700 prose-a:text-gold-600 prose-a:no-underline hover:prose-a:underline"
+          className="prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-p:text-dark/70 dark:prose-p:text-cream-light/60 prose-a:text-brown dark:prose-a:text-peach prose-a:no-underline hover:prose-a:underline"
           dangerouslySetInnerHTML={{ __html: content || "" }}
         />
       </article>

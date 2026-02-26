@@ -114,7 +114,7 @@ export function AccountClient({
 
   return (
     <Tabs defaultValue="profile" className="space-y-8">
-      <TabsList className="bg-forest-50">
+      <TabsList className="bg-cream dark:bg-dark-card">
         <TabsTrigger value="profile" className="gap-2">
           <User className="w-4 h-4" />
           {isFr ? "Profil" : "Profile"}
@@ -123,7 +123,7 @@ export function AccountClient({
           <Package className="w-4 h-4" />
           {isFr ? "Mes Demandes" : "My Requests"}
           {requests.length > 0 && (
-            <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-gold-500 text-forest-900">
+            <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-peach text-dark">
               {requests.length}
             </span>
           )}
@@ -131,14 +131,14 @@ export function AccountClient({
       </TabsList>
 
       <TabsContent value="profile">
-        <div className="bg-white rounded-2xl border border-forest-100 p-8">
-          <h2 className="font-serif text-2xl text-forest-900 mb-6">
+        <div className="bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10 p-8">
+          <h2 className="font-semibold text-2xl text-dark dark:text-cream-light mb-6">
             {isFr ? "Informations personnelles" : "Personal Information"}
           </h2>
           <form onSubmit={handleUpdateProfile} className="space-y-6">
             <div className="space-y-2">
               <Label>Email</Label>
-              <Input value={userEmail} disabled className="h-12 bg-forest-50" />
+              <Input value={userEmail} disabled className="h-12 bg-cream dark:bg-dark" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -189,7 +189,7 @@ export function AccountClient({
               <Button
                 type="submit"
                 disabled={isUpdating}
-                className="bg-forest-900 hover:bg-forest-800 text-white rounded-full px-8"
+                className="bg-peach hover:bg-peach-dark text-dark rounded-full px-8"
               >
                 {isUpdating ? (
                   <>
@@ -208,12 +208,12 @@ export function AccountClient({
       <TabsContent value="requests">
         <div className="space-y-4">
           {requests.length === 0 ? (
-            <div className="text-center py-16 bg-white rounded-2xl border border-forest-100">
-              <Package className="w-12 h-12 text-forest-300 mx-auto mb-4" />
-              <p className="text-forest-600 text-lg">
+            <div className="text-center py-16 bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10">
+              <Package className="w-12 h-12 text-brown/30 mx-auto mb-4" />
+              <p className="text-dark/60 dark:text-cream-light/60 text-lg">
                 {isFr ? "Aucune demande d'échantillon" : "No sample requests yet"}
               </p>
-              <p className="text-forest-500 text-sm mt-1">
+              <p className="text-dark/40 dark:text-cream-light/40 text-sm mt-1">
                 {isFr
                   ? "Parcourez notre catalogue pour demander des échantillons."
                   : "Browse our catalog to request samples."}
@@ -223,7 +223,7 @@ export function AccountClient({
             requests.map((req) => (
               <div
                 key={req.id}
-                className="bg-white rounded-2xl border border-forest-100 p-6"
+                className="bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10 p-6"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div>
@@ -232,7 +232,7 @@ export function AccountClient({
                     >
                       {statusLabel(req.status)}
                     </span>
-                    <time className="text-xs text-forest-500 ml-3">
+                    <time className="text-xs text-dark/40 dark:text-cream-light/40 ml-3">
                       {req.created_at
                         ? new Date(req.created_at).toLocaleDateString(locale, {
                             year: "numeric",
@@ -245,23 +245,23 @@ export function AccountClient({
                 </div>
 
                 {req.message && (
-                  <p className="text-sm text-forest-600 mb-3">{req.message}</p>
+                  <p className="text-sm text-dark/60 dark:text-cream-light/60 mb-3">{req.message}</p>
                 )}
 
                 <div className="space-y-2">
                   {req.sample_request_items?.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between py-2 px-3 bg-forest-50 rounded-lg text-sm"
+                      className="flex items-center justify-between py-2 px-3 bg-cream dark:bg-dark rounded-lg text-sm"
                     >
                       <div>
-                        <span className="font-medium text-forest-900">
+                        <span className="font-medium text-dark dark:text-cream-light">
                           {item.product_name}
                         </span>
-                        <span className="text-forest-500 ml-2">({item.product_code})</span>
+                        <span className="text-dark/40 dark:text-cream-light/40 ml-2">({item.product_code})</span>
                       </div>
                       {item.quantity && (
-                        <span className="text-forest-600">
+                        <span className="text-dark/60 dark:text-cream-light/60">
                           x{item.quantity}
                         </span>
                       )}
