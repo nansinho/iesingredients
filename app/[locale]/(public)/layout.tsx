@@ -3,6 +3,8 @@ import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ColorThemeProvider } from "@/components/theme/ColorThemeProvider";
+import { ColorThemeSwitcher } from "@/components/theme/ColorThemeSwitcher";
 
 export default async function PublicLayout({
   children,
@@ -14,11 +16,14 @@ export default async function PublicLayout({
   return (
     <NextIntlClientProvider messages={messages}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <ColorThemeProvider>
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <ColorThemeSwitcher />
+        </ColorThemeProvider>
       </ThemeProvider>
     </NextIntlClientProvider>
   );
