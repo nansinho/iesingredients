@@ -63,7 +63,7 @@ export default async function ContactPage({
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
               {isFr ? "Parlons de vos" : "Let's discuss your"}{" "}
-              <span className="font-playfair tracking-wide text-peach">{isFr ? "projets" : "projects"}</span>
+              <span className="font-playfair italic text-peach">{isFr ? "projets" : "projects"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -147,7 +147,7 @@ export default async function ContactPage({
               <div>
                 <h2 className="text-2xl font-semibold text-dark dark:text-cream-light tracking-tight mb-2">
                   {isFr ? "Pourquoi nous" : "Why"}{" "}
-                  <span className="font-playfair tracking-wide text-brown dark:text-peach">{isFr ? "contacter ?" : "contact us?"}</span>
+                  <span className="font-playfair italic text-brown dark:text-peach">{isFr ? "contacter ?" : "contact us?"}</span>
                 </h2>
                 <p className="text-sm text-dark/50 dark:text-cream-light/50 leading-relaxed">
                   {isFr

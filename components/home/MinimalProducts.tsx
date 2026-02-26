@@ -13,7 +13,7 @@ const showcaseProducts = [
     ref: "AH-2024",
     desc: "Actif hydratant haute performance, poids moléculaire optimisé pour pénétration cutanée.",
     category: "Cosmétique",
-    accent: "var(--color-accent-cosmetique)",
+    accent: "#8B6FA3",
     image: "/images/cream-jar.jpg",
     tags: ["Hydratation", "Anti-âge", "Naturel"],
   },
@@ -23,7 +23,7 @@ const showcaseProducts = [
     ref: "VC-3300",
     desc: "Ascorbyl glucoside stabilisé pour formulations éclat et anti-oxydantes.",
     category: "Cosmétique",
-    accent: "var(--color-accent-cosmetique)",
+    accent: "#8B6FA3",
     image: "/images/serum-collection.jpg",
     tags: ["Éclat", "Anti-oxydant", "Performance"],
   },
@@ -33,7 +33,7 @@ const showcaseProducts = [
     ref: "5005809",
     desc: "Molécule ambrée biosourcée, puissante et biodégradable. Notes boisées ambrées.",
     category: "Parfumerie",
-    accent: "var(--color-accent-parfum)",
+    accent: "#A67B5B",
     image: "/images/essential-oil.jpg",
     tags: ["Ambrée", "Biosourcé", "Biodégradable"],
   },
@@ -43,7 +43,7 @@ const showcaseProducts = [
     ref: "VN-1050",
     desc: "Oléorésine de vanille naturelle de Madagascar, qualité premium pour arômes alimentaires.",
     category: "Arômes",
-    accent: "var(--color-accent-arome)",
+    accent: "#C97B8B",
     image: "/images/blueberries-herbs.jpg",
     tags: ["Vanille", "Naturel", "Premium"],
   },
@@ -53,7 +53,7 @@ const showcaseProducts = [
     ref: "RA-4400",
     desc: "Absolue de rose de Bulgarie, ingrédient noble pour parfumerie fine et soins luxe.",
     category: "Parfumerie",
-    accent: "var(--color-accent-parfum)",
+    accent: "#A67B5B",
     image: "/images/botanicals-flat.jpg",
     tags: ["Rose", "Luxe", "Bulgarie"],
   },
@@ -63,7 +63,7 @@ const showcaseProducts = [
     ref: "JB-2100",
     desc: "Huile végétale premium, émolliente et non comédogène, idéale pour soins capillaires et cutanés.",
     category: "Cosmétique",
-    accent: "var(--color-accent-cosmetique)",
+    accent: "#8B6FA3",
     image: "/images/cream-bowl.jpg",
     tags: ["Émollient", "Végétal", "Premium"],
   },
@@ -89,7 +89,7 @@ export function MinimalProducts() {
         >
           <div>
             <h2 className="text-dark dark:text-cream-light tracking-tight">
-              Nos ingrédients <span className="font-playfair tracking-wide text-brown">phares</span>
+              Nos ingrédients <span className="font-playfair italic text-brown">phares</span>
             </h2>
             <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
@@ -113,7 +113,7 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block">
-                <div className="bg-[var(--color-card-warm)] dark:bg-dark-card rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(var(--color-shadow-accent-rgb),0.12)] hover:-translate-y-2 flex flex-col h-full">
+                <div className="bg-[#E8DDD3] dark:bg-dark-card rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(163,123,104,0.12)] hover:-translate-y-2 flex flex-col h-full">
                   {/* Banner image */}
                   <div className="relative aspect-[16/7] overflow-hidden">
                     <Image
@@ -123,7 +123,7 @@ export function MinimalProducts() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-card-warm)]/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#E8DDD3]/40 to-transparent" />
                   </div>
 
                   {/* Content */}
