@@ -60,55 +60,59 @@ export function ProductCard({ product }: { product: Product }) {
       className="group block h-full"
     >
       <motion.article
-        whileHover={{ y: -4 }}
+        whileHover={{ y: -6 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative h-full rounded-[16px] border border-brown/8 dark:border-brown/10 overflow-hidden bg-white dark:bg-dark-card hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] hover:border-brown/25 transition-all duration-500 flex flex-col"
+        className="relative h-full rounded-2xl border border-brown/8 dark:border-brown/10 overflow-hidden bg-white dark:bg-dark-card hover:shadow-[0_20px_60px_rgba(163,123,104,0.1)] hover:border-brown/20 transition-all duration-500 flex flex-col"
       >
-        {/* Image — compact */}
-        <div className="relative h-36 overflow-hidden bg-cream-light dark:bg-dark">
-          <Image
-            src={product.image_url || config.image}
-            alt={product.nom_commercial || "Product"}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        {/* Image — padded pattern */}
+        <div className="p-3">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-cream-light dark:bg-dark">
+            <Image
+              src={product.image_url || config.image}
+              alt={product.nom_commercial || "Product"}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
 
-          {/* Arrow on hover */}
-          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
-            <div className="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md">
-              <ArrowUpRight className="w-3.5 h-3.5 text-dark" />
+            {/* Arrow on hover */}
+            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
+              <div className="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md">
+                <ArrowUpRight className="w-3.5 h-3.5 text-dark" />
+              </div>
+            </div>
+
+            {/* Category badge on image */}
+            <div className="absolute top-3 left-3">
+              <span
+                className="inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full text-white backdrop-blur-md border border-white/20"
+                style={{ backgroundColor: `${config.accent}cc` }}
+              >
+                {config.label}
+              </span>
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="px-4 pt-3 pb-4 flex flex-col flex-1">
-          {/* Category badge + Code row */}
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span
-              className="inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full text-white shrink-0"
-              style={{ backgroundColor: config.accent }}
-            >
-              {config.label}
+        <div className="px-5 pt-1 pb-5 flex flex-col flex-1">
+          {/* Code row */}
+          <div className="flex items-center justify-end gap-1 mb-2">
+            <span className="font-mono text-xs font-bold text-dark/50 dark:text-cream-light/50 tracking-tight">
+              {product.code}
             </span>
-            <div className="flex items-center gap-1">
-              <span className="font-mono text-xs font-bold text-dark/50 dark:text-cream-light/50 tracking-tight">
-                {product.code}
-              </span>
-              <button
-                onClick={handleCopyCode}
-                aria-label="Copier la référence"
-                className="p-1 rounded-md hover:bg-cream dark:hover:bg-dark transition-colors active:scale-95"
-              >
-                {copied ? (
-                  <Check className="w-3 h-3 text-green-500" />
-                ) : (
-                  <Copy className="w-3 h-3 opacity-30 hover:opacity-70 transition-opacity text-dark/60 dark:text-cream-light/60" />
-                )}
-              </button>
-            </div>
+            <button
+              onClick={handleCopyCode}
+              aria-label="Copier la référence"
+              className="p-1 rounded-md hover:bg-cream dark:hover:bg-dark transition-colors active:scale-95"
+            >
+              {copied ? (
+                <Check className="w-3 h-3 text-green-500" />
+              ) : (
+                <Copy className="w-3 h-3 opacity-30 hover:opacity-70 transition-opacity text-dark/60 dark:text-cream-light/60" />
+              )}
+            </button>
           </div>
 
           {/* Product name */}
@@ -161,19 +165,7 @@ export function ProductCard({ product }: { product: Product }) {
           {/* Sample button */}
           <button
             onClick={(e) => e.preventDefault()}
-            className="mt-3 w-full py-2 rounded-full text-[12px] font-semibold transition-all duration-300 border-2 group-hover:text-white group-hover:shadow-md flex items-center justify-center gap-1.5"
-            style={{
-              borderColor: config.accent,
-              color: config.accent,
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = config.accent;
-              e.currentTarget.style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.color = config.accent;
-            }}
+            className="mt-3 w-full h-10 rounded-full bg-peach text-dark text-xs font-semibold tracking-wide transition-all duration-300 shadow-md shadow-peach/20 hover:shadow-lg hover:shadow-peach/30 hover:scale-[1.02] flex items-center justify-center gap-1.5"
           >
             <FlaskConical className="w-3.5 h-3.5" />
             {t("sample")}

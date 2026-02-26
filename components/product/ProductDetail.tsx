@@ -156,7 +156,8 @@ export function ProductDetail({ product }: { product: Product }) {
 
               {/* CTA */}
               <Button
-                size="lg"
+                variant="peach"
+                size="xl"
                 onClick={() => {
                   addItem({
                     code: product.code || "",
@@ -169,7 +170,6 @@ export function ProductDetail({ product }: { product: Product }) {
                       : "Added to cart"
                   );
                 }}
-                className="bg-peach hover:bg-peach-dark text-dark rounded-full px-8 font-medium shadow-lg shadow-peach/20"
               >
                 <ShoppingBag className="w-5 h-5 mr-2" />
                 {t("specifications") === "Spécifications"
@@ -183,14 +183,30 @@ export function ProductDetail({ product }: { product: Product }) {
 
       {/* Specs Grid */}
       <section className="max-w-[1400px] w-[90%] mx-auto py-24">
-        <h2 className="font-semibold text-2xl text-dark dark:text-cream-light mb-6">
+        <motion.h2
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="font-semibold text-2xl text-dark dark:text-cream-light mb-6"
+        >
           {t("specifications")}
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        </motion.h2>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
+        >
           {specs.map((spec) => (
-            <div
+            <motion.div
               key={spec.label}
-              className="p-4 rounded-2xl bg-cream dark:bg-dark-card border border-brown/8 dark:border-brown/10"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+              }}
+              className="p-4 rounded-2xl bg-cream dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300"
             >
               <p className="text-xs text-dark/40 dark:text-cream-light/40 uppercase tracking-wider mb-1">
                 {spec.label}
@@ -198,9 +214,9 @@ export function ProductDetail({ product }: { product: Product }) {
               <p className="text-sm font-medium text-dark dark:text-cream-light break-words">
                 {spec.value}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       <Separator className="max-w-[1400px] w-[90%] mx-auto bg-brown/8" />

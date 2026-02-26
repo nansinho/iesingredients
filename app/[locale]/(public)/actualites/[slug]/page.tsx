@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/routing";
 import { ArrowLeft } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import type { Database } from "@/lib/supabase/types";
 
 type BlogArticle = Database["public"]["Tables"]["blog_articles"]["Row"];
@@ -104,36 +105,44 @@ export default async function ArticlePage({
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-peach/5 rounded-full blur-[150px]" />
 
         <div className="max-w-[900px] w-[90%] mx-auto relative z-10">
-          <Link href="/actualites" className="inline-flex items-center gap-2 text-cream-light/60 hover:text-peach transition-colors mb-6">
-            <ArrowLeft className="w-4 h-4" />
-            {isFr ? "Retour aux actualités" : "Back to news"}
-          </Link>
-          <div className="flex items-center gap-3 mb-4">
-            <span className="px-3 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
-              {article.category}
-            </span>
-            <time className="text-xs text-cream-light/50">
-              {new Date(article.published_at || article.created_at || "").toLocaleDateString(locale, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-          </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-cream-light leading-tight tracking-[-0.03em]">
-            {title}
-          </h1>
+          <AnimateIn>
+            <Link href="/actualites" className="inline-flex items-center gap-2 text-cream-light/60 hover:text-peach hover:gap-3 transition-all duration-300 mb-6">
+              <ArrowLeft className="w-4 h-4" />
+              {isFr ? "Retour aux actualités" : "Back to news"}
+            </Link>
+          </AnimateIn>
+          <AnimateIn delay={0.1}>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
+                {article.category}
+              </span>
+              <time className="text-xs text-cream-light/50">
+                {new Date(article.published_at || article.created_at || "").toLocaleDateString(locale, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            </div>
+          </AnimateIn>
+          <AnimateIn delay={0.15} y={30}>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-cream-light leading-tight tracking-[-0.03em]">
+              {title}
+            </h1>
+          </AnimateIn>
           {article.author_name && (
-            <p className="text-cream-light/60 mt-4">
-              {isFr ? "Par" : "By"} {article.author_name}
-            </p>
+            <AnimateIn delay={0.2}>
+              <p className="text-cream-light/60 mt-4">
+                {isFr ? "Par" : "By"} {article.author_name}
+              </p>
+            </AnimateIn>
           )}
         </div>
       </section>
 
       {/* Cover Image */}
       {article.cover_image_url && (
-        <div className="max-w-[900px] w-[90%] mx-auto -mt-2 mb-12">
+        <AnimateIn y={30} delay={0.2} className="max-w-[900px] w-[90%] mx-auto -mt-2 mb-12">
           <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10">
             <Image
               src={article.cover_image_url}
@@ -144,7 +153,7 @@ export default async function ArticlePage({
               sizes="(max-width: 768px) 100vw, 896px"
             />
           </div>
-        </div>
+        </AnimateIn>
       )}
 
       {/* Content */}

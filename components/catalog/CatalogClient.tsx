@@ -115,7 +115,7 @@ export function CatalogClient({
               <Sparkles className="w-3 h-3" />
               Catalogue
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-cream-light tracking-tight mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-cream-light tracking-tight mb-4">
               {t("title")}
             </h1>
             <p className="text-cream-light/40 text-lg max-w-2xl mb-8">
@@ -208,20 +208,38 @@ export function CatalogClient({
           {/* Product Grid - wider */}
           {products.length > 0 ? (
             <>
-              <div
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { transition: { staggerChildren: 0.06 } },
+                }}
                 className={cn(
                   "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
                   isPending && "opacity-50"
                 )}
               >
                 {products.map((product) => (
-                  <ProductCard key={`${product._table}-${product.id}`} product={product} />
+                  <motion.div
+                    key={`${product._table}-${product.id}`}
+                    variants={{
+                      hidden: { opacity: 0, y: 25 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+                    }}
+                  >
+                    <ProductCard product={product} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="mt-14 flex items-center justify-center gap-3">
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="mt-14 flex items-center justify-center gap-3"
+                >
                   {page > 1 && (
                     <Button
                       variant="outline"
@@ -243,7 +261,7 @@ export function CatalogClient({
                       &rarr;
                     </Button>
                   )}
-                </div>
+                </motion.div>
               )}
             </>
           ) : (
