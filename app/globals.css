@@ -6,7 +6,7 @@
 
 /* ========================================
    IES Ingredients — Apple-Inspired Design System
-   Palette: yellow accent / coral / plum / dark aubergine
+   Palette: off-white / deep forest green accent / warm sand / dark
    Fonts: DM Sans + Playfair Display (accent)
    Tailwind CSS v4 — CSS-first config
    ======================================== */
@@ -44,79 +44,79 @@
   --tracking-luxury: 0.15em;
   --tracking-widest: 0.1em;
 
-  /* ---- Brand palette — Warm & Yellow Accent ---- */
-  --color-cream-light: #fff5e0;
-  --color-cream: #fde4a8;
-  --color-cream-dark: #f0d498;
-  --color-dark: #181818;
+  /* ---- Brand palette — Natural Luxury ---- */
+  --color-cream-light: #f7f4f0;
+  --color-cream: #ede8e1;
+  --color-cream-dark: #d8d0c8;
+  --color-dark: #1a1a1a;
   --color-dark-card: #222222;
   --color-dark-lighter: #2c2c2c;
-  --color-brown: #e8785c;
-  --color-brown-light: #f09078;
-  --color-brown-dark: #d06848;
-  --color-olive: #7d4060;
-  --color-olive-light: #905070;
-  --color-olive-dark: #6a3050;
-  --color-peach: #fde4a8;
-  --color-peach-light: #fff0c0;
-  --color-peach-dark: #f0d488;
-  --color-lavender: #fde4a8;
-  --color-lavender-light: #fff0c0;
-  --color-lavender-dark: #f0d488;
+  --color-brown: #c4a882;
+  --color-brown-light: #d4bc9a;
+  --color-brown-dark: #a89070;
+  --color-olive: #2d4a3e;
+  --color-olive-light: #3d5a4e;
+  --color-olive-dark: #1d3a2e;
+  --color-peach: #2d4a3e;
+  --color-peach-light: #3d5a4e;
+  --color-peach-dark: #1d3a2e;
+  --color-lavender: #2d4a3e;
+  --color-lavender-light: #3d5a4e;
+  --color-lavender-dark: #1d3a2e;
 
-  /* Warm Yellow palette */
-  --color-navy: #181818;
+  /* Natural Luxury palette */
+  --color-navy: #1a1a1a;
   --color-charcoal: #2c2c2c;
-  --color-forest-green: #3d2030;
-  --color-mint: #fde4a8;
-  --color-blue-mist: #e8785c;
-  --color-sage: #fde4a8;
+  --color-forest-green: #2d4a3e;
+  --color-mint: #c4a882;
+  --color-blue-mist: #c4a882;
+  --color-sage: #2d4a3e;
 
-  /* Legacy color aliases — warm/yellow scale */
-  --color-forest-950: #181818;
+  /* Legacy color aliases — natural luxury scale */
+  --color-forest-950: #1a1a1a;
   --color-forest-900: #222222;
   --color-forest-800: #2c2c2c;
   --color-forest-700: #3d3d3d;
-  --color-forest-600: #3d2030;
-  --color-forest-500: #7d4060;
-  --color-forest-400: #fde4a8;
-  --color-forest-300: #e8785c;
-  --color-forest-200: #fde4a8;
-  --color-forest-100: #fff0c0;
-  --color-forest-50: #fff5e0;
+  --color-forest-600: #1d3a2e;
+  --color-forest-500: #2d4a3e;
+  --color-forest-400: #3d5a4e;
+  --color-forest-300: #c4a882;
+  --color-forest-200: #ede8e1;
+  --color-forest-100: #f2ede8;
+  --color-forest-50: #f7f4f0;
   --color-gold-950: #1a1008;
-  --color-gold-900: #3d2030;
-  --color-gold-800: #f0d488;
-  --color-gold-700: #fde4a8;
-  --color-gold-600: #fff0c0;
-  --color-gold-500: #e8785c;
-  --color-gold-400: #f09078;
-  --color-gold-300: #f0d498;
-  --color-gold-200: #fde4a8;
-  --color-gold-100: #fff0c0;
-  --color-gold-50: #fff5e0;
-  --color-navy-900: #181818;
+  --color-gold-900: #3d3020;
+  --color-gold-800: #a89070;
+  --color-gold-700: #c4a882;
+  --color-gold-600: #d4bc9a;
+  --color-gold-500: #d8d0c8;
+  --color-gold-400: #e2dbd4;
+  --color-gold-300: #ede8e1;
+  --color-gold-200: #f2ede8;
+  --color-gold-100: #f5f2ee;
+  --color-gold-50: #f7f4f0;
+  --color-navy-900: #1a1a1a;
   --color-navy-800: #222222;
   --color-navy-700: #2c2c2c;
   --color-navy-600: #3d3d3d;
-  --color-cream-50: #fff5e0;
-  --color-cream-100: #fde4a8;
-  --color-cream-200: #f0d498;
-  --color-cream-300: #f09078;
-  --color-apple-gray-50: #fff5e0;
-  --color-apple-gray-100: #fde4a8;
-  --color-apple-gray-200: #f0d498;
-  --color-apple-gray-300: #e8785c;
-  --color-apple-dark: #181818;
-  --color-cosmetique-light: #fff0c0;
-  --color-cosmetique: #fde4a8;
-  --color-cosmetique-dark: #f0d488;
-  --color-parfum-light: #f09078;
-  --color-parfum: #e8785c;
-  --color-parfum-dark: #d06848;
-  --color-arome-light: #905070;
-  --color-arome: #7d4060;
-  --color-arome-dark: #6a3050;
+  --color-cream-50: #f7f4f0;
+  --color-cream-100: #ede8e1;
+  --color-cream-200: #d8d0c8;
+  --color-cream-300: #c4a882;
+  --color-apple-gray-50: #f7f4f0;
+  --color-apple-gray-100: #ede8e1;
+  --color-apple-gray-200: #d8d0c8;
+  --color-apple-gray-300: #c4a882;
+  --color-apple-dark: #1a1a1a;
+  --color-cosmetique-light: #3d5a4e;
+  --color-cosmetique: #2d4a3e;
+  --color-cosmetique-dark: #1d3a2e;
+  --color-parfum-light: #d4bc9a;
+  --color-parfum: #c4a882;
+  --color-parfum-dark: #a89070;
+  --color-arome-light: #3d5a4e;
+  --color-arome: #2d4a3e;
+  --color-arome-dark: #1d3a2e;
 
   /* Colors — shadcn/ui system */
   --color-border: hsl(var(--border));
@@ -205,8 +205,8 @@
     100% { background-position: 200% 0; }
   }
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(232, 120, 92, 0.15); }
-    50% { box-shadow: 0 0 40px rgba(232, 120, 92, 0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(45, 74, 62, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(45, 74, 62, 0.3); }
   }
 }
 
@@ -216,97 +216,97 @@
    ======================================== */
 
 :root {
-  --background: 42 100% 96%;
-  --foreground: 0 0% 9%;
+  --background: 36 30% 95%;
+  --foreground: 0 0% 10%;
 
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 9%;
+  --card-foreground: 0 0% 10%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 9%;
+  --popover-foreground: 0 0% 10%;
 
-  --primary: 0 0% 9%;
-  --primary-foreground: 42 100% 96%;
+  --primary: 0 0% 10%;
+  --primary-foreground: 36 30% 95%;
 
-  --secondary: 42 95% 83%;
-  --secondary-foreground: 0 0% 9%;
+  --secondary: 35 36% 64%;
+  --secondary-foreground: 0 0% 10%;
 
-  --muted: 42 60% 92%;
-  --muted-foreground: 329 32% 42%;
+  --muted: 36 15% 90%;
+  --muted-foreground: 155 15% 40%;
 
-  --accent: 42 95% 83%;
-  --accent-foreground: 0 0% 9%;
+  --accent: 155 24% 23%;
+  --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 42 50% 88%;
-  --input: 42 50% 88%;
-  --ring: 42 95% 83%;
+  --border: 36 15% 88%;
+  --input: 36 15% 88%;
+  --ring: 155 24% 23%;
 
   --radius: 0.75rem;
 
   /* Chart colors */
-  --chart-1: 42 95% 83%;
-  --chart-2: 12 75% 64%;
-  --chart-3: 329 32% 37%;
-  --chart-4: 327 31% 18%;
-  --chart-5: 42 100% 96%;
+  --chart-1: 155 24% 23%;
+  --chart-2: 35 36% 64%;
+  --chart-3: 36 30% 95%;
+  --chart-4: 155 24% 30%;
+  --chart-5: 35 36% 75%;
 
   /* Sidebar */
-  --sidebar-background: 0 0% 9%;
-  --sidebar-foreground: 42 100% 96%;
-  --sidebar-primary: 42 95% 83%;
-  --sidebar-primary-foreground: 0 0% 9%;
+  --sidebar-background: 0 0% 10%;
+  --sidebar-foreground: 36 30% 95%;
+  --sidebar-primary: 155 24% 23%;
+  --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 13%;
-  --sidebar-accent-foreground: 42 100% 96%;
+  --sidebar-accent-foreground: 36 30% 95%;
   --sidebar-border: 0 0% 15%;
-  --sidebar-ring: 42 95% 83%;
+  --sidebar-ring: 155 24% 23%;
 }
 
 .dark {
-  --background: 0 0% 9%;
-  --foreground: 42 100% 96%;
+  --background: 0 0% 10%;
+  --foreground: 36 30% 95%;
 
   --card: 0 0% 13%;
-  --card-foreground: 42 100% 96%;
+  --card-foreground: 36 30% 95%;
 
   --popover: 0 0% 13%;
-  --popover-foreground: 42 100% 96%;
+  --popover-foreground: 36 30% 95%;
 
-  --primary: 42 95% 83%;
-  --primary-foreground: 0 0% 9%;
+  --primary: 155 24% 30%;
+  --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 13%;
-  --secondary-foreground: 42 95% 83%;
+  --secondary-foreground: 35 36% 64%;
 
   --muted: 0 0% 13%;
-  --muted-foreground: 42 50% 60%;
+  --muted-foreground: 35 25% 55%;
 
-  --accent: 42 95% 83%;
-  --accent-foreground: 0 0% 9%;
+  --accent: 155 24% 30%;
+  --accent-foreground: 0 0% 100%;
 
   --destructive: 0 65% 50%;
   --destructive-foreground: 0 0% 100%;
 
   --border: 0 0% 18%;
   --input: 0 0% 18%;
-  --ring: 42 95% 83%;
+  --ring: 155 24% 30%;
 
-  --chart-1: 42 95% 83%;
-  --chart-2: 12 75% 64%;
-  --chart-3: 329 32% 37%;
-  --chart-4: 327 31% 18%;
-  --chart-5: 42 100% 96%;
+  --chart-1: 35 36% 64%;
+  --chart-2: 155 24% 30%;
+  --chart-3: 36 30% 95%;
+  --chart-4: 155 24% 23%;
+  --chart-5: 35 36% 75%;
 
   --sidebar-background: 0 0% 7%;
-  --sidebar-foreground: 42 100% 96%;
-  --sidebar-primary: 42 95% 83%;
-  --sidebar-primary-foreground: 0 0% 9%;
+  --sidebar-foreground: 36 30% 95%;
+  --sidebar-primary: 155 24% 30%;
+  --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 11%;
-  --sidebar-accent-foreground: 42 100% 96%;
+  --sidebar-accent-foreground: 36 30% 95%;
   --sidebar-border: 0 0% 13%;
-  --sidebar-ring: 42 95% 83%;
+  --sidebar-ring: 155 24% 30%;
 }
 
 /* ========================================
@@ -366,7 +366,7 @@
   }
 
   ::selection {
-    background: rgba(232, 120, 92, 0.3);
+    background: rgba(45, 74, 62, 0.3);
     color: var(--color-dark);
   }
 }
@@ -423,12 +423,12 @@
 .card-apple {
   border-radius: 1.5rem;
   background: white;
-  box-shadow: 0 2px 40px rgba(232, 120, 92, 0.06);
+  box-shadow: 0 2px 40px rgba(45, 74, 62, 0.06);
   transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-apple:hover {
-  box-shadow: 0 8px 60px rgba(232, 120, 92, 0.12);
+  box-shadow: 0 8px 60px rgba(45, 74, 62, 0.12);
 }
 
 .dark .card-apple {
@@ -439,20 +439,20 @@
   border-radius: 1rem;
   background: white;
   overflow: hidden;
-  box-shadow: 0 4px 30px rgba(232, 120, 92, 0.06);
+  box-shadow: 0 4px 30px rgba(45, 74, 62, 0.06);
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  border: 1px solid rgba(232, 120, 92, 0.1);
+  border: 1px solid rgba(45, 74, 62, 0.1);
 }
 
 .card-premium:hover {
-  box-shadow: 0 20px 60px rgba(232, 120, 92, 0.12);
+  box-shadow: 0 20px 60px rgba(45, 74, 62, 0.12);
   transform: translateY(-6px);
   border-color: var(--color-brown-light);
 }
 
 .dark .card-premium {
   background: var(--color-dark-card);
-  border-color: rgba(232, 120, 92, 0.1);
+  border-color: rgba(45, 74, 62, 0.1);
 }
 
 .dark .card-premium:hover {
@@ -464,7 +464,7 @@
   background: hsl(var(--card) / 0.9);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(232, 120, 92, 0.08);
+  border: 1px solid rgba(45, 74, 62, 0.08);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   border-radius: 1.5rem;
 }
@@ -490,15 +490,15 @@
   letter-spacing: 0.01em;
   border-radius: 9999px;
   background: var(--color-peach);
-  color: var(--color-dark);
+  color: white;
   transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 4px 20px rgba(253, 228, 168, 0.4);
+  box-shadow: 0 4px 20px rgba(45, 74, 62, 0.25);
 }
 
 .btn-peach:hover {
   background: var(--color-peach-dark);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(253, 228, 168, 0.6);
+  box-shadow: 0 8px 30px rgba(45, 74, 62, 0.4);
 }
 
 /* Brown Outline Button */
@@ -632,9 +632,9 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: rgba(232, 120, 92, 0.1);
+  background: rgba(45, 74, 62, 0.1);
   color: var(--color-brown);
-  border: 1px solid rgba(232, 120, 92, 0.15);
+  border: 1px solid rgba(45, 74, 62, 0.15);
 }
 
 /* ========================================
@@ -692,8 +692,8 @@
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(232, 120, 92, 0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(232, 120, 92, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(45, 74, 62, 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(45, 74, 62, 0.4); }
 
 /* ========================================
    Focus & Accessibility
@@ -701,7 +701,7 @@
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(232, 120, 92, 0.5);
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(45, 74, 62, 0.5);
 }
 
 /* ========================================
