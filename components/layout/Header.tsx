@@ -17,6 +17,7 @@ import {
   Droplets,
   ChevronDown,
   ChevronRight,
+  ShoppingBag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -94,12 +95,10 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Keyboard shortcut for search (Cmd+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
-        // Desktop: focus inline search; Mobile: toggle overlay
         if (window.innerWidth >= 1024) {
           searchInputRef.current?.focus();
         } else {
@@ -117,7 +116,6 @@ export function Header() {
 
   useEffect(() => {
     const supabase = createClient();
-
     const checkAdmin = async (userId: string) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data } = await (supabase.from("user_roles") as any)
@@ -127,7 +125,6 @@ export function Header() {
         .maybeSingle();
       setIsUserAdmin(data !== null);
     };
-
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
       if (user) checkAdmin(user.id);
@@ -177,7 +174,6 @@ export function Header() {
 
   const isDark = theme === "dark";
 
-  /* Mega-menu hover intent */
   const openMega = useCallback(() => {
     clearTimeout(megaTimeout.current);
     setMegaOpen(true);
@@ -191,7 +187,6 @@ export function Header() {
     clearTimeout(megaTimeout.current);
   }, []);
 
-  /* Inline search handler */
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchValue.trim()) {
       router.push(
@@ -213,63 +208,87 @@ export function Header() {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "glass-nav shadow-sm" : "bg-navy"
+          isScrolled
+            ? "bg-cream-light/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)] border-b border-dark/5"
+            : "bg-cream-light"
         )}
       >
         {/* ═══════════════════════════════════════
-           Top Bar — utility strip (desktop only)
+           Row 1 — Logo | Search Bar | Actions
            ═══════════════════════════════════════ */}
-        <div
-          className={cn(
-            "hidden lg:block border-b transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            isScrolled
-              ? "max-h-0 opacity-0 border-b-transparent overflow-hidden"
-              : "max-h-9 opacity-100 border-white/8 bg-white/[0.03]"
-          )}
-        >
-          <div className="w-[94%] mx-auto flex items-center justify-between h-9">
-            {/* Left: tagline */}
-            <span className="text-xs text-white/40 truncate">
-              {t("tagline")}
-            </span>
+        <div className="w-[94%] mx-auto">
+          <div className="flex items-center justify-between h-16 sm:h-18 gap-4 lg:gap-8">
+            {/* Logo */}
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/images/logo-ies.png"
+                alt="IES Ingredients"
+                width={130}
+                height={52}
+                priority
+                className="h-9 md:h-10 w-auto transition-all duration-300"
+              />
+            </Link>
 
-            {/* Right: utility actions */}
-            <div className="flex items-center gap-1">
-              {/* Language Toggle */}
+            {/* Search Bar — prominent, centered */}
+            <div className="hidden lg:flex flex-1 max-w-2xl">
+              <div className="relative w-full group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-dark/30 group-focus-within:text-olive transition-colors duration-200" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={handleSearchKeyDown}
+                  placeholder={t("searchPlaceholder")}
+                  className={cn(
+                    "w-full h-11 pl-11 pr-16 text-sm rounded-full",
+                    "bg-white",
+                    "border border-dark/8",
+                    "placeholder:text-dark/35",
+                    "text-dark",
+                    "focus:outline-none focus:ring-2 focus:ring-olive/20 focus:border-olive/30",
+                    "shadow-[0_2px_12px_rgba(0,0,0,0.04)]",
+                    "hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]",
+                    "transition-all duration-300"
+                  )}
+                />
+                <kbd className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-dark/25 bg-cream px-2 py-0.5 rounded-md font-mono pointer-events-none">
+                  {"\u2318"}K
+                </kbd>
+              </div>
+            </div>
+
+            {/* Right Actions */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              {/* Language */}
               <button
                 onClick={toggleLanguage}
-                className="px-2 py-0.5 text-xs font-medium rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5"
+                className="hidden lg:flex px-2.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 text-dark/40 hover:text-dark hover:bg-dark/5"
               >
                 {locale === "fr" ? "EN" : "FR"}
               </button>
 
-              {/* Dark Mode Toggle */}
+              {/* Dark Mode */}
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="p-1.5 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5"
+                  className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-dark/35 hover:text-dark hover:bg-dark/5"
                   aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                 >
-                  {isDark ? (
-                    <Sun className="w-3.5 h-3.5" />
-                  ) : (
-                    <Moon className="w-3.5 h-3.5" />
-                  )}
+                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
               )}
 
-              {/* User Button */}
+              {/* User */}
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="p-1.5 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5">
-                      <User className="w-3.5 h-3.5" />
+                    <button className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-dark/35 hover:text-dark hover:bg-dark/5">
+                      <User className="w-4 h-4" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="w-48 rounded-xl bg-navy border-white/10"
-                  >
+                  <DropdownMenuContent align="end" className="w-48 rounded-xl">
                     <DropdownMenuItem asChild>
                       <Link href="/mon-compte" className="cursor-pointer">
                         <User className="w-4 h-4 mr-2" />
@@ -288,153 +307,54 @@ export function Header() {
                       </>
                     )}
                     {!isUserAdmin && <DropdownMenuSeparator />}
-                    <DropdownMenuItem
-                      onClick={handleSignOut}
-                      className="text-red-600 cursor-pointer"
-                    >
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
                       <LogOut className="w-4 h-4 mr-2" />
                       {t("signOut")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Link href="/login">
-                  <button className="p-1.5 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/5">
-                    <User className="w-3.5 h-3.5" />
+                <Link href="/login" className="hidden lg:flex">
+                  <button className="p-2 rounded-full transition-all duration-200 text-dark/35 hover:text-dark hover:bg-dark/5">
+                    <User className="w-4 h-4" />
                   </button>
                 </Link>
               )}
 
-              {/* CTA Button */}
-              <Link href="/contact" className="ml-1.5">
-                <Button className="rounded-full h-7 px-5 text-xs font-medium bg-forest-green text-white hover:bg-charcoal shadow-sm shadow-forest-green/20">
+              {/* Cart */}
+              <div className="[&_button]:text-dark/40 [&_button]:hover:text-dark">
+                <SampleCartSheet />
+              </div>
+
+              {/* CTA — elegant pill */}
+              <Link href="/contact" className="hidden lg:flex ml-1">
+                <button className="inline-flex items-center gap-2 h-10 px-6 text-sm font-medium rounded-full bg-olive text-white hover:bg-olive-dark transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-olive/15">
                   {t("requestQuote")}
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════
-           Main Nav Bar — primary navigation
-           ═══════════════════════════════════════ */}
-        <div className="w-[94%] mx-auto">
-          <nav className="flex items-center justify-between h-14">
-            {/* Logo */}
-            <Link href="/" className="flex items-center shrink-0">
-              <Image
-                src="/images/logo-ies.png"
-                alt="IES Ingredients"
-                width={130}
-                height={52}
-                priority
-                className="h-9 md:h-10 w-auto transition-all duration-300"
-              />
-            </Link>
-
-            {/* Desktop Navigation - Center */}
-            <div className="hidden lg:flex items-center gap-0.5">
-              {/* Catalogue — mega-menu trigger */}
-              <div
-                className="relative"
-                onMouseEnter={openMega}
-                onMouseLeave={closeMega}
-              >
-                <button
-                  ref={megaTriggerRef}
-                  className={cn(
-                    "inline-flex items-center gap-1 px-4 py-2 text-sm transition-all duration-200 rounded-full",
-                    megaOpen || pathname === "/catalogue"
-                      ? "font-semibold text-white"
-                      : "text-white/60 hover:text-white hover:bg-white/5"
-                  )}
-                >
-                  {t("catalog")}
-                  <ChevronDown
-                    className={cn(
-                      "w-3.5 h-3.5 transition-transform duration-200",
-                      megaOpen && "rotate-180"
-                    )}
-                  />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
-              </div>
+              </Link>
 
-              {navItems.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link key={item.href} href={item.href}>
-                    <span
-                      className={cn(
-                        "px-4 py-2 text-sm transition-all duration-200 rounded-full",
-                        isActive
-                          ? "font-semibold text-white"
-                          : "text-white/60 hover:text-white hover:bg-white/5"
-                      )}
-                    >
-                      {item.label}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-1.5">
-              {/* Desktop Inline Search */}
-              <div className="relative hidden lg:flex items-center">
-                <Search className="absolute left-3 w-4 h-4 text-white/40 pointer-events-none" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  onKeyDown={handleSearchKeyDown}
-                  placeholder={t("searchPlaceholder")}
-                  className={cn(
-                    "h-9 w-48 xl:w-56 pl-9 pr-10 text-sm rounded-full",
-                    "bg-white/[0.06]",
-                    "border border-white/10",
-                    "placeholder:text-white/35",
-                    "text-white",
-                    "focus:outline-none focus:ring-2 focus:ring-peach/40 focus:border-peach/30",
-                    "transition-all duration-200"
-                  )}
-                />
-                <kbd className="absolute right-3 text-[10px] text-white/30 font-mono pointer-events-none">
-                  {"\u2318"}K
-                </kbd>
-              </div>
-
-              {/* Mobile Search Icon */}
+              {/* Mobile Search */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-white/60 hover:text-white hover:bg-white/5"
+                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-dark/5"
                 aria-label="Search"
               >
                 <Search className="w-[18px] h-[18px]" />
               </button>
 
-              {/* Sample Cart */}
-              <div className="[&_button]:text-white/60 [&_button]:hover:text-white">
-                <SampleCartSheet />
-              </div>
-
               {/* Mobile Menu */}
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild className="lg:hidden">
                   <button
-                    className="p-2 rounded-full transition-colors duration-200 ml-1 text-white/60 hover:text-white hover:bg-white/5"
+                    className="p-2 rounded-full transition-colors duration-200 ml-0.5 text-dark/50 hover:text-dark hover:bg-dark/5"
                     aria-label="Menu"
                   >
                     <Menu className="w-5 h-5" />
                   </button>
                 </SheetTrigger>
-                <SheetContent
-                  side="right"
-                  className="w-[85vw] max-w-sm bg-navy border-white/10 p-0"
-                >
+                <SheetContent side="right" className="w-[85vw] max-w-sm bg-cream-light border-dark/5 p-0">
                   <div className="p-6 h-full flex flex-col overflow-y-auto">
-                    {/* Mobile Header */}
                     <div className="flex items-center justify-between mb-4">
                       <Image
                         src="/images/logo-ies.png"
@@ -445,7 +365,7 @@ export function Header() {
                       />
                       <button
                         onClick={() => setIsOpen(false)}
-                        className="p-2 text-white/40 hover:text-white rounded-full hover:bg-white/5 transition-colors"
+                        className="p-2 text-dark/30 hover:text-dark rounded-full hover:bg-dark/5 transition-colors"
                       >
                         <X className="w-5 h-5" />
                       </button>
@@ -454,17 +374,17 @@ export function Header() {
                     {/* Mobile Search */}
                     <div className="mb-4">
                       <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dark/30" />
                         <input
                           type="text"
                           placeholder={t("searchPlaceholder")}
                           className={cn(
-                            "w-full h-10 pl-9 pr-4 text-sm rounded-xl",
-                            "bg-white/[0.06]",
-                            "border border-white/10",
-                            "placeholder:text-white/35",
-                            "text-white",
-                            "focus:outline-none focus:ring-2 focus:ring-peach/40"
+                            "w-full h-11 pl-9 pr-4 text-sm rounded-xl",
+                            "bg-white",
+                            "border border-dark/8",
+                            "placeholder:text-dark/35",
+                            "text-dark",
+                            "focus:outline-none focus:ring-2 focus:ring-olive/20"
                           )}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" && e.currentTarget.value.trim()) {
@@ -480,19 +400,16 @@ export function Header() {
 
                     {/* Mobile Nav */}
                     <nav className="flex flex-col gap-0.5 flex-1">
-                      {/* Catalogue — expandable with sub-categories */}
                       <div>
                         <button
                           onClick={() =>
-                            setMobileExpandedCat(
-                              mobileExpandedCat === "catalogue" ? null : "catalogue"
-                            )
+                            setMobileExpandedCat(mobileExpandedCat === "catalogue" ? null : "catalogue")
                           }
                           className={cn(
                             "w-full py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between",
                             pathname === "/catalogue"
-                              ? "bg-mint/15 text-white border border-mint/30"
-                              : "text-white/60 hover:text-white hover:bg-white/5"
+                              ? "bg-olive/10 text-olive border border-olive/20"
+                              : "text-dark/60 hover:text-dark hover:bg-dark/5"
                           )}
                         >
                           <span>{t("catalog")}</span>
@@ -514,25 +431,20 @@ export function Header() {
                               className="overflow-hidden"
                             >
                               <div className="pl-4 pt-1 pb-2 space-y-3">
-                                {/* View all link */}
                                 <Link
                                   href="/catalogue"
                                   onClick={() => setIsOpen(false)}
-                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-mint hover:bg-white/5 transition-colors"
+                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-olive hover:bg-dark/5 transition-colors"
                                 >
                                   <ArrowRight className="w-3.5 h-3.5" />
                                   {t("allProducts")}
                                 </Link>
-
                                 {catalogColumns.map((col) => {
                                   const Icon = col.icon;
                                   return (
                                     <div key={col.id}>
                                       <Link
-                                        href={{
-                                          pathname: "/catalogue",
-                                          query: { category: col.id },
-                                        }}
+                                        href={{ pathname: "/catalogue", query: { category: col.id } }}
                                         onClick={() => setIsOpen(false)}
                                         className="flex items-center gap-2 py-1.5 px-3 text-[13px] font-semibold uppercase tracking-wider"
                                         style={{ color: col.accent }}
@@ -544,12 +456,9 @@ export function Header() {
                                         {col.subKeys.map((subKey) => (
                                           <Link
                                             key={subKey}
-                                            href={{
-                                              pathname: "/catalogue",
-                                              query: { category: col.id },
-                                            }}
+                                            href={{ pathname: "/catalogue", query: { category: col.id } }}
                                             onClick={() => setIsOpen(false)}
-                                            className="block py-1.5 px-3 text-sm text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/5"
+                                            className="block py-1.5 px-3 text-sm text-dark/45 hover:text-dark transition-colors rounded-lg hover:bg-dark/5"
                                           >
                                             {t(subKey)}
                                           </Link>
@@ -564,7 +473,6 @@ export function Header() {
                         </AnimatePresence>
                       </div>
 
-                      {/* Other nav items */}
                       {navItems.map((item, index) => {
                         const isActive = pathname === item.href;
                         return (
@@ -580,8 +488,8 @@ export function Header() {
                               className={cn(
                                 "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "bg-mint/15 text-white border border-mint/30"
-                                  : "text-white/60 hover:text-white hover:bg-white/5"
+                                  ? "bg-olive/10 text-olive border border-olive/20"
+                                  : "text-dark/60 hover:text-dark hover:bg-dark/5"
                               )}
                             >
                               <span>{item.label}</span>
@@ -589,7 +497,7 @@ export function Header() {
                                 className={cn(
                                   "w-4 h-4 transition-all duration-200",
                                   isActive
-                                    ? "opacity-100 text-mint"
+                                    ? "opacity-100 text-olive"
                                     : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
                                 )}
                               />
@@ -600,24 +508,18 @@ export function Header() {
                     </nav>
 
                     {/* Mobile Footer */}
-                    <div className="pt-6 border-t border-white/10">
+                    <div className="pt-6 border-t border-dark/8">
                       {user ? (
                         <div className="space-y-2">
                           <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
-                            <Button
-                              variant="outline"
-                              className="w-full h-11 rounded-xl border-white/15 text-white/70 hover:bg-white/5"
-                            >
+                            <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                               <User className="w-4 h-4 mr-2" />
                               {t("myProfile")}
                             </Button>
                           </Link>
                           {isUserAdmin && (
                             <Link href="/admin" onClick={() => setIsOpen(false)}>
-                              <Button
-                                variant="outline"
-                                className="w-full h-11 rounded-xl border-white/15 text-white/70 hover:bg-white/5"
-                              >
+                              <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                                 <Shield className="w-4 h-4 mr-2" />
                                 {t("admin")}
                               </Button>
@@ -625,11 +527,8 @@ export function Header() {
                           )}
                           <Button
                             variant="ghost"
-                            onClick={() => {
-                              handleSignOut();
-                              setIsOpen(false);
-                            }}
-                            className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-500/10"
+                            onClick={() => { handleSignOut(); setIsOpen(false); }}
+                            className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50"
                           >
                             <LogOut className="w-4 h-4 mr-2" />
                             {t("signOut")}
@@ -637,10 +536,7 @@ export function Header() {
                         </div>
                       ) : (
                         <Link href="/login" onClick={() => setIsOpen(false)}>
-                          <Button
-                            variant="outline"
-                            className="w-full h-11 rounded-xl border-white/15 text-white/70 hover:bg-white/5"
-                          >
+                          <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                             <User className="w-4 h-4 mr-2" />
                             {t("signIn")}
                           </Button>
@@ -648,35 +544,26 @@ export function Header() {
                       )}
                     </div>
 
-                    {/* Mobile CTA */}
                     <div className="pt-4">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <Button className="w-full h-12 rounded-full bg-forest-green text-white hover:bg-charcoal font-medium text-sm shadow-lg shadow-forest-green/20">
+                        <button className="w-full h-12 rounded-full bg-olive text-white hover:bg-olive-dark font-medium text-sm shadow-md transition-all duration-300 flex items-center justify-center gap-2">
                           {t("requestQuote")}
-                        </Button>
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
                       </Link>
-
                       <div className="flex items-center justify-center gap-4 mt-3">
                         <button
-                          onClick={() => {
-                            toggleLanguage();
-                            setIsOpen(false);
-                          }}
-                          className="py-2 text-sm text-white/40 hover:text-white/60 transition-colors"
+                          onClick={() => { toggleLanguage(); setIsOpen(false); }}
+                          className="py-2 text-sm text-dark/35 hover:text-dark/60 transition-colors"
                         >
                           {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
                         </button>
-
                         {mounted && (
                           <button
                             onClick={toggleTheme}
-                            className="p-2 text-white/40 hover:text-white/60 transition-colors rounded-full"
+                            className="p-2 text-dark/35 hover:text-dark/60 transition-colors rounded-full"
                           >
-                            {isDark ? (
-                              <Sun className="w-4 h-4" />
-                            ) : (
-                              <Moon className="w-4 h-4" />
-                            )}
+                            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                           </button>
                         )}
                       </div>
@@ -685,11 +572,82 @@ export function Header() {
                 </SheetContent>
               </Sheet>
             </div>
-          </nav>
+          </div>
         </div>
 
         {/* ═══════════════════════════════════════
-           Desktop Mega-menu — full-width dropdown
+           Row 2 — Centered Navigation Links
+           ═══════════════════════════════════════ */}
+        <div
+          className={cn(
+            "hidden lg:block border-t transition-all duration-300",
+            isScrolled
+              ? "border-dark/5"
+              : "border-dark/5"
+          )}
+        >
+          <div className="w-[94%] mx-auto">
+            <nav className="flex items-center justify-center h-11 gap-1">
+              {/* Catalogue — mega-menu trigger */}
+              <div
+                className="relative"
+                onMouseEnter={openMega}
+                onMouseLeave={closeMega}
+              >
+                <button
+                  ref={megaTriggerRef}
+                  className={cn(
+                    "inline-flex items-center gap-1 px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full relative",
+                    megaOpen || pathname === "/catalogue"
+                      ? "text-dark font-semibold"
+                      : "text-dark/50 hover:text-dark"
+                  )}
+                >
+                  {t("catalog")}
+                  <ChevronDown
+                    className={cn(
+                      "w-3 h-3 transition-transform duration-200",
+                      megaOpen && "rotate-180"
+                    )}
+                  />
+                  {(megaOpen || pathname === "/catalogue") && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-olive rounded-full"
+                    />
+                  )}
+                </button>
+              </div>
+
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link key={item.href} href={item.href}>
+                    <span
+                      className={cn(
+                        "relative px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full inline-block",
+                        isActive
+                          ? "text-dark font-semibold"
+                          : "text-dark/50 hover:text-dark"
+                      )}
+                    >
+                      {item.label}
+                      {isActive && (
+                        <motion.div
+                          layoutId="nav-indicator"
+                          className="absolute bottom-0 left-3 right-3 h-[2px] bg-olive rounded-full"
+                        />
+                      )}
+                    </span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════
+           Desktop Mega-menu
            ═══════════════════════════════════════ */}
         <AnimatePresence>
           {megaOpen && (
@@ -703,67 +661,53 @@ export function Header() {
               onMouseEnter={cancelClose}
               onMouseLeave={closeMega}
             >
-              <div className="bg-[#181818]/98 backdrop-blur-xl border-t border-b border-white/8 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+              <div className="bg-white/98 backdrop-blur-xl border-t border-b border-dark/5 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
                 <div className="w-[94%] mx-auto py-8">
-                  {/* Top — "All products" link */}
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/8">
-                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-white/40">
+                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-dark/5">
+                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-dark/30">
                       {t("catalogueMenu")}
                     </span>
                     <Link
                       href="/catalogue"
                       onClick={closeMenus}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-mint hover:text-mint transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-olive hover:text-olive-dark transition-colors"
                     >
                       {t("allProducts")}
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
 
-                  {/* 3-column categories */}
                   <div className="grid grid-cols-3 gap-8">
                     {catalogColumns.map((col) => {
                       const Icon = col.icon;
                       return (
                         <div key={col.id} className="group/col">
-                          {/* Category header */}
                           <Link
-                            href={{
-                              pathname: "/catalogue",
-                              query: { category: col.id },
-                            }}
+                            href={{ pathname: "/catalogue", query: { category: col.id } }}
                             onClick={closeMenus}
                             className="flex items-center gap-2.5 mb-4 group/link"
                           >
                             <div
                               className="w-9 h-9 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover/link:scale-110"
-                              style={{ background: `${col.accent}15` }}
+                              style={{ background: `${col.accent}12` }}
                             >
-                              <Icon
-                                className="w-5 h-5"
-                                style={{ color: col.accent }}
-                              />
+                              <Icon className="w-5 h-5" style={{ color: col.accent }} />
                             </div>
-                            <span
-                              className="text-lg font-bold tracking-[-0.01em]"
-                              style={{ color: col.accent }}
-                            >
+                            <span className="text-lg font-bold tracking-[-0.01em]" style={{ color: col.accent }}>
                               {cat(col.titleKey)}
                             </span>
-                            <ChevronRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-60 group-hover/link:translate-x-0 transition-all duration-200" style={{ color: col.accent }} />
+                            <ChevronRight
+                              className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-60 group-hover/link:translate-x-0 transition-all duration-200"
+                              style={{ color: col.accent }}
+                            />
                           </Link>
-
-                          {/* Sub-links */}
                           <ul className="space-y-0.5">
                             {col.subKeys.map((subKey) => (
                               <li key={subKey}>
                                 <Link
-                                  href={{
-                                    pathname: "/catalogue",
-                                    query: { category: col.id },
-                                  }}
+                                  href={{ pathname: "/catalogue", query: { category: col.id } }}
                                   onClick={closeMenus}
-                                  className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-white/55 hover:text-white hover:bg-white/[0.04] transition-all duration-150"
+                                  className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-dark/45 hover:text-dark hover:bg-dark/[0.03] transition-all duration-150"
                                 >
                                   {t(subKey)}
                                 </Link>
@@ -771,10 +715,7 @@ export function Header() {
                             ))}
                             <li>
                               <Link
-                                href={{
-                                  pathname: "/catalogue",
-                                  query: { category: col.id },
-                                }}
+                                href={{ pathname: "/catalogue", query: { category: col.id } }}
                                 onClick={closeMenus}
                                 className="inline-flex items-center gap-1 mt-2 py-1 text-[13px] font-medium transition-all duration-200 hover:gap-2"
                                 style={{ color: col.accent }}
@@ -795,7 +736,7 @@ export function Header() {
         </AnimatePresence>
       </motion.header>
 
-      {/* Mega-menu overlay — closes on click */}
+      {/* Mega-menu overlay */}
       <AnimatePresence>
         {megaOpen && (
           <motion.div
@@ -804,13 +745,13 @@ export function Header() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             className="fixed inset-0 z-40 hidden lg:block"
-            style={{ top: isScrolled ? "56px" : "92px" }}
+            style={{ top: isScrolled ? "72px" : "108px" }}
             onClick={closeMenus}
           />
         )}
       </AnimatePresence>
 
-      {/* Command Palette Search Overlay (mobile fallback) */}
+      {/* Search Overlay (mobile) */}
       <AnimatePresence>
         {searchOpen && (
           <>
@@ -819,7 +760,7 @@ export function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="fixed inset-0 bg-dark/50 backdrop-blur-sm z-[60]"
+              className="fixed inset-0 bg-dark/30 backdrop-blur-sm z-[60]"
               onClick={() => setSearchOpen(false)}
             />
             <motion.div
@@ -829,13 +770,13 @@ export function Header() {
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className="fixed top-[20%] left-1/2 -translate-x-1/2 w-full max-w-xl z-[61] px-4"
             >
-              <div className="bg-white dark:bg-dark-card rounded-2xl shadow-2xl border border-brown/10 overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-2xl border border-dark/5 overflow-hidden">
                 <div className="relative flex items-center">
-                  <Search className="absolute left-4 w-5 h-5 text-brown/50" />
+                  <Search className="absolute left-4 w-5 h-5 text-dark/30" />
                   <input
                     type="text"
                     placeholder={t("searchPlaceholder")}
-                    className="w-full h-14 pl-12 pr-4 text-base bg-transparent outline-none placeholder:text-brown/40 text-dark dark:text-cream-light"
+                    className="w-full h-14 pl-12 pr-4 text-base bg-transparent outline-none placeholder:text-dark/35 text-dark"
                     autoFocus
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && e.currentTarget.value) {
@@ -844,20 +785,16 @@ export function Header() {
                         );
                         setSearchOpen(false);
                       }
-                      if (e.key === "Escape") {
-                        setSearchOpen(false);
-                      }
+                      if (e.key === "Escape") setSearchOpen(false);
                     }}
                   />
-                  <kbd className="absolute right-4 text-xs text-brown/40 bg-cream dark:bg-dark-lighter px-2 py-1 rounded-md font-mono">
+                  <kbd className="absolute right-4 text-xs text-dark/30 bg-cream px-2 py-1 rounded-md font-mono">
                     ESC
                   </kbd>
                 </div>
-                <div className="border-t border-brown/10 px-4 py-3">
-                  <p className="text-xs text-brown/40">
-                    {locale === "fr"
-                      ? "Appuyez sur Entrée pour rechercher"
-                      : "Press Enter to search"}
+                <div className="border-t border-dark/5 px-4 py-3">
+                  <p className="text-xs text-dark/35">
+                    {locale === "fr" ? "Appuyez sur Entrée pour rechercher" : "Press Enter to search"}
                   </p>
                 </div>
               </div>
