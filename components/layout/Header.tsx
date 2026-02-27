@@ -52,7 +52,7 @@ const catalogColumns = [
     id: "parfum",
     titleKey: "perfume" as const,
     icon: FlaskConical,
-    accent: "#2D4A3E",
+    accent: "#8B6A50",
     subKeys: ["perfumeSub1", "perfumeSub2", "perfumeSub3", "perfumeSub4"] as const,
   },
   {
@@ -209,7 +209,7 @@ export function Header() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled
-            ? "bg-cream-light/95 backdrop-blur-xl shadow-[0_1px_20px_rgba(0,0,0,0.06)] border-b border-dark/5"
+            ? "bg-cream-light shadow-[0_1px_12px_rgba(0,0,0,0.06)] border-b border-dark/5"
             : "bg-cream-light"
         )}
       >

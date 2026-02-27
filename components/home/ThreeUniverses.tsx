@@ -25,7 +25,7 @@ const universes = [
     count: "1 500+",
     countLabel: "essences",
     verticalTitle: "Parfumerie",
-    accent: "#2D4A3E",
+    accent: "#8B6A50",
   },
   {
     titleKey: "aroma" as const,
