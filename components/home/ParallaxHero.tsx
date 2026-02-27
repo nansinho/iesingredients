@@ -198,7 +198,7 @@ export function ParallaxHero() {
             asChild
             variant="outline"
             size="lg"
-            className="border-dark/15 text-dark hover:bg-dark/5"
+            className="border-olive/25 text-olive bg-white hover:bg-olive/5"
           >
             <Link href="/contact">
               {t("ctaSecondary")}
