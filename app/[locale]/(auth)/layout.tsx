@@ -58,15 +58,15 @@ export default async function AuthLayout({
 
         {/* Right - Form panel */}
         <div className="flex-1 bg-cream-light dark:bg-dark flex flex-col relative overflow-hidden">
-          {/* Mobile header */}
-          <header className="p-6 lg:p-8">
+          {/* Header */}
+          <header className="bg-[#1A1A1A] px-6 py-4 lg:px-8 lg:py-5">
             <Link href="/" className="inline-block">
               <Image
                 src="/images/logo-ies.png"
                 alt="IES Ingredients"
                 width={140}
                 height={56}
-                className="h-9 w-auto"
+                className="h-9 w-auto brightness-0 invert"
               />
             </Link>
           </header>
