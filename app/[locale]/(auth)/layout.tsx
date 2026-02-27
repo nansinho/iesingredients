@@ -29,11 +29,14 @@ export default async function AuthLayout({
           {/* Brand overlay */}
           <div className="absolute inset-0 flex flex-col justify-between p-12 z-10">
             <AnimateIn delay={0.3}>
-              <Link
-                href="/"
-                className="font-playfair italic text-3xl text-cream-light hover:text-peach transition-colors"
-              >
-                IES Ingredients
+              <Link href="/" className="inline-block">
+                <Image
+                  src="/images/logo-ies.png"
+                  alt="IES Ingredients"
+                  width={160}
+                  height={64}
+                  className="h-10 w-auto brightness-0 invert"
+                />
               </Link>
             </AnimateIn>
             <AnimateIn delay={0.5} y={15}>
@@ -57,11 +60,14 @@ export default async function AuthLayout({
         <div className="flex-1 bg-cream-light dark:bg-dark flex flex-col relative overflow-hidden">
           {/* Mobile header */}
           <header className="p-6 lg:p-8">
-            <Link
-              href="/"
-              className="font-playfair italic text-2xl text-dark dark:text-cream-light hover:text-brown dark:hover:text-peach transition-colors"
-            >
-              IES Ingredients
+            <Link href="/" className="inline-block">
+              <Image
+                src="/images/logo-ies.png"
+                alt="IES Ingredients"
+                width={140}
+                height={56}
+                className="h-9 w-auto"
+              />
             </Link>
           </header>
 
@@ -74,8 +80,8 @@ export default async function AuthLayout({
 
           {/* Decorative background blobs */}
           <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-peach/5 rounded-full blur-[150px]" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-lavender/5 rounded-full blur-[120px]" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-olive/5 rounded-full blur-[150px]" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-sand/5 rounded-full blur-[120px]" />
           </div>
         </div>
       </div>

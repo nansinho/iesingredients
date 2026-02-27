@@ -124,7 +124,7 @@ export function AccountClient({
           <Package className="w-4 h-4" />
           {isFr ? "Mes Demandes" : "My Requests"}
           {requests.length > 0 && (
-            <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-peach text-dark">
+            <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-olive text-white">
               {requests.length}
             </span>
           )}
@@ -132,7 +132,7 @@ export function AccountClient({
       </TabsList>
 
       <TabsContent value="profile">
-        <div className="bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10 p-8">
+        <div className="bg-white dark:bg-dark-card rounded-2xl border border-dark/8 dark:border-dark/10 p-8">
           <h2 className="font-semibold text-2xl text-dark dark:text-cream-light mb-6">
             {isFr ? "Informations personnelles" : "Personal Information"}
           </h2>
@@ -214,9 +214,9 @@ export function AccountClient({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-center py-16 bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10"
+              className="text-center py-16 bg-white dark:bg-dark-card rounded-2xl border border-dark/8 dark:border-dark/10"
             >
-              <Package className="w-12 h-12 text-brown/30 mx-auto mb-4" />
+              <Package className="w-12 h-12 text-dark/30 mx-auto mb-4" />
               <p className="text-dark/60 dark:text-cream-light/60 text-lg">
                 {isFr ? "Aucune demande d'échantillon" : "No sample requests yet"}
               </p>
@@ -233,7 +233,7 @@ export function AccountClient({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                className="bg-white dark:bg-dark-card rounded-2xl border border-brown/8 dark:border-brown/10 p-6 hover:shadow-lg transition-shadow duration-300"
+                className="bg-white dark:bg-dark-card rounded-2xl border border-dark/8 dark:border-dark/10 p-6 hover:shadow-lg transition-shadow duration-300"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div>
