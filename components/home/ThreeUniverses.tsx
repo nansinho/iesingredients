@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Leaf, FlaskConical, Droplets } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -14,8 +14,9 @@ const universes = [
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
-    verticalTitle: "Cosmétique",
+    icon: Leaf,
     accent: "#2D4A3E",
+    accentBg: "#2D4A3E15",
   },
   {
     titleKey: "perfume" as const,
@@ -24,8 +25,9 @@ const universes = [
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
-    verticalTitle: "Parfumerie",
+    icon: FlaskConical,
     accent: "#8B6A50",
+    accentBg: "#8B6A5015",
   },
   {
     titleKey: "aroma" as const,
@@ -34,8 +36,9 @@ const universes = [
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
-    verticalTitle: "Arômes",
+    icon: Droplets,
     accent: "#C4A882",
+    accentBg: "#C4A88215",
   },
 ];
 
@@ -44,91 +47,183 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-24 md:py-32 bg-forest-green">
-      <div className="w-[94%] mx-auto">
-        {/* Section Header */}
+    <section className="py-20 md:py-28 bg-[#F5F2ED]">
+      <div className="w-[90%] max-w-7xl mx-auto">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16"
+          className="mb-12 sm:mb-16"
         >
-          <h2 className="text-white tracking-[-0.02em]">
-            Trois univers. Une <span className="font-playfair italic text-mint">expertise</span>.
-          </h2>
-          <p className="text-white/70 text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
-            {t("subtitle")}
-          </p>
+          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[#1A1A1A]/40 font-semibold mb-4">
+            Nos univers
+          </span>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-[-0.03em] leading-[1.05]">
+              Trois univers.
+              <br />
+              <span className="font-playfair italic text-olive">Une expertise.</span>
+            </h2>
+            <p className="text-[#1A1A1A]/45 text-sm sm:text-base max-w-sm leading-relaxed">
+              {t("subtitle")}
+            </p>
+          </div>
         </motion.div>
 
-        {/* 3 Cards — flush, 1px border, vertical title, accent colors */}
+        {/* Bento Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="grid grid-cols-1 sm:grid-cols-3 overflow-hidden rounded-[20px] border border-white/15"
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[minmax(200px,1fr)]"
         >
-          {universes.map((u, index) => (
-            <Link
-              key={u.titleKey}
-              href={{ pathname: "/catalogue", query: { category: u.filter } }}
-              className={
-                index < universes.length - 1
-                  ? "border-b sm:border-b-0 sm:border-r border-white/15"
-                  : ""
-              }
-            >
-              <div className="group relative overflow-hidden cursor-pointer h-full">
-                {/* Full-bleed image — tall portrait */}
-                <div className="relative aspect-[3/4] sm:aspect-[3/4.5] overflow-hidden">
-                  <Image
-                    src={u.image}
-                    alt={cat(u.titleKey)}
-                    fill
-                    className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-dark/60 via-dark/15 to-dark/5 transition-opacity duration-500 group-hover:from-dark/50" />
-                </div>
-
-                {/* Accent line — top edge */}
+          {/* Card 1 — Cosmétique (large, spans 2 rows) */}
+          <Link
+            href={{ pathname: "/catalogue", query: { category: universes[0].filter } }}
+            className="md:col-span-5 md:row-span-2 group"
+          >
+            <div className="relative h-full min-h-[400px] md:min-h-0 rounded-3xl overflow-hidden cursor-pointer">
+              <Image
+                src={universes[0].image}
+                alt={cat(universes[0].titleKey)}
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 42vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              {/* Content overlay */}
+              <div className="absolute inset-0 flex flex-col justify-end p-7 sm:p-8">
                 <div
-                  className="absolute top-0 left-0 right-0 h-[3px] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: u.accent }}
-                />
-
-                {/* Vertical rotated title — flush left */}
-                <div className="absolute left-6 top-0 bottom-0 flex items-center pointer-events-none">
-                  <span
-                    className="text-white text-2xl sm:text-3xl md:text-4xl font-bold uppercase tracking-[0.2em] whitespace-nowrap drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
-                    style={{ transform: "rotate(-90deg) translateX(-50%)", transformOrigin: "0 0" }}
-                  >
-                    {u.verticalTitle}
-                  </span>
+                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                  style={{ background: universes[0].accentBg }}
+                >
+                  <Leaf className="w-5 h-5" style={{ color: universes[0].accent }} />
                 </div>
-
-                {/* Shop button — bottom left, Apple pill style with accent */}
-                <div className="absolute bottom-5 left-5">
-                  <span
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-[13px] font-medium transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.03] shadow-sm backdrop-blur-sm"
-                    style={{ background: u.accent }}
-                  >
-                    {cat("explore")}
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-                  </span>
-                </div>
-
-                {/* Count — bottom right */}
-                <div className="absolute bottom-5 right-5">
-                  <span className="text-white/70 text-[11px] font-medium tracking-wide">
-                    {u.count} {u.countLabel}
-                  </span>
-                </div>
+                <h3 className="text-white text-2xl sm:text-3xl font-bold tracking-[-0.02em] mb-1">
+                  {cat(universes[0].titleKey)}
+                </h3>
+                <p className="text-white/60 text-sm mb-1">
+                  {cat(universes[0].descKey)}
+                </p>
+                <p className="text-white/40 text-xs font-medium tracking-wider uppercase mb-5">
+                  {universes[0].count} {universes[0].countLabel}
+                </p>
+                <span
+                  className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
+                  style={{ background: universes[0].accent }}
+                >
+                  {cat("explore")}
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
               </div>
-            </Link>
-          ))}
+            </div>
+          </Link>
+
+          {/* Card 2 — Parfumerie (top right) */}
+          <Link
+            href={{ pathname: "/catalogue", query: { category: universes[1].filter } }}
+            className="md:col-span-7 group"
+          >
+            <div className="relative h-full min-h-[240px] rounded-3xl overflow-hidden cursor-pointer">
+              <Image
+                src={universes[1].image}
+                alt={cat(universes[1].titleKey)}
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 58vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute inset-0 flex flex-col justify-end p-7 sm:p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className="w-9 h-9 rounded-lg flex items-center justify-center"
+                    style={{ background: universes[1].accentBg }}
+                  >
+                    <FlaskConical className="w-4.5 h-4.5" style={{ color: universes[1].accent }} />
+                  </div>
+                  <div>
+                    <h3 className="text-white text-xl sm:text-2xl font-bold tracking-[-0.02em]">
+                      {cat(universes[1].titleKey)}
+                    </h3>
+                    <p className="text-white/40 text-xs font-medium tracking-wider uppercase">
+                      {universes[1].count} {universes[1].countLabel}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-white/60 text-sm mb-4">{cat(universes[1].descKey)}</p>
+                <span
+                  className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
+                  style={{ background: universes[1].accent }}
+                >
+                  {cat("explore")}
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Card 3 — Arômes (bottom right) */}
+          <Link
+            href={{ pathname: "/catalogue", query: { category: universes[2].filter } }}
+            className="md:col-span-7 group"
+          >
+            <div className="relative h-full min-h-[240px] rounded-3xl overflow-hidden cursor-pointer">
+              <Image
+                src={universes[2].image}
+                alt={cat(universes[2].titleKey)}
+                fill
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 58vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              <div className="absolute inset-0 flex flex-col justify-end p-7 sm:p-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className="w-9 h-9 rounded-lg flex items-center justify-center"
+                    style={{ background: universes[2].accentBg }}
+                  >
+                    <Droplets className="w-4.5 h-4.5" style={{ color: universes[2].accent }} />
+                  </div>
+                  <div>
+                    <h3 className="text-white text-xl sm:text-2xl font-bold tracking-[-0.02em]">
+                      {cat(universes[2].titleKey)}
+                    </h3>
+                    <p className="text-white/40 text-xs font-medium tracking-wider uppercase">
+                      {universes[2].count} {universes[2].countLabel}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-white/60 text-sm mb-4">{cat(universes[2].descKey)}</p>
+                <span
+                  className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
+                  style={{ background: universes[2].accent }}
+                >
+                  {cat("explore")}
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+
+        {/* Bottom link */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-8 flex justify-center"
+        >
+          <Link
+            href="/catalogue"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#1A1A1A]/50 hover:text-[#1A1A1A] transition-colors duration-300 group"
+          >
+            Voir tout le catalogue
+            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
         </motion.div>
       </div>
     </section>
