@@ -207,10 +207,8 @@ export function Header() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
-            ? "bg-cream-light shadow-[0_1px_12px_rgba(0,0,0,0.06)] border-b border-dark/5"
-            : "bg-cream-light"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#1A1A1A]",
+          isScrolled && "shadow-[0_1px_12px_rgba(0,0,0,0.3)] border-b border-white/5"
         )}
       >
         {/* ═══════════════════════════════════════
@@ -226,14 +224,14 @@ export function Header() {
                 width={130}
                 height={52}
                 priority
-                className="h-9 md:h-10 w-auto transition-all duration-300"
+                className="h-9 md:h-10 w-auto transition-all duration-300 brightness-0 invert"
               />
             </Link>
 
             {/* Search Bar — prominent, centered */}
             <div className="hidden lg:flex flex-1 max-w-2xl">
               <div className="relative w-full group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-dark/30 group-focus-within:text-olive transition-colors duration-200" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/30 group-focus-within:text-white/60 transition-colors duration-200" />
                 <input
                   ref={searchInputRef}
                   type="text"
@@ -243,17 +241,16 @@ export function Header() {
                   placeholder={t("searchPlaceholder")}
                   className={cn(
                     "w-full h-11 pl-11 pr-16 text-sm rounded-full",
-                    "bg-white",
-                    "border border-dark/8",
-                    "placeholder:text-dark/35",
-                    "text-dark",
-                    "focus:outline-none focus:ring-2 focus:ring-olive/20 focus:border-olive/30",
-                    "shadow-[0_2px_12px_rgba(0,0,0,0.04)]",
-                    "hover:shadow-[0_2px_16px_rgba(0,0,0,0.07)]",
+                    "bg-white/8",
+                    "border border-white/10",
+                    "placeholder:text-white/30",
+                    "text-white",
+                    "focus:outline-none focus:ring-2 focus:ring-olive/30 focus:border-olive/40",
+                    "hover:bg-white/10",
                     "transition-all duration-300"
                   )}
                 />
-                <kbd className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-dark/25 bg-cream px-2 py-0.5 rounded-md font-mono pointer-events-none">
+                <kbd className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-white/20 bg-white/8 px-2 py-0.5 rounded-md font-mono pointer-events-none">
                   {"\u2318"}K
                 </kbd>
               </div>
@@ -264,7 +261,7 @@ export function Header() {
               {/* Language */}
               <button
                 onClick={toggleLanguage}
-                className="hidden lg:flex px-2.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 text-dark/40 hover:text-dark hover:bg-dark/5"
+                className="hidden lg:flex px-2.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 text-white/40 hover:text-white hover:bg-white/10"
               >
                 {locale === "fr" ? "EN" : "FR"}
               </button>
@@ -273,7 +270,7 @@ export function Header() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-dark/35 hover:text-dark hover:bg-dark/5"
+                  className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10"
                   aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                 >
                   {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -284,7 +281,7 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-dark/35 hover:text-dark hover:bg-dark/5">
+                    <button className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10">
                       <User className="w-4 h-4" />
                     </button>
                   </DropdownMenuTrigger>
@@ -315,14 +312,14 @@ export function Header() {
                 </DropdownMenu>
               ) : (
                 <Link href="/login" className="hidden lg:flex">
-                  <button className="p-2 rounded-full transition-all duration-200 text-dark/35 hover:text-dark hover:bg-dark/5">
+                  <button className="p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10">
                     <User className="w-4 h-4" />
                   </button>
                 </Link>
               )}
 
               {/* Cart */}
-              <div className="[&_button]:text-dark/40 [&_button]:hover:text-dark">
+              <div className="[&_button]:text-white/40 [&_button]:hover:text-white">
                 <SampleCartSheet />
               </div>
 
@@ -337,7 +334,7 @@ export function Header() {
               {/* Mobile Search */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-dark/50 hover:text-dark hover:bg-dark/5"
+                className="lg:hidden p-2 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/10"
                 aria-label="Search"
               >
                 <Search className="w-[18px] h-[18px]" />
@@ -347,7 +344,7 @@ export function Header() {
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild className="lg:hidden">
                   <button
-                    className="p-2 rounded-full transition-colors duration-200 ml-0.5 text-dark/50 hover:text-dark hover:bg-dark/5"
+                    className="p-2 rounded-full transition-colors duration-200 ml-0.5 text-white/50 hover:text-white hover:bg-white/10"
                     aria-label="Menu"
                   >
                     <Menu className="w-5 h-5" />
@@ -579,12 +576,7 @@ export function Header() {
            Row 2 — Centered Navigation Links
            ═══════════════════════════════════════ */}
         <div
-          className={cn(
-            "hidden lg:block border-t transition-all duration-300",
-            isScrolled
-              ? "border-dark/5"
-              : "border-dark/5"
-          )}
+          className="hidden lg:block border-t border-white/8 transition-all duration-300"
         >
           <div className="w-[94%] mx-auto">
             <nav className="flex items-center justify-center h-11 gap-1">
@@ -599,8 +591,8 @@ export function Header() {
                   className={cn(
                     "inline-flex items-center gap-1 px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full relative",
                     megaOpen || pathname === "/catalogue"
-                      ? "text-dark font-semibold"
-                      : "text-dark/50 hover:text-dark"
+                      ? "text-white font-semibold"
+                      : "text-white/50 hover:text-white"
                   )}
                 >
                   {t("catalog")}
@@ -627,8 +619,8 @@ export function Header() {
                       className={cn(
                         "relative px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full inline-block",
                         isActive
-                          ? "text-dark font-semibold"
-                          : "text-dark/50 hover:text-dark"
+                          ? "text-white font-semibold"
+                          : "text-white/50 hover:text-white"
                       )}
                     >
                       {item.label}
