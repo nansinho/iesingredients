@@ -49,8 +49,8 @@ export function PasswordStrengthIndicator({ password, isFr }: PasswordStrengthIn
     medium: {
       labelFr: "Moyen",
       labelEn: "Medium",
-      color: "bg-peach",
-      textColor: "text-peach-dark dark:text-peach",
+      color: "bg-amber-400",
+      textColor: "text-amber-600 dark:text-amber-400",
     },
     strong: {
       labelFr: "Fort",
@@ -74,7 +74,7 @@ export function PasswordStrengthIndicator({ password, isFr }: PasswordStrengthIn
             {isFr ? config.labelFr : config.labelEn}
           </span>
         </div>
-        <div className="h-1.5 w-full bg-brown/10 dark:bg-cream-light/10 rounded-full overflow-hidden">
+        <div className="h-1.5 w-full bg-dark/10 dark:bg-cream-light/10 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-300 ${config.color}`}
             style={{ width: `${(metCount / 4) * 100}%` }}
