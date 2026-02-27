@@ -32,12 +32,6 @@ const slides = [
 
 const certifications = ["COSMOS", "ECOCERT", "BIO", "VEGAN", "ISO 9001"];
 
-const stats = [
-  { value: "5000+", labelKey: "statIngredients" as const },
-  { value: "48h", labelKey: "statDelivery" as const },
-  { value: "3", labelKey: "statUniverses" as const },
-];
-
 export function ParallaxHero() {
   const t = useTranslations("hero");
   const certT = useTranslations("certifications");
@@ -68,7 +62,7 @@ export function ParallaxHero() {
   }, [emblaApi]);
 
   return (
-    <section className="pt-24 sm:pt-28 pb-0 bg-navy relative overflow-hidden">
+    <section className="pt-24 sm:pt-28 pb-0 bg-cream-light relative overflow-hidden">
       <div className="w-[94%] mx-auto pt-12 sm:pt-16 pb-0">
         {/* Surtitle */}
         <motion.div
@@ -77,7 +71,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.5 }}
           className="text-center mb-6"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-mint/70 font-medium">
+          <span className="inline-block text-[11px] uppercase tracking-[0.25em] text-olive/60 font-medium">
             {t("surtitle")}
           </span>
         </motion.div>
@@ -87,11 +81,11 @@ export function ParallaxHero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-white tracking-[-0.03em] leading-[1.05] max-w-3xl mx-auto"
+          className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-dark tracking-[-0.03em] leading-[1.05] max-w-3xl mx-auto"
         >
           {t("titleLine1")}
           <br />
-          <span className="font-playfair italic text-mint">{t("titleLine2")}</span>
+          <span className="font-playfair italic text-olive">{t("titleLine2")}</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -99,7 +93,7 @@ export function ParallaxHero() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center text-white/50 text-sm sm:text-base mt-5 max-w-xl mx-auto leading-relaxed"
+          className="text-center text-dark/45 text-sm sm:text-base mt-5 max-w-xl mx-auto leading-relaxed"
         >
           {t("subtitle")}
         </motion.p>
@@ -111,7 +105,7 @@ export function ParallaxHero() {
           transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="mt-12 sm:mt-16 relative"
         >
-          <div className="overflow-hidden rounded-2xl sm:rounded-3xl" ref={emblaRef}>
+          <div className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-[0_8px_60px_rgba(0,0,0,0.12)]" ref={emblaRef}>
             <div className="flex">
               {slides.map((slide, index) => (
                 <div
@@ -128,7 +122,7 @@ export function ParallaxHero() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-dark/60 via-dark/20 to-transparent" />
                   <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 md:bottom-14 md:left-14 max-w-md">
-                    <p className="text-mint/90 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
+                    <p className="text-cream-light/80 text-[11px] sm:text-xs uppercase tracking-[0.25em] font-medium mb-3">
                       {t(slide.subtitleKey)}
                     </p>
                     <p className="text-white text-lg sm:text-xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-5 tracking-[-0.02em]">
@@ -150,14 +144,14 @@ export function ParallaxHero() {
           {/* Navigation Arrows */}
           <button
             onClick={scrollPrev}
-            className="absolute left-5 sm:left-8 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-cream-light/10 backdrop-blur-md hover:bg-cream-light/20 flex items-center justify-center transition-all duration-300 z-10 border border-cream-light/10"
+            className="absolute left-5 sm:left-8 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 flex items-center justify-center transition-all duration-300 z-10 border border-white/20"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-4 h-4 text-white/80" />
           </button>
           <button
             onClick={scrollNext}
-            className="absolute right-5 sm:right-8 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-cream-light/10 backdrop-blur-md hover:bg-cream-light/20 flex items-center justify-center transition-all duration-300 z-10 border border-cream-light/10"
+            className="absolute right-5 sm:right-8 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 flex items-center justify-center transition-all duration-300 z-10 border border-white/20"
             aria-label="Next slide"
           >
             <ChevronRight className="w-4 h-4 text-white/80" />
@@ -175,7 +169,7 @@ export function ParallaxHero() {
               >
                 {index === selectedIndex && (
                   <motion.div
-                    className="absolute inset-y-0 left-0 bg-mint rounded-full"
+                    className="absolute inset-y-0 left-0 bg-white rounded-full"
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
                     transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
@@ -192,7 +186,7 @@ export function ParallaxHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-10 sm:mt-12 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-10 sm:mt-12 justify-center items-center pb-16 sm:pb-20"
         >
           <Button asChild variant="peach" size="lg">
             <Link href="/catalogue">
@@ -204,49 +198,30 @@ export function ParallaxHero() {
             asChild
             variant="outline"
             size="lg"
-            className="border-white/20 text-white hover:bg-white/10"
+            className="border-dark/15 text-dark hover:bg-dark/5"
           >
             <Link href="/contact">
               {t("ctaSecondary")}
             </Link>
           </Button>
         </motion.div>
-
-        {/* Stats row */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="grid grid-cols-3 gap-6 mt-14 sm:mt-16 border-t border-white/10 pt-10 pb-8"
-        >
-          {stats.map((stat) => (
-            <div key={stat.labelKey} className="text-center">
-              <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-mint tracking-tight">
-                {stat.value}
-              </p>
-              <p className="text-white/40 text-xs sm:text-sm mt-1.5 uppercase tracking-wider font-medium">
-                {t(stat.labelKey)}
-              </p>
-            </div>
-          ))}
-        </motion.div>
       </div>
 
       {/* Certifications Strip */}
-      <div className="bg-[#181818] border-t border-white/5">
+      <div className="bg-olive border-t border-olive-light/20">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="w-[94%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/30 tracking-[0.1em] uppercase font-medium"
+          className="w-[94%] mx-auto py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] text-white/40 tracking-[0.1em] uppercase font-medium"
         >
-          <span className="text-mint/50 mr-1">
+          <span className="text-white/60 mr-1">
             {certT("title")}
           </span>
           {certifications.map((cert, i) => (
             <React.Fragment key={cert}>
               {i > 0 && <span className="text-white/15 hidden sm:inline">&middot;</span>}
-              <span className="hover:text-white/60 transition-colors duration-300 cursor-default">
+              <span className="hover:text-white/70 transition-colors duration-300 cursor-default">
                 {cert}
               </span>
             </React.Fragment>

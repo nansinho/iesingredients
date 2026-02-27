@@ -26,9 +26,9 @@ interface CatalogClientProps {
 }
 
 const categoryOptions = [
-  { id: "cosmetique", icon: Leaf, accentColor: "#FDE4A8" },
-  { id: "parfum", icon: FlaskConical, accentColor: "#3D2030" },
-  { id: "arome", icon: Droplets, accentColor: "#E8785C" },
+  { id: "cosmetique", icon: Leaf, accentColor: "#2D4A3E" },
+  { id: "parfum", icon: FlaskConical, accentColor: "#2D4A3E" },
+  { id: "arome", icon: Droplets, accentColor: "#C4A882" },
 ] as const;
 
 export function CatalogClient({
