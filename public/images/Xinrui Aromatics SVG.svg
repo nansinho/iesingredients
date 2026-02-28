@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2 {
+        font-family: TimesNewRomanPSMT, 'Times New Roman';
+        font-size: 25.09px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.06em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.11em;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(26.09 60.96)"><tspan x="0" y="0">XINRUI</tspan><tspan class="cls-3" x="87.8" y="0"> </tspan><tspan class="cls-1" x="92.69" y="0">AROM</tspan><tspan class="cls-4" x="167.97" y="0">A</tspan><tspan x="183.31" y="0">TICS</tspan></text>
+</svg>
