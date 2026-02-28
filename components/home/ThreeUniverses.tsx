@@ -10,7 +10,7 @@ const universes = [
   {
     titleKey: "cosmetic" as const,
     descKey: "cosmeticDesc" as const,
-    image: "/images/cream-jar.jpg",
+    image: "/images/Cosmetique/Portrait Cosmetique.jpg",
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
@@ -20,7 +20,7 @@ const universes = [
   {
     titleKey: "perfume" as const,
     descKey: "perfumeDesc" as const,
-    image: "/images/essential-oil.jpg",
+    image: "/images/Parfum/Parfum Portrait.jpg",
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
@@ -30,7 +30,7 @@ const universes = [
   {
     titleKey: "aroma" as const,
     descKey: "aromaDesc" as const,
-    image: "/images/blueberries-herbs.jpg",
+    image: "/images/Aromes/Aromes Portrait.jpg",
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
@@ -45,7 +45,7 @@ export function ThreeUniverses() {
 
   return (
     <section className="py-20 md:py-28 bg-[#F5F2ED]">
-      <div className="w-[90%] max-w-7xl mx-auto">
+      <div className="w-[94%] mx-auto">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -70,7 +70,7 @@ export function ThreeUniverses() {
         </motion.div>
 
         {/* 3 equal columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
           {universes.map((universe, index) => {
             const Icon = universe.icon;
             return (
@@ -85,50 +85,58 @@ export function ThreeUniverses() {
                   href={{ pathname: "/catalogue", query: { category: universe.filter } }}
                   className="group block"
                 >
-                  <div className="relative h-[380px] md:h-[520px] rounded-3xl overflow-hidden cursor-pointer">
-                    {/* Background image */}
-                    <Image
-                      src={universe.image}
-                      alt={cat(universe.titleKey)}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-
-                    {/* Vertical title — left edge */}
-                    <span
-                      className="absolute left-4 md:left-5 bottom-6 text-white/90 text-3xl md:text-4xl font-bold uppercase tracking-[0.15em] select-none origin-bottom-left"
-                      style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+                  <div className="relative h-[400px] md:h-[560px] rounded-3xl overflow-hidden cursor-pointer flex">
+                    {/* Vertical sidebar strip */}
+                    <div
+                      className="relative z-10 w-10 md:w-12 shrink-0 flex items-center justify-center"
+                      style={{ backgroundColor: universe.accent }}
                     >
-                      {cat(universe.titleKey)}
-                    </span>
-
-                    {/* Content — bottom right */}
-                    <div className="absolute bottom-0 right-0 left-14 md:left-16 p-5 md:p-6 flex flex-col justify-end">
-                      <div
-                        className="w-9 h-9 rounded-xl flex items-center justify-center mb-3"
-                        style={{ background: `${universe.accent}30` }}
-                      >
-                        <Icon className="w-[18px] h-[18px]" style={{ color: universe.accent }} />
-                      </div>
-
-                      <p className="text-white/60 text-sm leading-relaxed mb-1">
-                        {cat(universe.descKey)}
-                      </p>
-                      <p className="text-white/40 text-xs font-medium tracking-wider uppercase mb-5">
-                        {universe.count} {universe.countLabel}
-                      </p>
-
                       <span
-                        className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
-                        style={{ background: universe.accent }}
+                        className="text-white text-[11px] md:text-xs font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
+                        style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                       >
-                        {cat("explore")}
-                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                        {cat(universe.titleKey)}
                       </span>
+                    </div>
+
+                    {/* Image + content area */}
+                    <div className="relative flex-1">
+                      {/* Background image */}
+                      <Image
+                        src={universe.image}
+                        alt={cat(universe.titleKey)}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
+
+                      {/* Content — bottom */}
+                      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7 flex flex-col justify-end">
+                        <div
+                          className="w-9 h-9 rounded-xl flex items-center justify-center mb-3 backdrop-blur-sm"
+                          style={{ background: "rgba(255,255,255,0.15)" }}
+                        >
+                          <Icon className="w-[18px] h-[18px] text-white" />
+                        </div>
+
+                        <p className="text-white/80 text-sm leading-relaxed mb-1">
+                          {cat(universe.descKey)}
+                        </p>
+                        <p className="text-white/50 text-xs font-medium tracking-wider uppercase mb-5">
+                          {universe.count} {universe.countLabel}
+                        </p>
+
+                        <span
+                          className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold backdrop-blur-sm transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
+                          style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.2)" }}
+                        >
+                          {cat("explore")}
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </Link>
