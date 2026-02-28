@@ -76,7 +76,7 @@ function FlipCard({
 
 export function LogoMarquee() {
   return (
-    <section className="bg-[#2E1F3D] py-10 md:py-12">
+    <section className="bg-[#2E1F3D] py-6 md:py-8">
       <div className="w-[94%] mx-auto">
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-8">
           Ils nous font confiance

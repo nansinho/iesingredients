@@ -93,8 +93,10 @@ export default async function HomePage({
       <WebSiteJsonLd />
       <LocalBusinessJsonLd />
       <FAQJsonLd items={faqItems} />
-      <ParallaxHero />
-      <LogoMarquee />
+      <div className="h-screen flex flex-col">
+        <ParallaxHero />
+        <LogoMarquee />
+      </div>
       <ThreeUniverses />
       <MinimalProducts />
       <SamplesBanner />
