@@ -45,21 +45,21 @@ const catalogColumns = [
     id: "cosmetique",
     titleKey: "cosmetic" as const,
     icon: Leaf,
-    accent: "#2D4A3E",
+    accent: "#5B7B6B",
     subKeys: ["cosmeticSub1", "cosmeticSub2", "cosmeticSub3", "cosmeticSub4"] as const,
   },
   {
     id: "parfum",
     titleKey: "perfume" as const,
     icon: FlaskConical,
-    accent: "#8B6A50",
+    accent: "#8B6A80",
     subKeys: ["perfumeSub1", "perfumeSub2", "perfumeSub3", "perfumeSub4"] as const,
   },
   {
     id: "arome",
     titleKey: "aroma" as const,
     icon: Droplets,
-    accent: "#C4A882",
+    accent: "#D4907E",
     subKeys: ["aromaSub1", "aromaSub2", "aromaSub3", "aromaSub4"] as const,
   },
 ];
@@ -207,7 +207,7 @@ export function Header() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#1A1A1A]",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#2E1F3D]",
           isScrolled && "shadow-[0_1px_12px_rgba(0,0,0,0.3)] border-b border-white/5"
         )}
       >
@@ -245,7 +245,7 @@ export function Header() {
                     "border border-white/10",
                     "placeholder:text-white/30",
                     "text-white",
-                    "focus:outline-none focus:ring-2 focus:ring-olive/30 focus:border-olive/40",
+                    "focus:outline-none focus:ring-2 focus:ring-[#D4907E]/30 focus:border-[#D4907E]/40",
                     "hover:bg-white/10",
                     "transition-all duration-300"
                   )}
@@ -325,7 +325,7 @@ export function Header() {
 
               {/* CTA — elegant pill */}
               <Link href="/contact" className="hidden lg:flex ml-1">
-                <button className="inline-flex items-center gap-2 h-10 px-6 text-sm font-medium rounded-full bg-olive text-white hover:bg-olive-dark transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-olive/15">
+                <button className="inline-flex items-center gap-2 h-10 px-6 text-sm font-medium rounded-full bg-[#D4907E] text-white hover:bg-[#B87A6A] transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-[#D4907E]/20">
                   {t("requestQuote")}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -381,7 +381,7 @@ export function Header() {
                             "border border-dark/8",
                             "placeholder:text-dark/35",
                             "text-dark",
-                            "focus:outline-none focus:ring-2 focus:ring-olive/20"
+                            "focus:outline-none focus:ring-2 focus:ring-[#D4907E]/20"
                           )}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" && e.currentTarget.value.trim()) {
@@ -405,7 +405,7 @@ export function Header() {
                           className={cn(
                             "w-full py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between",
                             pathname === "/catalogue"
-                              ? "bg-olive/10 text-olive border border-olive/20"
+                              ? "bg-[#5B5470]/10 text-[#5B5470] border border-[#5B5470]/20"
                               : "text-dark/60 hover:text-dark hover:bg-dark/5"
                           )}
                         >
@@ -431,7 +431,7 @@ export function Header() {
                                 <Link
                                   href="/catalogue"
                                   onClick={() => setIsOpen(false)}
-                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-olive hover:bg-dark/5 transition-colors"
+                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-[#5B5470] hover:bg-dark/5 transition-colors"
                                 >
                                   <ArrowRight className="w-3.5 h-3.5" />
                                   {t("allProducts")}
@@ -485,7 +485,7 @@ export function Header() {
                               className={cn(
                                 "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
                                 isActive
-                                  ? "bg-olive/10 text-olive border border-olive/20"
+                                  ? "bg-[#5B5470]/10 text-[#5B5470] border border-[#5B5470]/20"
                                   : "text-dark/60 hover:text-dark hover:bg-dark/5"
                               )}
                             >
@@ -494,7 +494,7 @@ export function Header() {
                                 className={cn(
                                   "w-4 h-4 transition-all duration-200",
                                   isActive
-                                    ? "opacity-100 text-olive"
+                                    ? "opacity-100 text-[#5B5470]"
                                     : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
                                 )}
                               />
@@ -543,7 +543,7 @@ export function Header() {
 
                     <div className="pt-4">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <button className="w-full h-12 rounded-full bg-olive text-white hover:bg-olive-dark font-medium text-sm shadow-md transition-all duration-300 flex items-center justify-center gap-2">
+                        <button className="w-full h-12 rounded-full bg-[#D4907E] text-white hover:bg-[#B87A6A] font-medium text-sm shadow-md transition-all duration-300 flex items-center justify-center gap-2">
                           {t("requestQuote")}
                           <ArrowRight className="w-4 h-4" />
                         </button>
@@ -605,7 +605,7 @@ export function Header() {
                   {(megaOpen || pathname === "/catalogue") && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-olive rounded-full"
+                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#D4907E] rounded-full"
                     />
                   )}
                 </button>
@@ -627,7 +627,7 @@ export function Header() {
                       {isActive && (
                         <motion.div
                           layoutId="nav-indicator"
-                          className="absolute bottom-0 left-3 right-3 h-[2px] bg-olive rounded-full"
+                          className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#D4907E] rounded-full"
                         />
                       )}
                     </span>
@@ -662,7 +662,7 @@ export function Header() {
                     <Link
                       href="/catalogue"
                       onClick={closeMenus}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-olive hover:text-olive-dark transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-[#5B5470] hover:text-[#5B5470]-dark transition-colors"
                     >
                       {t("allProducts")}
                       <ArrowRight className="w-3.5 h-3.5" />

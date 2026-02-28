@@ -44,79 +44,79 @@
   --tracking-luxury: 0.15em;
   --tracking-widest: 0.1em;
 
-  /* ---- Brand palette — Natural Luxury ---- */
-  --color-cream-light: #f7f4f0;
-  --color-cream: #ede8e1;
-  --color-cream-dark: #d8d0c8;
+  /* ---- Brand palette — Purple × Peach ---- */
+  --color-cream-light: #FAF8F6;
+  --color-cream: #F0EDE8;
+  --color-cream-dark: #E0DCD5;
   --color-dark: #1a1a1a;
   --color-dark-card: #222222;
   --color-dark-lighter: #2c2c2c;
-  --color-brown: #c4a882;
-  --color-brown-light: #d4bc9a;
-  --color-brown-dark: #a89070;
-  --color-olive: #2d4a3e;
-  --color-olive-light: #3d5a4e;
-  --color-olive-dark: #1d3a2e;
-  --color-peach: #2d4a3e;
-  --color-peach-light: #3d5a4e;
-  --color-peach-dark: #1d3a2e;
-  --color-lavender: #2d4a3e;
-  --color-lavender-light: #3d5a4e;
-  --color-lavender-dark: #1d3a2e;
+  --color-brown: #D4907E;
+  --color-brown-light: #F0C5B3;
+  --color-brown-dark: #B87A6A;
+  --color-olive: #2E1F3D;
+  --color-olive-light: #5B5470;
+  --color-olive-dark: #1E0F2D;
+  --color-peach: #F0C5B3;
+  --color-peach-light: #F5D5C8;
+  --color-peach-dark: #D4907E;
+  --color-lavender: #5B5470;
+  --color-lavender-light: #7B7490;
+  --color-lavender-dark: #2E1F3D;
 
-  /* Natural Luxury palette */
+  /* Purple × Peach palette */
   --color-navy: #1a1a1a;
   --color-charcoal: #2c2c2c;
-  --color-forest-green: #2d4a3e;
-  --color-mint: #c4a882;
-  --color-blue-mist: #c4a882;
-  --color-sage: #2d4a3e;
+  --color-forest-green: #2E1F3D;
+  --color-mint: #F0C5B3;
+  --color-blue-mist: #C4C0BC;
+  --color-sage: #5B5470;
 
-  /* Legacy color aliases — natural luxury scale */
+  /* Legacy color aliases — purple × peach scale */
   --color-forest-950: #1a1a1a;
-  --color-forest-900: #222222;
-  --color-forest-800: #2c2c2c;
-  --color-forest-700: #3d3d3d;
-  --color-forest-600: #1d3a2e;
-  --color-forest-500: #2d4a3e;
-  --color-forest-400: #3d5a4e;
-  --color-forest-300: #c4a882;
-  --color-forest-200: #ede8e1;
-  --color-forest-100: #f2ede8;
-  --color-forest-50: #f7f4f0;
-  --color-gold-950: #1a1008;
-  --color-gold-900: #3d3020;
-  --color-gold-800: #a89070;
-  --color-gold-700: #c4a882;
-  --color-gold-600: #d4bc9a;
-  --color-gold-500: #d8d0c8;
-  --color-gold-400: #e2dbd4;
-  --color-gold-300: #ede8e1;
-  --color-gold-200: #f2ede8;
-  --color-gold-100: #f5f2ee;
-  --color-gold-50: #f7f4f0;
+  --color-forest-900: #1E0F2D;
+  --color-forest-800: #2E1F3D;
+  --color-forest-700: #3E2F4D;
+  --color-forest-600: #4B4460;
+  --color-forest-500: #5B5470;
+  --color-forest-400: #7B7490;
+  --color-forest-300: #C4C0BC;
+  --color-forest-200: #F0EDE8;
+  --color-forest-100: #F5F2EE;
+  --color-forest-50: #FAF8F6;
+  --color-gold-950: #3D1A08;
+  --color-gold-900: #6B3420;
+  --color-gold-800: #B87A6A;
+  --color-gold-700: #D4907E;
+  --color-gold-600: #E0A898;
+  --color-gold-500: #F0C5B3;
+  --color-gold-400: #F5D5C8;
+  --color-gold-300: #F8E2D8;
+  --color-gold-200: #FBF0EB;
+  --color-gold-100: #FDF6F3;
+  --color-gold-50: #FFFAF8;
   --color-navy-900: #1a1a1a;
   --color-navy-800: #222222;
   --color-navy-700: #2c2c2c;
   --color-navy-600: #3d3d3d;
-  --color-cream-50: #f7f4f0;
-  --color-cream-100: #ede8e1;
-  --color-cream-200: #d8d0c8;
-  --color-cream-300: #c4a882;
-  --color-apple-gray-50: #f7f4f0;
-  --color-apple-gray-100: #ede8e1;
-  --color-apple-gray-200: #d8d0c8;
-  --color-apple-gray-300: #c4a882;
+  --color-cream-50: #FAF8F6;
+  --color-cream-100: #F0EDE8;
+  --color-cream-200: #E0DCD5;
+  --color-cream-300: #C4C0BC;
+  --color-apple-gray-50: #FAF8F6;
+  --color-apple-gray-100: #F0EDE8;
+  --color-apple-gray-200: #E0DCD5;
+  --color-apple-gray-300: #C4C0BC;
   --color-apple-dark: #1a1a1a;
-  --color-cosmetique-light: #3d5a4e;
-  --color-cosmetique: #2d4a3e;
-  --color-cosmetique-dark: #1d3a2e;
-  --color-parfum-light: #d4bc9a;
-  --color-parfum: #c4a882;
-  --color-parfum-dark: #a89070;
-  --color-arome-light: #3d5a4e;
-  --color-arome: #2d4a3e;
-  --color-arome-dark: #1d3a2e;
+  --color-cosmetique-light: #7B946B;
+  --color-cosmetique: #5B7B6B;
+  --color-cosmetique-dark: #3B5B4B;
+  --color-parfum-light: #A88A9A;
+  --color-parfum: #8B6A80;
+  --color-parfum-dark: #6B4A60;
+  --color-arome-light: #E0A898;
+  --color-arome: #D4907E;
+  --color-arome-dark: #B87A6A;
 
   /* Colors — shadcn/ui system */
   --color-border: hsl(var(--border));
@@ -205,8 +205,8 @@
     100% { background-position: 200% 0; }
   }
   @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(45, 74, 62, 0.15); }
-    50% { box-shadow: 0 0 40px rgba(45, 74, 62, 0.3); }
+    0%, 100% { box-shadow: 0 0 20px rgba(46, 31, 61, 0.15); }
+    50% { box-shadow: 0 0 40px rgba(46, 31, 61, 0.3); }
   }
 }
 
@@ -226,15 +226,15 @@
   --popover-foreground: 0 0% 10%;
 
   --primary: 0 0% 10%;
-  --primary-foreground: 36 30% 95%;
+  --primary-foreground: 30 20% 97%;
 
-  --secondary: 35 36% 64%;
+  --secondary: 10 50% 66%;
   --secondary-foreground: 0 0% 10%;
 
-  --muted: 36 15% 90%;
-  --muted-foreground: 155 15% 40%;
+  --muted: 30 12% 90%;
+  --muted-foreground: 264 15% 40%;
 
-  --accent: 155 24% 23%;
+  --accent: 264 32% 18%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 51%;
@@ -242,48 +242,48 @@
 
   --border: 36 15% 88%;
   --input: 36 15% 88%;
-  --ring: 155 24% 23%;
+  --ring: 264 32% 18%;
 
   --radius: 0.75rem;
 
   /* Chart colors */
-  --chart-1: 155 24% 23%;
-  --chart-2: 35 36% 64%;
-  --chart-3: 36 30% 95%;
-  --chart-4: 155 24% 30%;
-  --chart-5: 35 36% 75%;
+  --chart-1: 264 32% 18%;
+  --chart-2: 10 50% 66%;
+  --chart-3: 30 20% 97%;
+  --chart-4: 264 32% 25%;
+  --chart-5: 10 50% 75%;
 
   /* Sidebar */
   --sidebar-background: 0 0% 10%;
-  --sidebar-foreground: 36 30% 95%;
-  --sidebar-primary: 155 24% 23%;
+  --sidebar-foreground: 30 20% 97%;
+  --sidebar-primary: 264 32% 18%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 13%;
-  --sidebar-accent-foreground: 36 30% 95%;
+  --sidebar-accent-foreground: 30 20% 97%;
   --sidebar-border: 0 0% 15%;
-  --sidebar-ring: 155 24% 23%;
+  --sidebar-ring: 264 32% 18%;
 }
 
 .dark {
   --background: 0 0% 10%;
-  --foreground: 36 30% 95%;
+  --foreground: 30 20% 97%;
 
   --card: 0 0% 13%;
-  --card-foreground: 36 30% 95%;
+  --card-foreground: 30 20% 97%;
 
   --popover: 0 0% 13%;
-  --popover-foreground: 36 30% 95%;
+  --popover-foreground: 30 20% 97%;
 
-  --primary: 155 24% 30%;
+  --primary: 264 32% 25%;
   --primary-foreground: 0 0% 100%;
 
   --secondary: 0 0% 13%;
-  --secondary-foreground: 35 36% 64%;
+  --secondary-foreground: 10 50% 66%;
 
   --muted: 0 0% 13%;
-  --muted-foreground: 35 25% 55%;
+  --muted-foreground: 10 30% 55%;
 
-  --accent: 155 24% 30%;
+  --accent: 264 32% 25%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 65% 50%;
@@ -291,22 +291,22 @@
 
   --border: 0 0% 18%;
   --input: 0 0% 18%;
-  --ring: 155 24% 30%;
+  --ring: 264 32% 25%;
 
-  --chart-1: 35 36% 64%;
-  --chart-2: 155 24% 30%;
-  --chart-3: 36 30% 95%;
-  --chart-4: 155 24% 23%;
-  --chart-5: 35 36% 75%;
+  --chart-1: 10 50% 66%;
+  --chart-2: 264 32% 25%;
+  --chart-3: 30 20% 97%;
+  --chart-4: 264 32% 18%;
+  --chart-5: 10 50% 75%;
 
   --sidebar-background: 0 0% 7%;
-  --sidebar-foreground: 36 30% 95%;
-  --sidebar-primary: 155 24% 30%;
+  --sidebar-foreground: 30 20% 97%;
+  --sidebar-primary: 264 32% 25%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 0 0% 11%;
-  --sidebar-accent-foreground: 36 30% 95%;
+  --sidebar-accent-foreground: 30 20% 97%;
   --sidebar-border: 0 0% 13%;
-  --sidebar-ring: 155 24% 30%;
+  --sidebar-ring: 264 32% 25%;
 }
 
 /* ========================================
@@ -366,7 +366,7 @@
   }
 
   ::selection {
-    background: rgba(45, 74, 62, 0.3);
+    background: rgba(46, 31, 61, 0.3);
     color: var(--color-dark);
   }
 }
@@ -423,12 +423,12 @@
 .card-apple {
   border-radius: 1.5rem;
   background: white;
-  box-shadow: 0 2px 40px rgba(45, 74, 62, 0.06);
+  box-shadow: 0 2px 40px rgba(46, 31, 61, 0.06);
   transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-apple:hover {
-  box-shadow: 0 8px 60px rgba(45, 74, 62, 0.12);
+  box-shadow: 0 8px 60px rgba(46, 31, 61, 0.12);
 }
 
 .dark .card-apple {
@@ -439,20 +439,20 @@
   border-radius: 1rem;
   background: white;
   overflow: hidden;
-  box-shadow: 0 4px 30px rgba(45, 74, 62, 0.06);
+  box-shadow: 0 4px 30px rgba(46, 31, 61, 0.06);
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  border: 1px solid rgba(45, 74, 62, 0.1);
+  border: 1px solid rgba(46, 31, 61, 0.1);
 }
 
 .card-premium:hover {
-  box-shadow: 0 20px 60px rgba(45, 74, 62, 0.12);
+  box-shadow: 0 20px 60px rgba(46, 31, 61, 0.12);
   transform: translateY(-6px);
   border-color: var(--color-brown-light);
 }
 
 .dark .card-premium {
   background: var(--color-dark-card);
-  border-color: rgba(45, 74, 62, 0.1);
+  border-color: rgba(46, 31, 61, 0.1);
 }
 
 .dark .card-premium:hover {
@@ -464,7 +464,7 @@
   background: hsl(var(--card) / 0.9);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(45, 74, 62, 0.08);
+  border: 1px solid rgba(46, 31, 61, 0.08);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   border-radius: 1.5rem;
 }
@@ -492,13 +492,13 @@
   background: var(--color-peach);
   color: white;
   transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 4px 20px rgba(45, 74, 62, 0.25);
+  box-shadow: 0 4px 20px rgba(46, 31, 61, 0.25);
 }
 
 .btn-peach:hover {
   background: var(--color-peach-dark);
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(45, 74, 62, 0.4);
+  box-shadow: 0 8px 30px rgba(46, 31, 61, 0.4);
 }
 
 /* Brown Outline Button */
@@ -632,9 +632,9 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: rgba(45, 74, 62, 0.1);
+  background: rgba(46, 31, 61, 0.1);
   color: var(--color-brown);
-  border: 1px solid rgba(45, 74, 62, 0.15);
+  border: 1px solid rgba(46, 31, 61, 0.15);
 }
 
 /* ========================================
@@ -692,8 +692,8 @@
 
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(45, 74, 62, 0.2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(45, 74, 62, 0.4); }
+::-webkit-scrollbar-thumb { background: rgba(46, 31, 61, 0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(46, 31, 61, 0.4); }
 
 /* ========================================
    Focus & Accessibility
@@ -701,7 +701,7 @@
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(45, 74, 62, 0.5);
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px rgba(46, 31, 61, 0.5);
 }
 
 /* ========================================
