@@ -29,7 +29,7 @@ function FlipCard({
   delay: number;
 }) {
   return (
-    <div className="relative h-10 md:h-12" style={{ perspective: "600px" }}>
+    <div className="relative h-14 md:h-20" style={{ perspective: "600px" }}>
       <motion.div
         className="relative w-full h-full"
         style={{ transformStyle: "preserve-3d" }}
