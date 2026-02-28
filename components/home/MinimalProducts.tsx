@@ -1,10 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { ArrowRight, Plus } from "lucide-react";
+import { ArrowRight, Plus, Heart } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
+
+const categoryFilters = [
+  { label: "Cosmétique", filter: "cosmetique", accent: "#5B7B6B" },
+  { label: "Parfumerie", filter: "parfum", accent: "#8B6A80" },
+  { label: "Arômes", filter: "arome", accent: "#D4907E" },
+];
 
 const showcaseProducts = [
   {
@@ -71,6 +78,21 @@ const showcaseProducts = [
 
 export function MinimalProducts() {
   const t = useTranslations("products");
+  const [likedProducts, setLikedProducts] = useState<Set<string>>(new Set());
+
+  const toggleLike = (productId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLikedProducts((prev) => {
+      const next = new Set(prev);
+      if (next.has(productId)) {
+        next.delete(productId);
+      } else {
+        next.add(productId);
+      }
+      return next;
+    });
+  };
 
   return (
     <section className="py-24 md:py-32 bg-mint relative overflow-hidden">
@@ -90,13 +112,23 @@ export function MinimalProducts() {
             </h2>
             <p className="text-dark/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
-          <Link
-            href="/catalogue"
-            className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-charcoal hover:gap-3 transition-all duration-300"
-          >
-            {t("viewCatalog")}
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+
+          {/* Category filter buttons */}
+          <div className="flex items-center gap-2">
+            {categoryFilters.map((cat) => (
+              <Link
+                key={cat.filter}
+                href={{ pathname: "/catalogue", query: { category: cat.filter } }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-dark/10 text-dark/70 bg-white/60 hover:bg-white hover:shadow-sm transition-all duration-300"
+              >
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: cat.accent }}
+                />
+                {cat.label}
+              </Link>
+            ))}
+          </div>
         </motion.div>
 
         {/* Products Grid */}
@@ -109,9 +141,9 @@ export function MinimalProducts() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
-              <Link href="/catalogue" className="group block">
+              <Link href="/catalogue" className="group block h-full">
                 <div className="bg-[#FAF8F6] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(74,90,56,0.12)] hover:-translate-y-2 flex flex-col h-full">
-                  {/* Banner image with sample button overlay */}
+                  {/* Banner image with like + sample buttons */}
                   <div className="relative aspect-[3/1] overflow-hidden">
                     <Image
                       src={product.image}
@@ -122,7 +154,21 @@ export function MinimalProducts() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 
-                    {/* Sample button — overlaid on image */}
+                    {/* Like button — top right */}
+                    <button
+                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-110 z-10"
+                      onClick={(e) => toggleLike(product.id, e)}
+                    >
+                      <Heart
+                        className={`w-4 h-4 transition-colors duration-300 ${
+                          likedProducts.has(product.id)
+                            ? "fill-red-500 text-red-500"
+                            : "text-dark/40"
+                        }`}
+                      />
+                    </button>
+
+                    {/* Sample button — bottom right */}
                     <button
                       className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-dark text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-white hover:shadow-md z-10"
                       onClick={(e) => e.preventDefault()}
@@ -155,13 +201,13 @@ export function MinimalProducts() {
                     {product.name}
                   </h3>
 
-                  {/* Description */}
+                  {/* Description — flex-1 to push tags to bottom */}
                   <p className="text-sm text-dark/60 leading-relaxed mb-3 flex-1">
                     {product.desc}
                   </p>
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
+                  {/* Tags — always at bottom */}
+                  <div className="flex flex-wrap gap-2 mt-auto">
                     {product.tags.map((tag) => (
                       <span
                         key={tag}

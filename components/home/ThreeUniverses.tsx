@@ -66,8 +66,8 @@ export function ThreeUniverses() {
           </p>
         </motion.div>
 
-        {/* 3 equal columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+        {/* 3 equal columns — continuous block */}
+        <div className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2E1F3D]/20">
           {universes.map((universe, index) => {
             const Icon = universe.icon;
             return (
@@ -82,11 +82,10 @@ export function ThreeUniverses() {
                   href={{ pathname: "/catalogue", query: { category: universe.filter } }}
                   className="group block"
                 >
-                  <div className="relative h-[400px] md:h-[560px] rounded-3xl overflow-hidden cursor-pointer flex">
+                  <div className="relative h-[400px] md:h-[560px] overflow-hidden cursor-pointer flex">
                     {/* Vertical sidebar strip */}
                     <div
-                      className="relative z-10 w-12 md:w-14 shrink-0 flex items-center justify-center"
-                      style={{ backgroundColor: universe.accent }}
+                      className="relative z-10 w-12 md:w-14 shrink-0 flex items-center justify-center bg-[#2E1F3D]"
                     >
                       <span
                         className="text-white text-sm md:text-base font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
