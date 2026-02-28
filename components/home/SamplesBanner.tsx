@@ -1,16 +1,41 @@
 "use client";
 
-import { ArrowRight, Gift } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/routing";
-import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+
+const TYPING_TEXT = "C'est comme ça que les histoires commencent...";
+const CHAR_DELAY = 70;
+const LOGO_DELAY = 800;
 
 export function SamplesBanner() {
-  const t = useTranslations("samplesBanner");
+  const [charIndex, setCharIndex] = useState(0);
+  const [showLogo, setShowLogo] = useState(false);
+  const typingDone = charIndex >= TYPING_TEXT.length;
+
+  // Typing effect
+  useEffect(() => {
+    if (typingDone) return;
+    const timer = setInterval(() => {
+      setCharIndex((prev) => {
+        if (prev >= TYPING_TEXT.length) {
+          clearInterval(timer);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, CHAR_DELAY);
+    return () => clearInterval(timer);
+  }, [typingDone]);
+
+  // Logo fade-in after typing completes
+  useEffect(() => {
+    if (!typingDone) return;
+    const timer = setTimeout(() => setShowLogo(true), LOGO_DELAY);
+    return () => clearTimeout(timer);
+  }, [typingDone]);
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center justify-center">
       {/* Background video */}
       <video
         autoPlay
@@ -22,40 +47,36 @@ export function SamplesBanner() {
         <source src="/Videos/6524721_Caucasian_Girl_Bedroom_1920x1080.mp4" type="video/mp4" />
       </video>
 
-      {/* Dark overlay for readability */}
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="w-[94%] mx-auto py-20 md:py-28 text-center relative z-10"
-      >
-        <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center mx-auto mb-6 animate-glow-pulse">
-          <Gift className="w-7 h-7 text-white" />
-        </div>
-
-        <h2 className="text-white tracking-tight">
-          Échantillons <span className="font-playfair italic text-white/90">gratuits</span>
-        </h2>
-        <p className="text-white/70 mt-4 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
-          {t("description")}
+      {/* Content */}
+      <div className="relative z-10 text-center px-6">
+        {/* Typing text */}
+        <p className="font-playfair italic text-white text-2xl md:text-4xl leading-relaxed">
+          {TYPING_TEXT.slice(0, charIndex)}
+          <span
+            className={`inline-block w-[2px] h-[1em] bg-white ml-1 align-middle ${
+              typingDone ? "animate-pulse" : "animate-blink"
+            }`}
+          />
         </p>
 
-        <div className="mt-8">
-          <Button
-            asChild
-            variant="peach"
-            size="lg"
-          >
-            <Link href="/contact">
-              {t("cta")}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+        {/* Logo fade-in */}
+        <div
+          className={`mt-10 transition-opacity duration-[1500ms] ${
+            showLogo ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Image
+            src="/images/logo-ies.png"
+            alt="IES Ingredients"
+            width={200}
+            height={80}
+            className="mx-auto brightness-0 invert"
+          />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

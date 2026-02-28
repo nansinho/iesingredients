@@ -214,6 +214,10 @@
     0%, 100% { box-shadow: 0 0 20px rgba(46, 31, 61, 0.15); }
     50% { box-shadow: 0 0 40px rgba(46, 31, 61, 0.3); }
   }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 }
 
 /* ========================================
@@ -683,6 +687,7 @@
 .animate-chevron { animation: chevronBounce 2s ease-in-out infinite; }
 .animate-shimmer { animation: shimmer 2s linear infinite; }
 .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+.animate-blink { animation: blink 0.7s step-end infinite; }
 .duration-2000 { transition-duration: 2000ms; }
 
 /* Stagger delays */
