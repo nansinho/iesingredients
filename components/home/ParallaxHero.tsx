@@ -202,17 +202,17 @@ export function ParallaxHero() {
             <div className="absolute top-5 right-5 sm:top-7 sm:right-7 flex gap-2 z-10">
               <button
                 onClick={scrollPrev}
-                className="w-10 h-10 rounded-full bg-white/12 backdrop-blur-sm border border-white/15 flex items-center justify-center hover:bg-white/25 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-[#2E1F3D]/60 backdrop-blur-sm border border-[#2E1F3D]/20 flex items-center justify-center hover:bg-[#2E1F3D]/80 transition-all duration-300"
                 aria-label="Previous slide"
               >
-                <ChevronLeft className="w-4 h-4 text-white/80" />
+                <ChevronLeft className="w-4 h-4 text-white" />
               </button>
               <button
                 onClick={scrollNext}
-                className="w-10 h-10 rounded-full bg-white/12 backdrop-blur-sm border border-white/15 flex items-center justify-center hover:bg-white/25 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-[#2E1F3D]/60 backdrop-blur-sm border border-[#2E1F3D]/20 flex items-center justify-center hover:bg-[#2E1F3D]/80 transition-all duration-300"
                 aria-label="Next slide"
               >
-                <ChevronRight className="w-4 h-4 text-white/80" />
+                <ChevronRight className="w-4 h-4 text-white" />
               </button>
             </div>
 
@@ -221,12 +221,12 @@ export function ParallaxHero() {
               {slides.map((_, index) => (
                 <div
                   key={index}
-                  className="h-[3px] rounded-full overflow-hidden bg-white/15 transition-all duration-300"
+                  className="h-[3px] rounded-full overflow-hidden bg-[#2E1F3D]/25 transition-all duration-300"
                   style={{ width: index === selectedIndex ? 40 : 14 }}
                 >
                   {index === selectedIndex && (
                     <motion.div
-                      className="h-full bg-white/80 rounded-full"
+                      className="h-full bg-[#2E1F3D] rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
                       transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
