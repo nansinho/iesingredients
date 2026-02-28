@@ -176,18 +176,25 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
             >
-              <div className="relative backdrop-blur-xl bg-white/12 rounded-2xl p-6 sm:p-8 border border-white/15 overflow-hidden">
-                {/* Accent left border */}
-                <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-[#D4907E]" />
-                <p className="text-[#D4907E] text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-semibold mb-1.5 pl-3">
-                  {t(slides[selectedIndex].subtitleKey)}
-                </p>
-                <p className="text-white text-lg sm:text-xl font-bold tracking-[-0.02em] mb-2 pl-3">
-                  {t(slides[selectedIndex].titleKey)}
-                </p>
-                <p className="text-white/75 text-sm sm:text-base leading-relaxed max-w-md pl-3">
-                  {t(slides[selectedIndex].descriptionKey)}
-                </p>
+              <div className="bg-[#2E1F3D] rounded-2xl p-6 sm:p-8 flex items-center justify-between gap-6">
+                <div>
+                  <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
+                    {t(slides[selectedIndex].subtitleKey)}
+                  </p>
+                  <p className="text-white text-xl sm:text-2xl lg:text-3xl font-bold tracking-[-0.02em] mb-2">
+                    {t(slides[selectedIndex].titleKey)}
+                  </p>
+                  <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-md">
+                    {t(slides[selectedIndex].descriptionKey)}
+                  </p>
+                </div>
+                <Link
+                  href="/catalogue"
+                  className="shrink-0 inline-flex items-center gap-2 bg-[#D4907E] text-white rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-semibold hover:bg-[#B87A6A] transition-all duration-300 shadow-sm hover:shadow-md"
+                >
+                  {t("discover")}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.div>
 
