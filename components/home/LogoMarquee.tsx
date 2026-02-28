@@ -1,12 +1,13 @@
 "use client";
 
-const logoPairs = [
-  { front: "COSMOS", back: "Croda" },
-  { front: "ECOCERT", back: "Ashland" },
-  { front: "L'Oréal", back: "Evonik" },
-  { front: "Chanel", back: "LVMH" },
-  { front: "Dior", back: "Estée Lauder" },
-  { front: "Givaudan", back: "Robertet" },
+import Image from "next/image";
+
+const partners = [
+  { name: "Givaudan", src: "/images/logo-givaudan.png", invert: true },
+  { name: "DSM-Firmenich", src: "/images/logo-dsm-firmenich.png", invert: true },
+  { name: "MayFlower", src: "/images/logo-mayflower.jpg", invert: false },
+  { name: "Sensient Beauty", src: "/images/logo-sensient.png", invert: true },
+  { name: "Xinrui Aromatics", src: "/images/logo-xinrui.png", invert: false },
 ];
 
 export function LogoMarquee() {
@@ -16,42 +17,20 @@ export function LogoMarquee() {
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-dark/25 mb-8">
           Ils nous font confiance
         </p>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 md:gap-5">
-          {logoPairs.map((pair, i) => (
+        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+          {partners.map((partner) => (
             <div
-              key={pair.front}
-              className="h-16 md:h-[72px]"
-              style={{ perspective: "600px" }}
+              key={partner.name}
+              className="relative h-12 md:h-14 w-28 md:w-36 grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
             >
-              <div
-                className="relative w-full h-full animate-logo-flip"
-                style={{
-                  transformStyle: "preserve-3d",
-                  animationDelay: `${(i % 3) * 2.5}s`,
-                }}
-              >
-                {/* Front */}
-                <div
-                  className="absolute inset-0 flex items-center justify-center rounded-xl border border-dark/[0.06] bg-white/60"
-                  style={{ backfaceVisibility: "hidden" }}
-                >
-                  <span className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.12em] text-dark/25 select-none whitespace-nowrap">
-                    {pair.front}
-                  </span>
-                </div>
-                {/* Back */}
-                <div
-                  className="absolute inset-0 flex items-center justify-center rounded-xl border border-dark/[0.06] bg-white/60"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    transform: "rotateX(180deg)",
-                  }}
-                >
-                  <span className="text-[13px] sm:text-sm font-semibold uppercase tracking-[0.12em] text-dark/25 select-none whitespace-nowrap">
-                    {pair.back}
-                  </span>
-                </div>
-              </div>
+              <Image
+                src={partner.src}
+                alt={partner.name}
+                fill
+                className="object-contain"
+                style={partner.invert ? { filter: "brightness(0)" } : undefined}
+                sizes="(max-width: 768px) 112px, 144px"
+              />
             </div>
           ))}
         </div>
