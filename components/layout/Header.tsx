@@ -258,9 +258,14 @@ export function Header() {
 
             {/* Right — CTA only on desktop + mobile buttons */}
             <div className="flex items-center gap-1.5 shrink-0 lg:w-[180px] lg:justify-end">
-              {/* CTA — elegant pill (desktop) */}
+              {/* CTA buttons (desktop) */}
+              <Link href="/catalogue" className="hidden lg:flex">
+                <button className="inline-flex items-center gap-2 h-10 px-5 text-sm font-medium rounded-full border border-white/20 text-white hover:bg-white/10 transition-all duration-300">
+                  {t("catalog")}
+                </button>
+              </Link>
               <Link href="/contact" className="hidden lg:flex">
-                <button className="inline-flex items-center gap-2 h-10 px-6 text-sm font-medium rounded-full bg-[#D4907E] text-white hover:bg-[#B87A6A] transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-[#D4907E]/20">
+                <button className="inline-flex items-center gap-2 h-10 px-5 text-sm font-medium rounded-full bg-[#D4907E] text-white hover:bg-[#B87A6A] transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-[#D4907E]/20">
                   {t("requestQuote")}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>

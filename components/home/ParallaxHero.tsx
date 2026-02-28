@@ -99,7 +99,7 @@ export function ParallaxHero() {
                   {t("titleLine2")}
                 </span>
               </h1>
-              <p className="text-[#2E1F3D]/45 text-sm sm:text-base mt-6 max-w-sm leading-relaxed">
+              <p className="text-[#2E1F3D]/45 text-base sm:text-lg mt-6 max-w-md leading-relaxed">
                 {t("subtitle")}
               </p>
             </motion.div>
@@ -176,14 +176,14 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
             >
-              <div className="bg-[#2E1F3D]/55 backdrop-blur-xl rounded-2xl border border-white/10 p-6 sm:p-8">
+              <div className="bg-[#2E1F3D] rounded-2xl p-6 sm:p-8">
                 <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
                   {t(slides[selectedIndex].subtitleKey)}
                 </p>
                 <p className="text-white text-lg sm:text-xl font-bold tracking-[-0.02em] mb-2">
                   {t(slides[selectedIndex].titleKey)}
                 </p>
-                <p className="text-white/45 text-xs sm:text-sm leading-relaxed max-w-md">
+                <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-md">
                   {t(slides[selectedIndex].descriptionKey)}
                 </p>
               </div>
