@@ -110,7 +110,7 @@ export function RegisterForm() {
             value={form.fullName}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(45,74,62,0.1)]"
+            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
             placeholder="Jean Dupont"
           />
         </div>
@@ -126,7 +126,7 @@ export function RegisterForm() {
             value={form.email}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(45,74,62,0.1)]"
+            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
             placeholder="vous@exemple.com"
           />
         </div>
@@ -140,7 +140,7 @@ export function RegisterForm() {
             name="company"
             value={form.company}
             onChange={handleChange}
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(45,74,62,0.1)]"
+            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
             placeholder={isFr ? "Votre entreprise" : "Your company"}
           />
         </div>
@@ -183,7 +183,7 @@ export function RegisterForm() {
             value={form.confirmPassword}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(45,74,62,0.1)]"
+            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
             placeholder="••••••••"
           />
         </div>

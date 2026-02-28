@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ParallaxHero } from "@/components/home/ParallaxHero";
+import { LogoMarquee } from "@/components/home/LogoMarquee";
 import { ThreeUniverses } from "@/components/home/ThreeUniverses";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { SamplesBanner } from "@/components/home/SamplesBanner";
@@ -93,6 +94,7 @@ export default async function HomePage({
       <LocalBusinessJsonLd />
       <FAQJsonLd items={faqItems} />
       <ParallaxHero />
+      <LogoMarquee />
       <ThreeUniverses />
       <MinimalProducts />
       <SamplesBanner />
