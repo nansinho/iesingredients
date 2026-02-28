@@ -85,7 +85,8 @@ export function ThreeUniverses() {
                   <div className="relative h-[400px] md:h-[560px] overflow-hidden cursor-pointer flex">
                     {/* Vertical sidebar strip */}
                     <div
-                      className="relative z-10 w-12 md:w-14 shrink-0 flex items-center justify-center bg-[#2E1F3D]"
+                      className="relative z-10 w-12 md:w-14 shrink-0 flex items-center justify-center"
+                      style={{ backgroundColor: universe.accent }}
                     >
                       <span
                         className="text-white text-sm md:text-base font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
