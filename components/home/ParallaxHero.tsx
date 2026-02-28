@@ -57,7 +57,7 @@ export function ParallaxHero() {
   }, [emblaApi]);
 
   return (
-    <section className="pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-cream-light">
+    <section className="pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-[#2E1F3D]">
       {/* ═══════════════════════════════════════
          Furdesign-style rounded bordered container
          ═══════════════════════════════════════ */}
