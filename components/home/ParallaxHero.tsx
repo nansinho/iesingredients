@@ -176,18 +176,25 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
             >
-              <div className="relative backdrop-blur-xl bg-white/12 rounded-2xl p-6 sm:p-8 border border-white/15 overflow-hidden">
-                {/* Accent left border */}
-                <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-full bg-[#D4907E]" />
-                <p className="text-[#D4907E] text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-semibold mb-1.5 pl-3">
-                  {t(slides[selectedIndex].subtitleKey)}
-                </p>
-                <p className="text-white text-lg sm:text-xl font-bold tracking-[-0.02em] mb-2 pl-3">
-                  {t(slides[selectedIndex].titleKey)}
-                </p>
-                <p className="text-white/75 text-sm sm:text-base leading-relaxed max-w-md pl-3">
-                  {t(slides[selectedIndex].descriptionKey)}
-                </p>
+              <div className="bg-[#2E1F3D] rounded-2xl p-6 sm:p-8 flex items-center justify-between gap-6">
+                <div>
+                  <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
+                    {t(slides[selectedIndex].subtitleKey)}
+                  </p>
+                  <p className="text-white text-xl sm:text-2xl lg:text-3xl font-bold tracking-[-0.02em] mb-2">
+                    {t(slides[selectedIndex].titleKey)}
+                  </p>
+                  <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-md">
+                    {t(slides[selectedIndex].descriptionKey)}
+                  </p>
+                </div>
+                <Link
+                  href="/catalogue"
+                  className="shrink-0 inline-flex items-center gap-2 bg-[#D4907E] text-white rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-semibold hover:bg-[#B87A6A] transition-all duration-300 shadow-sm hover:shadow-md"
+                >
+                  {t("discover")}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.div>
 
@@ -195,17 +202,17 @@ export function ParallaxHero() {
             <div className="absolute top-5 right-5 sm:top-7 sm:right-7 flex gap-2 z-10">
               <button
                 onClick={scrollPrev}
-                className="w-10 h-10 rounded-full bg-white/12 backdrop-blur-sm border border-white/15 flex items-center justify-center hover:bg-white/25 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-[#2E1F3D]/60 backdrop-blur-sm border border-[#2E1F3D]/20 flex items-center justify-center hover:bg-[#2E1F3D]/80 transition-all duration-300"
                 aria-label="Previous slide"
               >
-                <ChevronLeft className="w-4 h-4 text-white/80" />
+                <ChevronLeft className="w-4 h-4 text-white" />
               </button>
               <button
                 onClick={scrollNext}
-                className="w-10 h-10 rounded-full bg-white/12 backdrop-blur-sm border border-white/15 flex items-center justify-center hover:bg-white/25 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-[#2E1F3D]/60 backdrop-blur-sm border border-[#2E1F3D]/20 flex items-center justify-center hover:bg-[#2E1F3D]/80 transition-all duration-300"
                 aria-label="Next slide"
               >
-                <ChevronRight className="w-4 h-4 text-white/80" />
+                <ChevronRight className="w-4 h-4 text-white" />
               </button>
             </div>
 
@@ -214,12 +221,12 @@ export function ParallaxHero() {
               {slides.map((_, index) => (
                 <div
                   key={index}
-                  className="h-[3px] rounded-full overflow-hidden bg-white/15 transition-all duration-300"
+                  className="h-[3px] rounded-full overflow-hidden bg-[#2E1F3D]/25 transition-all duration-300"
                   style={{ width: index === selectedIndex ? 40 : 14 }}
                 >
                   {index === selectedIndex && (
                     <motion.div
-                      className="h-full bg-white/80 rounded-full"
+                      className="h-full bg-[#2E1F3D] rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
                       transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
