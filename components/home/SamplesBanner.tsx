@@ -6,46 +6,67 @@ import Image from "next/image";
 export function SamplesBanner() {
   const [phase, setPhase] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
+  const hasPlayedRef = useRef(false);
 
   const startSequence = useCallback(() => {
-    // Clear any existing timers
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
 
     setPhase(0);
 
-    // Phase 1: "Chaque création" fades in after 1s
     timersRef.current.push(setTimeout(() => setPhase(1), 1000));
-
-    // Phase 2: "mérite l'exceptionnel." fades in after 3s
     timersRef.current.push(setTimeout(() => setPhase(2), 3000));
-
-    // Phase 3: Logo fades in after 5s
     timersRef.current.push(setTimeout(() => setPhase(3), 5000));
+
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+    }
   }, []);
 
-  // Start on mount
+  // IntersectionObserver: play once on first view, replay when re-entering
   useEffect(() => {
-    startSequence();
-    return () => timersRef.current.forEach(clearTimeout);
-  }, [startSequence]);
+    const section = sectionRef.current;
+    if (!section) return;
 
-  // Restart when video loops
-  const handleVideoEnded = useCallback(() => {
-    startSequence();
-    videoRef.current?.play();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!hasPlayedRef.current) {
+            // First time visible — start the sequence
+            hasPlayedRef.current = true;
+            startSequence();
+          } else {
+            // Re-entering the viewport — replay everything
+            startSequence();
+          }
+        } else if (hasPlayedRef.current) {
+          // Left the viewport — pause video, reset state
+          timersRef.current.forEach(clearTimeout);
+          timersRef.current = [];
+          videoRef.current?.pause();
+          setPhase(0);
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
   }, [startSequence]);
 
   return (
-    <section className="relative overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center justify-center">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center justify-center"
+    >
       {/* Background video */}
       <video
         ref={videoRef}
-        autoPlay
         muted
         playsInline
-        onEnded={handleVideoEnded}
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/Videos/6524721_Caucasian_Girl_Bedroom_1920x1080.mp4" type="video/mp4" />
