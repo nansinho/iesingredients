@@ -67,6 +67,7 @@ export function SamplesBanner() {
         ref={videoRef}
         muted
         playsInline
+        onEnded={startSequence}
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/Videos/6524721_Caucasian_Girl_Bedroom_1920x1080.mp4" type="video/mp4" />
