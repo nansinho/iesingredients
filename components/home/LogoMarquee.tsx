@@ -4,20 +4,19 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const logos = [
-  { name: "Givaudan", src: "/images/logo-givaudan.png" },
-  { name: "DSM-Firmenich", src: "/images/logo-dsm-firmenich.png" },
-  { name: "MayFlower", src: "/images/logo-mayflower.jpg" },
-  { name: "Sensient Beauty", src: "/images/logo-sensient.png" },
-  { name: "Xinrui Aromatics", src: "/images/logo-xinrui.png" },
+  { name: "Givaudan", src: "/images/logo-givaudan.svg" },
+  { name: "DSM-Firmenich", src: "/images/logo-dsm-firmenich.svg" },
+  { name: "MayFlower", src: "/images/logo-mayflower.svg" },
+  { name: "Sensient Beauty", src: "/images/logo-sensient.svg" },
+  { name: "Xinrui Aromatics", src: "/images/logo-xinrui.svg" },
 ];
 
-// Each position shows 2 different logos (front/back)
 const flipPairs = [
-  { front: logos[0], back: logos[3] }, // Givaudan ↔ Sensient
-  { front: logos[1], back: logos[4] }, // DSM-Firmenich ↔ Xinrui
-  { front: logos[2], back: logos[0] }, // MayFlower ↔ Givaudan
-  { front: logos[3], back: logos[1] }, // Sensient ↔ DSM-Firmenich
-  { front: logos[4], back: logos[2] }, // Xinrui ↔ MayFlower
+  { front: logos[0], back: logos[3] },
+  { front: logos[1], back: logos[4] },
+  { front: logos[2], back: logos[0] },
+  { front: logos[3], back: logos[1] },
+  { front: logos[4], back: logos[2] },
 ];
 
 function FlipCard({
@@ -43,7 +42,6 @@ function FlipCard({
           times: [0, 0.38, 0.5, 0.88, 1.0],
         }}
       >
-        {/* Front face */}
         <div
           className="absolute inset-0"
           style={{ backfaceVisibility: "hidden" }}
@@ -53,11 +51,9 @@ function FlipCard({
             alt={front.name}
             fill
             className="object-contain"
-            style={{ filter: "brightness(0) invert(1)" }}
             sizes="20vw"
           />
         </div>
-        {/* Back face */}
         <div
           className="absolute inset-0"
           style={{
@@ -70,7 +66,6 @@ function FlipCard({
             alt={back.name}
             fill
             className="object-contain"
-            style={{ filter: "brightness(0) invert(1)" }}
             sizes="20vw"
           />
         </div>
