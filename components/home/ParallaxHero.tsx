@@ -13,19 +13,19 @@ const AUTOPLAY_DELAY = 5000;
 
 const slides = [
   {
-    image: "/images/botanicals-flat.jpg",
+    image: "/images/Cosmetique/Banniere Cosmetique.jpg",
     titleKey: "slide1Title" as const,
     subtitleKey: "slide1Subtitle" as const,
     descriptionKey: "slide1Description" as const,
   },
   {
-    image: "/images/essential-oil.jpg",
+    image: "/images/Parfum/Parfum Banniere.jpg",
     titleKey: "slide2Title" as const,
     subtitleKey: "slide2Subtitle" as const,
     descriptionKey: "slide2Description" as const,
   },
   {
-    image: "/images/blueberries-herbs.jpg",
+    image: "/images/Aromes/Aromes Banniere.jpg",
     titleKey: "slide3Title" as const,
     subtitleKey: "slide3Subtitle" as const,
     descriptionKey: "slide3Description" as const,

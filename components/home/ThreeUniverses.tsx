@@ -52,21 +52,18 @@ export function ThreeUniverses() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-12 sm:mb-16"
+          className="mb-12 sm:mb-16 text-center"
         >
           <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[#1A1A1A]/40 font-semibold mb-4">
             Nos univers
           </span>
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-[-0.03em] leading-[1.05]">
-              Trois univers.
-              <br />
-              <span className="font-playfair italic text-[#5B5470]">Une expertise.</span>
-            </h2>
-            <p className="text-[#1A1A1A]/45 text-sm sm:text-base max-w-sm leading-relaxed">
-              {t("subtitle")}
-            </p>
-          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-[-0.03em] leading-[1.05]">
+            Trois univers.{" "}
+            <span className="font-playfair italic text-[#5B5470]">Une expertise.</span>
+          </h2>
+          <p className="text-[#1A1A1A]/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
+            {t("subtitle")}
+          </p>
         </motion.div>
 
         {/* 3 equal columns */}
@@ -88,11 +85,11 @@ export function ThreeUniverses() {
                   <div className="relative h-[400px] md:h-[560px] rounded-3xl overflow-hidden cursor-pointer flex">
                     {/* Vertical sidebar strip */}
                     <div
-                      className="relative z-10 w-10 md:w-12 shrink-0 flex items-center justify-center"
+                      className="relative z-10 w-12 md:w-14 shrink-0 flex items-center justify-center"
                       style={{ backgroundColor: universe.accent }}
                     >
                       <span
-                        className="text-white text-[11px] md:text-xs font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
+                        className="text-white text-sm md:text-base font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
                         style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                       >
                         {cat(universe.titleKey)}
@@ -130,8 +127,8 @@ export function ThreeUniverses() {
                         </p>
 
                         <span
-                          className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold backdrop-blur-sm transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
-                          style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.2)" }}
+                          className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
+                          style={{ background: universe.accent }}
                         >
                           {cat("explore")}
                           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
