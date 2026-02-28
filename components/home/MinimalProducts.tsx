@@ -85,10 +85,10 @@ export function MinimalProducts() {
           className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-14 gap-4"
         >
           <div>
-            <h2 className="text-dark dark:text-cream-light tracking-tight">
+            <h2 className="text-dark tracking-tight">
               Nos ingrédients <span className="font-playfair italic text-forest-green">phares</span>
             </h2>
-            <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
+            <p className="text-dark/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
           <Link
             href="/catalogue"
@@ -110,9 +110,9 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block">
-                <div className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(74,90,56,0.12)] hover:-translate-y-2 flex flex-col h-full">
-                  {/* Banner image */}
-                  <div className="relative aspect-[16/7] overflow-hidden">
+                <div className="bg-[#FAF8F6] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(74,90,56,0.12)] hover:-translate-y-2 flex flex-col h-full">
+                  {/* Banner image with sample button overlay */}
+                  <div className="relative aspect-[3/1] overflow-hidden">
                     <Image
                       src={product.image}
                       alt={product.name}
@@ -120,58 +120,56 @@ export function MinimalProducts() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-white/40 to-transparent" />
-                  </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
 
-                  {/* Content */}
-                  <div className="p-6 flex flex-col flex-1">
-                  {/* Top row: category + ref */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="w-2.5 h-2.5 rounded-full shrink-0"
-                        style={{ backgroundColor: product.accent }}
-                      />
-                      <span className="text-[11px] font-semibold tracking-wider uppercase text-dark/70 dark:text-cream-light/70">
-                        {product.category}
-                      </span>
-                    </div>
-                    <span className="text-[11px] font-medium text-dark/40 dark:text-cream-light/40">
-                      {product.ref}
-                    </span>
-                  </div>
-
-                  {/* Product name */}
-                  <h3 className="text-xl font-playfair font-semibold text-dark dark:text-cream-light group-hover:text-forest-green transition-colors duration-300 leading-snug mb-2">
-                    {product.name}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm text-dark/60 dark:text-cream-light/50 leading-relaxed mb-5 flex-1">
-                    {product.desc}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {product.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 rounded-full text-[11px] font-medium border border-dark/15 dark:border-cream-light/15 text-dark/60 dark:text-cream-light/50 bg-white/30 dark:bg-white/5"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Sample button */}
-                  <div className="flex justify-end">
+                    {/* Sample button — overlaid on image */}
                     <button
-                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-forest-green text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-charcoal hover:shadow-md hover:shadow-forest-green/20"
+                      className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-dark text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-white hover:shadow-md z-10"
                       onClick={(e) => e.preventDefault()}
                     >
                       <Plus className="w-3.5 h-3.5" />
                       {t("sample")}
                     </button>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-5 flex flex-col flex-1">
+                  {/* Top row: category + ref */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="w-2.5 h-2.5 rounded-full shrink-0"
+                        style={{ backgroundColor: product.accent }}
+                      />
+                      <span className="text-[11px] font-semibold tracking-wider uppercase text-dark/70">
+                        {product.category}
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-medium text-dark/40">
+                      {product.ref}
+                    </span>
+                  </div>
+
+                  {/* Product name */}
+                  <h3 className="text-xl font-playfair font-semibold text-dark group-hover:text-forest-green transition-colors duration-300 leading-snug mb-2">
+                    {product.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-sm text-dark/60 leading-relaxed mb-3 flex-1">
+                    {product.desc}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {product.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 rounded-full text-[11px] font-medium border border-dark/10 text-dark/60 bg-white/50"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                   </div>
                 </div>
