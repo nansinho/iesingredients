@@ -142,20 +142,26 @@ export function ThreeUniverses() {
           })}
         </div>
 
-        {/* Bottom link */}
+        {/* Bottom CTAs */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-8 flex justify-center"
+          className="mt-10 flex flex-wrap items-center justify-center gap-3"
         >
           <Link
             href="/catalogue"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#1A1A1A]/50 hover:text-[#1A1A1A] transition-colors duration-300 group"
+            className="group inline-flex items-center gap-2 bg-[#2E1F3D] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#5B5470] transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Voir tout le catalogue
-            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 border border-[#2E1F3D]/20 text-[#1A1A1A] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#2E1F3D]/5 transition-all duration-300"
+          >
+            Contactez-nous
           </Link>
         </motion.div>
       </div>
