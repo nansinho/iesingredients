@@ -57,7 +57,7 @@ export function ParallaxHero() {
   }, [emblaApi]);
 
   return (
-    <section className="flex-1 flex flex-col pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-[#2E1F3D]">
+    <section className="flex-1 flex flex-col min-h-0 pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-[#2E1F3D]">
       {/* ═══════════════════════════════════════
          Furdesign-style rounded bordered container
          ═══════════════════════════════════════ */}
@@ -65,7 +65,7 @@ export function ParallaxHero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative flex-1 rounded-[1.5rem] sm:rounded-[2rem] border border-[#2E1F3D]/10 overflow-hidden bg-[#F0C5B3]"
+        className="relative flex-1 min-h-0 rounded-[1.5rem] sm:rounded-[2rem] border border-[#2E1F3D]/10 overflow-hidden bg-[#F0C5B3]"
       >
         {/* Inner grid: Text left | Image right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
