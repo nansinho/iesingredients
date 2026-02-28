@@ -1,47 +1,51 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
-const TYPING_TEXT = "C'est comme ça que les histoires commencent...";
-const CHAR_DELAY = 70;
-const LOGO_DELAY = 800;
-
 export function SamplesBanner() {
-  const [charIndex, setCharIndex] = useState(0);
-  const [showLogo, setShowLogo] = useState(false);
-  const typingDone = charIndex >= TYPING_TEXT.length;
+  const [phase, setPhase] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
 
-  // Typing effect
-  useEffect(() => {
-    if (typingDone) return;
-    const timer = setInterval(() => {
-      setCharIndex((prev) => {
-        if (prev >= TYPING_TEXT.length) {
-          clearInterval(timer);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, CHAR_DELAY);
-    return () => clearInterval(timer);
-  }, [typingDone]);
+  const startSequence = useCallback(() => {
+    // Clear any existing timers
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
 
-  // Logo fade-in after typing completes
+    setPhase(0);
+
+    // Phase 1: "Chaque création" fades in after 1s
+    timersRef.current.push(setTimeout(() => setPhase(1), 1000));
+
+    // Phase 2: "mérite l'exceptionnel." fades in after 3s
+    timersRef.current.push(setTimeout(() => setPhase(2), 3000));
+
+    // Phase 3: Logo fades in after 5s
+    timersRef.current.push(setTimeout(() => setPhase(3), 5000));
+  }, []);
+
+  // Start on mount
   useEffect(() => {
-    if (!typingDone) return;
-    const timer = setTimeout(() => setShowLogo(true), LOGO_DELAY);
-    return () => clearTimeout(timer);
-  }, [typingDone]);
+    startSequence();
+    return () => timersRef.current.forEach(clearTimeout);
+  }, [startSequence]);
+
+  // Restart when video loops
+  const handleVideoEnded = useCallback(() => {
+    startSequence();
+    videoRef.current?.play();
+  }, [startSequence]);
 
   return (
     <section className="relative overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center justify-center">
       {/* Background video */}
       <video
+        ref={videoRef}
         autoPlay
         muted
-        loop
         playsInline
+        onEnded={handleVideoEnded}
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/Videos/6524721_Caucasian_Girl_Bedroom_1920x1080.mp4" type="video/mp4" />
@@ -52,20 +56,28 @@ export function SamplesBanner() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6">
-        {/* Typing text */}
-        <p className="font-playfair italic text-white text-2xl md:text-4xl leading-relaxed">
-          {TYPING_TEXT.slice(0, charIndex)}
-          <span
-            className={`inline-block w-[2px] h-[1em] bg-white ml-1 align-middle ${
-              typingDone ? "animate-pulse" : "animate-blink"
-            }`}
-          />
+        {/* Line 1 */}
+        <p
+          className={`font-sans font-light tracking-wide uppercase text-white text-3xl md:text-5xl transition-opacity duration-1000 ${
+            phase >= 1 ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          Chaque création
+        </p>
+
+        {/* Line 2 */}
+        <p
+          className={`font-sans font-light tracking-wide uppercase text-white text-3xl md:text-5xl mt-2 transition-opacity duration-1000 ${
+            phase >= 2 ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          mérite l&apos;exceptionnel.
         </p>
 
         {/* Logo fade-in */}
         <div
           className={`mt-10 transition-opacity duration-[1500ms] ${
-            showLogo ? "opacity-100" : "opacity-0"
+            phase >= 3 ? "opacity-100" : "opacity-0"
           }`}
         >
           <Image
