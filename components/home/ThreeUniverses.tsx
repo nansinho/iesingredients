@@ -15,8 +15,8 @@ const universes = [
     count: "2 000+",
     countLabel: "actifs",
     icon: Leaf,
-    accent: "#2D4A3E",
-    accentBg: "#2D4A3E15",
+    accent: "#5B7B6B",
+    accentBg: "#5B7B6B15",
   },
   {
     titleKey: "perfume" as const,
@@ -26,8 +26,8 @@ const universes = [
     count: "1 500+",
     countLabel: "essences",
     icon: FlaskConical,
-    accent: "#8B6A50",
-    accentBg: "#8B6A5015",
+    accent: "#8B6A80",
+    accentBg: "#8B6A8015",
   },
   {
     titleKey: "aroma" as const,
@@ -37,8 +37,8 @@ const universes = [
     count: "1 500+",
     countLabel: "arômes",
     icon: Droplets,
-    accent: "#C4A882",
-    accentBg: "#C4A88215",
+    accent: "#D4907E",
+    accentBg: "#D4907E15",
   },
 ];
 
@@ -64,7 +64,7 @@ export function ThreeUniverses() {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-[-0.03em] leading-[1.05]">
               Trois univers.
               <br />
-              <span className="font-playfair italic text-olive">Une expertise.</span>
+              <span className="font-playfair italic text-[#5B5470]">Une expertise.</span>
             </h2>
             <p className="text-[#1A1A1A]/45 text-sm sm:text-base max-w-sm leading-relaxed">
               {t("subtitle")}
