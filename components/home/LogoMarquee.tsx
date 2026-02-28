@@ -1,20 +1,12 @@
 "use client";
 
 const logoPairs = [
-  // Row 1
   { front: "COSMOS", back: "Croda" },
   { front: "ECOCERT", back: "Ashland" },
   { front: "L'Oréal", back: "Evonik" },
   { front: "Chanel", back: "LVMH" },
   { front: "Dior", back: "Estée Lauder" },
   { front: "Givaudan", back: "Robertet" },
-  // Row 2
-  { front: "Firmenich", back: "Mane" },
-  { front: "Symrise", back: "Takasago" },
-  { front: "DSM", back: "Sensient" },
-  { front: "BASF", back: "Kerry" },
-  { front: "IFF", back: "Lonza" },
-  { front: "Seppic", back: "Clariant" },
 ];
 
 export function LogoMarquee() {
@@ -24,7 +16,7 @@ export function LogoMarquee() {
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-dark/25 mb-8">
           Ils nous font confiance
         </p>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 md:gap-5">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 md:gap-5">
           {logoPairs.map((pair, i) => (
             <div
               key={pair.front}
