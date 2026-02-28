@@ -7,12 +7,6 @@ import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-const categoryFilters = [
-  { label: "Cosmétique", filter: "cosmetique", accent: "#5B7B6B" },
-  { label: "Parfumerie", filter: "parfum", accent: "#8B6A80" },
-  { label: "Arômes", filter: "arome", accent: "#D4907E" },
-];
-
 const showcaseProducts = [
   {
     id: "1",
@@ -113,22 +107,6 @@ export function MinimalProducts() {
             <p className="text-dark/50 mt-3 text-base max-w-lg">{t("subtitle")}</p>
           </div>
 
-          {/* Category filter buttons */}
-          <div className="flex items-center gap-2">
-            {categoryFilters.map((cat) => (
-              <Link
-                key={cat.filter}
-                href={{ pathname: "/catalogue", query: { category: cat.filter } }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border border-dark/10 text-dark/70 bg-white/60 hover:bg-white hover:shadow-sm transition-all duration-300"
-              >
-                <span
-                  className="w-2 h-2 rounded-full shrink-0"
-                  style={{ backgroundColor: cat.accent }}
-                />
-                {cat.label}
-              </Link>
-            ))}
-          </div>
         </motion.div>
 
         {/* Products Grid */}
@@ -142,7 +120,7 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block h-full">
-                <div className="bg-[#FAF8F6] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(74,90,56,0.12)] hover:-translate-y-2 flex flex-col h-full">
+                <div className="bg-[#2E1F3D] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:-translate-y-2 flex flex-col h-full">
                   {/* Banner image with like + sample buttons */}
                   <div className="relative aspect-[3/1] overflow-hidden">
                     <Image
@@ -156,21 +134,21 @@ export function MinimalProducts() {
 
                     {/* Like button — top right */}
                     <button
-                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center transition-all duration-300 hover:bg-white hover:shadow-md hover:scale-110 z-10"
+                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all duration-300 hover:bg-white/30 hover:shadow-md hover:scale-110 z-10"
                       onClick={(e) => toggleLike(product.id, e)}
                     >
                       <Heart
                         className={`w-4 h-4 transition-colors duration-300 ${
                           likedProducts.has(product.id)
                             ? "fill-red-500 text-red-500"
-                            : "text-dark/40"
+                            : "text-white/60"
                         }`}
                       />
                     </button>
 
                     {/* Sample button — bottom right */}
                     <button
-                      className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-dark text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-white hover:shadow-md z-10"
+                      className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-semibold tracking-wide transition-all duration-300 hover:bg-white/30 hover:shadow-md z-10"
                       onClick={(e) => e.preventDefault()}
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -187,22 +165,22 @@ export function MinimalProducts() {
                         className="w-2.5 h-2.5 rounded-full shrink-0"
                         style={{ backgroundColor: product.accent }}
                       />
-                      <span className="text-[11px] font-semibold tracking-wider uppercase text-dark/70">
+                      <span className="text-[11px] font-semibold tracking-wider uppercase text-white/70">
                         {product.category}
                       </span>
                     </div>
-                    <span className="text-[11px] font-medium text-dark/40">
+                    <span className="text-[11px] font-medium text-white/40">
                       {product.ref}
                     </span>
                   </div>
 
                   {/* Product name */}
-                  <h3 className="text-xl font-playfair font-semibold text-dark group-hover:text-forest-green transition-colors duration-300 leading-snug mb-2">
+                  <h3 className="text-xl font-playfair font-semibold text-white group-hover:text-gold-500 transition-colors duration-300 leading-snug mb-2">
                     {product.name}
                   </h3>
 
                   {/* Description — flex-1 to push tags to bottom */}
-                  <p className="text-sm text-dark/60 leading-relaxed mb-3 flex-1">
+                  <p className="text-sm text-white/60 leading-relaxed mb-3 flex-1">
                     {product.desc}
                   </p>
 
@@ -211,7 +189,7 @@ export function MinimalProducts() {
                     {product.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 rounded-full text-[11px] font-medium border border-dark/10 text-dark/60 bg-white/50"
+                        className="px-3 py-1 rounded-full text-[11px] font-medium border border-white/15 text-white/60 bg-white/10"
                       >
                         {tag}
                       </span>
