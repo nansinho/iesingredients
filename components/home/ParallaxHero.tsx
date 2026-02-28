@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ChevronLeft, ChevronRight, ArrowRight, Mouse } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -68,7 +68,7 @@ export function ParallaxHero() {
         className="relative rounded-[1.5rem] sm:rounded-[2rem] border border-[#2E1F3D]/10 overflow-hidden bg-[#F0C5B3]"
       >
         {/* Inner grid: Text left | Image right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh] lg:min-h-[85vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[55vh] lg:min-h-[62vh]">
           {/* ── Left: Text content ── */}
           <div className="relative z-10 flex flex-col justify-between p-7 sm:p-10 lg:p-14 xl:p-16">
             {/* Top: surtitle */}
@@ -250,15 +250,6 @@ export function ParallaxHero() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator — center bottom */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 hidden lg:flex flex-col items-center gap-1"
-        >
-          <Mouse className="w-4 h-4 text-[#2E1F3D]/25 animate-scroll-bounce" />
-        </motion.div>
       </motion.div>
     </section>
   );

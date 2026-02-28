@@ -46,7 +46,7 @@ export function LatestPublications() {
   const t = useTranslations("latestPublications");
 
   return (
-    <section className="py-24 md:py-32" style={{ background: '#2D4A3E' }}>
+    <section className="py-24 md:py-32" style={{ background: '#2E1F3D' }}>
       <div className="w-[94%] mx-auto">
         {/* Header */}
         <motion.div
