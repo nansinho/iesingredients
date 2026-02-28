@@ -176,7 +176,7 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
             >
-              <div className="bg-[#2E1F3D]/55 backdrop-blur-xl rounded-2xl border border-white/10 p-6 sm:p-8">
+              <div className="bg-[#2E1F3D] rounded-2xl p-6 sm:p-8">
                 <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
                   {t(slides[selectedIndex].subtitleKey)}
                 </p>
