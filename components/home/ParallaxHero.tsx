@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
@@ -16,16 +16,19 @@ const slides = [
     image: "/images/botanicals-flat.jpg",
     titleKey: "slide1Title" as const,
     subtitleKey: "slide1Subtitle" as const,
+    descriptionKey: "slide1Description" as const,
   },
   {
     image: "/images/essential-oil.jpg",
     titleKey: "slide2Title" as const,
     subtitleKey: "slide2Subtitle" as const,
+    descriptionKey: "slide2Description" as const,
   },
   {
     image: "/images/blueberries-herbs.jpg",
     titleKey: "slide3Title" as const,
     subtitleKey: "slide3Subtitle" as const,
+    descriptionKey: "slide3Description" as const,
   },
 ];
 
@@ -108,36 +111,20 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="space-y-6"
             >
-              <div className="flex items-end justify-between">
-                {/* Circular CTA */}
+              <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/catalogue"
-                  className="group relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#2E1F3D] flex items-center justify-center hover:bg-[#5B5470] transition-all duration-500 shadow-xl hover:shadow-2xl hover:scale-[1.03]"
+                  className="group inline-flex items-center gap-2 bg-[#2E1F3D] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#5B5470] transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  <div className="text-center">
-                    <ArrowUpRight className="w-6 h-6 text-white mx-auto mb-1.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    <span className="text-white text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider leading-tight block px-4">
-                      {t("cta")}
-                    </span>
-                  </div>
+                  {t("cta")}
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </Link>
-
-                {/* Slide counter */}
-                <div className="hidden sm:flex items-center gap-3">
-                  <span className="text-sm font-bold text-[#2E1F3D]/60">
-                    {String(selectedIndex + 1).padStart(2, "0")}
-                  </span>
-                  <div className="w-16 h-[2px] bg-[#2E1F3D]/12 rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full bg-[#2E1F3D]/50 rounded-full"
-                      animate={{ width: `${((selectedIndex + 1) / slides.length) * 100}%` }}
-                      transition={{ duration: 0.4 }}
-                    />
-                  </div>
-                  <span className="text-sm font-bold text-[#2E1F3D]/25">
-                    {String(slides.length).padStart(2, "0")}
-                  </span>
-                </div>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 border border-[#2E1F3D]/20 text-[#2E1F3D] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#2E1F3D]/5 transition-all duration-300"
+                >
+                  {t("ctaSecondary")}
+                </Link>
               </div>
 
               {/* Certifications strip */}
@@ -189,23 +176,16 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
             >
-              <div className="bg-white/15 backdrop-blur-xl rounded-2xl border border-white/25 p-5 sm:p-6">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-white/60 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1">
-                      {t(slides[selectedIndex].subtitleKey)}
-                    </p>
-                    <p className="text-white text-base sm:text-lg font-bold tracking-[-0.02em]">
-                      {t(slides[selectedIndex].titleKey)}
-                    </p>
-                  </div>
-                  <Link
-                    href="/catalogue"
-                    className="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/35 transition-all duration-300 border border-white/20"
-                  >
-                    <ArrowRight className="w-4 h-4 text-white" />
-                  </Link>
-                </div>
+              <div className="bg-[#2E1F3D]/55 backdrop-blur-xl rounded-2xl border border-white/10 p-6 sm:p-8">
+                <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
+                  {t(slides[selectedIndex].subtitleKey)}
+                </p>
+                <p className="text-white text-lg sm:text-xl font-bold tracking-[-0.02em] mb-2">
+                  {t(slides[selectedIndex].titleKey)}
+                </p>
+                <p className="text-white/45 text-xs sm:text-sm leading-relaxed max-w-md">
+                  {t(slides[selectedIndex].descriptionKey)}
+                </p>
               </div>
             </motion.div>
 
