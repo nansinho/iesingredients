@@ -216,8 +216,8 @@ export function Header() {
            ═══════════════════════════════════════ */}
         <div className="w-[94%] mx-auto">
           <div className="flex items-center justify-between h-16 sm:h-18 gap-4 lg:gap-8">
-            {/* Logo */}
-            <Link href="/" className="flex items-center shrink-0">
+            {/* Logo — fixed width for centering */}
+            <Link href="/" className="flex items-center shrink-0 lg:w-[180px]">
               <Image
                 src="/images/logo-ies.png"
                 alt="IES Ingredients"
@@ -228,9 +228,9 @@ export function Header() {
               />
             </Link>
 
-            {/* Search Bar — prominent, centered */}
-            <div className="hidden lg:flex flex-1 max-w-2xl">
-              <div className="relative w-full group">
+            {/* Search Bar — truly centered */}
+            <div className="hidden lg:flex flex-1 justify-center">
+              <div className="relative w-full max-w-2xl group">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/30 group-focus-within:text-white/60 transition-colors duration-200" />
                 <input
                   ref={searchInputRef}
@@ -256,80 +256,20 @@ export function Header() {
               </div>
             </div>
 
-            {/* Right Actions */}
-            <div className="flex items-center gap-1.5 shrink-0">
-              {/* Language */}
-              <button
-                onClick={toggleLanguage}
-                className="hidden lg:flex px-2.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 text-white/40 hover:text-white hover:bg-white/10"
-              >
-                {locale === "fr" ? "EN" : "FR"}
-              </button>
-
-              {/* Dark Mode */}
-              {mounted && (
-                <button
-                  onClick={toggleTheme}
-                  className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10"
-                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-                >
-                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
-              )}
-
-              {/* User */}
-              {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="hidden lg:flex p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10">
-                      <User className="w-4 h-4" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 rounded-xl">
-                    <DropdownMenuItem asChild>
-                      <Link href="/mon-compte" className="cursor-pointer">
-                        <User className="w-4 h-4 mr-2" />
-                        {t("myProfile")}
-                      </Link>
-                    </DropdownMenuItem>
-                    {isUserAdmin && (
-                      <>
-                        <DropdownMenuItem asChild>
-                          <Link href="/admin" className="cursor-pointer">
-                            <Shield className="w-4 h-4 mr-2" />
-                            {t("admin")}
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                      </>
-                    )}
-                    {!isUserAdmin && <DropdownMenuSeparator />}
-                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
-                      <LogOut className="w-4 h-4 mr-2" />
-                      {t("signOut")}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link href="/login" className="hidden lg:flex">
-                  <button className="p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10">
-                    <User className="w-4 h-4" />
-                  </button>
-                </Link>
-              )}
-
-              {/* Cart */}
-              <div className="[&_button]:text-white/40 [&_button]:hover:text-white">
-                <SampleCartSheet />
-              </div>
-
-              {/* CTA — elegant pill */}
-              <Link href="/contact" className="hidden lg:flex ml-1">
+            {/* Right — CTA only on desktop + mobile buttons */}
+            <div className="flex items-center gap-1.5 shrink-0 lg:w-[180px] lg:justify-end">
+              {/* CTA — elegant pill (desktop) */}
+              <Link href="/contact" className="hidden lg:flex">
                 <button className="inline-flex items-center gap-2 h-10 px-6 text-sm font-medium rounded-full bg-[#D4907E] text-white hover:bg-[#B87A6A] transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-[#D4907E]/20">
                   {t("requestQuote")}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </Link>
+
+              {/* Cart (mobile only — desktop cart moves to Row 2) */}
+              <div className="lg:hidden [&_button]:text-white/40 [&_button]:hover:text-white">
+                <SampleCartSheet />
+              </div>
 
               {/* Mobile Search */}
               <button
@@ -578,8 +518,12 @@ export function Header() {
         <div
           className="hidden lg:block border-t border-white/8 transition-all duration-300"
         >
-          <div className="w-[94%] mx-auto">
-            <nav className="flex items-center justify-center h-11 gap-1">
+          <div className="w-[94%] mx-auto flex items-center justify-between h-11">
+            {/* Left spacer for centering */}
+            <div className="w-[140px]" />
+
+            {/* Center — Nav links */}
+            <nav className="flex items-center gap-1">
               {/* Catalogue — mega-menu trigger */}
               <div
                 className="relative"
@@ -635,6 +579,74 @@ export function Header() {
                 );
               })}
             </nav>
+
+            {/* Right — Utility icons */}
+            <div className="flex items-center gap-1 w-[140px] justify-end">
+              {/* Language */}
+              <button
+                onClick={toggleLanguage}
+                className="px-2.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 text-white/40 hover:text-white hover:bg-white/10"
+              >
+                {locale === "fr" ? "EN" : "FR"}
+              </button>
+
+              {/* Dark Mode */}
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10"
+                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </button>
+              )}
+
+              {/* User */}
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10">
+                      <User className="w-4 h-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 rounded-xl">
+                    <DropdownMenuItem asChild>
+                      <Link href="/mon-compte" className="cursor-pointer">
+                        <User className="w-4 h-4 mr-2" />
+                        {t("myProfile")}
+                      </Link>
+                    </DropdownMenuItem>
+                    {isUserAdmin && (
+                      <>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="cursor-pointer">
+                            <Shield className="w-4 h-4 mr-2" />
+                            {t("admin")}
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+                    {!isUserAdmin && <DropdownMenuSeparator />}
+                    <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t("signOut")}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/login">
+                  <button className="p-2 rounded-full transition-all duration-200 text-white/35 hover:text-white hover:bg-white/10">
+                    <User className="w-4 h-4" />
+                  </button>
+                </Link>
+              )}
+
+              {/* Cart */}
+              <div className="[&_button]:text-white/40 [&_button]:hover:text-white">
+                <SampleCartSheet />
+              </div>
+            </div>
           </div>
         </div>
 
