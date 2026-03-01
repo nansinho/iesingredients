@@ -4,7 +4,7 @@ import { LogoMarquee } from "@/components/home/LogoMarquee";
 import { ThreeUniverses } from "@/components/home/ThreeUniverses";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { SamplesBanner } from "@/components/home/SamplesBanner";
-
+import { SocialFollow } from "@/components/home/SocialFollow";
 import { LatestPublications } from "@/components/home/LatestPublications";
 import { MinimalCTA } from "@/components/home/MinimalCTA";
 import { OrganizationJsonLd, WebSiteJsonLd, LocalBusinessJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
@@ -100,6 +100,7 @@ export default async function HomePage({
       <ThreeUniverses />
       <MinimalProducts />
       <SamplesBanner />
+      <SocialFollow />
       <LatestPublications />
       <MinimalCTA />
     </>

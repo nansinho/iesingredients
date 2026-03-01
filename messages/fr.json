@@ -146,8 +146,15 @@
   },
   "latestPublications": {
     "title": "Dernières publications",
-    "viewMore": "Voir plus",
+    "subtitle": "Restez informé de nos dernières actualités, tendances et innovations dans le monde des ingrédients naturels.",
+    "viewMore": "Voir toutes les actualités",
     "readMore": "Lire la suite"
+  },
+  "social": {
+    "title": "Suivez-nous sur nos",
+    "titleAccent": "réseaux",
+    "subtitle": "Rejoignez notre communauté et restez informé de nos dernières actualités et innovations.",
+    "follow": "Suivre"
   },
   "homeContact": {
     "title": "Parlons de vos projets.",
