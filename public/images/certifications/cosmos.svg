@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" stroke="#F0C5B3" stroke-width="2" fill="none"/>
+  <circle cx="60" cy="60" r="50" stroke="#F0C5B3" stroke-width="0.5" fill="none"/>
+  <path d="M60 18 L62 28 L60 26 L58 28 Z" fill="#F0C5B3"/>
+  <path d="M60 102 L62 92 L60 94 L58 92 Z" fill="#F0C5B3"/>
+  <path d="M18 60 L28 58 L26 60 L28 62 Z" fill="#F0C5B3"/>
+  <path d="M102 60 L92 58 L94 60 L92 62 Z" fill="#F0C5B3"/>
+  <text x="60" y="52" text-anchor="middle" font-family="serif" font-size="16" font-weight="700" letter-spacing="3" fill="#F0C5B3">COSMOS</text>
+  <line x1="35" y1="58" x2="85" y2="58" stroke="#F0C5B3" stroke-width="0.5"/>
+  <text x="60" y="72" text-anchor="middle" font-family="sans-serif" font-size="8" letter-spacing="2" fill="#F0C5B3" opacity="0.8">CERTIFIED</text>
+</svg>

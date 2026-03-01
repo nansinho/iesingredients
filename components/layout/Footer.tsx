@@ -6,6 +6,9 @@ import {
   Instagram,
   Linkedin,
   Facebook,
+  Leaf,
+  FlaskConical,
+  Droplets,
 } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
@@ -32,7 +35,19 @@ const socials = [
   },
 ];
 
-const certifications = ["COSMOS", "ECOCERT", "BIO", "VEGAN", "ISO 9001"];
+const certifications = [
+  { name: "COSMOS", src: "/images/certifications/cosmos.svg" },
+  { name: "ECOCERT", src: "/images/certifications/ecocert.svg" },
+  { name: "BIO", src: "/images/certifications/bio.svg" },
+  { name: "VEGAN", src: "/images/certifications/vegan.svg" },
+  { name: "ISO 9001", src: "/images/certifications/iso9001.svg" },
+];
+
+const universes = [
+  { key: "cosmetic" as const, icon: Leaf, href: { pathname: "/catalogue" as const, query: { univers: "cosmetique" } } },
+  { key: "perfume" as const, icon: FlaskConical, href: { pathname: "/catalogue" as const, query: { univers: "parfum" } } },
+  { key: "aroma" as const, icon: Droplets, href: { pathname: "/catalogue" as const, query: { univers: "arome" } } },
+];
 
 export async function Footer() {
   const t = await getTranslations("footer");
@@ -41,7 +56,9 @@ export async function Footer() {
 
   return (
     <footer>
-      {/* ── Newsletter Strip ── */}
+      {/* ═══════════════════════════════════════
+          Newsletter Strip — peach accent
+          ═══════════════════════════════════════ */}
       <div className="bg-[#F0C5B3]">
         <div className="w-[94%] mx-auto py-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
@@ -70,71 +87,97 @@ export async function Footer() {
         </div>
       </div>
 
-      {/* ── Main Footer ── */}
-      <div className="bg-navy text-cream-light">
-        <div className="w-[94%] mx-auto py-16 md:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12">
-            {/* Brand Column */}
-            <div className="lg:col-span-5">
-              <Link href="/" className="inline-block mb-5">
-                <Image
-                  src="/images/logo-ies.png"
-                  alt="IES Ingredients"
-                  width={140}
-                  height={56}
-                  className="h-10 w-auto brightness-0 invert"
-                />
-              </Link>
-              <p className="text-cream-light/40 text-sm leading-relaxed max-w-sm mb-8">
-                {t("description")}
-              </p>
-
-              {/* Certifications */}
-              <div className="mb-8">
-                <h4 className="font-semibold mb-3 text-cream-light/60 text-xs uppercase tracking-wider">
-                  {t("certifications")}
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {certifications.map((cert) => (
-                    <span
-                      key={cert}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-cream-light/[0.08] bg-cream-light/[0.04] text-[11px] font-semibold text-cream-light/50 tracking-wider"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-mint/60" />
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTA */}
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mint text-[#2E1F3D] text-sm font-semibold hover:bg-[#e6b5a3] transition-all duration-300 shadow-lg shadow-mint/10"
-              >
-                {t("requestQuote")}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+      {/* ═══════════════════════════════════════
+          Main Footer — IMMENSE, violet #2E1F3D
+          ═══════════════════════════════════════ */}
+      <div className="bg-[#2E1F3D] text-white">
+        {/* Top section — Brand + Grid */}
+        <div className="w-[94%] mx-auto pt-20 md:pt-28 pb-16 md:pb-20">
+          {/* Brand hero area */}
+          <div className="text-center mb-16 md:mb-20">
+            <Link href="/" className="inline-block mb-6">
+              <Image
+                src="/images/logo-ies.png"
+                alt="IES Ingredients"
+                width={180}
+                height={72}
+                className="h-14 w-auto brightness-0 invert mx-auto"
+              />
+            </Link>
+            <p className="text-white/40 text-base leading-relaxed max-w-xl mx-auto mb-8">
+              {t("description")}
+            </p>
+            {/* Social icons row */}
+            <div className="flex items-center justify-center gap-4">
+              {socials.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white/30 transition-all duration-300 hover:scale-110"
+                    style={
+                      {
+                        "--hover-bg": `${social.color}30`,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                );
+              })}
             </div>
+          </div>
 
-            {/* Navigation Column */}
-            <div className="lg:col-span-2">
-              <h4 className="font-semibold mb-5 text-cream-light text-sm uppercase tracking-wider">
-                {t("navigation")}
+          {/* Separator */}
+          <div className="border-t border-white/[0.06] mb-16 md:mb-20" />
+
+          {/* Footer grid — 5 columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12">
+            {/* Column 1: Nos Univers */}
+            <div>
+              <h4 className="font-semibold mb-6 text-[#F0C5B3] text-xs uppercase tracking-[0.15em]">
+                {t("ourUniverses")}
               </h4>
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3.5 text-sm">
+                {universes.map((u) => {
+                  const Icon = u.icon;
+                  return (
+                    <li key={u.key}>
+                      <Link
+                        href={u.href}
+                        className="flex items-center gap-2.5 text-white/40 hover:text-[#F0C5B3] transition-colors duration-200 group"
+                      >
+                        <Icon className="w-3.5 h-3.5 text-white/20 group-hover:text-[#F0C5B3]/60 transition-colors" />
+                        {nav(u.key)}
+                      </Link>
+                    </li>
+                  );
+                })}
                 <li>
                   <Link
                     href="/catalogue"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="flex items-center gap-2.5 text-white/40 hover:text-[#F0C5B3] transition-colors duration-200 font-medium"
                   >
-                    {nav("catalog")}
+                    <ArrowRight className="w-3.5 h-3.5 text-white/20" />
+                    {t("allCatalog")}
                   </Link>
                 </li>
+              </ul>
+            </div>
+
+            {/* Column 2: Navigation */}
+            <div>
+              <h4 className="font-semibold mb-6 text-[#F0C5B3] text-xs uppercase tracking-[0.15em]">
+                {t("navigation")}
+              </h4>
+              <ul className="space-y-3.5 text-sm">
                 <li>
                   <Link
                     href="/entreprise"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200"
                   >
                     {nav("company")}
                   </Link>
@@ -142,7 +185,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/equipe"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200"
                   >
                     {nav("team")}
                   </Link>
@@ -150,7 +193,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/actualites"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200"
                   >
                     {nav("news")}
                   </Link>
@@ -158,59 +201,58 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/podcast"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200"
                   >
                     {nav("podcast")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
-                  >
-                    {nav("contact")}
                   </Link>
                 </li>
               </ul>
             </div>
 
-            {/* Help & Contact Column */}
-            <div className="lg:col-span-3">
-              <h4 className="font-semibold mb-5 text-cream-light text-sm uppercase tracking-wider">
+            {/* Column 3: Aide & Contact */}
+            <div>
+              <h4 className="font-semibold mb-6 text-[#F0C5B3] text-xs uppercase tracking-[0.15em]">
                 {t("helpContact")}
               </h4>
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 mt-0.5 text-mint/60 shrink-0" />
-                  <span className="text-cream-light/40">Nice, France</span>
+                  <MapPin className="w-4 h-4 mt-0.5 text-[#F0C5B3]/50 shrink-0" />
+                  <span className="text-white/40">Nice, France</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Phone className="w-4 h-4 text-mint/60 shrink-0" />
+                  <Phone className="w-4 h-4 text-[#F0C5B3]/50 shrink-0" />
                   <a
                     href="tel:+33493000000"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200"
                   >
                     +33 4 93 00 00 00
                   </a>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Mail className="w-4 h-4 text-mint/60 shrink-0" />
+                  <Mail className="w-4 h-4 text-[#F0C5B3]/50 shrink-0" />
                   <a
                     href="mailto:contact@ies-ingredients.com"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200"
                   >
                     contact@ies-ingredients.com
                   </a>
                 </li>
               </ul>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-full bg-[#F0C5B3] text-[#2E1F3D] text-sm font-semibold hover:bg-[#e6b5a3] transition-all duration-300"
+              >
+                {t("requestQuote")}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
 
-            {/* Follow Us Column */}
-            <div className="lg:col-span-2">
-              <h4 className="font-semibold mb-5 text-cream-light text-sm uppercase tracking-wider">
+            {/* Column 4: Suivez-nous */}
+            <div>
+              <h4 className="font-semibold mb-6 text-[#F0C5B3] text-xs uppercase tracking-[0.15em]">
                 {t("followUs")}
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-3.5">
                 {socials.map((social) => {
                   const Icon = social.icon;
                   return (
@@ -219,7 +261,7 @@ export async function Footer() {
                         href={social.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-3 text-cream-light/40 hover:text-cream-light transition-colors duration-200 group"
+                        className="flex items-center gap-3 text-white/40 hover:text-white transition-colors duration-200 group"
                       >
                         <div
                           className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
@@ -237,29 +279,119 @@ export async function Footer() {
                 })}
               </ul>
             </div>
+
+            {/* Column 5: Informations légales */}
+            <div>
+              <h4 className="font-semibold mb-6 text-[#F0C5B3] text-xs uppercase tracking-[0.15em]">
+                {t("legalMentions")}
+              </h4>
+              <ul className="space-y-3.5 text-sm">
+                <li>
+                  <span className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200 cursor-pointer">
+                    {t("privacy")}
+                  </span>
+                </li>
+                <li>
+                  <span className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200 cursor-pointer">
+                    {t("terms")}
+                  </span>
+                </li>
+                <li>
+                  <span className="text-white/40 hover:text-[#F0C5B3] transition-colors duration-200 cursor-pointer">
+                    {t("cookies")}
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ── Bottom Bar ── */}
-      <div className="bg-navy border-t border-cream-light/[0.06]">
-        <div className="w-[94%] mx-auto py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-cream-light/30">
-          <p>
-            &copy; {currentYear} IES Ingredients. {t("rights")}.
-          </p>
-          <p className="text-cream-light/20 text-xs hidden md:block">
-            {t("madeIn")}
-          </p>
-          <div className="flex flex-wrap gap-6">
-            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
-              {t("legalMentions")}
-            </span>
-            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
-              {t("privacy")}
-            </span>
-            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
-              {t("terms")}
-            </span>
+        {/* ═══════════════════════════════════════
+            Certification Logos — Grande section
+            ═══════════════════════════════════════ */}
+        <div className="border-t border-white/[0.06]">
+          <div className="w-[94%] mx-auto py-16 md:py-20">
+            <h4 className="text-center font-semibold text-[#F0C5B3] text-xs uppercase tracking-[0.2em] mb-10">
+              {t("certifications")}
+            </h4>
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
+              {certifications.map((cert) => (
+                <div
+                  key={cert.name}
+                  className="flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity duration-300"
+                >
+                  <Image
+                    src={cert.src}
+                    alt={cert.name}
+                    width={80}
+                    height={80}
+                    className="w-16 h-16 md:w-20 md:h-20"
+                  />
+                  <span className="text-[10px] font-semibold text-white/30 uppercase tracking-[0.15em]">
+                    {cert.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════
+            Partners Logos
+            ═══════════════════════════════════════ */}
+        <div className="border-t border-white/[0.06]">
+          <div className="w-[94%] mx-auto py-12 md:py-16">
+            <div className="flex flex-wrap items-center justify-center gap-10 md:gap-14 lg:gap-20 opacity-30">
+              <Image
+                src="/images/logo-dsm-firmenich.svg"
+                alt="DSM-Firmenich"
+                width={120}
+                height={40}
+                className="h-6 md:h-8 w-auto brightness-0 invert"
+              />
+              <Image
+                src="/images/logo-givaudan.svg"
+                alt="Givaudan"
+                width={120}
+                height={40}
+                className="h-6 md:h-8 w-auto brightness-0 invert"
+              />
+              <Image
+                src="/images/logo-sensient.svg"
+                alt="Sensient"
+                width={120}
+                height={40}
+                className="h-6 md:h-8 w-auto brightness-0 invert"
+              />
+              <Image
+                src="/images/logo-mayflower.svg"
+                alt="Mayflower"
+                width={120}
+                height={40}
+                className="h-6 md:h-8 w-auto brightness-0 invert"
+              />
+              <Image
+                src="/images/logo-xinrui.svg"
+                alt="Xinrui"
+                width={120}
+                height={40}
+                className="h-6 md:h-8 w-auto brightness-0 invert"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════════════════════════════
+            Bottom Bar
+            ═══════════════════════════════════════ */}
+        <div className="border-t border-white/[0.06]">
+          <div className="w-[94%] mx-auto py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/25">
+            <p>
+              &copy; {currentYear} IES Ingredients. {t("rights")}.
+            </p>
+            <p className="text-white/15 text-xs font-playfair italic">
+              {t("madeIn")}
+            </p>
           </div>
         </div>
       </div>

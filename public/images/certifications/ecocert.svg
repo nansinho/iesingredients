@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <circle cx="60" cy="60" r="56" stroke="#F0C5B3" stroke-width="2" fill="none"/>
+  <circle cx="60" cy="60" r="50" stroke="#F0C5B3" stroke-width="0.5" fill="none"/>
+  <!-- Leaf icon -->
+  <path d="M60 30 C45 40, 40 55, 50 70 C55 60, 55 50, 60 30 Z" fill="#F0C5B3" opacity="0.3"/>
+  <path d="M60 30 C75 40, 80 55, 70 70 C65 60, 65 50, 60 30 Z" fill="#F0C5B3" opacity="0.3"/>
+  <path d="M60 30 L60 72" stroke="#F0C5B3" stroke-width="1"/>
+  <text x="60" y="88" text-anchor="middle" font-family="serif" font-size="13" font-weight="700" letter-spacing="2" fill="#F0C5B3">ECOCERT</text>
+  <text x="60" y="100" text-anchor="middle" font-family="sans-serif" font-size="7" letter-spacing="2" fill="#F0C5B3" opacity="0.8">ORGANIC</text>
+</svg>

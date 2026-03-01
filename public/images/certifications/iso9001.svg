@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect x="8" y="8" width="104" height="104" rx="12" stroke="#F0C5B3" stroke-width="2" fill="none"/>
+  <rect x="14" y="14" width="92" height="92" rx="8" stroke="#F0C5B3" stroke-width="0.5" fill="none"/>
+  <text x="60" y="48" text-anchor="middle" font-family="serif" font-size="22" font-weight="700" letter-spacing="2" fill="#F0C5B3">ISO</text>
+  <line x1="30" y1="55" x2="90" y2="55" stroke="#F0C5B3" stroke-width="0.5"/>
+  <text x="60" y="72" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="600" letter-spacing="1" fill="#F0C5B3">9001</text>
+  <text x="60" y="90" text-anchor="middle" font-family="sans-serif" font-size="7" letter-spacing="2" fill="#F0C5B3" opacity="0.8">QUALITY</text>
+</svg>
