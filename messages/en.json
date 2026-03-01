@@ -204,7 +204,17 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Use",
     "description": "Your partner for cosmetic ingredients, perfumes and flavors for over 30 years.",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "helpContact": "Help & Contact",
+    "followUs": "Follow Us",
+    "certifications": "Our Certifications",
+    "legalMentions": "Legal Notices",
+    "requestQuote": "Request a Quote",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Receive our latest news and innovations.",
+    "newsletterPlaceholder": "Your email address",
+    "subscribe": "Subscribe",
+    "madeIn": "Crafted with passion in Nice, France"
   },
   "common": {
     "learnMore": "Learn more",

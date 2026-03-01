@@ -11,7 +11,6 @@ const socials = [
     url: "https://www.instagram.com/ies_ingredients/",
     handle: "@ies_ingredients",
     color: "#E1306C",
-    bgHover: "hover:bg-[#E1306C]",
   },
   {
     name: "LinkedIn",
@@ -19,7 +18,6 @@ const socials = [
     url: "https://www.linkedin.com/company/ies-ingredients/",
     handle: "IES Ingredients",
     color: "#0A66C2",
-    bgHover: "hover:bg-[#0A66C2]",
   },
   {
     name: "Facebook",
@@ -27,7 +25,6 @@ const socials = [
     url: "https://www.facebook.com/iesingredients/",
     handle: "IES Ingredients",
     color: "#1877F2",
-    bgHover: "hover:bg-[#1877F2]",
   },
 ];
 
@@ -35,7 +32,7 @@ export function SocialFollow() {
   const t = useTranslations("social");
 
   return (
-    <section className="py-20 md:py-28 bg-[#2E1F3D]">
+    <section className="py-20 md:py-28 bg-[#F0C5B3]">
       <div className="w-[94%] mx-auto text-center">
         {/* Header */}
         <motion.div
@@ -45,13 +42,13 @@ export function SocialFollow() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h2 className="text-white tracking-tight">
+          <h2 className="text-[#2E1F3D] tracking-tight">
             {t("title")}{" "}
-            <span className="font-playfair italic text-[#F0C5B3]">
+            <span className="font-playfair italic text-[#2E1F3D]/70">
               {t("titleAccent")}
             </span>
           </h2>
-          <p className="text-white/50 mt-3 text-base max-w-lg mx-auto">
+          <p className="text-[#2E1F3D]/60 mt-3 text-base max-w-lg mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -68,11 +65,11 @@ export function SocialFollow() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group flex flex-col items-center gap-4 p-8 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:border-white/20 ${social.bgHover} hover:bg-opacity-100`}
+              className="group flex flex-col items-center gap-4 p-8 rounded-2xl bg-white/50 border border-white/60 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(46,31,61,0.15)] hover:bg-white/80 hover:border-white/80"
             >
               <div
                 className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                style={{ backgroundColor: `${social.color}20` }}
+                style={{ backgroundColor: `${social.color}15` }}
               >
                 <social.icon
                   className="w-6 h-6 transition-colors duration-300"
@@ -80,14 +77,14 @@ export function SocialFollow() {
                 />
               </div>
               <div>
-                <p className="text-white font-semibold text-base group-hover:text-white transition-colors">
+                <p className="text-[#2E1F3D] font-semibold text-base transition-colors">
                   {social.name}
                 </p>
-                <p className="text-white/40 text-sm mt-0.5 group-hover:text-white/70 transition-colors">
+                <p className="text-[#2E1F3D]/50 text-sm mt-0.5 transition-colors">
                   {social.handle}
                 </p>
               </div>
-              <span className="text-xs font-semibold text-white/50 uppercase tracking-wider group-hover:text-white/80 transition-colors">
+              <span className="text-xs font-semibold text-[#2E1F3D]/40 uppercase tracking-wider group-hover:text-[#2E1F3D]/70 transition-colors">
                 {t("follow")}
               </span>
             </motion.a>
