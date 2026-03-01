@@ -204,7 +204,17 @@
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
     "description": "Votre partenaire pour les ingrédients cosmétiques, parfums et arômes depuis plus de 30 ans.",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "helpContact": "Aide & Contact",
+    "followUs": "Suivez-nous",
+    "certifications": "Nos certifications",
+    "legalMentions": "Mentions légales",
+    "requestQuote": "Demander un devis",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Recevez nos dernières actualités et innovations.",
+    "newsletterPlaceholder": "Votre adresse email",
+    "subscribe": "S'inscrire",
+    "madeIn": "Conçu avec passion à Nice, France"
   },
   "common": {
     "learnMore": "En savoir plus",
