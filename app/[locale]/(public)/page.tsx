@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ParallaxHero } from "@/components/home/ParallaxHero";
 import { LogoMarquee } from "@/components/home/LogoMarquee";
+import { ThreeUniverses } from "@/components/home/ThreeUniverses";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { SamplesBanner } from "@/components/home/SamplesBanner";
 import { SocialFollow } from "@/components/home/SocialFollow";
@@ -96,6 +97,7 @@ export default async function HomePage({
         <ParallaxHero />
         <LogoMarquee />
       </div>
+      <ThreeUniverses />
       <MinimalProducts />
       <SamplesBanner />
       <LatestPublications />
