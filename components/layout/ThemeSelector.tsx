@@ -47,19 +47,13 @@ function applyColorTheme(themeId: ColorThemeId) {
 
 export function ThemeSelector() {
   const [open, setOpen] = useState(false);
-  const [activeTheme, setActiveTheme] = useState<ColorThemeId>("default");
+  const [activeTheme, setActiveTheme] = useState<ColorThemeId>(getStoredTheme);
   const panelRef = useRef<HTMLDivElement>(null);
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
     () => false,
   );
-
-  useEffect(() => {
-    const stored = getStoredTheme();
-    setActiveTheme(stored);
-    applyColorTheme(stored);
-  }, []);
 
   useEffect(() => {
     if (!open) return;

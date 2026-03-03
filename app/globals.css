@@ -380,6 +380,13 @@
   --color-olive: #3B4F2F;
   --color-olive-light: #5A7A4A;
   --color-olive-dark: #2A3D20;
+  --color-forest-green: #3B4F2F;
+  --color-mint: #C5CCA3;
+  --color-sage: #5A7A4A;
+  --color-lavender: #5A7A4A;
+  --color-lavender-light: #7B946B;
+  --color-lavender-dark: #3B4F2F;
+  --color-navy: #2A3D20;
 }
 [data-color-theme="nature-vert"].dark,
 .dark[data-color-theme="nature-vert"] {
@@ -427,6 +434,13 @@
   --color-olive: #2D6A4F;
   --color-olive-light: #52B788;
   --color-olive-dark: #1B4332;
+  --color-forest-green: #2D6A4F;
+  --color-mint: #F4C2C2;
+  --color-sage: #52B788;
+  --color-lavender: #52B788;
+  --color-lavender-light: #6EC698;
+  --color-lavender-dark: #2D6A4F;
+  --color-navy: #1B4332;
 }
 [data-color-theme="botanique"].dark,
 .dark[data-color-theme="botanique"] {
@@ -474,6 +488,13 @@
   --color-olive: #4A6B5A;
   --color-olive-light: #7C9885;
   --color-olive-dark: #3A5B4A;
+  --color-forest-green: #4A6B5A;
+  --color-mint: #C5D5C5;
+  --color-sage: #7C9885;
+  --color-lavender: #7C9885;
+  --color-lavender-light: #8FAA95;
+  --color-lavender-dark: #4A6B5A;
+  --color-navy: #3A5B4A;
 }
 [data-color-theme="sauge-douce"].dark,
 .dark[data-color-theme="sauge-douce"] {

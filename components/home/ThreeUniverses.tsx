@@ -44,7 +44,7 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-20 md:py-28 bg-[#F5F2ED]">
+    <section className="py-20 md:py-28 bg-cream">
       <div className="w-[94%] mx-auto">
         {/* Section header */}
         <motion.div
@@ -54,14 +54,14 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="mb-12 sm:mb-16 text-center"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[#1A1A1A]/40 font-semibold mb-4">
+          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[var(--brand-primary)]/40 font-semibold mb-4">
             Nos univers
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-[-0.03em] leading-[1.05]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--brand-primary)] tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
             <span className="font-playfair italic text-[var(--brand-secondary)]">Une expertise.</span>
           </h2>
-          <p className="text-[#1A1A1A]/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
+          <p className="text-[var(--brand-primary)]/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -159,7 +159,7 @@ export function ThreeUniverses() {
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[#1A1A1A] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
+            className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
           >
             Contactez-nous
           </Link>

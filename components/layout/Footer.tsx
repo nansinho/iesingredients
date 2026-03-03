@@ -49,7 +49,7 @@ export async function Footer() {
               <Mail className="w-5 h-5 text-[var(--brand-primary)]" />
             </div>
             <div>
-              <h4 className="font-semibold text-[#1a1a1a] text-sm">
+              <h4 className="font-semibold text-[var(--brand-primary)] text-sm">
                 {t("newsletter")}
               </h4>
               <p className="text-[var(--brand-primary)]/60 text-sm">
@@ -61,7 +61,7 @@ export async function Footer() {
             <input
               type="email"
               placeholder={t("newsletterPlaceholder")}
-              className="h-11 px-4 rounded-full bg-white/70 border border-[var(--brand-primary)]/10 text-sm text-[#1a1a1a] placeholder:text-[var(--brand-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 flex-1 md:w-72"
+              className="h-11 px-4 rounded-full bg-white/70 border border-[var(--brand-primary)]/10 text-sm text-[var(--brand-primary)] placeholder:text-[var(--brand-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 flex-1 md:w-72"
             />
             <button className="h-11 px-6 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-primary)]/90 transition-colors duration-300 shrink-0">
               {t("subscribe")}
@@ -110,7 +110,7 @@ export async function Footer() {
               {/* CTA */}
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mint text-[var(--brand-primary)] text-sm font-semibold hover:bg-[#e6b5a3] transition-all duration-300 shadow-lg shadow-mint/10"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mint text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent-hover)] transition-all duration-300 shadow-lg shadow-mint/10"
               >
                 {t("requestQuote")}
                 <ArrowRight className="w-4 h-4" />

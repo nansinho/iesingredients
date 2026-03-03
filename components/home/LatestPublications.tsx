@@ -81,7 +81,7 @@ export function LatestPublications() {
   }, [emblaApi]);
 
   return (
-    <section className="py-24 md:py-32 bg-[#FAF8F6]">
+    <section className="py-24 md:py-32 bg-cream-light">
       <div className="w-[94%] mx-auto">
         {/* Header — centered */}
         <motion.div
