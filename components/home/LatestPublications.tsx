@@ -93,7 +93,7 @@ export function LatestPublications() {
         >
           <h2 className="text-dark tracking-tight">
             Dernières{" "}
-            <span className="font-playfair italic text-[#5B5470]">
+            <span className="font-playfair italic text-[var(--brand-secondary)]">
               publications
             </span>
           </h2>
@@ -154,20 +154,20 @@ export function LatestPublications() {
 
                       {/* Content */}
                       <div className="px-5 sm:px-6 pb-6 pt-1 flex flex-col flex-1">
-                        <p className="text-xs text-[#5B5470] mb-2 font-semibold uppercase tracking-wider">
+                        <p className="text-xs text-[var(--brand-secondary)] mb-2 font-semibold uppercase tracking-wider">
                           {new Date(article.date).toLocaleDateString("fr-FR", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
                           })}
                         </p>
-                        <h3 className="text-base font-bold text-dark group-hover:text-[#5B5470] transition-colors line-clamp-2 mb-2.5 leading-snug">
+                        <h3 className="text-base font-bold text-dark group-hover:text-[var(--brand-secondary)] transition-colors line-clamp-2 mb-2.5 leading-snug">
                           {article.title}
                         </h3>
                         <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed flex-1">
                           {article.excerpt}
                         </p>
-                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#5B5470] mt-4 group-hover:gap-2.5 transition-all duration-300">
+                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand-secondary)] mt-4 group-hover:gap-2.5 transition-all duration-300">
                           {t("readMore")}
                           <ArrowRight className="w-3.5 h-3.5" />
                         </span>
@@ -184,7 +184,7 @@ export function LatestPublications() {
         <div className="text-center mt-12">
           <Link
             href="/actualites"
-            className="inline-flex items-center gap-2 bg-[#2E1F3D] text-white rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-[#5B5470] transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 bg-[var(--brand-primary)] text-white rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />

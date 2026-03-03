@@ -42,17 +42,17 @@ export async function Footer() {
   return (
     <footer>
       {/* ── Newsletter Strip ── */}
-      <div className="bg-[#F0C5B3]">
+      <div className="bg-[var(--brand-accent-light)]">
         <div className="w-[94%] mx-auto py-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#2E1F3D]/10 flex items-center justify-center shrink-0">
-              <Mail className="w-5 h-5 text-[#2E1F3D]" />
+            <div className="w-10 h-10 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center shrink-0">
+              <Mail className="w-5 h-5 text-[var(--brand-primary)]" />
             </div>
             <div>
               <h4 className="font-semibold text-[#1a1a1a] text-sm">
                 {t("newsletter")}
               </h4>
-              <p className="text-[#2E1F3D]/60 text-sm">
+              <p className="text-[var(--brand-primary)]/60 text-sm">
                 {t("newsletterDesc")}
               </p>
             </div>
@@ -61,9 +61,9 @@ export async function Footer() {
             <input
               type="email"
               placeholder={t("newsletterPlaceholder")}
-              className="h-11 px-4 rounded-full bg-white/70 border border-[#2E1F3D]/10 text-sm text-[#1a1a1a] placeholder:text-[#2E1F3D]/40 focus:outline-none focus:ring-2 focus:ring-[#2E1F3D]/20 flex-1 md:w-72"
+              className="h-11 px-4 rounded-full bg-white/70 border border-[var(--brand-primary)]/10 text-sm text-[#1a1a1a] placeholder:text-[var(--brand-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 flex-1 md:w-72"
             />
-            <button className="h-11 px-6 rounded-full bg-[#2E1F3D] text-white text-sm font-semibold hover:bg-[#1E0F2D] transition-colors duration-300 shrink-0">
+            <button className="h-11 px-6 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-primary)]/90 transition-colors duration-300 shrink-0">
               {t("subscribe")}
             </button>
           </div>
@@ -110,7 +110,7 @@ export async function Footer() {
               {/* CTA */}
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mint text-[#2E1F3D] text-sm font-semibold hover:bg-[#e6b5a3] transition-all duration-300 shadow-lg shadow-mint/10"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mint text-[var(--brand-primary)] text-sm font-semibold hover:bg-[#e6b5a3] transition-all duration-300 shadow-lg shadow-mint/10"
               >
                 {t("requestQuote")}
                 <ArrowRight className="w-4 h-4" />

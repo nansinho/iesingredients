@@ -3,6 +3,7 @@ import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ThemeSelector } from "@/components/layout/ThemeSelector";
 
 export default async function PublicLayout({
   children,
@@ -19,6 +20,7 @@ export default async function PublicLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+        <ThemeSelector />
       </ThemeProvider>
     </NextIntlClientProvider>
   );

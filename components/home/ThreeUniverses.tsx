@@ -59,7 +59,7 @@ export function ThreeUniverses() {
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1A1A1A] tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
-            <span className="font-playfair italic text-[#5B5470]">Une expertise.</span>
+            <span className="font-playfair italic text-[var(--brand-secondary)]">Une expertise.</span>
           </h2>
           <p className="text-[#1A1A1A]/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
             {t("subtitle")}
@@ -67,7 +67,7 @@ export function ThreeUniverses() {
         </motion.div>
 
         {/* 3 equal columns — continuous block */}
-        <div className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-[#2E1F3D]/20">
+        <div className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand-primary)]/20">
           {universes.map((universe, index) => {
             const Icon = universe.icon;
             return (
@@ -152,14 +152,14 @@ export function ThreeUniverses() {
         >
           <Link
             href="/catalogue"
-            className="group inline-flex items-center gap-2 bg-[#2E1F3D] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#5B5470] transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="group inline-flex items-center gap-2 bg-[var(--brand-primary)] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Voir tout le catalogue
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 border border-[#2E1F3D]/20 text-[#1A1A1A] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#2E1F3D]/5 transition-all duration-300"
+            className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[#1A1A1A] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
           >
             Contactez-nous
           </Link>
