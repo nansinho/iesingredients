@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { getLocale } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -87,20 +86,13 @@ export const metadata: Metadata = {
   category: "business",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let locale = "fr";
-  try {
-    locale = await getLocale();
-  } catch {
-    // Fallback to "fr" when no request context (e.g. global-error prerender)
-  }
-
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <head>
         {/* Google Fonts — DM Sans (body) + Playfair Display (accent) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -109,10 +101,10 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
         />
-        {/* Dark mode FOUC prevention — set class before paint */}
+        {/* FOUC prevention: dark mode, color theme, and locale from URL */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark')}else{d.classList.remove('dark')}var c=localStorage.getItem('color-theme');if(c&&c!=='default'){d.setAttribute('data-color-theme',c)}}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark')}else{d.classList.remove('dark')}var c=localStorage.getItem('color-theme');if(c&&c!=='default'){d.setAttribute('data-color-theme',c)}if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`,
           }}
         />
       </head>
