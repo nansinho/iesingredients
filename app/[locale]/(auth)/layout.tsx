@@ -59,7 +59,7 @@ export default async function AuthLayout({
         {/* Right - Form panel */}
         <div className="flex-1 bg-cream-light dark:bg-dark flex flex-col relative overflow-hidden">
           {/* Header */}
-          <header className="bg-[#1A1A1A] px-6 py-4 lg:px-8 lg:py-5">
+          <header className="bg-[var(--brand-primary)] px-6 py-4 lg:px-8 lg:py-5">
             <Link href="/" className="inline-block">
               <Image
                 src="/images/logo-ies.png"
