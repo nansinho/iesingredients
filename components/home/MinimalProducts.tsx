@@ -117,7 +117,7 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block h-full">
-                <div className="bg-[#2E1F3D] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:-translate-y-2 flex flex-col h-full">
+                <div className="bg-[var(--brand-primary)] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:-translate-y-2 flex flex-col h-full">
                   {/* Banner image with like + sample buttons */}
                   <div className="relative aspect-[3/1] overflow-hidden">
                     <Image

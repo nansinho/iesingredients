@@ -23,7 +23,7 @@ export function MinimalCTA() {
           aria-hidden="true"
         />
         {/* Single solid overlay — no stacking/superposition */}
-        <div className="absolute inset-0 bg-[#2E1F3D]/80" />
+        <div className="absolute inset-0 bg-[var(--brand-primary)]/80" />
       </div>
 
       {/* Content — cleanly separated, no overlap */}
@@ -37,7 +37,7 @@ export function MinimalCTA() {
         >
           <h2 className="text-white tracking-tight mb-5">
             Prêt à découvrir nos{" "}
-            <span className="font-playfair italic text-[#F0C5B3]">
+            <span className="font-playfair italic text-[var(--brand-accent-light)]">
               ingrédients
             </span>{" "}
             ?

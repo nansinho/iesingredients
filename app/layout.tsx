@@ -112,7 +112,7 @@ export default async function RootLayout({
         {/* Dark mode FOUC prevention — set class before paint */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark')}else{d.classList.remove('dark')}}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark')}else{d.classList.remove('dark')}var c=localStorage.getItem('color-theme');if(c&&c!=='default'){d.setAttribute('data-color-theme',c)}}catch(e){}})()`,
           }}
         />
       </head>

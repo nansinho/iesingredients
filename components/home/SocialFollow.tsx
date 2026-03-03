@@ -32,7 +32,7 @@ export function SocialFollow() {
   const t = useTranslations("social");
 
   return (
-    <section className="py-20 md:py-28 bg-[#F0C5B3]">
+    <section className="py-20 md:py-28 bg-[var(--brand-accent-light)]">
       <div className="w-[94%] mx-auto text-center">
         {/* Header */}
         <motion.div
@@ -42,13 +42,13 @@ export function SocialFollow() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h2 className="text-[#2E1F3D] tracking-tight">
+          <h2 className="text-[var(--brand-primary)] tracking-tight">
             {t("title")}{" "}
-            <span className="font-playfair italic text-[#2E1F3D]/70">
+            <span className="font-playfair italic text-[var(--brand-primary)]/70">
               {t("titleAccent")}
             </span>
           </h2>
-          <p className="text-[#2E1F3D]/60 mt-3 text-base max-w-lg mx-auto">
+          <p className="text-[var(--brand-primary)]/60 mt-3 text-base max-w-lg mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -77,14 +77,14 @@ export function SocialFollow() {
                 />
               </div>
               <div>
-                <p className="text-[#2E1F3D] font-semibold text-base transition-colors">
+                <p className="text-[var(--brand-primary)] font-semibold text-base transition-colors">
                   {social.name}
                 </p>
-                <p className="text-[#2E1F3D]/50 text-sm mt-0.5 transition-colors">
+                <p className="text-[var(--brand-primary)]/50 text-sm mt-0.5 transition-colors">
                   {social.handle}
                 </p>
               </div>
-              <span className="text-xs font-semibold text-[#2E1F3D]/40 uppercase tracking-wider group-hover:text-[#2E1F3D]/70 transition-colors">
+              <span className="text-xs font-semibold text-[var(--brand-primary)]/40 uppercase tracking-wider group-hover:text-[var(--brand-primary)]/70 transition-colors">
                 {t("follow")}
               </span>
             </motion.a>
