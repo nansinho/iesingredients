@@ -16,6 +16,7 @@ export interface EpisodeData {
   audioUrl: string;
   episodeNumber: number;
   category?: string;
+  collection?: string;
   spotifyUrl?: string;
   applePodcastUrl?: string;
 }

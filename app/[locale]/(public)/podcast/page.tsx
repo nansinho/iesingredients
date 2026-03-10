@@ -13,9 +13,75 @@ import { Button } from "@/components/ui/button";
 import { BreadcrumbJsonLd, PodcastSeriesJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
-import { PodcastEpisodesSection } from "@/components/podcast/PodcastEpisodesSection";
+import { PodcastPageClient } from "@/components/podcast/PodcastPageClient";
 import type { EpisodeData } from "@/components/podcast/EpisodeCard";
+import type { CollectionData } from "@/components/podcast/CollectionCard";
 
+/* ─── Collections ─── */
+const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }> = {
+  "artisans-parfum": {
+    fr: {
+      id: "artisans-parfum",
+      title: "Les Artisans du Parfum",
+      description:
+        "Rencontrez les nez, parfumeurs et créateurs qui façonnent l'art olfactif. Savoir-faire, inspiration et passion.",
+      image: "/images/essential-oil.jpg",
+      episodeCount: 2,
+      color: "#8B6A80",
+    },
+    en: {
+      id: "artisans-parfum",
+      title: "The Perfume Artisans",
+      description:
+        "Meet the noses, perfumers and creators who shape olfactory art. Craftsmanship, inspiration and passion.",
+      image: "/images/essential-oil.jpg",
+      episodeCount: 2,
+      color: "#8B6A80",
+    },
+  },
+  "terre-ingredients": {
+    fr: {
+      id: "terre-ingredients",
+      title: "Terre d'Ingrédients",
+      description:
+        "Du champ au laboratoire : découvrez l'origine des matières premières naturelles et leur parcours jusqu'à vos produits.",
+      image: "/images/botanicals-flat.jpg",
+      episodeCount: 3,
+      color: "#5B7B6B",
+    },
+    en: {
+      id: "terre-ingredients",
+      title: "Land of Ingredients",
+      description:
+        "From field to lab: discover the origin of natural raw materials and their journey to your products.",
+      image: "/images/botanicals-flat.jpg",
+      episodeCount: 3,
+      color: "#5B7B6B",
+    },
+  },
+  "lab-innovation": {
+    fr: {
+      id: "lab-innovation",
+      title: "Lab & Innovation",
+      description:
+        "Comment la science et la technologie transforment l'industrie cosmétique et créent les formulations de demain.",
+      image: "/images/cream-bowl.jpg",
+      episodeCount: 1,
+      color: "#4A7FB5",
+    },
+    en: {
+      id: "lab-innovation",
+      title: "Lab & Innovation",
+      description:
+        "How science and technology are transforming the cosmetics industry and creating tomorrow's formulations.",
+      image: "/images/cream-bowl.jpg",
+      episodeCount: 1,
+      color: "#4A7FB5",
+    },
+  },
+};
+
+/* ─── Episodes ─── */
 const episodes: Omit<
   EpisodeData,
   "title" | "guest" | "guestRole" | "description"
@@ -28,6 +94,7 @@ const episodes: Omit<
     image: "/images/essential-oil.jpg",
     audioUrl: "/audio/episode-1.mp3",
     category: "parfumerie",
+    collection: "artisans-parfum",
   },
   {
     id: 2,
@@ -37,6 +104,7 @@ const episodes: Omit<
     image: "/images/botanicals-flat.jpg",
     audioUrl: "/audio/episode-2.mp3",
     category: "ingredients",
+    collection: "terre-ingredients",
   },
   {
     id: 3,
@@ -46,6 +114,7 @@ const episodes: Omit<
     image: "/images/cream-bowl.jpg",
     audioUrl: "/audio/episode-3.mp3",
     category: "innovation",
+    collection: "lab-innovation",
   },
   {
     id: 4,
@@ -55,6 +124,7 @@ const episodes: Omit<
     image: "/images/hero-botanical.jpg",
     audioUrl: "/audio/episode-4.mp3",
     category: "ingredients",
+    collection: "terre-ingredients",
   },
   {
     id: 5,
@@ -64,6 +134,7 @@ const episodes: Omit<
     image: "/images/blueberries-herbs.jpg",
     audioUrl: "/audio/episode-5.mp3",
     category: "parfumerie",
+    collection: "artisans-parfum",
   },
   {
     id: 6,
@@ -73,6 +144,7 @@ const episodes: Omit<
     image: "/images/leaves-hero.jpg",
     audioUrl: "/audio/episode-6.mp3",
     category: "durabilite",
+    collection: "terre-ingredients",
   },
 ];
 
@@ -213,6 +285,10 @@ export default async function PodcastPage({
     description: translations[i].description,
   }));
 
+  const localizedCollections: CollectionData[] = Object.values(collectionsData).map(
+    (c) => (isFr ? c.fr : c.en)
+  );
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -352,102 +428,33 @@ export default async function PodcastPage({
         </div>
       </section>
 
-      {/* ─── Latest Episode Highlight ─── */}
-      <section className="py-16 md:py-20 bg-cream-light relative overflow-hidden">
+      {/* ─── Collections + Episodes Section ─── */}
+      <section className="py-16 md:py-24 bg-cream-light relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
+        <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/3 rounded-full blur-[200px]" />
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
-          <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-accent)]/10 border border-[var(--brand-accent)]/15 text-[var(--brand-accent)] text-xs font-semibold uppercase tracking-[0.15em] mb-4">
-              {isFr ? "Dernier épisode" : "Latest episode"}
+          {/* Collections Header */}
+          <AnimateIn className="mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/6 border border-[var(--brand-primary)]/10 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-4">
+              {isFr ? "Nos collections" : "Our collections"}
             </span>
-          </AnimateIn>
-
-          <AnimateIn delay={0.1}>
-            <div className="mt-4 flex flex-col md:flex-row bg-white rounded-3xl border border-brown/8 overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
-              {/* Featured image */}
-              <div className="relative w-full md:w-2/5 lg:w-1/3">
-                <div className="relative aspect-[16/10] md:aspect-auto md:h-full overflow-hidden">
-                  <Image
-                    src={localizedEpisodes[0].image}
-                    alt={localizedEpisodes[0].title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 40vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2E1F3D]/60 to-transparent md:bg-gradient-to-r md:from-transparent md:to-transparent" />
-
-                  {/* Large episode number */}
-                  <div className="absolute bottom-4 left-5 md:bottom-6 md:left-6">
-                    <span className="text-white/40 text-[10px] font-semibold uppercase tracking-[0.2em]">
-                      {isFr ? "Épisode" : "Episode"}
-                    </span>
-                    <p className="text-white text-4xl md:text-5xl font-bold leading-none">
-                      {String(localizedEpisodes[0].episodeNumber).padStart(2, "0")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Featured content */}
-              <div className="flex-1 p-6 md:p-10 flex flex-col justify-center">
-                <div className="flex flex-wrap items-center gap-3 mb-4">
-                  {localizedEpisodes[0].category && (
-                    <span className="px-3 py-1 rounded-full bg-[#8B6A80]/10 text-[#8B6A80] text-[11px] font-semibold uppercase tracking-wider">
-                      {isFr ? "Parfumerie" : "Perfumery"}
-                    </span>
-                  )}
-                  <span className="text-dark/40 text-sm">
-                    {new Date(localizedEpisodes[0].date).toLocaleDateString(
-                      isFr ? "fr-FR" : "en-US",
-                      { day: "numeric", month: "long", year: "numeric" }
-                    )}
-                  </span>
-                  <span className="text-dark/40 text-sm">
-                    · {localizedEpisodes[0].duration}
-                  </span>
-                </div>
-
-                <h2 className="text-2xl sm:text-3xl font-semibold text-dark tracking-tight leading-snug mb-3">
-                  {localizedEpisodes[0].title}
-                </h2>
-
-                <p className="text-[var(--brand-accent)] font-medium mb-4 flex items-center gap-2">
-                  <Headphones className="w-4 h-4" />
-                  {localizedEpisodes[0].guest}
-                </p>
-
-                <p className="text-dark/50 leading-relaxed mb-8 max-w-lg">
-                  {localizedEpisodes[0].description}
-                </p>
-
-                <div className="flex flex-wrap gap-3">
-                  <Button variant="peach" className="rounded-full">
-                    <Play className="w-4 h-4 mr-2" />
-                    {isFr ? "Écouter maintenant" : "Listen now"}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </AnimateIn>
-        </div>
-      </section>
-
-      {/* ─── All Episodes Section ─── */}
-      <section className="py-16 md:py-24 bg-[#F5F2EF] relative overflow-hidden">
-        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/3 rounded-full blur-[200px]" />
-
-        <div className="w-[94%] max-w-5xl mx-auto relative z-10">
-          <AnimateIn className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-semibold text-dark tracking-tight">
-              {isFr ? "Tous les" : "All"}{" "}
+              {isFr ? "Parcourez par" : "Browse by"}{" "}
               <span className="font-playfair italic text-[var(--brand-accent)]">
-                {isFr ? "épisodes" : "episodes"}
+                {isFr ? "série" : "series"}
               </span>
             </h2>
+            <p className="text-dark/45 text-lg mt-3 max-w-2xl">
+              {isFr
+                ? "Chaque collection regroupe des épisodes autour d'une thématique. Cliquez sur un album pour filtrer les épisodes."
+                : "Each collection groups episodes around a theme. Click an album to filter episodes."}
+            </p>
           </AnimateIn>
 
-          <PodcastEpisodesSection
+          {/* Client-side interactive part */}
+          <PodcastPageClient
+            collections={localizedCollections}
             episodes={localizedEpisodes}
             locale={locale}
           />
