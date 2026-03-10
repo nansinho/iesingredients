@@ -447,8 +447,8 @@ export default async function PodcastPage({
             </h2>
             <p className="text-dark/45 text-lg mt-3 max-w-2xl">
               {isFr
-                ? "Chaque collection regroupe des épisodes autour d'une thématique. Cliquez sur un album pour filtrer les épisodes."
-                : "Each collection groups episodes around a theme. Click an album to filter episodes."}
+                ? "Chaque collection regroupe des épisodes autour d'une thématique."
+                : "Each collection groups episodes around a theme."}
             </p>
           </AnimateIn>
 
