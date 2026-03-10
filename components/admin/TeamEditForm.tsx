@@ -12,6 +12,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import Link from "next/link";
+import { DEPARTMENTS } from "@/lib/constants/departments";
 
 export function TeamEditForm({
   member,
@@ -29,9 +30,12 @@ export function TeamEditForm({
     role_fr: member?.role_fr || member?.role || "",
     role_en: member?.role_en || "",
     email: member?.email || "",
+    phone: member?.phone || "",
+    linkedin_url: member?.linkedin_url || "",
     photo_url: member?.photo_url || "",
     bio_fr: member?.bio_fr || member?.bio || "",
     bio_en: member?.bio_en || "",
+    department: member?.department || "",
     display_order: member?.display_order || 0,
   });
 
@@ -49,14 +53,20 @@ export function TeamEditForm({
 
     try {
       const supabase = createClient();
+      const payload = {
+        ...form,
+        department: form.department || null,
+        phone: form.phone || null,
+        linkedin_url: form.linkedin_url || null,
+      };
 
       if (isNew) {
-        const { error } = await (supabase.from("team_members") as any).insert(form);
+        const { error } = await (supabase.from("team_members") as any).insert(payload);
         if (error) throw error;
         toast.success("Membre créé");
       } else {
         const { error } = await (supabase.from("team_members") as any)
-          .update(form)
+          .update(payload)
           .eq("id", member?.id);
         if (error) throw error;
         toast.success("Membre mis à jour");
@@ -100,6 +110,17 @@ export function TeamEditForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
+              <Label>Téléphone</Label>
+              <Input value={form.phone} onChange={(e) => handleChange("phone", e.target.value)} placeholder="+33 4 93 00 00 00" className="h-10" />
+            </div>
+            <div className="space-y-2">
+              <Label>LinkedIn URL</Label>
+              <Input value={form.linkedin_url} onChange={(e) => handleChange("linkedin_url", e.target.value)} placeholder="https://linkedin.com/in/..." className="h-10" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label>Rôle (FR)</Label>
               <Input value={form.role_fr} onChange={(e) => handleChange("role_fr", e.target.value)} className="h-10" />
             </div>
@@ -111,13 +132,29 @@ export function TeamEditForm({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Photo URL</Label>
-              <Input value={form.photo_url} onChange={(e) => handleChange("photo_url", e.target.value)} className="h-10" />
+              <Label>Département</Label>
+              <select
+                value={form.department}
+                onChange={(e) => handleChange("department", e.target.value)}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                <option value="">— Aucun —</option>
+                {DEPARTMENTS.map((dept) => (
+                  <option key={dept.id} value={dept.id}>
+                    {dept.labelFr}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="space-y-2">
               <Label>Ordre d&apos;affichage</Label>
               <Input type="number" value={form.display_order} onChange={(e) => handleChange("display_order", parseInt(e.target.value) || 0)} className="h-10" />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Photo URL</Label>
+            <Input value={form.photo_url} onChange={(e) => handleChange("photo_url", e.target.value)} className="h-10" />
           </div>
 
           <div className="space-y-2">

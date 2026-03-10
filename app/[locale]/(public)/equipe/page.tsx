@@ -4,8 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { Users, Mail, ArrowRight, Heart, Globe, Award } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
-import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { AnimateIn, StaggerGrid, StaggerItem } from "@/components/ui/AnimateIn";
 import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
+import { TeamPageClient } from "@/components/team/TeamPageClient";
 
 export async function generateMetadata({
   params,
@@ -46,6 +47,7 @@ export default async function TeamPage({
   const { data: members } = await supabase
     .from("team_members")
     .select("*")
+    .eq("is_active", true)
     .order("display_order", { ascending: true });
 
   return (
@@ -57,7 +59,7 @@ export default async function TeamPage({
         ]}
       />
 
-      {/* Hero — Immersive with background image */}
+      {/* Hero */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <ParallaxBackground className="absolute inset-0">
           <Image
@@ -116,73 +118,24 @@ export default async function TeamPage({
         </StaggerGrid>
       </section>
 
-      {/* Team Grid */}
-      <section className="py-20 md:py-28 bg-white dark:bg-dark">
-        <div className="w-[94%] mx-auto">
-          <AnimateIn className="text-center mb-14">
-            <h2 className="text-dark dark:text-cream-light tracking-tight">
-              {isFr ? "Rencontrez nos" : "Meet our"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Experts" : "Experts"}</span>
-            </h2>
-            <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg mx-auto">
-              {isFr
-                ? "Chaque membre apporte une expertise unique au service de vos projets."
-                : "Each member brings unique expertise to serve your projects."}
-            </p>
-          </AnimateIn>
-
-          {members && members.length > 0 ? (
-            <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {members.map((member: any) => (
-                <StaggerItem key={member.id}>
-                  <HoverLift>
-                    <div className="group rounded-2xl overflow-hidden bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 hover:shadow-[0_20px_60px_rgba(200,168,168,0.1)] transition-all duration-500">
-                      <div className="p-3">
-                        <div className="aspect-[3/4] relative overflow-hidden rounded-xl bg-cream dark:bg-dark">
-                          {member.photo_url ? (
-                            <Image
-                              src={member.photo_url}
-                              alt={member.name || ""}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-110"
-                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--brand-primary)]/10 to-[var(--brand-accent-light)]/20">
-                              <span className="text-5xl font-playfair italic text-[var(--brand-primary)]/30">
-                                {(member.name || "?").charAt(0)}
-                              </span>
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-dark/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                        </div>
-                      </div>
-                      <div className="px-5 pb-5 pt-1">
-                        <h3 className="font-semibold text-xl text-dark dark:text-cream-light">{member.name}</h3>
-                        <p className="text-[var(--brand-accent)] dark:text-[var(--brand-accent-light)] text-sm mt-1 font-medium">
-                          {isFr ? member.role_fr || member.role : member.role_en || member.role}
-                        </p>
-                        {member.bio && (
-                          <p className="text-dark/50 dark:text-cream-light/50 text-sm mt-3 leading-relaxed line-clamp-3">
-                            {isFr ? member.bio_fr || member.bio : member.bio_en || member.bio}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </HoverLift>
-                </StaggerItem>
-              ))}
-            </StaggerGrid>
-          ) : (
-            <div className="text-center py-20">
-              <p className="text-dark/50 dark:text-cream-light/50">
-                {isFr ? "L'équipe sera bientôt présentée." : "The team will be presented soon."}
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Team Grid with Client-side Filtering */}
+      <TeamPageClient
+        members={(members || []).map((m: Record<string, unknown>) => ({
+          id: m.id as string,
+          name: m.name as string,
+          role_fr: m.role_fr as string,
+          role_en: (m.role_en as string) || null,
+          email: (m.email as string) || null,
+          phone: (m.phone as string) || null,
+          linkedin_url: (m.linkedin_url as string) || null,
+          photo_url: (m.photo_url as string) || null,
+          bio_fr: (m.bio_fr as string) || null,
+          bio_en: (m.bio_en as string) || null,
+          department: (m.department as string) || null,
+          display_order: (m.display_order as number) || null,
+        }))}
+        locale={locale}
+      />
 
       {/* Join CTA */}
       <section className="py-20 md:py-28 bg-[var(--brand-accent-light)]/10 dark:bg-dark relative overflow-hidden">
