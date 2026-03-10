@@ -324,7 +324,7 @@ export default async function PodcastPage({
               xmlns="http://www.w3.org/2000/svg"
             >
               {[...Array(40)].map((_, i) => {
-                const height = 8 + Math.sin(i * 0.5) * 12 + Math.random() * 8;
+                const height = 8 + Math.sin(i * 0.5) * 12 + Math.sin(i * 1.7) * 8;
                 return (
                   <rect
                     key={i}
