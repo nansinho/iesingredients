@@ -76,7 +76,7 @@ export default async function CompanyPage({
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/40" />
         </ParallaxBackground>
 
-        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40">
+        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40 text-center">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Building2 className="w-3.5 h-3.5" />
@@ -89,7 +89,7 @@ export default async function CompanyPage({
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
-            <p className="text-white/60 text-lg md:text-xl max-w-3xl leading-relaxed">
+            <p className="text-white/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
               {isFr
                 ? "Depuis 1994, nous sélectionnons et distribuons les meilleurs ingrédients naturels pour l'industrie cosmétique, la parfumerie et l'agroalimentaire."
                 : "Since 1994, we have been selecting and distributing the finest natural ingredients for the cosmetic industry, perfumery and food industry."}

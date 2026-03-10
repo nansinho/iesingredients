@@ -83,7 +83,7 @@ export default async function AccountPage({
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-primary)]/5 rounded-full blur-[120px] -translate-x-1/3" />
 
-        <div className="w-[94%] mx-auto relative z-10">
+        <div className="w-[94%] mx-auto relative z-10 text-center">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <User className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ export default async function AccountPage({
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
-            <p className="text-dark/50 dark:text-cream-light/50 text-lg max-w-2xl">
+            <p className="text-dark/50 dark:text-cream-light/50 text-lg max-w-2xl mx-auto">
               {user.email}
               {role === "admin" && (
                 <span className="ml-3 px-2.5 py-1 rounded-full text-xs font-medium bg-[var(--brand-accent)]/10 border border-[var(--brand-accent)]/20 text-[var(--brand-accent)]">
