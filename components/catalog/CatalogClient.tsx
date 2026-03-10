@@ -303,20 +303,19 @@ export function CatalogClient({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-[var(--brand-primary)] relative overflow-hidden"
+            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent)]/20 relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--brand-secondary)]/20 rounded-full blur-[100px]" />
             <div className="relative z-10">
-              <h3 className="text-cream-light font-semibold text-xl mb-1">
+              <h3 className="text-[var(--brand-primary)] dark:text-cream-light font-semibold text-xl mb-1">
                 {t("needHelp") || (cat("cosmetic") ? "Besoin d'aide pour trouver un ingrédient ?" : "Need help finding an ingredient?")}
               </h3>
-              <p className="text-cream-light/50 text-sm">
+              <p className="text-[var(--brand-primary)]/55 dark:text-cream-light/50 text-sm">
                 {t("helpDescription") || (cat("cosmetic") ? "Notre équipe est là pour vous accompagner." : "Our team is here to help you.")}
               </p>
             </div>
             <Link
               href="/contact"
-              className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent)] transition-all duration-300 shadow-lg shrink-0"
+              className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg shrink-0"
             >
               <MessageCircle className="w-4 h-4" />
               Contact

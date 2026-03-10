@@ -50,7 +50,7 @@ export default async function ContactPage({
       />
 
       {/* Hero — Immersive with background image */}
-      <section className="relative min-h-[55vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/serum-collection.jpg"
