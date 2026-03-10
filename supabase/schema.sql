@@ -235,11 +235,13 @@ CREATE TABLE IF NOT EXISTS public.team_members (
   display_order INTEGER DEFAULT 0,
   is_active BOOLEAN DEFAULT true,
   linkedin_url TEXT,
+  department TEXT,
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_team_members_order ON public.team_members(display_order);
+CREATE INDEX IF NOT EXISTS idx_team_members_department ON public.team_members(department);
 
 -- ============================================================
 -- 11. TABLE: contact_submissions

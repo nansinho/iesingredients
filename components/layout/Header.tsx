@@ -18,6 +18,9 @@ import {
   ChevronDown,
   ChevronRight,
   ShoppingBag,
+  Instagram,
+  Linkedin,
+  Facebook,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -40,6 +43,12 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 /* ────────────────────────────────────────
    Mega-menu data — 3 category columns
    ──────────────────────────────────────── */
+const socialLinks = [
+  { name: "Instagram", icon: Instagram, url: "https://www.instagram.com/ies_ingredients/", color: "#E1306C" },
+  { name: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/company/ies-ingredients/", color: "#0A66C2" },
+  { name: "Facebook", icon: Facebook, url: "https://www.facebook.com/iesingredients/", color: "#1877F2" },
+];
+
 const catalogColumns = [
   {
     id: "cosmetique",
@@ -155,8 +164,9 @@ export function Header() {
     router.refresh();
   };
 
+  const homeItem = { label: t("home"), href: "/" as const };
+
   const navItems = [
-    { label: t("home"), href: "/" as const },
     { label: t("company"), href: "/entreprise" as const },
     { label: t("team"), href: "/equipe" as const },
     { label: t("news"), href: "/actualites" as const },
@@ -218,17 +228,36 @@ export function Header() {
            ═══════════════════════════════════════ */}
         <div className="w-[94%] mx-auto">
           <div className="flex items-center justify-between h-16 sm:h-18 gap-4 lg:gap-8">
-            {/* Logo — fixed width for centering */}
-            <Link href="/" className="flex items-center shrink-0 lg:w-[180px]">
-              <Image
-                src="/images/logo-ies.png"
-                alt="IES Ingredients"
-                width={130}
-                height={52}
-                priority
-                className="h-9 md:h-10 w-auto transition-all duration-300 brightness-0 invert"
-              />
-            </Link>
+            {/* Logo + Social icons */}
+            <div className="flex items-center gap-3 shrink-0 lg:w-[220px]">
+              <Link href="/" className="flex items-center shrink-0">
+                <Image
+                  src="/images/logo-ies.png"
+                  alt="IES Ingredients"
+                  width={130}
+                  height={52}
+                  priority
+                  className="h-9 md:h-10 w-auto transition-all duration-300 brightness-0 invert"
+                />
+              </Link>
+              <div className="hidden lg:flex items-center gap-0.5 ml-1">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.name}
+                      className="p-1.5 rounded-full text-white/30 hover:text-white transition-all duration-200 hover:bg-white/10"
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
 
             {/* Search Bar — truly centered */}
             <div className="hidden lg:flex flex-1 justify-center">
@@ -259,7 +288,7 @@ export function Header() {
             </div>
 
             {/* Right — CTA only on desktop + mobile buttons */}
-            <div className="flex items-center gap-1.5 shrink-0 lg:w-[180px] lg:justify-end">
+            <div className="flex items-center gap-1.5 shrink-0 lg:w-[220px] lg:justify-end">
               {/* CTA buttons (desktop) */}
               <Link href="/catalogue" className="hidden lg:flex">
                 <button className="inline-flex items-center gap-2 h-10 px-5 text-sm font-medium rounded-full border border-white/20 text-white hover:bg-white/10 transition-all duration-300">
@@ -344,6 +373,34 @@ export function Header() {
 
                     {/* Mobile Nav */}
                     <nav className="flex flex-col gap-0.5 flex-1">
+                      {/* Accueil — first item */}
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0, duration: 0.3 }}
+                      >
+                        <Link
+                          href={homeItem.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
+                            pathname === homeItem.href
+                              ? "bg-[var(--brand-nav-active)]/10 text-[var(--brand-nav-active)] border border-[var(--brand-nav-active)]/20"
+                              : "text-dark/60 hover:text-dark hover:bg-dark/5"
+                          )}
+                        >
+                          <span>{homeItem.label}</span>
+                          <ArrowRight
+                            className={cn(
+                              "w-4 h-4 transition-all duration-200",
+                              pathname === homeItem.href
+                                ? "opacity-100 text-[var(--brand-nav-active)]"
+                                : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
+                            )}
+                          />
+                        </Link>
+                      </motion.div>
+
                       <div>
                         <button
                           onClick={() =>
@@ -527,10 +584,31 @@ export function Header() {
         >
           <div className="w-[94%] mx-auto flex items-center justify-between h-11">
             {/* Left spacer for centering */}
-            <div className="w-[140px]" />
+            <div className="w-[180px]" />
 
             {/* Center — Nav links */}
             <nav className="flex items-center gap-1" onMouseLeave={() => setHoveredNav(null)}>
+              {/* Accueil — before Catalogue */}
+              <Link href={homeItem.href} onMouseEnter={() => setHoveredNav(homeItem.href)}>
+                <span
+                  className={cn(
+                    "relative px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full inline-block",
+                    pathname === homeItem.href || hoveredNav === homeItem.href
+                      ? "text-white font-semibold"
+                      : "text-white/50 hover:text-white"
+                  )}
+                >
+                  {homeItem.label}
+                  {(hoveredNav ? hoveredNav === homeItem.href : pathname === homeItem.href) && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-3 right-3 h-[2px] bg-[var(--brand-accent)] rounded-full"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  )}
+                </span>
+              </Link>
+
               {/* Catalogue — mega-menu trigger */}
               <div
                 className="relative"
@@ -591,7 +669,7 @@ export function Header() {
             </nav>
 
             {/* Right — Utility icons */}
-            <div className="flex items-center gap-1 w-[140px] justify-end">
+            <div className="flex items-center gap-1 w-[180px] justify-end">
               {/* Language */}
               <button
                 onClick={toggleLanguage}
