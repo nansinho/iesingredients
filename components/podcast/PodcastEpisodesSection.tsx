@@ -13,7 +13,6 @@ const EPISODES_PER_PAGE = 6;
 interface PodcastEpisodesSectionProps {
   episodes: EpisodeData[];
   locale: string;
-  activeCollection?: string | null;
 }
 
 const categoriesFr = [
@@ -35,7 +34,6 @@ const categoriesEn = [
 export function PodcastEpisodesSection({
   episodes,
   locale,
-  activeCollection,
 }: PodcastEpisodesSectionProps) {
   const isFr = locale === "fr";
   const categories = isFr ? categoriesFr : categoriesEn;
@@ -45,8 +43,6 @@ export function PodcastEpisodesSection({
 
   const filtered = useMemo(() => {
     return episodes.filter((ep) => {
-      const matchesCollection =
-        !activeCollection || ep.collection === activeCollection;
       const matchesCategory =
         activeFilter === "all" || ep.category === activeFilter;
       const q = searchQuery.toLowerCase();
@@ -55,9 +51,9 @@ export function PodcastEpisodesSection({
         ep.title.toLowerCase().includes(q) ||
         ep.guest.toLowerCase().includes(q) ||
         ep.description.toLowerCase().includes(q);
-      return matchesCollection && matchesCategory && matchesSearch;
+      return matchesCategory && matchesSearch;
     });
-  }, [episodes, activeCollection, activeFilter, searchQuery]);
+  }, [episodes, activeFilter, searchQuery]);
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
@@ -79,13 +75,10 @@ export function PodcastEpisodesSection({
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => {
             const isActive = activeFilter === cat.key;
-            const baseEpisodes = activeCollection
-              ? episodes.filter((e) => e.collection === activeCollection)
-              : episodes;
             const count =
               cat.key === "all"
-                ? baseEpisodes.length
-                : baseEpisodes.filter((e) => e.category === cat.key).length;
+                ? episodes.length
+                : episodes.filter((e) => e.category === cat.key).length;
             return (
               <button
                 key={cat.key}
