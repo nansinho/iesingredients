@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
-import { Users, Mail, ArrowRight, Heart, Globe, Award } from "lucide-react";
+import { Users, Mail, ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
-import { AnimateIn, StaggerGrid, StaggerItem } from "@/components/ui/AnimateIn";
-import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 import { TeamPageClient } from "@/components/team/TeamPageClient";
 
 export async function generateMetadata({
@@ -15,9 +13,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
-  const description = locale === "fr"
-    ? "Rencontrez l'équipe IES Ingredients : des experts passionnés en ingrédients naturels au service de votre réussite."
-    : "Meet the IES Ingredients team: passionate natural ingredient experts dedicated to your success.";
+  const description =
+    locale === "fr"
+      ? "Rencontrez l'équipe IES Ingredients : des experts passionnés en ingrédients naturels au service de votre réussite."
+      : "Meet the IES Ingredients team: passionate natural ingredient experts dedicated to your success.";
 
   return {
     title: t("teamTitle"),
@@ -54,71 +53,50 @@ export default async function TeamPage({
     <>
       <BreadcrumbJsonLd
         items={[
-          { name: "IES Ingredients", url: `https://ies-ingredients.com/${locale}` },
-          { name: isFr ? "Équipe" : "Team", url: `https://ies-ingredients.com/${locale}/${isFr ? "equipe" : "team"}` },
+          {
+            name: "IES Ingredients",
+            url: `https://ies-ingredients.com/${locale}`,
+          },
+          {
+            name: isFr ? "Équipe" : "Team",
+            url: `https://ies-ingredients.com/${locale}/${isFr ? "equipe" : "team"}`,
+          },
         ]}
       />
 
-      {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <ParallaxBackground className="absolute inset-0">
-          <Image
-            src="/images/botanicals-flat.jpg"
-            alt=""
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
-        </ParallaxBackground>
+      {/* Compact hero with image */}
+      <section className="relative h-[40vh] min-h-[280px] max-h-[400px] flex items-end overflow-hidden">
+        <Image
+          src="/images/botanicals-flat.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/30" />
 
-        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40 text-center">
-          <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
-              <Users className="w-3.5 h-3.5" />
-              {isFr ? "Les personnes derrière IES" : "The people behind IES"}
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-10 pt-32">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.12em] mb-4 backdrop-blur-sm">
+            <Users className="w-3.5 h-3.5" />
+            {isFr ? "Notre équipe" : "Our team"}
+          </span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-[-0.02em] leading-[1.1]">
+            {isFr ? "Les experts" : "The experts"}{" "}
+            <span className="font-playfair italic text-[var(--brand-accent-light)]">
+              IES
             </span>
-          </AnimateIn>
-          <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
-              {isFr ? "Notre" : "Our"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Équipe" : "Team"}</span>
-            </h1>
-          </AnimateIn>
-          <AnimateIn delay={0.2}>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-              {isFr
-                ? "Une équipe passionnée d'experts en ingrédients naturels, au service de votre réussite."
-                : "A passionate team of natural ingredient experts, dedicated to your success."}
-            </p>
-          </AnimateIn>
+          </h1>
+          <p className="text-white/60 text-base md:text-lg max-w-xl mt-3 leading-relaxed">
+            {isFr
+              ? "Une équipe passionnée au service de vos projets en ingrédients naturels."
+              : "A passionate team dedicated to your natural ingredient projects."}
+          </p>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="bg-cream-light dark:bg-dark border-t border-[var(--brand-primary)]/8 dark:border-white/10">
-        <StaggerGrid className="w-[94%] mx-auto grid grid-cols-3 gap-8 py-10 text-center">
-          {[
-            { icon: Heart, valueFr: "Passionnés", valueEn: "Passionate", labelFr: "Équipe dédiée", labelEn: "Dedicated team" },
-            { icon: Globe, valueFr: "International", valueEn: "International", labelFr: "Réseau mondial", labelEn: "Global network" },
-            { icon: Award, valueFr: "30+ ans", valueEn: "30+ years", labelFr: "D'expérience cumulée", labelEn: "Combined experience" },
-          ].map((stat) => (
-            <StaggerItem key={stat.valueFr}>
-              <div className="flex flex-col items-center gap-2">
-                <stat.icon className="w-5 h-5 text-[var(--brand-accent)]" />
-                <p className="text-xl md:text-2xl font-bold text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)]">{isFr ? stat.valueFr : stat.valueEn}</p>
-                <p className="text-dark/40 dark:text-cream-light/40 text-xs font-medium uppercase tracking-wider">
-                  {isFr ? stat.labelFr : stat.labelEn}
-                </p>
-              </div>
-            </StaggerItem>
-          ))}
-        </StaggerGrid>
-      </section>
-
-      {/* Team Grid with Client-side Filtering */}
+      {/* Team directory */}
       <TeamPageClient
         members={(members || []).map((m: Record<string, unknown>) => ({
           id: m.id as string,
@@ -137,33 +115,28 @@ export default async function TeamPage({
         locale={locale}
       />
 
-      {/* Join CTA */}
-      <section className="py-20 md:py-28 bg-[var(--brand-accent-light)]/10 dark:bg-dark relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/15 rounded-full blur-[180px]" />
-        <div className="w-[94%] mx-auto relative z-10 text-center">
-          <AnimateIn>
-            <h2 className="text-dark dark:text-cream-light tracking-tight mb-4">
-              {isFr ? "Envie de" : "Want to"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "collaborer ?" : "collaborate?"}</span>
-            </h2>
-          </AnimateIn>
-          <AnimateIn delay={0.1}>
-            <p className="text-dark/50 dark:text-cream-light/50 text-lg max-w-xl mx-auto mb-8">
-              {isFr
-                ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
-                : "Contact our team to discuss your natural ingredient needs."}
-            </p>
-          </AnimateIn>
-          <AnimateIn delay={0.2} y={15}>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg"
-            >
-              <Mail className="w-4 h-4" />
-              {isFr ? "Nous contacter" : "Contact us"}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </AnimateIn>
+      {/* Contact CTA */}
+      <section className="py-16 md:py-20 bg-cream-light dark:bg-dark-card">
+        <div className="w-[94%] max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-dark dark:text-cream-light tracking-tight mb-3">
+            {isFr ? "Envie de" : "Want to"}{" "}
+            <span className="font-playfair italic text-[var(--brand-accent)]">
+              {isFr ? "collaborer ?" : "collaborate?"}
+            </span>
+          </h2>
+          <p className="text-dark/50 dark:text-cream-light/50 text-base max-w-lg mx-auto mb-6">
+            {isFr
+              ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
+              : "Contact our team to discuss your natural ingredient needs."}
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-colors duration-200 shadow-md"
+          >
+            <Mail className="w-4 h-4" />
+            {isFr ? "Nous contacter" : "Contact us"}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
     </>
