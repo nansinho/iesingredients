@@ -2,8 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { Mail, Phone, Linkedin, Users } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Phone, Linkedin, Users, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DEPARTMENTS, getDepartmentLabel } from "@/lib/constants/departments";
 
@@ -28,10 +27,10 @@ interface TeamPageClientProps {
 }
 
 export function TeamPageClient({ members, locale }: TeamPageClientProps) {
-  const [activeDepartment, setActiveDepartment] = useState<string | null>(null);
+  const [activeDepartment, setActiveDepartment] = useState<string>("all");
+  const [mobileOpen, setMobileOpen] = useState(false);
   const isFr = locale === "fr";
 
-  // Get departments that have members
   const activeDepartments = useMemo(() => {
     const deptCounts = new Map<string, number>();
     members.forEach((m) => {
@@ -45,103 +44,156 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
     }));
   }, [members]);
 
-  const filtered = useMemo(() => {
-    if (!activeDepartment) return members;
-    return members.filter((m) => m.department === activeDepartment);
-  }, [members, activeDepartment]);
+  // Group members by department for "all" view
+  const groupedMembers = useMemo(() => {
+    if (activeDepartment !== "all") {
+      return [
+        {
+          deptId: activeDepartment,
+          label: getDepartmentLabel(activeDepartment, locale),
+          members: members.filter((m) => m.department === activeDepartment),
+        },
+      ];
+    }
+    return activeDepartments.map((dept) => ({
+      deptId: dept.id,
+      label: isFr ? dept.labelFr : dept.labelEn,
+      members: members.filter((m) => m.department === dept.id),
+    }));
+  }, [members, activeDepartment, activeDepartments, isFr, locale]);
+
+  const activeLabel =
+    activeDepartment === "all"
+      ? isFr
+        ? "Tous les services"
+        : "All departments"
+      : getDepartmentLabel(activeDepartment, locale);
 
   return (
-    <section className="py-16 md:py-24 bg-white dark:bg-dark">
-      <div className="w-[94%] mx-auto">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-10"
-        >
-          <h2 className="text-dark dark:text-cream-light tracking-tight">
-            {isFr ? "Rencontrez nos" : "Meet our"}{" "}
-            <span className="font-playfair italic text-[var(--brand-accent)]">
-              {isFr ? "Experts" : "Experts"}
-            </span>
-          </h2>
-          <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg mx-auto">
-            {isFr
-              ? "Chaque membre apporte une expertise unique au service de vos projets."
-              : "Each member brings unique expertise to serve your projects."}
+    <section className="py-12 md:py-20 bg-white dark:bg-dark">
+      <div className="w-[94%] max-w-7xl mx-auto">
+        {/* Department selector — dropdown on mobile, horizontal tabs on desktop */}
+        <div className="mb-10">
+          <p className="text-sm font-medium text-dark/40 dark:text-cream-light/40 uppercase tracking-wider mb-3">
+            {isFr ? "Quel service vous intéresse ?" : "Which department interests you?"}
           </p>
-        </motion.div>
 
-        {/* Filter pills */}
-        {activeDepartments.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex flex-wrap items-center justify-center gap-2 mb-12"
-          >
+          {/* Mobile dropdown */}
+          <div className="md:hidden relative">
             <button
-              onClick={() => setActiveDepartment(null)}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-dark/10 dark:border-white/10 bg-white dark:bg-dark-card text-dark dark:text-cream-light text-sm font-medium"
+            >
+              {activeLabel}
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 transition-transform duration-200",
+                  mobileOpen && "rotate-180"
+                )}
+              />
+            </button>
+            {mobileOpen && (
+              <div className="absolute z-20 top-full mt-1 w-full bg-white dark:bg-dark-card border border-dark/10 dark:border-white/10 rounded-xl shadow-xl overflow-hidden">
+                <button
+                  onClick={() => {
+                    setActiveDepartment("all");
+                    setMobileOpen(false);
+                  }}
+                  className={cn(
+                    "w-full text-left px-4 py-2.5 text-sm transition-colors",
+                    activeDepartment === "all"
+                      ? "bg-[var(--brand-primary)] text-white"
+                      : "text-dark dark:text-cream-light hover:bg-cream dark:hover:bg-dark-lighter"
+                  )}
+                >
+                  <Users className="w-3.5 h-3.5 inline mr-2" />
+                  {isFr ? "Tous les services" : "All departments"} ({members.length})
+                </button>
+                {activeDepartments.map((dept) => (
+                  <button
+                    key={dept.id}
+                    onClick={() => {
+                      setActiveDepartment(dept.id);
+                      setMobileOpen(false);
+                    }}
+                    className={cn(
+                      "w-full text-left px-4 py-2.5 text-sm transition-colors",
+                      activeDepartment === dept.id
+                        ? "bg-[var(--brand-primary)] text-white"
+                        : "text-dark dark:text-cream-light hover:bg-cream dark:hover:bg-dark-lighter"
+                    )}
+                  >
+                    {isFr ? dept.labelFr : dept.labelEn} ({dept.count})
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Desktop horizontal tabs */}
+          <div className="hidden md:flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveDepartment("all")}
               className={cn(
-                "inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 border",
-                !activeDepartment
-                  ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-md"
-                  : "bg-white dark:bg-dark-card text-dark/50 dark:text-cream-light/50 border-dark/10 dark:border-white/10 hover:border-[var(--brand-accent)]/30 hover:text-dark dark:hover:text-cream-light"
+                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border",
+                activeDepartment === "all"
+                  ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)]"
+                  : "bg-white dark:bg-dark-card text-dark/60 dark:text-cream-light/60 border-dark/10 dark:border-white/10 hover:border-[var(--brand-accent)]/40 hover:text-dark dark:hover:text-cream-light"
               )}
             >
-              <Users className="w-3.5 h-3.5" />
+              <Users className="w-3.5 h-3.5 inline mr-1.5" />
               {isFr ? "Tous" : "All"}
-              <span className="text-xs opacity-60">({members.length})</span>
+              <span className="ml-1 text-xs opacity-70">({members.length})</span>
             </button>
-
             {activeDepartments.map((dept) => (
               <button
                 key={dept.id}
-                onClick={() =>
-                  setActiveDepartment(activeDepartment === dept.id ? null : dept.id)
-                }
+                onClick={() => setActiveDepartment(dept.id)}
                 className={cn(
-                  "inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 border",
+                  "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border",
                   activeDepartment === dept.id
-                    ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)] shadow-md"
-                    : "bg-white dark:bg-dark-card text-dark/50 dark:text-cream-light/50 border-dark/10 dark:border-white/10 hover:border-[var(--brand-accent)]/30 hover:text-dark dark:hover:text-cream-light"
+                    ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)]"
+                    : "bg-white dark:bg-dark-card text-dark/60 dark:text-cream-light/60 border-dark/10 dark:border-white/10 hover:border-[var(--brand-accent)]/40 hover:text-dark dark:hover:text-cream-light"
                 )}
               >
                 {isFr ? dept.labelFr : dept.labelEn}
-                <span className="text-xs opacity-60">({dept.count})</span>
+                <span className="ml-1 text-xs opacity-70">({dept.count})</span>
               </button>
             ))}
-          </motion.div>
-        )}
+          </div>
+        </div>
 
-        {/* Team grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeDepartment || "all"}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {filtered.map((member, index) => (
-              <TeamCard
-                key={member.id}
-                member={member}
-                locale={locale}
-                index={index}
-              />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        {/* Members grouped by department */}
+        <div className="space-y-14">
+          {groupedMembers.map((group) => (
+            <div key={group.deptId}>
+              {/* Department heading (only in "all" view) */}
+              {activeDepartment === "all" && (
+                <div className="flex items-center gap-3 mb-6">
+                  <h3 className="text-lg font-semibold text-dark dark:text-cream-light">
+                    {group.label}
+                  </h3>
+                  <span className="text-xs font-medium text-dark/30 dark:text-cream-light/30 bg-dark/5 dark:bg-white/8 px-2 py-0.5 rounded-full">
+                    {group.members.length}
+                  </span>
+                  <div className="flex-1 h-px bg-dark/6 dark:bg-white/8" />
+                </div>
+              )}
 
-        {filtered.length === 0 && (
+              {/* Cards grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {group.members.map((member) => (
+                  <TeamCard key={member.id} member={member} locale={locale} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {members.length === 0 && (
           <div className="text-center py-20">
             <p className="text-dark/50 dark:text-cream-light/50">
-              {isFr
-                ? "Aucun membre trouvé dans ce département."
-                : "No members found in this department."}
+              {isFr ? "Aucun membre trouvé." : "No members found."}
             </p>
           </div>
         )}
@@ -153,106 +205,89 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
 function TeamCard({
   member,
   locale,
-  index,
 }: {
   member: TeamMember;
   locale: string;
-  index: number;
 }) {
   const isFr = locale === "fr";
-  const role = isFr
-    ? member.role_fr
-    : member.role_en || member.role_fr;
+  const role = isFr ? member.role_fr : member.role_en || member.role_fr;
 
-  const hasContactInfo = member.email || member.phone || member.linkedin_url;
+  // Generate initials from name
+  const initials = member.name
+    .split(" ")
+    .filter((part) => part === part.toUpperCase() && part.length > 1)
+    .slice(0, 2)
+    .map((part) => part.charAt(0))
+    .join("");
+  const displayInitials = initials || member.name.charAt(0);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.45,
-        delay: Math.min(index * 0.06, 0.4),
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="group"
-    >
-      <div className="rounded-2xl overflow-hidden bg-white dark:bg-dark-card border border-dark/6 dark:border-white/8 hover:border-[var(--brand-accent)]/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_16px_48px_rgba(0,0,0,0.3)] transition-all duration-500 hover:-translate-y-1">
-        {/* Photo */}
-        <div className="p-2.5 pb-0">
-          <div className="aspect-[3/4] relative overflow-hidden rounded-xl bg-cream dark:bg-dark">
-            {member.photo_url ? (
-              <Image
-                src={member.photo_url}
-                alt={member.name}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--brand-primary)]/8 to-[var(--brand-accent-light)]/15">
-                <span className="text-5xl font-playfair italic text-[var(--brand-primary)]/20 dark:text-cream-light/20">
-                  {member.name.charAt(0)}
-                </span>
-              </div>
-            )}
-            {/* Hover overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-dark/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </div>
-        </div>
-
-        {/* Info */}
-        <div className="px-4 pt-3 pb-4">
-          <h3 className="font-semibold text-lg text-dark dark:text-cream-light leading-tight">
-            {member.name}
-          </h3>
-          <p className="text-[var(--brand-accent)] dark:text-[var(--brand-accent-light)] text-sm mt-0.5 font-medium">
-            {role}
-          </p>
-
-          {/* Department badge */}
-          {member.department && (
-            <span className="inline-block mt-2 px-2.5 py-0.5 rounded-md text-[11px] font-medium uppercase tracking-wider bg-[var(--brand-primary)]/6 dark:bg-white/8 text-[var(--brand-primary)]/70 dark:text-cream-light/50">
-              {getDepartmentLabel(member.department, locale)}
-            </span>
-          )}
-
-          {/* Contact icons */}
-          {hasContactInfo && (
-            <div className="flex items-center gap-1 mt-3 pt-3 border-t border-dark/6 dark:border-white/8">
-              {member.email && (
-                <a
-                  href={`mailto:${member.email}`}
-                  className="p-2 rounded-lg text-dark/30 dark:text-cream-light/30 hover:text-[var(--brand-accent)] dark:hover:text-[var(--brand-accent-light)] hover:bg-[var(--brand-accent)]/8 transition-all duration-200"
-                  aria-label={`Email ${member.name}`}
-                >
-                  <Mail className="w-[18px] h-[18px]" />
-                </a>
-              )}
-              {member.phone && (
-                <a
-                  href={`tel:${member.phone}`}
-                  className="p-2 rounded-lg text-dark/30 dark:text-cream-light/30 hover:text-[var(--brand-accent)] dark:hover:text-[var(--brand-accent-light)] hover:bg-[var(--brand-accent)]/8 transition-all duration-200"
-                  aria-label={`${isFr ? "Appeler" : "Call"} ${member.name}`}
-                >
-                  <Phone className="w-[18px] h-[18px]" />
-                </a>
-              )}
-              {member.linkedin_url && (
-                <a
-                  href={member.linkedin_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg text-dark/30 dark:text-cream-light/30 hover:text-[#0A66C2] hover:bg-[#0A66C2]/8 transition-all duration-200"
-                  aria-label={`LinkedIn ${member.name}`}
-                >
-                  <Linkedin className="w-[18px] h-[18px]" />
-                </a>
-              )}
+    <div className="group rounded-2xl overflow-hidden bg-white dark:bg-dark-card border border-dark/6 dark:border-white/8 hover:border-[var(--brand-accent)]/20 hover:shadow-lg dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)] transition-all duration-300">
+      {/* Photo */}
+      <div className="p-2.5 pb-0">
+        <div className="aspect-[4/3] relative overflow-hidden rounded-xl bg-cream dark:bg-dark">
+          {member.photo_url ? (
+            <Image
+              src={member.photo_url}
+              alt={member.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--brand-primary)]/10 to-[var(--brand-accent-light)]/20">
+              <span className="text-4xl font-semibold text-[var(--brand-primary)]/25 dark:text-cream-light/20 select-none">
+                {displayInitials}
+              </span>
             </div>
           )}
         </div>
       </div>
-    </motion.div>
+
+      {/* Info */}
+      <div className="px-4 pt-3 pb-4">
+        <h3 className="font-semibold text-base text-dark dark:text-cream-light leading-tight">
+          {member.name}
+        </h3>
+        <p className="text-[var(--brand-accent)] dark:text-[var(--brand-accent-light)] text-sm mt-0.5 font-medium leading-snug">
+          {role}
+        </p>
+
+        {/* Contact info — displayed as text, not just icons */}
+        {(member.email || member.phone) && (
+          <div className="mt-3 pt-3 border-t border-dark/6 dark:border-white/8 space-y-1.5">
+            {member.email && (
+              <a
+                href={`mailto:${member.email}`}
+                className="flex items-center gap-2 text-dark/50 dark:text-cream-light/50 hover:text-[var(--brand-accent)] dark:hover:text-[var(--brand-accent-light)] transition-colors duration-200 text-xs"
+              >
+                <Mail className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{member.email}</span>
+              </a>
+            )}
+            {member.phone && (
+              <a
+                href={`tel:${member.phone.replace(/\s/g, "")}`}
+                className="flex items-center gap-2 text-dark/50 dark:text-cream-light/50 hover:text-[var(--brand-accent)] dark:hover:text-[var(--brand-accent-light)] transition-colors duration-200 text-xs"
+              >
+                <Phone className="w-3.5 h-3.5 shrink-0" />
+                <span>{member.phone}</span>
+              </a>
+            )}
+            {member.linkedin_url && (
+              <a
+                href={member.linkedin_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-dark/50 dark:text-cream-light/50 hover:text-[#0A66C2] transition-colors duration-200 text-xs"
+              >
+                <Linkedin className="w-3.5 h-3.5 shrink-0" />
+                <span>LinkedIn</span>
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
