@@ -10,6 +10,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import Link from "next/link";
+import { getDepartmentLabel } from "@/lib/constants/departments";
 
 export function TeamAdmin({
   initialMembers,
@@ -25,7 +26,8 @@ export function TeamAdmin({
     (m) =>
       !search ||
       m.name?.toLowerCase().includes(search.toLowerCase()) ||
-      m.role_fr?.toLowerCase().includes(search.toLowerCase())
+      m.role_fr?.toLowerCase().includes(search.toLowerCase()) ||
+      m.department?.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleDelete = async (id: string) => {
@@ -49,6 +51,16 @@ export function TeamAdmin({
       render: (item: any) => <span className="font-medium">{item.name}</span>,
     },
     { key: "role_fr", label: "Rôle" },
+    {
+      key: "department",
+      label: "Département",
+      render: (item: any) =>
+        item.department ? (
+          <Badge variant="outline">{getDepartmentLabel(item.department, "fr")}</Badge>
+        ) : (
+          <span className="text-gray-400">—</span>
+        ),
+    },
     { key: "email", label: "Email" },
     {
       key: "is_active",
