@@ -181,12 +181,12 @@ export function CatalogClient({
       </section>
 
       {/* Results */}
-      <section className="bg-cream-light dark:bg-dark py-10 sm:py-14 min-h-screen">
+      <section className="bg-cream-light py-10 sm:py-14 min-h-screen">
         <div className="w-[94%] max-w-7xl mx-auto">
           {/* Controls */}
           <div className="flex items-center justify-between gap-4 mb-8">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-dark/50 dark:text-cream-light/50 font-medium">
+              <span className="text-sm text-dark/50 font-medium">
                 {isPending ? "..." : `${total} ${t("products")}`}
               </span>
               {activeCategory && (
@@ -210,7 +210,7 @@ export function CatalogClient({
               <Button
                 variant="ghost"
                 onClick={clearFilters}
-                className="text-dark/50 hover:text-dark dark:text-cream-light/50 dark:hover:text-cream-light"
+                className="text-dark/50 hover:text-dark"
               >
                 <X className="w-4 h-4 mr-2" />
                 {filters("reset")}
@@ -262,7 +262,7 @@ export function CatalogClient({
                       &larr;
                     </Button>
                   )}
-                  <span className="px-5 py-2.5 text-sm text-dark/60 dark:text-cream-light/60 font-medium bg-white dark:bg-dark-card rounded-full border border-brown/8 dark:border-brown/10 shadow-sm">
+                  <span className="px-5 py-2.5 text-sm text-dark/60 font-medium bg-white rounded-full border border-brown/8 shadow-sm">
                     {page} / {totalPages}
                   </span>
                   {page < totalPages && (
@@ -279,16 +279,16 @@ export function CatalogClient({
             </>
           ) : (
             <div className="text-center py-24">
-              <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-cream dark:bg-dark-card flex items-center justify-center">
+              <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-cream flex items-center justify-center">
                 <Search className="w-9 h-9 text-brown/40" />
               </div>
-              <h3 className="text-lg font-semibold text-dark dark:text-cream-light mb-2">
+              <h3 className="text-lg font-semibold text-dark mb-2">
                 {t("noResults")}
               </h3>
               <Button
                 variant="outline"
                 onClick={clearFilters}
-                className="mt-4 border-brown/15 text-dark dark:text-cream-light rounded-full px-8"
+                className="mt-4 border-brown/15 text-dark rounded-full px-8"
               >
                 {filters("reset")}
               </Button>
@@ -298,7 +298,7 @@ export function CatalogClient({
       </section>
 
       {/* Help CTA */}
-      <section className="py-16 bg-cream-light dark:bg-dark border-t border-brown/8 dark:border-brown/10">
+      <section className="py-16 bg-cream-light border-t border-brown/8">
         <div className="w-[94%] max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -308,10 +308,10 @@ export function CatalogClient({
             className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent)]/20 relative overflow-hidden"
           >
             <div className="relative z-10">
-              <h3 className="text-[var(--brand-primary)] dark:text-cream-light font-semibold text-xl mb-1">
+              <h3 className="text-[var(--brand-primary)] font-semibold text-xl mb-1">
                 {t("needHelp") || (cat("cosmetic") ? "Besoin d'aide pour trouver un ingrédient ?" : "Need help finding an ingredient?")}
               </h3>
-              <p className="text-[var(--brand-primary)]/55 dark:text-cream-light/50 text-sm">
+              <p className="text-[var(--brand-primary)]/55 text-sm">
                 {t("helpDescription") || (cat("cosmetic") ? "Notre équipe est là pour vous accompagner." : "Our team is here to help you.")}
               </p>
             </div>

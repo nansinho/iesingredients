@@ -249,7 +249,7 @@ export default async function PodcastPage({
             sizes="100vw"
             aria-hidden="true"
           />
-          {/* Cream-to-transparent gradient instead of black */}
+          {/* Lavande gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#2E1F3D] via-[#2E1F3D]/70 to-[#2E1F3D]/30" />
         </ParallaxBackground>
 
