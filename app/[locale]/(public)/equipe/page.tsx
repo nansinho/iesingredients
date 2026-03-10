@@ -5,6 +5,7 @@ import { Users, Mail, ArrowRight, Heart, Globe, Award } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 
 export async function generateMetadata({
   params,
@@ -58,7 +59,7 @@ export default async function TeamPage({
 
       {/* Hero — Immersive with background image */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/botanicals-flat.jpg"
             alt=""
@@ -69,7 +70,7 @@ export default async function TeamPage({
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
-        </div>
+        </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40">
           <AnimateIn>
@@ -121,7 +122,7 @@ export default async function TeamPage({
           <AnimateIn className="text-center mb-14">
             <h2 className="text-dark dark:text-cream-light tracking-tight">
               {isFr ? "Rencontrez nos" : "Meet our"}{" "}
-              <span className="font-playfair italic text-brown dark:text-peach">{isFr ? "Experts" : "Experts"}</span>
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Experts" : "Experts"}</span>
             </h2>
             <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-base max-w-lg mx-auto">
               {isFr

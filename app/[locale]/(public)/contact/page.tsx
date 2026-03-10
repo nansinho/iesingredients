@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Clock, MessageCircle, Send, CheckCircle2 } from "l
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { AnimateIn, StaggerGrid, StaggerItem } from "@/components/ui/AnimateIn";
+import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 
 export async function generateMetadata({
   params,
@@ -51,7 +52,7 @@ export default async function ContactPage({
 
       {/* Hero — Immersive with background image */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/serum-collection.jpg"
             alt=""
@@ -62,7 +63,7 @@ export default async function ContactPage({
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
-        </div>
+        </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] mx-auto pb-24 pt-40 text-center">
           <AnimateIn>
@@ -158,7 +159,7 @@ export default async function ContactPage({
               <div>
                 <h2 className="text-2xl font-semibold text-dark dark:text-cream-light tracking-tight mb-2">
                   {isFr ? "Pourquoi nous" : "Why"}{" "}
-                  <span className="font-playfair italic text-brown dark:text-peach">{isFr ? "contacter ?" : "contact us?"}</span>
+                  <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "contacter ?" : "contact us?"}</span>
                 </h2>
                 <p className="text-sm text-dark/50 dark:text-cream-light/50 leading-relaxed">
                   {isFr

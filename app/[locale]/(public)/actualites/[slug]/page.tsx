@@ -5,6 +5,7 @@ import { Link } from "@/i18n/routing";
 import { ArrowLeft, ArrowRight, Calendar, User } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 import type { Database } from "@/lib/supabase/types";
 
 type BlogArticle = Database["public"]["Tables"]["blog_articles"]["Row"];
@@ -113,7 +114,7 @@ export default async function ArticlePage({
 
       {/* Hero — Immersive with cover image */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        <ParallaxBackground className="absolute inset-0">
           {article.cover_image_url ? (
             <Image
               src={article.cover_image_url}
@@ -128,7 +129,7 @@ export default async function ArticlePage({
             <div className="w-full h-full bg-[var(--brand-primary)]" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/60 to-[var(--brand-primary)]/30" />
-        </div>
+        </ParallaxBackground>
 
         <div className="relative z-10 max-w-[900px] w-[90%] mx-auto pb-16 pt-36">
           <AnimateIn>
@@ -183,7 +184,7 @@ export default async function ArticlePage({
             <AnimateIn className="mb-12">
               <h2 className="text-dark dark:text-cream-light tracking-tight">
                 {isFr ? "Articles" : "Related"}{" "}
-                <span className="font-playfair italic text-brown dark:text-peach">{isFr ? "associés" : "articles"}</span>
+                <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "associés" : "articles"}</span>
               </h2>
             </AnimateIn>
             <StaggerGrid className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">

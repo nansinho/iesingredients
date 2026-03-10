@@ -69,6 +69,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
@@ -528,18 +529,18 @@ export function Header() {
             <div className="w-[140px]" />
 
             {/* Center — Nav links */}
-            <nav className="flex items-center gap-1">
+            <nav className="flex items-center gap-1" onMouseLeave={() => setHoveredNav(null)}>
               {/* Catalogue — mega-menu trigger */}
               <div
                 className="relative"
-                onMouseEnter={openMega}
-                onMouseLeave={closeMega}
+                onMouseEnter={() => { openMega(); setHoveredNav("/catalogue"); }}
+                onMouseLeave={() => { closeMega(); setHoveredNav(null); }}
               >
                 <button
                   ref={megaTriggerRef}
                   className={cn(
                     "inline-flex items-center gap-1 px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full relative",
-                    megaOpen || pathname === "/catalogue"
+                    megaOpen || pathname === "/catalogue" || hoveredNav === "/catalogue"
                       ? "text-white font-semibold"
                       : "text-white/50 hover:text-white"
                   )}
@@ -551,10 +552,11 @@ export function Header() {
                       megaOpen && "rotate-180"
                     )}
                   />
-                  {(megaOpen || pathname === "/catalogue") && (
+                  {(hoveredNav ? hoveredNav === "/catalogue" : (megaOpen || pathname === "/catalogue")) && (
                     <motion.div
                       layoutId="nav-indicator"
                       className="absolute bottom-0 left-3 right-3 h-[2px] bg-[var(--brand-accent)] rounded-full"
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     />
                   )}
                 </button>
@@ -562,21 +564,23 @@ export function Header() {
 
               {navItems.map((item) => {
                 const isActive = pathname === item.href;
+                const showIndicator = hoveredNav ? hoveredNav === item.href : isActive;
                 return (
-                  <Link key={item.href} href={item.href}>
+                  <Link key={item.href} href={item.href} onMouseEnter={() => setHoveredNav(item.href)}>
                     <span
                       className={cn(
                         "relative px-4 py-1.5 text-[13px] font-medium transition-all duration-200 rounded-full inline-block",
-                        isActive
+                        isActive || hoveredNav === item.href
                           ? "text-white font-semibold"
                           : "text-white/50 hover:text-white"
                       )}
                     >
                       {item.label}
-                      {isActive && (
+                      {showIndicator && (
                         <motion.div
                           layoutId="nav-indicator"
                           className="absolute bottom-0 left-3 right-3 h-[2px] bg-[var(--brand-accent)] rounded-full"
+                          transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                       )}
                     </span>
