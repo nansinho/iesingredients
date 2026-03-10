@@ -1,8 +1,11 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Shield, Award, Globe, Users, Leaf, Heart, Building2 } from "lucide-react";
+import { Shield, Award, Globe, Users, Leaf, Heart, Building2, ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { LogoMarquee } from "@/components/home/LogoMarquee";
+import { MinimalCTA } from "@/components/home/MinimalCTA";
 
 export async function generateMetadata({
   params,
@@ -57,25 +60,35 @@ export default async function CompanyPage({
         ]}
       />
 
-      {/* Hero */}
-      <section className="bg-dark pt-32 sm:pt-36 pb-16 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+      {/* Hero — Immersive with background image */}
+      <section className="relative min-h-[70vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/leaves-hero.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/40" />
+        </div>
 
-        <div className="w-[94%] mx-auto relative z-10">
+        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Building2 className="w-3.5 h-3.5" />
               {isFr ? "Notre histoire" : "Our story"}
             </span>
           </AnimateIn>
           <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
-              IES <span className="font-playfair italic text-peach">Ingredients</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
+              IES <span className="font-playfair italic text-[var(--brand-accent-light)]">Ingredients</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
-            <p className="text-cream-light/50 text-lg max-w-3xl">
+            <p className="text-white/60 text-lg md:text-xl max-w-3xl leading-relaxed">
               {isFr
                 ? "Depuis 1994, nous sélectionnons et distribuons les meilleurs ingrédients naturels pour l'industrie cosmétique, la parfumerie et l'agroalimentaire."
                 : "Since 1994, we have been selecting and distributing the finest natural ingredients for the cosmetic industry, perfumery and food industry."}
@@ -97,6 +110,13 @@ export default async function CompanyPage({
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
+              {/* Glass badge on image */}
+              <div className="absolute bottom-6 left-6 px-5 py-3 rounded-2xl bg-white/90 backdrop-blur-md shadow-lg">
+                <p className="text-[var(--brand-primary)] font-bold text-2xl">1994</p>
+                <p className="text-[var(--brand-primary)]/60 text-xs font-semibold uppercase tracking-wider">
+                  {isFr ? "Année de création" : "Year founded"}
+                </p>
+              </div>
             </div>
           </AnimateIn>
           <AnimateIn delay={0.15} y={30}>
@@ -119,35 +139,42 @@ export default async function CompanyPage({
                   : "Based in Nice, in the heart of the French Riviera, we benefit from an ideal geographic position to serve the beauty and flavor industries internationally."}
               </p>
             </div>
+            <Link
+              href="/catalogue"
+              className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg"
+            >
+              {isFr ? "Voir le catalogue" : "View catalog"}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </AnimateIn>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-24 md:py-32 bg-dark relative overflow-hidden">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brown/5 rounded-full blur-[180px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
+      <section className="py-24 md:py-32 bg-[var(--brand-primary)] relative overflow-hidden">
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-secondary)]/20 rounded-full blur-[180px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent-light)]/5 rounded-full blur-[120px]" />
 
         <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Award className="w-3.5 h-3.5" />
               {isFr ? "Nos valeurs" : "Our values"}
             </span>
             <h2 className="text-cream-light tracking-tight">
               {isFr ? "Ce Qui Nous" : "What Drives"}{" "}
-              <span className="font-playfair italic text-peach">{isFr ? "Anime" : "Us"}</span>.
+              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Anime" : "Us"}</span>.
             </h2>
           </AnimateIn>
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {values.map((v) => (
               <StaggerItem key={v.titleFr}>
                 <HoverLift>
-                  <div className="bg-cream-light/[0.04] backdrop-blur-sm rounded-2xl p-6 border border-cream-light/[0.06] hover:border-brown/30 hover:bg-cream-light/[0.06] transition-all duration-500 group">
-                    <div className="w-11 h-11 rounded-xl bg-peach/15 border border-peach/25 flex items-center justify-center mb-4 group-hover:bg-peach/25 transition-all duration-300">
-                      <v.icon className="w-5 h-5 text-peach" />
+                  <div className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-7 border border-white/[0.08] hover:border-[var(--brand-accent-light)]/30 hover:bg-white/[0.10] transition-all duration-500 group">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center mb-5 group-hover:bg-[var(--brand-accent-light)]/25 group-hover:scale-110 transition-all duration-300">
+                      <v.icon className="w-5.5 h-5.5 text-[var(--brand-accent-light)]" />
                     </div>
-                    <h3 className="font-bold text-cream-light mb-1.5 text-sm">
+                    <h3 className="font-bold text-cream-light mb-2 text-base">
                       {isFr ? v.titleFr : v.titleEn}
                     </h3>
                     <p className="text-sm text-cream-light/40 leading-relaxed">
@@ -171,14 +198,20 @@ export default async function CompanyPage({
             { value: "500+", labelFr: "Clients actifs", labelEn: "Active clients" },
           ].map((stat) => (
             <StaggerItem key={stat.value}>
-              <p className="text-4xl md:text-5xl font-black text-peach leading-none">{stat.value}</p>
-              <p className="text-dark/50 dark:text-cream-light/50 mt-2 text-sm font-medium">
+              <p className="text-5xl md:text-6xl font-black text-[var(--brand-accent)] leading-none">{stat.value}</p>
+              <p className="text-dark/50 dark:text-cream-light/50 mt-3 text-sm font-medium">
                 {isFr ? stat.labelFr : stat.labelEn}
               </p>
             </StaggerItem>
           ))}
         </StaggerGrid>
       </section>
+
+      {/* Partners */}
+      <LogoMarquee />
+
+      {/* CTA */}
+      <MinimalCTA />
     </>
   );
 }

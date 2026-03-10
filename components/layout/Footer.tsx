@@ -42,17 +42,17 @@ export async function Footer() {
   return (
     <footer>
       {/* ── Newsletter Strip ── */}
-      <div className="bg-[var(--brand-accent-light)]">
+      <div className="bg-[var(--brand-primary)]">
         <div className="w-[94%] mx-auto py-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center shrink-0">
-              <Mail className="w-5 h-5 text-[var(--brand-primary)]" />
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <Mail className="w-5 h-5 text-[var(--brand-accent-light)]" />
             </div>
             <div>
-              <h4 className="font-semibold text-[var(--brand-primary)] text-sm">
+              <h4 className="font-semibold text-cream-light text-sm">
                 {t("newsletter")}
               </h4>
-              <p className="text-[var(--brand-primary)]/60 text-sm">
+              <p className="text-cream-light/60 text-sm">
                 {t("newsletterDesc")}
               </p>
             </div>
@@ -61,9 +61,9 @@ export async function Footer() {
             <input
               type="email"
               placeholder={t("newsletterPlaceholder")}
-              className="h-11 px-4 rounded-full bg-white/70 border border-[var(--brand-primary)]/10 text-sm text-[var(--brand-primary)] placeholder:text-[var(--brand-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 flex-1 md:w-72"
+              className="h-11 px-4 rounded-full bg-white/10 border border-white/15 text-sm text-cream-light placeholder:text-cream-light/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent-light)]/30 flex-1 md:w-72"
             />
-            <button className="h-11 px-6 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-primary)]/90 transition-colors duration-300 shrink-0">
+            <button className="h-11 px-6 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent-light)]/90 transition-colors duration-300 shrink-0">
               {t("subscribe")}
             </button>
           </div>
@@ -71,7 +71,7 @@ export async function Footer() {
       </div>
 
       {/* ── Main Footer ── */}
-      <div className="bg-navy text-cream-light">
+      <div className="bg-[var(--brand-primary)] text-cream-light border-t border-cream-light/[0.08]">
         <div className="w-[94%] mx-auto py-16 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12">
             {/* Brand Column */}
@@ -98,9 +98,9 @@ export async function Footer() {
                   {certifications.map((cert) => (
                     <span
                       key={cert}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-cream-light/[0.08] bg-cream-light/[0.04] text-[11px] font-semibold text-cream-light/50 tracking-wider"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-cream-light/10 bg-cream-light/5 text-[11px] font-semibold text-cream-light/50 tracking-wider"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-mint/60" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-accent-light)]/60" />
                       {cert}
                     </span>
                   ))}
@@ -110,7 +110,7 @@ export async function Footer() {
               {/* CTA */}
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mint text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent-hover)] transition-all duration-300 shadow-lg shadow-mint/10"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent)] transition-all duration-300 shadow-lg shadow-[var(--brand-accent-light)]/10"
               >
                 {t("requestQuote")}
                 <ArrowRight className="w-4 h-4" />
@@ -126,7 +126,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/catalogue"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     {nav("catalog")}
                   </Link>
@@ -134,7 +134,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/entreprise"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     {nav("company")}
                   </Link>
@@ -142,7 +142,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/equipe"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     {nav("team")}
                   </Link>
@@ -150,7 +150,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/actualites"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     {nav("news")}
                   </Link>
@@ -158,7 +158,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/podcast"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     {nav("podcast")}
                   </Link>
@@ -166,7 +166,7 @@ export async function Footer() {
                 <li>
                   <Link
                     href="/contact"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     {nav("contact")}
                   </Link>
@@ -181,23 +181,23 @@ export async function Footer() {
               </h4>
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 mt-0.5 text-mint/60 shrink-0" />
+                  <MapPin className="w-4 h-4 mt-0.5 text-[var(--brand-accent-light)]/60 shrink-0" />
                   <span className="text-cream-light/40">Nice, France</span>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Phone className="w-4 h-4 text-mint/60 shrink-0" />
+                  <Phone className="w-4 h-4 text-[var(--brand-accent-light)]/60 shrink-0" />
                   <a
                     href="tel:+33493000000"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     +33 4 93 00 00 00
                   </a>
                 </li>
                 <li className="flex items-center gap-2.5">
-                  <Mail className="w-4 h-4 text-mint/60 shrink-0" />
+                  <Mail className="w-4 h-4 text-[var(--brand-accent-light)]/60 shrink-0" />
                   <a
                     href="mailto:contact@ies-ingredients.com"
-                    className="text-cream-light/40 hover:text-mint transition-colors duration-200"
+                    className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
                     contact@ies-ingredients.com
                   </a>
@@ -242,7 +242,7 @@ export async function Footer() {
       </div>
 
       {/* ── Bottom Bar ── */}
-      <div className="bg-navy border-t border-cream-light/[0.06]">
+      <div className="bg-[var(--brand-primary)] border-t border-cream-light/10">
         <div className="w-[94%] mx-auto py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-cream-light/30">
           <p>
             &copy; {currentYear} IES Ingredients. {t("rights")}.
@@ -251,13 +251,13 @@ export async function Footer() {
             {t("madeIn")}
           </p>
           <div className="flex flex-wrap gap-6">
-            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-[var(--brand-accent-light)] transition-colors duration-200 cursor-pointer">
               {t("legalMentions")}
             </span>
-            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-[var(--brand-accent-light)] transition-colors duration-200 cursor-pointer">
               {t("privacy")}
             </span>
-            <span className="hover:text-mint transition-colors duration-200 cursor-pointer">
+            <span className="hover:text-[var(--brand-accent-light)] transition-colors duration-200 cursor-pointer">
               {t("terms")}
             </span>
           </div>

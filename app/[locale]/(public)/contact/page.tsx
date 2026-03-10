@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Mail, Phone, MapPin, Clock, MessageCircle, Send, CheckCircle2 } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
@@ -48,26 +49,36 @@ export default async function ContactPage({
         ]}
       />
 
-      {/* Hero */}
-      <section className="bg-dark pt-32 sm:pt-36 pb-20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+      {/* Hero — Immersive with background image */}
+      <section className="relative min-h-[55vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/serum-collection.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
+        </div>
 
-        <div className="w-[94%] mx-auto relative z-10 text-center">
+        <div className="relative z-10 w-[94%] mx-auto pb-24 pt-40 text-center">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
               <MessageCircle className="w-3.5 h-3.5" />
               Contact
             </span>
           </AnimateIn>
           <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
               {isFr ? "Parlons de vos" : "Let's discuss your"}{" "}
-              <span className="font-playfair italic text-peach">{isFr ? "projets" : "projects"}</span>
+              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "projets" : "projects"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
-            <p className="text-cream-light/50 text-lg max-w-2xl mx-auto">
+            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               {isFr
                 ? "Notre équipe d'experts est à votre disposition pour répondre à toutes vos questions sur nos ingrédients naturels."
                 : "Our team of experts is available to answer all your questions about our natural ingredients."}
@@ -76,14 +87,14 @@ export default async function ContactPage({
         </div>
       </section>
 
-      {/* Quick Contact Bar */}
-      <section className="relative z-20 -mt-8">
+      {/* Quick Contact Bar — Glass overlay */}
+      <section className="relative z-20 -mt-12">
         <div className="max-w-[1100px] w-[90%] mx-auto">
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <StaggerItem>
-              <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] hover:shadow-[0_12px_40px_rgba(200,168,168,0.14)] hover:-translate-y-0.5 transition-all duration-300 group">
-                <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
-                  <Mail className="w-4.5 h-4.5 text-peach-dark" />
+              <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 dark:bg-dark-card/95 backdrop-blur-md border border-brown/8 dark:border-brown/10 shadow-[0_12px_40px_rgba(46,31,61,0.12)] hover:shadow-[0_16px_50px_rgba(46,31,61,0.18)] hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand-accent-light)]/25 transition-all">
+                  <Mail className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-semibold text-dark dark:text-cream-light text-sm">Email</p>
@@ -92,9 +103,9 @@ export default async function ContactPage({
               </a>
             </StaggerItem>
             <StaggerItem>
-              <a href="tel:+33493000000" className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] hover:shadow-[0_12px_40px_rgba(200,168,168,0.14)] hover:-translate-y-0.5 transition-all duration-300 group">
-                <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
-                  <Phone className="w-4.5 h-4.5 text-peach-dark" />
+              <a href="tel:+33493000000" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 dark:bg-dark-card/95 backdrop-blur-md border border-brown/8 dark:border-brown/10 shadow-[0_12px_40px_rgba(46,31,61,0.12)] hover:shadow-[0_16px_50px_rgba(46,31,61,0.18)] hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand-accent-light)]/25 transition-all">
+                  <Phone className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-semibold text-dark dark:text-cream-light text-sm">{isFr ? "Téléphone" : "Phone"}</p>
@@ -103,9 +114,9 @@ export default async function ContactPage({
               </a>
             </StaggerItem>
             <StaggerItem>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] group">
-                <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4.5 h-4.5 text-peach-dark" />
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 dark:bg-dark-card/95 backdrop-blur-md border border-brown/8 dark:border-brown/10 shadow-[0_12px_40px_rgba(46,31,61,0.12)] group">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0">
+                  <MapPin className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-semibold text-dark dark:text-cream-light text-sm">{isFr ? "Adresse" : "Address"}</p>
@@ -114,9 +125,9 @@ export default async function ContactPage({
               </div>
             </StaggerItem>
             <StaggerItem>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white dark:bg-dark-card border border-brown/8 dark:border-brown/10 shadow-[0_8px_30px_rgba(200,168,168,0.08)] group">
-                <div className="w-10 h-10 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0">
-                  <Clock className="w-4.5 h-4.5 text-peach-dark" />
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 dark:bg-dark-card/95 backdrop-blur-md border border-brown/8 dark:border-brown/10 shadow-[0_12px_40px_rgba(46,31,61,0.12)] group">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0">
+                  <Clock className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-semibold text-dark dark:text-cream-light text-sm">{isFr ? "Horaires" : "Hours"}</p>
@@ -158,7 +169,7 @@ export default async function ContactPage({
 
               <div className="space-y-3">
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-cream dark:bg-dark border border-brown/6 dark:border-brown/8">
-                  <CheckCircle2 className="w-5 h-5 text-olive mt-0.5 shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-[var(--brand-primary)] mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium text-dark dark:text-cream-light text-sm">
                       {isFr ? "Échantillons gratuits" : "Free samples"}
@@ -169,7 +180,7 @@ export default async function ContactPage({
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-cream dark:bg-dark border border-brown/6 dark:border-brown/8">
-                  <CheckCircle2 className="w-5 h-5 text-olive mt-0.5 shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-[var(--brand-primary)] mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium text-dark dark:text-cream-light text-sm">
                       {isFr ? "Conseil technique" : "Technical advice"}
@@ -180,7 +191,7 @@ export default async function ContactPage({
                   </div>
                 </div>
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-cream dark:bg-dark border border-brown/6 dark:border-brown/8">
-                  <CheckCircle2 className="w-5 h-5 text-olive mt-0.5 shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-[var(--brand-primary)] mt-0.5 shrink-0" />
                   <div>
                     <p className="font-medium text-dark dark:text-cream-light text-sm">
                       {isFr ? "Devis personnalisé" : "Custom quote"}
@@ -193,10 +204,10 @@ export default async function ContactPage({
               </div>
 
               {/* Trust badge */}
-              <div className="p-5 rounded-2xl bg-peach/8 border border-peach/15">
+              <div className="p-5 rounded-2xl bg-[var(--brand-accent-light)]/10 border border-[var(--brand-accent-light)]/20">
                 <div className="flex items-center gap-2 mb-2">
-                  <Send className="w-4 h-4 text-peach" />
-                  <p className="text-brown-dark dark:text-peach font-semibold text-sm">
+                  <Send className="w-4 h-4 text-[var(--brand-accent)]" />
+                  <p className="text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] font-semibold text-sm">
                     {isFr ? "Réponse sous 24h" : "Response within 24h"}
                   </p>
                 </div>
