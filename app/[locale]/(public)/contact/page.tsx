@@ -65,7 +65,7 @@ export default async function ContactPage({
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
         </ParallaxBackground>
 
-        <div className="relative z-10 w-[94%] mx-auto pb-24 pt-40 text-center">
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-24 pt-40 text-center">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
               <MessageCircle className="w-3.5 h-3.5" />
@@ -90,7 +90,7 @@ export default async function ContactPage({
 
       {/* Quick Contact Bar */}
       <section className="relative z-20 -mt-12">
-        <div className="max-w-[1100px] w-[90%] mx-auto">
+        <div className="w-[94%] max-w-7xl mx-auto">
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <StaggerItem>
               <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-brown/8 shadow-[0_12px_40px_rgba(46,31,61,0.12)] hover:shadow-[0_16px_50px_rgba(46,31,61,0.18)] hover:-translate-y-1 transition-all duration-300 group">
@@ -145,7 +145,7 @@ export default async function ContactPage({
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-lavender/5 rounded-full blur-[180px]" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
 
-        <div className="w-[94%] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Form */}
           <AnimateIn delay={0.1} y={30} className="lg:col-span-3">
             <div className="bg-cream-light rounded-2xl p-6 sm:p-8 md:p-10 border border-brown/8 shadow-[0_8px_40px_rgba(200,168,168,0.06)]">

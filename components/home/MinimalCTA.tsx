@@ -34,7 +34,7 @@ export function MinimalCTA() {
       </motion.div>
 
       {/* Content — cleanly separated */}
-      <div className="relative z-10 w-[94%] mx-auto py-28 md:py-40">
+      <div className="relative z-10 w-[94%] max-w-7xl mx-auto py-28 md:py-40">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

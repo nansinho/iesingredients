@@ -116,7 +116,7 @@ export function CatalogClient({
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/90 via-[var(--brand-primary)]/85 to-[var(--brand-primary)]" />
         </div>
 
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,7 +182,7 @@ export function CatalogClient({
 
       {/* Results */}
       <section className="bg-cream-light dark:bg-dark py-10 sm:py-14 min-h-screen">
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="w-[94%] max-w-7xl mx-auto">
           {/* Controls */}
           <div className="flex items-center justify-between gap-4 mb-8">
             <div className="flex flex-wrap items-center gap-2">
@@ -299,7 +299,7 @@ export function CatalogClient({
 
       {/* Help CTA */}
       <section className="py-16 bg-cream-light dark:bg-dark border-t border-brown/8 dark:border-brown/10">
-        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="w-[94%] max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}

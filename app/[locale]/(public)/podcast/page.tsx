@@ -213,7 +213,7 @@ export default async function PodcastPage({
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
         </ParallaxBackground>
 
-        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40 text-center">
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-20 pt-40 text-center">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-8 backdrop-blur-sm">
               <Headphones className="w-3.5 h-3.5" />
@@ -254,7 +254,7 @@ export default async function PodcastPage({
       {/* About the Podcast */}
       <section className="py-20 md:py-28 bg-white dark:bg-dark relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
-        <div className="w-[94%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
             <div className="relative aspect-square max-w-md mx-auto">
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[var(--brand-accent-light)] to-[var(--brand-accent)] p-1">
@@ -304,7 +304,7 @@ export default async function PodcastPage({
       {/* Episodes */}
       <section className="py-20 md:py-28 bg-cream-light dark:bg-dark relative overflow-hidden">
         <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
-        <div className="w-[94%] mx-auto relative z-10">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               {isFr ? "Tous les épisodes" : "All episodes"}
@@ -328,7 +328,7 @@ export default async function PodcastPage({
 
       {/* Notify CTA */}
       <section className="py-20 md:py-28 bg-white dark:bg-dark">
-        <div className="max-w-xl mx-auto text-center px-4">
+        <div className="w-[94%] max-w-xl mx-auto text-center">
           <AnimateIn>
             <Mail className="w-10 h-10 text-[var(--brand-accent)]/40 mx-auto mb-6" />
             <h2 className="text-dark dark:text-cream-light tracking-tight mb-4">

@@ -33,7 +33,7 @@ export function SocialFollow() {
 
   return (
     <section className="py-20 md:py-28 bg-[var(--brand-accent-light)]">
-      <div className="w-[94%] mx-auto text-center">
+      <div className="w-[94%] max-w-7xl mx-auto text-center">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
