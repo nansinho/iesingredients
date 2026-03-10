@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Search, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { EpisodeCard } from "./EpisodeCard";
 import type { EpisodeData } from "./EpisodeCard";
 
@@ -139,35 +139,22 @@ export function PodcastEpisodesSection({
 
       {/* Episode List */}
       {visible.length > 0 ? (
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={{
-            visible: { transition: { staggerChildren: 0.1 } },
-          }}
-          className="flex flex-col gap-4"
-        >
-          <AnimatePresence mode="popLayout">
-            {visible.map((episode) => (
-              <motion.div
-                key={episode.id}
-                layout
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.5, ease: appleEase },
-                  },
-                }}
-                exit={{ opacity: 0, y: -10, transition: { duration: 0.3 } }}
-              >
-                <EpisodeCard episode={episode} locale={locale} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        <div className="flex flex-col gap-4">
+          {visible.map((episode, index) => (
+            <motion.div
+              key={episode.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.06,
+                ease: appleEase,
+              }}
+            >
+              <EpisodeCard episode={episode} locale={locale} />
+            </motion.div>
+          ))}
+        </div>
       ) : (
         <div className="text-center py-20 bg-white rounded-2xl border border-brown/8">
           <div className="w-16 h-16 rounded-full bg-dark/5 flex items-center justify-center mx-auto mb-4">
