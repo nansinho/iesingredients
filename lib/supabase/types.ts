@@ -556,6 +556,7 @@ export type Database = {
           bio_en: string | null
           bio_fr: string | null
           created_at: string | null
+          department: string | null
           display_order: number | null
           email: string | null
           id: string
@@ -572,6 +573,7 @@ export type Database = {
           bio_en?: string | null
           bio_fr?: string | null
           created_at?: string | null
+          department?: string | null
           display_order?: number | null
           email?: string | null
           id?: string
@@ -588,6 +590,7 @@ export type Database = {
           bio_en?: string | null
           bio_fr?: string | null
           created_at?: string | null
+          department?: string | null
           display_order?: number | null
           email?: string | null
           id?: string

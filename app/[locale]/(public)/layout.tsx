@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeSelector } from "@/components/layout/ThemeSelector";
 import { AudioBar } from "@/components/audio/AudioBar";
+import { SocialSidebar } from "@/components/layout/SocialSidebar";
 
 export default async function PublicLayout({
   children,
@@ -16,6 +17,7 @@ export default async function PublicLayout({
     <NextIntlClientProvider messages={messages}>
       <div className="min-h-screen flex flex-col">
         <Header />
+        <SocialSidebar />
         <main className="flex-1">{children}</main>
         <Footer />
         <AudioBar />
