@@ -198,7 +198,20 @@
     "title": "Podcast À Fleur De Nez",
     "subtitle": "Explorez l'univers de la parfumerie à travers des interviews et des histoires captivantes",
     "listenOn": "Écouter sur",
-    "featured": "À la une"
+    "featured": "À la une",
+    "about": "À propos",
+    "allEpisodes": "Tous les épisodes",
+    "latestEpisodes": "Derniers Épisodes",
+    "loadMore": "Voir plus d'épisodes",
+    "searchPlaceholder": "Rechercher un épisode...",
+    "noResults": "Aucun épisode trouvé pour cette recherche.",
+    "subscribe": "S'inscrire",
+    "notifyTitle": "Soyez notifié",
+    "notifyDescription": "Recevez une notification dès la sortie d'un nouvel épisode de notre podcast.",
+    "emailPlaceholder": "Votre adresse email",
+    "episodes": "Épisodes",
+    "expertGuests": "Invités experts",
+    "ofContent": "De contenu"
   },
   "footer": {
     "rights": "Tous droits réservés",

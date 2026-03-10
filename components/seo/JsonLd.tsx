@@ -157,6 +157,65 @@ export function BreadcrumbJsonLd({
   );
 }
 
+export function PodcastSeriesJsonLd({
+  name,
+  description,
+  url,
+  episodes,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  episodes: {
+    title: string;
+    description: string;
+    url: string;
+    duration: string;
+    published: string;
+    episodeNumber: number;
+  }[];
+}) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "PodcastSeries",
+    name,
+    description,
+    url,
+    webFeed: url,
+    author: {
+      "@type": "Organization",
+      name: "IES Ingredients",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "IES Ingredients",
+      url: SITE_URL,
+    },
+    episode: episodes.map((ep) => ({
+      "@type": "PodcastEpisode",
+      name: ep.title,
+      description: ep.description,
+      url: ep.url,
+      episodeNumber: ep.episodeNumber,
+      datePublished: ep.published,
+      timeRequired: `PT${ep.duration.replace(":", "M")}S`,
+      partOfSeries: {
+        "@type": "PodcastSeries",
+        name,
+        url,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export function LocalBusinessJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
