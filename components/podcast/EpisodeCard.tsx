@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Play, Pause, Clock, Calendar } from "lucide-react";
+import { Play, Pause, Clock, Calendar, Headphones } from "lucide-react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 export interface EpisodeData {
@@ -25,6 +25,13 @@ const categoryLabels: Record<string, { fr: string; en: string }> = {
   ingredients: { fr: "Ingrédients", en: "Ingredients" },
   innovation: { fr: "Innovation", en: "Innovation" },
   durabilite: { fr: "Durabilité", en: "Sustainability" },
+};
+
+const categoryColors: Record<string, string> = {
+  parfumerie: "bg-[#8B6A80]/10 text-[#8B6A80]",
+  ingredients: "bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]",
+  innovation: "bg-blue-500/10 text-blue-600",
+  durabilite: "bg-emerald-500/10 text-emerald-600",
 };
 
 export function EpisodeCard({
@@ -58,102 +65,128 @@ export function EpisodeCard({
         : categoryLabels[episode.category].en
       : null;
 
+  const categoryColor =
+    episode.category && categoryColors[episode.category]
+      ? categoryColors[episode.category]
+      : "bg-dark/5 text-dark/60";
+
+  const formattedDate = new Date(episode.date).toLocaleDateString(
+    locale === "fr" ? "fr-FR" : "en-US",
+    { day: "numeric", month: "long", year: "numeric" }
+  );
+
   return (
     <div
-      className={`group bg-white rounded-2xl border overflow-hidden transition-all duration-500 hover:shadow-[0_12px_40px_rgba(212,144,126,0.12)] hover:-translate-y-1 ${
+      className={`group flex flex-col sm:flex-row bg-white rounded-2xl border overflow-hidden transition-all duration-500 hover:shadow-[0_12px_40px_rgba(212,144,126,0.12)] ${
         isCurrent
           ? "border-[var(--brand-accent)]/30 shadow-[0_8px_30px_rgba(212,144,126,0.1)]"
           : "border-brown/8 hover:border-brown/20"
       }`}
     >
-      {/* Image */}
-      <div className="relative aspect-[16/10] overflow-hidden">
-        <Image
-          src={episode.image}
-          alt={episode.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-700"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+      {/* Left: Image + Episode Number */}
+      <div className="relative w-full sm:w-56 md:w-64 lg:w-72 shrink-0">
+        <div className="relative aspect-[16/10] sm:aspect-auto sm:h-full overflow-hidden">
+          <Image
+            src={episode.image}
+            alt={episode.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 640px) 100vw, 288px"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent sm:bg-gradient-to-t sm:from-black/50 sm:to-transparent" />
 
-        {/* Duration badge */}
-        <button
-          onClick={handlePlay}
-          className="absolute bottom-3 left-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-dark text-xs font-semibold hover:bg-white transition-all duration-300 shadow-lg"
-        >
-          {isCurrentlyPlaying ? (
-            <Pause className="w-3.5 h-3.5 text-[var(--brand-accent)]" />
-          ) : (
-            <Play
-              className="w-3.5 h-3.5 text-[var(--brand-accent)]"
-              fill="currentColor"
-            />
-          )}
-          {episode.duration}
-        </button>
+          {/* Episode number overlay */}
+          <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+            <span className="text-white/50 text-[10px] font-semibold uppercase tracking-[0.15em]">
+              {locale === "fr" ? "Épisode" : "Episode"}
+            </span>
+            <p className="text-white text-2xl sm:text-3xl font-bold leading-none -mt-0.5">
+              {String(episode.episodeNumber).padStart(2, "0")}
+            </p>
+          </div>
 
-        {/* Category badge */}
-        {categoryLabel && (
-          <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-[var(--brand-primary)]">
-            {categoryLabel}
-          </span>
-        )}
+          {/* Play button overlay */}
+          <button
+            onClick={handlePlay}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg"
+          >
+            {isCurrentlyPlaying ? (
+              <Pause className="w-5 h-5 text-[var(--brand-primary)]" />
+            ) : (
+              <Play
+                className="w-5 h-5 text-[var(--brand-primary)] ml-0.5"
+                fill="currentColor"
+              />
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="p-5">
-        <div className="flex items-center gap-3 text-xs text-dark/40 mb-3">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3" />
-            {new Date(episode.date).toLocaleDateString(
-              locale === "fr" ? "fr-FR" : "en-US",
-              {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              }
+      {/* Right: Content */}
+      <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between min-h-0">
+        <div>
+          {/* Top row: category + date + duration */}
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            {categoryLabel && (
+              <span
+                className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider ${categoryColor}`}
+              >
+                {categoryLabel}
+              </span>
             )}
-          </span>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            {locale === "fr"
-              ? `Épisode ${episode.episodeNumber}`
-              : `Episode ${episode.episodeNumber}`}
-          </span>
+            <span className="flex items-center gap-1 text-xs text-dark/40">
+              <Calendar className="w-3 h-3" />
+              {formattedDate}
+            </span>
+            <span className="flex items-center gap-1 text-xs text-dark/40">
+              <Clock className="w-3 h-3" />
+              {episode.duration}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h3 className="font-semibold text-dark text-lg sm:text-xl leading-snug mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors duration-300">
+            {episode.title}
+          </h3>
+
+          {/* Guest */}
+          <p className="text-sm text-[var(--brand-accent)] font-medium mb-3 flex items-center gap-1.5">
+            <Headphones className="w-3.5 h-3.5" />
+            {episode.guest}
+          </p>
+
+          {/* Description */}
+          <p className="text-sm text-dark/50 leading-relaxed line-clamp-2">
+            {episode.description}
+          </p>
         </div>
 
-        <h3 className="font-semibold text-dark text-base mb-1.5 leading-snug">
-          {episode.title}
-        </h3>
-
-        <p className="text-sm text-[var(--brand-accent)] font-medium mb-2">
-          {episode.guest}
-        </p>
-
-        <p className="text-sm text-dark/50 leading-relaxed line-clamp-2 mb-4">
-          {episode.description}
-        </p>
-
-        <button
-          onClick={handlePlay}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-accent)] hover:text-[var(--brand-primary)] transition-colors duration-300 group/btn"
-        >
-          {isCurrentlyPlaying ? (
-            <>
-              <Pause className="w-4 h-4" />
-              Pause
-            </>
-          ) : (
-            <>
-              <Play className="w-4 h-4" fill="currentColor" />
-              {locale === "fr" ? "Écouter" : "Listen"}
-            </>
-          )}
-          <span className="group-hover/btn:translate-x-0.5 transition-transform duration-300">
-            &rarr;
-          </span>
-        </button>
+        {/* Bottom: Play CTA */}
+        <div className="mt-4 pt-4 border-t border-brown/6">
+          <button
+            onClick={handlePlay}
+            className="inline-flex items-center gap-2.5 text-sm font-semibold text-[var(--brand-primary)] hover:text-[var(--brand-accent)] transition-colors duration-300 group/btn"
+          >
+            <span
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                isCurrentlyPlaying
+                  ? "bg-[var(--brand-accent)] text-white"
+                  : "bg-[var(--brand-primary)]/8 text-[var(--brand-primary)] group-hover/btn:bg-[var(--brand-accent)]/15"
+              }`}
+            >
+              {isCurrentlyPlaying ? (
+                <Pause className="w-3.5 h-3.5" />
+              ) : (
+                <Play className="w-3.5 h-3.5 ml-0.5" fill="currentColor" />
+              )}
+            </span>
+            {isCurrentlyPlaying
+              ? "Pause"
+              : locale === "fr"
+                ? "Écouter l'épisode"
+                : "Listen to episode"}
+          </button>
+        </div>
       </div>
     </div>
   );

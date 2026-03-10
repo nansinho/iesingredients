@@ -1,6 +1,14 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Headphones, Play, ExternalLink, Mail, Mic } from "lucide-react";
+import {
+  Headphones,
+  Play,
+  ExternalLink,
+  Mail,
+  Mic,
+  Users,
+  Timer,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BreadcrumbJsonLd, PodcastSeriesJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn } from "@/components/ui/AnimateIn";
@@ -168,8 +176,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
   const description =
     locale === "fr"
-      ? "Écoutez notre podcast À Fleur De Nez : interviews et découvertes de l'univers de la parfumerie et des ingrédients naturels."
-      : "Listen to our podcast À Fleur De Nez: interviews and discoveries from the world of perfumery and natural ingredients.";
+      ? "Écoutez le podcast IES Ingredients : interviews et découvertes de l'univers de la parfumerie et des ingrédients naturels."
+      : "Listen to the IES Ingredients podcast: interviews and discoveries from the world of perfumery and natural ingredients.";
 
   return {
     title: t("podcastTitle"),
@@ -220,11 +228,11 @@ export default async function PodcastPage({
         ]}
       />
       <PodcastSeriesJsonLd
-        name="À Fleur De Nez"
+        name="IES Ingredients Podcast"
         description={
           isFr
-            ? "Explorez l'univers de la parfumerie à travers des interviews et des histoires captivantes."
-            : "Explore the world of perfumery through captivating interviews and stories."
+            ? "Explorez l'univers de la parfumerie et des ingrédients naturels à travers des interviews et des histoires captivantes."
+            : "Explore the world of perfumery and natural ingredients through captivating interviews and stories."
         }
         url={`https://ies-ingredients.com/${locale}/podcast`}
         episodes={localizedEpisodes.map((ep) => ({
@@ -238,7 +246,7 @@ export default async function PodcastPage({
       />
 
       {/* ─── Hero Section ─── */}
-      <section className="relative min-h-[65vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
         <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/essential-oil.jpg"
@@ -249,203 +257,192 @@ export default async function PodcastPage({
             sizes="100vw"
             aria-hidden="true"
           />
-          {/* Lavande gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2E1F3D] via-[#2E1F3D]/70 to-[#2E1F3D]/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2E1F3D]/95 via-[#2E1F3D]/80 to-[#2E1F3D]/50" />
         </ParallaxBackground>
 
-        {/* Subtle wave SVG at the bottom */}
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <svg
-            viewBox="0 0 1440 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-auto block"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z"
-              fill="#FAF8F6"
-            />
-          </svg>
-        </div>
-
-        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-28 pt-44 text-center">
-          <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-8 backdrop-blur-sm">
-              <Mic className="w-3.5 h-3.5" />
-              Podcast
-            </span>
-          </AnimateIn>
-
-          <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-4">
-              {isFr ? "Notre" : "Our"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">
-                Podcast
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto py-32 md:py-40">
+          <div className="max-w-2xl">
+            <AnimateIn>
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
+                <Mic className="w-3.5 h-3.5" />
+                Podcast IES Ingredients
               </span>
-            </h1>
-          </AnimateIn>
+            </AnimateIn>
 
-          <AnimateIn delay={0.15}>
-            <p className="text-xl sm:text-2xl font-playfair italic text-peach-light/90 mb-2">
-              À Fleur De Nez
-            </p>
-          </AnimateIn>
+            <AnimateIn delay={0.1} y={30}>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-[-0.03em] leading-[1.08] mb-6">
+                {isFr
+                  ? "Les voix de l'industrie des "
+                  : "Voices from the "}
+                <span className="font-playfair italic text-[var(--brand-accent-light)]">
+                  {isFr ? "ingrédients naturels" : "natural ingredients industry"}
+                </span>
+              </h1>
+            </AnimateIn>
 
-          <AnimateIn delay={0.2}>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-              {t("subtitle")}
-            </p>
-          </AnimateIn>
+            <AnimateIn delay={0.2}>
+              <p className="text-white/55 text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
+                {isFr
+                  ? "Interviews, expertises et coulisses : plongez dans l'univers de la parfumerie, de la cosmétique et des ingrédients naturels avec nos invités."
+                  : "Interviews, expertise and behind-the-scenes: dive into the world of perfumery, cosmetics, and natural ingredients with our guests."}
+              </p>
+            </AnimateIn>
 
-          <AnimateIn delay={0.3} y={15}>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button variant="peach" size="lg" className="rounded-full">
-                <Play className="w-5 h-5 mr-2" />
-                {t("listenOn")} Spotify
-              </Button>
-              <Button
-                size="lg"
-                className="rounded-full bg-white/15 backdrop-blur-sm text-white border border-white/20 hover:bg-white/25 hover:border-white/30 transition-all duration-300"
-              >
-                <ExternalLink className="w-5 h-5 mr-2" />
-                Apple Podcasts
-              </Button>
-            </div>
-          </AnimateIn>
+            <AnimateIn delay={0.3} y={15}>
+              <div className="flex flex-wrap gap-3">
+                <Button variant="peach" size="lg" className="rounded-full">
+                  <Play className="w-5 h-5 mr-2" />
+                  {t("listenOn")} Spotify
+                </Button>
+                <Button
+                  size="lg"
+                  className="rounded-full bg-white/10 backdrop-blur-sm text-white border border-white/15 hover:bg-white/20 hover:border-white/25 transition-all duration-300"
+                >
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                  Apple Podcasts
+                </Button>
+              </div>
+            </AnimateIn>
 
-          {/* Subtle audio waveform SVG decoration */}
-          <div className="absolute bottom-32 left-1/2 -translate-x-1/2 opacity-10 pointer-events-none">
-            <svg
-              width="400"
-              height="40"
-              viewBox="0 0 400 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {[...Array(40)].map((_, i) => {
-                const height = 8 + Math.sin(i * 0.5) * 12 + Math.sin(i * 1.7) * 8;
-                return (
-                  <rect
-                    key={i}
-                    x={i * 10}
-                    y={20 - height / 2}
-                    width="4"
-                    height={height}
-                    rx="2"
-                    fill="white"
-                  />
-                );
-              })}
-            </svg>
+            {/* Quick Stats */}
+            <AnimateIn delay={0.4}>
+              <div className="flex gap-8 mt-12 pt-8 border-t border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <Headphones className="w-5 h-5 text-[var(--brand-accent-light)]" />
+                  </div>
+                  <div>
+                    <p className="text-white text-xl font-bold leading-none">
+                      {episodes.length}
+                    </p>
+                    <p className="text-white/40 text-xs mt-0.5">
+                      {isFr ? "Épisodes" : "Episodes"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-[var(--brand-accent-light)]" />
+                  </div>
+                  <div>
+                    <p className="text-white text-xl font-bold leading-none">
+                      6+
+                    </p>
+                    <p className="text-white/40 text-xs mt-0.5">
+                      {isFr ? "Invités" : "Guests"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <Timer className="w-5 h-5 text-[var(--brand-accent-light)]" />
+                  </div>
+                  <div>
+                    <p className="text-white text-xl font-bold leading-none">
+                      3h+
+                    </p>
+                    <p className="text-white/40 text-xs mt-0.5">
+                      {isFr ? "De contenu" : "Of content"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </AnimateIn>
           </div>
         </div>
       </section>
 
-      {/* ─── About Section ─── */}
-      <section className="py-20 md:py-28 bg-cream-light relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px]" />
-        <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Cover Art */}
-          <AnimateIn y={30}>
-            <div className="relative aspect-square max-w-md mx-auto">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[var(--brand-accent-light)]/40 to-[var(--brand-accent)]/20 p-[2px]">
-                <div className="w-full h-full rounded-3xl bg-white flex flex-col items-center justify-center relative overflow-hidden shadow-[0_20px_60px_rgba(212,144,126,0.15)]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-cream-light to-peach-light/20" />
-                  <div className="relative z-10 text-center px-8">
-                    <div className="w-20 h-20 rounded-full bg-[var(--brand-primary)]/8 flex items-center justify-center mx-auto mb-5">
-                      <Headphones className="w-10 h-10 text-[var(--brand-primary)]" />
-                    </div>
-                    <p className="text-3xl font-bold text-[var(--brand-primary)] mb-1 tracking-tight">
-                      À Fleur De Nez
+      {/* ─── Latest Episode Highlight ─── */}
+      <section className="py-16 md:py-20 bg-cream-light relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
+
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
+          <AnimateIn>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-accent)]/10 border border-[var(--brand-accent)]/15 text-[var(--brand-accent)] text-xs font-semibold uppercase tracking-[0.15em] mb-4">
+              {isFr ? "Dernier épisode" : "Latest episode"}
+            </span>
+          </AnimateIn>
+
+          <AnimateIn delay={0.1}>
+            <div className="mt-4 flex flex-col md:flex-row bg-white rounded-3xl border border-brown/8 overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
+              {/* Featured image */}
+              <div className="relative w-full md:w-2/5 lg:w-1/3">
+                <div className="relative aspect-[16/10] md:aspect-auto md:h-full overflow-hidden">
+                  <Image
+                    src={localizedEpisodes[0].image}
+                    alt={localizedEpisodes[0].title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2E1F3D]/60 to-transparent md:bg-gradient-to-r md:from-transparent md:to-transparent" />
+
+                  {/* Large episode number */}
+                  <div className="absolute bottom-4 left-5 md:bottom-6 md:left-6">
+                    <span className="text-white/40 text-[10px] font-semibold uppercase tracking-[0.2em]">
+                      {isFr ? "Épisode" : "Episode"}
+                    </span>
+                    <p className="text-white text-4xl md:text-5xl font-bold leading-none">
+                      {String(localizedEpisodes[0].episodeNumber).padStart(2, "0")}
                     </p>
-                    <p className="text-[var(--brand-accent)] text-sm uppercase tracking-[0.2em] font-medium">
-                      Podcast
-                    </p>
-                    <div className="mt-6 flex justify-center gap-1">
-                      {[...Array(20)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-1 rounded-full bg-[var(--brand-accent)]/30"
-                          style={{
-                            height: `${12 + Math.sin(i * 0.6) * 10}px`,
-                          }}
-                        />
-                      ))}
-                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </AnimateIn>
 
-          {/* Text Content */}
-          <AnimateIn delay={0.15} y={30}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/6 border border-[var(--brand-primary)]/10 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
-              {isFr ? "À propos" : "About"}
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-semibold text-dark tracking-tight mt-4 mb-6 leading-tight">
-              {isFr ? "Explorez l'univers de la" : "Explore the world of"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">
-                {isFr ? "Parfumerie" : "Perfumery"}
-              </span>
-            </h2>
-            <div className="space-y-4 text-dark/60 text-lg leading-relaxed">
-              <p>
-                {isFr
-                  ? 'Notre podcast "À Fleur De Nez" explore l\'univers de la parfumerie à travers des interviews passionnantes avec les acteurs de l\'industrie.'
-                  : 'Our podcast "À Fleur De Nez" explores the world of perfumery through exciting interviews with industry professionals.'}
-              </p>
-              <p>
-                {isFr
-                  ? "De la sélection des matières premières à la création de compositions uniques, découvrez les secrets des maîtres parfumeurs et des experts en ingrédients naturels."
-                  : "From raw material selection to creating unique compositions, discover the secrets of master perfumers and natural ingredient experts."}
-              </p>
-            </div>
+              {/* Featured content */}
+              <div className="flex-1 p-6 md:p-10 flex flex-col justify-center">
+                <div className="flex flex-wrap items-center gap-3 mb-4">
+                  {localizedEpisodes[0].category && (
+                    <span className="px-3 py-1 rounded-full bg-[#8B6A80]/10 text-[#8B6A80] text-[11px] font-semibold uppercase tracking-wider">
+                      {isFr ? "Parfumerie" : "Perfumery"}
+                    </span>
+                  )}
+                  <span className="text-dark/40 text-sm">
+                    {new Date(localizedEpisodes[0].date).toLocaleDateString(
+                      isFr ? "fr-FR" : "en-US",
+                      { day: "numeric", month: "long", year: "numeric" }
+                    )}
+                  </span>
+                  <span className="text-dark/40 text-sm">
+                    · {localizedEpisodes[0].duration}
+                  </span>
+                </div>
 
-            {/* Stats row */}
-            <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-brown/10">
-              <div>
-                <p className="text-2xl font-bold text-[var(--brand-primary)]">
-                  {episodes.length}
+                <h2 className="text-2xl sm:text-3xl font-semibold text-dark tracking-tight leading-snug mb-3">
+                  {localizedEpisodes[0].title}
+                </h2>
+
+                <p className="text-[var(--brand-accent)] font-medium mb-4 flex items-center gap-2">
+                  <Headphones className="w-4 h-4" />
+                  {localizedEpisodes[0].guest}
                 </p>
-                <p className="text-sm text-dark/40 mt-1">
-                  {isFr ? "Épisodes" : "Episodes"}
+
+                <p className="text-dark/50 leading-relaxed mb-8 max-w-lg">
+                  {localizedEpisodes[0].description}
                 </p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-[var(--brand-primary)]">
-                  6+
-                </p>
-                <p className="text-sm text-dark/40 mt-1">
-                  {isFr ? "Invités experts" : "Expert guests"}
-                </p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-[var(--brand-primary)]">
-                  3h+
-                </p>
-                <p className="text-sm text-dark/40 mt-1">
-                  {isFr ? "De contenu" : "Of content"}
-                </p>
+
+                <div className="flex flex-wrap gap-3">
+                  <Button variant="peach" className="rounded-full">
+                    <Play className="w-4 h-4 mr-2" />
+                    {isFr ? "Écouter maintenant" : "Listen now"}
+                  </Button>
+                </div>
               </div>
             </div>
           </AnimateIn>
         </div>
       </section>
 
-      {/* ─── Episodes Section ─── */}
-      <section className="py-20 md:py-28 bg-cream-light relative overflow-hidden">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
-        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
-          <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/6 border border-[var(--brand-primary)]/10 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
-              {isFr ? "Tous les épisodes" : "All episodes"}
-            </span>
+      {/* ─── All Episodes Section ─── */}
+      <section className="py-16 md:py-24 bg-[#F5F2EF] relative overflow-hidden">
+        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/3 rounded-full blur-[200px]" />
+
+        <div className="w-[94%] max-w-5xl mx-auto relative z-10">
+          <AnimateIn className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-semibold text-dark tracking-tight">
-              {isFr ? "Derniers" : "Latest"}{" "}
+              {isFr ? "Tous les" : "All"}{" "}
               <span className="font-playfair italic text-[var(--brand-accent)]">
-                {isFr ? "Épisodes" : "Episodes"}
+                {isFr ? "épisodes" : "episodes"}
               </span>
             </h2>
           </AnimateIn>
@@ -459,7 +456,6 @@ export default async function PodcastPage({
 
       {/* ─── Newsletter / Notify Section ─── */}
       <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
-        {/* Decorative blobs */}
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent)]/8 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-peach/5 rounded-full blur-[100px]" />
 
@@ -469,17 +465,17 @@ export default async function PodcastPage({
               <Mail className="w-7 h-7 text-[var(--brand-accent-light)]" />
             </div>
             <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">
-              {isFr ? "Soyez" : "Get"}{" "}
+              {isFr ? "Ne manquez" : "Never miss"}{" "}
               <span className="font-playfair italic text-[var(--brand-accent-light)]">
-                {isFr ? "notifié" : "notified"}
+                {isFr ? "rien" : "an episode"}
               </span>
             </h2>
           </AnimateIn>
           <AnimateIn delay={0.1}>
             <p className="text-white/50 text-lg mb-8 leading-relaxed">
               {isFr
-                ? "Recevez une notification dès la sortie d'un nouvel épisode de notre podcast."
-                : "Get notified as soon as a new episode of our podcast is released."}
+                ? "Recevez une notification dès la sortie d'un nouvel épisode."
+                : "Get notified as soon as a new episode is released."}
             </p>
           </AnimateIn>
           <AnimateIn delay={0.2} y={15}>
