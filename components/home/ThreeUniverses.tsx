@@ -45,7 +45,7 @@ export function ThreeUniverses() {
 
   return (
     <section className="py-20 md:py-28 bg-cream">
-      <div className="w-[94%] mx-auto">
+      <div className="w-[94%] max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

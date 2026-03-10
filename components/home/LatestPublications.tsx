@@ -82,7 +82,7 @@ export function LatestPublications() {
 
   return (
     <section className="py-24 md:py-32 bg-cream-light">
-      <div className="w-[94%] mx-auto">
+      <div className="w-[94%] max-w-7xl mx-auto">
         {/* Header — centered */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

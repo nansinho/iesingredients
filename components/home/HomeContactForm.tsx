@@ -14,7 +14,7 @@ export function HomeContactForm() {
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-lavender/5 rounded-full blur-[180px]" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
 
-      <div className="w-[94%] mx-auto relative z-10">
+      <div className="w-[94%] max-w-7xl mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

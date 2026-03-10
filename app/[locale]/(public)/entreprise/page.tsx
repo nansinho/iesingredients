@@ -239,7 +239,7 @@ export default async function CompanyPage({
       {/* Introduction & Présentation */}
       <section className="py-20 md:py-28 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
-        <div className="w-[94%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-brown/8">
               <Image
@@ -290,7 +290,7 @@ export default async function CompanyPage({
 
       {/* Carte des implantations */}
       <section className="py-20 md:py-28 bg-cream-light relative overflow-hidden">
-        <div className="w-[94%] mx-auto relative z-10">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <MapPin className="w-3.5 h-3.5" />
@@ -395,7 +395,7 @@ export default async function CompanyPage({
         <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-primary)]/3 rounded-full blur-[120px]" />
 
-        <div className="w-[94%] mx-auto relative z-10">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Award className="w-3.5 h-3.5" />
@@ -535,7 +535,7 @@ export default async function CompanyPage({
 
       {/* Distribution — Partenaires */}
       <section className="py-20 md:py-28 bg-white relative overflow-hidden">
-        <div className="w-[94%] mx-auto relative z-10">
+        <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Globe className="w-3.5 h-3.5" />
@@ -573,7 +573,7 @@ export default async function CompanyPage({
 
       {/* Zones de distribution */}
       <section className="py-20 md:py-28 bg-white">
-        <div className="w-[94%] mx-auto">
+        <div className="w-[94%] max-w-7xl mx-auto">
           <AnimateIn className="text-center mb-14">
             <h2 className="text-dark tracking-tight">
               {isFr ? "Nos Zones de" : "Our Distribution"}{" "}
@@ -621,7 +621,7 @@ export default async function CompanyPage({
 
       {/* Stats */}
       <section className="py-20 md:py-28 bg-cream-light">
-        <StaggerGrid className="w-[94%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <StaggerGrid className="w-[94%] max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: "30+", labelFr: "Ans d'expertise", labelEn: "Years of expertise" },
             { value: "5000+", labelFr: "Ingrédients", labelEn: "Ingredients" },
