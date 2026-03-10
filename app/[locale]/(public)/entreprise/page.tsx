@@ -61,7 +61,7 @@ export default async function CompanyPage({
       />
 
       {/* Hero — Immersive with background image */}
-      <section className="relative min-h-[70vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/leaves-hero.jpg"
@@ -98,7 +98,7 @@ export default async function CompanyPage({
       </section>
 
       {/* Mission */}
-      <section className="py-24 md:py-32 bg-white dark:bg-dark relative overflow-hidden">
+      <section className="py-20 md:py-28 bg-white dark:bg-dark relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
         <div className="w-[94%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
@@ -151,33 +151,33 @@ export default async function CompanyPage({
       </section>
 
       {/* Values */}
-      <section className="py-24 md:py-32 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-secondary)]/20 rounded-full blur-[180px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent-light)]/5 rounded-full blur-[120px]" />
+      <section className="py-20 md:py-28 bg-cream-light dark:bg-dark relative overflow-hidden">
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-primary)]/3 rounded-full blur-[120px]" />
 
         <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Award className="w-3.5 h-3.5" />
               {isFr ? "Nos valeurs" : "Our values"}
             </span>
-            <h2 className="text-cream-light tracking-tight">
+            <h2 className="text-dark dark:text-cream-light tracking-tight">
               {isFr ? "Ce Qui Nous" : "What Drives"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Anime" : "Us"}</span>.
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Anime" : "Us"}</span>.
             </h2>
           </AnimateIn>
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {values.map((v) => (
               <StaggerItem key={v.titleFr}>
                 <HoverLift>
-                  <div className="bg-white/[0.06] backdrop-blur-sm rounded-2xl p-7 border border-white/[0.08] hover:border-[var(--brand-accent-light)]/30 hover:bg-white/[0.10] transition-all duration-500 group">
-                    <div className="w-12 h-12 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center mb-5 group-hover:bg-[var(--brand-accent-light)]/25 group-hover:scale-110 transition-all duration-300">
-                      <v.icon className="w-5.5 h-5.5 text-[var(--brand-accent-light)]" />
+                  <div className="bg-white dark:bg-dark-card rounded-2xl p-7 border border-[var(--brand-primary)]/8 hover:border-[var(--brand-accent)]/25 hover:shadow-[0_12px_40px_rgba(212,144,126,0.08)] transition-all duration-500 group">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 flex items-center justify-center mb-5 group-hover:bg-[var(--brand-primary)]/15 group-hover:scale-110 transition-all duration-300">
+                      <v.icon className="w-5.5 h-5.5 text-[var(--brand-primary)]" />
                     </div>
-                    <h3 className="font-bold text-cream-light mb-2 text-base">
+                    <h3 className="font-bold text-dark dark:text-cream-light mb-2 text-base">
                       {isFr ? v.titleFr : v.titleEn}
                     </h3>
-                    <p className="text-sm text-cream-light/40 leading-relaxed">
+                    <p className="text-sm text-dark/50 dark:text-cream-light/50 leading-relaxed">
                       {isFr ? v.descFr : v.descEn}
                     </p>
                   </div>
@@ -189,7 +189,7 @@ export default async function CompanyPage({
       </section>
 
       {/* Stats */}
-      <section className="py-24 md:py-32 bg-white dark:bg-dark">
+      <section className="py-20 md:py-28 bg-white dark:bg-dark">
         <StaggerGrid className="w-[94%] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { value: "30+", labelFr: "Ans d'expertise", labelEn: "Years of expertise" },

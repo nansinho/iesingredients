@@ -112,7 +112,7 @@ export default async function ArticlePage({
       />
 
       {/* Hero — Immersive with cover image */}
-      <section className="relative min-h-[50vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           {article.cover_image_url ? (
             <Image
@@ -167,7 +167,7 @@ export default async function ArticlePage({
       </section>
 
       {/* Content */}
-      <article className="max-w-[900px] w-[90%] mx-auto py-16 md:py-20">
+      <article className="max-w-[900px] w-[90%] mx-auto py-20 md:py-28">
         <AnimateIn y={20}>
           <div
             className="prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-p:text-dark/70 dark:prose-p:text-cream-light/60 prose-a:text-brown dark:prose-a:text-peach prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[var(--brand-accent-light)] prose-blockquote:text-dark/60 dark:prose-blockquote:text-cream-light/50 prose-img:rounded-2xl prose-strong:text-dark dark:prose-strong:text-cream-light"
@@ -178,7 +178,7 @@ export default async function ArticlePage({
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
-        <section className="py-24 md:py-32 bg-cream-light dark:bg-dark border-t border-brown/8 dark:border-brown/10">
+        <section className="py-20 md:py-28 bg-cream-light dark:bg-dark border-t border-brown/8 dark:border-brown/10">
           <div className="w-[94%] mx-auto">
             <AnimateIn className="mb-12">
               <h2 className="text-dark dark:text-cream-light tracking-tight">

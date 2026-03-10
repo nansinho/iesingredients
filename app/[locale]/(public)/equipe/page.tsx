@@ -95,7 +95,7 @@ export default async function TeamPage({
       </section>
 
       {/* Stats bar */}
-      <section className="bg-[var(--brand-primary)] border-t border-white/10">
+      <section className="bg-cream-light dark:bg-dark border-t border-[var(--brand-primary)]/8 dark:border-white/10">
         <StaggerGrid className="w-[94%] mx-auto grid grid-cols-3 gap-8 py-10 text-center">
           {[
             { icon: Heart, valueFr: "Passionnés", valueEn: "Passionate", labelFr: "Équipe dédiée", labelEn: "Dedicated team" },
@@ -104,9 +104,9 @@ export default async function TeamPage({
           ].map((stat) => (
             <StaggerItem key={stat.valueFr}>
               <div className="flex flex-col items-center gap-2">
-                <stat.icon className="w-5 h-5 text-[var(--brand-accent-light)]/60" />
-                <p className="text-xl md:text-2xl font-bold text-[var(--brand-accent-light)]">{isFr ? stat.valueFr : stat.valueEn}</p>
-                <p className="text-cream-light/40 text-xs font-medium uppercase tracking-wider">
+                <stat.icon className="w-5 h-5 text-[var(--brand-accent)]" />
+                <p className="text-xl md:text-2xl font-bold text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)]">{isFr ? stat.valueFr : stat.valueEn}</p>
+                <p className="text-dark/40 dark:text-cream-light/40 text-xs font-medium uppercase tracking-wider">
                   {isFr ? stat.labelFr : stat.labelEn}
                 </p>
               </div>
@@ -116,7 +116,7 @@ export default async function TeamPage({
       </section>
 
       {/* Team Grid */}
-      <section className="py-24 md:py-32 bg-white dark:bg-dark">
+      <section className="py-20 md:py-28 bg-white dark:bg-dark">
         <div className="w-[94%] mx-auto">
           <AnimateIn className="text-center mb-14">
             <h2 className="text-dark dark:text-cream-light tracking-tight">
@@ -184,17 +184,17 @@ export default async function TeamPage({
       </section>
 
       {/* Join CTA */}
-      <section className="py-24 md:py-32 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-secondary)]/20 rounded-full blur-[180px]" />
+      <section className="py-20 md:py-28 bg-[var(--brand-accent-light)]/10 dark:bg-dark relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/15 rounded-full blur-[180px]" />
         <div className="w-[94%] mx-auto relative z-10 text-center">
           <AnimateIn>
-            <h2 className="text-cream-light tracking-tight mb-4">
+            <h2 className="text-dark dark:text-cream-light tracking-tight mb-4">
               {isFr ? "Envie de" : "Want to"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "collaborer ?" : "collaborate?"}</span>
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "collaborer ?" : "collaborate?"}</span>
             </h2>
           </AnimateIn>
           <AnimateIn delay={0.1}>
-            <p className="text-cream-light/50 text-lg max-w-xl mx-auto mb-8">
+            <p className="text-dark/50 dark:text-cream-light/50 text-lg max-w-xl mx-auto mb-8">
               {isFr
                 ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
                 : "Contact our team to discuss your natural ingredient needs."}
@@ -203,7 +203,7 @@ export default async function TeamPage({
           <AnimateIn delay={0.2} y={15}>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent)] transition-all duration-300 shadow-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg"
             >
               <Mail className="w-4 h-4" />
               {isFr ? "Nous contacter" : "Contact us"}

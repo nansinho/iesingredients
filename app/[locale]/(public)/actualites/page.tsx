@@ -65,7 +65,7 @@ export default async function NewsPage({
       />
 
       {/* Hero — Immersive with background image */}
-      <section className="relative min-h-[55vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/cream-bowl.jpg"
@@ -104,7 +104,7 @@ export default async function NewsPage({
 
       {/* Featured Article */}
       {featuredArticle && (
-        <section className="py-16 md:py-20 bg-white dark:bg-dark">
+        <section className="py-20 md:py-28 bg-white dark:bg-dark">
           <div className="w-[94%] mx-auto">
             <AnimateIn>
               <Link
@@ -236,18 +236,18 @@ export default async function NewsPage({
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-24 md:py-32 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-secondary)]/20 rounded-full blur-[180px]" />
+      <section className="py-20 md:py-28 bg-cream-light dark:bg-dark relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
         <div className="w-[94%] mx-auto relative z-10 text-center">
           <AnimateIn>
-            <Mail className="w-10 h-10 text-[var(--brand-accent-light)]/40 mx-auto mb-6" />
-            <h2 className="text-cream-light tracking-tight mb-4">
+            <Mail className="w-10 h-10 text-[var(--brand-accent)]/40 mx-auto mb-6" />
+            <h2 className="text-dark dark:text-cream-light tracking-tight mb-4">
               {isFr ? "Restez" : "Stay"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "informé" : "informed"}</span>
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "informé" : "informed"}</span>
             </h2>
           </AnimateIn>
           <AnimateIn delay={0.1}>
-            <p className="text-cream-light/50 text-lg max-w-xl mx-auto mb-8">
+            <p className="text-dark/50 dark:text-cream-light/50 text-lg max-w-xl mx-auto mb-8">
               {isFr
                 ? "Recevez nos dernières actualités et innovations directement dans votre boîte mail."
                 : "Receive our latest news and innovations directly in your inbox."}
@@ -258,9 +258,9 @@ export default async function NewsPage({
               <input
                 type="email"
                 placeholder={isFr ? "Votre adresse email" : "Your email address"}
-                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-cream-light placeholder:text-cream-light/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent-light)]/30 flex-1"
+                className="h-12 px-5 rounded-full bg-white border border-[var(--brand-primary)]/10 text-sm text-dark dark:text-cream-light placeholder:text-dark/35 dark:placeholder:text-cream-light/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/30 flex-1"
               />
-              <button className="h-12 px-6 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent-light)]/90 transition-colors duration-300 shrink-0">
+              <button className="h-12 px-6 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-colors duration-300 shrink-0">
                 {isFr ? "S'inscrire" : "Subscribe"}
               </button>
             </div>
