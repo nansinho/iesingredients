@@ -1,19 +1,26 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function MinimalCTA() {
   const t = useTranslations("cta");
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
 
   return (
-    <section className="relative overflow-hidden">
-      {/* Background image — no parallax overlap, contained */}
-      <div className="absolute inset-0">
+    <section ref={ref} className="relative overflow-hidden">
+      {/* Background image — parallax scroll effect */}
+      <motion.div className="absolute inset-0 scale-125" style={{ y }}>
         <Image
           src="/images/botanicals-flat.jpg"
           alt=""
@@ -22,11 +29,11 @@ export function MinimalCTA() {
           sizes="100vw"
           aria-hidden="true"
         />
-        {/* Single solid overlay — no stacking/superposition */}
+        {/* Single solid overlay */}
         <div className="absolute inset-0 bg-[var(--brand-primary)]/80" />
-      </div>
+      </motion.div>
 
-      {/* Content — cleanly separated, no overlap */}
+      {/* Content — cleanly separated */}
       <div className="relative z-10 w-[94%] mx-auto py-28 md:py-40">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

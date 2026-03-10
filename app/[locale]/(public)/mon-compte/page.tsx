@@ -79,27 +79,28 @@ export default async function AccountPage({
         ]}
       />
 
-      <section className="bg-cream-light pt-32 sm:pt-36 pb-16 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-olive/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sand/5 rounded-full blur-[120px] -translate-x-1/3" />
+      <section className="bg-dark pt-32 sm:pt-36 pb-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
 
         <div className="w-[94%] mx-auto relative z-10">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-olive/10 border border-olive/20 text-olive text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/10 border border-peach/20 text-peach text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <User className="w-3.5 h-3.5" />
               {isFr ? "Espace client" : "Client space"}
             </span>
           </AnimateIn>
           <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-dark tracking-[-0.03em] leading-[1.05] mb-6">
-              {isFr ? "Mon Compte" : "My Account"}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-cream-light tracking-[-0.03em] leading-[1.05] mb-6">
+              {isFr ? "Mon" : "My"}{" "}
+              <span className="font-playfair italic text-peach">{isFr ? "Compte" : "Account"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
-            <p className="text-dark/50 text-lg max-w-2xl">
+            <p className="text-cream-light/50 text-lg max-w-2xl">
               {user.email}
               {role === "admin" && (
-                <span className="ml-3 px-2.5 py-1 rounded-full text-xs font-medium bg-olive/10 border border-olive/20 text-olive">
+                <span className="ml-3 px-2.5 py-1 rounded-full text-xs font-medium bg-peach/10 border border-peach/20 text-peach">
                   Admin
                 </span>
               )}

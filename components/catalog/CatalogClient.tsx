@@ -1,13 +1,14 @@
 "use client";
 
 import { useCallback, useTransition } from "react";
-import { Search, X, Leaf, FlaskConical, Droplets, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { Search, X, Leaf, FlaskConical, Droplets, Sparkles, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/routing";
+import { useRouter, Link } from "@/i18n/routing";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { type Product } from "@/lib/product-types";
 import { motion } from "framer-motion";
@@ -101,9 +102,19 @@ export function CatalogClient({
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-dark pt-32 sm:pt-36 pb-12 sm:pb-14 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px] -translate-y-1/4 translate-x-1/4" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-lavender/5 rounded-full blur-[120px] -translate-x-1/3" />
+      <section className="relative pt-32 sm:pt-36 pb-12 sm:pb-14 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/blueberries-herbs.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/90 via-[var(--brand-primary)]/85 to-[var(--brand-primary)]" />
+        </div>
 
         <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
           <motion.div
@@ -281,6 +292,37 @@ export function CatalogClient({
               </Button>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Help CTA */}
+      <section className="py-16 bg-cream-light dark:bg-dark border-t border-brown/8 dark:border-brown/10">
+        <div className="max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-10">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-[var(--brand-primary)] relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--brand-secondary)]/20 rounded-full blur-[100px]" />
+            <div className="relative z-10">
+              <h3 className="text-cream-light font-semibold text-xl mb-1">
+                {t("needHelp") || (cat("cosmetic") ? "Besoin d'aide pour trouver un ingrédient ?" : "Need help finding an ingredient?")}
+              </h3>
+              <p className="text-cream-light/50 text-sm">
+                {t("helpDescription") || (cat("cosmetic") ? "Notre équipe est là pour vous accompagner." : "Our team is here to help you.")}
+              </p>
+            </div>
+            <Link
+              href="/contact"
+              className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent)] transition-all duration-300 shadow-lg shrink-0"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Contact
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </>
