@@ -156,6 +156,7 @@ export function Header() {
   };
 
   const navItems = [
+    { label: t("home"), href: "/" as const },
     { label: t("company"), href: "/entreprise" as const },
     { label: t("team"), href: "/equipe" as const },
     { label: t("news"), href: "/actualites" as const },
