@@ -44,7 +44,7 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-20 md:py-28 bg-cream">
+    <section className="py-20 md:py-28 bg-white">
       <div className="w-[94%] max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div

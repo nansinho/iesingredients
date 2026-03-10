@@ -38,7 +38,7 @@ export function EpisodeCard({ episode }: { episode: EpisodeData }) {
   return (
     <AnimateIn y={20}>
       <div
-        className={`group bg-white dark:bg-dark-card rounded-2xl border overflow-hidden transition-all duration-500 hover:shadow-[0_12px_40px_rgba(212,144,126,0.12)] hover:-translate-y-1 ${
+        className={`group bg-white rounded-2xl border overflow-hidden transition-all duration-500 hover:shadow-[0_12px_40px_rgba(212,144,126,0.12)] hover:-translate-y-1 ${
           isCurrent
             ? "border-[var(--brand-accent)]/30 shadow-[0_8px_30px_rgba(212,144,126,0.1)]"
             : "border-brown/8 hover:border-brown/20"
@@ -69,7 +69,7 @@ export function EpisodeCard({ episode }: { episode: EpisodeData }) {
 
         {/* Content */}
         <div className="p-5">
-          <div className="flex items-center gap-3 text-xs text-dark/40 dark:text-cream-light/40 mb-3">
+          <div className="flex items-center gap-3 text-xs text-dark/40 mb-3">
             <span className="flex items-center gap-1">
               <Calendar className="w-3 h-3" />
               {new Date(episode.date).toLocaleDateString("fr-FR", {
@@ -84,7 +84,7 @@ export function EpisodeCard({ episode }: { episode: EpisodeData }) {
             </span>
           </div>
 
-          <h3 className="font-semibold text-dark dark:text-cream-light text-base mb-1.5 leading-snug">
+          <h3 className="font-semibold text-dark text-base mb-1.5 leading-snug">
             {episode.title}
           </h3>
 
@@ -92,7 +92,7 @@ export function EpisodeCard({ episode }: { episode: EpisodeData }) {
             {episode.guest}
           </p>
 
-          <p className="text-sm text-dark/50 dark:text-cream-light/50 leading-relaxed line-clamp-2 mb-4">
+          <p className="text-sm text-dark/50 leading-relaxed line-clamp-2 mb-4">
             {episode.description}
           </p>
 
