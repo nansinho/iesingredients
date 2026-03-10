@@ -4,6 +4,7 @@ import { Shield, Award, Globe, Users, Leaf, Heart, Building2, ArrowRight } from 
 import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 import { LogoMarquee } from "@/components/home/LogoMarquee";
 import { MinimalCTA } from "@/components/home/MinimalCTA";
 
@@ -62,7 +63,7 @@ export default async function CompanyPage({
 
       {/* Hero — Immersive with background image */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/leaves-hero.jpg"
             alt=""
@@ -73,7 +74,7 @@ export default async function CompanyPage({
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/40" />
-        </div>
+        </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40">
           <AnimateIn>
@@ -125,7 +126,7 @@ export default async function CompanyPage({
             </span>
             <h2 className="text-dark dark:text-cream-light tracking-tight mt-4 mb-6">
               {isFr ? "L'Excellence au Service de la" : "Excellence in Service of"}{" "}
-              <span className="font-playfair italic text-brown">{isFr ? "Nature" : "Nature"}</span>.
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Nature" : "Nature"}</span>.
             </h2>
             <div className="space-y-4 text-dark/60 dark:text-cream-light/50 text-lg leading-relaxed">
               <p>

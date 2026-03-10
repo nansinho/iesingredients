@@ -6,6 +6,7 @@ import { Link } from "@/i18n/routing";
 import { Newspaper, ArrowRight, Mail } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 
 export async function generateMetadata({
   params,
@@ -66,7 +67,7 @@ export default async function NewsPage({
 
       {/* Hero — Immersive with background image */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/cream-bowl.jpg"
             alt=""
@@ -77,7 +78,7 @@ export default async function NewsPage({
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
-        </div>
+        </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40">
           <AnimateIn>

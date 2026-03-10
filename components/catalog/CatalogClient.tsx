@@ -127,7 +127,7 @@ export function CatalogClient({
               Catalogue
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-cream-light tracking-tight mb-4">
-              {t("title")}
+              <span className="font-playfair italic text-peach">{t("title")}</span>
             </h1>
             <p className="text-cream-light/40 text-lg max-w-2xl mb-8">
               {t("results")}

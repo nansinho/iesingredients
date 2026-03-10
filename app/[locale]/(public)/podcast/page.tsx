@@ -4,6 +4,7 @@ import { Headphones, Play, ExternalLink, Mic, TrendingUp, Sparkles, Mail } from 
 import { Button } from "@/components/ui/button";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
+import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
 
 export async function generateMetadata({
   params,
@@ -76,7 +77,7 @@ export default async function PodcastPage({
 
       {/* Hero — Immersive with background image */}
       <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0">
+        <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/essential-oil.jpg"
             alt=""
@@ -87,7 +88,7 @@ export default async function PodcastPage({
             aria-hidden="true"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
-        </div>
+        </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40 text-center">
           <AnimateIn>
@@ -98,7 +99,8 @@ export default async function PodcastPage({
           </AnimateIn>
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
-              {t("title")}
+              Podcast À Fleur De{" "}
+              <span className="font-playfair italic text-[var(--brand-accent-light)]">Nez</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -133,15 +135,15 @@ export default async function PodcastPage({
         <div className="w-[94%] mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
             <div className="relative aspect-square max-w-md mx-auto">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-secondary)] p-1">
-                <div className="w-full h-full rounded-3xl bg-[var(--brand-primary)] flex flex-col items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-accent-light)]/10 to-transparent" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[var(--brand-accent-light)] to-[var(--brand-accent)] p-1">
+                <div className="w-full h-full rounded-3xl bg-white dark:bg-cream-light flex flex-col items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-accent-light)]/20 to-[var(--brand-primary)]/5" />
                   <div className="relative z-10 text-center">
-                    <div className="w-24 h-24 rounded-full bg-[var(--brand-accent-light)]/15 flex items-center justify-center mx-auto mb-6 animate-glow-pulse">
-                      <Headphones className="w-12 h-12 text-[var(--brand-accent-light)]" />
+                    <div className="w-24 h-24 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center mx-auto mb-6">
+                      <Headphones className="w-12 h-12 text-[var(--brand-primary)]" />
                     </div>
-                    <p className="text-3xl font-bold text-white mb-1">À Fleur De Nez</p>
-                    <p className="text-white/40 text-sm uppercase tracking-widest">Podcast</p>
+                    <p className="text-3xl font-bold text-[var(--brand-primary)] mb-1">À Fleur De Nez</p>
+                    <p className="text-[var(--brand-primary)]/40 text-sm uppercase tracking-widest">Podcast</p>
                   </div>
                 </div>
               </div>
@@ -153,7 +155,7 @@ export default async function PodcastPage({
             </span>
             <h2 className="text-dark dark:text-cream-light tracking-tight mt-4 mb-6">
               {isFr ? "Explorez l'univers de la" : "Explore the world of"}{" "}
-              <span className="font-playfair italic text-brown dark:text-peach">{isFr ? "Parfumerie" : "Perfumery"}</span>
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Parfumerie" : "Perfumery"}</span>
             </h2>
             <div className="space-y-4 text-dark/60 dark:text-cream-light/50 text-lg leading-relaxed">
               <p>
@@ -213,7 +215,7 @@ export default async function PodcastPage({
             <Mail className="w-10 h-10 text-[var(--brand-accent)]/40 mx-auto mb-6" />
             <h2 className="text-dark dark:text-cream-light tracking-tight mb-4">
               {isFr ? "Soyez" : "Get"}{" "}
-              <span className="font-playfair italic text-brown dark:text-peach">{isFr ? "notifié" : "notified"}</span>
+              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "notifié" : "notified"}</span>
             </h2>
           </AnimateIn>
           <AnimateIn delay={0.1}>
