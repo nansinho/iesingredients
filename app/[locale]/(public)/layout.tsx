@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeSelector } from "@/components/layout/ThemeSelector";
+import { AudioBar } from "@/components/audio/AudioBar";
 
 export default async function PublicLayout({
   children,
@@ -19,6 +20,7 @@ export default async function PublicLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <AudioBar />
         </div>
         <ThemeSelector />
       </ThemeProvider>

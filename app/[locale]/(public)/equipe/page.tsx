@@ -72,7 +72,7 @@ export default async function TeamPage({
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/75 to-[var(--brand-primary)]/40" />
         </ParallaxBackground>
 
-        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40">
+        <div className="relative z-10 w-[94%] mx-auto pb-20 pt-40 text-center">
           <AnimateIn>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Users className="w-3.5 h-3.5" />
@@ -86,7 +86,7 @@ export default async function TeamPage({
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl leading-relaxed">
+            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
               {isFr
                 ? "Une équipe passionnée d'experts en ingrédients naturels, au service de votre réussite."
                 : "A passionate team of natural ingredient experts, dedicated to your success."}

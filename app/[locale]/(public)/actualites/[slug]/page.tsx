@@ -131,7 +131,7 @@ export default async function ArticlePage({
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/60 to-[var(--brand-primary)]/30" />
         </ParallaxBackground>
 
-        <div className="relative z-10 max-w-[900px] w-[90%] mx-auto pb-16 pt-36">
+        <div className="relative z-10 max-w-[900px] w-[90%] mx-auto pb-16 pt-36 text-center">
           <AnimateIn>
             <Link href="/actualites" className="inline-flex items-center gap-2 text-white/60 hover:text-[var(--brand-accent-light)] hover:gap-3 transition-all duration-300 mb-6">
               <ArrowLeft className="w-4 h-4" />

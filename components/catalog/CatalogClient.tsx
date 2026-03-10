@@ -122,16 +122,18 @@ export function CatalogClient({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach/10 border border-peach/20 text-peach text-[11px] font-semibold uppercase tracking-[0.15em] mb-4">
-              <Sparkles className="w-3 h-3" />
-              Catalogue
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-cream-light tracking-tight mb-4">
-              <span className="font-playfair italic text-peach">{t("title")}</span>
-            </h1>
-            <p className="text-cream-light/40 text-lg max-w-2xl mb-8">
-              {t("results")}
-            </p>
+            <div className="text-center mb-8">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach/10 border border-peach/20 text-peach text-[11px] font-semibold uppercase tracking-[0.15em] mb-4">
+                <Sparkles className="w-3 h-3" />
+                Catalogue
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-cream-light tracking-tight mb-4">
+                <span className="font-playfair italic text-peach">{t("title")}</span>
+              </h1>
+              <p className="text-cream-light/40 text-lg max-w-2xl mx-auto">
+                {t("results")}
+              </p>
+            </div>
           </motion.div>
 
           {/* Search */}
