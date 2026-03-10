@@ -116,15 +116,15 @@ export default async function TeamPage({
       />
 
       {/* Contact CTA */}
-      <section className="py-16 md:py-20 bg-cream-light dark:bg-dark-card">
+      <section className="py-16 md:py-20 bg-cream-light">
         <div className="w-[94%] max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold text-dark dark:text-cream-light tracking-tight mb-3">
+          <h2 className="text-2xl md:text-3xl font-semibold text-dark tracking-tight mb-3">
             {isFr ? "Envie de" : "Want to"}{" "}
             <span className="font-playfair italic text-[var(--brand-accent)]">
               {isFr ? "collaborer ?" : "collaborate?"}
             </span>
           </h2>
-          <p className="text-dark/50 dark:text-cream-light/50 text-base max-w-lg mx-auto mb-6">
+          <p className="text-dark/50 text-base max-w-lg mx-auto mb-6">
             {isFr
               ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
               : "Contact our team to discuss your natural ingredient needs."}
