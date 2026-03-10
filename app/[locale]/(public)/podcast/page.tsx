@@ -252,13 +252,13 @@ export default async function PodcastPage({
       </section>
 
       {/* About the Podcast */}
-      <section className="py-20 md:py-28 bg-white dark:bg-dark relative overflow-hidden">
+      <section className="py-20 md:py-28 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/3 rounded-full blur-[150px]" />
         <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
             <div className="relative aspect-square max-w-md mx-auto">
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[var(--brand-accent-light)] to-[var(--brand-accent)] p-1">
-                <div className="w-full h-full rounded-3xl bg-white dark:bg-cream-light flex flex-col items-center justify-center relative overflow-hidden">
+                <div className="w-full h-full rounded-3xl bg-white flex flex-col items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-accent-light)]/20 to-[var(--brand-primary)]/5" />
                   <div className="relative z-10 text-center">
                     <div className="w-24 h-24 rounded-full bg-[var(--brand-primary)]/10 flex items-center justify-center mx-auto mb-6">
@@ -279,13 +279,13 @@ export default async function PodcastPage({
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brown/8 border border-brown/12 text-brown text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               {isFr ? "À propos" : "About"}
             </span>
-            <h2 className="text-dark dark:text-cream-light tracking-tight mt-4 mb-6">
+            <h2 className="text-dark tracking-tight mt-4 mb-6">
               {isFr ? "Explorez l'univers de la" : "Explore the world of"}{" "}
               <span className="font-playfair italic text-[var(--brand-accent)]">
                 {isFr ? "Parfumerie" : "Perfumery"}
               </span>
             </h2>
-            <div className="space-y-4 text-dark/60 dark:text-cream-light/50 text-lg leading-relaxed">
+            <div className="space-y-4 text-dark/60 text-lg leading-relaxed">
               <p>
                 {isFr
                   ? "Notre podcast \"À Fleur De Nez\" explore l'univers de la parfumerie à travers des interviews passionnantes avec les acteurs de l'industrie."
@@ -302,14 +302,14 @@ export default async function PodcastPage({
       </section>
 
       {/* Episodes */}
-      <section className="py-20 md:py-28 bg-cream-light dark:bg-dark relative overflow-hidden">
+      <section className="py-20 md:py-28 bg-cream-light relative overflow-hidden">
         <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               {isFr ? "Tous les épisodes" : "All episodes"}
             </span>
-            <h2 className="text-dark dark:text-cream-light tracking-tight">
+            <h2 className="text-dark tracking-tight">
               {isFr ? "Derniers" : "Latest"}{" "}
               <span className="font-playfair italic text-[var(--brand-accent)]">
                 {isFr ? "Épisodes" : "Episodes"}
@@ -327,11 +327,11 @@ export default async function PodcastPage({
       </section>
 
       {/* Notify CTA */}
-      <section className="py-20 md:py-28 bg-white dark:bg-dark">
+      <section className="py-20 md:py-28 bg-white">
         <div className="w-[94%] max-w-xl mx-auto text-center">
           <AnimateIn>
             <Mail className="w-10 h-10 text-[var(--brand-accent)]/40 mx-auto mb-6" />
-            <h2 className="text-dark dark:text-cream-light tracking-tight mb-4">
+            <h2 className="text-dark tracking-tight mb-4">
               {isFr ? "Soyez" : "Get"}{" "}
               <span className="font-playfair italic text-[var(--brand-accent)]">
                 {isFr ? "notifié" : "notified"}
@@ -339,7 +339,7 @@ export default async function PodcastPage({
             </h2>
           </AnimateIn>
           <AnimateIn delay={0.1}>
-            <p className="text-dark/50 dark:text-cream-light/50 text-lg mb-8">
+            <p className="text-dark/50 text-lg mb-8">
               {isFr
                 ? "Recevez une notification dès la sortie d'un nouvel épisode."
                 : "Get notified as soon as a new episode is released."}
@@ -352,7 +352,7 @@ export default async function PodcastPage({
                 placeholder={
                   isFr ? "Votre adresse email" : "Your email address"
                 }
-                className="h-12 px-5 rounded-full bg-cream-light dark:bg-dark-card border border-brown/10 dark:border-brown/15 text-sm text-dark dark:text-cream-light placeholder:text-dark/40 dark:placeholder:text-cream-light/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/30 flex-1"
+                className="h-12 px-5 rounded-full bg-cream-light border border-brown/10 text-sm text-dark placeholder:text-dark/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/30 flex-1"
               />
               <Button
                 variant="peach"

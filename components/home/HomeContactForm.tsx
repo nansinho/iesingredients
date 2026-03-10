@@ -9,7 +9,7 @@ export function HomeContactForm() {
   const t = useTranslations("homeContact");
 
   return (
-    <section className="py-24 md:py-32 bg-white dark:bg-dark relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-white relative overflow-hidden">
       {/* Decorative */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-lavender/5 rounded-full blur-[180px]" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
@@ -27,10 +27,10 @@ export function HomeContactForm() {
             <MessageCircle className="w-3.5 h-3.5" />
             Contact
           </span>
-          <h2 className="text-dark dark:text-cream-light tracking-tight">
+          <h2 className="text-dark tracking-tight">
             Parlons de vos <span className="font-playfair italic text-brown">projets</span>.
           </h2>
-          <p className="text-dark/50 dark:text-cream-light/50 text-lg mt-3 max-w-xl">
+          <p className="text-dark/50 text-lg mt-3 max-w-xl">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -45,7 +45,7 @@ export function HomeContactForm() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-3"
           >
-            <div className="bg-cream-light dark:bg-dark-card rounded-2xl p-6 sm:p-8 border border-brown/8 dark:border-brown/10 shadow-[0_4px_30px_rgba(200,168,168,0.04)]">
+            <div className="bg-cream-light rounded-2xl p-6 sm:p-8 border border-brown/8 shadow-[0_4px_30px_rgba(200,168,168,0.04)]">
               <ContactForm />
             </div>
           </motion.div>
@@ -60,26 +60,26 @@ export function HomeContactForm() {
           >
             <div className="space-y-5 lg:mt-0">
               {/* Address */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light border border-brown/8 hover:border-brown/20 transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <MapPin className="w-5 h-5 text-peach-dark" />
                 </div>
                 <div>
-                  <p className="font-medium text-dark dark:text-cream-light text-sm">Adresse</p>
-                  <p className="text-sm text-dark/50 dark:text-cream-light/50 mt-1">Nice, France</p>
+                  <p className="font-medium text-dark text-sm">Adresse</p>
+                  <p className="text-sm text-dark/50 mt-1">Nice, France</p>
                 </div>
               </div>
 
               {/* Phone */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light border border-brown/8 hover:border-brown/20 transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Phone className="w-5 h-5 text-peach-dark" />
                 </div>
                 <div>
-                  <p className="font-medium text-dark dark:text-cream-light text-sm">Téléphone</p>
+                  <p className="font-medium text-dark text-sm">Téléphone</p>
                   <a
                     href="tel:+33493000000"
-                    className="text-sm text-dark/50 dark:text-cream-light/50 mt-1 hover:text-brown transition-colors"
+                    className="text-sm text-dark/50 mt-1 hover:text-brown transition-colors"
                   >
                     +33 4 93 00 00 00
                   </a>
@@ -87,15 +87,15 @@ export function HomeContactForm() {
               </div>
 
               {/* Email */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light dark:bg-dark-card border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-300 group shadow-sm">
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream-light border border-brown/8 hover:border-brown/20 transition-all duration-300 group shadow-sm">
                 <div className="w-11 h-11 rounded-xl bg-peach/10 border border-peach/20 flex items-center justify-center shrink-0 group-hover:bg-peach/20 transition-all">
                   <Mail className="w-5 h-5 text-peach-dark" />
                 </div>
                 <div>
-                  <p className="font-medium text-dark dark:text-cream-light text-sm">Email</p>
+                  <p className="font-medium text-dark text-sm">Email</p>
                   <a
                     href="mailto:contact@ies-ingredients.com"
-                    className="text-sm text-dark/50 dark:text-cream-light/50 mt-1 hover:text-brown transition-colors"
+                    className="text-sm text-dark/50 mt-1 hover:text-brown transition-colors"
                   >
                     contact@ies-ingredients.com
                   </a>
@@ -104,8 +104,8 @@ export function HomeContactForm() {
 
               {/* Trust badge */}
               <div className="mt-6 p-5 rounded-2xl bg-peach/8 border border-peach/12">
-                <p className="text-brown-dark dark:text-peach font-semibold text-sm mb-1">Réponse sous 24h</p>
-                <p className="text-dark/50 dark:text-cream-light/50 text-xs leading-relaxed">
+                <p className="text-brown-dark font-semibold text-sm mb-1">Réponse sous 24h</p>
+                <p className="text-dark/50 text-xs leading-relaxed">
                   Notre équipe commerciale vous répond rapidement pour toute demande d&apos;échantillons ou de devis.
                 </p>
               </div>
