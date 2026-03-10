@@ -5,7 +5,6 @@ import { Users, Mail, ArrowRight, Heart, Globe, Award } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
-import { MinimalCTA } from "@/components/home/MinimalCTA";
 
 export async function generateMetadata({
   params,

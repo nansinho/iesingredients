@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import type { Database } from "@/lib/supabase/types";
 import { Link } from "@/i18n/routing";
 import { Newspaper, ArrowRight, Mail } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
@@ -42,14 +43,17 @@ export default async function NewsPage({
   const isFr = locale === "fr";
   const supabase = await createClient();
 
+  type BlogArticle = Database["public"]["Tables"]["blog_articles"]["Row"];
+
   const { data: articles } = await supabase
     .from("blog_articles")
     .select("*")
     .eq("published", true)
     .order("published_at", { ascending: false });
 
-  const featuredArticle = articles?.[0];
-  const restArticles = articles?.slice(1) || [];
+  const allArticles = (articles ?? []) as BlogArticle[];
+  const featuredArticle = allArticles[0] as BlogArticle | undefined;
+  const restArticles = allArticles.slice(1);
 
   return (
     <>
@@ -103,64 +107,58 @@ export default async function NewsPage({
         <section className="py-16 md:py-20 bg-white dark:bg-dark">
           <div className="w-[94%] mx-auto">
             <AnimateIn>
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {(() => {
-                const article = featuredArticle as any;
-                return (
-                  <Link
-                    href={{
-                      pathname: "/actualites/[slug]",
-                      params: { slug: article.slug },
-                    }}
-                    className="group block"
-                  >
-                    <article className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-cream-light dark:bg-dark-card rounded-3xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(200,168,168,0.1)]">
-                      <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
-                        {article.cover_image_url ? (
-                          <Image
-                            src={article.cover_image_url}
-                            alt={isFr ? article.title_fr : article.title_en || article.title_fr}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[var(--brand-primary)]/10 to-[var(--brand-accent-light)]/20" />
+              <Link
+                href={{
+                  pathname: "/actualites/[slug]",
+                  params: { slug: featuredArticle.slug },
+                }}
+                className="group block"
+              >
+                <article className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-cream-light dark:bg-dark-card rounded-3xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(200,168,168,0.1)]">
+                  <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
+                    {featuredArticle.cover_image_url ? (
+                      <Image
+                        src={featuredArticle.cover_image_url}
+                        alt={isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-[var(--brand-primary)]/10 to-[var(--brand-accent-light)]/20" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent to-dark/10" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1.5 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                        {isFr ? "À la une" : "Featured"}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6 md:p-10 md:pr-12">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="px-3 py-1 rounded-full bg-[var(--brand-primary)]/8 text-[var(--brand-primary)] text-[11px] font-semibold">
+                        {featuredArticle.category}
+                      </span>
+                      <time className="text-xs text-dark/40 dark:text-cream-light/40 font-medium">
+                        {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
+                          locale,
+                          { year: "numeric", month: "long", day: "numeric" }
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-dark/10" />
-                        <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1.5 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-[11px] font-bold uppercase tracking-wider shadow-sm">
-                            {isFr ? "À la une" : "Featured"}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-6 md:p-10 md:pr-12">
-                        <div className="flex items-center gap-3 mb-4">
-                          <span className="px-3 py-1 rounded-full bg-[var(--brand-primary)]/8 text-[var(--brand-primary)] text-[11px] font-semibold">
-                            {article.category}
-                          </span>
-                          <time className="text-xs text-dark/40 dark:text-cream-light/40 font-medium">
-                            {new Date(article.published_at || article.created_at).toLocaleDateString(
-                              locale,
-                              { year: "numeric", month: "long", day: "numeric" }
-                            )}
-                          </time>
-                        </div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-dark dark:text-cream-light group-hover:text-brown dark:group-hover:text-peach transition-colors leading-tight mb-4">
-                          {isFr ? article.title_fr : article.title_en || article.title_fr}
-                        </h2>
-                        <p className="text-dark/50 dark:text-cream-light/50 text-base leading-relaxed mb-6 line-clamp-3">
-                          {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
-                        </p>
-                        <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] group-hover:gap-3 transition-all duration-300">
-                          {isFr ? "Lire l'article" : "Read article"}
-                          <ArrowRight className="w-4 h-4" />
-                        </span>
-                      </div>
-                    </article>
-                  </Link>
-                );
-              })()}
+                      </time>
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-dark dark:text-cream-light group-hover:text-brown dark:group-hover:text-peach transition-colors leading-tight mb-4">
+                      {isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
+                    </h2>
+                    <p className="text-dark/50 dark:text-cream-light/50 text-base leading-relaxed mb-6 line-clamp-3">
+                      {isFr ? featuredArticle.excerpt_fr : featuredArticle.excerpt_en || featuredArticle.excerpt_fr}
+                    </p>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] group-hover:gap-3 transition-all duration-300">
+                      {isFr ? "Lire l'article" : "Read article"}
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </div>
+                </article>
+              </Link>
             </AnimateIn>
           </div>
         </section>
@@ -171,8 +169,7 @@ export default async function NewsPage({
         <div className="w-[94%] mx-auto">
           {restArticles.length > 0 ? (
             <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              {restArticles.map((article: any) => (
+              {restArticles.map((article) => (
                 <StaggerItem key={article.id}>
                   <HoverLift>
                     <Link
@@ -206,7 +203,7 @@ export default async function NewsPage({
                         </div>
                         <div className="px-5 sm:px-6 pb-6 pt-1">
                           <p className="text-xs text-[var(--brand-primary)] dark:text-[var(--brand-accent-light)] mb-2 font-semibold uppercase tracking-wider">
-                            {new Date(article.published_at || article.created_at).toLocaleDateString(
+                            {new Date(article.published_at || article.created_at || "").toLocaleDateString(
                               locale,
                               { year: "numeric", month: "long", day: "numeric" }
                             )}
