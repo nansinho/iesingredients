@@ -18,10 +18,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F7F4F0" },
-    { media: "(prefers-color-scheme: dark)", color: "#181818" },
-  ],
+  themeColor: "#F7F4F0",
 };
 
 export const metadata: Metadata = {
@@ -101,10 +98,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
         />
-        {/* FOUC prevention: dark mode, color theme, and locale from URL */}
+        {/* FOUC prevention: color theme and locale from URL */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');if(t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme:dark)').matches)){d.classList.add('dark')}else{d.classList.remove('dark')}var c=localStorage.getItem('color-theme');if(c&&c!=='default'){d.setAttribute('data-color-theme',c)}if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;d.classList.remove('dark');var c=localStorage.getItem('color-theme');if(c&&c!=='default'){d.setAttribute('data-color-theme',c)}if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`,
           }}
         />
       </head>
