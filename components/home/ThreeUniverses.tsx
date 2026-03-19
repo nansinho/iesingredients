@@ -59,7 +59,7 @@ export function ThreeUniverses() {
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#2A2A24] tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
-            <span className="font-playfair italic text-[#8CB43D]">Une expertise.</span>
+            <span className="font-playfair italic text-[#2A2A24]">Une expertise.</span>
           </h2>
           <p className="text-[#9A9A90] text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
             {t("subtitle")}

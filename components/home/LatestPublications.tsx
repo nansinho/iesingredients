@@ -93,7 +93,7 @@ export function LatestPublications() {
         >
           <h2 className="text-[#2A2A24] tracking-tight">
             Dernières{" "}
-            <span className="font-playfair italic text-[#8CB43D]">
+            <span className="font-playfair italic text-[#2A2A24]">
               publications
             </span>
           </h2>
@@ -154,14 +154,14 @@ export function LatestPublications() {
 
                       {/* Content */}
                       <div className="px-5 sm:px-6 pb-6 pt-1 flex flex-col flex-1">
-                        <p className="text-xs text-[#8CB43D] mb-2 font-semibold uppercase tracking-wider">
+                        <p className="text-xs text-[#9A9A90] mb-2 font-semibold uppercase tracking-wider">
                           {new Date(article.date).toLocaleDateString("fr-FR", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
                           })}
                         </p>
-                        <h3 className="text-base font-bold text-[#2A2A24] group-hover:text-[#8CB43D] transition-colors line-clamp-2 mb-2.5 leading-snug">
+                        <h3 className="text-base font-bold text-[#2A2A24] group-hover:text-[#2A2A24] transition-colors line-clamp-2 mb-2.5 leading-snug">
                           {article.title}
                         </h3>
                         <p className="text-sm text-[#9A9A90] line-clamp-2 leading-relaxed flex-1">
