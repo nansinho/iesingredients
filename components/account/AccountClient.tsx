@@ -180,7 +180,7 @@ export function AccountClient({
             <div className="flex items-center justify-between pt-4">
               <Button
                 type="button"
-                variant="outline"
+                variant="outline-dark"
                 onClick={handleSignOut}
                 className="text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20 hover:bg-red-50 dark:hover:bg-red-500/10"
               >

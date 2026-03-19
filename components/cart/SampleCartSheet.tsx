@@ -190,7 +190,7 @@ export function SampleCartSheet() {
               <div className="flex gap-3 pt-2">
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="outline-dark"
                   onClick={() => setShowForm(false)}
                   className="flex-1 border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light"
                 >

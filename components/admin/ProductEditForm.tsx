@@ -113,7 +113,7 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
         title={isNew ? "Nouveau produit" : `Modifier: ${product?.nom_commercial || product?.code}`}
         actions={
           <Link href={backPath}>
-            <Button variant="outline" size="sm">
+            <Button variant="outline-dark" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Retour
             </Button>
