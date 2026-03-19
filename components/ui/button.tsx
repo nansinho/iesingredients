@@ -12,6 +12,7 @@ const buttonVariants = cva(
         default: "bg-[#111111] text-white text-sm hover:bg-[#2A2A24] shadow-sm",
         accent: "bg-[#8CB43D] text-white text-sm hover:bg-[#4E7C2E] shadow-sm",
         light: "bg-[#F0F0EC] text-[#2A2A24] text-sm hover:bg-[#E2E2DC]",
+        outline: "border border-[#111111]/15 text-[#2A2A24] text-sm hover:bg-[#111111]/5",
         "outline-dark": "border border-[#111111] text-[#111111] text-sm hover:bg-[#111111] hover:text-white",
         "outline-light": "border border-white/40 text-white text-sm hover:border-white hover:bg-white/10",
         "outline-sage": "border border-[#2A4020] text-[#2A4020] text-sm hover:bg-[#2A4020] hover:text-[#B8C9A0]",
