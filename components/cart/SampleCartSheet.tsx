@@ -199,7 +199,7 @@ export function SampleCartSheet() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  variant="peach"
+                  variant="accent"
                   className="flex-1"
                 >
                   {isSubmitting ? (
@@ -259,7 +259,7 @@ export function SampleCartSheet() {
           <div className="border-t border-brown/8 dark:border-brown/10 pt-4 space-y-3">
             <Button
               onClick={() => setShowForm(true)}
-              variant="peach"
+              variant="accent"
               className="w-full rounded-full"
             >
               <Send className="w-4 h-4 mr-2" />

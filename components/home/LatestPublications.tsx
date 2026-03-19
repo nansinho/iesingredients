@@ -91,13 +91,13 @@ export function LatestPublications() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <h2 className="text-dark tracking-tight">
+          <h2 className="text-[#2A2A24] tracking-tight">
             Dernières{" "}
-            <span className="font-playfair italic text-[var(--brand-secondary)]">
+            <span className="font-playfair italic text-[#8CB43D]">
               publications
             </span>
           </h2>
-          <p className="text-dark/50 mt-3 text-base max-w-lg mx-auto">
+          <p className="text-[#9A9A90] mt-3 text-base max-w-lg mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -109,18 +109,18 @@ export function LatestPublications() {
             <button
               onClick={scrollPrev}
               disabled={!canScrollPrev}
-              className="w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center hover:bg-dark/5 transition-all duration-300 disabled:opacity-30"
+              className="w-10 h-10 rounded-full border border-[#E2E2DC] flex items-center justify-center hover:bg-[#111111] hover:text-white hover:border-[#111111] transition-all duration-200 disabled:opacity-30"
               aria-label="Previous"
             >
-              <ChevronLeft className="w-4 h-4 text-dark" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={scrollNext}
               disabled={!canScrollNext}
-              className="w-10 h-10 rounded-full border border-dark/10 flex items-center justify-center hover:bg-dark/5 transition-all duration-300 disabled:opacity-30"
+              className="w-10 h-10 rounded-full border border-[#E2E2DC] flex items-center justify-center hover:bg-[#111111] hover:text-white hover:border-[#111111] transition-all duration-200 disabled:opacity-30"
               aria-label="Next"
             >
-              <ChevronRight className="w-4 h-4 text-dark" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
@@ -154,20 +154,20 @@ export function LatestPublications() {
 
                       {/* Content */}
                       <div className="px-5 sm:px-6 pb-6 pt-1 flex flex-col flex-1">
-                        <p className="text-xs text-[var(--brand-secondary)] mb-2 font-semibold uppercase tracking-wider">
+                        <p className="text-xs text-[#8CB43D] mb-2 font-semibold uppercase tracking-wider">
                           {new Date(article.date).toLocaleDateString("fr-FR", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
                           })}
                         </p>
-                        <h3 className="text-base font-bold text-dark group-hover:text-[var(--brand-secondary)] transition-colors line-clamp-2 mb-2.5 leading-snug">
+                        <h3 className="text-base font-bold text-[#2A2A24] group-hover:text-[#8CB43D] transition-colors line-clamp-2 mb-2.5 leading-snug">
                           {article.title}
                         </h3>
-                        <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed flex-1">
+                        <p className="text-sm text-[#9A9A90] line-clamp-2 leading-relaxed flex-1">
                           {article.excerpt}
                         </p>
-                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand-secondary)] mt-4 group-hover:gap-2.5 transition-all duration-300">
+                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2A2A24] mt-4 group-hover:gap-2.5 group-hover:underline transition-all duration-200">
                           {t("readMore")}
                           <ArrowRight className="w-3.5 h-3.5" />
                         </span>

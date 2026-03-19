@@ -366,7 +366,7 @@ export default async function PodcastPage({
 
             <AnimateIn delay={0.3} y={15}>
               <div className="flex flex-wrap gap-3">
-                <Button variant="peach" size="lg" className="rounded-full">
+                <Button variant="accent" size="lg" className="rounded-full">
                   <Play className="w-5 h-5 mr-2" />
                   {t("listenOn")} Spotify
                 </Button>
@@ -495,7 +495,7 @@ export default async function PodcastPage({
                 className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent-light)]/40 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
               />
               <Button
-                variant="peach"
+                variant="accent"
                 size="lg"
                 className="rounded-full shrink-0"
               >
