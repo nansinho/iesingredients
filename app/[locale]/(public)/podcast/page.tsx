@@ -333,7 +333,7 @@ export default async function PodcastPage({
             sizes="100vw"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2E1F3D]/95 via-[#2E1F3D]/80 to-[#2E1F3D]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand-primary)]/95 via-[var(--brand-primary)]/80 to-[var(--brand-primary)]/50" />
         </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto py-32 md:py-40">
