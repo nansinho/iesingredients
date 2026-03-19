@@ -37,7 +37,7 @@ export default function Error({
             Réessayer
           </Button>
           <Button
-            variant="outline"
+            variant="outline-dark"
             onClick={() => (window.location.href = "/")}
             className="rounded-full px-6 border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light"
           >
