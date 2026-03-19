@@ -133,7 +133,7 @@ export default async function ArticlePage({
 
         <div className="relative z-10 max-w-[900px] w-[90%] mx-auto pb-16 pt-36 text-center">
           <AnimateIn>
-            <Link href="/actualites" className="inline-flex items-center gap-2 text-white/60 hover:text-[var(--brand-accent-light)] hover:gap-3 transition-all duration-300 mb-6">
+            <Link href="/actualites" className="inline-flex items-center gap-2 text-white/60 hover:text-[#8CB43D] hover:gap-3 transition-all duration-300 mb-6">
               <ArrowLeft className="w-4 h-4" />
               {isFr ? "Retour aux actualités" : "Back to news"}
             </Link>
@@ -200,7 +200,7 @@ export default async function ArticlePage({
                     >
                       <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-[#E2E2DC] dark:border-brown/10 hover:border-[#8CB43D]/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
                         <div className="p-3">
-                          <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream dark:bg-dark">
+                          <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[#F0F0EC] dark:bg-dark">
                             {related.cover_image_url ? (
                               <Image
                                 src={related.cover_image_url}
@@ -210,7 +210,7 @@ export default async function ArticlePage({
                                 sizes="(max-width: 768px) 100vw, 33vw"
                               />
                             ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-cream to-cream-light dark:from-dark dark:to-dark-card" />
+                              <div className="w-full h-full bg-gradient-to-br from-[#F0F0EC] to-[#E2E2DC] dark:from-dark dark:to-dark-card" />
                             )}
                             <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
                           </div>
