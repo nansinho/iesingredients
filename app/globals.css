@@ -352,22 +352,22 @@
   --secondary: 80 30% 47%;
   --border: 80 12% 85%;
   --input: 80 12% 85%;
-  --brand-primary: #3B4F2F;
+  --brand-primary: #1a1a1a;
   --brand-accent: #8CB43D;
   --brand-accent-hover: #749A2E;
   --brand-accent-light: #C5CCA3;
   --brand-secondary: #5A7A4A;
   --brand-nav-active: #5A7A4A;
-  --brand-selection: rgba(74, 95, 60, 0.3);
-  --brand-glow: rgba(74, 95, 60, 0.15);
-  --brand-glow-strong: rgba(74, 95, 60, 0.3);
-  --brand-shadow: rgba(59, 79, 47, 0.06);
-  --brand-shadow-hover: rgba(59, 79, 47, 0.12);
-  --brand-scrollbar: rgba(59, 79, 47, 0.2);
-  --brand-scrollbar-hover: rgba(59, 79, 47, 0.4);
-  --brand-focus: rgba(59, 79, 47, 0.5);
-  --brand-badge-bg: rgba(59, 79, 47, 0.1);
-  --brand-badge-border: rgba(59, 79, 47, 0.15);
+  --brand-selection: rgba(26, 26, 26, 0.3);
+  --brand-glow: rgba(26, 26, 26, 0.15);
+  --brand-glow-strong: rgba(26, 26, 26, 0.3);
+  --brand-shadow: rgba(26, 26, 26, 0.06);
+  --brand-shadow-hover: rgba(26, 26, 26, 0.12);
+  --brand-scrollbar: rgba(26, 26, 26, 0.2);
+  --brand-scrollbar-hover: rgba(26, 26, 26, 0.4);
+  --brand-focus: rgba(26, 26, 26, 0.5);
+  --brand-badge-bg: rgba(26, 26, 26, 0.1);
+  --brand-badge-border: rgba(26, 26, 26, 0.15);
   --color-cream-light: #F2F2EA;
   --color-cream: #E8E8DC;
   --color-cream-dark: #D4D4C8;
@@ -377,22 +377,22 @@
   --color-peach: #C5CCA3;
   --color-peach-light: #D8DDBE;
   --color-peach-dark: #8CB43D;
-  --color-olive: #3B4F2F;
+  --color-olive: #1a1a1a;
   --color-olive-light: #5A7A4A;
-  --color-olive-dark: #2A3D20;
-  --color-forest-green: #3B4F2F;
+  --color-olive-dark: #111111;
+  --color-forest-green: #1a1a1a;
   --color-mint: #C5CCA3;
   --color-sage: #5A7A4A;
   --color-lavender: #5A7A4A;
   --color-lavender-light: #7B946B;
-  --color-lavender-dark: #3B4F2F;
-  --color-navy: #2A3D20;
+  --color-lavender-dark: #1a1a1a;
+  --color-navy: #111111;
 }
 [data-color-theme="nature-vert"].dark,
 .dark[data-color-theme="nature-vert"] {
   --accent: 86 50% 30%;
   --ring: 86 50% 30%;
-  --brand-primary: #2A3D20;
+  --brand-primary: #111111;
 }
 
 /* ── Theme: Botanique ── */

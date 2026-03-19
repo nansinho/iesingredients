@@ -30,7 +30,7 @@ export default function GlobalError({
             <h2 style={{ fontSize: "1.5rem", color: "#181818", marginBottom: "0.75rem" }}>
               Une erreur est survenue
             </h2>
-            <p style={{ color: "#2E1F3D", marginBottom: "1.5rem" }}>
+            <p style={{ color: "var(--brand-primary, #2E1F3D)", marginBottom: "1.5rem" }}>
               Veuillez rafraîchir la page ou revenir à l&apos;accueil.
             </p>
             <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
