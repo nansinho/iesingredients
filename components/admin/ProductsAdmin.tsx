@@ -124,7 +124,7 @@ export function ProductsAdmin({
         actions={
           <div className="flex gap-2">
             <Button
-              variant="outline"
+              variant="outline-dark"
               size="sm"
               onClick={handleExportCSV}
               className="rounded-lg gap-2 border-gray-200 hover:bg-forest-50"
