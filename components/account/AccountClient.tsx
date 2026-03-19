@@ -190,7 +190,7 @@ export function AccountClient({
               <Button
                 type="submit"
                 disabled={isUpdating}
-                variant="peach"
+                variant="accent"
                 size="lg"
               >
                 {isUpdating ? (

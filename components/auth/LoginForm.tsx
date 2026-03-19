@@ -106,7 +106,7 @@ export function LoginForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          variant="peach"
+          variant="accent"
           size="lg"
           className="w-full"
         >

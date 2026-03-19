@@ -5,31 +5,23 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8CB43D]/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90 rounded-full",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 rounded-full",
-        outline:
-          "border border-brown/30 bg-background shadow-sm hover:bg-cream hover:text-dark rounded-full",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 rounded-full",
-        ghost: "hover:bg-brown/10 hover:text-dark rounded-full",
-        link: "text-brown underline-offset-4 hover:underline",
-        peach:
-          "bg-forest-green text-white shadow-md shadow-forest-green/20 hover:bg-charcoal hover:shadow-lg hover:shadow-forest-green/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
-        "outline-brown":
-          "border-[1.5px] border-forest-green text-forest-green hover:bg-forest-green hover:text-white hover:scale-[1.02] active:scale-[0.98] rounded-full",
-        premium:
-          "bg-dark text-cream-light shadow-md hover:bg-dark-lighter hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] rounded-full",
-        blush:
-          "bg-forest-green text-white shadow-md shadow-forest-green/20 hover:bg-charcoal hover:shadow-lg hover:shadow-forest-green/30 hover:scale-[1.02] active:scale-[0.98] rounded-full",
+        default: "bg-[#111111] text-white text-sm hover:bg-[#2A2A24] shadow-sm",
+        accent: "bg-[#8CB43D] text-white text-sm hover:bg-[#4E7C2E] shadow-sm",
+        light: "bg-[#F0F0EC] text-[#2A2A24] text-sm hover:bg-[#E2E2DC]",
+        "outline-dark": "border border-[#111111] text-[#111111] text-sm hover:bg-[#111111] hover:text-white",
+        "outline-light": "border border-white/40 text-white text-sm hover:border-white hover:bg-white/10",
+        "outline-sage": "border border-[#2A4020] text-[#2A4020] text-sm hover:bg-[#2A4020] hover:text-[#B8C9A0]",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-[#F0F0EC] hover:text-[#2A2A24]",
+        link: "text-[#2A2A24] underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-5 py-2",
+        default: "h-10 px-6 py-2",
         sm: "h-9 px-4 text-xs",
         lg: "h-12 px-8 text-[15px]",
         xl: "h-14 px-10 text-base",

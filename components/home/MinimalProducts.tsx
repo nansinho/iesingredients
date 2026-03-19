@@ -100,10 +100,10 @@ export function MinimalProducts() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <h2 className="text-dark tracking-tight">
-            Nos ingrédients <span className="font-playfair italic text-forest-green">phares</span>
+          <h2 className="text-[#2A4020] tracking-tight">
+            Nos ingrédients <span className="font-playfair italic text-[#2A4020]">phares</span>
           </h2>
-          <p className="text-dark/50 mt-3 text-base max-w-lg mx-auto">{t("subtitle")}</p>
+          <p className="text-[#2A4020]/65 mt-3 text-base max-w-lg mx-auto">{t("subtitle")}</p>
         </motion.div>
 
         {/* Products Grid */}
@@ -172,7 +172,7 @@ export function MinimalProducts() {
                   </div>
 
                   {/* Product name */}
-                  <h3 className="text-xl font-playfair font-semibold text-white group-hover:text-gold-500 transition-colors duration-300 leading-snug mb-2">
+                  <h3 className="text-xl font-playfair font-semibold text-white group-hover:text-[#8CB43D] transition-colors duration-300 leading-snug mb-2">
                     {product.name}
                   </h3>
 
@@ -203,7 +203,7 @@ export function MinimalProducts() {
         <div className="sm:hidden text-center mt-10">
           <Link
             href="/catalogue"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-forest-green hover:text-charcoal transition-all duration-300"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#2A4020] hover:text-[#111111] transition-all duration-200"
           >
             {t("viewCatalog")}
             <ArrowRight className="w-4 h-4" />
