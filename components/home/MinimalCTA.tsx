@@ -44,12 +44,12 @@ export function MinimalCTA() {
         >
           <h2 className="text-white tracking-tight mb-5">
             Prêt à découvrir nos{" "}
-            <span className="font-playfair italic text-white">
+            <span className="font-playfair italic text-[var(--brand-accent-light)]">
               ingrédients
             </span>{" "}
             ?
           </h2>
-          <p className="text-white/65 text-base sm:text-lg mb-12 leading-relaxed">
+          <p className="text-white/60 text-base sm:text-lg mb-12 leading-relaxed">
             {t("subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -61,8 +61,8 @@ export function MinimalCTA() {
             </Button>
             <Button
               asChild
-              variant="outline-light"
               size="xl"
+              className="bg-white/15 backdrop-blur-sm text-white border border-white/20 hover:bg-white/25 hover:border-white/30 transition-all duration-300"
             >
               <Link href="/catalogue">
                 {t("viewCatalog")}

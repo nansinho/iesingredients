@@ -42,13 +42,13 @@ export function SocialFollow() {
           transition={{ duration: 0.6 }}
           className="mb-12"
         >
-          <h2 className="text-[#2A4020] tracking-tight">
+          <h2 className="text-[var(--brand-primary)] tracking-tight">
             {t("title")}{" "}
-            <span className="font-playfair italic text-[#2A4020]">
+            <span className="font-playfair italic text-[var(--brand-primary)]/70">
               {t("titleAccent")}
             </span>
           </h2>
-          <p className="text-[#2A4020]/65 mt-3 text-base max-w-lg mx-auto">
+          <p className="text-[var(--brand-primary)]/60 mt-3 text-base max-w-lg mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -65,7 +65,7 @@ export function SocialFollow() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex flex-col items-center gap-4 p-8 rounded-2xl bg-white/55 border border-white/70 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] hover:bg-white/80 hover:border-white/80"
+              className="group flex flex-col items-center gap-4 p-8 rounded-2xl bg-white/50 border border-white/60 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(46,31,61,0.15)] hover:bg-white/80 hover:border-white/80"
             >
               <div
                 className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110"
@@ -77,14 +77,14 @@ export function SocialFollow() {
                 />
               </div>
               <div>
-                <p className="text-[#2A4020] font-semibold text-base transition-colors">
+                <p className="text-[var(--brand-primary)] font-semibold text-base transition-colors">
                   {social.name}
                 </p>
-                <p className="text-[#2A4020]/60 text-sm mt-0.5 transition-colors">
+                <p className="text-[var(--brand-primary)]/50 text-sm mt-0.5 transition-colors">
                   {social.handle}
                 </p>
               </div>
-              <span className="text-xs font-semibold text-[#2A4020]/40 uppercase tracking-wider group-hover:text-[#2A4020]/70 transition-colors">
+              <span className="text-xs font-semibold text-[var(--brand-primary)]/40 uppercase tracking-wider group-hover:text-[var(--brand-primary)]/70 transition-colors">
                 {t("follow")}
               </span>
             </motion.a>

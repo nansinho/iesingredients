@@ -441,7 +441,7 @@ export default async function PodcastPage({
             </span>
             <h2 className="text-3xl sm:text-4xl font-semibold text-dark tracking-tight">
               {isFr ? "Parcourez par" : "Browse by"}{" "}
-              <span className="font-playfair italic text-[#8CB43D]">
+              <span className="font-playfair italic text-[var(--brand-accent)]">
                 {isFr ? "série" : "series"}
               </span>
             </h2>
@@ -464,7 +464,7 @@ export default async function PodcastPage({
       {/* ─── Newsletter / Notify Section ─── */}
       <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent)]/8 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[#8CB43D]/3 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[var(--brand-accent)]/3 rounded-full blur-[100px]" />
 
         <div className="w-[94%] max-w-xl mx-auto text-center relative z-10">
           <AnimateIn>
@@ -492,11 +492,11 @@ export default async function PodcastPage({
                 placeholder={
                   isFr ? "Votre adresse email" : "Your email address"
                 }
-                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#8CB43D]/30 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
+                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/30 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
               />
               <Button
                 size="lg"
-                className="rounded-full shrink-0 bg-[#8CB43D] text-white hover:bg-[#4E7C2E]"
+                className="rounded-full shrink-0 bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent-hover)]"
               >
                 {isFr ? "S'inscrire" : "Subscribe"}
               </Button>

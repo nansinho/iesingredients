@@ -97,17 +97,17 @@ export function ContactForm() {
 
   return (
     <div>
-      <h2 className="font-playfair italic text-3xl text-[#2A2A24] mb-2">
+      <h2 className="font-playfair italic text-3xl text-[var(--color-charcoal)] mb-2">
         {isFr ? "Envoyez-nous un message" : "Send us a message"}
       </h2>
-      <p className="text-[#9A9A90] mb-8">
+      <p className="text-[var(--brand-primary)]/45 mb-8">
         {isFr
           ? "Remplissez le formulaire ci-dessous et nous vous répondrons rapidement."
           : "Fill out the form below and we will get back to you quickly."}
       </p>
 
       {status === "success" && (
-        <div className="mb-6 p-4 rounded-xl bg-[#8CB43D]/10 border border-[#8CB43D]/20 text-[#2A4020]">
+        <div className="mb-6 p-4 rounded-xl bg-[var(--brand-accent)]/10 border border-[var(--brand-accent)]/20 text-[var(--brand-secondary)]">
           <p className="font-medium">
             {isFr ? "Message envoyé avec succès !" : "Message sent successfully!"}
           </p>
@@ -139,14 +139,14 @@ export function ContactForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="firstName" className="text-[#2A2A24]">{isFr ? "Prénom" : "First name"} *</Label>
+            <Label htmlFor="firstName" className="text-[var(--color-charcoal)]">{isFr ? "Prénom" : "First name"} *</Label>
             <Input
               id="firstName"
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               required
-              className="h-12 border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
               placeholder="Jean"
             />
             {fieldErrors.firstName && (
@@ -154,14 +154,14 @@ export function ContactForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="lastName" className="text-[#2A2A24]">{isFr ? "Nom" : "Last name"} *</Label>
+            <Label htmlFor="lastName" className="text-[var(--color-charcoal)]">{isFr ? "Nom" : "Last name"} *</Label>
             <Input
               id="lastName"
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               required
-              className="h-12 border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
               placeholder="Dupont"
             />
             {fieldErrors.lastName && (
@@ -172,7 +172,7 @@ export function ContactForm() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-[#2A2A24]">Email *</Label>
+            <Label htmlFor="email" className="text-[var(--color-charcoal)]">Email *</Label>
             <Input
               id="email"
               name="email"
@@ -180,7 +180,7 @@ export function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="h-12 border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
               placeholder="jean.dupont@exemple.com"
             />
             {fieldErrors.email && (
@@ -188,14 +188,14 @@ export function ContactForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-[#2A2A24]">{isFr ? "Téléphone" : "Phone"}</Label>
+            <Label htmlFor="phone" className="text-[var(--color-charcoal)]">{isFr ? "Téléphone" : "Phone"}</Label>
             <Input
               id="phone"
               name="phone"
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              className="h-12 border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
               placeholder="+33 4 93 00 00 00"
             />
           </div>
@@ -203,25 +203,25 @@ export function ContactForm() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="company" className="text-[#2A2A24]">{isFr ? "Entreprise" : "Company"}</Label>
+            <Label htmlFor="company" className="text-[var(--color-charcoal)]">{isFr ? "Entreprise" : "Company"}</Label>
             <Input
               id="company"
               name="company"
               value={formData.company}
               onChange={handleChange}
-              className="h-12 border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
               placeholder={isFr ? "Votre entreprise" : "Your company"}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="subject" className="text-[#2A2A24]">{isFr ? "Sujet" : "Subject"} *</Label>
+            <Label htmlFor="subject" className="text-[var(--color-charcoal)]">{isFr ? "Sujet" : "Subject"} *</Label>
             <Input
               id="subject"
               name="subject"
               value={formData.subject}
               onChange={handleChange}
               required
-              className="h-12 border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
               placeholder={isFr ? "Objet de votre message" : "Subject of your message"}
             />
             {fieldErrors.subject && (
@@ -231,7 +231,7 @@ export function ContactForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="message" className="text-[#2A2A24]">Message *</Label>
+          <Label htmlFor="message" className="text-[var(--color-charcoal)]">Message *</Label>
           <Textarea
             id="message"
             name="message"
@@ -239,7 +239,7 @@ export function ContactForm() {
             onChange={handleChange}
             required
             rows={6}
-            className="resize-none border-[#E2E2DC] bg-white focus:border-[#8CB43D] focus:ring-2 focus:ring-[#8CB43D]/20 rounded-xl"
+            className="resize-none border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
             placeholder={
               isFr
                 ? "Décrivez votre projet ou posez-nous vos questions..."
@@ -252,7 +252,7 @@ export function ContactForm() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-          <p className="text-xs text-[#9A9A90]">
+          <p className="text-xs text-[var(--brand-primary)]/45">
             * {isFr ? "Champs obligatoires" : "Required fields"}
           </p>
           <Button

@@ -54,14 +54,14 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="mb-12 sm:mb-16 text-center"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[#9A9A90] font-semibold mb-4">
+          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[var(--brand-primary)]/40 font-semibold mb-4">
             Nos univers
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#2A2A24] tracking-[-0.03em] leading-[1.05]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--brand-primary)] tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
-            <span className="font-playfair italic text-[#2A2A24]">Une expertise.</span>
+            <span className="font-playfair italic text-[var(--brand-secondary)]">Une expertise.</span>
           </h2>
-          <p className="text-[#9A9A90] text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
+          <p className="text-[var(--brand-primary)]/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -152,14 +152,14 @@ export function ThreeUniverses() {
         >
           <Link
             href="/catalogue"
-            className="group inline-flex items-center gap-2 bg-[#111111] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#2A2A24] transition-all duration-200 shadow-sm"
+            className="group inline-flex items-center gap-2 bg-[var(--brand-primary)] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Voir tout le catalogue
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 border border-[#111111] text-[#111111] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#111111] hover:text-white transition-all duration-200"
+            className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
           >
             Contactez-nous
           </Link>

@@ -513,14 +513,14 @@ export function Header() {
                       {user ? (
                         <div className="space-y-2">
                           <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
-                            <Button variant="outline-dark" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
+                            <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                               <User className="w-4 h-4 mr-2" />
                               {t("myProfile")}
                             </Button>
                           </Link>
                           {isUserAdmin && (
                             <Link href="/admin" onClick={() => setIsOpen(false)}>
-                              <Button variant="outline-dark" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
+                              <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                                 <Shield className="w-4 h-4 mr-2" />
                                 {t("admin")}
                               </Button>
@@ -537,7 +537,7 @@ export function Header() {
                         </div>
                       ) : (
                         <Link href="/login" onClick={() => setIsOpen(false)}>
-                          <Button variant="outline-dark" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
+                          <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                             <User className="w-4 h-4 mr-2" />
                             {t("signIn")}
                           </Button>
