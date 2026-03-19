@@ -33,7 +33,7 @@ export default function Error({
           </pre>
         )}
         <div className="flex gap-3 justify-center">
-          <Button onClick={reset} variant="peach" className="rounded-full px-6">
+          <Button onClick={reset} variant="accent" className="rounded-full px-6">
             Réessayer
           </Button>
           <Button

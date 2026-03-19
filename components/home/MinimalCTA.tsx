@@ -53,7 +53,7 @@ export function MinimalCTA() {
             {t("subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="peach" size="xl">
+            <Button asChild variant="accent" size="xl">
               <Link href="/contact">
                 <Mail className="w-4 h-4 mr-2" />
                 {t("contact")}
