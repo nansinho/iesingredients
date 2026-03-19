@@ -27,7 +27,7 @@ const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }
         "Rencontrez les nez, parfumeurs et créateurs qui façonnent l'art olfactif. Savoir-faire, inspiration et passion.",
       image: "/images/essential-oil.jpg",
       episodeCount: 2,
-      color: "#8B6A80",
+      color: "#8CB43D",
     },
     en: {
       id: "artisans-parfum",
@@ -36,7 +36,7 @@ const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }
         "Meet the noses, perfumers and creators who shape olfactory art. Craftsmanship, inspiration and passion.",
       image: "/images/essential-oil.jpg",
       episodeCount: 2,
-      color: "#8B6A80",
+      color: "#8CB43D",
     },
   },
   "terre-ingredients": {
@@ -47,7 +47,7 @@ const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }
         "Du champ au laboratoire : découvrez l'origine des matières premières naturelles et leur parcours jusqu'à vos produits.",
       image: "/images/botanicals-flat.jpg",
       episodeCount: 3,
-      color: "#5B7B6B",
+      color: "#2A4020",
     },
     en: {
       id: "terre-ingredients",
@@ -56,7 +56,7 @@ const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }
         "From field to lab: discover the origin of natural raw materials and their journey to your products.",
       image: "/images/botanicals-flat.jpg",
       episodeCount: 3,
-      color: "#5B7B6B",
+      color: "#2A4020",
     },
   },
   "lab-innovation": {
@@ -67,7 +67,7 @@ const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }
         "Comment la science et la technologie transforment l'industrie cosmétique et créent les formulations de demain.",
       image: "/images/cream-bowl.jpg",
       episodeCount: 1,
-      color: "#4A7FB5",
+      color: "#5A9372",
     },
     en: {
       id: "lab-innovation",
@@ -76,7 +76,7 @@ const collectionsData: Record<string, { fr: CollectionData; en: CollectionData }
         "How science and technology are transforming the cosmetics industry and creating tomorrow's formulations.",
       image: "/images/cream-bowl.jpg",
       episodeCount: 1,
-      color: "#4A7FB5",
+      color: "#5A9372",
     },
   },
 };
@@ -333,13 +333,13 @@ export default async function PodcastPage({
             sizes="100vw"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2E1F3D]/95 via-[#2E1F3D]/80 to-[#2E1F3D]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand-primary)]/95 via-[var(--brand-primary)]/80 to-[var(--brand-primary)]/50" />
         </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto py-32 md:py-40">
           <div className="max-w-2xl">
             <AnimateIn>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
                 <Mic className="w-3.5 h-3.5" />
                 Podcast IES Ingredients
               </span>
@@ -350,7 +350,7 @@ export default async function PodcastPage({
                 {isFr
                   ? "Les voix de l'industrie des "
                   : "Voices from the "}
-                <span className="font-playfair italic text-[var(--brand-accent-light)]">
+                <span className="font-playfair italic text-white">
                   {isFr ? "ingrédients naturels" : "natural ingredients industry"}
                 </span>
               </h1>
@@ -366,7 +366,7 @@ export default async function PodcastPage({
 
             <AnimateIn delay={0.3} y={15}>
               <div className="flex flex-wrap gap-3">
-                <Button variant="peach" size="lg" className="rounded-full">
+                <Button variant="accent" size="lg" className="rounded-full">
                   <Play className="w-5 h-5 mr-2" />
                   {t("listenOn")} Spotify
                 </Button>
@@ -385,7 +385,7 @@ export default async function PodcastPage({
               <div className="flex gap-8 mt-12 pt-8 border-t border-white/10">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                    <Headphones className="w-5 h-5 text-[var(--brand-accent-light)]" />
+                    <Headphones className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="text-white text-xl font-bold leading-none">
@@ -398,7 +398,7 @@ export default async function PodcastPage({
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                    <Users className="w-5 h-5 text-[var(--brand-accent-light)]" />
+                    <Users className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="text-white text-xl font-bold leading-none">
@@ -411,7 +411,7 @@ export default async function PodcastPage({
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                    <Timer className="w-5 h-5 text-[var(--brand-accent-light)]" />
+                    <Timer className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <p className="text-white text-xl font-bold leading-none">
@@ -429,7 +429,7 @@ export default async function PodcastPage({
       </section>
 
       {/* ─── Collections + Episodes Section ─── */}
-      <section className="py-16 md:py-24 bg-cream-light relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
         <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/3 rounded-full blur-[200px]" />
 
@@ -441,7 +441,7 @@ export default async function PodcastPage({
             </span>
             <h2 className="text-3xl sm:text-4xl font-semibold text-dark tracking-tight">
               {isFr ? "Parcourez par" : "Browse by"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">
+              <span className="font-playfair italic text-[#8CB43D]">
                 {isFr ? "série" : "series"}
               </span>
             </h2>
@@ -464,16 +464,16 @@ export default async function PodcastPage({
       {/* ─── Newsletter / Notify Section ─── */}
       <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent)]/8 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-peach/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[#8CB43D]/3 rounded-full blur-[100px]" />
 
         <div className="w-[94%] max-w-xl mx-auto text-center relative z-10">
           <AnimateIn>
             <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-6">
-              <Mail className="w-7 h-7 text-[var(--brand-accent-light)]" />
+              <Mail className="w-7 h-7 text-white" />
             </div>
             <h2 className="text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">
               {isFr ? "Ne manquez" : "Never miss"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">
+              <span className="font-playfair italic text-white">
                 {isFr ? "rien" : "an episode"}
               </span>
             </h2>
@@ -492,12 +492,11 @@ export default async function PodcastPage({
                 placeholder={
                   isFr ? "Votre adresse email" : "Your email address"
                 }
-                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent-light)]/40 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
+                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#8CB43D]/30 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
               />
               <Button
-                variant="peach"
                 size="lg"
-                className="rounded-full shrink-0"
+                className="rounded-full shrink-0 bg-[#8CB43D] text-white hover:bg-[#4E7C2E]"
               >
                 {isFr ? "S'inscrire" : "Subscribe"}
               </Button>

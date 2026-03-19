@@ -67,7 +67,7 @@ export default async function ContactPage({
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-24 pt-40 text-center">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-6 backdrop-blur-sm">
               <MessageCircle className="w-3.5 h-3.5" />
               Contact
             </span>
@@ -75,7 +75,7 @@ export default async function ContactPage({
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
               {isFr ? "Parlons de vos" : "Let's discuss your"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "projets" : "projects"}</span>
+              <span className="font-playfair italic text-white">{isFr ? "projets" : "projects"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -93,46 +93,46 @@ export default async function ContactPage({
         <div className="w-[94%] max-w-7xl mx-auto">
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <StaggerItem>
-              <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-brown/8 shadow-[0_12px_40px_rgba(46,31,61,0.12)] hover:shadow-[0_16px_50px_rgba(46,31,61,0.18)] hover:-translate-y-1 transition-all duration-300 group">
-                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand-accent-light)]/25 transition-all">
-                  <Mail className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
+              <a href="mailto:contact@ies-ingredients.com" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-[0_12px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-10 h-10 rounded-xl bg-[#8CB43D]/10 border border-[#8CB43D]/20 flex items-center justify-center shrink-0 group-hover:bg-[#8CB43D]/20 transition-all">
+                  <Mail className="w-4.5 h-4.5 text-[#8CB43D]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-dark text-sm">Email</p>
-                  <p className="text-xs text-dark/50 truncate">contact@ies-ingredients.com</p>
+                  <p className="font-semibold text-[#2A2A24] text-sm">Email</p>
+                  <p className="text-xs text-[#9A9A90] truncate">contact@ies-ingredients.com</p>
                 </div>
               </a>
             </StaggerItem>
             <StaggerItem>
-              <a href="tel:+33493000000" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-brown/8 shadow-[0_12px_40px_rgba(46,31,61,0.12)] hover:shadow-[0_16px_50px_rgba(46,31,61,0.18)] hover:-translate-y-1 transition-all duration-300 group">
-                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0 group-hover:bg-[var(--brand-accent-light)]/25 transition-all">
-                  <Phone className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
+              <a href="tel:+33493000000" className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-[0_12px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-10 h-10 rounded-xl bg-[#8CB43D]/10 border border-[#8CB43D]/20 flex items-center justify-center shrink-0 group-hover:bg-[#8CB43D]/20 transition-all">
+                  <Phone className="w-4.5 h-4.5 text-[#8CB43D]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-dark text-sm">{isFr ? "Téléphone" : "Phone"}</p>
-                  <p className="text-xs text-dark/50">+33 4 93 00 00 00</p>
+                  <p className="font-semibold text-[#2A2A24] text-sm">{isFr ? "Téléphone" : "Phone"}</p>
+                  <p className="text-xs text-[#9A9A90]">+33 4 93 00 00 00</p>
                 </div>
               </a>
             </StaggerItem>
             <StaggerItem>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-brown/8 shadow-[0_12px_40px_rgba(46,31,61,0.12)] group">
-                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0">
-                  <MapPin className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-[0_12px_40px_rgba(0,0,0,0.08)] group">
+                <div className="w-10 h-10 rounded-xl bg-[#8CB43D]/10 border border-[#8CB43D]/20 flex items-center justify-center shrink-0">
+                  <MapPin className="w-4.5 h-4.5 text-[#8CB43D]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-dark text-sm">{isFr ? "Adresse" : "Address"}</p>
-                  <p className="text-xs text-dark/50">Nice, France</p>
+                  <p className="font-semibold text-[#2A2A24] text-sm">{isFr ? "Adresse" : "Address"}</p>
+                  <p className="text-xs text-[#9A9A90]">Nice, France</p>
                 </div>
               </div>
             </StaggerItem>
             <StaggerItem>
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-brown/8 shadow-[0_12px_40px_rgba(46,31,61,0.12)] group">
-                <div className="w-10 h-10 rounded-xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent-light)]/25 flex items-center justify-center shrink-0">
-                  <Clock className="w-4.5 h-4.5 text-[var(--brand-accent)]" />
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-[0_12px_40px_rgba(0,0,0,0.08)] group">
+                <div className="w-10 h-10 rounded-xl bg-[#8CB43D]/10 border border-[#8CB43D]/20 flex items-center justify-center shrink-0">
+                  <Clock className="w-4.5 h-4.5 text-[#8CB43D]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-semibold text-dark text-sm">{isFr ? "Horaires" : "Hours"}</p>
-                  <p className="text-xs text-dark/50">{isFr ? "Lun - Ven : 9h - 18h" : "Mon - Fri: 9am - 6pm"}</p>
+                  <p className="font-semibold text-[#2A2A24] text-sm">{isFr ? "Horaires" : "Hours"}</p>
+                  <p className="text-xs text-[#9A9A90]">{isFr ? "Lun - Ven : 9h - 18h" : "Mon - Fri: 9am - 6pm"}</p>
                 </div>
               </div>
             </StaggerItem>
@@ -142,13 +142,13 @@ export default async function ContactPage({
 
       {/* Form Section */}
       <section className="py-20 md:py-28 bg-white relative overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-lavender/5 rounded-full blur-[180px]" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-peach/3 rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#8CB43D]/3 rounded-full blur-[180px]" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#B8C9A0]/5 rounded-full blur-[120px]" />
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Form */}
           <AnimateIn delay={0.1} y={30} className="lg:col-span-3">
-            <div className="bg-cream-light rounded-2xl p-6 sm:p-8 md:p-10 border border-brown/8 shadow-[0_8px_40px_rgba(200,168,168,0.06)]">
+            <div className="bg-[#F0F0EC] rounded-2xl p-6 sm:p-8 md:p-10 border border-[#E2E2DC] shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
               <ContactForm />
             </div>
           </AnimateIn>
@@ -157,9 +157,9 @@ export default async function ContactPage({
           <AnimateIn delay={0.2} y={30} className="lg:col-span-2">
             <div className="lg:sticky lg:top-28 space-y-6">
               <div>
-                <h2 className="text-2xl font-semibold text-dark tracking-tight mb-2">
+                <h2 className="text-2xl font-semibold text-[#2A2A24] tracking-tight mb-2">
                   {isFr ? "Pourquoi nous" : "Why"}{" "}
-                  <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "contacter ?" : "contact us?"}</span>
+                  <span className="font-playfair italic text-[#8CB43D]">{isFr ? "contacter ?" : "contact us?"}</span>
                 </h2>
                 <p className="text-sm text-dark/50 leading-relaxed">
                   {isFr
@@ -169,35 +169,35 @@ export default async function ContactPage({
               </div>
 
               <div className="space-y-3">
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-cream border border-brown/6">
-                  <CheckCircle2 className="w-5 h-5 text-[var(--brand-primary)] mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-[#F0F0EC] border border-[#E2E2DC]">
+                  <CheckCircle2 className="w-5 h-5 text-[#8CB43D] mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-medium text-dark text-sm">
+                    <p className="font-medium text-[#2A2A24] text-sm">
                       {isFr ? "Échantillons gratuits" : "Free samples"}
                     </p>
-                    <p className="text-xs text-dark/45 mt-0.5">
+                    <p className="text-xs text-[#9A9A90] mt-0.5">
                       {isFr ? "Testez nos ingrédients avant de commander" : "Test our ingredients before ordering"}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-cream border border-brown/6">
-                  <CheckCircle2 className="w-5 h-5 text-[var(--brand-primary)] mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-[#F0F0EC] border border-[#E2E2DC]">
+                  <CheckCircle2 className="w-5 h-5 text-[#8CB43D] mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-medium text-dark text-sm">
+                    <p className="font-medium text-[#2A2A24] text-sm">
                       {isFr ? "Conseil technique" : "Technical advice"}
                     </p>
-                    <p className="text-xs text-dark/45 mt-0.5">
+                    <p className="text-xs text-[#9A9A90] mt-0.5">
                       {isFr ? "Nos experts vous guident dans vos formulations" : "Our experts guide you in your formulations"}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-cream border border-brown/6">
-                  <CheckCircle2 className="w-5 h-5 text-[var(--brand-primary)] mt-0.5 shrink-0" />
+                <div className="flex items-start gap-3 p-4 rounded-xl bg-[#F0F0EC] border border-[#E2E2DC]">
+                  <CheckCircle2 className="w-5 h-5 text-[#8CB43D] mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-medium text-dark text-sm">
+                    <p className="font-medium text-[#2A2A24] text-sm">
                       {isFr ? "Devis personnalisé" : "Custom quote"}
                     </p>
-                    <p className="text-xs text-dark/45 mt-0.5">
+                    <p className="text-xs text-[#9A9A90] mt-0.5">
                       {isFr ? "Offres adaptées à vos volumes et besoins" : "Offers adapted to your volumes and needs"}
                     </p>
                   </div>
@@ -205,14 +205,14 @@ export default async function ContactPage({
               </div>
 
               {/* Trust badge */}
-              <div className="p-5 rounded-2xl bg-[var(--brand-accent-light)]/10 border border-[var(--brand-accent-light)]/20">
+              <div className="p-5 rounded-2xl bg-[#8CB43D]/10 border border-[#8CB43D]/15">
                 <div className="flex items-center gap-2 mb-2">
-                  <Send className="w-4 h-4 text-[var(--brand-accent)]" />
-                  <p className="text-[var(--brand-primary)] font-semibold text-sm">
+                  <Send className="w-4 h-4 text-[#8CB43D]" />
+                  <p className="text-[#2A2A24] font-semibold text-sm">
                     {isFr ? "Réponse sous 24h" : "Response within 24h"}
                   </p>
                 </div>
-                <p className="text-dark/50 text-xs leading-relaxed">
+                <p className="text-[#9A9A90] text-xs leading-relaxed">
                   {isFr
                     ? "Notre équipe commerciale vous répond rapidement pour toute demande d'échantillons ou de devis."
                     : "Our sales team responds quickly for any sample or quote request."}
