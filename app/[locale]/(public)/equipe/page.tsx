@@ -78,13 +78,13 @@ export default async function TeamPage({
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/30" />
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-10 pt-32">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.12em] mb-4 backdrop-blur-sm">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.12em] mb-4 backdrop-blur-sm">
             <Users className="w-3.5 h-3.5" />
             {isFr ? "Notre équipe" : "Our team"}
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-[-0.02em] leading-[1.1]">
             {isFr ? "Les experts" : "The experts"}{" "}
-            <span className="font-playfair italic text-[var(--brand-accent-light)]">
+            <span className="font-playfair italic text-white">
               IES
             </span>
           </h1>
@@ -116,22 +116,22 @@ export default async function TeamPage({
       />
 
       {/* Contact CTA */}
-      <section className="py-16 md:py-20 bg-cream-light">
+      <section className="py-16 md:py-20 bg-[#F0F0EC]">
         <div className="w-[94%] max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-dark tracking-tight mb-3">
             {isFr ? "Envie de" : "Want to"}{" "}
-            <span className="font-playfair italic text-[var(--brand-accent)]">
+            <span className="font-playfair italic text-[#8CB43D]">
               {isFr ? "collaborer ?" : "collaborate?"}
             </span>
           </h2>
-          <p className="text-dark/50 text-base max-w-lg mx-auto mb-6">
+          <p className="text-[#9A9A90] text-base max-w-lg mx-auto mb-6">
             {isFr
               ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
               : "Contact our team to discuss your natural ingredient needs."}
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-colors duration-200 shadow-md"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#111111] text-white text-sm font-semibold hover:bg-[#2A2A24] transition-colors duration-200 shadow-md"
           >
             <Mail className="w-4 h-4" />
             {isFr ? "Nous contacter" : "Contact us"}

@@ -171,7 +171,7 @@ export default async function ArticlePage({
       <article className="max-w-[900px] w-[90%] mx-auto py-20 md:py-28">
         <AnimateIn y={20}>
           <div
-            className="prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-p:text-dark/70 dark:prose-p:text-cream-light/60 prose-a:text-brown dark:prose-a:text-peach prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[var(--brand-accent-light)] prose-blockquote:text-dark/60 dark:prose-blockquote:text-cream-light/50 prose-img:rounded-2xl prose-strong:text-dark dark:prose-strong:text-cream-light"
+            className="prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-p:text-dark/70 dark:prose-p:text-cream-light/60 prose-a:text-[#8CB43D] dark:prose-a:text-[#8CB43D] prose-a:no-underline hover:prose-a:underline prose-blockquote:border-l-[var(--brand-accent-light)] prose-blockquote:text-dark/60 dark:prose-blockquote:text-cream-light/50 prose-img:rounded-2xl prose-strong:text-dark dark:prose-strong:text-cream-light"
             dangerouslySetInnerHTML={{ __html: content || "" }}
           />
         </AnimateIn>
@@ -179,7 +179,7 @@ export default async function ArticlePage({
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
-        <section className="py-20 md:py-28 bg-cream-light dark:bg-dark border-t border-brown/8 dark:border-brown/10">
+        <section className="py-20 md:py-28 bg-[#F0F0EC] dark:bg-dark border-t border-[#E2E2DC] dark:border-brown/10">
           <div className="w-[94%] mx-auto">
             <AnimateIn className="mb-12">
               <h2 className="text-dark dark:text-cream-light tracking-tight">
@@ -198,7 +198,7 @@ export default async function ArticlePage({
                       }}
                       className="group block"
                     >
-                      <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-brown/8 dark:border-brown/10 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(200,168,168,0.1)]">
+                      <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-[#E2E2DC] dark:border-brown/10 hover:border-[#8CB43D]/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
                         <div className="p-3">
                           <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream dark:bg-dark">
                             {related.cover_image_url ? (
@@ -222,10 +222,10 @@ export default async function ArticlePage({
                               { year: "numeric", month: "long", day: "numeric" }
                             )}
                           </p>
-                          <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-brown dark:group-hover:text-peach transition-colors line-clamp-2 leading-snug">
+                          <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-[#8CB43D] transition-colors line-clamp-2 leading-snug">
                             {isFr ? related.title_fr : related.title_en || related.title_fr}
                           </h3>
-                          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brown dark:text-peach mt-3 group-hover:gap-2.5 transition-all duration-300">
+                          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2A2A24] mt-3 group-hover:gap-2.5 transition-all duration-300">
                             {isFr ? "Lire" : "Read"}
                             <ArrowRight className="w-3.5 h-3.5" />
                           </span>

@@ -207,7 +207,7 @@ export default async function NewsPage({
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-20 pt-40 text-center">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Newspaper className="w-3.5 h-3.5" />
               Blog
             </span>
@@ -215,7 +215,7 @@ export default async function NewsPage({
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
               {isFr ? "Nos" : "Our"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Actualités" : "News"}</span>
+              <span className="font-playfair italic text-white">{isFr ? "Actualités" : "News"}</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -235,11 +235,11 @@ export default async function NewsPage({
             <AnimateIn>
               {isFakeData ? (
                 <article className="group block">
-                  <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-cream-light rounded-3xl overflow-hidden border border-brown/8 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(200,168,168,0.1)]">
+                  <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-[#F0F0EC] rounded-3xl overflow-hidden border border-[#E2E2DC] hover:border-[#8CB43D]/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)]">
                     <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
                       <div className={`w-full h-full bg-gradient-to-br ${(featuredArticle as (typeof fakeArticles)[0]).gradient || "from-cream to-cream-light"}`} />
                       <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                        <span className="px-3 py-1.5 rounded-full bg-[#8CB43D] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
                           {isFr ? "À la une" : "Featured"}
                         </span>
                       </div>
@@ -260,7 +260,7 @@ export default async function NewsPage({
                           {(featuredArticle as (typeof fakeArticles)[0]).reading_time || 5} min
                         </span>
                       </div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-dark group-hover:text-brown transition-colors leading-tight mb-4">
+                      <h2 className="text-2xl md:text-3xl font-bold text-dark group-hover:text-[#8CB43D] transition-colors leading-tight mb-4">
                         {isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
                       </h2>
                       <p className="text-dark/50 text-base leading-relaxed mb-6 line-clamp-3">
@@ -281,7 +281,7 @@ export default async function NewsPage({
                   }}
                   className="group block"
                 >
-                  <article className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-cream-light rounded-3xl overflow-hidden border border-brown/8 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(200,168,168,0.1)]">
+                  <article className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-[#F0F0EC] rounded-3xl overflow-hidden border border-[#E2E2DC] hover:border-[#8CB43D]/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)]">
                     <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
                       {(featuredArticle as BlogArticle).cover_image_url ? (
                         <Image
@@ -296,7 +296,7 @@ export default async function NewsPage({
                       )}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent to-dark/10" />
                       <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                        <span className="px-3 py-1.5 rounded-full bg-[#8CB43D] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
                           {isFr ? "À la une" : "Featured"}
                         </span>
                       </div>
@@ -313,7 +313,7 @@ export default async function NewsPage({
                           )}
                         </time>
                       </div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-dark group-hover:text-brown transition-colors leading-tight mb-4">
+                      <h2 className="text-2xl md:text-3xl font-bold text-dark group-hover:text-[#8CB43D] transition-colors leading-tight mb-4">
                         {isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
                       </h2>
                       <p className="text-dark/50 text-base leading-relaxed mb-6 line-clamp-3">
@@ -359,12 +359,12 @@ export default async function NewsPage({
                   <StaggerItem key={article.id}>
                     <HoverLift>
                       {isCurrentFake ? (
-                        <article className="group block bg-white rounded-2xl overflow-hidden border border-brown/8 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(200,168,168,0.1)]">
+                        <article className="group block bg-white rounded-2xl overflow-hidden border border-[#E2E2DC] hover:border-[#8CB43D]/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
                           <div className="p-3 sm:p-4">
-                            <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream">
+                            <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[#F0F0EC]">
                               <div className={`w-full h-full bg-gradient-to-br ${fakeData.gradient || "from-cream to-cream-light"}`} />
                               <div className="absolute top-3 left-3">
-                                <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-cream-light/95 text-dark border-brown/12"}`}>
+                                <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-[#F0F0EC]/95 text-dark border-brown/12"}`}>
                                   {article.category}
                                 </span>
                               </div>
@@ -372,7 +372,7 @@ export default async function NewsPage({
                           </div>
                           <div className="px-5 sm:px-6 pb-6 pt-1">
                             <div className="flex items-center gap-3 mb-2">
-                              <p className="text-xs text-[var(--brand-primary)] font-semibold uppercase tracking-wider">
+                              <p className="text-xs text-[#8CB43D] font-semibold uppercase tracking-wider">
                                 {new Date(article.published_at || article.created_at || "").toLocaleDateString(
                                   locale,
                                   { year: "numeric", month: "long", day: "numeric" }
@@ -383,13 +383,13 @@ export default async function NewsPage({
                                 {fakeData.reading_time || 5} min
                               </span>
                             </div>
-                            <h3 className="text-base font-bold text-dark group-hover:text-brown transition-colors line-clamp-2 mb-2.5 leading-snug">
+                            <h3 className="text-base font-bold text-dark group-hover:text-[#8CB43D] transition-colors line-clamp-2 mb-2.5 leading-snug">
                               {isFr ? article.title_fr : article.title_en || article.title_fr}
                             </h3>
                             <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed">
                               {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
                             </p>
-                            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brown mt-4 group-hover:gap-2.5 transition-all duration-300">
+                            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2A2A24] mt-4 group-hover:gap-2.5 transition-all duration-300">
                               {isFr ? "Lire la suite" : "Read more"}
                               <ArrowRight className="w-3.5 h-3.5" />
                             </span>
@@ -403,9 +403,9 @@ export default async function NewsPage({
                           }}
                           className="group block"
                         >
-                          <article className="bg-white rounded-2xl overflow-hidden border border-brown/8 hover:border-brown/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(200,168,168,0.1)]">
+                          <article className="bg-white rounded-2xl overflow-hidden border border-[#E2E2DC] hover:border-[#8CB43D]/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
                             <div className="p-3 sm:p-4">
-                              <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-cream">
+                              <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[#F0F0EC]">
                                 {dbData.cover_image_url ? (
                                   <Image
                                     src={dbData.cover_image_url}
@@ -415,30 +415,30 @@ export default async function NewsPage({
                                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                   />
                                 ) : (
-                                  <div className="w-full h-full bg-gradient-to-br from-cream to-cream-light" />
+                                  <div className="w-full h-full bg-gradient-to-br from-[#F0F0EC] to-[#E2E2DC]" />
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
                                 <div className="absolute top-3 left-3">
-                                  <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-cream-light/95 text-dark border-brown/12"}`}>
+                                  <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-[#F0F0EC]/95 text-dark border-brown/12"}`}>
                                     {article.category}
                                   </span>
                                 </div>
                               </div>
                             </div>
                             <div className="px-5 sm:px-6 pb-6 pt-1">
-                              <p className="text-xs text-[var(--brand-primary)] mb-2 font-semibold uppercase tracking-wider">
+                              <p className="text-xs text-[#8CB43D] mb-2 font-semibold uppercase tracking-wider">
                                 {new Date(article.published_at || article.created_at || "").toLocaleDateString(
                                   locale,
                                   { year: "numeric", month: "long", day: "numeric" }
                                 )}
                               </p>
-                              <h3 className="text-base font-bold text-dark group-hover:text-brown transition-colors line-clamp-2 mb-2.5 leading-snug">
+                              <h3 className="text-base font-bold text-dark group-hover:text-[#8CB43D] transition-colors line-clamp-2 mb-2.5 leading-snug">
                                 {isFr ? article.title_fr : article.title_en || article.title_fr}
                               </h3>
                               <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed">
                                 {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
                               </p>
-                              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brown mt-4 group-hover:gap-2.5 transition-all duration-300">
+                              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2A2A24] mt-4 group-hover:gap-2.5 transition-all duration-300">
                                 {isFr ? "Lire la suite" : "Read more"}
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </span>
@@ -456,8 +456,8 @@ export default async function NewsPage({
       )}
 
       {/* Newsletter CTA */}
-      <section className="py-20 md:py-28 bg-cream-light relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
+      <section className="py-20 md:py-28 bg-[#F0F0EC] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#8CB43D]/5 rounded-full blur-[180px]" />
         <div className="w-[94%] max-w-7xl mx-auto relative z-10 text-center">
           <AnimateIn>
             <Mail className="w-10 h-10 text-[var(--brand-accent)]/40 mx-auto mb-6" />
@@ -480,7 +480,7 @@ export default async function NewsPage({
                 placeholder={isFr ? "Votre adresse email" : "Your email address"}
                 className="h-12 px-5 rounded-full bg-white border border-[var(--brand-primary)]/10 text-sm text-dark placeholder:text-dark/35 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/30 flex-1"
               />
-              <button className="h-12 px-6 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-colors duration-300 shrink-0">
+              <button className="h-12 px-6 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[#2A2A24] transition-colors duration-300 shrink-0">
                 {isFr ? "S'inscrire" : "Subscribe"}
               </button>
             </div>
