@@ -44,80 +44,6 @@
   --tracking-luxury: 0.15em;
   --tracking-widest: 0.1em;
 
-  /* ---- Brand palette — Purple × Peach ---- */
-  --color-cream-light: #FAF8F6;
-  --color-cream: #F0EDE8;
-  --color-cream-dark: #E0DCD5;
-  --color-dark: #1a1a1a;
-  --color-dark-card: #222222;
-  --color-dark-lighter: #2c2c2c;
-  --color-brown: #D4907E;
-  --color-brown-light: #F0C5B3;
-  --color-brown-dark: #B87A6A;
-  --color-olive: #2E1F3D;
-  --color-olive-light: #5B5470;
-  --color-olive-dark: #1E0F2D;
-  --color-peach: #F0C5B3;
-  --color-peach-light: #F5D5C8;
-  --color-peach-dark: #D4907E;
-  --color-lavender: #5B5470;
-  --color-lavender-light: #7B7490;
-  --color-lavender-dark: #2E1F3D;
-
-  /* Purple × Peach palette */
-  --color-navy: #1a1a1a;
-  --color-charcoal: #2c2c2c;
-  --color-forest-green: #2E1F3D;
-  --color-mint: #F0C5B3;
-  --color-blue-mist: #C4C0BC;
-  --color-sage: #5B5470;
-
-  /* Legacy color aliases — purple × peach scale */
-  --color-forest-950: #1a1a1a;
-  --color-forest-900: #1E0F2D;
-  --color-forest-800: #2E1F3D;
-  --color-forest-700: #3E2F4D;
-  --color-forest-600: #4B4460;
-  --color-forest-500: #5B5470;
-  --color-forest-400: #7B7490;
-  --color-forest-300: #C4C0BC;
-  --color-forest-200: #F0EDE8;
-  --color-forest-100: #F5F2EE;
-  --color-forest-50: #FAF8F6;
-  --color-gold-950: #3D1A08;
-  --color-gold-900: #6B3420;
-  --color-gold-800: #B87A6A;
-  --color-gold-700: #D4907E;
-  --color-gold-600: #E0A898;
-  --color-gold-500: #F0C5B3;
-  --color-gold-400: #F5D5C8;
-  --color-gold-300: #F8E2D8;
-  --color-gold-200: #FBF0EB;
-  --color-gold-100: #FDF6F3;
-  --color-gold-50: #FFFAF8;
-  --color-navy-900: #1a1a1a;
-  --color-navy-800: #222222;
-  --color-navy-700: #2c2c2c;
-  --color-navy-600: #3d3d3d;
-  --color-cream-50: #FAF8F6;
-  --color-cream-100: #F0EDE8;
-  --color-cream-200: #E0DCD5;
-  --color-cream-300: #C4C0BC;
-  --color-apple-gray-50: #FAF8F6;
-  --color-apple-gray-100: #F0EDE8;
-  --color-apple-gray-200: #E0DCD5;
-  --color-apple-gray-300: #C4C0BC;
-  --color-apple-dark: #1a1a1a;
-  --color-cosmetique-light: #7B946B;
-  --color-cosmetique: #5B7B6B;
-  --color-cosmetique-dark: #3B5B4B;
-  --color-parfum-light: #A88A9A;
-  --color-parfum: #8B6A80;
-  --color-parfum-dark: #6B4A60;
-  --color-arome-light: #E0A898;
-  --color-arome: #D4907E;
-  --color-arome-dark: #B87A6A;
-
   /* Colors — shadcn/ui system */
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -218,6 +144,83 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
+}
+
+/* Brand color palette — NOT inline so themes can override at runtime */
+@theme {
+  /* ---- Brand palette — Purple × Peach ---- */
+  --color-cream-light: #FAF8F6;
+  --color-cream: #F0EDE8;
+  --color-cream-dark: #E0DCD5;
+  --color-dark: #1a1a1a;
+  --color-dark-card: #222222;
+  --color-dark-lighter: #2c2c2c;
+  --color-brown: #D4907E;
+  --color-brown-light: #F0C5B3;
+  --color-brown-dark: #B87A6A;
+  --color-olive: #2E1F3D;
+  --color-olive-light: #5B5470;
+  --color-olive-dark: #1E0F2D;
+  --color-peach: #F0C5B3;
+  --color-peach-light: #F5D5C8;
+  --color-peach-dark: #D4907E;
+  --color-lavender: #5B5470;
+  --color-lavender-light: #7B7490;
+  --color-lavender-dark: #2E1F3D;
+
+  /* Purple × Peach palette */
+  --color-navy: #1a1a1a;
+  --color-charcoal: #2c2c2c;
+  --color-forest-green: #2E1F3D;
+  --color-mint: #F0C5B3;
+  --color-blue-mist: #C4C0BC;
+  --color-sage: #5B5470;
+
+  /* Legacy color aliases — purple × peach scale */
+  --color-forest-950: #1a1a1a;
+  --color-forest-900: #1E0F2D;
+  --color-forest-800: #2E1F3D;
+  --color-forest-700: #3E2F4D;
+  --color-forest-600: #4B4460;
+  --color-forest-500: #5B5470;
+  --color-forest-400: #7B7490;
+  --color-forest-300: #C4C0BC;
+  --color-forest-200: #F0EDE8;
+  --color-forest-100: #F5F2EE;
+  --color-forest-50: #FAF8F6;
+  --color-gold-950: #3D1A08;
+  --color-gold-900: #6B3420;
+  --color-gold-800: #B87A6A;
+  --color-gold-700: #D4907E;
+  --color-gold-600: #E0A898;
+  --color-gold-500: #F0C5B3;
+  --color-gold-400: #F5D5C8;
+  --color-gold-300: #F8E2D8;
+  --color-gold-200: #FBF0EB;
+  --color-gold-100: #FDF6F3;
+  --color-gold-50: #FFFAF8;
+  --color-navy-900: #1a1a1a;
+  --color-navy-800: #222222;
+  --color-navy-700: #2c2c2c;
+  --color-navy-600: #3d3d3d;
+  --color-cream-50: #FAF8F6;
+  --color-cream-100: #F0EDE8;
+  --color-cream-200: #E0DCD5;
+  --color-cream-300: #C4C0BC;
+  --color-apple-gray-50: #FAF8F6;
+  --color-apple-gray-100: #F0EDE8;
+  --color-apple-gray-200: #E0DCD5;
+  --color-apple-gray-300: #C4C0BC;
+  --color-apple-dark: #1a1a1a;
+  --color-cosmetique-light: #7B946B;
+  --color-cosmetique: #5B7B6B;
+  --color-cosmetique-dark: #3B5B4B;
+  --color-parfum-light: #A88A9A;
+  --color-parfum: #8B6A80;
+  --color-parfum-dark: #6B4A60;
+  --color-arome-light: #E0A898;
+  --color-arome: #D4907E;
+  --color-arome-dark: #B87A6A;
 }
 
 /* ========================================
