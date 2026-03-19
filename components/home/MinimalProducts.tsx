@@ -172,7 +172,7 @@ export function MinimalProducts() {
                   </div>
 
                   {/* Product name */}
-                  <h3 className="text-xl font-playfair font-semibold text-white group-hover:text-[#8CB43D] transition-colors duration-300 leading-snug mb-2">
+                  <h3 className="text-xl font-playfair font-semibold text-white group-hover:text-white transition-colors duration-300 leading-snug mb-2">
                     {product.name}
                   </h3>
 
