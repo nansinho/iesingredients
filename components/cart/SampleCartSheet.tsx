@@ -190,7 +190,7 @@ export function SampleCartSheet() {
               <div className="flex gap-3 pt-2">
                 <Button
                   type="button"
-                  variant="outline-dark"
+                  variant="outline"
                   onClick={() => setShowForm(false)}
                   className="flex-1 border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light"
                 >
@@ -199,7 +199,7 @@ export function SampleCartSheet() {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  variant="accent"
+                  variant="peach"
                   className="flex-1"
                 >
                   {isSubmitting ? (
@@ -259,7 +259,7 @@ export function SampleCartSheet() {
           <div className="border-t border-brown/8 dark:border-brown/10 pt-4 space-y-3">
             <Button
               onClick={() => setShowForm(true)}
-              variant="accent"
+              variant="peach"
               className="w-full rounded-full"
             >
               <Send className="w-4 h-4 mr-2" />

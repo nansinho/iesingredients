@@ -121,7 +121,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                         <div className="flex items-center justify-end gap-1.5">
                           {editPath && (
                             <Button
-                              variant="outline-dark"
+                              variant="outline"
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -134,7 +134,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                           )}
                           {onDelete && (
                             <Button
-                              variant="outline-dark"
+                              variant="outline"
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -163,7 +163,7 @@ export function AdminDataTable<T extends Record<string, any>>({
             </p>
             <div className="flex items-center gap-2">
               <Button
-                variant="outline-dark"
+                variant="outline"
                 size="sm"
                 onClick={() => onPageChange(page - 1)}
                 disabled={page <= 1}
@@ -172,7 +172,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                 <ChevronLeft className="w-4 h-4" />
               </Button>
               <Button
-                variant="outline-dark"
+                variant="outline"
                 size="sm"
                 onClick={() => onPageChange(page + 1)}
                 disabled={page >= totalPages}

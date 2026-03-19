@@ -80,7 +80,7 @@ export function ParallaxHero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-[#9A9A90] font-semibold">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-[var(--brand-primary)]/45 font-semibold">
                 {t("surtitle")}
               </span>
             </motion.div>
@@ -92,14 +92,14 @@ export function ParallaxHero() {
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="my-8 lg:my-0"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-[#2A2A24] tracking-[-0.04em] leading-[0.95]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-[var(--brand-primary)] tracking-[-0.04em] leading-[0.95]">
                 {t("titleLine1")}
                 <br />
-                <span className="font-playfair italic text-[#2A4020]">
+                <span className="font-playfair italic text-[var(--brand-secondary)]">
                   {t("titleLine2")}
                 </span>
               </h1>
-              <p className="text-[#9A9A90] text-base sm:text-lg mt-6 max-w-md leading-relaxed">
+              <p className="text-[var(--brand-primary)]/45 text-base sm:text-lg mt-6 max-w-md leading-relaxed">
                 {t("subtitle")}
               </p>
             </motion.div>
@@ -121,20 +121,20 @@ export function ParallaxHero() {
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 border border-[#111111] text-[#111111] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#111111] hover:text-white transition-all duration-200"
+                  className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
                 >
                   {t("ctaSecondary")}
                 </Link>
               </div>
 
               {/* Certifications strip */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] text-[#2A4020]/30 tracking-[0.12em] uppercase font-medium border-t border-[#2A4020]/8 pt-4">
-                <span className="text-[#2A4020]/45 mr-1">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] text-[var(--brand-primary)]/30 tracking-[0.12em] uppercase font-medium border-t border-[var(--brand-primary)]/8 pt-4">
+                <span className="text-[var(--brand-primary)]/45 mr-1">
                   {certT("title")}
                 </span>
                 {certifications.map((cert, i) => (
                   <React.Fragment key={cert}>
-                    {i > 0 && <span className="text-[#2A4020]/10 hidden sm:inline">·</span>}
+                    {i > 0 && <span className="text-[var(--brand-primary)]/10 hidden sm:inline">·</span>}
                     <span>{cert}</span>
                   </React.Fragment>
                 ))}

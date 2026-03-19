@@ -100,7 +100,7 @@ export function BlogEditForm({
         title={isNew ? "Nouvel article" : `Modifier: ${article?.title_fr}`}
         actions={
           <Link href={backPath}>
-            <Button variant="outline-dark" size="sm">
+            <Button variant="outline" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Retour
             </Button>

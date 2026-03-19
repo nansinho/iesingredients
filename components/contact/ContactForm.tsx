@@ -259,7 +259,7 @@ export function ContactForm() {
             type="submit"
             disabled={isSubmitting}
             size="lg"
-            variant="accent"
+            variant="peach"
             className="w-full sm:w-auto rounded-full px-8"
           >
             {isSubmitting ? (

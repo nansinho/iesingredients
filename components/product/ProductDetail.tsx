@@ -156,7 +156,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
               {/* CTA */}
               <Button
-                variant="accent"
+                variant="peach"
                 size="xl"
                 onClick={() => {
                   addItem({

@@ -255,7 +255,7 @@ export function CatalogClient({
                 >
                   {page > 1 && (
                     <Button
-                      variant="outline-dark"
+                      variant="outline"
                       onClick={() => updateParams({ page: String(page - 1) })}
                       className="border-brown/15 hover:border-peach rounded-full px-6 h-11"
                     >
@@ -267,7 +267,7 @@ export function CatalogClient({
                   </span>
                   {page < totalPages && (
                     <Button
-                      variant="outline-dark"
+                      variant="outline"
                       onClick={() => updateParams({ page: String(page + 1) })}
                       className="border-brown/15 hover:border-peach rounded-full px-6 h-11"
                     >
@@ -286,7 +286,7 @@ export function CatalogClient({
                 {t("noResults")}
               </h3>
               <Button
-                variant="outline-dark"
+                variant="outline"
                 onClick={clearFilters}
                 className="mt-4 border-brown/15 text-dark rounded-full px-8"
               >

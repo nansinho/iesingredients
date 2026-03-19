@@ -67,7 +67,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
       {/* Status pills */}
       <div className="flex flex-wrap gap-2 mb-6">
         <Button
-          variant={filter === "all" ? "default" : "outline-dark"}
+          variant={filter === "all" ? "default" : "outline"}
           size="sm"
           onClick={() => setFilter("all")}
           className={cn(
@@ -82,7 +82,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
           return (
             <Button
               key={key}
-              variant={filter === key ? "default" : "outline-dark"}
+              variant={filter === key ? "default" : "outline"}
               size="sm"
               onClick={() => setFilter(key)}
               className={cn(
@@ -196,7 +196,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
                     <Button
                       key={s}
                       size="sm"
-                      variant={isCurrentStatus ? "default" : "outline-dark"}
+                      variant={isCurrentStatus ? "default" : "outline"}
                       onClick={() => updateStatus(selected.id, s)}
                       disabled={isCurrentStatus}
                       className={cn(

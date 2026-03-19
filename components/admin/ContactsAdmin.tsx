@@ -159,7 +159,7 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
               <div className="flex gap-2 pt-4 border-t border-gray-100">
                 <Button
                   size="sm"
-                  variant={selected.status === "read" ? "default" : "outline-dark"}
+                  variant={selected.status === "read" ? "default" : "outline"}
                   onClick={() => updateStatus(selected.id, "read")}
                   disabled={selected.status === "read"}
                   className="rounded-lg gap-1.5"
@@ -168,7 +168,7 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
                 </Button>
                 <Button
                   size="sm"
-                  variant={selected.status === "replied" ? "default" : "outline-dark"}
+                  variant={selected.status === "replied" ? "default" : "outline"}
                   onClick={() => updateStatus(selected.id, "replied")}
                   disabled={selected.status === "replied"}
                   className="rounded-lg gap-1.5"
