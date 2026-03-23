@@ -93,7 +93,7 @@ export function LatestPublications() {
         >
           <h2 className="text-dark tracking-tight">
             Dernières{" "}
-            <span className="font-playfair italic text-[var(--brand-secondary)]">
+            <span className="font-playfair italic text-[#D4907E]">
               publications
             </span>
           </h2>
