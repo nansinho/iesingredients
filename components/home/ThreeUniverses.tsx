@@ -10,7 +10,7 @@ const universes = [
   {
     titleKey: "cosmetic" as const,
     descKey: "cosmeticDesc" as const,
-    image: "/images/Cosmetique/Portrait Cosmetique.jpg",
+    image: "/images/ACCUEIL-COSMETIQUE.jpg",
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
@@ -20,7 +20,7 @@ const universes = [
   {
     titleKey: "perfume" as const,
     descKey: "perfumeDesc" as const,
-    image: "/images/Parfum/Parfum Portrait.jpg",
+    image: "/images/ACCUEIL-PARFUMERIE.jpg",
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
@@ -30,7 +30,7 @@ const universes = [
   {
     titleKey: "aroma" as const,
     descKey: "aromaDesc" as const,
-    image: "/images/Aromes/Aromes Portrait.jpg",
+    image: "/images/ACCUEIL-ARÔMES.jpg",
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
