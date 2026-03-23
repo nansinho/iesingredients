@@ -8,6 +8,13 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 
+const categoryColors: Record<string, string> = {
+  "Cosmétique": "#5B7B6B",
+  "Parfumerie": "#8B6A80",
+  "Arômes": "#D4907E",
+  "Entreprise": "var(--brand-primary)",
+};
+
 const staticArticles = [
   {
     id: "1",
@@ -147,7 +154,10 @@ export function LatestPublications() {
 
                       {/* Category badge — top */}
                       <div className="absolute top-4 left-4">
-                        <span className="px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-semibold text-[var(--brand-primary)] shadow-sm">
+                        <span
+                          className="px-3.5 py-1.5 rounded-full backdrop-blur-md text-[11px] font-semibold text-white shadow-sm"
+                          style={{ backgroundColor: categoryColors[article.category] || "var(--brand-primary)" }}
+                        >
                           {article.category}
                         </span>
                       </div>
