@@ -132,42 +132,42 @@ export function LatestPublications() {
                   className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)]"
                 >
                   <Link href="/actualites" className="group block h-full">
-                    <div className="bg-white rounded-2xl overflow-hidden border border-dark/8 hover:border-dark/15 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full flex flex-col">
-                      {/* Image */}
-                      <div className="p-3 sm:p-4">
-                        <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
-                          <Image
-                            src={article.image}
-                            alt={article.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
-                          <div className="absolute top-3 left-3">
-                            <span className="px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-semibold text-dark shadow-sm">
-                              {article.category}
-                            </span>
-                          </div>
-                        </div>
+                    <div className="relative h-[420px] md:h-[480px] rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-[0_25px_60px_rgba(0,0,0,0.15)] hover:-translate-y-1">
+                      {/* Full background image */}
+                      <Image
+                        src={article.image}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+
+                      {/* Category badge — top */}
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-semibold text-[var(--brand-primary)] shadow-sm">
+                          {article.category}
+                        </span>
                       </div>
 
-                      {/* Content */}
-                      <div className="px-5 sm:px-6 pb-6 pt-1 flex flex-col flex-1">
-                        <p className="text-xs text-[var(--brand-secondary)] mb-2 font-semibold uppercase tracking-wider">
+                      {/* Content — bottom */}
+                      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7">
+                        <p className="text-[11px] text-white/50 font-semibold uppercase tracking-wider mb-2">
                           {new Date(article.date).toLocaleDateString("fr-FR", {
                             year: "numeric",
                             month: "long",
                             day: "numeric",
                           })}
                         </p>
-                        <h3 className="text-base font-bold text-dark group-hover:text-[var(--brand-secondary)] transition-colors line-clamp-2 mb-2.5 leading-snug">
+                        <h3 className="text-lg font-bold text-white leading-snug mb-2 line-clamp-2">
                           {article.title}
                         </h3>
-                        <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed flex-1">
+                        <p className="text-sm text-white/60 line-clamp-2 leading-relaxed mb-4">
                           {article.excerpt}
                         </p>
-                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand-secondary)] mt-4 group-hover:gap-2.5 transition-all duration-300">
+                        <span className="inline-flex items-center gap-2 text-sm font-semibold text-white group-hover:gap-3 transition-all duration-300">
                           {t("readMore")}
                           <ArrowRight className="w-3.5 h-3.5" />
                         </span>

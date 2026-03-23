@@ -64,16 +64,18 @@ export function ThreeUniverses() {
         </motion.div>
 
         {/* 3 equal columns — continuous block */}
-        <div className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand-primary)]/20">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand-primary)]/20"
+        >
           {universes.map((universe, index) => {
             const Icon = universe.icon;
             return (
-              <motion.div
+              <div
                 key={universe.filter}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
               >
                 <Link
                   href={{ pathname: "/catalogue", query: { category: universe.filter } }}
@@ -134,10 +136,10 @@ export function ThreeUniverses() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Bottom CTAs */}
         <motion.div
