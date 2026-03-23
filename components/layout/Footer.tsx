@@ -110,7 +110,7 @@ export async function Footer() {
               {/* CTA */}
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-accent-light)] text-[var(--brand-primary)] text-sm font-semibold hover:bg-[var(--brand-accent)] transition-all duration-300 shadow-lg shadow-[var(--brand-accent-light)]/10"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-accent)] text-white text-sm font-semibold hover:bg-[var(--brand-accent-light)] hover:text-[var(--brand-primary)] transition-all duration-300 shadow-lg shadow-[var(--brand-accent)]/20"
               >
                 {t("requestQuote")}
                 <ArrowRight className="w-4 h-4" />
