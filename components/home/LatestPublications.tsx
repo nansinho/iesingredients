@@ -92,9 +92,9 @@ export function LatestPublications() {
           className="text-center mb-14"
         >
           <h2 className="text-dark tracking-tight">
-            Dernières{" "}
-            <span className="font-playfair italic text-[#D4907E]">
-              publications
+            L&apos;actualités.{" "}
+            <span className="font-playfair italic text-[var(--brand-accent)]">
+              Les news
             </span>
           </h2>
           <p className="text-dark/50 mt-3 text-base max-w-lg mx-auto">

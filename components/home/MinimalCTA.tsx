@@ -43,11 +43,10 @@ export function MinimalCTA() {
           className="max-w-2xl mx-auto text-center"
         >
           <h2 className="text-white tracking-tight mb-5">
-            Prêt à découvrir nos{" "}
+            Prêt à découvrir nos ingrédients ?{" "}
             <span className="font-playfair italic text-[var(--brand-accent-light)]">
-              ingrédients
-            </span>{" "}
-            ?
+              Contactez-nous.
+            </span>
           </h2>
           <p className="text-white/60 text-base sm:text-lg mb-12 leading-relaxed">
             {t("subtitle")}
