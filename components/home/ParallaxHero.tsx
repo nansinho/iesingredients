@@ -75,6 +75,7 @@ export function ParallaxHero() {
           {/* ── Left: Text content ── */}
           <div className="relative z-10 flex flex-col justify-between p-7 sm:p-10 lg:p-14 xl:p-16">
             {/* Top: surtitle */}
+            {t("surtitle") && (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,6 +85,7 @@ export function ParallaxHero() {
                 {t("surtitle")}
               </span>
             </motion.div>
+            )}
 
             {/* Center: Title + subtitle */}
             <motion.div
