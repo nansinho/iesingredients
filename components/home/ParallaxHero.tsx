@@ -74,8 +74,8 @@ export function ParallaxHero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
           {/* ── Left: Text content ── */}
           <div className="relative z-10 flex flex-col justify-between p-7 sm:p-10 lg:p-14 xl:p-16">
-            {/* Top: surtitle */}
-            {t("surtitle") && (
+            {/* Top: surtitle or spacer */}
+            {t("surtitle") ? (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ export function ParallaxHero() {
                 {t("surtitle")}
               </span>
             </motion.div>
-            )}
+            ) : <div />}
 
             {/* Center: Title + subtitle */}
             <motion.div
