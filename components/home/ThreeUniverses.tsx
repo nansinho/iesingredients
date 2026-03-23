@@ -10,7 +10,7 @@ const universes = [
   {
     titleKey: "cosmetic" as const,
     descKey: "cosmeticDesc" as const,
-    image: "/images/Cosmetique/Portrait Cosmetique.jpg",
+    image: "/images/ACCUEIL-COSMETIQUE.jpg",
     filter: "cosmetique",
     count: "2 000+",
     countLabel: "actifs",
@@ -20,7 +20,7 @@ const universes = [
   {
     titleKey: "perfume" as const,
     descKey: "perfumeDesc" as const,
-    image: "/images/Parfum/Parfum Portrait.jpg",
+    image: "/images/ACCUEIL-PARFUMERIE.jpg",
     filter: "parfum",
     count: "1 500+",
     countLabel: "essences",
@@ -30,7 +30,7 @@ const universes = [
   {
     titleKey: "aroma" as const,
     descKey: "aromaDesc" as const,
-    image: "/images/Aromes/Aromes Portrait.jpg",
+    image: "/images/ACCUEIL-ARÔMES.jpg",
     filter: "arome",
     count: "1 500+",
     countLabel: "arômes",
@@ -54,9 +54,6 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="mb-12 sm:mb-16 text-center"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[var(--brand-primary)]/40 font-semibold mb-4">
-            Nos univers
-          </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--brand-primary)] tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
             <span className="font-playfair italic text-[var(--brand-accent)]">Une expertise.</span>
