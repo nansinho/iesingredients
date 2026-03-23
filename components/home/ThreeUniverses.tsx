@@ -54,9 +54,6 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="mb-12 sm:mb-16 text-center"
         >
-          <span className="inline-block text-[11px] uppercase tracking-[0.3em] text-[var(--brand-primary)]/40 font-semibold mb-4">
-            Nos univers
-          </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--brand-primary)] tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
             <span className="font-playfair italic text-[var(--brand-accent)]">Une expertise.</span>
