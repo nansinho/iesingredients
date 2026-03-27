@@ -142,6 +142,10 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   };
 
   const handlePDFImport = useCallback((mapping: Record<string, string>) => {
+    // Debug: log what we're importing
+    console.log("[BlogEditForm] PDF import content_fr:", mapping.content_fr?.substring(0, 300));
+    console.log("[BlogEditForm] PDF import keys:", Object.keys(mapping));
+
     setForm((prev) => {
       const next = { ...prev };
       Object.entries(mapping).forEach(([key, value]) => {
