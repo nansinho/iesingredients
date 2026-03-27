@@ -6,7 +6,7 @@ export default async function BlogEditPage({
 }: {
   params: Promise<{ locale: string; id: string }>;
 }) {
-  const { locale, id } = await params;
+  const { id } = await params;
   const isNew = id === "new";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let article: Record<string, any> | null = null;
@@ -31,10 +31,11 @@ export default async function BlogEditPage({
   }
 
   return (
-    <BlogEditForm
-      article={article}
-      backPath={`/${locale}/admin/blog`}
-      isNew={isNew}
-    />
+    <div className="max-w-4xl">
+      <BlogEditForm
+        article={article}
+        isNew={isNew}
+      />
+    </div>
   );
 }
