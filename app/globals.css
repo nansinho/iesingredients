@@ -939,3 +939,48 @@
     min-width: 44px;
   }
 }
+
+/* ========================================
+   Article Prose — Premium Typography
+   ======================================== */
+
+.article-prose > p:first-of-type::first-letter {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.85;
+  padding-right: 0.08em;
+  padding-top: 0.05em;
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+
+.dark .article-prose > p:first-of-type::first-letter {
+  color: var(--color-cream-light);
+}
+
+.article-prose hr {
+  border: none;
+  text-align: center;
+  margin: 3rem auto;
+  max-width: 100px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--brand-accent),
+    transparent
+  );
+}
+
+.article-prose figure {
+  margin: 2.5rem 0;
+}
+
+.article-prose figcaption {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--brand-primary);
+  opacity: 0.45;
+  margin-top: 0.75rem;
+}
