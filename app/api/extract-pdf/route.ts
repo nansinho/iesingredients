@@ -85,7 +85,21 @@ Retourne UNIQUEMENT le JSON valide. Pas de backticks, pas de commentaire.`,
 
   // Parse JSON from response (handle potential markdown wrapping)
   const jsonStr = text.replace(/^```json?\s*/, "").replace(/\s*```$/, "").trim();
-  return JSON.parse(jsonStr);
+  const parsed = JSON.parse(jsonStr);
+
+  // Post-process: ensure content fields have proper HTML paragraph tags
+  for (const key of ["content_fr", "content_en"]) {
+    if (parsed[key] && !parsed[key].includes("<p>") && !parsed[key].includes("<h")) {
+      // Claude returned plain text - convert to proper HTML paragraphs
+      parsed[key] = parsed[key]
+        .split(/\n\s*\n/)
+        .filter((p: string) => p.trim())
+        .map((p: string) => `<p>${p.trim().replace(/\n/g, "<br>")}</p>`)
+        .join("\n");
+    }
+  }
+
+  return parsed;
 }
 
 function fallbackStructure(rawText: string): Record<string, string> {
@@ -204,17 +218,25 @@ export async function POST(request: NextRequest) {
 
     // Try Claude AI analysis first, fallback to regex
     let fields: Record<string, string>;
+    let usedAI = false;
     try {
       fields = await analyzeWithClaude(cleanedText);
+      usedAI = true;
     } catch (err) {
       console.warn("Claude analysis failed, using fallback:", err);
       fields = fallbackStructure(cleanedText);
     }
 
+    // Log for debugging
+    const contentPreview = fields.content_fr?.substring(0, 200) || "";
+    console.log(`[PDF Import] AI: ${usedAI}, content starts with: ${contentPreview}`);
+    console.log(`[PDF Import] Has <p> tags: ${fields.content_fr?.includes("<p>")}, Has <h2>: ${fields.content_fr?.includes("<h2>")}, Has <strong>: ${fields.content_fr?.includes("<strong>")}`);
+
     return NextResponse.json({
       fields,
       pages: data.numpages,
       fileName: file.name,
+      _debug: { usedAI, contentHasHtml: fields.content_fr?.includes("<p>") },
     });
   } catch {
     return NextResponse.json(
