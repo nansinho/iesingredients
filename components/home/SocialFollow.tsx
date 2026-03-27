@@ -1,6 +1,6 @@
 "use client";
 
-import { Instagram, Linkedin, ArrowUpRight } from "lucide-react";
+import { Instagram, Linkedin, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
@@ -10,16 +10,14 @@ const socials = [
     icon: Instagram,
     url: "https://www.instagram.com/ies_ingredients/",
     handle: "@ies_ingredients",
-    gradient: "from-[#f09433] via-[#e6683c] to-[#dc2743]",
-    hoverBg: "hover:bg-gradient-to-br hover:from-[#f09433] hover:via-[#e6683c] hover:to-[#dc2743]",
+    color: "#E1306C",
   },
   {
     name: "LinkedIn",
     icon: Linkedin,
     url: "https://www.linkedin.com/company/ies-ingredients/",
     handle: "IES Ingredients",
-    gradient: "from-[#0077B5] to-[#0A66C2]",
-    hoverBg: "hover:bg-gradient-to-br hover:from-[#0077B5] hover:to-[#0A66C2]",
+    color: "#0A66C2",
   },
 ];
 
@@ -48,46 +46,43 @@ export function SocialFollow() {
           </p>
         </motion.div>
 
-        {/* Social cards */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 max-w-2xl mx-auto">
+        {/* Social links - elegant inline style */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
           {socials.map((social, index) => (
             <motion.a
               key={social.name}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className={`group relative w-full sm:w-72 overflow-hidden rounded-3xl bg-white border border-[var(--brand-primary)]/[0.06] p-8 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_25px_60px_rgba(46,31,61,0.12)] ${social.hoverBg} hover:border-transparent`}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              className="group flex items-center gap-4 rounded-full border border-[var(--brand-primary)]/10 bg-[var(--brand-primary)]/[0.04] backdrop-blur-sm pl-2 pr-6 py-2 transition-all duration-400 hover:border-[var(--brand-primary)]/25 hover:bg-[var(--brand-primary)]/[0.08] hover:shadow-[0_8px_30px_rgba(46,31,61,0.08)]"
             >
-              {/* Icon + Arrow row */}
-              <div className="flex items-start justify-between mb-6">
-                <div
-                  className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${social.gradient} flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-105 group-hover:shadow-xl`}
-                >
-                  <social.icon className="w-6 h-6 text-white" />
-                </div>
-                <div className="w-9 h-9 rounded-full border border-[var(--brand-primary)]/10 flex items-center justify-center transition-all duration-300 group-hover:border-white/40 group-hover:bg-white/20">
-                  <ArrowUpRight className="w-4 h-4 text-[var(--brand-primary)]/40 transition-all duration-300 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </div>
+              {/* Icon circle */}
+              <div
+                className="w-11 h-11 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                style={{ backgroundColor: `${social.color}12` }}
+              >
+                <social.icon
+                  className="w-[18px] h-[18px] transition-colors duration-300"
+                  style={{ color: social.color }}
+                />
               </div>
 
               {/* Text */}
-              <h3 className="text-lg font-semibold text-[var(--brand-primary)] text-left transition-colors duration-300 group-hover:text-white">
-                {social.name}
-              </h3>
-              <p className="text-sm text-[var(--brand-primary)]/50 text-left mt-1 transition-colors duration-300 group-hover:text-white/70">
-                {social.handle}
-              </p>
-
-              {/* Follow button */}
-              <div className="mt-6 flex justify-start">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--brand-primary)]/50 border border-[var(--brand-primary)]/10 rounded-full px-4 py-2 transition-all duration-300 group-hover:text-white group-hover:border-white/30 group-hover:bg-white/15">
-                  {t("follow")}
-                </span>
+              <div className="text-left">
+                <p className="text-sm font-semibold text-[var(--brand-primary)] leading-tight">
+                  {social.name}
+                </p>
+                <p className="text-xs text-[var(--brand-primary)]/45 leading-tight mt-0.5">
+                  {social.handle}
+                </p>
               </div>
+
+              {/* Arrow */}
+              <ArrowRight className="w-4 h-4 text-[var(--brand-primary)]/25 ml-1 transition-all duration-300 group-hover:text-[var(--brand-primary)]/50 group-hover:translate-x-1" />
             </motion.a>
           ))}
         </div>
