@@ -1,25 +1,66 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const LIBRETRANSLATE_URL =
-  process.env.LIBRETRANSLATE_URL || "http://libretranslate:5000";
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
-async function translateText(text: string): Promise<string> {
-  try {
-    const res = await fetch(`${LIBRETRANSLATE_URL}/translate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ q: text, source: "fr", target: "en", format: "text" }),
-    });
-    if (!res.ok) return "";
-    const data = await res.json();
-    return data.translatedText || "";
-  } catch {
-    return "";
+async function analyzeWithClaude(rawText: string): Promise<Record<string, string>> {
+  if (!ANTHROPIC_API_KEY) {
+    throw new Error("ANTHROPIC_API_KEY not configured");
   }
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": ANTHROPIC_API_KEY,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 4096,
+      messages: [
+        {
+          role: "user",
+          content: `Tu es un assistant éditorial pour IES Ingredients, un distributeur B2B d'ingrédients naturels pour la parfumerie, cosmétique et arômes.
+
+Analyse ce texte extrait d'un PDF et structure-le en article de blog professionnel.
+
+TEXTE EXTRAIT:
+---
+${rawText}
+---
+
+Retourne un JSON valide avec ces champs:
+- "title_fr": Titre concis et professionnel en français
+- "title_en": Traduction anglaise du titre
+- "excerpt_fr": Résumé de 2-3 phrases en français (max 300 caractères)
+- "excerpt_en": Traduction anglaise de l'extrait
+- "content_fr": Le contenu complet restructuré en HTML propre (utilise <p>, <h2>, <h3>, <blockquote> pour les citations, <strong> pour les noms importants). Garde le contenu fidèle au texte original mais améliore la mise en forme. N'ajoute pas de contenu inventé.
+- "content_en": Traduction anglaise du contenu HTML
+- "author_name": Nom de l'auteur ou contact presse si mentionné
+- "meta_description": Description SEO en français (max 155 caractères)
+- "category": Une des valeurs suivantes: "news", "press", "events", "certifications", "trends". Choisis la plus appropriée.
+
+IMPORTANT: Retourne UNIQUEMENT le JSON, sans backticks, sans explication.`,
+        },
+      ],
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error("Claude API error:", err);
+    throw new Error("Erreur lors de l'analyse IA");
+  }
+
+  const data = await res.json();
+  const text = data.content?.[0]?.text || "";
+
+  // Parse JSON from response (handle potential markdown wrapping)
+  const jsonStr = text.replace(/^```json?\s*/, "").replace(/\s*```$/, "").trim();
+  return JSON.parse(jsonStr);
 }
 
-function structureText(rawText: string) {
-  // Clean up PDF extraction artifacts
+function fallbackStructure(rawText: string): Record<string, string> {
   const text = rawText
     .replace(/\r\n/g, "\n")
     .replace(/[ \t]+/g, " ")
@@ -28,102 +69,60 @@ function structureText(rawText: string) {
 
   const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
 
-  // Extract title: first meaningful line that looks like a heading
   let title = "";
   let contentStartIndex = 0;
 
   for (let i = 0; i < Math.min(lines.length, 5); i++) {
     const line = lines[i];
-    // Skip very short lines, dates, or common headers like "COMMUNIQUÉ DE PRESSE"
     if (
       line.length < 5 ||
       /^communiqu[ée]/i.test(line) ||
-      /^press\s*release/i.test(line) ||
-      /^\d{1,2}[\s/.-]\d{1,2}[\s/.-]\d{2,4}$/.test(line)
+      /^press\s*release/i.test(line)
     ) {
       continue;
     }
-    // First real line = title candidate
     title = line.replace(/\s*[.:]\s*$/, "");
     contentStartIndex = i + 1;
     break;
   }
 
-  // If title has a subtitle on the next line (shorter, related)
-  if (
-    contentStartIndex < lines.length &&
-    lines[contentStartIndex].length > 10 &&
-    lines[contentStartIndex].length < title.length * 2 &&
-    !lines[contentStartIndex].includes(".")
-  ) {
-    title += " — " + lines[contentStartIndex].replace(/\s*[.:]\s*$/, "");
-    contentStartIndex++;
-  }
-
-  // Extract author from "Contact presse" or similar patterns
   let author = "";
   const contactIdx = lines.findIndex((l) =>
     /contact\s*(presse|press|:)/i.test(l)
   );
   if (contactIdx !== -1 && contactIdx + 1 < lines.length) {
-    const contactLine = lines[contactIdx + 1];
-    const namePart = contactLine.split(/[–\-—@]/).at(0)?.trim();
+    const namePart = lines[contactIdx + 1].split(/[–\-—@]/).at(0)?.trim();
     if (namePart && namePart.length > 2 && namePart.length < 60) {
       author = namePart;
     }
   }
 
-  // Build content paragraphs (skip contact section at the end)
   const contentLines = lines.slice(
     contentStartIndex,
     contactIdx > contentStartIndex ? contactIdx : undefined
   );
 
-  // Group lines into paragraphs
   const paragraphs: string[] = [];
-  let currentParagraph = "";
-
+  let current = "";
   for (const line of contentLines) {
-    if (line.length === 0) {
-      if (currentParagraph) {
-        paragraphs.push(currentParagraph.trim());
-        currentParagraph = "";
-      }
+    if (!line) {
+      if (current) { paragraphs.push(current.trim()); current = ""; }
     } else {
-      currentParagraph += (currentParagraph ? " " : "") + line;
+      current += (current ? " " : "") + line;
     }
   }
-  if (currentParagraph.trim()) {
-    paragraphs.push(currentParagraph.trim());
-  }
+  if (current.trim()) paragraphs.push(current.trim());
 
-  // Excerpt = first paragraph (or first 2 if first is short)
-  let excerpt = paragraphs[0] || "";
-  if (excerpt.length < 80 && paragraphs.length > 1) {
-    excerpt += " " + paragraphs[1];
-  }
-  // Limit excerpt
-  if (excerpt.length > 300) {
-    excerpt = excerpt.slice(0, 297).replace(/\s+\S*$/, "") + "...";
-  }
-
-  // Content as HTML
-  const contentHtml = paragraphs
-    .map((p) => `<p>${p}</p>`)
-    .join("\n");
-
-  // Meta description
-  const metaDescription =
-    excerpt.length > 160
-      ? excerpt.slice(0, 157).replace(/\s+\S*$/, "") + "..."
-      : excerpt;
+  const excerpt = (paragraphs[0] || "").slice(0, 300);
+  const contentHtml = paragraphs.map((p) => `<p>${p}</p>`).join("\n");
 
   return {
     title_fr: title,
     excerpt_fr: excerpt,
     content_fr: contentHtml,
     author_name: author,
-    meta_description: metaDescription,
+    meta_description: excerpt.slice(0, 155),
+    category: "press",
   };
 }
 
@@ -163,36 +162,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Structure the text into article fields
-    const fields = structureText(data.text);
-
-    // Auto-translate to English in parallel
-    const [titleEn, excerptEn, contentEn] = await Promise.all([
-      translateText(fields.title_fr),
-      translateText(fields.excerpt_fr),
-      // Translate content paragraphs (strip HTML, translate, re-wrap)
-      (async () => {
-        const plainParagraphs = fields.content_fr
-          .replace(/<\/?p>/g, "|||")
-          .split("|||")
-          .filter(Boolean);
-        const translated = await Promise.all(
-          plainParagraphs.map((p) => translateText(p))
-        );
-        return translated
-          .filter(Boolean)
-          .map((p) => `<p>${p}</p>`)
-          .join("\n");
-      })(),
-    ]);
+    // Try Claude AI analysis first, fallback to regex
+    let fields: Record<string, string>;
+    try {
+      fields = await analyzeWithClaude(data.text);
+    } catch (err) {
+      console.warn("Claude analysis failed, using fallback:", err);
+      fields = fallbackStructure(data.text);
+    }
 
     return NextResponse.json({
-      fields: {
-        ...fields,
-        title_en: titleEn,
-        excerpt_en: excerptEn,
-        content_en: contentEn,
-      },
+      fields,
       pages: data.numpages,
       fileName: file.name,
     });
