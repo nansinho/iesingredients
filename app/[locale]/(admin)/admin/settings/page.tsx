@@ -1,5 +1,6 @@
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
-import { Settings } from "lucide-react";
+import { ConnectorsSettings } from "@/components/admin/ConnectorsSettings";
+import { Settings, Plug } from "lucide-react";
 
 export default async function SettingsPage() {
   return (
@@ -9,7 +10,20 @@ export default async function SettingsPage() {
         subtitle="Configuration de la plateforme"
       />
 
-      <div className="max-w-2xl space-y-6">
+      <div className="max-w-3xl space-y-8">
+        {/* Connecteurs */}
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-1 flex items-center gap-2">
+            <Plug className="w-5 h-5" />
+            Connecteurs
+          </h2>
+          <p className="text-sm text-[var(--brand-secondary)]/50 mb-4">
+            Connectez des services externes pour enrichir votre plateforme.
+          </p>
+          <ConnectorsSettings />
+        </div>
+
+        {/* Informations générales */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-4 flex items-center gap-2">
             <Settings className="w-5 h-5" />
@@ -39,6 +53,7 @@ export default async function SettingsPage() {
           </div>
         </div>
 
+        {/* Maintenance */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-4">
             Actions de maintenance
