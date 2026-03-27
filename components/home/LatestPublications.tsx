@@ -99,7 +99,7 @@ export function LatestPublications() {
           className="text-center mb-14"
         >
           <h2 className="text-dark tracking-tight">
-            A la une.{" "}
+            À la une.{" "}
             <span className="font-playfair italic text-[var(--brand-accent)]">
               L&apos;essentiel.
             </span>
