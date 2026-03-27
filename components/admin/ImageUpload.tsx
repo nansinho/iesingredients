@@ -5,7 +5,6 @@ import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import { Upload, X, ImageIcon, Loader2, Type } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -51,24 +50,6 @@ function getImageDimensions(file: File): Promise<{ width: number; height: number
   });
 }
 
-async function trackInMediaLibrary(file: File, url: string, folder: string, dimensions: { width: number; height: number }) {
-  try {
-    const supabase = createClient();
-    await (supabase.from("media") as ReturnType<typeof supabase.from>).insert({
-      file_name: file.name,
-      file_url: url,
-      file_size: file.size,
-      file_type: file.type,
-      width: dimensions.width,
-      height: dimensions.height,
-      folder,
-      alt_text: "",
-      description: "",
-    });
-  } catch {
-    // Silently fail — media tracking is non-critical
-  }
-}
 
 export function ImageUpload({
   value,
@@ -123,24 +104,22 @@ export function ImageUpload({
       }
       setProgress(50);
 
-      // 3. Upload to Supabase
-      const supabase = createClient();
-      const ext = compressed.name.split(".").pop();
-      const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      // 3. Upload via API route (bypasses storage RLS)
+      const formData = new FormData();
+      formData.append("file", compressed);
+      formData.append("bucket", bucket);
+      formData.append("folder", folder);
+      formData.append("width", String(dimensions.width));
+      formData.append("height", String(dimensions.height));
 
-      const { error } = await supabase.storage
-        .from(bucket)
-        .upload(fileName, compressed, { upsert: true, contentType: compressed.type });
-
-      if (error) throw error;
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Upload échoué");
+      }
       setProgress(80);
 
-      const { data: { publicUrl } } = supabase.storage
-        .from(bucket)
-        .getPublicUrl(fileName);
-
-      // 4. Track in media library
-      await trackInMediaLibrary(compressed, publicUrl, folder, dimensions);
+      const { url: publicUrl } = await res.json();
 
       onChange(publicUrl);
       setProgress(100);

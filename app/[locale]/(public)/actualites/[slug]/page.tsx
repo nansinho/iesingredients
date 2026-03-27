@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { Link } from "@/i18n/routing";
-import { ArrowLeft, ArrowRight, Calendar, User, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, User, Clock, Eye } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
 import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
@@ -11,6 +11,7 @@ import { TableOfContents } from "@/components/article/TableOfContents";
 import { ShareButtons } from "@/components/article/ShareButtons";
 import { BackToTop } from "@/components/article/BackToTop";
 import { ArticleContent } from "@/components/article/ArticleContent";
+import { isAdmin } from "@/lib/auth";
 import type { Database } from "@/lib/supabase/types";
 
 type BlogArticle = Database["public"]["Tables"]["blog_articles"]["Row"];
@@ -44,18 +45,27 @@ function extractHeadings(html: string): { id: string; text: string; level: numbe
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ preview?: string }>;
 }) {
   const { locale, slug } = await params;
+  const { preview } = await searchParams;
   const supabase = await createClient();
 
-  const { data } = await supabase
+  const isPreview = preview === "true" && await isAdmin();
+
+  let query = supabase
     .from("blog_articles")
     .select("*")
-    .eq("slug", slug)
-    .eq("published", true)
-    .maybeSingle();
+    .eq("slug", slug);
+
+  if (!isPreview) {
+    query = query.eq("published", true);
+  }
+
+  const { data } = await query.maybeSingle();
 
   const article = data as BlogArticle | null;
   if (!article) return { title: "Article not found" };
@@ -87,19 +97,28 @@ export async function generateMetadata({
 
 export default async function ArticlePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ preview?: string }>;
 }) {
   const { locale, slug } = await params;
+  const { preview } = await searchParams;
   const isFr = locale === "fr";
   const supabase = await createClient();
 
-  const { data: articleData } = await supabase
+  const isPreview = preview === "true" && await isAdmin();
+
+  let query = supabase
     .from("blog_articles")
     .select("*")
-    .eq("slug", slug)
-    .eq("published", true)
-    .maybeSingle();
+    .eq("slug", slug);
+
+  if (!isPreview) {
+    query = query.eq("published", true);
+  }
+
+  const { data: articleData } = await query.maybeSingle();
 
   const article = articleData as BlogArticle | null;
   if (!article) return notFound();
@@ -157,6 +176,14 @@ export default async function ArticlePage({
           { name: title || slug, url: `https://ies-ingredients.com/${locale}/${isFr ? "actualites" : "news"}/${slug}` },
         ]}
       />
+
+      {/* ── Preview banner ── */}
+      {isPreview && (
+        <div className="bg-amber-500 text-white text-center py-2.5 px-4 text-sm font-medium flex items-center justify-center gap-2 relative z-50">
+          <Eye className="w-4 h-4" />
+          {isFr ? "Mode aperçu — Cet article n'est pas encore publié" : "Preview mode — This article is not published yet"}
+        </div>
+      )}
 
       {/* ── Hero ── */}
       <section className="relative min-h-[70vh] flex items-end overflow-hidden">
