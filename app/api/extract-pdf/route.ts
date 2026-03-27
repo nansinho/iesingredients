@@ -190,13 +190,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Pre-clean PDF text to help Claude identify paragraph boundaries
+    const cleanedText = data.text
+      // Normalize line endings
+      .replace(/\r\n/g, "\n")
+      // Remove excessive spaces (pdf-parse artifacts) but keep newlines
+      .replace(/[^\S\n]+/g, " ")
+      // Ensure paragraph breaks are clear (double newline)
+      .replace(/\n\s*\n/g, "\n\n")
+      // Remove trailing spaces per line
+      .replace(/ +\n/g, "\n")
+      .trim();
+
     // Try Claude AI analysis first, fallback to regex
     let fields: Record<string, string>;
     try {
-      fields = await analyzeWithClaude(data.text);
+      fields = await analyzeWithClaude(cleanedText);
     } catch (err) {
       console.warn("Claude analysis failed, using fallback:", err);
-      fields = fallbackStructure(data.text);
+      fields = fallbackStructure(cleanedText);
     }
 
     return NextResponse.json({

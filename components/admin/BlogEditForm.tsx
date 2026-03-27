@@ -142,12 +142,27 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   };
 
   const handlePDFImport = useCallback((mapping: Record<string, string>) => {
-    Object.entries(mapping).forEach(([key, value]) => {
-      handleChange(key, value);
+    setForm((prev) => {
+      const next = { ...prev };
+      Object.entries(mapping).forEach(([key, value]) => {
+        if (key in next) {
+          (next as any)[key] = value;
+        }
+      });
+      // Auto-generate slug from title if new
+      if (isNew && mapping.title_fr) {
+        next.slug = mapping.title_fr
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+      }
+      return next;
     });
     setShowPDFImport(false);
     toast.success("Contenu importé du PDF");
-  }, [handleChange]);
+  }, [isNew]);
 
   const categories = [
     { value: "news", label: "Nouveautés" },

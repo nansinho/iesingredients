@@ -79,6 +79,7 @@ function ToolbarDivider() {
 
 export function RichTextEditor({ content, onChange, placeholder = "Commencez à écrire..." }: RichTextEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isSettingContent = useRef(false);
 
   const editor = useEditor({
     extensions: [
@@ -99,7 +100,10 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
     ],
     content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      // Skip onChange during external content sync to prevent feedback loop
+      if (!isSettingContent.current) {
+        onChange(editor.getHTML());
+      }
     },
     editorProps: {
       attributes: {
@@ -155,13 +159,22 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
     }
   }, [editor]);
 
-  // Sync editor content when prop changes externally (e.g. PDF import)
+  // Sync editor content when prop changes externally (e.g. PDF import, AI generation)
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || !content) return;
+    if (content === "<p></p>") return;
+
+    // Normalize both for comparison: strip whitespace between tags
+    const normalize = (html: string) => html.replace(/>\s+</g, "><").trim();
     const currentHTML = editor.getHTML();
-    // Only update if content actually changed and is not from user typing
-    if (content && content !== currentHTML && content !== "<p></p>") {
+
+    if (normalize(content) !== normalize(currentHTML)) {
+      isSettingContent.current = true;
       editor.commands.setContent(content, { emitUpdate: false });
+      // Reset flag after TipTap processes the content
+      requestAnimationFrame(() => {
+        isSettingContent.current = false;
+      });
     }
   }, [editor, content]);
 
