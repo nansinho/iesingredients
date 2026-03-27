@@ -68,50 +68,53 @@ async function analyzeWithClaude(rawText: string): Promise<Record<string, string
           role: "user",
           content: `Tu es un éditeur professionnel pour le blog d'IES Ingredients (distributeur B2B d'ingrédients naturels : parfumerie, cosmétique, arômes).
 
-MISSION : Analyse ce texte extrait d'un PDF et structure-le en article.
+MISSION : Analyse ce texte extrait d'un PDF et structure-le en article de blog. Le document peut être de n'importe quel type : communiqué de presse, article technique, rapport, newsletter, fiche produit, présentation, etc. Adapte-toi au contenu.
 
-TEXTE BRUT :
+TEXTE BRUT EXTRAIT DU PDF :
 ===
 ${rawText}
 ===
 
-RÈGLE CRITIQUE : Tu dois DÉCOUPER le texte en BLOCS SÉPARÉS. Chaque idée, chaque changement de sujet, chaque citation = un bloc distinct. NE METS JAMAIS tout le texte dans un seul bloc.
+RÈGLE CRITIQUE : Tu dois DÉCOUPER le texte en BLOCS SÉPARÉS. Chaque idée, chaque changement de sujet, chaque citation, chaque section = un bloc distinct. NE METS JAMAIS tout le texte dans un seul bloc. C'est la règle la plus importante.
 
 Retourne un JSON avec cette structure EXACTE :
 
 {
-  "title_fr": "Titre concis en français",
+  "title_fr": "Titre concis et accrocheur en français",
   "title_en": "English title",
-  "excerpt_fr": "Résumé 2-3 phrases, max 280 caractères",
+  "excerpt_fr": "Résumé éditorial de 2-3 phrases, max 280 caractères. Doit donner envie de lire.",
   "excerpt_en": "English excerpt",
   "blocks_fr": [
-    {"type": "paragraph", "text": "Premier paragraphe du texte...", "bold": ["Nom Personne", "Nom Entreprise"]},
-    {"type": "paragraph", "text": "Deuxième paragraphe...", "bold": ["IES Ingredients"]},
-    {"type": "quote", "text": "Citation entre guillemets d'une personne", "bold": ["Nom de la personne"]},
+    {"type": "heading", "text": "Titre de section si applicable", "bold": []},
+    {"type": "paragraph", "text": "Premier paragraphe...", "bold": ["Nom Personne", "Nom Entreprise"]},
+    {"type": "paragraph", "text": "Deuxième paragraphe, nouvelle idée...", "bold": ["Autre Nom"]},
+    {"type": "quote", "text": "Citation directe d'une personne entre guillemets", "bold": ["Nom du locuteur"]},
     {"type": "paragraph", "text": "Suite du texte...", "bold": []},
     {"type": "contact", "text": "NOM Prénom – email@exemple.com", "bold": []}
   ],
   "blocks_en": [
-    {"type": "paragraph", "text": "First paragraph...", "bold": ["Person Name", "Company Name"]},
-    ...même structure traduite en anglais...
+    ...même structure traduite en anglais, même nombre de blocs...
   ],
-  "author_name": "Nom de l'auteur ou contact presse",
-  "meta_description": "Description SEO max 155 caractères",
+  "author_name": "Auteur ou contact si mentionné (chaîne vide sinon)",
+  "meta_description": "Description SEO max 155 caractères avec mots-clés pertinents",
   "category": "press"
 }
 
-RÈGLES POUR LES BLOCS :
-- "paragraph" : texte normal. CHAQUE paragraphe distinct du PDF = un bloc séparé.
-- "heading" : titre de section (s'il y en a dans le document)
-- "quote" : citation directe entre guillemets « » d'une personne nommée
-- "contact" : section contact presse en fin de document
-- "bold" : liste des noms propres et entreprises à mettre en gras DANS ce bloc
-- MINIMUM 4-5 blocs pour un texte normal. Si le texte fait plus de 500 mots, au moins 6-8 blocs.
-- category : "news" | "press" | "events" | "certifications" | "trends"
+TYPES DE BLOCS :
+- "paragraph" : texte normal. CHAQUE paragraphe distinct = un bloc séparé. Quand le sujet change, nouveau bloc.
+- "heading" : titre de section du document (h2). Utilise si le document a des parties distinctes.
+- "quote" : citation directe entre guillemets « » ou "" d'une personne nommée. Inclus le nom du locuteur dans bold.
+- "contact" : informations de contact en fin de document (si présentes).
 
-FIDÉLITÉ : Garde 100% du contenu mot pour mot. Ne résume pas, n'invente rien.
+RÈGLES :
+- "bold" : noms propres de personnes, entreprises, marques, lieux importants, dates clés dans CE bloc
+- MINIMUM 5 blocs pour un texte court, 8-12 blocs pour un texte long (500+ mots)
+- Un bloc "paragraph" fait idéalement 2 à 5 phrases. Si tu as un bloc de plus de 5 phrases, DÉCOUPE-LE en deux.
+- category : "news" | "press" | "events" | "certifications" | "trends" (choisis selon le contenu)
+- FIDÉLITÉ : Garde 100% du contenu original, mot pour mot. Ne résume pas, n'invente rien.
+- Corrige les artefacts d'extraction PDF (mots coupés, espaces en trop) mais ne modifie pas le sens.
 
-Retourne UNIQUEMENT le JSON. Pas de backticks, pas de commentaire.`,
+Retourne UNIQUEMENT le JSON. Pas de backticks, pas de commentaire, pas d'explication.`,
         },
       ],
     }),
