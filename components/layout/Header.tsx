@@ -20,7 +20,6 @@ import {
   ShoppingBag,
   Instagram,
   Linkedin,
-  Facebook,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -46,7 +45,6 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 const socialLinks = [
   { name: "Instagram", icon: Instagram, url: "https://www.instagram.com/ies_ingredients/", color: "#E1306C" },
   { name: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/company/ies-ingredients/", color: "#0A66C2" },
-  { name: "Facebook", icon: Facebook, url: "https://www.facebook.com/iesingredients/", color: "#1877F2" },
 ];
 
 const catalogColumns = [
