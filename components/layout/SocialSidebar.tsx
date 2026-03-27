@@ -1,6 +1,6 @@
 "use client";
 
-import { Instagram, Linkedin, Facebook } from "lucide-react";
+import { Instagram, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
 
 const socials = [
@@ -15,12 +15,6 @@ const socials = [
     icon: Linkedin,
     url: "https://www.linkedin.com/company/ies-ingredients/",
     color: "#0A66C2",
-  },
-  {
-    name: "Facebook",
-    icon: Facebook,
-    url: "https://www.facebook.com/iesingredients/",
-    color: "#1877F2",
   },
 ];
 
