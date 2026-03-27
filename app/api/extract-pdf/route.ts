@@ -2,56 +2,99 @@ import { NextRequest, NextResponse } from "next/server";
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
-interface ContentBlock {
-  type: "paragraph" | "heading" | "quote" | "contact";
-  text: string;
-  bold?: string[];
+const SEO_PROMPT = `Tu es un rédacteur web SEO expert pour le blog d'IES Ingredients (distributeur B2B d'ingrédients naturels : parfumerie, cosmétique, arômes alimentaires, basé en Provence).
+
+MISSION : Transforme ce contenu en un article de blog parfaitement structuré, optimisé SEO/SEA/AEO (Answer Engine Optimization).
+
+RÈGLES SEO CRITIQUES :
+1. STRUCTURE SÉMANTIQUE : Utilise une hiérarchie de titres correcte (H2 > H3, jamais de H1)
+2. MAILLAGE DE MOTS-CLÉS : Intègre naturellement les mots-clés du secteur (ingrédients naturels, cosmétique, parfumerie, arômes, bio, COSMOS, ECOCERT)
+3. FEATURED SNIPPETS : Commence par répondre à la question principale en 2-3 phrases (position zéro)
+4. LISIBILITÉ : Paragraphes courts (3-4 phrases max), phrases de transition, mots de liaison
+5. LISTES : Utilise des listes à puces <ul>/<ol> quand pertinent (Google les adore pour les featured snippets)
+6. MISE EN VALEUR : <strong> pour les termes importants, noms propres, données chiffrées
+7. LONGUEUR : Article complet de 800-1500 mots minimum pour le SEO
+
+CONTENU SOURCE :
+===
+{CONTENT}
+===
+
+Retourne un JSON avec cette structure EXACTE :
+
+{
+  "title_fr": "Titre SEO accrocheur en français (50-60 caractères max)",
+  "title_en": "SEO-optimized English title (50-60 chars max)",
+  "excerpt_fr": "Résumé optimisé pour les featured snippets, 2-3 phrases percutantes. Répond à la question principale. Max 280 caractères.",
+  "excerpt_en": "English excerpt optimized for featured snippets. Max 280 chars.",
+  "content_fr": "<h2>Titre section 1</h2>\\n<p>Paragraphe d'introduction avec <strong>mots-clés importants</strong> en gras...</p>\\n<h2>Titre section 2</h2>\\n<p>Suite...</p>\\n<ul>\\n<li>Point clé 1</li>\\n<li>Point clé 2</li>\\n</ul>\\n<blockquote><p>Citation si applicable</p></blockquote>",
+  "content_en": "...même structure traduite en anglais professionnel...",
+  "author_name": "Auteur ou contact presse si mentionné (chaîne vide sinon)",
+  "meta_title": "Titre SEO < 60 caractères | IES Ingredients",
+  "meta_description": "Description meta SEO 140-155 caractères avec mots-clés principaux et appel à l'action",
+  "category": "press",
+  "suggested_slug": "titre-article-en-kebab-case"
 }
+
+BALISES HTML AUTORISÉES dans content_fr/content_en :
+- <h2> : titres de sections principales (3-5 par article)
+- <h3> : sous-titres
+- <p> : paragraphes (courts, 3-4 phrases)
+- <strong> : mots-clés, noms propres, chiffres importants
+- <em> : termes techniques, citations courtes inline
+- <ul><li> : listes à puces (points clés, avantages, ingrédients)
+- <ol><li> : listes numérotées (étapes, processus)
+- <blockquote><p> : citations directes avec attribution
+
+RÈGLES CONTENU :
+- FIDÉLITÉ : Garde le sens et les informations du contenu source. Ne supprime rien d'important.
+- ENRICHISSEMENT : Tu peux reformuler pour améliorer le SEO et la lisibilité
+- category : "news" | "press" | "events" | "certifications" | "trends"
+- Corrige les artefacts d'extraction (mots coupés, espaces en trop)
+
+Retourne UNIQUEMENT le JSON. Pas de backticks, pas de commentaire.`;
 
 interface ClaudeResponse {
   title_fr: string;
   title_en: string;
   excerpt_fr: string;
   excerpt_en: string;
-  blocks_fr: ContentBlock[];
-  blocks_en: ContentBlock[];
+  content_fr: string;
+  content_en: string;
   author_name: string;
+  meta_title: string;
   meta_description: string;
   category: string;
+  suggested_slug: string;
 }
 
-function blocksToHtml(blocks: ContentBlock[]): string {
-  return blocks
-    .map((block) => {
-      let text = block.text;
-
-      // Apply bold to specified words/phrases
-      if (block.bold?.length) {
-        for (const term of block.bold) {
-          // Escape regex chars in term
-          const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          text = text.replace(new RegExp(escaped, "g"), `<strong>${term}</strong>`);
-        }
-      }
-
-      switch (block.type) {
-        case "heading":
-          return `<h2>${text}</h2>`;
-        case "quote":
-          return `<blockquote><p>${text}</p></blockquote>`;
-        case "contact":
-          return `<h3>Contact presse</h3>\n<p>${text}</p>`;
-        default:
-          return `<p>${text}</p>`;
-      }
-    })
-    .join("\n");
-}
-
-async function analyzeWithClaude(rawText: string): Promise<Record<string, string>> {
+async function analyzeWithClaude(
+  content: string,
+  mode: "text" | "image",
+  imageBase64?: string,
+  imageMimeType?: string
+): Promise<Record<string, string>> {
   if (!ANTHROPIC_API_KEY) {
     throw new Error("ANTHROPIC_API_KEY not configured");
   }
+
+  const prompt = SEO_PROMPT.replace("{CONTENT}", mode === "text" ? content : "[Voir l'image jointe — extrais tout le texte visible et transforme-le en article structuré]");
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const userContent: any[] = [];
+
+  if (mode === "image" && imageBase64 && imageMimeType) {
+    userContent.push({
+      type: "image",
+      source: {
+        type: "base64",
+        media_type: imageMimeType,
+        data: imageBase64,
+      },
+    });
+  }
+
+  userContent.push({ type: "text", text: prompt });
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -62,61 +105,8 @@ async function analyzeWithClaude(rawText: string): Promise<Record<string, string
     },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 8192,
-      messages: [
-        {
-          role: "user",
-          content: `Tu es un éditeur professionnel pour le blog d'IES Ingredients (distributeur B2B d'ingrédients naturels : parfumerie, cosmétique, arômes).
-
-MISSION : Analyse ce texte extrait d'un PDF et structure-le en article de blog. Le document peut être de n'importe quel type : communiqué de presse, article technique, rapport, newsletter, fiche produit, présentation, etc. Adapte-toi au contenu.
-
-TEXTE BRUT EXTRAIT DU PDF :
-===
-${rawText}
-===
-
-RÈGLE CRITIQUE : Tu dois DÉCOUPER le texte en BLOCS SÉPARÉS. Chaque idée, chaque changement de sujet, chaque citation, chaque section = un bloc distinct. NE METS JAMAIS tout le texte dans un seul bloc. C'est la règle la plus importante.
-
-Retourne un JSON avec cette structure EXACTE :
-
-{
-  "title_fr": "Titre concis et accrocheur en français",
-  "title_en": "English title",
-  "excerpt_fr": "Résumé éditorial de 2-3 phrases, max 280 caractères. Doit donner envie de lire.",
-  "excerpt_en": "English excerpt",
-  "blocks_fr": [
-    {"type": "heading", "text": "Titre de section si applicable", "bold": []},
-    {"type": "paragraph", "text": "Premier paragraphe...", "bold": ["Nom Personne", "Nom Entreprise"]},
-    {"type": "paragraph", "text": "Deuxième paragraphe, nouvelle idée...", "bold": ["Autre Nom"]},
-    {"type": "quote", "text": "Citation directe d'une personne entre guillemets", "bold": ["Nom du locuteur"]},
-    {"type": "paragraph", "text": "Suite du texte...", "bold": []},
-    {"type": "contact", "text": "NOM Prénom – email@exemple.com", "bold": []}
-  ],
-  "blocks_en": [
-    ...même structure traduite en anglais, même nombre de blocs...
-  ],
-  "author_name": "Auteur ou contact si mentionné (chaîne vide sinon)",
-  "meta_description": "Description SEO max 155 caractères avec mots-clés pertinents",
-  "category": "press"
-}
-
-TYPES DE BLOCS :
-- "paragraph" : texte normal. CHAQUE paragraphe distinct = un bloc séparé. Quand le sujet change, nouveau bloc.
-- "heading" : titre de section du document (h2). Utilise si le document a des parties distinctes.
-- "quote" : citation directe entre guillemets « » ou "" d'une personne nommée. Inclus le nom du locuteur dans bold.
-- "contact" : informations de contact en fin de document (si présentes).
-
-RÈGLES :
-- "bold" : noms propres de personnes, entreprises, marques, lieux importants, dates clés dans CE bloc
-- MINIMUM 5 blocs pour un texte court, 8-12 blocs pour un texte long (500+ mots)
-- Un bloc "paragraph" fait idéalement 2 à 5 phrases. Si tu as un bloc de plus de 5 phrases, DÉCOUPE-LE en deux.
-- category : "news" | "press" | "events" | "certifications" | "trends" (choisis selon le contenu)
-- FIDÉLITÉ : Garde 100% du contenu original, mot pour mot. Ne résume pas, n'invente rien.
-- Corrige les artefacts d'extraction PDF (mots coupés, espaces en trop) mais ne modifie pas le sens.
-
-Retourne UNIQUEMENT le JSON. Pas de backticks, pas de commentaire, pas d'explication.`,
-        },
-      ],
+      max_tokens: 12000,
+      messages: [{ role: "user", content: userContent }],
     }),
   });
 
@@ -128,101 +118,56 @@ Retourne UNIQUEMENT le JSON. Pas de backticks, pas de commentaire, pas d'explica
 
   const data = await res.json();
   const text = data.content?.[0]?.text || "";
-
   const jsonStr = text.replace(/^```json?\s*/, "").replace(/\s*```$/, "").trim();
   const parsed: ClaudeResponse = JSON.parse(jsonStr);
-
-  // Convert blocks to HTML
-  const contentFr = blocksToHtml(parsed.blocks_fr || []);
-  const contentEn = blocksToHtml(parsed.blocks_en || []);
-
-  console.log(`[PDF Import] Claude returned ${parsed.blocks_fr?.length || 0} FR blocks, ${parsed.blocks_en?.length || 0} EN blocks`);
 
   return {
     title_fr: parsed.title_fr || "",
     title_en: parsed.title_en || "",
     excerpt_fr: parsed.excerpt_fr || "",
     excerpt_en: parsed.excerpt_en || "",
-    content_fr: contentFr,
-    content_en: contentEn,
+    content_fr: parsed.content_fr || "",
+    content_en: parsed.content_en || "",
     author_name: parsed.author_name || "",
+    meta_title: parsed.meta_title || "",
     meta_description: parsed.meta_description || "",
     category: parsed.category || "press",
+    suggested_slug: parsed.suggested_slug || "",
   };
 }
 
 function fallbackStructure(rawText: string): Record<string, string> {
   const lines = rawText.split("\n");
-
   let title = "";
   let contentStartIndex = 0;
 
   for (let i = 0; i < Math.min(lines.length, 10); i++) {
     const line = lines[i].trim();
-    if (
-      line.length < 5 ||
-      /^communiqu[ée]/i.test(line) ||
-      /^press\s*release/i.test(line) ||
-      !line
-    ) {
-      continue;
-    }
+    if (line.length < 5 || /^communiqu[ée]/i.test(line) || /^press\s*release/i.test(line) || !line) continue;
     title = line.replace(/\s*[.:]\s*$/, "");
     contentStartIndex = i + 1;
     break;
   }
 
   let author = "";
-  const contactIdx = lines.findIndex((l) =>
-    /contact\s*(presse|press|:)/i.test(l.trim())
-  );
+  const contactIdx = lines.findIndex((l) => /contact\s*(presse|press|:)/i.test(l.trim()));
   if (contactIdx !== -1 && contactIdx + 1 < lines.length) {
     const namePart = lines[contactIdx + 1].trim().split(/[–\-—@]/).at(0)?.trim();
-    if (namePart && namePart.length > 2 && namePart.length < 60) {
-      author = namePart;
-    }
+    if (namePart && namePart.length > 2 && namePart.length < 60) author = namePart;
   }
 
-  // Build paragraphs - split on empty lines (not filtered out this time!)
-  const contentLines = lines.slice(
-    contentStartIndex,
-    contactIdx > contentStartIndex ? contactIdx : undefined
-  );
-
+  const contentLines = lines.slice(contentStartIndex, contactIdx > contentStartIndex ? contactIdx : undefined);
   const paragraphs: string[] = [];
   let current = "";
   for (const line of contentLines) {
     const trimmed = line.trim();
     if (!trimmed) {
-      if (current.trim()) {
-        paragraphs.push(current.trim());
-        current = "";
-      }
+      if (current.trim()) { paragraphs.push(current.trim()); current = ""; }
     } else {
       current += (current ? " " : "") + trimmed;
     }
   }
   if (current.trim()) paragraphs.push(current.trim());
-
-  // If still only 1 paragraph, try splitting by sentences
-  if (paragraphs.length <= 1 && paragraphs[0]?.length > 400) {
-    const text = paragraphs[0];
-    const sentences = text.split(/(?<=[.!?»])\s+(?=[A-ZÀ-ÖÙ-Ü«])/);
-    const newParagraphs: string[] = [];
-    let chunk = "";
-    for (const sentence of sentences) {
-      chunk += (chunk ? " " : "") + sentence;
-      if (chunk.length > 200) {
-        newParagraphs.push(chunk);
-        chunk = "";
-      }
-    }
-    if (chunk) newParagraphs.push(chunk);
-    if (newParagraphs.length > 1) {
-      paragraphs.length = 0;
-      paragraphs.push(...newParagraphs);
-    }
-  }
 
   const excerpt = (paragraphs[0] || "").slice(0, 300);
   const contentHtml = paragraphs.map((p) => `<p>${p}</p>`).join("\n");
@@ -237,6 +182,8 @@ function fallbackStructure(rawText: string): Record<string, string> {
   };
 }
 
+const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -246,58 +193,69 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    if (file.type !== "application/pdf") {
-      return NextResponse.json({ error: "File must be a PDF" }, { status: 400 });
+    const isImage = IMAGE_TYPES.includes(file.type);
+    const isPDF = file.type === "application/pdf";
+
+    if (!isImage && !isPDF) {
+      return NextResponse.json({ error: "Format non supporté. Utilisez PDF, JPG, PNG ou WebP." }, { status: 400 });
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      return NextResponse.json({ error: "File too large (max 10 MB)" }, { status: 400 });
+      return NextResponse.json({ error: "Fichier trop volumineux (max 10 Mo)" }, { status: 400 });
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const pdf = require("pdf-parse/lib/pdf-parse");
-    const data = await pdf(buffer);
-
-    if (!data.text?.trim()) {
-      return NextResponse.json(
-        { error: "Le PDF ne contient pas de texte extractible" },
-        { status: 400 }
-      );
-    }
-
-    // Pre-clean PDF text
-    const cleanedText = data.text
-      .replace(/\r\n/g, "\n")
-      .replace(/[^\S\n]+/g, " ")
-      .replace(/\n\s*\n/g, "\n\n")
-      .replace(/ +\n/g, "\n")
-      .trim();
-
     let fields: Record<string, string>;
     let usedAI = false;
-    try {
-      fields = await analyzeWithClaude(cleanedText);
-      usedAI = true;
-    } catch (err) {
-      console.warn("Claude analysis failed, using fallback:", err);
-      fields = fallbackStructure(cleanedText);
+    let pages = 1;
+
+    if (isImage) {
+      // Image path: send directly to Claude Vision
+      const base64 = buffer.toString("base64");
+      try {
+        fields = await analyzeWithClaude("", "image", base64, file.type);
+        usedAI = true;
+      } catch (err) {
+        console.warn("Claude Vision failed:", err);
+        return NextResponse.json({ error: "Impossible d'analyser l'image" }, { status: 500 });
+      }
+    } else {
+      // PDF path: extract text then analyze
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const pdf = require("pdf-parse/lib/pdf-parse");
+      const data = await pdf(buffer);
+      pages = data.numpages || 1;
+
+      if (!data.text?.trim()) {
+        return NextResponse.json({ error: "Le PDF ne contient pas de texte extractible" }, { status: 400 });
+      }
+
+      const cleanedText = data.text
+        .replace(/\r\n/g, "\n")
+        .replace(/[^\S\n]+/g, " ")
+        .replace(/\n\s*\n/g, "\n\n")
+        .replace(/ +\n/g, "\n")
+        .trim();
+
+      try {
+        fields = await analyzeWithClaude(cleanedText, "text");
+        usedAI = true;
+      } catch (err) {
+        console.warn("Claude analysis failed, using fallback:", err);
+        fields = fallbackStructure(cleanedText);
+      }
     }
 
     const pCount = (fields.content_fr?.match(/<p>/g) || []).length;
-    console.log(`[PDF Import] AI: ${usedAI}, paragraphs: ${pCount}, content length: ${fields.content_fr?.length}`);
+    console.log(`[Import] AI: ${usedAI}, type: ${isImage ? "image" : "pdf"}, paragraphs: ${pCount}`);
 
     return NextResponse.json({
       fields,
-      pages: data.numpages,
+      pages,
       fileName: file.name,
       _debug: { usedAI, paragraphs: pCount },
     });
   } catch {
-    return NextResponse.json(
-      { error: "Erreur lors de l'extraction du PDF" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Erreur lors de l'extraction" }, { status: 500 });
   }
 }

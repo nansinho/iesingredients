@@ -67,14 +67,14 @@ export function PasswordStrengthIndicator({ password, isFr }: PasswordStrengthIn
       {/* Strength label + bar */}
       <div className="space-y-1.5">
         <div className="flex items-center justify-between text-xs">
-          <span className="text-dark/50 dark:text-cream-light/50">
+          <span className="text-white/50">
             {isFr ? "Force du mot de passe" : "Password strength"}
           </span>
           <span className={config.textColor}>
             {isFr ? config.labelFr : config.labelEn}
           </span>
         </div>
-        <div className="h-1.5 w-full bg-dark/10 dark:bg-cream-light/10 rounded-full overflow-hidden">
+        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-300 ${config.color}`}
             style={{ width: `${(metCount / 4) * 100}%` }}
@@ -89,9 +89,9 @@ export function PasswordStrengthIndicator({ password, isFr }: PasswordStrengthIn
             {criterion.met ? (
               <Check className="w-3.5 h-3.5 text-green-500 dark:text-green-400 shrink-0" />
             ) : (
-              <X className="w-3.5 h-3.5 text-dark/20 dark:text-cream-light/20 shrink-0" />
+              <X className="w-3.5 h-3.5 text-white/20 shrink-0" />
             )}
-            <span className={criterion.met ? "text-dark/70 dark:text-cream-light/70" : "text-dark/30 dark:text-cream-light/30"}>
+            <span className={criterion.met ? "text-white/70" : "text-white/30"}>
               {isFr ? criterion.labelFr : criterion.labelEn}
             </span>
           </li>

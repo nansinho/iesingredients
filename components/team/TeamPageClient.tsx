@@ -74,7 +74,7 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
       <div className="w-[94%] max-w-7xl mx-auto">
         {/* Department selector — dropdown on mobile, horizontal tabs on desktop */}
         <div className="mb-10">
-          <p className="text-sm font-medium text-[var(--brand-primary)]/45 uppercase tracking-wider mb-3">
+          <p className="text-sm font-medium text-brand-primary/45 uppercase tracking-wider mb-3">
             {isFr ? "Quel service vous intéresse ?" : "Which department interests you?"}
           </p>
 
@@ -102,7 +102,7 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
                   className={cn(
                     "w-full text-left px-4 py-2.5 text-sm transition-colors",
                     activeDepartment === "all"
-                      ? "bg-[var(--brand-primary)] text-white"
+                      ? "bg-brand-primary text-white"
                       : "text-[var(--color-charcoal)] hover:bg-[var(--color-cream-light)]"
                   )}
                 >
@@ -119,7 +119,7 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
                     className={cn(
                       "w-full text-left px-4 py-2.5 text-sm transition-colors",
                       activeDepartment === dept.id
-                        ? "bg-[var(--brand-primary)] text-white"
+                        ? "bg-brand-primary text-white"
                         : "text-[var(--color-charcoal)] hover:bg-[var(--color-cream-light)]"
                     )}
                   >
@@ -137,8 +137,8 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border",
                 activeDepartment === "all"
-                  ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)]"
-                  : "bg-white text-[var(--color-charcoal)]/80 border-[var(--color-cream)] hover:border-[var(--brand-accent)]/40 hover:text-[var(--color-charcoal)]"
+                  ? "bg-brand-primary text-white border-brand-primary"
+                  : "bg-white text-[var(--color-charcoal)]/80 border-[var(--color-cream)] hover:border-brand-accent/40 hover:text-[var(--color-charcoal)]"
               )}
             >
               <Users className="w-3.5 h-3.5 inline mr-1.5" />
@@ -152,8 +152,8 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
                 className={cn(
                   "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border",
                   activeDepartment === dept.id
-                    ? "bg-[var(--brand-primary)] text-white border-[var(--brand-primary)]"
-                    : "bg-white text-[var(--color-charcoal)]/80 border-[var(--color-cream)] hover:border-[var(--brand-accent)]/40 hover:text-[var(--color-charcoal)]"
+                    ? "bg-brand-primary text-white border-brand-primary"
+                    : "bg-white text-[var(--color-charcoal)]/80 border-[var(--color-cream)] hover:border-brand-accent/40 hover:text-[var(--color-charcoal)]"
                 )}
               >
                 {isFr ? dept.labelFr : dept.labelEn}
@@ -173,7 +173,7 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
                   <h3 className="text-lg font-semibold text-[var(--color-charcoal)]">
                     {group.label}
                   </h3>
-                  <span className="text-xs font-medium text-[var(--brand-primary)]/45 bg-[var(--color-cream-light)] px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-medium text-brand-primary/45 bg-[var(--color-cream-light)] px-2 py-0.5 rounded-full">
                     {group.members.length}
                   </span>
                   <div className="flex-1 h-px bg-[var(--color-cream)]" />
@@ -192,7 +192,7 @@ export function TeamPageClient({ members, locale }: TeamPageClientProps) {
 
         {members.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-[var(--brand-primary)]/45">
+            <p className="text-brand-primary/45">
               {isFr ? "Aucun membre trouvé." : "No members found."}
             </p>
           </div>
@@ -222,7 +222,7 @@ function TeamCard({
   const displayInitials = initials || member.name.charAt(0);
 
   return (
-    <div className="group rounded-2xl overflow-hidden bg-white border border-[var(--color-cream)] hover:border-[var(--brand-accent)]/20 hover:shadow-lg transition-all duration-300">
+    <div className="group rounded-2xl overflow-hidden bg-white border border-[var(--color-cream)] hover:border-brand-accent/20 hover:shadow-lg transition-all duration-300">
       {/* Photo */}
       <div className="p-2.5 pb-0">
         <div className="aspect-[4/3] relative overflow-hidden rounded-xl bg-[var(--color-cream-light)]">
@@ -235,8 +235,8 @@ function TeamCard({
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--brand-accent-light)]/30 to-[var(--brand-accent-light)]/10">
-              <span className="text-4xl font-semibold text-[var(--brand-secondary)]/30 select-none">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-accent-light/30 to-brand-accent-light/10">
+              <span className="text-4xl font-semibold text-brand-secondary/30 select-none">
                 {displayInitials}
               </span>
             </div>
@@ -249,7 +249,7 @@ function TeamCard({
         <h3 className="font-semibold text-base text-[var(--color-charcoal)] leading-tight">
           {member.name}
         </h3>
-        <p className="text-[var(--brand-accent)] text-sm mt-0.5 font-medium leading-snug">
+        <p className="text-brand-accent text-sm mt-0.5 font-medium leading-snug">
           {role}
         </p>
 
@@ -259,7 +259,7 @@ function TeamCard({
             {member.email && (
               <a
                 href={`mailto:${member.email}`}
-                className="flex items-center gap-2 text-[var(--brand-primary)]/45 hover:text-[var(--brand-accent)] transition-colors duration-200 text-xs"
+                className="flex items-center gap-2 text-brand-primary/45 hover:text-brand-accent transition-colors duration-200 text-xs"
               >
                 <Mail className="w-3.5 h-3.5 shrink-0" />
                 <span className="truncate">{member.email}</span>
@@ -268,7 +268,7 @@ function TeamCard({
             {member.phone && (
               <a
                 href={`tel:${member.phone.replace(/\s/g, "")}`}
-                className="flex items-center gap-2 text-[var(--brand-primary)]/45 hover:text-[var(--brand-accent)] transition-colors duration-200 text-xs"
+                className="flex items-center gap-2 text-brand-primary/45 hover:text-brand-accent transition-colors duration-200 text-xs"
               >
                 <Phone className="w-3.5 h-3.5 shrink-0" />
                 <span>{member.phone}</span>
@@ -279,7 +279,7 @@ function TeamCard({
                 href={member.linkedin_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[var(--brand-primary)]/45 hover:text-[#0A66C2] transition-colors duration-200 text-xs"
+                className="flex items-center gap-2 text-brand-primary/45 hover:text-[#0A66C2] transition-colors duration-200 text-xs"
               >
                 <Linkedin className="w-3.5 h-3.5 shrink-0" />
                 <span>LinkedIn</span>

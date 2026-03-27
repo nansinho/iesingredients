@@ -30,7 +30,7 @@ const categoryLabels: Record<string, { fr: string; en: string }> = {
 
 const categoryColors: Record<string, string> = {
   parfumerie: "bg-[#8B6A80]/10 text-[#8B6A80]",
-  ingredients: "bg-[var(--brand-accent)]/10 text-[var(--brand-accent)]",
+  ingredients: "bg-brand-accent/10 text-brand-accent",
   innovation: "bg-blue-500/10 text-blue-600",
   durabilite: "bg-emerald-500/10 text-emerald-600",
 };
@@ -80,7 +80,7 @@ export function EpisodeCard({
     <div
       className={`group flex flex-col sm:flex-row bg-white rounded-2xl border overflow-hidden transition-all duration-500 hover:shadow-[0_12px_40px_rgba(212,144,126,0.12)] ${
         isCurrent
-          ? "border-[var(--brand-accent)]/30 shadow-[0_8px_30px_rgba(212,144,126,0.1)]"
+          ? "border-brand-accent/30 shadow-[0_8px_30px_rgba(212,144,126,0.1)]"
           : "border-brown/8 hover:border-brown/20"
       }`}
     >
@@ -112,10 +112,10 @@ export function EpisodeCard({
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg"
           >
             {isCurrentlyPlaying ? (
-              <Pause className="w-5 h-5 text-[var(--brand-primary)]" />
+              <Pause className="w-5 h-5 text-brand-primary" />
             ) : (
               <Play
-                className="w-5 h-5 text-[var(--brand-primary)] ml-0.5"
+                className="w-5 h-5 text-brand-primary ml-0.5"
                 fill="currentColor"
               />
             )}
@@ -146,12 +146,12 @@ export function EpisodeCard({
           </div>
 
           {/* Title */}
-          <h3 className="font-semibold text-dark text-lg sm:text-xl leading-snug mb-1.5 group-hover:text-[var(--brand-primary)] transition-colors duration-300">
+          <h3 className="font-semibold text-dark text-lg sm:text-xl leading-snug mb-1.5 group-hover:text-brand-primary transition-colors duration-300">
             {episode.title}
           </h3>
 
           {/* Guest */}
-          <p className="text-sm text-[var(--brand-accent)] font-medium mb-3 flex items-center gap-1.5">
+          <p className="text-sm text-brand-accent font-medium mb-3 flex items-center gap-1.5">
             <Headphones className="w-3.5 h-3.5" />
             {episode.guest}
           </p>
@@ -166,13 +166,13 @@ export function EpisodeCard({
         <div className="mt-4 pt-4 border-t border-brown/6">
           <button
             onClick={handlePlay}
-            className="inline-flex items-center gap-2.5 text-sm font-semibold text-[var(--brand-primary)] hover:text-[var(--brand-accent)] transition-colors duration-300 group/btn"
+            className="inline-flex items-center gap-2.5 text-sm font-semibold text-brand-primary hover:text-brand-accent transition-colors duration-300 group/btn"
           >
             <span
               className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                 isCurrentlyPlaying
-                  ? "bg-[var(--brand-accent)] text-white"
-                  : "bg-[var(--brand-primary)]/8 text-[var(--brand-primary)] group-hover/btn:bg-[var(--brand-accent)]/15"
+                  ? "bg-brand-accent text-white"
+                  : "bg-brand-primary/8 text-brand-primary group-hover/btn:bg-brand-accent/15"
               }`}
             >
               {isCurrentlyPlaying ? (

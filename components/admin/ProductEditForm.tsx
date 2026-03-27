@@ -115,10 +115,10 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
 
           {/* Identity */}
           <div>
-            <h3 className="text-sm font-semibold text-[var(--brand-primary)] mb-3 uppercase tracking-wider">Identification</h3>
+            <h3 className="text-sm font-semibold text-brand-primary mb-3 uppercase tracking-wider">Identification</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Code *</Label>
+                <Label className="text-brand-primary">Code *</Label>
                 <Input
                   value={form.code}
                   onChange={(e) => handleChange("code", e.target.value)}
@@ -127,7 +127,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Nom commercial</Label>
+                <Label className="text-brand-primary">Nom commercial</Label>
                 <Input
                   value={form.nom_commercial}
                   onChange={(e) => handleChange("nom_commercial", e.target.value)}
@@ -135,7 +135,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">INCI</Label>
+                <Label className="text-brand-primary">INCI</Label>
                 <Input
                   value={form.inci}
                   onChange={(e) => handleChange("inci", e.target.value)}
@@ -143,7 +143,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">N CAS</Label>
+                <Label className="text-brand-primary">N CAS</Label>
                 <Input
                   value={form.cas_no}
                   onChange={(e) => handleChange("cas_no", e.target.value)}
@@ -155,10 +155,10 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
 
           {/* Classification */}
           <div>
-            <h3 className="text-sm font-semibold text-[var(--brand-primary)] mb-3 uppercase tracking-wider">Classification</h3>
+            <h3 className="text-sm font-semibold text-brand-primary mb-3 uppercase tracking-wider">Classification</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Gamme</Label>
+                <Label className="text-brand-primary">Gamme</Label>
                 <Input
                   value={form.gamme}
                   onChange={(e) => handleChange("gamme", e.target.value)}
@@ -166,7 +166,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Origine</Label>
+                <Label className="text-brand-primary">Origine</Label>
                 <Input
                   value={form.origine}
                   onChange={(e) => handleChange("origine", e.target.value)}
@@ -174,7 +174,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Solubilité</Label>
+                <Label className="text-brand-primary">Solubilité</Label>
                 <Input
                   value={form.solubilite}
                   onChange={(e) => handleChange("solubilite", e.target.value)}
@@ -182,7 +182,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Aspect</Label>
+                <Label className="text-brand-primary">Aspect</Label>
                 <Input
                   value={form.aspect}
                   onChange={(e) => handleChange("aspect", e.target.value)}
@@ -190,7 +190,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Certifications</Label>
+                <Label className="text-brand-primary">Certifications</Label>
                 <Input
                   value={form.certifications}
                   onChange={(e) => handleChange("certifications", e.target.value)}
@@ -198,7 +198,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Statut</Label>
+                <Label className="text-brand-primary">Statut</Label>
                 <Select value={form.statut} onValueChange={(v) => handleChange("statut", v)}>
                   <SelectTrigger className="h-10">
                     <SelectValue />
@@ -214,10 +214,10 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
 
           {/* Content */}
           <div>
-            <h3 className="text-sm font-semibold text-[var(--brand-primary)] mb-3 uppercase tracking-wider">Détails</h3>
+            <h3 className="text-sm font-semibold text-brand-primary mb-3 uppercase tracking-wider">Détails</h3>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Description</Label>
+                <Label className="text-brand-primary">Description</Label>
                 <Textarea
                   value={form.description}
                   onChange={(e) => handleChange("description", e.target.value)}
@@ -227,7 +227,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Bénéfices</Label>
+                <Label className="text-brand-primary">Bénéfices</Label>
                 <Textarea
                   value={form.benefices}
                   onChange={(e) => handleChange("benefices", e.target.value)}
@@ -237,7 +237,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Application</Label>
+                <Label className="text-brand-primary">Application</Label>
                 <Textarea
                   value={form.application}
                   onChange={(e) => handleChange("application", e.target.value)}
@@ -261,7 +261,7 @@ export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }:
         <Button
           type="submit"
           disabled={isSaving}
-          className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg px-6"
+          className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg px-6"
         >
           {isSaving ? (
             <>

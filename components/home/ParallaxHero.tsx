@@ -60,7 +60,7 @@ export function ParallaxHero() {
   }, [emblaApi]);
 
   return (
-    <section className="flex-1 flex flex-col min-h-0 pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-[var(--brand-primary)]">
+    <section className="flex-1 flex flex-col min-h-0 pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-brand-primary">
       {/* ═══════════════════════════════════════
          Furdesign-style rounded bordered container
          ═══════════════════════════════════════ */}
@@ -68,7 +68,7 @@ export function ParallaxHero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative flex-1 min-h-0 rounded-[1.5rem] sm:rounded-[2rem] border border-[var(--brand-primary)]/10 overflow-hidden bg-[var(--brand-accent-light)]"
+        className="relative flex-1 min-h-0 rounded-[1.5rem] sm:rounded-[2rem] border border-brand-primary/10 overflow-hidden bg-brand-accent-light"
       >
         {/* Inner grid: Text left | Image right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
@@ -81,7 +81,7 @@ export function ParallaxHero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-[var(--brand-primary)]/45 font-semibold">
+              <span className="text-[11px] uppercase tracking-[0.3em] text-brand-primary/45 font-semibold">
                 {t("surtitle")}
               </span>
             </motion.div>
@@ -94,14 +94,14 @@ export function ParallaxHero() {
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="my-8 lg:my-0"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-[var(--brand-primary)] tracking-[-0.04em] leading-[0.95]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-brand-primary tracking-[-0.04em] leading-[0.95]">
                 {t("titleLine1")}
                 <br />
-                <span className="font-playfair italic text-[var(--brand-secondary)]">
+                <span className="font-playfair italic text-brand-secondary">
                   {t("titleLine2")}
                 </span>
               </h1>
-              <p className="text-[var(--brand-primary)]/45 text-base sm:text-lg mt-6 max-w-md leading-relaxed">
+              <p className="text-brand-primary/45 text-base sm:text-lg mt-6 max-w-md leading-relaxed">
                 {t("subtitle")}
               </p>
             </motion.div>
@@ -116,27 +116,27 @@ export function ParallaxHero() {
               <div className="flex flex-wrap items-center gap-3">
                 <Link
                   href="/catalogue"
-                  className="group inline-flex items-center gap-2 bg-[var(--brand-primary)] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="group inline-flex items-center gap-2 bg-brand-primary text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   {t("cta")}
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
+                  className="inline-flex items-center gap-2 border border-brand-primary/20 text-brand-primary rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-primary/5 transition-all duration-300"
                 >
                   {t("ctaSecondary")}
                 </Link>
               </div>
 
               {/* Certifications strip */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] text-[var(--brand-primary)]/30 tracking-[0.12em] uppercase font-medium border-t border-[var(--brand-primary)]/8 pt-4">
-                <span className="text-[var(--brand-primary)]/45 mr-1">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] text-brand-primary/30 tracking-[0.12em] uppercase font-medium border-t border-brand-primary/8 pt-4">
+                <span className="text-brand-primary/45 mr-1">
                   {certT("title")}
                 </span>
                 {certifications.map((cert, i) => (
                   <React.Fragment key={cert}>
-                    {i > 0 && <span className="text-[var(--brand-primary)]/10 hidden sm:inline">·</span>}
+                    {i > 0 && <span className="text-brand-primary/10 hidden sm:inline">·</span>}
                     <span>{cert}</span>
                   </React.Fragment>
                 ))}
@@ -178,7 +178,7 @@ export function ParallaxHero() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
             >
-              <div className="bg-[var(--brand-primary)] rounded-2xl p-6 sm:p-8 flex items-center justify-between gap-6">
+              <div className="bg-brand-primary rounded-2xl p-6 sm:p-8 flex items-center justify-between gap-6">
                 <div>
                   <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
                     {t(slides[selectedIndex].subtitleKey)}
@@ -192,7 +192,7 @@ export function ParallaxHero() {
                 </div>
                 <Link
                   href="/catalogue"
-                  className="shrink-0 inline-flex items-center gap-2 bg-[var(--brand-accent)] text-white rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-semibold hover:bg-[var(--brand-accent-hover)] transition-all duration-300 shadow-sm hover:shadow-md"
+                  className="shrink-0 inline-flex items-center gap-2 bg-brand-accent text-white rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-semibold hover:bg-brand-accent-hover transition-all duration-300 shadow-sm hover:shadow-md"
                 >
                   {t("discover")}
                   <ArrowRight className="w-4 h-4" />
@@ -204,14 +204,14 @@ export function ParallaxHero() {
             <div className="absolute top-5 right-5 sm:top-7 sm:right-7 flex gap-2 z-10">
               <button
                 onClick={scrollPrev}
-                className="w-10 h-10 rounded-full bg-[var(--brand-primary)]/60 backdrop-blur-sm border border-[var(--brand-primary)]/20 flex items-center justify-center hover:bg-[var(--brand-primary)]/80 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-brand-primary/60 backdrop-blur-sm border border-brand-primary/20 flex items-center justify-center hover:bg-brand-primary/80 transition-all duration-300"
                 aria-label="Previous slide"
               >
                 <ChevronLeft className="w-4 h-4 text-white" />
               </button>
               <button
                 onClick={scrollNext}
-                className="w-10 h-10 rounded-full bg-[var(--brand-primary)]/60 backdrop-blur-sm border border-[var(--brand-primary)]/20 flex items-center justify-center hover:bg-[var(--brand-primary)]/80 transition-all duration-300"
+                className="w-10 h-10 rounded-full bg-brand-primary/60 backdrop-blur-sm border border-brand-primary/20 flex items-center justify-center hover:bg-brand-primary/80 transition-all duration-300"
                 aria-label="Next slide"
               >
                 <ChevronRight className="w-4 h-4 text-white" />
@@ -223,12 +223,12 @@ export function ParallaxHero() {
               {slides.map((_, index) => (
                 <div
                   key={index}
-                  className="h-[3px] rounded-full overflow-hidden bg-[var(--brand-primary)]/25 transition-all duration-300"
+                  className="h-[3px] rounded-full overflow-hidden bg-brand-primary/25 transition-all duration-300"
                   style={{ width: index === selectedIndex ? 40 : 14 }}
                 >
                   {index === selectedIndex && (
                     <motion.div
-                      className="h-full bg-[var(--brand-primary)] rounded-full"
+                      className="h-full bg-brand-primary rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
                       transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}

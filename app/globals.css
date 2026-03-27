@@ -44,6 +44,14 @@
   --tracking-luxury: 0.15em;
   --tracking-widest: 0.1em;
 
+  /* Brand colors — HSL channels for Tailwind opacity support */
+  --color-brand-primary: hsl(var(--brand-primary));
+  --color-brand-accent: hsl(var(--brand-accent));
+  --color-brand-accent-hover: hsl(var(--brand-accent-hover));
+  --color-brand-accent-light: hsl(var(--brand-accent-light));
+  --color-brand-secondary: hsl(var(--brand-secondary));
+  --color-brand-nav-active: hsl(var(--brand-nav-active));
+
   /* Colors — shadcn/ui system */
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -114,6 +122,78 @@
   @keyframes kenburns {
     from { transform: scale(1); }
     to { transform: scale(1.15); }
+  }
+  @keyframes slow-zoom {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  @keyframes crossfade-1 {
+    0% { opacity: 1; }
+    30% { opacity: 1; }
+    33.33% { opacity: 0; }
+    96.67% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes crossfade-2 {
+    0% { opacity: 0; }
+    30% { opacity: 0; }
+    33.33% { opacity: 1; }
+    63.33% { opacity: 1; }
+    66.67% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes crossfade-3 {
+    0% { opacity: 0; }
+    63.33% { opacity: 0; }
+    66.67% { opacity: 1; }
+    96.67% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  /* Text reveal: line 1 — slide-up staggered */
+  @keyframes text-slide-1-a {
+    0% { opacity: 0; transform: translateY(25px); }
+    5% { opacity: 1; transform: translateY(0); }
+    28% { opacity: 1; transform: translateY(0); }
+    33% { opacity: 0; transform: translateY(-8px); }
+    95% { opacity: 0; transform: translateY(25px); }
+    100% { opacity: 0; transform: translateY(25px); }
+  }
+  @keyframes text-slide-1-b {
+    0% { opacity: 0; transform: translateY(25px); }
+    7% { opacity: 0; transform: translateY(25px); }
+    12% { opacity: 1; transform: translateY(0); }
+    28% { opacity: 1; transform: translateY(0); }
+    33% { opacity: 0; transform: translateY(-8px); }
+    95% { opacity: 0; transform: translateY(25px); }
+    100% { opacity: 0; transform: translateY(25px); }
+  }
+  /* Text reveal: line 2 — slide-up staggered */
+  @keyframes text-slide-2-a {
+    0% { opacity: 0; transform: translateY(25px); }
+    33.33% { opacity: 0; transform: translateY(25px); }
+    38% { opacity: 1; transform: translateY(0); }
+    61% { opacity: 1; transform: translateY(0); }
+    66% { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 0; transform: translateY(25px); }
+  }
+  @keyframes text-slide-2-b {
+    0% { opacity: 0; transform: translateY(25px); }
+    33.33% { opacity: 0; transform: translateY(25px); }
+    40% { opacity: 0; transform: translateY(25px); }
+    45% { opacity: 1; transform: translateY(0); }
+    61% { opacity: 1; transform: translateY(0); }
+    66% { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 0; transform: translateY(25px); }
+  }
+  /* Text reveal: logo (slide 3) */
+  @keyframes text-slide-3 {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    63.33% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    69% { opacity: 1; transform: translateY(0) scale(1); }
+    93% { opacity: 1; transform: translateY(0) scale(1); }
+    98% { opacity: 0; transform: translateY(-8px) scale(1.02); }
+    100% { opacity: 0; transform: translateY(20px) scale(0.95); }
   }
   @keyframes blur-in {
     from { opacity: 0; filter: blur(20px); }
@@ -276,13 +356,13 @@
   --sidebar-border: 0 0% 15%;
   --sidebar-ring: 264 32% 18%;
 
-  /* Brand color tokens — used by components */
-  --brand-primary: #2E1F3D;
-  --brand-accent: #D4907E;
-  --brand-accent-hover: #B87A6A;
-  --brand-accent-light: #F0C5B3;
-  --brand-secondary: #5B5470;
-  --brand-nav-active: #5B5470;
+  /* Brand color tokens — HSL channels for Tailwind opacity support */
+  --brand-primary: 270 33% 18%;
+  --brand-accent: 13 50% 66%;
+  --brand-accent-hover: 12 35% 57%;
+  --brand-accent-light: 18 67% 82%;
+  --brand-secondary: 255 14% 38%;
+  --brand-nav-active: 255 14% 38%;
   --brand-selection: rgba(46, 31, 61, 0.3);
   --brand-glow: rgba(46, 31, 61, 0.15);
   --brand-glow-strong: rgba(46, 31, 61, 0.3);
@@ -338,198 +418,6 @@
   --sidebar-accent-foreground: 30 20% 97%;
   --sidebar-border: 0 0% 13%;
   --sidebar-ring: 264 32% 25%;
-}
-
-/* ========================================
-   Color Themes — Theme Selector Overrides
-   ======================================== */
-
-/* ── Theme: Nature Vert ── */
-[data-color-theme="nature-vert"] {
-  --background: 80 18% 93%;
-  --accent: 86 50% 27%;
-  --accent-foreground: 0 0% 100%;
-  --ring: 86 50% 27%;
-  --muted: 80 15% 88%;
-  --muted-foreground: 100 20% 35%;
-  --secondary: 80 30% 47%;
-  --border: 80 12% 85%;
-  --input: 80 12% 85%;
-  --brand-primary: #111111;
-  --brand-accent: #8CB43D;
-  --brand-accent-hover: #4E7C2E;
-  --brand-accent-light: #B8C9A0;
-  --brand-secondary: #2A4020;
-  --brand-nav-active: #8CB43D;
-  --brand-selection: rgba(17, 17, 17, 0.3);
-  --brand-glow: rgba(17, 17, 17, 0.15);
-  --brand-glow-strong: rgba(17, 17, 17, 0.3);
-  --brand-shadow: rgba(17, 17, 17, 0.06);
-  --brand-shadow-hover: rgba(17, 17, 17, 0.12);
-  --brand-scrollbar: rgba(17, 17, 17, 0.2);
-  --brand-scrollbar-hover: rgba(17, 17, 17, 0.4);
-  --brand-focus: rgba(17, 17, 17, 0.5);
-  --brand-badge-bg: rgba(17, 17, 17, 0.1);
-  --brand-badge-border: rgba(17, 17, 17, 0.15);
-  --color-cream-light: #F0F0EC;
-  --color-cream: #E2E2DC;
-  --color-cream-dark: #D4D4C8;
-  --color-brown: #8CB43D;
-  --color-brown-light: #B8C9A0;
-  --color-brown-dark: #4E7C2E;
-  --color-peach: #B8C9A0;
-  --color-peach-light: #D8DDBE;
-  --color-peach-dark: #8CB43D;
-  --color-olive: #2A2A24;
-  --color-olive-light: #5A5A52;
-  --color-olive-dark: #111111;
-  --color-forest-green: #111111;
-  --color-mint: #B8C9A0;
-  --color-sage: #2A4020;
-  --color-lavender: #2A4020;
-  --color-lavender-light: #4E7C2E;
-  --color-lavender-dark: #111111;
-  --color-navy: #111111;
-  --color-charcoal: #2A2A24;
-  --color-blue-mist: #E8E4D4;
-  /* Forest scale — green overrides */
-  --color-forest-950: #111111;
-  --color-forest-900: #1B3A2D;
-  --color-forest-800: #2A4020;
-  --color-forest-700: #3A6B52;
-  --color-forest-600: #4E7C2E;
-  --color-forest-500: #5A9372;
-  --color-forest-400: #8CB43D;
-  --color-forest-300: #A8CBAC;
-  --color-forest-200: #D4E5D0;
-  --color-forest-100: #E8F0E4;
-  --color-forest-50: #F0F0EC;
-  /* Gold scale — green-gold overrides */
-  --color-gold-950: #2A3D1A;
-  --color-gold-900: #3D5A28;
-  --color-gold-800: #6B8A3A;
-  --color-gold-700: #8CB43D;
-  --color-gold-600: #4E7C2E;
-  --color-gold-500: #8CB43D;
-  --color-gold-400: #A8C76A;
-  --color-gold-300: #C5D99A;
-  --color-gold-200: #DDE8C4;
-  --color-gold-100: #ECF2DC;
-  --color-gold-50: #F5F8EE;
-}
-[data-color-theme="nature-vert"].dark,
-.dark[data-color-theme="nature-vert"] {
-  --accent: 86 50% 30%;
-  --ring: 86 50% 30%;
-  --brand-primary: #0a0a0a;
-}
-
-/* ── Theme: Botanique ── */
-[data-color-theme="botanique"] {
-  --background: 48 80% 93%;
-  --accent: 160 40% 30%;
-  --accent-foreground: 0 0% 100%;
-  --ring: 160 40% 30%;
-  --muted: 48 40% 90%;
-  --muted-foreground: 160 25% 35%;
-  --secondary: 25 40% 64%;
-  --border: 48 30% 87%;
-  --input: 48 30% 87%;
-  --brand-primary: #2D6A4F;
-  --brand-accent: #D4A373;
-  --brand-accent-hover: #C08A5A;
-  --brand-accent-light: #F4C2C2;
-  --brand-secondary: #52B788;
-  --brand-nav-active: #52B788;
-  --brand-selection: rgba(45, 106, 79, 0.3);
-  --brand-glow: rgba(45, 106, 79, 0.15);
-  --brand-glow-strong: rgba(45, 106, 79, 0.3);
-  --brand-shadow: rgba(45, 106, 79, 0.06);
-  --brand-shadow-hover: rgba(45, 106, 79, 0.12);
-  --brand-scrollbar: rgba(45, 106, 79, 0.2);
-  --brand-scrollbar-hover: rgba(45, 106, 79, 0.4);
-  --brand-focus: rgba(45, 106, 79, 0.5);
-  --brand-badge-bg: rgba(45, 106, 79, 0.1);
-  --brand-badge-border: rgba(45, 106, 79, 0.15);
-  --color-cream-light: #FEFAE0;
-  --color-cream: #F5F0D0;
-  --color-cream-dark: #E8E0BC;
-  --color-brown: #D4A373;
-  --color-brown-light: #F4C2C2;
-  --color-brown-dark: #C08A5A;
-  --color-peach: #F4C2C2;
-  --color-peach-light: #F8D5D5;
-  --color-peach-dark: #D4A373;
-  --color-olive: #2D6A4F;
-  --color-olive-light: #52B788;
-  --color-olive-dark: #1B4332;
-  --color-forest-green: #2D6A4F;
-  --color-mint: #F4C2C2;
-  --color-sage: #52B788;
-  --color-lavender: #52B788;
-  --color-lavender-light: #6EC698;
-  --color-lavender-dark: #2D6A4F;
-  --color-navy: #1B4332;
-}
-[data-color-theme="botanique"].dark,
-.dark[data-color-theme="botanique"] {
-  --accent: 160 40% 33%;
-  --ring: 160 40% 33%;
-  --brand-primary: #1B4332;
-}
-
-/* ── Theme: Sauge Douce ── */
-[data-color-theme="sauge-douce"] {
-  --background: 140 18% 92%;
-  --accent: 148 12% 50%;
-  --accent-foreground: 0 0% 100%;
-  --ring: 148 12% 50%;
-  --muted: 140 14% 88%;
-  --muted-foreground: 148 15% 38%;
-  --secondary: 140 12% 60%;
-  --border: 140 12% 85%;
-  --input: 140 12% 85%;
-  --brand-primary: #4A6B5A;
-  --brand-accent: #7C9885;
-  --brand-accent-hover: #6A8873;
-  --brand-accent-light: #C5D5C5;
-  --brand-secondary: #7C9885;
-  --brand-nav-active: #7C9885;
-  --brand-selection: rgba(124, 152, 133, 0.3);
-  --brand-glow: rgba(124, 152, 133, 0.15);
-  --brand-glow-strong: rgba(124, 152, 133, 0.3);
-  --brand-shadow: rgba(74, 107, 90, 0.06);
-  --brand-shadow-hover: rgba(74, 107, 90, 0.12);
-  --brand-scrollbar: rgba(74, 107, 90, 0.2);
-  --brand-scrollbar-hover: rgba(74, 107, 90, 0.4);
-  --brand-focus: rgba(74, 107, 90, 0.5);
-  --brand-badge-bg: rgba(74, 107, 90, 0.1);
-  --brand-badge-border: rgba(74, 107, 90, 0.15);
-  --color-cream-light: #E8F0E8;
-  --color-cream: #D8E2DA;
-  --color-cream-dark: #C5D5C5;
-  --color-brown: #7C9885;
-  --color-brown-light: #C5D5C5;
-  --color-brown-dark: #6A8873;
-  --color-peach: #A3B8A0;
-  --color-peach-light: #C5D5C5;
-  --color-peach-dark: #7C9885;
-  --color-olive: #4A6B5A;
-  --color-olive-light: #7C9885;
-  --color-olive-dark: #3A5B4A;
-  --color-forest-green: #4A6B5A;
-  --color-mint: #C5D5C5;
-  --color-sage: #7C9885;
-  --color-lavender: #7C9885;
-  --color-lavender-light: #8FAA95;
-  --color-lavender-dark: #4A6B5A;
-  --color-navy: #3A5B4A;
-}
-[data-color-theme="sauge-douce"].dark,
-.dark[data-color-theme="sauge-douce"] {
-  --accent: 148 12% 35%;
-  --ring: 148 12% 35%;
-  --brand-primary: #3A5B4A;
 }
 
 /* ========================================
@@ -707,14 +595,14 @@
   font-weight: 600;
   letter-spacing: 0.01em;
   border-radius: 9999px;
-  background: var(--brand-accent);
+  background: hsl(var(--brand-accent));
   color: white;
   transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
   box-shadow: 0 4px 20px var(--brand-glow-strong);
 }
 
 .btn-peach:hover {
-  background: var(--brand-accent-hover);
+  background: hsl(var(--brand-accent-hover));
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 8px 30px var(--brand-glow-strong);
 }
@@ -827,7 +715,7 @@
 
 /* Dark Section — uses brand primary instead of matte black */
 .section-dark {
-  background: var(--brand-primary);
+  background: hsl(var(--brand-primary));
   color: var(--color-cream-light);
 }
 
@@ -890,6 +778,15 @@
 .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 .animate-reveal-delayed { animation: reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards; opacity: 0; }
 .animate-kenburns { animation: kenburns 10s ease-out forwards; }
+.animate-slow-zoom { animation: slow-zoom 30s linear infinite; }
+.animate-crossfade-1 { animation: crossfade-1 15s ease-in-out infinite; }
+.animate-crossfade-2 { animation: crossfade-2 15s ease-in-out infinite; }
+.animate-crossfade-3 { animation: crossfade-3 15s ease-in-out infinite; }
+.animate-text-1a { animation: text-slide-1-a 15s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.animate-text-1b { animation: text-slide-1-b 15s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.animate-text-2a { animation: text-slide-2-a 15s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.animate-text-2b { animation: text-slide-2-b 15s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.animate-text-3 { animation: text-slide-3 15s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
 .animate-blur-in { animation: blur-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 .animate-slide-up { animation: slide-up-fade 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 .animate-chevron { animation: chevronBounce 2s ease-in-out infinite; }
@@ -951,7 +848,7 @@
   line-height: 0.85;
   padding-right: 0.08em;
   padding-top: 0.05em;
-  color: var(--brand-primary);
+  color: hsl(var(--brand-primary));
   font-weight: 700;
 }
 
@@ -968,7 +865,7 @@
   background: linear-gradient(
     to right,
     transparent,
-    var(--brand-accent),
+    hsl(var(--brand-accent)),
     transparent
   );
 }
@@ -980,7 +877,7 @@
 .article-prose figcaption {
   text-align: center;
   font-size: 0.8rem;
-  color: var(--brand-primary);
+  color: hsl(var(--brand-primary));
   opacity: 0.45;
   margin-top: 0.75rem;
 }

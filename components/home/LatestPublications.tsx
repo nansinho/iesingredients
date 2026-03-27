@@ -12,7 +12,7 @@ const categoryColors: Record<string, string> = {
   "Cosmétique": "#5B7B6B",
   "Parfumerie": "#8B6A80",
   "Arômes": "#D4907E",
-  "Entreprise": "var(--brand-primary)",
+  "Entreprise": "hsl(var(--brand-primary))",
 };
 
 const staticArticles = [
@@ -100,7 +100,7 @@ export function LatestPublications() {
         >
           <h2 className="text-dark tracking-tight">
             À la une.{" "}
-            <span className="font-playfair italic text-[var(--brand-accent)]">
+            <span className="font-playfair italic text-brand-accent">
               L&apos;essentiel.
             </span>
           </h2>
@@ -156,7 +156,7 @@ export function LatestPublications() {
                       <div className="absolute top-4 left-4">
                         <span
                           className="px-3.5 py-1.5 rounded-full backdrop-blur-md text-[11px] font-semibold text-white shadow-sm"
-                          style={{ backgroundColor: categoryColors[article.category] || "var(--brand-primary)" }}
+                          style={{ backgroundColor: categoryColors[article.category] || "hsl(var(--brand-primary))" }}
                         >
                           {article.category}
                         </span>
@@ -194,7 +194,7 @@ export function LatestPublications() {
         <div className="text-center mt-12">
           <Link
             href="/actualites"
-            className="inline-flex items-center gap-2 bg-[var(--brand-primary)] text-white rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 bg-brand-primary text-white rounded-full px-7 py-3.5 text-sm font-semibold hover:bg-brand-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             {t("viewMore")}
             <ArrowRight className="w-4 h-4" />

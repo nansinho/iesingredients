@@ -180,9 +180,9 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b bg-[#FAFAF8] shrink-0">
           <div className="flex items-center gap-3">
-            <FolderOpen className="w-5 h-5 text-[var(--brand-accent)]" />
-            <h2 className="text-lg font-semibold text-[var(--brand-primary)]">Médiathèque</h2>
-            <span className="text-sm text-[var(--brand-secondary)]/50">{media.length} fichiers</span>
+            <FolderOpen className="w-5 h-5 text-brand-accent" />
+            <h2 className="text-lg font-semibold text-brand-primary">Médiathèque</h2>
+            <span className="text-sm text-brand-secondary/50">{media.length} fichiers</span>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
             <X className="w-5 h-5 text-gray-500" />
@@ -211,8 +211,8 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                     className={cn(
                       "px-3 py-1.5 rounded-lg text-xs font-medium transition-colors",
                       folder === f.value
-                        ? "bg-[var(--brand-primary)] text-white"
-                        : "text-[var(--brand-secondary)]/60 hover:bg-gray-100"
+                        ? "bg-brand-primary text-white"
+                        : "text-brand-secondary/60 hover:bg-gray-100"
                     )}
                   >
                     {f.label}
@@ -223,7 +223,7 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isUploading}
-                className="bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent-hover)] rounded-lg gap-1.5 shrink-0"
+                className="bg-brand-accent text-white hover:bg-brand-accent-hover rounded-lg gap-1.5 shrink-0"
               >
                 {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                 Upload
@@ -245,10 +245,10 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
             <div className="flex-1 overflow-y-auto p-4">
               {loading ? (
                 <div className="flex items-center justify-center h-40">
-                  <Loader2 className="w-6 h-6 text-[var(--brand-accent)] animate-spin" />
+                  <Loader2 className="w-6 h-6 text-brand-accent animate-spin" />
                 </div>
               ) : media.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-40 text-[var(--brand-secondary)]/40">
+                <div className="flex flex-col items-center justify-center h-40 text-brand-secondary/40">
                   <ImageIcon className="w-10 h-10 mb-2" />
                   <p className="text-sm">Aucun media trouvé</p>
                 </div>
@@ -261,7 +261,7 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                       className={cn(
                         "relative aspect-square rounded-xl overflow-hidden border-2 cursor-pointer group transition-all hover:shadow-md",
                         selected?.id === item.id
-                          ? "border-[var(--brand-accent)] ring-2 ring-[var(--brand-accent)]/20"
+                          ? "border-brand-accent ring-2 ring-brand-accent/20"
                           : "border-transparent hover:border-gray-200"
                       )}
                     >
@@ -271,7 +271,7 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                         className="w-full h-full object-cover"
                       />
                       {selected?.id === item.id && (
-                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[var(--brand-accent)] flex items-center justify-center">
+                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-brand-accent flex items-center justify-center">
                           <Check className="w-3.5 h-3.5 text-white" />
                         </div>
                       )}
@@ -295,14 +295,14 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                   <img src={selected.file_url} alt="" className="w-full h-full object-contain" />
                 </div>
 
-                <div className="space-y-1 text-xs text-[var(--brand-secondary)]/60">
-                  <p className="font-medium text-[var(--brand-primary)] text-sm truncate">{selected.file_name}</p>
+                <div className="space-y-1 text-xs text-brand-secondary/60">
+                  <p className="font-medium text-brand-primary text-sm truncate">{selected.file_name}</p>
                   <p>{selected.width}x{selected.height}px — {(selected.file_size / 1024).toFixed(0)} Ko</p>
                   <p>{new Date(selected.created_at).toLocaleDateString("fr-FR")}</p>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-[var(--brand-primary)]">Texte alternatif (SEO)</label>
+                  <label className="text-xs font-medium text-brand-primary">Texte alternatif (SEO)</label>
                   <Input
                     value={editingAlt}
                     onChange={(e) => setEditingAlt(e.target.value)}
@@ -312,20 +312,20 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-[var(--brand-primary)]">Description</label>
+                  <label className="text-xs font-medium text-brand-primary">Description</label>
                   <textarea
                     value={editingDesc}
                     onChange={(e) => setEditingDesc(e.target.value)}
                     placeholder="Description interne..."
                     rows={2}
-                    className="w-full text-xs rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[var(--brand-accent)]"
+                    className="w-full text-xs rounded-lg border border-gray-200 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-brand-accent"
                   />
                 </div>
 
                 <Button
                   size="sm"
                   onClick={handleSaveMeta}
-                  className="w-full bg-[var(--brand-primary)] text-white rounded-lg text-xs"
+                  className="w-full bg-brand-primary text-white rounded-lg text-xs"
                 >
                   Enregistrer les métadonnées
                 </Button>
@@ -336,7 +336,7 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
                 <Button
                   size="sm"
                   onClick={() => { onSelect(selected.file_url, editingAlt); onClose(); }}
-                  className="w-full bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent-hover)] rounded-lg gap-1.5"
+                  className="w-full bg-brand-accent text-white hover:bg-brand-accent-hover rounded-lg gap-1.5"
                 >
                   <Check className="w-4 h-4" />
                   Sélectionner

@@ -5,17 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-accent)]/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-full",
   {
     variants: {
       variant: {
-        default: "bg-[var(--brand-primary)] text-white text-sm hover:bg-[var(--color-charcoal)] shadow-sm",
-        accent: "bg-[var(--brand-accent)] text-white text-sm hover:bg-[var(--brand-accent-hover)] shadow-sm",
+        default: "bg-brand-primary text-white text-sm hover:bg-[var(--color-charcoal)] shadow-sm",
+        accent: "bg-brand-accent text-white text-sm hover:bg-brand-accent-hover shadow-sm",
         light: "bg-[var(--color-cream-light)] text-[var(--color-charcoal)] text-sm hover:bg-[var(--color-cream)]",
-        outline: "border border-[var(--brand-primary)]/15 text-[var(--color-charcoal)] text-sm hover:bg-[var(--brand-primary)]/5",
-        "outline-dark": "border border-[var(--brand-primary)] text-[var(--brand-primary)] text-sm hover:bg-[var(--brand-primary)] hover:text-white",
+        outline: "border border-brand-primary/15 text-[var(--color-charcoal)] text-sm hover:bg-brand-primary/5",
+        "outline-dark": "border border-brand-primary text-brand-primary text-sm hover:bg-brand-primary hover:text-white",
         "outline-light": "border border-white/40 text-white text-sm hover:border-white hover:bg-white/10",
-        "outline-sage": "border border-[var(--brand-secondary)] text-[var(--brand-secondary)] text-sm hover:bg-[var(--brand-secondary)] hover:text-[var(--brand-accent-light)]",
+        "outline-sage": "border border-brand-secondary text-brand-secondary text-sm hover:bg-brand-secondary hover:text-brand-accent-light",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-[var(--color-cream-light)] hover:text-[var(--color-charcoal)]",

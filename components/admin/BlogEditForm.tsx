@@ -153,19 +153,23 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           (next as any)[key] = value;
         }
       });
-      // Auto-generate slug from title if new
-      if (isNew && mapping.title_fr) {
-        next.slug = mapping.title_fr
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "");
+      // Use suggested_slug from AI or auto-generate from title
+      if (isNew) {
+        if (mapping.suggested_slug) {
+          next.slug = mapping.suggested_slug;
+        } else if (mapping.title_fr) {
+          next.slug = mapping.title_fr
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+        }
       }
       return next;
     });
     setShowPDFImport(false);
-    toast.success("Contenu importé du PDF");
+    toast.success("Article importé et optimisé SEO");
   }, [isNew]);
 
   const categories = [
@@ -185,10 +189,10 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           {/* ── Tools Row ── */}
           <div className="flex gap-3">
             {/* AI Generation */}
-            <div className="flex-1 rounded-xl border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
+            <div className="flex-1 rounded-xl border border-brand-accent/20 bg-brand-accent/5 p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="w-4 h-4 text-[var(--brand-accent)]" />
-                <span className="text-sm font-semibold text-[var(--brand-primary)]">Générer avec l&apos;IA</span>
+                <Sparkles className="w-4 h-4 text-brand-accent" />
+                <span className="text-sm font-semibold text-brand-primary">Générer avec l&apos;IA</span>
               </div>
             <div className="flex gap-2">
               <Input
@@ -201,7 +205,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 type="button"
                 onClick={handleAIGenerate}
                 disabled={isGenerating}
-                className="bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent-hover)] shrink-0"
+                className="bg-brand-accent text-white hover:bg-brand-accent-hover shrink-0"
               >
                 {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                 <span className="ml-2 hidden sm:inline">Générer</span>
@@ -210,8 +214,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           </div>
 
             {/* PDF Import */}
-            <div className="w-48 rounded-xl border border-[var(--brand-primary)]/10 bg-[var(--brand-primary)]/[0.02] p-4 flex flex-col items-center justify-center gap-2 shrink-0">
-              <FileText className="w-5 h-5 text-[var(--brand-secondary)]/50" />
+            <div className="w-48 rounded-xl border border-brand-primary/10 bg-brand-primary/[0.02] p-4 flex flex-col items-center justify-center gap-2 shrink-0">
+              <FileText className="w-5 h-5 text-brand-secondary/50" />
               <Button
                 type="button"
                 variant="outline"
@@ -240,7 +244,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           {/* ── Meta Row ── */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label className="text-[var(--brand-primary)]">Catégorie</Label>
+              <Label className="text-brand-primary">Catégorie</Label>
               <Select value={form.category} onValueChange={(v) => handleChange("category", v)}>
                 <SelectTrigger className="h-10">
                   <SelectValue />
@@ -253,7 +257,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
               </Select>
             </div>
             <div className="space-y-2">
-              <Label className="text-[var(--brand-primary)]">Auteur</Label>
+              <Label className="text-brand-primary">Auteur</Label>
               <Input
                 value={form.author_name}
                 onChange={(e) => handleChange("author_name", e.target.value)}
@@ -262,7 +266,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-[var(--brand-primary)]">Slug *</Label>
+              <Label className="text-brand-primary">Slug *</Label>
               <Input
                 value={form.slug}
                 onChange={(e) => handleChange("slug", e.target.value)}
@@ -273,14 +277,14 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           </div>
 
           {/* ── Language Tabs ── */}
-          <div className="flex items-center gap-1 p-1 bg-[var(--brand-primary)]/5 rounded-xl w-fit">
+          <div className="flex items-center gap-1 p-1 bg-brand-primary/5 rounded-xl w-fit">
             <button
               type="button"
               onClick={() => setActiveTab("fr")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "fr"
-                  ? "bg-white text-[var(--brand-primary)] shadow-sm"
-                  : "text-[var(--brand-secondary)]/60 hover:text-[var(--brand-primary)]"
+                  ? "bg-white text-brand-primary shadow-sm"
+                  : "text-brand-secondary/60 hover:text-brand-primary"
               }`}
             >
               <span className="flex items-center gap-1.5">
@@ -293,8 +297,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
               onClick={() => setActiveTab("en")}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "en"
-                  ? "bg-white text-[var(--brand-primary)] shadow-sm"
-                  : "text-[var(--brand-secondary)]/60 hover:text-[var(--brand-primary)]"
+                  ? "bg-white text-brand-primary shadow-sm"
+                  : "text-brand-secondary/60 hover:text-brand-primary"
               }`}
             >
               <span className="flex items-center gap-1.5">
@@ -308,7 +312,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           {activeTab === "fr" && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Titre (FR) *</Label>
+                <Label className="text-brand-primary">Titre (FR) *</Label>
                 <Input
                   value={form.title_fr}
                   onChange={(e) => handleChange("title_fr", e.target.value)}
@@ -317,7 +321,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Extrait (FR)</Label>
+                <Label className="text-brand-primary">Extrait (FR)</Label>
                 <Textarea
                   value={form.excerpt_fr}
                   onChange={(e) => handleChange("excerpt_fr", e.target.value)}
@@ -327,7 +331,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Contenu (FR)</Label>
+                <Label className="text-brand-primary">Contenu (FR)</Label>
                 <RichTextEditor
                   content={form.content_fr}
                   onChange={(html) => handleChange("content_fr", html)}
@@ -341,7 +345,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           {activeTab === "en" && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Title (EN)</Label>
+                <Label className="text-brand-primary">Title (EN)</Label>
                 <Input
                   value={form.title_en}
                   onChange={(e) => handleChange("title_en", e.target.value)}
@@ -350,7 +354,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Excerpt (EN)</Label>
+                <Label className="text-brand-primary">Excerpt (EN)</Label>
                 <Textarea
                   value={form.excerpt_en}
                   onChange={(e) => handleChange("excerpt_en", e.target.value)}
@@ -360,7 +364,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 />
               </div>
               <div className="space-y-2">
-                <Label className="text-[var(--brand-primary)]">Content (EN)</Label>
+                <Label className="text-brand-primary">Content (EN)</Label>
                 <RichTextEditor
                   content={form.content_en}
                   onChange={(html) => handleChange("content_en", html)}
@@ -371,61 +375,104 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           )}
 
           {/* ── SEO Section ── */}
-          <div className="rounded-xl border border-gray-200">
-            <button
-              type="button"
-              onClick={() => setShowSeo(!showSeo)}
-              className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/[0.02] transition-colors rounded-xl"
-            >
-              <span className="flex items-center gap-2">
-                <Globe className="w-4 h-4 text-[var(--brand-secondary)]/50" />
-                SEO & Métadonnées
-              </span>
-              {showSeo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-            {showSeo && (
-              <div className="px-4 pb-4 space-y-4 border-t border-gray-100 pt-4">
-                <div className="space-y-2">
-                  <Label className="text-[var(--brand-primary)]">Meta Title</Label>
-                  <Input
-                    value={form.meta_title}
-                    onChange={(e) => handleChange("meta_title", e.target.value)}
-                    placeholder={form.title_fr || "Titre SEO"}
-                    className="h-10"
-                  />
-                  <p className="text-xs text-[var(--brand-secondary)]/50">
-                    {(form.meta_title || form.title_fr).length}/60 caractères recommandés
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-[var(--brand-primary)]">Meta Description</Label>
-                  <Textarea
-                    value={form.meta_description}
-                    onChange={(e) => handleChange("meta_description", e.target.value)}
-                    placeholder={form.excerpt_fr || "Description SEO"}
-                    rows={2}
-                    className="text-sm"
-                  />
-                  <p className="text-xs text-[var(--brand-secondary)]/50">
-                    {(form.meta_description || form.excerpt_fr).length}/155 caractères recommandés
-                  </p>
-                </div>
-                {/* SEO Preview */}
-                <div className="rounded-lg bg-[#FAFAF8] p-4 space-y-1">
-                  <p className="text-xs text-[var(--brand-secondary)]/40 uppercase tracking-wider font-medium">Aperçu Google</p>
-                  <p className="text-[#1a0dab] text-base font-medium leading-tight truncate">
-                    {form.meta_title || form.title_fr || "Titre de l'article"}
-                  </p>
-                  <p className="text-[#006621] text-xs truncate">
-                    wpgrok.fr/actualites/{form.slug || "mon-article"}
-                  </p>
-                  <p className="text-[#545454] text-xs leading-relaxed line-clamp-2">
-                    {form.meta_description || form.excerpt_fr || "Description de l'article..."}
-                  </p>
-                </div>
+          {(() => {
+            const metaTitle = form.meta_title || form.title_fr;
+            const metaDesc = form.meta_description || form.excerpt_fr;
+            const contentText = form.content_fr.replace(/<[^>]*>/g, "");
+            const wordCount = contentText.split(/\s+/).filter(Boolean).length;
+            const hasH2 = /<h2/i.test(form.content_fr);
+            const hasLists = /<[ou]l/i.test(form.content_fr);
+            const hasStrong = /<strong/i.test(form.content_fr);
+
+            const checks = [
+              { ok: metaTitle.length > 0 && metaTitle.length <= 60, label: `Titre SEO (${metaTitle.length}/60)` },
+              { ok: metaDesc.length >= 120 && metaDesc.length <= 155, label: `Description (${metaDesc.length}/155)` },
+              { ok: wordCount >= 300, label: `Contenu (${wordCount} mots, min 300)` },
+              { ok: hasH2, label: "Titres H2 présents" },
+              { ok: hasLists, label: "Listes à puces" },
+              { ok: hasStrong, label: "Mots-clés en gras" },
+              { ok: !!form.cover_image_url, label: "Image de couverture" },
+              { ok: !!form.slug, label: "Slug défini" },
+            ];
+            const score = Math.round((checks.filter((c) => c.ok).length / checks.length) * 100);
+            const scoreColor = score >= 80 ? "text-green-600" : score >= 50 ? "text-amber-500" : "text-red-500";
+            const barColor = score >= 80 ? "bg-green-500" : score >= 50 ? "bg-amber-400" : "bg-red-500";
+
+            return (
+              <div className="rounded-xl border border-gray-200">
+                <button
+                  type="button"
+                  onClick={() => setShowSeo(!showSeo)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-brand-primary hover:bg-brand-primary/[0.02] transition-colors rounded-xl"
+                >
+                  <span className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-brand-secondary/50" />
+                    SEO & Métadonnées
+                  </span>
+                  <span className="flex items-center gap-3">
+                    <span className={`text-xs font-bold ${scoreColor}`}>{score}%</span>
+                    <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full transition-all ${barColor}`} style={{ width: `${score}%` }} />
+                    </div>
+                    {showSeo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </span>
+                </button>
+                {showSeo && (
+                  <div className="px-4 pb-4 space-y-4 border-t border-gray-100 pt-4">
+                    {/* Score breakdown */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {checks.map((check) => (
+                        <div key={check.label} className={`flex items-center gap-1.5 text-xs rounded-lg px-2.5 py-1.5 ${check.ok ? "bg-green-50 text-green-700" : "bg-red-50 text-red-600"}`}>
+                          <span>{check.ok ? "✓" : "✗"}</span>
+                          <span className="truncate">{check.label}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-brand-primary">Meta Title</Label>
+                      <Input
+                        value={form.meta_title}
+                        onChange={(e) => handleChange("meta_title", e.target.value)}
+                        placeholder={form.title_fr || "Titre SEO"}
+                        className="h-10"
+                      />
+                      <p className={`text-xs ${metaTitle.length > 60 ? "text-red-500" : "text-brand-secondary/50"}`}>
+                        {metaTitle.length}/60 caractères
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-brand-primary">Meta Description</Label>
+                      <Textarea
+                        value={form.meta_description}
+                        onChange={(e) => handleChange("meta_description", e.target.value)}
+                        placeholder={form.excerpt_fr || "Description SEO"}
+                        rows={2}
+                        className="text-sm"
+                      />
+                      <p className={`text-xs ${metaDesc.length > 155 ? "text-red-500" : "text-brand-secondary/50"}`}>
+                        {metaDesc.length}/155 caractères
+                      </p>
+                    </div>
+
+                    {/* Google Preview */}
+                    <div className="rounded-lg bg-white border border-gray-100 p-4 space-y-1">
+                      <p className="text-xs text-brand-secondary/40 uppercase tracking-wider font-medium mb-2">Aperçu Google</p>
+                      <p className="text-[#1a0dab] text-base font-medium leading-tight truncate">
+                        {metaTitle || "Titre de l'article"}
+                      </p>
+                      <p className="text-[#006621] text-xs truncate">
+                        ies-ingredients.com &rsaquo; actualites &rsaquo; {form.slug || "mon-article"}
+                      </p>
+                      <p className="text-[#545454] text-xs leading-relaxed line-clamp-2">
+                        {metaDesc || "Description de l'article..."}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -469,7 +516,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           <Button
             type="submit"
             disabled={isSaving}
-            className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg px-6"
+            className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg px-6"
           >
             {isSaving ? (
               <>

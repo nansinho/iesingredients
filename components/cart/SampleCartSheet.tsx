@@ -19,6 +19,8 @@ import { useSampleCart } from "@/hooks/useSampleCart";
 import { createClient } from "@/lib/supabase/client";
 import { sampleRequestSchema } from "@/lib/validations";
 import { toast } from "sonner";
+import { SecurityCheck } from "@/components/security/SecurityCheck";
+import { HoneypotFields } from "@/components/security/HoneypotFields";
 
 export function SampleCartSheet() {
   const locale = useLocale();
@@ -34,11 +36,19 @@ export function SampleCartSheet() {
     phone: "",
     message: "",
   });
+  const [securityToken, setSecurityToken] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
+  const [formStartTime] = useState(() => Date.now());
 
   const count = itemCount();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot.website || honeypot.faxNumber) return;
+    if (!securityToken) {
+      toast.error(isFr ? "Veuillez compléter la vérification" : "Please complete the security check");
+      return;
+    }
     setIsSubmitting(true);
 
     // Client-side Zod validation
@@ -71,7 +81,7 @@ export function SampleCartSheet() {
           "Content-Type": "application/json",
           ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
         },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify({ ...parsed.data, securityToken, formStartTime }),
       });
 
       if (!res.ok) {
@@ -139,7 +149,8 @@ export function SampleCartSheet() {
               </p>
             </div>
           ) : showForm ? (
-            <form onSubmit={handleSubmit} className="space-y-4 px-1">
+            <form onSubmit={handleSubmit} className="relative space-y-4 px-1">
+              <HoneypotFields values={honeypot} onChange={(f, v) => setHoneypot((prev) => ({ ...prev, [f]: v }))} />
               <div className="space-y-2">
                 <Label className="text-dark dark:text-cream-light">{isFr ? "Nom" : "Name"} *</Label>
                 <Input
@@ -186,6 +197,12 @@ export function SampleCartSheet() {
                   className="resize-none bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10"
                 />
               </div>
+
+              <SecurityCheck
+                onVerified={setSecurityToken}
+                onReset={() => setSecurityToken(null)}
+                variant="light"
+              />
 
               <div className="flex gap-3 pt-2">
                 <Button

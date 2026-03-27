@@ -60,7 +60,7 @@ export function ShareButtons({ title, copiedLabel }: ShareButtonsProps) {
               key={btn.label}
               onClick={btn.action}
               aria-label={btn.label}
-              className="w-10 h-10 rounded-full border border-[var(--brand-primary)]/8 dark:border-cream-light/10 flex items-center justify-center text-[var(--brand-primary)]/35 dark:text-cream-light/30 hover:text-[var(--brand-accent)] hover:border-[var(--brand-accent)]/30 hover:bg-[var(--brand-accent)]/5 transition-all duration-200"
+              className="w-10 h-10 rounded-full border border-brand-primary/8 dark:border-cream-light/10 flex items-center justify-center text-brand-primary/35 dark:text-cream-light/30 hover:text-brand-accent hover:border-brand-accent/30 hover:bg-brand-accent/5 transition-all duration-200"
             >
               <Icon className="w-4 h-4" />
             </button>
@@ -69,7 +69,7 @@ export function ShareButtons({ title, copiedLabel }: ShareButtonsProps) {
       </motion.div>
 
       {/* Mobile - fixed bottom bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-xl border-t border-[var(--brand-primary)]/8 dark:border-cream-light/10 px-6 py-3 flex items-center justify-center gap-6 safe-area-inset-bottom">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-xl border-t border-brand-primary/8 dark:border-cream-light/10 px-6 py-3 flex items-center justify-center gap-6 safe-area-inset-bottom">
         {buttons.map((btn) => {
           const Icon = btn.icon;
           return (
@@ -77,7 +77,7 @@ export function ShareButtons({ title, copiedLabel }: ShareButtonsProps) {
               key={btn.label}
               onClick={btn.action}
               aria-label={btn.label}
-              className="flex items-center gap-2 text-[var(--brand-primary)]/50 dark:text-cream-light/40 hover:text-[var(--brand-accent)] transition-colors"
+              className="flex items-center gap-2 text-brand-primary/50 dark:text-cream-light/40 hover:text-brand-accent transition-colors"
             >
               <Icon className="w-4 h-4" />
               <AnimatePresence mode="wait">
@@ -86,7 +86,7 @@ export function ShareButtons({ title, copiedLabel }: ShareButtonsProps) {
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
-                    className="text-xs font-medium text-[var(--brand-accent)]"
+                    className="text-xs font-medium text-brand-accent"
                   >
                     {copiedLabel}
                   </motion.span>

@@ -103,7 +103,7 @@ export function BlogAdmin({
             <img src={item.cover_image_url} alt="" className="w-full h-full object-cover" />
           </div>
         ) : (
-          <div className="w-12 h-12 rounded-lg bg-[var(--brand-primary)]/5 flex items-center justify-center text-[var(--brand-secondary)]/30 text-xs">
+          <div className="w-12 h-12 rounded-lg bg-brand-primary/5 flex items-center justify-center text-brand-secondary/30 text-xs">
             IMG
           </div>
         ),
@@ -113,8 +113,8 @@ export function BlogAdmin({
       label: "Titre",
       render: (item: any) => (
         <div>
-          <span className="font-medium text-[var(--brand-primary)]">{item.title_fr}</span>
-          <p className="text-xs text-[var(--brand-secondary)]/50 mt-0.5 font-mono">/{item.slug}</p>
+          <span className="font-medium text-brand-primary">{item.title_fr}</span>
+          <p className="text-xs text-brand-secondary/50 mt-0.5 font-mono">/{item.slug}</p>
         </div>
       ),
     },
@@ -180,7 +180,7 @@ export function BlogAdmin({
             <Button
               size="sm"
               onClick={openNew}
-              className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg gap-2"
+              className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2"
             >
               <Plus className="w-4 h-4" />
               Nouvel article

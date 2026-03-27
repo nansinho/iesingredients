@@ -135,21 +135,21 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex items-center justify-end h-16 px-4 sm:px-6 lg:px-8 bg-[#D4907E] backdrop-blur-sm border-b border-[#c07e6c]">
+      <header className="sticky top-0 z-30 flex items-center justify-end h-16 px-4 sm:px-6 lg:px-8 bg-white/80 backdrop-blur-md border-b border-brand-primary/[0.06]">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-white/15 transition-colors outline-none">
+            <button className="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-brand-primary/[0.04] transition-colors outline-none">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-medium text-white leading-tight">
+                <p className="text-sm font-medium text-brand-primary leading-tight">
                   {profile.full_name || "Administrateur"}
                 </p>
-                <p className="text-xs text-white/70 leading-tight">
+                <p className="text-xs text-brand-secondary/60 leading-tight">
                   {profile.email}
                 </p>
               </div>
-              <Avatar className="h-9 w-9">
+              <Avatar className="h-9 w-9 ring-2 ring-brand-primary/10">
                 {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.full_name || ""} />}
-                <AvatarFallback className="bg-[var(--brand-primary)] text-white text-sm font-medium">
+                <AvatarFallback className="bg-brand-primary text-white text-sm font-medium">
                   {initials}
                 </AvatarFallback>
               </Avatar>
@@ -190,7 +190,7 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
             <div className="flex items-center gap-4">
               <Avatar className="h-16 w-16">
                 {avatarUrl && <AvatarImage src={avatarUrl} alt={profile.full_name || ""} />}
-                <AvatarFallback className="bg-[var(--brand-primary)] text-white text-lg font-medium">
+                <AvatarFallback className="bg-brand-primary text-white text-lg font-medium">
                   {initials}
                 </AvatarFallback>
               </Avatar>

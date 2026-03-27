@@ -53,7 +53,7 @@ export function CollectionCard({
       </div>
 
       {/* Text content */}
-      <h3 className="font-semibold text-dark text-[15px] leading-snug mb-1 group-hover:text-[var(--brand-primary)] transition-colors duration-300">
+      <h3 className="font-semibold text-dark text-[15px] leading-snug mb-1 group-hover:text-brand-primary transition-colors duration-300">
         {collection.title}
       </h3>
       <p className="text-dark/45 text-xs leading-relaxed line-clamp-2">

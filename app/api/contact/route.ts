@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validations";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { verifySecurityToken } from "@/lib/security/verify";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +18,18 @@ export async function POST(request: NextRequest) {
 
     // Validate input
     const body = await request.json().catch(() => null);
-    const parsed = contactSchema.safeParse(body);
+
+    // Verify security token
+    if (!body?.securityToken) {
+      return NextResponse.json({ error: "Security verification required" }, { status: 403 });
+    }
+    const security = verifySecurityToken(body.securityToken, body.formStartTime);
+    if (!security.valid) {
+      return NextResponse.json({ error: `Security check failed: ${security.error}` }, { status: 403 });
+    }
+
+    const { securityToken: _st, formStartTime: _ft, ...formFields } = body || {};
+    const parsed = contactSchema.safeParse(formFields);
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Invalid input", details: parsed.error.flatten().fieldErrors },

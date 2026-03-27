@@ -56,12 +56,12 @@ export function SlidePanel({ open, onClose, title, subtitle, children, width = "
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-[#FAFAF8] shrink-0">
           <div>
-            <h2 className="text-lg font-semibold text-[var(--brand-primary)]">{title}</h2>
-            {subtitle && <p className="text-sm text-[var(--brand-secondary)]/60 mt-0.5">{subtitle}</p>}
+            <h2 className="text-lg font-semibold text-brand-primary">{title}</h2>
+            {subtitle && <p className="text-sm text-brand-secondary/60 mt-0.5">{subtitle}</p>}
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-[var(--brand-primary)]/5 text-[var(--brand-secondary)] transition-colors"
+            className="p-2 rounded-xl hover:bg-brand-primary/5 text-brand-secondary transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

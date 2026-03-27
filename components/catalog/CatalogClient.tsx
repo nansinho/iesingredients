@@ -113,7 +113,7 @@ export function CatalogClient({
             sizes="100vw"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/90 via-[var(--brand-primary)]/85 to-[var(--brand-primary)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/90 via-brand-primary/85 to-brand-primary" />
         </div>
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
@@ -305,19 +305,19 @@ export function CatalogClient({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-[var(--brand-accent-light)]/15 border border-[var(--brand-accent)]/20 relative overflow-hidden"
+            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-brand-accent-light/15 border border-brand-accent/20 relative overflow-hidden"
           >
             <div className="relative z-10">
-              <h3 className="text-[var(--brand-primary)] font-semibold text-xl mb-1">
+              <h3 className="text-brand-primary font-semibold text-xl mb-1">
                 {t("needHelp") || (cat("cosmetic") ? "Besoin d'aide pour trouver un ingrédient ?" : "Need help finding an ingredient?")}
               </h3>
-              <p className="text-[var(--brand-primary)]/55 text-sm">
+              <p className="text-brand-primary/55 text-sm">
                 {t("helpDescription") || (cat("cosmetic") ? "Notre équipe est là pour vous accompagner." : "Our team is here to help you.")}
               </p>
             </div>
             <Link
               href="/contact"
-              className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg shrink-0"
+              className="relative z-10 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-primary text-white text-sm font-semibold hover:bg-brand-secondary transition-all duration-300 shadow-lg shrink-0"
             >
               <MessageCircle className="w-4 h-4" />
               Contact

@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { contactSchema } from "@/lib/validations";
+import { SecurityCheck } from "@/components/security/SecurityCheck";
+import { HoneypotFields } from "@/components/security/HoneypotFields";
 
 interface FormData {
   firstName: string;
@@ -36,6 +38,9 @@ export function ContactForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [securityToken, setSecurityToken] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
+  const [formStartTime] = useState(() => Date.now());
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -51,6 +56,11 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (honeypot.website || honeypot.faxNumber) return;
+    if (!securityToken) {
+      setFieldErrors({ _form: isFr ? "Veuillez compléter la vérification de sécurité" : "Please complete the security check" });
+      return;
+    }
     setIsSubmitting(true);
     setStatus("idle");
     setFieldErrors({});
@@ -71,7 +81,7 @@ export function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify({ ...parsed.data, securityToken, formStartTime }),
       });
 
       if (!res.ok) {
@@ -100,14 +110,14 @@ export function ContactForm() {
       <h2 className="font-playfair italic text-3xl text-[var(--color-charcoal)] mb-2">
         {isFr ? "Envoyez-nous un message" : "Send us a message"}
       </h2>
-      <p className="text-[var(--brand-primary)]/45 mb-8">
+      <p className="text-brand-primary/45 mb-8">
         {isFr
           ? "Remplissez le formulaire ci-dessous et nous vous répondrons rapidement."
           : "Fill out the form below and we will get back to you quickly."}
       </p>
 
       {status === "success" && (
-        <div className="mb-6 p-4 rounded-xl bg-[var(--brand-accent)]/10 border border-[var(--brand-accent)]/20 text-[var(--brand-secondary)]">
+        <div className="mb-6 p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/20 text-brand-secondary">
           <p className="font-medium">
             {isFr ? "Message envoyé avec succès !" : "Message sent successfully!"}
           </p>
@@ -136,7 +146,8 @@ export function ContactForm() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="relative space-y-6">
+        <HoneypotFields values={honeypot} onChange={(f, v) => setHoneypot((prev) => ({ ...prev, [f]: v }))} />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="firstName" className="text-[var(--color-charcoal)]">{isFr ? "Prénom" : "First name"} *</Label>
@@ -146,7 +157,7 @@ export function ContactForm() {
               value={formData.firstName}
               onChange={handleChange}
               required
-              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
               placeholder="Jean"
             />
             {fieldErrors.firstName && (
@@ -161,7 +172,7 @@ export function ContactForm() {
               value={formData.lastName}
               onChange={handleChange}
               required
-              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
               placeholder="Dupont"
             />
             {fieldErrors.lastName && (
@@ -180,7 +191,7 @@ export function ContactForm() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
               placeholder="jean.dupont@exemple.com"
             />
             {fieldErrors.email && (
@@ -195,7 +206,7 @@ export function ContactForm() {
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
               placeholder="+33 4 93 00 00 00"
             />
           </div>
@@ -209,7 +220,7 @@ export function ContactForm() {
               name="company"
               value={formData.company}
               onChange={handleChange}
-              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
               placeholder={isFr ? "Votre entreprise" : "Your company"}
             />
           </div>
@@ -221,7 +232,7 @@ export function ContactForm() {
               value={formData.subject}
               onChange={handleChange}
               required
-              className="h-12 border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+              className="h-12 border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
               placeholder={isFr ? "Objet de votre message" : "Subject of your message"}
             />
             {fieldErrors.subject && (
@@ -239,7 +250,7 @@ export function ContactForm() {
             onChange={handleChange}
             required
             rows={6}
-            className="resize-none border-[var(--color-cream)] bg-white focus:border-[var(--brand-accent)] focus:ring-2 focus:ring-[var(--brand-accent)]/20 rounded-xl"
+            className="resize-none border-[var(--color-cream)] bg-white focus:border-brand-accent focus:ring-2 focus:ring-brand-accent/20 rounded-xl"
             placeholder={
               isFr
                 ? "Décrivez votre projet ou posez-nous vos questions..."
@@ -251,8 +262,14 @@ export function ContactForm() {
           )}
         </div>
 
+        <SecurityCheck
+          onVerified={setSecurityToken}
+          onReset={() => setSecurityToken(null)}
+          variant="light"
+        />
+
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-          <p className="text-xs text-[var(--brand-primary)]/45">
+          <p className="text-xs text-brand-primary/45">
             * {isFr ? "Champs obligatoires" : "Required fields"}
           </p>
           <Button

@@ -211,19 +211,19 @@ export default async function CompanyPage({
             sizes="100vw"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/70 to-brand-primary/30" />
         </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] mx-auto pb-24 pt-44 text-center">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-brand-accent-light text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Building2 className="w-3.5 h-3.5" />
               {isFr ? "Notre histoire" : "Our story"}
             </span>
           </AnimateIn>
           <AnimateIn delay={0.1} y={30}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
-              IES <span className="font-playfair italic text-[var(--brand-accent-light)]">Ingredients</span>
+              IES <span className="font-playfair italic text-brand-accent-light">Ingredients</span>
             </h1>
           </AnimateIn>
           <AnimateIn delay={0.2}>
@@ -239,7 +239,7 @@ export default async function CompanyPage({
       {/* Introduction & Présentation */}
       <section className="py-20 md:py-28 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-peach/5 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-primary)]/3 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-primary/3 rounded-full blur-[120px]" />
         <div className="w-[94%] max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
           <AnimateIn y={30}>
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-brown/8 shadow-[0_20px_60px_rgba(212,144,126,0.12)]">
@@ -250,22 +250,22 @@ export default async function CompanyPage({
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-primary/40 to-transparent" />
               <div className="absolute bottom-6 left-6 px-5 py-3 rounded-2xl bg-white/90 backdrop-blur-md shadow-lg">
-                <p className="text-[var(--brand-primary)] font-bold text-2xl">1993</p>
-                <p className="text-[var(--brand-primary)]/60 text-xs font-semibold uppercase tracking-wider">
+                <p className="text-brand-primary font-bold text-2xl">1993</p>
+                <p className="text-brand-primary/60 text-xs font-semibold uppercase tracking-wider">
                   {isFr ? "Année de création" : "Year founded"}
                 </p>
               </div>
             </div>
           </AnimateIn>
           <AnimateIn delay={0.15} y={30}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-accent)]/10 border border-[var(--brand-accent)]/20 text-[var(--brand-accent)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               {isFr ? "Notre mission" : "Our mission"}
             </span>
             <h2 className="text-dark tracking-tight mt-4 mb-6">
               {isFr ? "L'Excellence au Service de la" : "Excellence in Service of"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Nature" : "Nature"}</span>.
+              <span className="font-playfair italic text-brand-accent">{isFr ? "Nature" : "Nature"}</span>.
             </h2>
             <div className="space-y-4 text-dark/60 text-lg leading-relaxed">
               <p>
@@ -281,7 +281,7 @@ export default async function CompanyPage({
             </div>
             <Link
               href="/catalogue"
-              className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full bg-[var(--brand-accent)] text-white text-sm font-semibold hover:bg-[var(--brand-accent-dark)] transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full bg-brand-accent text-white text-sm font-semibold hover:bg-brand-accent-hover transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
               {isFr ? "Voir le catalogue" : "View catalog"}
               <ArrowRight className="w-4 h-4" />
@@ -291,19 +291,19 @@ export default async function CompanyPage({
       </section>
 
       {/* Carte des implantations — Section sombre comme la homepage */}
-      <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--brand-accent)]/8 rounded-full blur-[200px]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--brand-secondary)]/10 rounded-full blur-[180px]" />
+      <section className="py-20 md:py-28 bg-brand-primary relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-accent/8 rounded-full blur-[200px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-secondary/10 rounded-full blur-[180px]" />
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-brand-accent-light text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <MapPin className="w-3.5 h-3.5" />
               {isFr ? "Nos implantations" : "Our locations"}
             </span>
             <h2 className="text-white tracking-tight">
               {isFr ? "Une Présence" : "A Presence"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Internationale" : "Worldwide"}</span>.
+              <span className="font-playfair italic text-brand-accent-light">{isFr ? "Internationale" : "Worldwide"}</span>.
             </h2>
           </AnimateIn>
 
@@ -313,9 +313,9 @@ export default async function CompanyPage({
               <div className="relative aspect-[16/9] bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl overflow-hidden">
                 {/* Abstract map shapes */}
                 <div className="absolute inset-0 opacity-[0.12]">
-                  <div className="absolute top-[15%] left-[25%] w-[35%] h-[50%] bg-[var(--brand-accent-light)] rounded-[40%_60%_50%_40%]" />
-                  <div className="absolute top-[55%] left-[30%] w-[20%] h-[35%] bg-[var(--brand-accent-light)] rounded-[30%_40%_50%_35%]" />
-                  <div className="absolute top-[35%] left-[60%] w-[25%] h-[30%] bg-[var(--brand-accent-light)] rounded-[50%_30%_40%_60%]" />
+                  <div className="absolute top-[15%] left-[25%] w-[35%] h-[50%] bg-brand-accent-light rounded-[40%_60%_50%_40%]" />
+                  <div className="absolute top-[55%] left-[30%] w-[20%] h-[35%] bg-brand-accent-light rounded-[30%_40%_50%_35%]" />
+                  <div className="absolute top-[35%] left-[60%] w-[25%] h-[30%] bg-brand-accent-light rounded-[50%_30%_40%_60%]" />
                 </div>
 
                 {/* Location points */}
@@ -325,8 +325,8 @@ export default async function CompanyPage({
                     className="absolute group"
                     style={{ top: loc.top, left: loc.left }}
                   >
-                    <div className="absolute -inset-3 rounded-full bg-[var(--brand-accent)]/20 animate-glow-pulse" />
-                    <div className="relative w-4 h-4 rounded-full bg-[var(--brand-accent)] border-2 border-white shadow-lg shadow-[var(--brand-accent)]/30" />
+                    <div className="absolute -inset-3 rounded-full bg-brand-accent/20 animate-glow-pulse" />
+                    <div className="relative w-4 h-4 rounded-full bg-brand-accent border-2 border-white shadow-lg shadow-brand-accent/30" />
                     <div className="absolute left-6 top-1/2 -translate-y-1/2 whitespace-nowrap bg-white/95 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-md border border-white/50">
                       <p className="font-bold text-dark text-sm">{loc.city}</p>
                       <p className="text-dark/50 text-xs mt-0.5">{isFr ? loc.labelFr : loc.labelEn}</p>
@@ -342,37 +342,37 @@ export default async function CompanyPage({
       {/* Timeline / L'Historique — Section peach/mint comme MinimalProducts */}
       <section className="py-20 md:py-28 bg-mint relative overflow-hidden">
         <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-white/20 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent)]/10 rounded-full blur-[180px]" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[180px]" />
         <div className="w-[94%] max-w-4xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-16">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/10 border border-[var(--brand-primary)]/15 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/15 text-brand-primary text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Calendar className="w-3.5 h-3.5" />
               {isFr ? "L'historique" : "Our history"}
             </span>
-            <h2 className="text-[var(--brand-primary)] tracking-tight">
+            <h2 className="text-brand-primary tracking-tight">
               {isFr ? "30 Ans d'" : "30 Years of"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-dark)]">{isFr ? "Excellence" : "Excellence"}</span>.
+              <span className="font-playfair italic text-brand-accent-hover">{isFr ? "Excellence" : "Excellence"}</span>.
             </h2>
           </AnimateIn>
 
           {/* Timeline */}
           <div className="relative">
-            <div className="absolute left-[23px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--brand-primary)]/30 via-[var(--brand-accent-dark)]/40 to-[var(--brand-primary)]/30" />
+            <div className="absolute left-[23px] md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-primary/30 via-brand-accent-hover/40 to-brand-primary/30" />
 
             <div className="space-y-8 md:space-y-12">
               {timeline.map((item, index) => (
                 <AnimateIn key={item.year} delay={index * 0.08}>
                   <div className={`relative flex items-start gap-6 md:gap-0 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
                     <div className={`flex-1 md:w-[calc(50%-2rem)] ${index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12"}`}>
-                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-white/60 hover:bg-white hover:border-[var(--brand-accent)]/30 hover:shadow-[0_12px_40px_rgba(212,144,126,0.15)] transition-all duration-500">
-                        <span className="text-2xl md:text-3xl font-black text-[var(--brand-accent-dark)] leading-none">{item.year}</span>
-                        <h3 className="font-bold text-[var(--brand-primary)] text-base mt-2">{isFr ? item.titleFr : item.titleEn}</h3>
-                        <p className="text-sm text-[var(--brand-primary)]/60 mt-1 leading-relaxed">{isFr ? item.descFr : item.descEn}</p>
+                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 border border-white/60 hover:bg-white hover:border-brand-accent/30 hover:shadow-[0_12px_40px_rgba(212,144,126,0.15)] transition-all duration-500">
+                        <span className="text-2xl md:text-3xl font-black text-brand-accent-hover leading-none">{item.year}</span>
+                        <h3 className="font-bold text-brand-primary text-base mt-2">{isFr ? item.titleFr : item.titleEn}</h3>
+                        <p className="text-sm text-brand-primary/60 mt-1 leading-relaxed">{isFr ? item.descFr : item.descEn}</p>
                       </div>
                     </div>
 
-                    <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-[var(--brand-accent-dark)] border-[3px] border-white shadow-md z-10 mt-6" />
-                    <div className="md:hidden absolute left-[16px] w-[18px] h-[18px] rounded-full bg-[var(--brand-accent-dark)] border-[3px] border-white shadow-md z-10 mt-5" />
+                    <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-brand-accent-hover border-[3px] border-white shadow-md z-10 mt-6" />
+                    <div className="md:hidden absolute left-[16px] w-[18px] h-[18px] rounded-full bg-brand-accent-hover border-[3px] border-white shadow-md z-10 mt-5" />
                     <div className="hidden md:block flex-1 md:w-[calc(50%-2rem)]" />
                   </div>
                 </AnimateIn>
@@ -383,28 +383,28 @@ export default async function CompanyPage({
       </section>
 
       {/* Nos Valeurs — Section sombre immersive */}
-      <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-[var(--brand-accent)]/6 rounded-full blur-[200px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-secondary)]/8 rounded-full blur-[150px]" />
+      <section className="py-20 md:py-28 bg-brand-primary relative overflow-hidden">
+        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-brand-accent/6 rounded-full blur-[200px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-secondary/8 rounded-full blur-[150px]" />
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-[var(--brand-accent-light)] text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-brand-accent-light text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
               <Award className="w-3.5 h-3.5" />
               {isFr ? "Nos valeurs" : "Our values"}
             </span>
             <h2 className="text-white tracking-tight">
               {isFr ? "Ce Qui Nous" : "What Drives"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Anime" : "Us"}</span>.
+              <span className="font-playfair italic text-brand-accent-light">{isFr ? "Anime" : "Us"}</span>.
             </h2>
           </AnimateIn>
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {values.map((v) => (
               <StaggerItem key={v.titleFr}>
                 <HoverLift>
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-7 border border-white/10 hover:bg-white/10 hover:border-[var(--brand-accent)]/30 hover:shadow-[0_12px_40px_rgba(212,144,126,0.1)] transition-all duration-500 group">
-                    <div className="w-12 h-12 rounded-xl bg-[var(--brand-accent)]/15 border border-[var(--brand-accent)]/25 flex items-center justify-center mb-5 group-hover:bg-[var(--brand-accent)]/25 group-hover:scale-110 transition-all duration-300">
-                      <v.icon className="w-5.5 h-5.5 text-[var(--brand-accent-light)]" />
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-7 border border-white/10 hover:bg-white/10 hover:border-brand-accent/30 hover:shadow-[0_12px_40px_rgba(212,144,126,0.1)] transition-all duration-500 group">
+                    <div className="w-12 h-12 rounded-xl bg-brand-accent/15 border border-brand-accent/25 flex items-center justify-center mb-5 group-hover:bg-brand-accent/25 group-hover:scale-110 transition-all duration-300">
+                      <v.icon className="w-5.5 h-5.5 text-brand-accent-light" />
                     </div>
                     <h3 className="font-bold text-white mb-2 text-base">
                       {isFr ? v.titleFr : v.titleEn}
@@ -421,21 +421,21 @@ export default async function CompanyPage({
       </section>
 
       {/* Engagements RSE — Section peach accent comme SocialFollow */}
-      <section className="py-20 md:py-28 bg-[var(--brand-accent-light)] relative overflow-hidden">
+      <section className="py-20 md:py-28 bg-brand-accent-light relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/30 rounded-full blur-[180px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent)]/15 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-accent/15 rounded-full blur-[150px]" />
 
         <div className="w-[94%] max-w-5xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/10 border border-[var(--brand-primary)]/15 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/15 text-brand-primary text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Leaf className="w-3.5 h-3.5" />
               {isFr ? "Nos engagements" : "Our commitments"}
             </span>
-            <h2 className="text-[var(--brand-primary)] tracking-tight mb-4">
+            <h2 className="text-brand-primary tracking-tight mb-4">
               {isFr ? "Responsabilité" : "Corporate"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-dark)]">{isFr ? "Sociétale" : "Responsibility"}</span>.
+              <span className="font-playfair italic text-brand-accent-hover">{isFr ? "Sociétale" : "Responsibility"}</span>.
             </h2>
-            <p className="text-[var(--brand-primary)]/70 text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-brand-primary/70 text-lg max-w-2xl mx-auto leading-relaxed">
               {isFr
                 ? "Contribuer à l'excellence de la production de parfums, d'arômes et de cosmétiques. IES Ingredients est engagé volontairement et avec conviction dans une démarche RSE."
                 : "Contributing to excellence in perfume, flavor and cosmetics production. IES Ingredients is voluntarily and wholeheartedly committed to a CSR approach."}
@@ -446,11 +446,11 @@ export default async function CompanyPage({
             <StaggerItem>
               <HoverLift>
                 <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border border-white/60 text-center hover:bg-white/80 hover:border-white/80 hover:shadow-lg transition-all duration-500">
-                  <div className="w-14 h-14 rounded-2xl bg-[var(--brand-primary)]/10 border border-[var(--brand-primary)]/15 flex items-center justify-center mx-auto mb-5">
-                    <Zap className="w-6 h-6 text-[var(--brand-primary)]" />
+                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 border border-brand-primary/15 flex items-center justify-center mx-auto mb-5">
+                    <Zap className="w-6 h-6 text-brand-primary" />
                   </div>
-                  <h3 className="font-bold text-[var(--brand-primary)] text-lg mb-2">{isFr ? "Dynamique" : "Dynamic"}</h3>
-                  <p className="text-sm text-[var(--brand-primary)]/60 leading-relaxed">
+                  <h3 className="font-bold text-brand-primary text-lg mb-2">{isFr ? "Dynamique" : "Dynamic"}</h3>
+                  <p className="text-sm text-brand-primary/60 leading-relaxed">
                     {isFr
                       ? "IES Ingredients est avant tout une équipe de collaborateurs dynamique et motivée pour être de tous les instants au quotidien pour nos clients."
                       : "IES Ingredients is above all a dynamic and motivated team of employees, dedicated to being there for our clients at all times."}
@@ -461,11 +461,11 @@ export default async function CompanyPage({
             <StaggerItem>
               <HoverLift>
                 <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border border-white/60 text-center hover:bg-white/80 hover:border-white/80 hover:shadow-lg transition-all duration-500">
-                  <div className="w-14 h-14 rounded-2xl bg-[var(--brand-primary)]/10 border border-[var(--brand-primary)]/15 flex items-center justify-center mx-auto mb-5">
-                    <Ear className="w-6 h-6 text-[var(--brand-primary)]" />
+                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 border border-brand-primary/15 flex items-center justify-center mx-auto mb-5">
+                    <Ear className="w-6 h-6 text-brand-primary" />
                   </div>
-                  <h3 className="font-bold text-[var(--brand-primary)] text-lg mb-2">{isFr ? "À l'écoute" : "Attentive"}</h3>
-                  <p className="text-sm text-[var(--brand-primary)]/60 leading-relaxed">
+                  <h3 className="font-bold text-brand-primary text-lg mb-2">{isFr ? "À l'écoute" : "Attentive"}</h3>
+                  <p className="text-sm text-brand-primary/60 leading-relaxed">
                     {isFr
                       ? "Nous sommes à l'écoute de toutes les parties prenantes pour trouver les solutions en termes d'approvisionnement et de réalisation de produits innovants."
                       : "We listen to all stakeholders to find solutions in terms of sourcing and creating innovative products."}
@@ -476,11 +476,11 @@ export default async function CompanyPage({
             <StaggerItem>
               <HoverLift>
                 <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border border-white/60 text-center hover:bg-white/80 hover:border-white/80 hover:shadow-lg transition-all duration-500">
-                  <div className="w-14 h-14 rounded-2xl bg-[var(--brand-primary)]/10 border border-[var(--brand-primary)]/15 flex items-center justify-center mx-auto mb-5">
-                    <HandHeart className="w-6 h-6 text-[var(--brand-primary)]" />
+                  <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 border border-brand-primary/15 flex items-center justify-center mx-auto mb-5">
+                    <HandHeart className="w-6 h-6 text-brand-primary" />
                   </div>
-                  <h3 className="font-bold text-[var(--brand-primary)] text-lg mb-2">{isFr ? "Engagé" : "Committed"}</h3>
-                  <p className="text-sm text-[var(--brand-primary)]/60 leading-relaxed">
+                  <h3 className="font-bold text-brand-primary text-lg mb-2">{isFr ? "Engagé" : "Committed"}</h3>
+                  <p className="text-sm text-brand-primary/60 leading-relaxed">
                     {isFr
                       ? "Notre entreprise inscrit ses relations de longue durée avec ses clients et ses actions à long terme pour l'avenir de notre planète."
                       : "Our company builds long-lasting relationships with clients and takes long-term action for the future of our planet."}
@@ -493,14 +493,14 @@ export default async function CompanyPage({
           {/* Certification ISO intégrée */}
           <AnimateIn delay={0.2} className="mt-10">
             <div className="grid md:grid-cols-[auto_1fr] gap-8 items-center bg-white/60 backdrop-blur-sm rounded-3xl p-8 md:p-10 border border-white/70 shadow-[0_8px_40px_rgba(200,168,168,0.08)]">
-              <div className="w-20 h-20 rounded-2xl bg-[var(--brand-primary)]/10 flex items-center justify-center shrink-0 mx-auto md:mx-0">
-                <Shield className="w-10 h-10 text-[var(--brand-primary)]" />
+              <div className="w-20 h-20 rounded-2xl bg-brand-primary/10 flex items-center justify-center shrink-0 mx-auto md:mx-0">
+                <Shield className="w-10 h-10 text-brand-primary" />
               </div>
               <div>
-                <h3 className="font-bold text-[var(--brand-primary)] text-xl mb-2 text-center md:text-left">
+                <h3 className="font-bold text-brand-primary text-xl mb-2 text-center md:text-left">
                   {isFr ? "Certifié ISO 9001" : "ISO 9001 Certified"}
                 </h3>
-                <p className="text-[var(--brand-primary)]/60 text-sm leading-relaxed text-center md:text-left">
+                <p className="text-brand-primary/60 text-sm leading-relaxed text-center md:text-left">
                   {isFr
                     ? "Nous avons obtenu depuis novembre 2017 la certification ISO 9001 sur le système de management de la qualité de notre site d'Allauch afin d'améliorer en permanence la satisfaction de nos clients et fournir des produits et services conformes."
                     : "We have held ISO 9001 certification since November 2017 for the quality management system at our Allauch site, in order to continuously improve customer satisfaction and deliver compliant products and services."}
@@ -511,12 +511,12 @@ export default async function CompanyPage({
 
           {/* Ethics contact */}
           <AnimateIn delay={0.3} className="mt-6 text-center">
-            <p className="text-[var(--brand-primary)]/50 text-sm">
+            <p className="text-brand-primary/50 text-sm">
               {isFr
                 ? "Une adresse mail est à disposition de façon permanente pour signaler toute violation du code de conduite et témoigner sur notre démarche RSE :"
                 : "An email address is permanently available for reporting any violation of the code of conduct or providing feedback on our CSR approach:"}
             </p>
-            <a href="mailto:ethique@ies-ingredients.com" className="inline-flex items-center gap-2 text-[var(--brand-primary)] font-semibold text-sm mt-2 hover:text-[var(--brand-accent-dark)] transition-colors">
+            <a href="mailto:ethique@ies-ingredients.com" className="inline-flex items-center gap-2 text-brand-primary font-semibold text-sm mt-2 hover:text-brand-accent-hover transition-colors">
               <Mail className="w-4 h-4" />
               ethique@ies-ingredients.com
             </a>
@@ -526,16 +526,16 @@ export default async function CompanyPage({
 
       {/* Distribution — Partenaires — Section blanche épurée */}
       <section className="py-20 md:py-28 bg-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/10 rounded-full blur-[180px]" />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-brand-accent-light/10 rounded-full blur-[180px]" />
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/8 border border-[var(--brand-primary)]/12 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-5">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/8 border border-brand-primary/12 text-brand-primary text-xs font-semibold uppercase tracking-[0.15em] mb-5">
               <Globe className="w-3.5 h-3.5" />
               {isFr ? "La distribution" : "Distribution"}
             </span>
             <h2 className="text-dark tracking-tight mb-4">
               {isFr ? "Nos" : "Our"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">{isFr ? "Partenaires" : "Partners"}</span>.
+              <span className="font-playfair italic text-brand-accent">{isFr ? "Partenaires" : "Partners"}</span>.
             </h2>
             <p className="text-dark/50 text-lg max-w-2xl mx-auto leading-relaxed">
               {isFr
@@ -547,10 +547,10 @@ export default async function CompanyPage({
           <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {partners.map((p) => (
               <StaggerItem key={p.nameFr}>
-                <div className="bg-cream-light rounded-2xl p-6 border border-brown/8 hover:border-[var(--brand-accent)]/25 hover:shadow-[0_12px_40px_rgba(212,144,126,0.1)] transition-all duration-300">
+                <div className="bg-cream-light rounded-2xl p-6 border border-brown/8 hover:border-brand-accent/25 hover:shadow-[0_12px_40px_rgba(212,144,126,0.1)] transition-all duration-300">
                   <h4 className="font-bold text-dark text-base mb-1">{isFr ? p.nameFr : p.nameEn}</h4>
                   <p className="text-sm text-dark/50 leading-relaxed">
-                    <span className="text-[var(--brand-accent-dark)] font-medium">{isFr ? "Zone" : "Zone"} :</span>{" "}
+                    <span className="text-brand-accent-hover font-medium">{isFr ? "Zone" : "Zone"} :</span>{" "}
                     {isFr ? p.zoneFr : p.zoneEn}
                   </p>
                 </div>
@@ -564,14 +564,14 @@ export default async function CompanyPage({
       <LogoMarquee />
 
       {/* Zones de distribution — Section sombre */}
-      <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-[var(--brand-accent)]/5 rounded-full blur-[200px]" />
+      <section className="py-20 md:py-28 bg-brand-primary relative overflow-hidden">
+        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-brand-accent/5 rounded-full blur-[200px]" />
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           <AnimateIn className="text-center mb-14">
             <h2 className="text-white tracking-tight">
               {isFr ? "Nos Zones de" : "Our Distribution"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent-light)]">{isFr ? "Distribution" : "Zones"}</span>.
+              <span className="font-playfair italic text-brand-accent-light">{isFr ? "Distribution" : "Zones"}</span>.
             </h2>
           </AnimateIn>
 
@@ -625,8 +625,8 @@ export default async function CompanyPage({
           ].map((stat) => (
             <StaggerItem key={stat.value}>
               <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 border border-white/60">
-                <p className="text-5xl md:text-6xl font-black text-[var(--brand-primary)] leading-none">{stat.value}</p>
-                <p className="text-[var(--brand-primary)]/60 mt-3 text-sm font-medium">
+                <p className="text-5xl md:text-6xl font-black text-brand-primary leading-none">{stat.value}</p>
+                <p className="text-brand-primary/60 mt-3 text-sm font-medium">
                   {isFr ? stat.labelFr : stat.labelEn}
                 </p>
               </div>

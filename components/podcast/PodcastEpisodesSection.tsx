@@ -85,8 +85,8 @@ export function PodcastEpisodesSection({
                 onClick={() => handleFilterChange(cat.key)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-[var(--brand-primary)] text-white shadow-md shadow-[var(--brand-primary)]/20"
-                    : "bg-white border border-brown/10 text-dark/60 hover:border-[var(--brand-primary)]/30 hover:text-[var(--brand-primary)]"
+                    ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
+                    : "bg-white border border-brown/10 text-dark/60 hover:border-brand-primary/30 hover:text-brand-primary"
                 }`}
               >
                 {cat.label}
@@ -109,7 +109,7 @@ export function PodcastEpisodesSection({
             }
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full sm:w-72 h-11 pl-10 pr-10 rounded-full bg-white border border-brown/10 text-sm text-dark placeholder:text-dark/35 focus:outline-none focus:ring-2 focus:ring-[var(--brand-primary)]/20 focus:border-[var(--brand-primary)]/30 transition-all duration-300"
+            className="w-full sm:w-72 h-11 pl-10 pr-10 rounded-full bg-white border border-brown/10 text-sm text-dark placeholder:text-dark/35 focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary/30 transition-all duration-300"
           />
           {searchQuery && (
             <button
@@ -176,7 +176,7 @@ export function PodcastEpisodesSection({
         <div className="text-center mt-10">
           <button
             onClick={() => setVisibleCount((c) => c + EPISODES_PER_PAGE)}
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--brand-primary)]/90 shadow-md shadow-[var(--brand-primary)]/15 hover:shadow-lg transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-brand-primary text-white text-sm font-semibold hover:bg-brand-primary/90 shadow-md shadow-brand-primary/15 hover:shadow-lg transition-all duration-300"
           >
             {isFr ? "Voir plus d'épisodes" : "Load more episodes"}
           </button>

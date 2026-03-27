@@ -75,7 +75,7 @@ export default async function TeamPage({
           sizes="100vw"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/70 to-brand-primary/30" />
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-10 pt-32">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.12em] mb-4 backdrop-blur-sm">
@@ -120,18 +120,18 @@ export default async function TeamPage({
         <div className="w-[94%] max-w-3xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-dark tracking-tight mb-3">
             {isFr ? "Envie de" : "Want to"}{" "}
-            <span className="font-playfair italic text-[var(--brand-accent)]">
+            <span className="font-playfair italic text-brand-accent">
               {isFr ? "collaborer ?" : "collaborate?"}
             </span>
           </h2>
-          <p className="text-[var(--brand-primary)]/45 text-base max-w-lg mx-auto mb-6">
+          <p className="text-brand-primary/45 text-base max-w-lg mx-auto mb-6">
             {isFr
               ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
               : "Contact our team to discuss your natural ingredient needs."}
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[var(--brand-primary)] text-white text-sm font-semibold hover:bg-[var(--color-charcoal)] transition-colors duration-200 shadow-md"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-brand-primary text-white text-sm font-semibold hover:bg-[var(--color-charcoal)] transition-colors duration-200 shadow-md"
           >
             <Mail className="w-4 h-4" />
             {isFr ? "Nous contacter" : "Contact us"}

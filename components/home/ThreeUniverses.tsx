@@ -54,11 +54,11 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="mb-12 sm:mb-16 text-center"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--brand-primary)] tracking-[-0.03em] leading-[1.05]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-brand-primary tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
-            <span className="font-playfair italic text-[var(--brand-accent)]">Une expertise.</span>
+            <span className="font-playfair italic text-brand-accent">Une expertise.</span>
           </h2>
-          <p className="text-[var(--brand-primary)]/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
+          <p className="text-brand-primary/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -69,7 +69,7 @@ export function ThreeUniverses() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-[var(--brand-primary)]/20"
+          className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-brand-primary/20"
         >
           {universes.map((universe, index) => {
             const Icon = universe.icon;
@@ -151,14 +151,14 @@ export function ThreeUniverses() {
         >
           <Link
             href="/catalogue"
-            className="group inline-flex items-center gap-2 bg-[var(--brand-primary)] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-secondary)] transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="group inline-flex items-center gap-2 bg-brand-primary text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Voir tout le catalogue
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 border border-[var(--brand-primary)]/20 text-[var(--brand-primary)] rounded-full px-6 py-3 text-sm font-semibold hover:bg-[var(--brand-primary)]/5 transition-all duration-300"
+            className="inline-flex items-center gap-2 border border-brand-primary/20 text-brand-primary rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-primary/5 transition-all duration-300"
           >
             Contactez-nous
           </Link>

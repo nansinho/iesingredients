@@ -199,16 +199,16 @@ export default async function ArticlePage({
               aria-hidden="true"
             />
           ) : (
-            <div className="w-full h-full bg-[var(--brand-primary)]" />
+            <div className="w-full h-full bg-brand-primary" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)] via-[var(--brand-primary)]/70 to-[var(--brand-primary)]/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/70 to-brand-primary/20" />
         </ParallaxBackground>
 
         <div className="relative z-10 max-w-[800px] w-[90%] mx-auto pb-20 pt-40">
           <AnimateIn>
             <Link
               href="/actualites"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-[var(--brand-accent)] hover:gap-3 transition-all duration-300 mb-8 text-sm"
+              className="inline-flex items-center gap-2 text-white/50 hover:text-brand-accent hover:gap-3 transition-all duration-300 mb-8 text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               {isFr ? "Retour aux actualités" : "Back to news"}
@@ -269,10 +269,10 @@ export default async function ArticlePage({
             </AnimateIn>
 
             {/* ── Author footer ── */}
-            <div className="mt-16 pt-10 border-t border-[var(--brand-primary)]/8 dark:border-cream-light/10">
+            <div className="mt-16 pt-10 border-t border-brand-primary/8 dark:border-cream-light/10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-[var(--brand-primary)]/8 dark:bg-cream-light/10 flex items-center justify-center">
-                  <User className="w-5 h-5 text-[var(--brand-primary)]/50 dark:text-cream-light/40" />
+                <div className="w-12 h-12 rounded-full bg-brand-primary/8 dark:bg-cream-light/10 flex items-center justify-center">
+                  <User className="w-5 h-5 text-brand-primary/50 dark:text-cream-light/40" />
                 </div>
                 <div>
                   <p className="font-semibold text-dark dark:text-cream-light text-sm">
@@ -299,12 +299,12 @@ export default async function ArticlePage({
         <section className="py-20 md:py-28 bg-[var(--color-cream-light)] dark:bg-dark border-t border-[var(--color-cream)] dark:border-brown/10">
           <div className="w-[94%] max-w-7xl mx-auto">
             <AnimateIn className="mb-12 text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--brand-accent)] mb-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-brand-accent mb-3">
                 {isFr ? "Continuer la lecture" : "Continue reading"}
               </p>
               <h2 className="text-dark dark:text-cream-light tracking-tight">
                 {isFr ? "Articles" : "Related"}{" "}
-                <span className="font-playfair italic text-[var(--brand-accent)]">
+                <span className="font-playfair italic text-brand-accent">
                   {isFr ? "associés" : "articles"}
                 </span>
               </h2>
@@ -320,7 +320,7 @@ export default async function ArticlePage({
                       }}
                       className="group block"
                     >
-                      <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-[var(--color-cream)] dark:border-brown/10 hover:border-[var(--brand-accent)]/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
+                      <article className="bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-[var(--color-cream)] dark:border-brown/10 hover:border-brand-accent/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
                         <div className="p-3">
                           <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[var(--color-cream-light)] dark:bg-dark">
                             {related.cover_image_url ? (
@@ -338,7 +338,7 @@ export default async function ArticlePage({
                         </div>
                         <div className="px-5 pb-5 pt-2">
                           <div className="flex items-center gap-2 mb-3">
-                            <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--brand-accent)]">
+                            <span className="text-[11px] font-semibold uppercase tracking-wider text-brand-accent">
                               {related.category}
                             </span>
                             <span className="text-dark/15 dark:text-cream-light/15">·</span>
@@ -349,10 +349,10 @@ export default async function ArticlePage({
                               )}
                             </span>
                           </div>
-                          <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-[var(--brand-accent)] transition-colors line-clamp-2 leading-snug">
+                          <h3 className="text-base font-bold text-dark dark:text-cream-light group-hover:text-brand-accent transition-colors line-clamp-2 leading-snug">
                             {isFr ? related.title_fr : related.title_en || related.title_fr}
                           </h3>
-                          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--brand-primary)]/50 dark:text-cream-light/40 mt-4 group-hover:text-[var(--brand-accent)] group-hover:gap-2.5 transition-all duration-300">
+                          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary/50 dark:text-cream-light/40 mt-4 group-hover:text-brand-accent group-hover:gap-2.5 transition-all duration-300">
                             {isFr ? "Lire l'article" : "Read article"}
                             <ArrowRight className="w-3.5 h-3.5" />
                           </span>

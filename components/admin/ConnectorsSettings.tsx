@@ -152,7 +152,7 @@ export function ConnectorsSettings() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-5 h-5 animate-spin text-[var(--brand-secondary)]/40" />
+        <Loader2 className="w-5 h-5 animate-spin text-brand-secondary/40" />
       </div>
     );
   }
@@ -171,7 +171,7 @@ export function ConnectorsSettings() {
               "rounded-2xl border-2 p-6 transition-all",
               isConnected
                 ? "border-green-200 bg-green-50/30"
-                : "border-gray-200 bg-white hover:border-[var(--brand-accent)]/30"
+                : "border-gray-200 bg-white hover:border-brand-accent/30"
             )}
           >
             <div className="flex items-start gap-4">
@@ -186,7 +186,7 @@ export function ConnectorsSettings() {
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
-                  <h3 className="font-semibold text-[var(--brand-primary)]">{connector.name}</h3>
+                  <h3 className="font-semibold text-brand-primary">{connector.name}</h3>
                   {isConnected && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">
                       <Check className="w-3 h-3" />
@@ -194,7 +194,7 @@ export function ConnectorsSettings() {
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-[var(--brand-secondary)]/60 mb-4">{connector.description}</p>
+                <p className="text-sm text-brand-secondary/60 mb-4">{connector.description}</p>
 
                 {/* Key Input */}
                 <div className="flex items-center gap-2">
@@ -229,7 +229,7 @@ export function ConnectorsSettings() {
                   {(!entry?.saved || (entry && !entry.saved)) && entry?.value && (
                     <Button
                       onClick={() => saveKey(connector.id)}
-                      className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-xl h-11 px-5"
+                      className="bg-brand-primary text-white hover:bg-brand-secondary rounded-xl h-11 px-5"
                     >
                       Enregistrer
                     </Button>
@@ -264,7 +264,7 @@ export function ConnectorsSettings() {
                   href={connector.docsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-3 text-xs text-[var(--brand-accent)] hover:text-[var(--brand-accent-hover)] font-medium transition-colors"
+                  className="inline-flex items-center gap-1 mt-3 text-xs text-brand-accent hover:text-brand-accent-hover font-medium transition-colors"
                 >
                   Obtenir une clé API →
                 </a>

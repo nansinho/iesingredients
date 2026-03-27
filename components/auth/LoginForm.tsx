@@ -4,12 +4,11 @@ import { useState } from "react";
 import { useLocale } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { SecurityCheck } from "@/components/security/SecurityCheck";
+import { HoneypotFields } from "@/components/security/HoneypotFields";
 
 export function LoginForm() {
   const locale = useLocale();
@@ -19,9 +18,16 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [securityToken, setSecurityToken] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot.website || honeypot.faxNumber) return;
+    if (!securityToken) {
+      toast.error(isFr ? "Veuillez compléter la vérification" : "Please complete the security check");
+      return;
+    }
     setIsLoading(true);
 
     try {
@@ -61,70 +67,78 @@ export function LoginForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-card border border-dark/8 dark:border-dark/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(0,0,0,0.04)]">
-      <form onSubmit={handleSubmit} className="space-y-5">
+    <div className="bg-white/[0.07] backdrop-blur-xl rounded-3xl p-8 md:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
+      <form onSubmit={handleSubmit} className="relative space-y-5">
+        <HoneypotFields values={honeypot} onChange={(f, v) => setHoneypot((prev) => ({ ...prev, [f]: v }))} />
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-dark dark:text-cream-light">
+          <label htmlFor="email" className="text-sm font-medium text-white/80">
             Email
-          </Label>
-          <Input
+          </label>
+          <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
+            className="w-full h-12 px-4 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl text-sm transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
             placeholder="vous@exemple.com"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-dark dark:text-cream-light">
+          <label htmlFor="password" className="text-sm font-medium text-white/80">
             {isFr ? "Mot de passe" : "Password"}
-          </Label>
+          </label>
           <div className="relative">
-            <Input
+            <input
               id="password"
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
+              className="w-full h-12 px-4 pr-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl text-sm transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? (isFr ? "Masquer le mot de passe" : "Hide password") : (isFr ? "Afficher le mot de passe" : "Show password")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-dark/40 dark:text-cream-light/40 hover:text-dark/70 dark:hover:text-cream-light/70 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
+          <Link href="/login" className="text-xs text-white/40 hover:text-white/70 transition-colors mt-1.5 inline-block">
+            {isFr ? "Mot de passe oublié ?" : "Forgot password?"}
+          </Link>
         </div>
 
-        <Button
+        <SecurityCheck
+          onVerified={setSecurityToken}
+          onReset={() => setSecurityToken(null)}
+          variant="dark"
+        />
+
+        <button
           type="submit"
-          disabled={isLoading}
-          variant="accent"
-          size="lg"
-          className="w-full"
+          disabled={isLoading || !securityToken}
+          className="w-full h-12 rounded-xl bg-brand-accent hover:bg-brand-accent-hover text-white font-semibold text-sm transition-all duration-300 shadow-md shadow-brand-accent/20 hover:shadow-lg hover:shadow-brand-accent/30 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
         >
           {isLoading ? (
-            <>
-              <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+            <span className="inline-flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
               {isFr ? "Connexion..." : "Signing in..."}
-            </>
+            </span>
           ) : (
             isFr ? "Se connecter" : "Sign In"
           )}
-        </Button>
+        </button>
       </form>
 
       <div className="mt-6 text-center text-sm">
-        <p className="text-dark/50 dark:text-cream-light/50">
+        <p className="text-white/50">
           {isFr ? "Pas encore de compte ?" : "Don't have an account?"}{" "}
-          <Link href="/register" className="text-olive hover:text-olive-dark font-medium transition-colors">
+          <Link href="/register" className="text-brand-accent-light hover:text-white font-semibold transition-colors">
             {isFr ? "S'inscrire" : "Register"}
           </Link>
         </p>

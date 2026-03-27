@@ -101,7 +101,7 @@ export function MinimalProducts() {
           className="text-center mb-14"
         >
           <h2 className="text-dark tracking-tight">
-            Notre sélection.{" "}<span className="font-playfair italic text-[var(--brand-secondary)]">Vos inspirations.</span>
+            Notre sélection.{" "}<span className="font-playfair italic text-brand-secondary">Vos inspirations.</span>
           </h2>
           <p className="text-dark/50 mt-3 text-base max-w-lg mx-auto">{t("subtitle")}</p>
         </motion.div>
@@ -117,7 +117,7 @@ export function MinimalProducts() {
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
               <Link href="/catalogue" className="group block h-full">
-                <div className="bg-[var(--brand-primary)] rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:-translate-y-2 flex flex-col h-full">
+                <div className="bg-brand-primary rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:-translate-y-2 flex flex-col h-full">
                   {/* Banner image with like + sample buttons */}
                   <div className="relative aspect-[3/1] overflow-hidden">
                     <Image

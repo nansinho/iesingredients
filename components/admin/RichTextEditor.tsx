@@ -63,8 +63,8 @@ function ToolbarButton({
       className={cn(
         "p-1.5 rounded-lg transition-all",
         active
-          ? "bg-[var(--brand-accent)]/15 text-[var(--brand-accent-hover)]"
-          : "text-[var(--brand-secondary)]/60 hover:text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/5",
+          ? "bg-brand-accent/15 text-brand-accent-hover"
+          : "text-brand-secondary/60 hover:text-brand-primary hover:bg-brand-primary/5",
         disabled && "opacity-30 cursor-not-allowed"
       )}
     >
@@ -82,6 +82,7 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
   const isSettingContent = useRef(false);
 
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
@@ -90,7 +91,7 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
       Highlight.configure({ multicolor: false }),
       TiptapLink.configure({
         openOnClick: false,
-        HTMLAttributes: { class: "text-[var(--brand-accent)] underline" },
+        HTMLAttributes: { class: "text-brand-accent underline" },
       }),
       TiptapImage.configure({
         HTMLAttributes: { class: "rounded-lg max-w-full mx-auto" },

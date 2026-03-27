@@ -40,10 +40,10 @@ export default async function LoginPage({
   return (
     <div className="w-full max-w-md">
       <div className="text-center mb-8">
-        <h1 className="text-3xl md:text-4xl font-semibold text-dark dark:text-cream-light tracking-[-0.03em] mb-2">
+        <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-[-0.03em] mb-2">
           {isFr ? "Connexion" : "Sign In"}
         </h1>
-        <p className="text-dark/50 dark:text-cream-light/50">
+        <p className="text-white/50">
           {isFr
             ? "Accédez à votre espace client"
             : "Access your client space"}

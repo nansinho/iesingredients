@@ -73,7 +73,7 @@ export function AdminSidebar() {
   };
 
   const sidebar = (
-    <div className="flex flex-col h-full bg-[var(--brand-primary)] text-white">
+    <div className="flex flex-col h-full bg-brand-primary text-white">
       {/* Logo */}
       <div className="p-6 border-b border-white/10">
         <Link href="/" className="flex items-center gap-3">
@@ -85,7 +85,7 @@ export function AdminSidebar() {
             className="h-8 w-auto brightness-0 invert"
           />
         </Link>
-        <p className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--brand-accent-light)]">
+        <p className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-brand-accent-light">
           Administration
         </p>
       </div>
@@ -109,7 +109,7 @@ export function AdminSidebar() {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                     isActive(item.href, "end" in item ? item.end : undefined)
-                      ? "bg-[var(--brand-accent)] text-white shadow-lg shadow-[var(--brand-accent)]/20"
+                      ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/20"
                       : "text-white/70 hover:text-white hover:bg-white/10"
                   )}
                 >
@@ -152,7 +152,7 @@ export function AdminSidebar() {
       {/* Mobile Toggle */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl bg-[var(--brand-primary)] text-white shadow-lg"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl bg-brand-primary text-white shadow-lg"
       >
         <Menu className="w-5 h-5" />
       </button>

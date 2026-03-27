@@ -46,10 +46,10 @@ export function TableOfContents({ headings, title }: TableOfContentsProps) {
       transition={{ duration: 0.5, delay: 0.3 }}
       className="hidden xl:block sticky top-28 w-56 shrink-0 self-start"
     >
-      <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--brand-primary)]/40 dark:text-cream-light/30 mb-4">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-brand-primary/40 dark:text-cream-light/30 mb-4">
         {title}
       </p>
-      <div className="relative border-l border-[var(--brand-primary)]/10 dark:border-cream-light/10">
+      <div className="relative border-l border-brand-primary/10 dark:border-cream-light/10">
         {headings.map((heading) => {
           const isActive = activeId === heading.id;
           return (
@@ -64,8 +64,8 @@ export function TableOfContents({ headings, title }: TableOfContentsProps) {
                 heading.level === 3 ? "pl-6" : "pl-4"
               } py-1.5 ${
                 isActive
-                  ? "text-[var(--brand-accent)] font-medium border-l-2 border-[var(--brand-accent)] -ml-px"
-                  : "text-[var(--brand-primary)]/40 dark:text-cream-light/30 hover:text-[var(--brand-primary)]/70 dark:hover:text-cream-light/60"
+                  ? "text-brand-accent font-medium border-l-2 border-brand-accent -ml-px"
+                  : "text-brand-primary/40 dark:text-cream-light/30 hover:text-brand-primary/70 dark:hover:text-cream-light/60"
               }`}
             >
               {heading.text}

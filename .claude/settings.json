@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/Nans-/Projects/iesingredients -type f -name *.prisma -o -name schema.prisma)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
+      "Bash(ls -la /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(admin\\\\\\)/admin/)",
+      "Bash(grep -r \"connecteurs\\\\|informations\\\\|maintenance\" /c/Users/Nans-/Projects/iesingredients/app --include=*.tsx --include=*.ts)",
+      "Bash(find /c/Users/Nans-/Projects/iesingredients -path */node_modules -prune -o -type f -name *.css -print)",
+      "Bash(ls -la /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(admin\\\\\\)/admin/*/)",
+      "Bash(ls -la /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(public\\\\\\)/)",
+      "Bash(wc -l /c/Users/Nans-/Projects/iesingredients/supabase/migrations/*.sql)",
+      "Bash(npx next:*)"
+    ]
+  }
+}

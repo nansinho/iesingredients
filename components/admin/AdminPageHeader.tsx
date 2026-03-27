@@ -18,8 +18,8 @@ export function AdminPageHeader({
       className
     )}>
       <div>
-        <h1 className="text-2xl font-bold text-[var(--brand-primary)] tracking-tight">{title}</h1>
-        {subtitle && <p className="text-sm text-[var(--brand-secondary)] mt-1">{subtitle}</p>}
+        <h1 className="text-2xl font-bold text-brand-primary tracking-tight">{title}</h1>
+        {subtitle && <p className="text-sm text-brand-secondary mt-1">{subtitle}</p>}
       </div>
       {actions && <div className="flex items-center gap-3">{actions}</div>}
     </div>

@@ -175,8 +175,8 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-[var(--brand-primary)]/10 flex items-center justify-center">
-            <Users className="w-5 h-5 text-[var(--brand-primary)]" />
+          <div className="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center">
+            <Users className="w-5 h-5 text-brand-primary" />
           </div>
           <div>
             <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
@@ -220,7 +220,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher par nom, email ou entreprise..."
-            className="pl-9 h-10 rounded-xl border-gray-200 focus:border-[var(--brand-accent)]"
+            className="pl-9 h-10 rounded-xl border-gray-200 focus:border-brand-accent"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -243,23 +243,23 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b bg-[var(--brand-primary)]/5">
-                <th className="text-left px-4 py-3 font-medium text-[var(--brand-primary)]">
+              <tr className="border-b bg-brand-primary/5">
+                <th className="text-left px-4 py-3 font-medium text-brand-primary">
                   Utilisateur
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-[var(--brand-primary)] hidden md:table-cell">
+                <th className="text-left px-4 py-3 font-medium text-brand-primary hidden md:table-cell">
                   Email
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-[var(--brand-primary)] hidden lg:table-cell">
+                <th className="text-left px-4 py-3 font-medium text-brand-primary hidden lg:table-cell">
                   Entreprise
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-[var(--brand-primary)]">
+                <th className="text-left px-4 py-3 font-medium text-brand-primary">
                   Rôle
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-[var(--brand-primary)] hidden sm:table-cell">
+                <th className="text-left px-4 py-3 font-medium text-brand-primary hidden sm:table-cell">
                   Inscrit
                 </th>
-                <th className="text-right px-4 py-3 font-medium text-[var(--brand-primary)] w-20">
+                <th className="text-right px-4 py-3 font-medium text-brand-primary w-20">
                   Actions
                 </th>
               </tr>
@@ -278,7 +278,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                 filtered.map((user) => (
                   <tr
                     key={user.id}
-                    className="border-b last:border-0 hover:bg-[var(--brand-primary)]/5 transition-colors group"
+                    className="border-b last:border-0 hover:bg-brand-primary/5 transition-colors group"
                   >
                     {/* User */}
                     <td className="px-4 py-3">

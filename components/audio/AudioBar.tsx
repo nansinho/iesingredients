@@ -210,7 +210,7 @@ export function AudioBar() {
               {/* Play/Pause */}
               <button
                 onClick={() => (isPlaying ? pause() : resume())}
-                className="w-9 h-9 rounded-full bg-[var(--brand-accent)] hover:bg-[var(--brand-accent)]/80 flex items-center justify-center shrink-0 transition-colors duration-200 shadow-md"
+                className="w-9 h-9 rounded-full bg-brand-accent hover:bg-brand-accent/80 flex items-center justify-center shrink-0 transition-colors duration-200 shadow-md"
               >
                 {isPlaying ? (
                   <Pause className="w-4 h-4 text-white" fill="white" />
@@ -236,7 +236,7 @@ export function AudioBar() {
                 <div className="flex-1 relative group">
                   <div className="h-1.5 rounded-full bg-brown/10 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-[var(--brand-accent)] transition-[width] duration-150"
+                      className="h-full rounded-full bg-brand-accent transition-[width] duration-150"
                       style={{ width: `${progress}%` }}
                     />
                   </div>

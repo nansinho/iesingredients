@@ -157,12 +157,12 @@ export function ImageUpload({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-[var(--brand-primary)]">{label}</label>
+        <label className="text-sm font-medium text-brand-primary">{label}</label>
         {onOpenLibrary && (
           <button
             type="button"
             onClick={onOpenLibrary}
-            className="text-xs text-[var(--brand-accent)] hover:text-[var(--brand-accent-hover)] font-medium transition-colors"
+            className="text-xs text-brand-accent hover:text-brand-accent-hover font-medium transition-colors"
           >
             Médiathèque
           </button>
@@ -191,7 +191,7 @@ export function ImageUpload({
                   <button
                     type="button"
                     onClick={onOpenLibrary}
-                    className="px-3 py-2 rounded-lg bg-white text-sm font-medium text-[var(--brand-accent)] hover:bg-gray-100 transition-colors"
+                    className="px-3 py-2 rounded-lg bg-white text-sm font-medium text-brand-accent hover:bg-gray-100 transition-colors"
                   >
                     Médiathèque
                   </button>
@@ -210,7 +210,7 @@ export function ImageUpload({
           {/* Alt text for SEO */}
           {showAlt && onAltChange && (
             <div className="flex items-center gap-2">
-              <Type className="w-3.5 h-3.5 text-[var(--brand-secondary)]/40 shrink-0" />
+              <Type className="w-3.5 h-3.5 text-brand-secondary/40 shrink-0" />
               <Input
                 value={altValue}
                 onChange={(e) => onAltChange(e.target.value)}
@@ -236,39 +236,39 @@ export function ImageUpload({
           className={cn(
             "relative rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-3 py-10",
             isDragging
-              ? "border-[var(--brand-accent)] bg-[var(--brand-accent)]/5 scale-[1.01]"
-              : "border-gray-200 hover:border-[var(--brand-accent)]/50 hover:bg-[var(--brand-primary)]/[0.02]",
+              ? "border-brand-accent bg-brand-accent/5 scale-[1.01]"
+              : "border-gray-200 hover:border-brand-accent/50 hover:bg-brand-primary/[0.02]",
             isUploading && "pointer-events-none"
           )}
         >
           {isUploading ? (
             <>
-              <Loader2 className="w-8 h-8 text-[var(--brand-accent)] animate-spin" />
-              <p className="text-sm text-[var(--brand-secondary)]">Compression & upload...</p>
+              <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
+              <p className="text-sm text-brand-secondary">Compression & upload...</p>
               <div className="w-48 h-1.5 rounded-full bg-gray-100 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-[var(--brand-accent)] transition-all duration-300"
+                  className="h-full rounded-full bg-brand-accent transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </>
           ) : (
             <>
-              <div className="w-12 h-12 rounded-xl bg-[var(--brand-primary)]/5 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-brand-primary/5 flex items-center justify-center">
                 {isDragging ? (
-                  <Upload className="w-6 h-6 text-[var(--brand-accent)]" />
+                  <Upload className="w-6 h-6 text-brand-accent" />
                 ) : (
-                  <ImageIcon className="w-6 h-6 text-[var(--brand-secondary)]/50" />
+                  <ImageIcon className="w-6 h-6 text-brand-secondary/50" />
                 )}
               </div>
               <div className="text-center">
-                <p className="text-sm font-medium text-[var(--brand-primary)]">
+                <p className="text-sm font-medium text-brand-primary">
                   {isDragging ? "Déposez l'image ici" : "Glissez-déposez une image"}
                 </p>
-                <p className="text-xs text-[var(--brand-secondary)]/50 mt-1">
-                  ou <span className="text-[var(--brand-accent)] font-medium">parcourir</span> — PNG, JPG, WebP (max 10 Mo)
+                <p className="text-xs text-brand-secondary/50 mt-1">
+                  ou <span className="text-brand-accent font-medium">parcourir</span> — PNG, JPG, WebP (max 10 Mo)
                 </p>
-                <p className="text-xs text-[var(--brand-secondary)]/30 mt-0.5">
+                <p className="text-xs text-brand-secondary/30 mt-0.5">
                   Auto-compressé en WebP
                 </p>
               </div>

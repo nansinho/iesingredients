@@ -30,7 +30,7 @@ export function MinimalCTA() {
           aria-hidden="true"
         />
         {/* Single solid overlay */}
-        <div className="absolute inset-0 bg-[var(--brand-primary)]/80" />
+        <div className="absolute inset-0 bg-brand-primary/80" />
       </motion.div>
 
       {/* Content — cleanly separated */}
@@ -44,7 +44,7 @@ export function MinimalCTA() {
         >
           <h2 className="text-white tracking-tight mb-5">
             Prêt à découvrir nos ingrédients ?{" "}
-            <span className="font-playfair italic text-[var(--brand-accent-light)]">
+            <span className="font-playfair italic text-brand-accent-light">
               Contactez-nous.
             </span>
           </h2>

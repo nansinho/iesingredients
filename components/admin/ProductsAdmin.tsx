@@ -151,14 +151,14 @@ export function ProductsAdmin({
             <img src={item.image_url} alt="" className="w-full h-full object-cover" />
           </div>
         ) : (
-          <div className="w-10 h-10 rounded-lg bg-[var(--brand-primary)]/5" />
+          <div className="w-10 h-10 rounded-lg bg-brand-primary/5" />
         ),
     },
     {
       key: "code",
       label: "Code",
       render: (item: any) => (
-        <span className="font-mono text-xs font-bold text-[var(--brand-primary)]">{item.code}</span>
+        <span className="font-mono text-xs font-bold text-brand-primary">{item.code}</span>
       ),
     },
     {
@@ -233,7 +233,7 @@ export function ProductsAdmin({
             <Button
               size="sm"
               onClick={openNew}
-              className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg gap-2"
+              className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2"
             >
               <Plus className="w-4 h-4" />
               Nouveau

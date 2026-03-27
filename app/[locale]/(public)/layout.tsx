@@ -3,7 +3,6 @@ import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ThemeSelector } from "@/components/layout/ThemeSelector";
 import { AudioBar } from "@/components/audio/AudioBar";
 
 export default async function PublicLayout({
@@ -22,7 +21,6 @@ export default async function PublicLayout({
           <Footer />
           <AudioBar />
         </div>
-        <ThemeSelector />
       </ThemeProvider>
     </NextIntlClientProvider>
   );

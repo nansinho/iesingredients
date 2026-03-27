@@ -333,7 +333,7 @@ export default async function PodcastPage({
             sizes="100vw"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--brand-primary)]/95 via-[var(--brand-primary)]/80 to-[var(--brand-primary)]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/95 via-brand-primary/80 to-brand-primary/50" />
         </ParallaxBackground>
 
         <div className="relative z-10 w-[94%] max-w-7xl mx-auto py-32 md:py-40">
@@ -430,18 +430,18 @@ export default async function PodcastPage({
 
       {/* ─── Collections + Episodes Section ─── */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-accent-light)]/8 rounded-full blur-[180px]" />
-        <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/3 rounded-full blur-[200px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent-light/8 rounded-full blur-[180px]" />
+        <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-brand-primary/3 rounded-full blur-[200px]" />
 
         <div className="w-[94%] max-w-7xl mx-auto relative z-10">
           {/* Collections Header */}
           <AnimateIn className="mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--brand-primary)]/6 border border-[var(--brand-primary)]/10 text-[var(--brand-primary)] text-xs font-semibold uppercase tracking-[0.15em] mb-4">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/6 border border-brand-primary/10 text-brand-primary text-xs font-semibold uppercase tracking-[0.15em] mb-4">
               {isFr ? "Nos collections" : "Our collections"}
             </span>
             <h2 className="text-3xl sm:text-4xl font-semibold text-dark tracking-tight">
               {isFr ? "Parcourez par" : "Browse by"}{" "}
-              <span className="font-playfair italic text-[var(--brand-accent)]">
+              <span className="font-playfair italic text-brand-accent">
                 {isFr ? "série" : "series"}
               </span>
             </h2>
@@ -462,9 +462,9 @@ export default async function PodcastPage({
       </section>
 
       {/* ─── Newsletter / Notify Section ─── */}
-      <section className="py-20 md:py-28 bg-[var(--brand-primary)] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[var(--brand-accent)]/8 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[var(--brand-accent)]/3 rounded-full blur-[100px]" />
+      <section className="py-20 md:py-28 bg-brand-primary relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-brand-accent/8 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-brand-accent/3 rounded-full blur-[100px]" />
 
         <div className="w-[94%] max-w-xl mx-auto text-center relative z-10">
           <AnimateIn>
@@ -492,11 +492,11 @@ export default async function PodcastPage({
                 placeholder={
                   isFr ? "Votre adresse email" : "Your email address"
                 }
-                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--brand-accent)]/30 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
+                className="h-12 px-5 rounded-full bg-white/10 border border-white/15 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-transparent flex-1 backdrop-blur-sm transition-all duration-300"
               />
               <Button
                 size="lg"
-                className="rounded-full shrink-0 bg-[var(--brand-accent)] text-white hover:bg-[var(--brand-accent-hover)]"
+                className="rounded-full shrink-0 bg-brand-accent text-white hover:bg-brand-accent-hover"
               >
                 {isFr ? "S'inscrire" : "Subscribe"}
               </Button>

@@ -29,7 +29,7 @@ export function SocialFollow() {
   const t = useTranslations("social");
 
   return (
-    <section className="py-20 md:py-28 bg-[var(--brand-accent-light)]">
+    <section className="py-20 md:py-28 bg-brand-accent-light">
       <div className="w-[94%] max-w-7xl mx-auto text-center">
         {/* Header */}
         <motion.div
@@ -39,13 +39,13 @@ export function SocialFollow() {
           transition={{ duration: 0.6 }}
           className="mb-14"
         >
-          <h2 className="text-[var(--brand-primary)] tracking-tight">
+          <h2 className="text-brand-primary tracking-tight">
             {t("title")}{" "}
-            <span className="font-playfair italic text-[var(--brand-primary)]/70">
+            <span className="font-playfair italic text-brand-primary/70">
               {t("titleAccent")}
             </span>
           </h2>
-          <p className="text-[var(--brand-primary)]/60 mt-3 text-base max-w-lg mx-auto">
+          <p className="text-brand-primary/60 mt-3 text-base max-w-lg mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>

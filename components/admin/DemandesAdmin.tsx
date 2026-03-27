@@ -72,7 +72,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
           onClick={() => setFilter("all")}
           className={cn(
             "rounded-full",
-            filter === "all" && "bg-[var(--brand-primary)] hover:bg-[var(--brand-secondary)]"
+            filter === "all" && "bg-brand-primary hover:bg-brand-secondary"
           )}
         >
           Tous ({requests.length})
@@ -87,7 +87,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
               onClick={() => setFilter(key)}
               className={cn(
                 "rounded-full gap-1.5",
-                filter === key && "bg-[var(--brand-primary)] hover:bg-[var(--brand-secondary)]"
+                filter === key && "bg-brand-primary hover:bg-brand-secondary"
               )}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -112,7 +112,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-[var(--brand-primary)]">
+                    <span className="font-medium text-brand-primary">
                       {req.contact_name || "Utilisateur connecté"}
                     </span>
                     <Badge className={config.class}>
@@ -201,7 +201,7 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
                       disabled={isCurrentStatus}
                       className={cn(
                         "rounded-lg gap-1.5",
-                        isCurrentStatus && "bg-[var(--brand-primary)]"
+                        isCurrentStatus && "bg-brand-primary"
                       )}
                     >
                       <Icon className="w-4 h-4" />

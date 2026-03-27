@@ -12,6 +12,8 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { PasswordStrengthIndicator } from "@/components/auth/PasswordStrengthIndicator";
 import { SPECIAL_CHAR_REGEX } from "@/lib/validations";
+import { SecurityCheck } from "@/components/security/SecurityCheck";
+import { HoneypotFields } from "@/components/security/HoneypotFields";
 
 export function RegisterForm() {
   const locale = useLocale();
@@ -19,6 +21,8 @@ export function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [securityToken, setSecurityToken] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -41,6 +45,11 @@ export function RegisterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (honeypot.website || honeypot.faxNumber) return;
+    if (!securityToken) {
+      toast.error(isFr ? "Veuillez compléter la vérification" : "Please complete the security check");
+      return;
+    }
     setIsLoading(true);
 
     const passwordError = validatePassword(form.password);
@@ -98,10 +107,11 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-card border border-dark/8 dark:border-dark/10 rounded-2xl p-8 shadow-[0_4px_30px_rgba(0,0,0,0.04)]">
-      <form onSubmit={handleSubmit} className="space-y-5">
+    <div className="bg-white/[0.07] backdrop-blur-xl rounded-2xl p-8 shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
+      <form onSubmit={handleSubmit} className="relative space-y-5">
+        <HoneypotFields values={honeypot} onChange={(f, v) => setHoneypot((prev) => ({ ...prev, [f]: v }))} />
         <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-dark dark:text-cream-light">
+          <Label htmlFor="fullName" className="text-white/80">
             {isFr ? "Nom complet" : "Full name"} *
           </Label>
           <Input
@@ -110,13 +120,13 @@ export function RegisterForm() {
             value={form.fullName}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
+            className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
             placeholder="Jean Dupont"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-dark dark:text-cream-light">
+          <Label htmlFor="email" className="text-white/80">
             Email *
           </Label>
           <Input
@@ -126,13 +136,13 @@ export function RegisterForm() {
             value={form.email}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
+            className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
             placeholder="vous@exemple.com"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="company" className="text-dark dark:text-cream-light">
+          <Label htmlFor="company" className="text-white/80">
             {isFr ? "Entreprise" : "Company"}
           </Label>
           <Input
@@ -140,13 +150,13 @@ export function RegisterForm() {
             name="company"
             value={form.company}
             onChange={handleChange}
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
+            className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
             placeholder={isFr ? "Votre entreprise" : "Your company"}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-dark dark:text-cream-light">
+          <Label htmlFor="password" className="text-white/80">
             {isFr ? "Mot de passe" : "Password"} *
           </Label>
           <div className="relative">
@@ -157,14 +167,14 @@ export function RegisterForm() {
               value={form.password}
               onChange={handleChange}
               required
-              className="h-12 bg-cream-light dark:bg-dark border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 pr-12 rounded-xl transition-all duration-300 focus:border-brown/30 focus:shadow-[0_0_0_3px_rgba(200,168,168,0.15)]"
+              className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 pr-12 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
               placeholder="••••••••"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               aria-label={showPassword ? (isFr ? "Masquer le mot de passe" : "Hide password") : (isFr ? "Afficher le mot de passe" : "Show password")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-dark/40 dark:text-cream-light/40 hover:text-dark/70 dark:hover:text-cream-light/70 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -173,7 +183,7 @@ export function RegisterForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword" className="text-dark dark:text-cream-light">
+          <Label htmlFor="confirmPassword" className="text-white/80">
             {isFr ? "Confirmer le mot de passe" : "Confirm password"} *
           </Label>
           <Input
@@ -183,14 +193,20 @@ export function RegisterForm() {
             value={form.confirmPassword}
             onChange={handleChange}
             required
-            className="h-12 bg-cream-light dark:bg-dark border-dark/10 dark:border-dark/10 text-dark dark:text-cream-light placeholder:text-dark/30 dark:placeholder:text-cream-light/30 rounded-xl transition-all duration-300 focus:border-olive/30 focus:shadow-[0_0_0_3px_rgba(46,31,61,0.1)]"
+            className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
             placeholder="••••••••"
           />
         </div>
 
+        <SecurityCheck
+          onVerified={setSecurityToken}
+          onReset={() => setSecurityToken(null)}
+          variant="dark"
+        />
+
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !securityToken}
           variant="accent"
           size="lg"
           className="w-full"
@@ -207,9 +223,9 @@ export function RegisterForm() {
       </form>
 
       <div className="mt-6 text-center text-sm">
-        <p className="text-dark/50 dark:text-cream-light/50">
+        <p className="text-white/50">
           {isFr ? "Déjà un compte ?" : "Already have an account?"}{" "}
-          <Link href="/login" className="text-olive hover:text-olive-dark font-medium transition-colors">
+          <Link href="/login" className="text-brand-accent-light hover:text-white font-semibold transition-colors">
             {isFr ? "Se connecter" : "Sign In"}
           </Link>
         </p>

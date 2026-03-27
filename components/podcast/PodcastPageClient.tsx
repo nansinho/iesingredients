@@ -68,7 +68,7 @@ export function PodcastPageClient({
       <div className="mt-14">
         <h3 className="text-2xl sm:text-3xl font-semibold text-dark tracking-tight mb-8">
           {locale === "fr" ? "Tous les" : "All"}{" "}
-          <span className="font-playfair italic text-[var(--brand-accent)]">
+          <span className="font-playfair italic text-brand-accent">
             {locale === "fr" ? "épisodes" : "episodes"}
           </span>
         </h3>
