@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/routing";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Loader2, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import Link from "next/link";
+import { BlogPdfImport } from "@/components/admin/BlogPdfImport";
 
 export function BlogEditForm({
   article,
@@ -31,6 +32,7 @@ export function BlogEditForm({
 }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(false);
   const [form, setForm] = useState({
     title_fr: article?.title_fr || "",
     title_en: article?.title_en || "",
@@ -56,6 +58,27 @@ export function BlogEditForm({
         .replace(/^-|-$/g, "");
       setForm((prev) => ({ ...prev, slug }));
     }
+  };
+
+  const handlePdfImport = (fields: Partial<Record<string, string>>) => {
+    setForm((prev) => {
+      const updated = { ...prev };
+      for (const [key, value] of Object.entries(fields)) {
+        if (key in updated && value) {
+          (updated as Record<string, any>)[key] = value;
+        }
+      }
+      // Auto-generate slug from title_fr if new article
+      if (fields.title_fr && isNew) {
+        updated.slug = fields.title_fr
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+      }
+      return updated;
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -99,12 +122,23 @@ export function BlogEditForm({
       <AdminPageHeader
         title={isNew ? "Nouvel article" : `Modifier: ${article?.title_fr}`}
         actions={
-          <Link href={backPath}>
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setPdfOpen(true)}
+              className="gap-2"
+            >
+              <FileText className="w-4 h-4" />
+              Import PDF
             </Button>
-          </Link>
+            <Link href={backPath}>
+              <Button variant="outline" size="sm">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Retour
+              </Button>
+            </Link>
+          </div>
         }
       />
 
@@ -223,6 +257,12 @@ export function BlogEditForm({
           </div>
         </div>
       </form>
+
+      <BlogPdfImport
+        open={pdfOpen}
+        onOpenChange={setPdfOpen}
+        onImport={handlePdfImport}
+      />
     </>
   );
 }
