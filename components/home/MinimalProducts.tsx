@@ -101,7 +101,7 @@ export function MinimalProducts() {
           className="text-center mb-14"
         >
           <h2 className="text-dark tracking-tight">
-            Notre sélection.{" "}<span className="font-playfair italic text-[var(--brand-secondary)]">Vos coups de coeur.</span>
+            Notre sélection.{" "}<span className="font-playfair italic text-[var(--brand-secondary)]">Vos inspirations.</span>
           </h2>
           <p className="text-dark/50 mt-3 text-base max-w-lg mx-auto">{t("subtitle")}</p>
         </motion.div>
