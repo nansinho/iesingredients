@@ -134,15 +134,15 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex items-center justify-end h-16 px-4 sm:px-6 lg:px-8 bg-white/80 backdrop-blur-sm border-b border-black/5">
+      <header className="sticky top-0 z-30 flex items-center justify-end h-16 px-4 sm:px-6 lg:px-8 bg-[#D4907E] backdrop-blur-sm border-b border-[#c07e6c]">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-black/5 transition-colors outline-none">
+            <button className="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-white/15 transition-colors outline-none">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-medium text-gray-900 leading-tight">
+                <p className="text-sm font-medium text-white leading-tight">
                   {profile.full_name || "Administrateur"}
                 </p>
-                <p className="text-xs text-gray-500 leading-tight">
+                <p className="text-xs text-white/70 leading-tight">
                   {profile.email}
                 </p>
               </div>

@@ -37,24 +37,21 @@ export function PDFImport({ onImport, onClose }: PDFImportProps) {
     setFileName(file.name);
 
     try {
-      const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      const formData = new FormData();
+      formData.append("file", file);
 
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const res = await fetch("/api/extract-pdf", {
+        method: "POST",
+        body: formData,
+      });
 
-      let fullText = "";
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const pageText = content.items
-          .map((item: any) => item.str || "")
-          .join(" ");
-        fullText += `\n--- Page ${i} ---\n${pageText}`;
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Extraction failed");
       }
 
-      setExtractedText(fullText.trim());
+      const data = await res.json();
+      setExtractedText(data.text || "");
     } catch {
       setExtractedText("Erreur lors de l'extraction du PDF. Essayez un autre fichier.");
     } finally {
