@@ -26,7 +26,7 @@ async function compressImage(file: File): Promise<File> {
   const options = {
     maxSizeMB: 1,
     maxWidthOrHeight: 2048,
-    useWebWorker: true,
+    useWebWorker: false,
     fileType: "image/webp" as const,
   };
 
