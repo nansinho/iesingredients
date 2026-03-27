@@ -64,7 +64,7 @@ function StatCard({
   variant?: "default" | "warning" | "cosmetique" | "parfum" | "arome";
 }) {
   const variants = {
-    default: "bg-white border-gray-200 [&_.icon]:bg-forest-100 [&_.icon]:text-forest-600 [&_.value]:text-forest-900",
+    default: "bg-white border-gray-200 [&_.icon]:bg-[var(--brand-primary)]/10 [&_.icon]:text-[var(--brand-secondary)] [&_.value]:text-[var(--brand-primary)]",
     warning: "bg-amber-50 border-amber-200 [&_.icon]:bg-amber-100 [&_.icon]:text-amber-600 [&_.value]:text-amber-700",
     cosmetique: "bg-emerald-50 border-emerald-200 [&_.icon]:bg-emerald-100 [&_.icon]:text-emerald-600 [&_.value]:text-emerald-700",
     parfum: "bg-purple-50 border-purple-200 [&_.icon]:bg-purple-100 [&_.icon]:text-purple-600 [&_.value]:text-purple-700",
@@ -126,7 +126,7 @@ export default async function AdminDashboard({
       )}
 
       {/* Catalogue Stats */}
-      <h2 className="text-lg font-semibold text-forest-900 mb-4">Catalogue</h2>
+      <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-4">Catalogue</h2>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard
           title="Cosmétiques"
@@ -158,7 +158,7 @@ export default async function AdminDashboard({
       </div>
 
       {/* Content Stats */}
-      <h2 className="text-lg font-semibold text-forest-900 mb-4">Contenu</h2>
+      <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-4">Contenu</h2>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Articles publiés"

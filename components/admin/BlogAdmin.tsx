@@ -120,7 +120,7 @@ export function BlogAdmin({
         subtitle={`${articles.length} articles`}
         actions={
           <Link href={`/${locale}/admin/blog/new`}>
-            <Button size="sm" className="bg-forest-900 text-white hover:bg-forest-800 rounded-lg gap-2">
+            <Button size="sm" className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg gap-2">
               <Plus className="w-4 h-4" />
               Nouvel article
             </Button>

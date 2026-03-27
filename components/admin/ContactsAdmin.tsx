@@ -62,12 +62,12 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
       {/* Search */}
       <div className="mb-6">
         <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-forest-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--brand-secondary)]" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher par nom, email ou sujet..."
-            className="pl-9 h-10 rounded-xl border-gray-200 focus:border-forest-400"
+            className="pl-9 h-10 rounded-xl border-gray-200 focus:border-[var(--brand-accent)]"
           />
         </div>
       </div>
@@ -89,7 +89,7 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-forest-900">
+                    <span className="font-medium text-[var(--brand-primary)]">
                       {contact.first_name} {contact.last_name}
                     </span>
                     <Badge className={config.class}>
@@ -97,7 +97,7 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
                       {config.label}
                     </Badge>
                   </div>
-                  <p className="text-sm text-forest-600 truncate">{contact.subject}</p>
+                  <p className="text-sm text-[var(--brand-secondary)] truncate">{contact.subject}</p>
                   <p className="text-xs text-gray-500 mt-1">
                     {contact.email} &middot;{" "}
                     {contact.created_at

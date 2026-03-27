@@ -171,7 +171,7 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
             <Button
               type="submit"
               disabled={isSaving}
-              className="bg-forest-900 text-white px-8"
+              className="bg-[var(--brand-primary)] text-white px-8"
             >
               {isSaving ? (
                 <>
