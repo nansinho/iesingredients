@@ -41,6 +41,9 @@ export async function getProfile() {
       company: string | null;
       phone: string | null;
       email: string | undefined;
+      avatar_url: string | null;
+      linkedin_url: string | null;
+      instagram_url: string | null;
     };
   } catch (error) {
     console.error("Failed to get profile:", error);
