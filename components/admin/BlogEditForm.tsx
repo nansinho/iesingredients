@@ -446,6 +446,17 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         </div>
 
         <div className="flex items-center gap-3">
+          {form.slug && (
+            <Button
+              type="button"
+              variant="outline"
+              className="rounded-lg gap-1.5"
+              onClick={() => window.open(`/fr/actualites/${form.slug}?preview=true`, "_blank")}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              Aperçu
+            </Button>
+          )}
           {onCancel && (
             <Button type="button" variant="outline" onClick={onCancel} className="rounded-lg">
               Annuler
