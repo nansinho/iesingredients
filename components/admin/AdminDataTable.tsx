@@ -61,12 +61,12 @@ export function AdminDataTable<T extends Record<string, any>>({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         {onSearchChange && (
           <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-forest-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--brand-secondary)]" />
             <Input
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={searchPlaceholder}
-              className="pl-9 h-10 rounded-xl border-gray-200 focus:border-forest-400"
+              className="pl-9 h-10 rounded-xl border-gray-200 focus:border-[var(--brand-accent)]"
             />
           </div>
         )}
@@ -78,14 +78,14 @@ export function AdminDataTable<T extends Record<string, any>>({
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b bg-forest-50/50">
+              <tr className="border-b bg-[var(--brand-primary)]/5">
                 {columns.map((col) => (
-                  <th key={col.key} className="text-left px-4 py-3 font-medium text-forest-700">
+                  <th key={col.key} className="text-left px-4 py-3 font-medium text-[var(--brand-primary)]">
                     {col.label}
                   </th>
                 ))}
                 {(editPath || onDelete) && (
-                  <th className="text-right px-4 py-3 font-medium text-forest-700 w-28">
+                  <th className="text-right px-4 py-3 font-medium text-[var(--brand-primary)] w-28">
                     Actions
                   </th>
                 )}
@@ -108,7 +108,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                 data.map((item) => (
                   <tr
                     key={item[idKey]}
-                    className="border-b last:border-0 hover:bg-forest-50/30 transition-colors cursor-pointer"
+                    className="border-b last:border-0 hover:bg-[var(--brand-primary)]/5 transition-colors cursor-pointer"
                     onClick={() => editPath && router.push(`${editPath}/${item[idKey]}` as any)}
                   >
                     {columns.map((col) => (
@@ -127,7 +127,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                                 e.stopPropagation();
                                 router.push(`${editPath}/${item[idKey]}` as any);
                               }}
-                              className="h-8 px-2.5 text-forest-600 hover:text-forest-900 hover:bg-forest-50 border-gray-200"
+                              className="h-8 px-2.5 text-[var(--brand-secondary)] hover:text-[var(--brand-primary)] hover:bg-[var(--brand-primary)]/5 border-gray-200"
                             >
                               <Pencil className="w-3.5 h-3.5" />
                             </Button>
@@ -157,8 +157,8 @@ export function AdminDataTable<T extends Record<string, any>>({
 
         {/* Pagination */}
         {totalPages > 1 && onPageChange && (
-          <div className="flex items-center justify-between px-4 py-3 border-t bg-forest-50/30">
-            <p className="text-sm text-forest-600">
+          <div className="flex items-center justify-between px-4 py-3 border-t bg-[var(--brand-primary)]/5">
+            <p className="text-sm text-[var(--brand-secondary)]">
               Page {page} / {totalPages}
             </p>
             <div className="flex items-center gap-2">

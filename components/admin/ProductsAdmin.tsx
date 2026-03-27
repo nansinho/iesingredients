@@ -93,7 +93,7 @@ export function ProductsAdmin({
       key: "code",
       label: "Code",
       render: (item: any) => (
-        <span className="font-mono text-xs font-bold text-forest-900">{item.code}</span>
+        <span className="font-mono text-xs font-bold text-[var(--brand-primary)]">{item.code}</span>
       ),
     },
     {
@@ -127,7 +127,7 @@ export function ProductsAdmin({
               variant="outline"
               size="sm"
               onClick={handleExportCSV}
-              className="rounded-lg gap-2 border-gray-200 hover:bg-forest-50"
+              className="rounded-lg gap-2 border-gray-200 hover:bg-[var(--brand-primary)]/5"
             >
               <Download className="w-4 h-4" />
               Export CSV
@@ -135,7 +135,7 @@ export function ProductsAdmin({
             <Button
               size="sm"
               onClick={() => router.push(`${editBasePath}/new` as any)}
-              className="bg-forest-900 text-white hover:bg-forest-800 rounded-lg gap-2"
+              className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg gap-2"
             >
               <Plus className="w-4 h-4" />
               Nouveau

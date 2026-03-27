@@ -168,7 +168,7 @@ export function TeamEditForm({
           </div>
 
           <div className="flex justify-end pt-4">
-            <Button type="submit" disabled={isSaving} className="bg-forest-900 text-white px-8">
+            <Button type="submit" disabled={isSaving} className="bg-[var(--brand-primary)] text-white px-8">
               {isSaving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
               {isNew ? "Créer" : "Enregistrer"}
             </Button>

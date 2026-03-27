@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS public.blog_articles (
   excerpt_en TEXT,
   content_fr TEXT,
   content_en TEXT,
-  category TEXT DEFAULT 'news' CHECK (category IN ('news', 'events', 'certifications', 'trends')),
+  category TEXT DEFAULT 'news' CHECK (category IN ('news', 'press', 'events', 'certifications', 'trends')),
   author_name TEXT,
   cover_image_url TEXT,
   published BOOLEAN DEFAULT false,

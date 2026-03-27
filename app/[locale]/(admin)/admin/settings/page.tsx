@@ -11,7 +11,7 @@ export default async function SettingsPage() {
 
       <div className="max-w-2xl space-y-6">
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-forest-900 mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-4 flex items-center gap-2">
             <Settings className="w-5 h-5" />
             Informations générales
           </h2>
@@ -40,7 +40,7 @@ export default async function SettingsPage() {
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold text-forest-900 mb-4">
+          <h2 className="text-lg font-semibold text-[var(--brand-primary)] mb-4">
             Actions de maintenance
           </h2>
           <div className="space-y-3">
@@ -52,7 +52,7 @@ export default async function SettingsPage() {
               <form action="/api/revalidate" method="POST">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-forest-900 text-white text-sm rounded-lg hover:bg-forest-800 transition-colors"
+                  className="px-4 py-2 bg-[var(--brand-primary)] text-white text-sm rounded-lg hover:bg-[var(--brand-secondary)] transition-colors"
                 >
                   Revalider
                 </button>

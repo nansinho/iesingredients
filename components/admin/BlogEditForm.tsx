@@ -149,6 +149,7 @@ export function BlogEditForm({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="news">Nouveautés</SelectItem>
+                  <SelectItem value="press">Communiqué de presse</SelectItem>
                   <SelectItem value="events">Événements</SelectItem>
                   <SelectItem value="certifications">Certifications</SelectItem>
                   <SelectItem value="trends">Tendances</SelectItem>
@@ -206,7 +207,7 @@ export function BlogEditForm({
           </div>
 
           <div className="flex justify-end pt-4">
-            <Button type="submit" disabled={isSaving} className="bg-forest-900 text-white px-8">
+            <Button type="submit" disabled={isSaving} className="bg-[var(--brand-primary)] text-white px-8">
               {isSaving ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
