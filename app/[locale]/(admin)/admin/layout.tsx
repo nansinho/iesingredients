@@ -20,7 +20,7 @@ export default async function AdminLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <div className="flex min-h-screen bg-[var(--brand-primary)]/[0.03]">
+      <div className="flex min-h-screen bg-[#F8F7F5]">
         <AdminSidebar />
         <main className="flex-1 lg:ml-64 min-h-screen">
           <div className="p-4 sm:p-6 lg:p-8">{children}</div>
