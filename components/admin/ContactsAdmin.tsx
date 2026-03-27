@@ -10,11 +10,11 @@ import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const statusConfig: Record<string, { icon: React.ElementType; label: string; class: string }> = {
   new: { icon: Clock, label: "Nouveau", class: "bg-blue-100 text-blue-800" },
@@ -118,14 +118,14 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
         )}
       </div>
 
-      {/* Detail Dialog */}
-      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>{selected?.subject}</DialogTitle>
-          </DialogHeader>
+      {/* Detail Sheet */}
+      <Sheet open={!!selected} onOpenChange={() => setSelected(null)}>
+        <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>{selected?.subject}</SheetTitle>
+          </SheetHeader>
           {selected && (
-            <div className="space-y-4">
+            <div className="space-y-4 pt-6">
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
                   <p className="text-gray-500">Nom</p>
@@ -178,8 +178,8 @@ export function ContactsAdmin({ initialContacts }: { initialContacts: any[] }) {
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }
