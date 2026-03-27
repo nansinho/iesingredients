@@ -34,7 +34,7 @@ export default async function CosmetiqueEditPage({
     <ProductEditForm
       tableName="cosmetique_fr"
       product={product}
-      backPath={`/${locale}/admin/cosmetiques`}
+
       isNew={isNew}
     />
   );

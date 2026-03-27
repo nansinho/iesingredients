@@ -34,7 +34,7 @@ export default async function ParfumEditPage({
     <ProductEditForm
       tableName="parfum_fr"
       product={product}
-      backPath={`/${locale}/admin/parfums`}
+
       isNew={isNew}
     />
   );

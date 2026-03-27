@@ -34,7 +34,6 @@ export default async function AromeEditPage({
     <ProductEditForm
       tableName="aromes_fr"
       product={product}
-      backPath={`/${locale}/admin/aromes`}
       isNew={isNew}
     />
   );
