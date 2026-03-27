@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Instagram,
   Linkedin,
-  Facebook,
 } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
@@ -23,12 +22,6 @@ const socials = [
     icon: Linkedin,
     url: "https://www.linkedin.com/company/ies-ingredients/",
     color: "#0A66C2",
-  },
-  {
-    name: "Facebook",
-    icon: Facebook,
-    url: "https://www.facebook.com/iesingredients/",
-    color: "#1877F2",
   },
 ];
 
@@ -182,15 +175,15 @@ export async function Footer() {
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 mt-0.5 text-[var(--brand-accent-light)]/60 shrink-0" />
-                  <span className="text-cream-light/40">Nice, France</span>
+                  <span className="text-cream-light/40">274 Allée des Lavandes,<br />PA de Fontvieille<br />13190 ALLAUCH</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <Phone className="w-4 h-4 text-[var(--brand-accent-light)]/60 shrink-0" />
                   <a
-                    href="tel:+33493000000"
+                    href="tel:+33491077088"
                     className="text-cream-light/40 hover:text-[var(--brand-accent-light)] transition-colors duration-200"
                   >
-                    +33 4 93 00 00 00
+                    +33 (0)4 91 07 70 88
                   </a>
                 </li>
                 <li className="flex items-center gap-2.5">
