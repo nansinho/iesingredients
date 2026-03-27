@@ -64,11 +64,11 @@ function StatCard({
   variant?: "default" | "warning" | "cosmetique" | "parfum" | "arome";
 }) {
   const variants = {
-    default: "bg-white border-gray-200 [&_.icon]:bg-[var(--brand-primary)]/10 [&_.icon]:text-[var(--brand-secondary)] [&_.value]:text-[var(--brand-primary)]",
-    warning: "bg-amber-50 border-amber-200 [&_.icon]:bg-amber-100 [&_.icon]:text-amber-600 [&_.value]:text-amber-700",
-    cosmetique: "bg-emerald-50 border-emerald-200 [&_.icon]:bg-emerald-100 [&_.icon]:text-emerald-600 [&_.value]:text-emerald-700",
-    parfum: "bg-purple-50 border-purple-200 [&_.icon]:bg-purple-100 [&_.icon]:text-purple-600 [&_.value]:text-purple-700",
-    arome: "bg-orange-50 border-orange-200 [&_.icon]:bg-orange-100 [&_.icon]:text-orange-600 [&_.value]:text-orange-700",
+    default: "bg-white border-[var(--brand-primary)]/10 [&_.icon]:bg-[var(--brand-primary)]/10 [&_.icon]:text-[var(--brand-secondary)] [&_.value]:text-[var(--brand-primary)]",
+    warning: "bg-[var(--brand-accent)]/5 border-[var(--brand-accent)]/20 [&_.icon]:bg-[var(--brand-accent)]/15 [&_.icon]:text-[var(--brand-accent-hover)] [&_.value]:text-[var(--brand-accent-hover)]",
+    cosmetique: "bg-[#5B7B6B]/5 border-[#5B7B6B]/20 [&_.icon]:bg-[#5B7B6B]/15 [&_.icon]:text-[#5B7B6B] [&_.value]:text-[#5B7B6B]",
+    parfum: "bg-[#8B6A80]/5 border-[#8B6A80]/20 [&_.icon]:bg-[#8B6A80]/15 [&_.icon]:text-[#8B6A80] [&_.value]:text-[#8B6A80]",
+    arome: "bg-[#D4907E]/5 border-[#D4907E]/20 [&_.icon]:bg-[#D4907E]/15 [&_.icon]:text-[#D4907E] [&_.value]:text-[#D4907E]",
   };
 
   return (
@@ -78,7 +78,7 @@ function StatCard({
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-gray-600">{title}</p>
+          <p className="text-sm text-[var(--brand-primary)]/60">{title}</p>
           <p className="value text-2xl font-bold mt-1">{value}</p>
         </div>
         <div className="icon w-12 h-12 rounded-xl flex items-center justify-center">
