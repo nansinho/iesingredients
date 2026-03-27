@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useCallback } from "react";
-import { Save, Loader2, Sparkles, Globe, Eye, EyeOff, ChevronDown, ChevronUp } from "lucide-react";
+import { Save, Loader2, Sparkles, Globe, Eye, EyeOff, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { MediaLibrary } from "@/components/admin/MediaLibrary";
+import { PDFImport } from "@/components/admin/PDFImport";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
@@ -33,6 +35,9 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   const [activeTab, setActiveTab] = useState<"fr" | "en">("fr");
   const [showSeo, setShowSeo] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
+  const [showMediaLibrary, setShowMediaLibrary] = useState(false);
+  const [showPDFImport, setShowPDFImport] = useState(false);
+  const [coverAlt, setCoverAlt] = useState(article?.cover_image_alt || "");
   const [form, setForm] = useState({
     title_fr: article?.title_fr || "",
     title_en: article?.title_en || "",
@@ -136,6 +141,14 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
     }
   };
 
+  const handlePDFImport = useCallback((mapping: Record<string, string>) => {
+    Object.entries(mapping).forEach(([key, value]) => {
+      handleChange(key, value);
+    });
+    setShowPDFImport(false);
+    toast.success("Contenu importé du PDF");
+  }, [handleChange]);
+
   const categories = [
     { value: "news", label: "Nouveautés" },
     { value: "press", label: "Communiqué de presse" },
@@ -145,16 +158,19 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   ];
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto">
         <div className="p-6 space-y-6">
 
-          {/* ── AI Generation ── */}
-          <div className="rounded-xl border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-[var(--brand-accent)]" />
-              <span className="text-sm font-semibold text-[var(--brand-primary)]">Générer avec l&apos;IA</span>
-            </div>
+          {/* ── Tools Row ── */}
+          <div className="flex gap-3">
+            {/* AI Generation */}
+            <div className="flex-1 rounded-xl border border-[var(--brand-accent)]/20 bg-[var(--brand-accent)]/5 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-[var(--brand-accent)]" />
+                <span className="text-sm font-semibold text-[var(--brand-primary)]">Générer avec l&apos;IA</span>
+              </div>
             <div className="flex gap-2">
               <Input
                 value={aiPrompt}
@@ -174,13 +190,32 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
             </div>
           </div>
 
+            {/* PDF Import */}
+            <div className="w-48 rounded-xl border border-[var(--brand-primary)]/10 bg-[var(--brand-primary)]/[0.02] p-4 flex flex-col items-center justify-center gap-2 shrink-0">
+              <FileText className="w-5 h-5 text-[var(--brand-secondary)]/50" />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowPDFImport(true)}
+                className="text-xs rounded-lg w-full"
+              >
+                Importer un PDF
+              </Button>
+            </div>
+          </div>
+
           {/* ── Cover Image ── */}
           <ImageUpload
             value={form.cover_image_url}
             onChange={(url) => handleChange("cover_image_url", url)}
+            onAltChange={setCoverAlt}
+            altValue={coverAlt}
             folder="blog"
             label="Image de couverture"
             aspect="banner"
+            showAlt={true}
+            onOpenLibrary={() => setShowMediaLibrary(true)}
           />
 
           {/* ── Meta Row ── */}
@@ -421,5 +456,25 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         </div>
       </div>
     </form>
+
+      {/* Media Library Modal */}
+      <MediaLibrary
+        open={showMediaLibrary}
+        onClose={() => setShowMediaLibrary(false)}
+        onSelect={(url, alt) => {
+          handleChange("cover_image_url", url);
+          setCoverAlt(alt);
+        }}
+        folder="blog"
+      />
+
+      {/* PDF Import Modal */}
+      {showPDFImport && (
+        <PDFImport
+          onImport={handlePDFImport}
+          onClose={() => setShowPDFImport(false)}
+        />
+      )}
+    </>
   );
 }
