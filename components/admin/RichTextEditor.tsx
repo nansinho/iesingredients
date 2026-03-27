@@ -8,7 +8,7 @@ import TiptapImage from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
 import Highlight from "@tiptap/extension-highlight";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import {
   Bold,
   Italic,
@@ -154,6 +154,16 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
       toast.error("Erreur lors de l'upload");
     }
   }, [editor]);
+
+  // Sync editor content when prop changes externally (e.g. PDF import)
+  useEffect(() => {
+    if (!editor) return;
+    const currentHTML = editor.getHTML();
+    // Only update if content actually changed and is not from user typing
+    if (content && content !== currentHTML && content !== "<p></p>") {
+      editor.commands.setContent(content, { emitUpdate: false });
+    }
+  }, [editor, content]);
 
   const addLink = useCallback(() => {
     if (!editor) return;

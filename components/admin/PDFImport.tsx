@@ -10,9 +10,9 @@ interface PDFImportProps {
 }
 
 const STEPS = [
-  "Extraction du texte...",
-  "Analyse du contenu...",
-  "Structuration de l'article...",
+  "Extraction du texte du PDF...",
+  "Analyse IA du contenu...",
+  "Structuration et mise en forme...",
   "Traduction en anglais...",
 ];
 

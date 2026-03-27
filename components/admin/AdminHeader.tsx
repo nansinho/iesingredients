@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -165,10 +166,11 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
               Mon profil
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer">
-              <a href="/fr/admin/settings">
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+              <Link href={"/admin/settings" as any}>
                 <Settings className="mr-2 h-4 w-4" />
                 Paramètres
-              </a>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
