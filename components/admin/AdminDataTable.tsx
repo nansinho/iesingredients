@@ -29,6 +29,7 @@ interface AdminDataTableProps<T> {
   idKey: string;
   editPath?: string;
   onDelete?: (id: string) => void;
+  onRowClick?: (item: T) => void;
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
@@ -44,6 +45,7 @@ export function AdminDataTable<T extends Record<string, any>>({
   idKey,
   editPath,
   onDelete,
+  onRowClick,
   searchValue,
   onSearchChange,
   searchPlaceholder = "Rechercher...",
@@ -109,7 +111,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                   <tr
                     key={item[idKey]}
                     className="border-b last:border-0 hover:bg-[var(--brand-primary)]/5 transition-colors cursor-pointer"
-                    onClick={() => editPath && router.push(`${editPath}/${item[idKey]}` as any)}
+                    onClick={() => onRowClick ? onRowClick(item) : editPath && router.push(`${editPath}/${item[idKey]}` as any)}
                   >
                     {columns.map((col) => (
                       <td key={col.key} className="px-4 py-3 text-gray-900">

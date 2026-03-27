@@ -1,13 +1,13 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -15,20 +15,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
-import Link from "next/link";
 
 interface ProductEditFormProps {
   tableName: string;
   product: Record<string, any> | null;
-  backPath: string;
   isNew: boolean;
+  onSave?: () => void;
+  onCancel?: () => void;
 }
 
-export function ProductEditForm({ tableName, product, backPath, isNew }: ProductEditFormProps) {
-  const router = useRouter();
+export function ProductEditForm({ tableName, product, isNew, onSave, onCancel }: ProductEditFormProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [form, setForm] = useState({
     code: product?.code || "",
@@ -48,9 +47,9 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
     food_grade: product?.food_grade || "",
   });
 
-  const handleChange = (key: string, value: string) => {
+  const handleChange = useCallback((key: string, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,116 +77,205 @@ export function ProductEditForm({ tableName, product, backPath, isNew }: Product
         toast.success("Produit mis à jour");
       }
 
-      router.push(backPath as any);
-      router.refresh();
+      onSave?.();
     } catch (err: unknown) {
-      toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec de la sauvegarde"));
+      toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec"));
     } finally {
       setIsSaving(false);
     }
   };
 
-  const fields = [
-    { key: "code", label: "Code *", disabled: !isNew },
-    { key: "nom_commercial", label: "Nom commercial" },
-    { key: "inci", label: "INCI" },
-    { key: "cas_no", label: "N° CAS" },
-    { key: "gamme", label: "Gamme" },
-    { key: "origine", label: "Origine" },
-    { key: "solubilite", label: "Solubilité" },
-    { key: "aspect", label: "Aspect" },
-    { key: "certifications", label: "Certifications" },
-    { key: "food_grade", label: "Food Grade" },
-    { key: "image_url", label: "Image URL" },
-  ];
-
-  const textareaFields = [
-    { key: "description", label: "Description" },
-    { key: "benefices", label: "Bénéfices" },
-    { key: "application", label: "Application" },
-  ];
-
   return (
-    <>
-      <AdminPageHeader
-        title={isNew ? "Nouveau produit" : `Modifier: ${product?.nom_commercial || product?.code}`}
-        actions={
-          <Link href={backPath}>
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour
-            </Button>
-          </Link>
-        }
-      />
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-6 space-y-6">
 
-      <form onSubmit={handleSubmit} className="max-w-3xl">
-        <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
-          {/* Status */}
-          <div className="space-y-2">
-            <Label>Statut</Label>
-            <Select value={form.statut} onValueChange={(v) => handleChange("statut", v)}>
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="ACTIF">ACTIF</SelectItem>
-                <SelectItem value="INACTIF">INACTIF</SelectItem>
-              </SelectContent>
-            </Select>
+          {/* Status + Code row */}
+          <div className="flex items-center gap-4">
+            <Badge
+              className={`text-sm px-3 py-1 cursor-pointer ${
+                form.statut === "ACTIF"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+              onClick={() => handleChange("statut", form.statut === "ACTIF" ? "INACTIF" : "ACTIF")}
+            >
+              {form.statut}
+            </Badge>
           </div>
 
-          {/* Fields grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {fields.map((f) => (
-              <div key={f.key} className="space-y-2">
-                <Label htmlFor={f.key}>{f.label}</Label>
+          {/* Photo */}
+          <ImageUpload
+            value={form.image_url}
+            onChange={(url) => handleChange("image_url", url)}
+            folder={tableName}
+            label="Photo produit"
+            aspect="square"
+          />
+
+          {/* Identity */}
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--brand-primary)] mb-3 uppercase tracking-wider">Identification</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Code *</Label>
                 <Input
-                  id={f.key}
-                  value={(form as any)[f.key]}
-                  onChange={(e) => handleChange(f.key, e.target.value)}
-                  disabled={f.disabled}
+                  value={form.code}
+                  onChange={(e) => handleChange("code", e.target.value)}
+                  disabled={!isNew}
+                  className="h-10 font-mono"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Nom commercial</Label>
+                <Input
+                  value={form.nom_commercial}
+                  onChange={(e) => handleChange("nom_commercial", e.target.value)}
                   className="h-10"
                 />
               </div>
-            ))}
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">INCI</Label>
+                <Input
+                  value={form.inci}
+                  onChange={(e) => handleChange("inci", e.target.value)}
+                  className="h-10 font-mono text-sm"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">N CAS</Label>
+                <Input
+                  value={form.cas_no}
+                  onChange={(e) => handleChange("cas_no", e.target.value)}
+                  className="h-10 font-mono text-sm"
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Textarea fields */}
-          {textareaFields.map((f) => (
-            <div key={f.key} className="space-y-2">
-              <Label htmlFor={f.key}>{f.label}</Label>
-              <Textarea
-                id={f.key}
-                value={(form as any)[f.key]}
-                onChange={(e) => handleChange(f.key, e.target.value)}
-                rows={3}
-              />
+          {/* Classification */}
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--brand-primary)] mb-3 uppercase tracking-wider">Classification</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Gamme</Label>
+                <Input
+                  value={form.gamme}
+                  onChange={(e) => handleChange("gamme", e.target.value)}
+                  className="h-10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Origine</Label>
+                <Input
+                  value={form.origine}
+                  onChange={(e) => handleChange("origine", e.target.value)}
+                  className="h-10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Solubilité</Label>
+                <Input
+                  value={form.solubilite}
+                  onChange={(e) => handleChange("solubilite", e.target.value)}
+                  className="h-10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Aspect</Label>
+                <Input
+                  value={form.aspect}
+                  onChange={(e) => handleChange("aspect", e.target.value)}
+                  className="h-10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Certifications</Label>
+                <Input
+                  value={form.certifications}
+                  onChange={(e) => handleChange("certifications", e.target.value)}
+                  className="h-10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Statut</Label>
+                <Select value={form.statut} onValueChange={(v) => handleChange("statut", v)}>
+                  <SelectTrigger className="h-10">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ACTIF">ACTIF</SelectItem>
+                    <SelectItem value="INACTIF">INACTIF</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          ))}
+          </div>
 
-          {/* Save */}
-          <div className="flex justify-end pt-4">
-            <Button
-              type="submit"
-              disabled={isSaving}
-              className="bg-[var(--brand-primary)] text-white px-8"
-            >
-              {isSaving ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Enregistrement...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  {isNew ? "Créer" : "Enregistrer"}
-                </>
-              )}
-            </Button>
+          {/* Content */}
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--brand-primary)] mb-3 uppercase tracking-wider">Détails</h3>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Description</Label>
+                <Textarea
+                  value={form.description}
+                  onChange={(e) => handleChange("description", e.target.value)}
+                  rows={3}
+                  className="text-sm"
+                  placeholder="Description du produit..."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Bénéfices</Label>
+                <Textarea
+                  value={form.benefices}
+                  onChange={(e) => handleChange("benefices", e.target.value)}
+                  rows={3}
+                  className="text-sm"
+                  placeholder="Bénéfices du produit..."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[var(--brand-primary)]">Application</Label>
+                <Textarea
+                  value={form.application}
+                  onChange={(e) => handleChange("application", e.target.value)}
+                  rows={3}
+                  className="text-sm"
+                  placeholder="Applications recommandées..."
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </form>
-    </>
+      </div>
+
+      {/* Sticky Footer */}
+      <div className="shrink-0 border-t border-gray-100 bg-[#FAFAF8] px-6 py-4 flex items-center justify-end gap-3">
+        {onCancel && (
+          <Button type="button" variant="outline" onClick={onCancel} className="rounded-lg">
+            Annuler
+          </Button>
+        )}
+        <Button
+          type="submit"
+          disabled={isSaving}
+          className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg px-6"
+        >
+          {isSaving ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Enregistrement...
+            </>
+          ) : (
+            <>
+              <Save className="w-4 h-4 mr-2" />
+              {isNew ? "Créer" : "Enregistrer"}
+            </>
+          )}
+        </Button>
+      </div>
+    </form>
   );
 }

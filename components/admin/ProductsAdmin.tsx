@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "@/i18n/routing";
-import { Plus, Download } from "lucide-react";
+import { Plus, Download, RefreshCw, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AdminDataTable } from "@/components/admin/AdminDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { SlidePanel } from "@/components/admin/SlidePanel";
+import { ProductEditForm } from "@/components/admin/ProductEditForm";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
@@ -28,11 +29,13 @@ export function ProductsAdmin({
   initialProducts,
   initialTotal,
 }: ProductsAdminProps) {
-  const router = useRouter();
   const [products, setProducts] = useState(initialProducts);
   const [total, setTotal] = useState(initialTotal);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<any | null>(null);
+  const [isNew, setIsNew] = useState(false);
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   const fetchProducts = useCallback(async () => {
@@ -57,6 +60,23 @@ export function ProductsAdmin({
     const timer = setTimeout(fetchProducts, 300);
     return () => clearTimeout(timer);
   }, [fetchProducts]);
+
+  const openNew = () => {
+    setEditingProduct(null);
+    setIsNew(true);
+    setPanelOpen(true);
+  };
+
+  const openEdit = (product: any) => {
+    setEditingProduct(product);
+    setIsNew(false);
+    setPanelOpen(true);
+  };
+
+  const handleSave = () => {
+    setPanelOpen(false);
+    fetchProducts();
+  };
 
   const handleDelete = async (code: string) => {
     const supabase = createClient();
@@ -88,7 +108,52 @@ export function ProductsAdmin({
     URL.revokeObjectURL(url);
   };
 
+  const handleImportCSV = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const lines = text.split("\n").filter(Boolean);
+      const headers = lines[0].split(",").map((h) => h.trim().replace(/^"|"$/g, ""));
+
+      const records = lines.slice(1).map((line) => {
+        const values = line.match(/(".*?"|[^",]+)/g) || [];
+        const record: any = {};
+        headers.forEach((h, i) => {
+          const val = (values[i] || "").replace(/^"|"$/g, "").trim();
+          if (val) record[h] = val;
+        });
+        return record;
+      });
+
+      const supabase = createClient();
+      const { error } = await (supabase.from(tableName) as any).upsert(records, { onConflict: "code" });
+
+      if (error) throw error;
+
+      toast.success(`${records.length} produits importés`);
+      fetchProducts();
+    } catch (err) {
+      toast.error("Erreur import : " + (err instanceof Error ? err.message : "Échec"));
+    }
+
+    e.target.value = "";
+  };
+
   const columns = [
+    {
+      key: "image_url",
+      label: "",
+      render: (item: any) =>
+        item.image_url ? (
+          <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+            <img src={item.image_url} alt="" className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <div className="w-10 h-10 rounded-lg bg-[var(--brand-primary)]/5" />
+        ),
+    },
     {
       key: "code",
       label: "Code",
@@ -109,7 +174,13 @@ export function ProductsAdmin({
       key: "statut",
       label: "Statut",
       render: (item: any) => (
-        <Badge variant={item.statut === "ACTIF" ? "default" : "secondary"}>
+        <Badge
+          className={
+            item.statut === "ACTIF"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }
+        >
           {item.statut}
         </Badge>
       ),
@@ -126,15 +197,42 @@ export function ProductsAdmin({
             <Button
               variant="outline"
               size="sm"
-              onClick={handleExportCSV}
-              className="rounded-lg gap-2 border-gray-200 hover:bg-[var(--brand-primary)]/5"
+              onClick={() => fetchProducts()}
+              className="rounded-lg"
             >
-              <Download className="w-4 h-4" />
-              Export CSV
+              <RefreshCw className="w-4 h-4" />
             </Button>
             <Button
+              variant="outline"
               size="sm"
-              onClick={() => router.push(`${editBasePath}/new` as any)}
+              onClick={handleExportCSV}
+              className="rounded-lg gap-2"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Export</span>
+            </Button>
+            <label>
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-lg gap-2 cursor-pointer"
+                asChild
+              >
+                <span>
+                  <Upload className="w-4 h-4" />
+                  <span className="hidden sm:inline">Import CSV</span>
+                </span>
+              </Button>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleImportCSV}
+                className="hidden"
+              />
+            </label>
+            <Button
+              size="sm"
+              onClick={openNew}
               className="bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-secondary)] rounded-lg gap-2"
             >
               <Plus className="w-4 h-4" />
@@ -148,8 +246,8 @@ export function ProductsAdmin({
         data={products}
         columns={columns}
         idKey="code"
-        editPath={editBasePath}
         onDelete={handleDelete}
+        onRowClick={openEdit}
         searchValue={search}
         onSearchChange={setSearch}
         searchPlaceholder="Rechercher par code ou nom..."
@@ -157,6 +255,22 @@ export function ProductsAdmin({
         totalPages={totalPages}
         onPageChange={setPage}
       />
+
+      {/* Slide Panel */}
+      <SlidePanel
+        open={panelOpen}
+        onClose={() => setPanelOpen(false)}
+        title={isNew ? "Nouveau produit" : `${editingProduct?.nom_commercial || editingProduct?.code || ""}`}
+        subtitle={isNew ? "Ajouter un produit au catalogue" : `Code: ${editingProduct?.code || ""}`}
+      >
+        <ProductEditForm
+          tableName={tableName}
+          product={editingProduct}
+          isNew={isNew}
+          onSave={handleSave}
+          onCancel={() => setPanelOpen(false)}
+        />
+      </SlidePanel>
     </>
   );
 }
