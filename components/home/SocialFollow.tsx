@@ -1,6 +1,6 @@
 "use client";
 
-import { Instagram, Linkedin, ArrowRight } from "lucide-react";
+import { Instagram, Linkedin, ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
@@ -10,14 +10,18 @@ const socials = [
     icon: Instagram,
     url: "https://www.instagram.com/ies_ingredients/",
     handle: "@ies_ingredients",
-    color: "#E1306C",
+    bg: "bg-gradient-to-br from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]",
+    shadow: "shadow-[0_8px_30px_rgba(225,48,108,0.4)]",
+    hoverShadow: "hover:shadow-[0_20px_50px_rgba(225,48,108,0.5)]",
   },
   {
     name: "LinkedIn",
     icon: Linkedin,
     url: "https://www.linkedin.com/company/ies-ingredients/",
     handle: "IES Ingredients",
-    color: "#0A66C2",
+    bg: "bg-[#0A66C2]",
+    shadow: "shadow-[0_8px_30px_rgba(10,102,194,0.4)]",
+    hoverShadow: "hover:shadow-[0_20px_50px_rgba(10,102,194,0.5)]",
   },
 ];
 
@@ -46,43 +50,47 @@ export function SocialFollow() {
           </p>
         </motion.div>
 
-        {/* Social links - elegant inline style */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+        {/* Social cards - bold & colorful */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
           {socials.map((social, index) => (
             <motion.a
               key={social.name}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.12 }}
-              className="group flex items-center gap-4 rounded-full border border-[var(--brand-primary)]/10 bg-[var(--brand-primary)]/[0.04] backdrop-blur-sm pl-2 pr-6 py-2 transition-all duration-400 hover:border-[var(--brand-primary)]/25 hover:bg-[var(--brand-primary)]/[0.08] hover:shadow-[0_8px_30px_rgba(46,31,61,0.08)]"
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className={`group relative overflow-hidden rounded-3xl ${social.bg} ${social.shadow} ${social.hoverShadow} p-8 sm:p-10 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]`}
             >
-              {/* Icon circle */}
-              <div
-                className="w-11 h-11 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                style={{ backgroundColor: `${social.color}12` }}
-              >
-                <social.icon
-                  className="w-[18px] h-[18px] transition-colors duration-300"
-                  style={{ color: social.color }}
-                />
-              </div>
+              {/* Decorative glow circle */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10 blur-2xl transition-transform duration-700 group-hover:scale-150" />
+              <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-white/[0.07] blur-xl" />
 
-              {/* Text */}
-              <div className="text-left">
-                <p className="text-sm font-semibold text-[var(--brand-primary)] leading-tight">
-                  {social.name}
-                </p>
-                <p className="text-xs text-[var(--brand-primary)]/45 leading-tight mt-0.5">
-                  {social.handle}
-                </p>
-              </div>
+              {/* Content */}
+              <div className="relative z-10 flex flex-col items-center text-center gap-5">
+                {/* Large icon */}
+                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                  <social.icon className="w-8 h-8 text-white" strokeWidth={1.5} />
+                </div>
 
-              {/* Arrow */}
-              <ArrowRight className="w-4 h-4 text-[var(--brand-primary)]/25 ml-1 transition-all duration-300 group-hover:text-[var(--brand-primary)]/50 group-hover:translate-x-1" />
+                {/* Text */}
+                <div>
+                  <h3 className="text-xl font-bold text-white tracking-tight">
+                    {social.name}
+                  </h3>
+                  <p className="text-white/60 text-sm mt-1">
+                    {social.handle}
+                  </p>
+                </div>
+
+                {/* Follow button */}
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-white bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-6 py-2.5 transition-all duration-300 group-hover:bg-white/25 group-hover:border-white/30 group-hover:gap-3">
+                  {t("follow")}
+                  <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
+              </div>
             </motion.a>
           ))}
         </div>
