@@ -16,31 +16,59 @@ async function analyzeWithClaude(rawText: string): Promise<Record<string, string
     },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 4096,
+      max_tokens: 8192,
       messages: [
         {
           role: "user",
-          content: `Tu es un assistant éditorial pour IES Ingredients, un distributeur B2B d'ingrédients naturels pour la parfumerie, cosmétique et arômes.
+          content: `Tu es un éditeur professionnel expert en mise en page HTML pour le blog d'IES Ingredients (distributeur B2B d'ingrédients naturels : parfumerie, cosmétique, arômes).
 
-Analyse ce texte extrait d'un PDF et structure-le en article de blog professionnel.
+MISSION : Analyse ce document PDF extrait et transforme-le en article de blog parfaitement mis en forme.
 
-TEXTE EXTRAIT:
----
+TEXTE BRUT EXTRAIT DU PDF :
+===
 ${rawText}
----
+===
 
-Retourne un JSON valide avec ces champs:
-- "title_fr": Titre concis et professionnel en français
-- "title_en": Traduction anglaise du titre
-- "excerpt_fr": Résumé de 2-3 phrases en français (max 300 caractères)
-- "excerpt_en": Traduction anglaise de l'extrait
-- "content_fr": Le contenu complet restructuré en HTML propre (utilise <p>, <h2>, <h3>, <blockquote> pour les citations, <strong> pour les noms importants). Garde le contenu fidèle au texte original mais améliore la mise en forme. N'ajoute pas de contenu inventé.
-- "content_en": Traduction anglaise du contenu HTML
-- "author_name": Nom de l'auteur ou contact presse si mentionné
-- "meta_description": Description SEO en français (max 155 caractères)
-- "category": Une des valeurs suivantes: "news", "press", "events", "certifications", "trends". Choisis la plus appropriée.
+RÈGLES STRICTES POUR LE CONTENU HTML (content_fr et content_en) :
 
-IMPORTANT: Retourne UNIQUEMENT le JSON, sans backticks, sans explication.`,
+1. STRUCTURE : Respecte fidèlement la structure du document original.
+   - Chaque section distincte doit avoir son titre en <h2> ou <h3>
+   - Chaque paragraphe du document = un <p> séparé
+   - Ne fusionne JAMAIS plusieurs paragraphes en un seul
+   - Respecte les retours à la ligne et les séparations du texte original
+
+2. MISE EN FORME RICHE :
+   - Noms de personnes en <strong> (ex: <strong>François-Patrick Sabater</strong>)
+   - Noms d'entreprises en <strong> (ex: <strong>IES Ingredients</strong>, <strong>Givaudan</strong>)
+   - Citations directes (entre guillemets « ») en <blockquote><p>texte</p></blockquote>
+   - Dates importantes en <strong>
+   - Listes d'éléments en <ul><li>...</li></ul>
+   - Si le document a des sections (ex: "Contact presse"), utilise <h3>
+
+3. FIDÉLITÉ :
+   - GARDE 100% du contenu textuel original, mot pour mot
+   - N'invente rien, n'ajoute rien, ne résume pas le contenu
+   - Corrige uniquement les artefacts d'extraction PDF (mots coupés, espaces en trop)
+   - Respecte la ponctuation française (espaces insécables avant : ; ! ?)
+
+4. QUALITÉ :
+   - Le HTML doit être propre, bien indenté
+   - Pas de <br> sauf cas exceptionnel - utilise des <p> séparés
+   - Pas de <div> - uniquement des balises sémantiques
+
+CHAMPS À RETOURNER (JSON) :
+
+- "title_fr" : Titre principal du document, concis et professionnel
+- "title_en" : Traduction anglaise fidèle du titre
+- "excerpt_fr" : Résumé éditorial de 2-3 phrases (max 280 caractères). Doit donner envie de lire.
+- "excerpt_en" : Traduction anglaise de l'extrait
+- "content_fr" : Le contenu HTML complet selon les règles ci-dessus
+- "content_en" : Traduction anglaise professionnelle du contenu HTML (même structure HTML)
+- "author_name" : Auteur ou contact presse mentionné dans le document (chaîne vide si absent)
+- "meta_description" : Description SEO en français (max 155 caractères, avec mots-clés pertinents)
+- "category" : "news" | "press" | "events" | "certifications" | "trends" (choisis la plus appropriée)
+
+Retourne UNIQUEMENT le JSON valide. Pas de backticks, pas de commentaire.`,
         },
       ],
     }),

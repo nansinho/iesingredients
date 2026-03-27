@@ -48,7 +48,7 @@ export function SlidePanel({ open, onClose, title, subtitle, children, width = "
       {/* Panel */}
       <div
         className={cn(
-          "absolute right-0 top-0 bottom-0 w-full bg-white shadow-2xl flex flex-col",
+          "absolute right-0 top-0 bottom-0 w-full bg-white text-gray-900 shadow-2xl flex flex-col",
           "animate-in slide-in-from-right duration-300",
           widthClass
         )}
