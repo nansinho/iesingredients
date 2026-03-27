@@ -10,11 +10,11 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const statusConfig: Record<string, { icon: React.ElementType; label: string; class: string }> = {
   pending: { icon: Clock, label: "En attente", class: "bg-amber-100 text-amber-800" },
@@ -143,14 +143,14 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
         )}
       </div>
 
-      {/* Detail Dialog */}
-      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Détail de la demande</DialogTitle>
-          </DialogHeader>
+      {/* Detail Sheet */}
+      <Sheet open={!!selected} onOpenChange={() => setSelected(null)}>
+        <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>Détail de la demande</SheetTitle>
+          </SheetHeader>
           {selected && (
-            <div className="space-y-4">
+            <div className="space-y-4 pt-6">
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
                   <p className="text-gray-500">Contact</p>
@@ -212,8 +212,8 @@ export function DemandesAdmin({ initialRequests }: { initialRequests: any[] }) {
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }
