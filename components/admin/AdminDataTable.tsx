@@ -80,14 +80,14 @@ export function AdminDataTable<T extends Record<string, any>>({
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b bg-brand-primary/5">
+              <tr className="border-b bg-gray-50/80">
                 {columns.map((col) => (
-                  <th key={col.key} className="text-left px-4 py-3 font-medium text-brand-primary">
+                  <th key={col.key} className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500">
                     {col.label}
                   </th>
                 ))}
                 {(editPath || onDelete) && (
-                  <th className="text-right px-4 py-3 font-medium text-brand-primary w-28">
+                  <th className="text-right px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 w-28">
                     Actions
                   </th>
                 )}

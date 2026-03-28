@@ -503,11 +503,11 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
             className="flex items-center gap-2 text-sm"
           >
             {form.published ? (
-              <Badge className="bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer gap-1.5 px-3 py-1">
+              <Badge variant="success" className="gap-1.5 cursor-pointer hover:bg-emerald-100">
                 <Eye className="w-3.5 h-3.5" /> Publié
               </Badge>
             ) : (
-              <Badge variant="secondary" className="cursor-pointer gap-1.5 px-3 py-1 hover:bg-gray-200 transition-colors">
+              <Badge variant="secondary" className="gap-1.5 cursor-pointer hover:bg-gray-200">
                 <EyeOff className="w-3.5 h-3.5" /> Brouillon
               </Badge>
             )}

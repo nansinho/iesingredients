@@ -218,7 +218,7 @@ export default async function ArticlePage({
           <AnimateIn delay={0.1}>
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <span className="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/15 border border-white/20 text-white backdrop-blur-sm">
-                {article.category}
+                {(article.category || "").charAt(0).toUpperCase() + (article.category || "").slice(1)}
               </span>
               <span className="flex items-center gap-1.5 text-[13px] text-white/45">
                 <Calendar className="w-3.5 h-3.5" />
@@ -344,7 +344,7 @@ export default async function ArticlePage({
                           <div className="px-5 pb-5 pt-2">
                             <div className="flex items-center gap-2 mb-3">
                               <span className="text-[11px] font-semibold uppercase tracking-wider text-brand-accent">
-                                {related.category}
+                                {(related.category || "").charAt(0).toUpperCase() + (related.category || "").slice(1)}
                               </span>
                               <span className="text-dark/15 dark:text-cream-light/15">·</span>
                               <span className="text-[11px] text-dark/35 dark:text-cream-light/30">

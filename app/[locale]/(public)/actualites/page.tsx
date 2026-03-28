@@ -127,7 +127,15 @@ const categoryColors: Record<string, string> = {
   "Partenariat": "bg-arome/10 text-arome-dark border-arome/20",
   "Innovation": "bg-cosmetique/10 text-cosmetique-dark border-cosmetique/20",
   "Distribution": "bg-parfum/10 text-parfum-dark border-parfum/20",
+  "press": "bg-brand-accent/8 text-brand-accent border-brand-accent/15",
+  "news": "bg-blue-50 text-blue-700 border-blue-200",
+  "events": "bg-purple-50 text-purple-700 border-purple-200",
+  "trends": "bg-amber-50 text-amber-700 border-amber-200",
 };
+
+function capitalizeCategory(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 export async function generateMetadata({
   params,
@@ -247,7 +255,7 @@ export default async function NewsPage({
                     <div className="p-6 md:p-10 md:pr-12">
                       <div className="flex items-center gap-3 mb-4">
                         <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${categoryColors[featuredArticle.category || ""] || "bg-brown/8 text-dark/70 border-brown/12"}`}>
-                          {featuredArticle.category}
+                          {capitalizeCategory(featuredArticle.category || "")}
                         </span>
                         <time className="text-xs text-dark/40 font-medium">
                           {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
@@ -304,7 +312,7 @@ export default async function NewsPage({
                     <div className="p-6 md:p-10 md:pr-12">
                       <div className="flex items-center gap-3 mb-4">
                         <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${categoryColors[featuredArticle.category || ""] || "bg-brand-primary/8 text-brand-primary border-brand-primary/12"}`}>
-                          {featuredArticle.category}
+                          {capitalizeCategory(featuredArticle.category || "")}
                         </span>
                         <time className="text-xs text-dark/40 font-medium">
                           {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
@@ -365,7 +373,7 @@ export default async function NewsPage({
                               <div className={`w-full h-full bg-gradient-to-br ${fakeData.gradient || "from-cream to-cream-light"}`} />
                               <div className="absolute top-3 left-3">
                                 <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-[var(--color-cream-light)]/95 text-dark border-brown/12"}`}>
-                                  {article.category}
+                                  {capitalizeCategory(article.category || "")}
                                 </span>
                               </div>
                             </div>
@@ -420,7 +428,7 @@ export default async function NewsPage({
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
                                 <div className="absolute top-3 left-3">
                                   <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-[var(--color-cream-light)]/95 text-dark border-brown/12"}`}>
-                                    {article.category}
+                                    {capitalizeCategory(article.category || "")}
                                   </span>
                                 </div>
                               </div>

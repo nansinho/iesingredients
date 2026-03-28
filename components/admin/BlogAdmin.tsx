@@ -4,13 +4,24 @@
 import { useState, useCallback } from "react";
 import { Plus, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type BadgeProps } from "@/components/ui/badge";
 import { AdminDataTable } from "@/components/admin/AdminDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { SlidePanel } from "@/components/admin/SlidePanel";
 import { BlogEditForm } from "@/components/admin/BlogEditForm";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+
+const categoryVariant: Record<string, BadgeProps["variant"]> = {
+  press: "press",
+  news: "news",
+  events: "events",
+  trends: "trends",
+};
+
+function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 export function BlogAdmin({
   initialArticles,
@@ -122,7 +133,9 @@ export function BlogAdmin({
       key: "category",
       label: "Catégorie",
       render: (item: any) => (
-        <Badge variant="secondary" className="text-xs">{item.category}</Badge>
+        <Badge variant={categoryVariant[item.category] || "default"}>
+          {capitalize(item.category || "")}
+        </Badge>
       ),
     },
     {
@@ -137,11 +150,11 @@ export function BlogAdmin({
           className="flex items-center gap-1.5"
         >
           {item.published ? (
-            <Badge className="bg-green-100 text-green-700 hover:bg-green-200 transition-colors cursor-pointer gap-1">
+            <Badge variant="success" className="gap-1.5 cursor-pointer hover:bg-emerald-100">
               <Eye className="w-3 h-3" /> Publié
             </Badge>
           ) : (
-            <Badge variant="secondary" className="hover:bg-gray-200 transition-colors cursor-pointer gap-1">
+            <Badge variant="secondary" className="gap-1.5 cursor-pointer hover:bg-gray-200">
               <EyeOff className="w-3 h-3" /> Brouillon
             </Badge>
           )}
