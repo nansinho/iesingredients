@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -841,19 +842,99 @@
    Article Prose — Premium Typography
    ======================================== */
 
-.article-prose > p:first-of-type::first-letter {
-  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
-  float: left;
-  font-size: 3.5em;
-  line-height: 0.85;
-  padding-right: 0.08em;
-  padding-top: 0.05em;
-  color: hsl(var(--brand-primary));
-  font-weight: 700;
+.article-prose p,
+.article-prose li,
+.article-prose blockquote p {
+  color: #2E1F3D !important;
 }
 
-.dark .article-prose > p:first-of-type::first-letter {
-  color: var(--color-cream-light);
+.article-prose strong {
+  color: #1a0e2e !important;
+}
+
+.article-prose blockquote {
+  position: relative;
+  border-left: none !important;
+  background: hsl(var(--brand-accent) / 0.08) !important;
+  border-radius: 1rem !important;
+  padding: 2.5em 2em 2em 2em !important;
+  margin: 2.5em 0 !important;
+  font-style: italic !important;
+  overflow: hidden;
+}
+
+/* Prevent margin collapse between consecutive blockquotes */
+.article-prose blockquote + blockquote {
+  margin-top: 3em !important;
+}
+
+.article-prose blockquote::before {
+  content: "";
+  position: absolute;
+  top: 1.2em;
+  left: 1.5em;
+  width: 44px;
+  height: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c4765b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1'/%3E%3Cpath d='M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.article-prose blockquote:has(img[data-float="left"])::before {
+  left: auto;
+  right: 1.5em;
+}
+
+.article-prose blockquote p {
+  color: #2E1F3D !important;
+  opacity: 0.75;
+  font-size: 0.95em;
+  line-height: 1.85;
+}
+
+/* Remove Tailwind prose open/close-quote on blockquotes */
+.article-prose blockquote p::before,
+.article-prose blockquote p::after {
+  content: none !important;
+}
+
+.article-prose blockquote strong {
+  font-style: normal;
+  opacity: 1;
+}
+
+.dark .article-prose blockquote {
+  background: hsl(var(--brand-accent) / 0.1) !important;
+}
+
+/* When multiple paragraphs inside one blockquote, visually separate them */
+.article-prose blockquote p + p {
+  margin-top: 1.5em !important;
+  padding-top: 1.5em !important;
+  border-top: 1px solid hsl(var(--brand-accent) / 0.15);
+}
+
+/* Align text middle when image floats beside it */
+.article-prose img[data-float="left"],
+.article-prose img[data-float="right"] {
+  shape-outside: margin-box;
+}
+
+.article-prose blockquote img[data-float] {
+  margin-top: 0 !important;
+}
+
+
+.dark .article-prose p,
+.dark .article-prose li,
+.dark .article-prose blockquote p {
+  color: hsl(30 20% 97% / 0.65) !important;
+}
+
+.dark .article-prose strong {
+  color: hsl(30 20% 97%) !important;
 }
 
 .article-prose hr {
@@ -880,4 +961,108 @@
   color: hsl(var(--brand-primary));
   opacity: 0.45;
   margin-top: 0.75rem;
+}
+
+/* ========================================
+   TipTap Editor — Paragraph & Block Spacing
+   ======================================== */
+
+/* Image float & size — editor + frontend */
+
+.ProseMirror img[style*="width"],
+.article-prose img[style*="width"] {
+  max-width: none !important;
+  height: auto;
+}
+
+.ProseMirror img[style*="height"],
+.article-prose img[style*="height"] {
+  max-height: none !important;
+}
+
+.ProseMirror img[data-float="left"],
+.article-prose img[data-float="left"] {
+  float: left !important;
+  margin: 0.25em 1.5em 1em 0 !important;
+  max-width: 40%;
+  height: auto !important;
+}
+
+.ProseMirror img[data-float="right"],
+.article-prose img[data-float="right"] {
+  float: right !important;
+  margin: 0.25em 0 1em 1.5em !important;
+  max-width: 40%;
+  height: auto !important;
+}
+
+.ProseMirror img:not([data-float]):not([style*="width"]),
+.article-prose img:not([data-float]):not([style*="width"]) {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+/* Clearfix after floated images */
+.ProseMirror p::after,
+.article-prose p::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Image resizing in editor */
+.ProseMirror img {
+  cursor: pointer;
+  resize: both;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid hsl(var(--brand-accent));
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.ProseMirror p {
+  margin-bottom: 1em;
+}
+
+.ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+.ProseMirror blockquote {
+  margin: 1.5em 0;
+  padding: 1.25em 1em 1.25em 1.25em;
+  border-left: 3px solid hsl(var(--brand-accent));
+  background: hsl(var(--brand-accent) / 0.06);
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+}
+
+.ProseMirror blockquote + blockquote {
+  margin-top: 2em;
+}
+
+.ProseMirror blockquote {
+  overflow: hidden;
+}
+
+/* Remove Tailwind prose open/close-quote on blockquotes */
+.ProseMirror blockquote p::before,
+.ProseMirror blockquote p::after {
+  content: none !important;
+}
+
+.ProseMirror h2 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h3 {
+  margin-top: 1.25em;
+  margin-bottom: 0.4em;
 }

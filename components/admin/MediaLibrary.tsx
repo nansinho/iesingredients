@@ -121,6 +121,21 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
           .from("product-images")
           .getPublicUrl(fileName);
 
+        // Generate alt text via AI
+        let altText = "";
+        try {
+          const altForm = new FormData();
+          altForm.append("file", webpFile);
+          altForm.append("altOnly", "true");
+          const altRes = await fetch("/api/extract-pdf", { method: "POST", body: altForm });
+          if (altRes.ok) {
+            const altData = await altRes.json();
+            altText = altData.alt || "";
+          }
+        } catch {
+          // Non-critical: alt text generation is optional
+        }
+
         // Track
         await (supabase.from("media") as any).insert({
           file_name: webpName,
@@ -130,7 +145,7 @@ export function MediaLibrary({ open, onClose, onSelect, folder: initialFolder }:
           width: dims.width,
           height: dims.height,
           folder: targetFolder,
-          alt_text: "",
+          alt_text: altText,
           description: "",
         });
       } catch {

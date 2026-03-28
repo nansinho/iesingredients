@@ -1,13 +1,56 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 
 interface ArticleContentProps {
   html: string;
 }
 
+/**
+ * Split merged blockquotes: if a <blockquote> contains multiple <p>,
+ * re-separate each <p> (with its preceding <img> tags) into its own <blockquote>.
+ * Uses DOM parsing for reliability.
+ */
+function splitBlockquotes(html: string): string {
+  if (typeof document === "undefined") return html;
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = html;
+
+  const blockquotes = wrapper.querySelectorAll("blockquote");
+  blockquotes.forEach((bq) => {
+    const paragraphs = bq.querySelectorAll(":scope > p");
+    if (paragraphs.length <= 1) return; // Single paragraph — keep as-is
+
+    // Group each <p> with any preceding <img> siblings
+    const groups: Node[][] = [];
+    let currentGroup: Node[] = [];
+
+    Array.from(bq.childNodes).forEach((node) => {
+      if (node.nodeName === "P") {
+        currentGroup.push(node);
+        groups.push(currentGroup);
+        currentGroup = [];
+      } else {
+        currentGroup.push(node);
+      }
+    });
+
+    // Replace the original blockquote with separate ones
+    const fragment = document.createDocumentFragment();
+    groups.forEach((group) => {
+      const newBq = document.createElement("blockquote");
+      group.forEach((n) => newBq.appendChild(n.cloneNode(true)));
+      fragment.appendChild(newBq);
+    });
+    bq.replaceWith(fragment);
+  });
+
+  return wrapper.innerHTML;
+}
+
 export function ArticleContent({ html }: ArticleContentProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const processedHtml = useMemo(() => splitBlockquotes(html), [html]);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -19,13 +62,13 @@ export function ArticleContent({ html }: ArticleContentProps) {
         heading.id = `heading-${i}`;
       }
     });
-  }, [html]);
+  }, [processedHtml]);
 
   return (
     <div
       ref={ref}
-      className="article-prose prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-headings:tracking-tight prose-p:text-dark/75 dark:prose-p:text-cream-light/65 prose-p:leading-[1.85] prose-a:text-brand-accent dark:prose-a:text-brand-accent prose-a:underline prose-a:decoration-brand-accent/30 prose-a:underline-offset-4 hover:prose-a:decoration-brand-accent prose-blockquote:border-l-[3px] prose-blockquote:border-brand-accent prose-blockquote:bg-brand-accent-light/20 prose-blockquote:rounded-r-xl prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:not-italic prose-blockquote:text-dark/60 dark:prose-blockquote:text-cream-light/50 prose-blockquote:font-normal prose-img:rounded-2xl prose-img:shadow-lg prose-strong:text-dark dark:prose-strong:text-cream-light prose-li:text-dark/70 dark:prose-li:text-cream-light/60 prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-14 prose-h2:mb-5 prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-10 prose-h3:mb-4"
-      dangerouslySetInnerHTML={{ __html: html }}
+      className="article-prose prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-headings:tracking-tight prose-p:leading-[1.85] prose-a:text-brand-accent dark:prose-a:text-brand-accent prose-a:underline prose-a:decoration-brand-accent/30 prose-a:underline-offset-4 hover:prose-a:decoration-brand-accent prose-img:rounded-xl prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-14 prose-h2:mb-5 prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-10 prose-h3:mb-4"
+      dangerouslySetInnerHTML={{ __html: processedHtml }}
     />
   );
 }

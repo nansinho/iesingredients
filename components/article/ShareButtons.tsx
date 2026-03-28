@@ -45,57 +45,31 @@ export function ShareButtons({ title, copiedLabel }: ShareButtonsProps) {
   ];
 
   return (
-    <>
-      {/* Desktop - sticky left sidebar */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="hidden lg:flex sticky top-28 flex-col gap-2 w-10 shrink-0 self-start"
-      >
-        {buttons.map((btn) => {
-          const Icon = btn.icon;
-          return (
-            <button
-              key={btn.label}
-              onClick={btn.action}
-              aria-label={btn.label}
-              className="w-10 h-10 rounded-full border border-brand-primary/8 dark:border-cream-light/10 flex items-center justify-center text-brand-primary/35 dark:text-cream-light/30 hover:text-brand-accent hover:border-brand-accent/30 hover:bg-brand-accent/5 transition-all duration-200"
-            >
-              <Icon className="w-4 h-4" />
-            </button>
-          );
-        })}
-      </motion.div>
-
-      {/* Mobile - fixed bottom bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-dark/80 backdrop-blur-xl border-t border-brand-primary/8 dark:border-cream-light/10 px-6 py-3 flex items-center justify-center gap-6 safe-area-inset-bottom">
-        {buttons.map((btn) => {
-          const Icon = btn.icon;
-          return (
-            <button
-              key={btn.label}
-              onClick={btn.action}
-              aria-label={btn.label}
-              className="flex items-center gap-2 text-brand-primary/50 dark:text-cream-light/40 hover:text-brand-accent transition-colors"
-            >
-              <Icon className="w-4 h-4" />
-              <AnimatePresence mode="wait">
-                {btn.label === copiedLabel && copied && (
-                  <motion.span
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    className="text-xs font-medium text-brand-accent"
-                  >
-                    {copiedLabel}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          );
-        })}
-      </div>
-    </>
+    <div className="flex items-center gap-3">
+      {buttons.map((btn) => {
+        const Icon = btn.icon;
+        return (
+          <button
+            key={btn.label}
+            onClick={btn.action}
+            aria-label={btn.label}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-brand-primary/10 dark:border-cream-light/10 text-brand-primary/50 dark:text-cream-light/40 hover:text-brand-accent hover:border-brand-accent/30 hover:bg-brand-accent/5 transition-all duration-200 text-sm"
+          >
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={btn.icon === Check ? "check" : "icon"}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Icon className="w-4 h-4" />
+              </motion.span>
+            </AnimatePresence>
+            <span>{btn.label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

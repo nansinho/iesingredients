@@ -122,6 +122,28 @@ export function ImageUpload({
       const { url: publicUrl } = await res.json();
 
       onChange(publicUrl);
+      setProgress(90);
+
+      // Auto-generate alt text via AI
+      if (onAltChange && showAlt) {
+        try {
+          const altForm = new FormData();
+          altForm.append("file", compressed);
+          altForm.append("altOnly", "true");
+          const aiRes = await fetch("/api/extract-pdf", { method: "POST", body: altForm });
+
+          if (aiRes.ok) {
+            const aiData = await aiRes.json();
+            if (aiData.alt) {
+              onAltChange(aiData.alt);
+              toast.success("Texte alternatif généré par IA");
+            }
+          }
+        } catch {
+          // Silent fail — alt text is optional
+        }
+      }
+
       setProgress(100);
       toast.success("Image uploadée et optimisée");
     } catch (err) {
@@ -130,7 +152,7 @@ export function ImageUpload({
       setIsUploading(false);
       setProgress(0);
     }
-  }, [bucket, folder, onChange]);
+  }, [bucket, folder, onChange, onAltChange, showAlt]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -180,20 +202,13 @@ export function ImageUpload({
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
               <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => inputRef.current?.click()}
-                  className="px-3 py-2 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
-                >
-                  Changer
-                </button>
                 {onOpenLibrary && (
                   <button
                     type="button"
                     onClick={onOpenLibrary}
                     className="px-3 py-2 rounded-lg bg-white text-sm font-medium text-brand-accent hover:bg-gray-100 transition-colors"
                   >
-                    Médiathèque
+                    Changer (Médiathèque)
                   </button>
                 )}
                 <button
@@ -229,61 +244,22 @@ export function ImageUpload({
         </div>
       ) : (
         <div
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onClick={() => !isUploading && inputRef.current?.click()}
-          className={cn(
-            "relative rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-3 py-10",
-            isDragging
-              ? "border-brand-accent bg-brand-accent/5 scale-[1.01]"
-              : "border-gray-200 hover:border-brand-accent/50 hover:bg-brand-primary/[0.02]",
-            isUploading && "pointer-events-none"
-          )}
+          onClick={() => onOpenLibrary?.()}
+          className="relative rounded-xl border-2 border-dashed border-gray-200 hover:border-brand-accent/50 hover:bg-brand-primary/[0.02] transition-all cursor-pointer flex flex-col items-center justify-center gap-3 py-10"
         >
-          {isUploading ? (
-            <>
-              <Loader2 className="w-8 h-8 text-brand-accent animate-spin" />
-              <p className="text-sm text-brand-secondary">Compression & upload...</p>
-              <div className="w-48 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-brand-accent transition-all duration-300"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="w-12 h-12 rounded-xl bg-brand-primary/5 flex items-center justify-center">
-                {isDragging ? (
-                  <Upload className="w-6 h-6 text-brand-accent" />
-                ) : (
-                  <ImageIcon className="w-6 h-6 text-brand-secondary/50" />
-                )}
-              </div>
-              <div className="text-center">
-                <p className="text-sm font-medium text-brand-primary">
-                  {isDragging ? "Déposez l'image ici" : "Glissez-déposez une image"}
-                </p>
-                <p className="text-xs text-brand-secondary/50 mt-1">
-                  ou <span className="text-brand-accent font-medium">parcourir</span> — PNG, JPG, WebP (max 10 Mo)
-                </p>
-                <p className="text-xs text-brand-secondary/30 mt-0.5">
-                  Auto-compressé en WebP
-                </p>
-              </div>
-            </>
-          )}
+          <div className="w-12 h-12 rounded-xl bg-brand-primary/5 flex items-center justify-center">
+            <ImageIcon className="w-6 h-6 text-brand-secondary/50" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-medium text-brand-primary">
+              Sélectionner depuis la médiathèque
+            </p>
+            <p className="text-xs text-brand-secondary/50 mt-1">
+              Uploadez ou choisissez une image existante
+            </p>
+          </div>
         </div>
       )}
-
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileSelect}
-        className="hidden"
-      />
     </div>
   );
 }

@@ -101,7 +101,7 @@ export default function RootLayout({
         {/* FOUC prevention: color theme and locale from URL */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;d.classList.remove('dark');if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;d.classList.remove('dark');d.style.colorScheme='light';if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`,
           }}
         />
       </head>

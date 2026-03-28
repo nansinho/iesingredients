@@ -14,7 +14,7 @@ export default async function PublicLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">{children}</main>

@@ -9,7 +9,18 @@
       "Bash(ls -la /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(admin\\\\\\)/admin/*/)",
       "Bash(ls -la /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(public\\\\\\)/)",
       "Bash(wc -l /c/Users/Nans-/Projects/iesingredients/supabase/migrations/*.sql)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm update:*)",
+      "Bash(npm info:*)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\(''''dependencies'''',{}\\).get\\(''''@swc/helpers'''',''''N/A''''\\)\\)\")",
+      "Bash(npm --version)",
+      "Bash(node -e \"const pkg = require\\(''./package.json''\\); console.log\\(''next:'', pkg.dependencies.next\\); console.log\\(''next-intl:'', pkg.dependencies[''next-intl'']\\)\")",
+      "Bash(git commit:*)",
+      "Bash(npm run:*)",
+      "Bash(grep -l \"blog_articles\\\\|slug\" /c/Users/Nans-/Projects/iesingredients/supabase/migrations/*.sql)",
+      "Bash(npx tsc:*)",
+      "Bash(git add:*)"
     ]
   }
 }

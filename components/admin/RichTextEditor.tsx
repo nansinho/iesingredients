@@ -1,6 +1,7 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TiptapLink from "@tiptap/extension-link";
@@ -8,7 +9,7 @@ import TiptapImage from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
 import Highlight from "@tiptap/extension-highlight";
-import { useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   Bold,
   Italic,
@@ -29,17 +30,65 @@ import {
   Redo,
   Highlighter,
   Minus,
-  Upload,
+  RectangleHorizontal,
+  Columns2,
+  Code,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+
+export interface RichTextEditorHandle {
+  insertImage: (src: string, alt: string) => void;
+}
 
 interface RichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
   placeholder?: string;
+  onOpenLibrary?: () => void;
+  editorRef?: React.MutableRefObject<RichTextEditorHandle | null>;
 }
+
+// Custom Image extension with float, size and width attributes
+const CustomImage = TiptapImage.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      "data-float": {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-float"),
+        renderHTML: (attributes) => {
+          if (!attributes["data-float"]) return {};
+          return { "data-float": attributes["data-float"] };
+        },
+      },
+      "data-size": {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-size"),
+        renderHTML: (attributes) => {
+          if (!attributes["data-size"]) return {};
+          return { "data-size": attributes["data-size"] };
+        },
+      },
+      width: {
+        default: null,
+        parseHTML: (element) => element.style.width || element.getAttribute("width"),
+        renderHTML: (attributes) => {
+          const styles: string[] = [];
+          if (attributes.width) styles.push(`width: ${attributes.width}`);
+          if (attributes.height) styles.push(`height: ${attributes.height}`);
+          if (!styles.length) return {};
+          return { style: styles.join("; ") };
+        },
+      },
+      height: {
+        default: null,
+        parseHTML: (element) => element.style.height || element.getAttribute("height"),
+        renderHTML: () => ({}), // rendered via width's renderHTML
+      },
+    };
+  },
+});
 
 function ToolbarButton({
   onClick,
@@ -77,15 +126,37 @@ function ToolbarDivider() {
   return <div className="w-px h-5 bg-gray-200 mx-0.5" />;
 }
 
-export function RichTextEditor({ content, onChange, placeholder = "Commencez à écrire..." }: RichTextEditorProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+export function RichTextEditor({ content, onChange, placeholder = "Commencez à écrire...", onOpenLibrary, editorRef }: RichTextEditorProps) {
   const isSettingContent = useRef(false);
+  const [showSource, setShowSource] = useState(false);
+  const [sourceHtml, setSourceHtml] = useState("");
+
+  const formatHtml = useCallback((html: string) => {
+    let formatted = "";
+    let indent = 0;
+    // Split around tags while keeping the tags
+    const tokens = html.replace(/>\s*</g, ">\n<").split("\n");
+    for (const token of tokens) {
+      const trimmed = token.trim();
+      if (!trimmed) continue;
+      // Closing tag → decrease indent before printing
+      if (/^<\/\w/.test(trimmed)) indent = Math.max(0, indent - 1);
+      formatted += "  ".repeat(indent) + trimmed + "\n";
+      // Opening tag (not self-closing, not void) → increase indent
+      if (/^<\w[^>]*[^/]>$/.test(trimmed) && !/^<(img|br|hr|input|meta|link)\b/i.test(trimmed)) {
+        indent++;
+      }
+    }
+    return formatted.trimEnd();
+  }, []);
 
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
+        link: false,
+        underline: false,
       }),
       Underline,
       Highlight.configure({ multicolor: false }),
@@ -93,15 +164,14 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
         openOnClick: false,
         HTMLAttributes: { class: "text-brand-accent underline" },
       }),
-      TiptapImage.configure({
-        HTMLAttributes: { class: "rounded-lg max-w-full mx-auto" },
+      CustomImage.configure({
+        HTMLAttributes: { class: "rounded-lg" },
       }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Placeholder.configure({ placeholder }),
     ],
     content,
     onUpdate: ({ editor }) => {
-      // Skip onChange during external content sync to prevent feedback loop
       if (!isSettingContent.current) {
         onChange(editor.getHTML());
       }
@@ -110,20 +180,20 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
       attributes: {
         class: "prose prose-sm max-w-none focus:outline-none min-h-[300px] px-5 py-4",
       },
-      handleDrop: (view, event) => {
+      handleDrop: (_view, event) => {
         const file = event.dataTransfer?.files?.[0];
         if (file?.type.startsWith("image/")) {
           event.preventDefault();
-          handleImageUpload(file);
+          toast.info("Utilisez la médiathèque pour insérer des images");
           return true;
         }
         return false;
       },
-      handlePaste: (view, event) => {
+      handlePaste: (_view, event) => {
         const file = event.clipboardData?.files?.[0];
         if (file?.type.startsWith("image/")) {
           event.preventDefault();
-          handleImageUpload(file);
+          toast.info("Utilisez la médiathèque pour insérer des images");
           return true;
         }
         return false;
@@ -131,48 +201,28 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
     },
   });
 
-  const handleImageUpload = useCallback(async (file: File) => {
-    if (!editor) return;
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image trop volumineuse (max 5 Mo)");
-      return;
+
+  // Expose insertImage to parent via ref
+  useEffect(() => {
+    if (editorRef && editor) {
+      editorRef.current = {
+        insertImage: (src: string, alt: string) => {
+          editor.chain().focus().setImage({ src, alt }).run();
+        },
+      };
     }
+  }, [editor, editorRef]);
 
-    try {
-      const supabase = createClient();
-      const ext = file.name.split(".").pop();
-      const fileName = `blog/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-
-      const { error } = await supabase.storage
-        .from("product-images")
-        .upload(fileName, file, { upsert: true });
-
-      if (error) throw error;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from("product-images")
-        .getPublicUrl(fileName);
-
-      editor.chain().focus().setImage({ src: publicUrl, alt: file.name }).run();
-      toast.success("Image insérée");
-    } catch {
-      toast.error("Erreur lors de l'upload");
-    }
-  }, [editor]);
-
-  // Sync editor content when prop changes externally (e.g. PDF import, AI generation)
   useEffect(() => {
     if (!editor || !content) return;
     if (content === "<p></p>") return;
 
-    // Normalize both for comparison: strip whitespace between tags
     const normalize = (html: string) => html.replace(/>\s+</g, "><").trim();
     const currentHTML = editor.getHTML();
 
     if (normalize(content) !== normalize(currentHTML)) {
       isSettingContent.current = true;
       editor.commands.setContent(content, { emitUpdate: false });
-      // Reset flag after TipTap processes the content
       requestAnimationFrame(() => {
         isSettingContent.current = false;
       });
@@ -186,6 +236,12 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
       editor.chain().focus().setLink({ href: url }).run();
     }
   }, [editor]);
+
+  const setImageFloat = useCallback((float: string | null) => {
+    if (!editor) return;
+    editor.chain().focus().updateAttributes("image", { "data-float": float }).run();
+  }, [editor]);
+
 
   if (!editor) return null;
 
@@ -264,28 +320,141 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
         <ToolbarButton onClick={addLink} active={editor.isActive("link")} title="Insérer un lien">
           <Link2 className={iconSize} />
         </ToolbarButton>
-        <ToolbarButton onClick={() => fileInputRef.current?.click()} title="Insérer une image">
+        <ToolbarButton onClick={() => onOpenLibrary?.()} title="Insérer une image (Médiathèque)">
           <ImageIcon className={iconSize} />
         </ToolbarButton>
-        <ToolbarButton onClick={() => fileInputRef.current?.click()} title="Upload image">
-          <Upload className={iconSize} />
+
+        <ToolbarDivider />
+
+        <ToolbarButton
+          onClick={() => {
+            if (showSource) {
+              // Retour en mode visuel : injecter le HTML édité dans TipTap
+              isSettingContent.current = true;
+              editor.commands.setContent(sourceHtml, { emitUpdate: false });
+              onChange(sourceHtml);
+              requestAnimationFrame(() => {
+                isSettingContent.current = false;
+              });
+              setShowSource(false);
+            } else {
+              setSourceHtml(formatHtml(editor.getHTML()));
+              setShowSource(true);
+            }
+          }}
+          active={showSource}
+          title="Code source HTML"
+        >
+          <Code className={iconSize} />
         </ToolbarButton>
       </div>
 
-      {/* Editor */}
-      <EditorContent editor={editor} />
+      {/* Image Bubble Menu — appears when an image is selected */}
+      <BubbleMenu
+        editor={editor}
+        shouldShow={({ editor: e }) => e.isActive("image")}
+      >
+        <div className="flex items-center gap-1.5 bg-white rounded-xl shadow-xl border border-gray-200 px-3 py-2">
+          {/* Float */}
+          <span className="text-[10px] text-gray-400 font-medium">Position</span>
+          <ToolbarButton
+            onClick={() => setImageFloat("left")}
+            active={editor.getAttributes("image")["data-float"] === "left"}
+            title="Flotter à gauche"
+          >
+            <Columns2 className="w-3.5 h-3.5" />
+          </ToolbarButton>
+          <ToolbarButton
+            onClick={() => setImageFloat(null)}
+            active={!editor.getAttributes("image")["data-float"]}
+            title="Centré (pleine largeur)"
+          >
+            <RectangleHorizontal className="w-3.5 h-3.5" />
+          </ToolbarButton>
+          <ToolbarButton
+            onClick={() => setImageFloat("right")}
+            active={editor.getAttributes("image")["data-float"] === "right"}
+            title="Flotter à droite"
+          >
+            <Columns2 className="w-3.5 h-3.5 scale-x-[-1]" />
+          </ToolbarButton>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) handleImageUpload(file);
-          e.target.value = "";
-        }}
-      />
+          <div className="w-px h-4 bg-gray-200 mx-1" />
+
+          {/* Width presets */}
+          <span className="text-[10px] text-gray-400 font-medium">Largeur</span>
+          {["25%", "33%", "50%", "75%", "100%"].map((w) => (
+            <button
+              key={w}
+              type="button"
+              onClick={() => editor.chain().updateAttributes("image", { width: w === "100%" ? null : w }).run()}
+              className={cn(
+                "px-1.5 py-0.5 rounded text-[10px] font-medium transition-all",
+                (editor.getAttributes("image").width || "100%") === w || (w === "100%" && !editor.getAttributes("image").width)
+                  ? "bg-brand-accent/15 text-brand-accent-hover"
+                  : "text-gray-400 hover:text-brand-primary hover:bg-gray-100"
+              )}
+            >
+              {w}
+            </button>
+          ))}
+
+          <div className="w-px h-4 bg-gray-200 mx-1" />
+
+          {/* Custom dimensions W × H */}
+          <span className="text-[10px] text-gray-400 font-medium">L</span>
+          <input
+            type="text"
+            placeholder="auto"
+            defaultValue={(editor.getAttributes("image").width || "").replace("px", "")}
+            key={`w-${editor.getAttributes("image").width}`}
+            onKeyDown={(e) => {
+              if (e.key !== "Enter") return;
+              const val = (e.target as HTMLInputElement).value.trim();
+              editor.chain().updateAttributes("image", { width: val ? (val.includes("%") ? val : `${parseInt(val)}px`) : null }).run();
+            }}
+            onBlur={(e) => {
+              const val = e.target.value.trim();
+              if (!val) return;
+              editor.chain().updateAttributes("image", { width: val.includes("%") ? val : `${parseInt(val)}px` }).run();
+            }}
+            className="w-12 h-5 px-1 text-[10px] text-center font-mono rounded border border-gray-200 focus:border-brand-accent/50 focus:outline-none"
+          />
+          <span className="text-[10px] text-gray-300">×</span>
+          <span className="text-[10px] text-gray-400 font-medium">H</span>
+          <input
+            type="text"
+            placeholder="auto"
+            defaultValue={(editor.getAttributes("image").height || "").replace("px", "")}
+            key={`h-${editor.getAttributes("image").height}`}
+            onKeyDown={(e) => {
+              if (e.key !== "Enter") return;
+              const val = (e.target as HTMLInputElement).value.trim();
+              editor.chain().updateAttributes("image", { height: val ? `${parseInt(val)}px` : null }).run();
+            }}
+            onBlur={(e) => {
+              const val = e.target.value.trim();
+              if (!val) return;
+              editor.chain().updateAttributes("image", { height: `${parseInt(val)}px` }).run();
+            }}
+            className="w-12 h-5 px-1 text-[10px] text-center font-mono rounded border border-gray-200 focus:border-brand-accent/50 focus:outline-none"
+          />
+        </div>
+      </BubbleMenu>
+
+      {/* Editor / Source toggle */}
+      {showSource ? (
+        <textarea
+          className="w-full min-h-[300px] px-5 py-4 font-mono text-xs leading-relaxed text-gray-800 bg-gray-50 border-none focus:outline-none resize-y"
+          value={sourceHtml}
+          onChange={(e) => {
+            setSourceHtml(e.target.value);
+          }}
+        />
+      ) : (
+        <EditorContent editor={editor} />
+      )}
+
     </div>
   );
 }

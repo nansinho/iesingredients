@@ -8,12 +8,6 @@ import { cn } from "@/lib/utils";
 import { ICON_COMPONENTS } from "@/lib/security/icons";
 import { ICON_POOL } from "@/lib/security/constants";
 import { IconGrid } from "./IconGrid";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 const TOTAL_STEPS = 2;
 
@@ -89,7 +83,12 @@ export function SecurityCheck({
   }, []);
 
   const handleCheckboxClick = () => {
-    if (status === "verified") return;
+    if (status === "verified" || status === "cooldown") return;
+    // Toggle : fermer si déjà ouvert
+    if (status === "open" || status === "verifying" || status === "error") {
+      handleReset();
+      return;
+    }
     setCurrentStep(1);
     setLastToken(null);
     fetchChallenge();
@@ -117,12 +116,10 @@ export function SecurityCheck({
 
       if (data.success) {
         if (currentStep < TOTAL_STEPS) {
-          // Step passed — move to next step
           setLastToken(data.securityToken);
           setCurrentStep((prev) => prev + 1);
           await fetchChallenge();
         } else {
-          // All steps passed — verified
           setStatus("verified");
           onVerified(data.securityToken);
         }
@@ -168,8 +165,10 @@ export function SecurityCheck({
       : ICON_POOL.find((i) => i.id === challenge.targetId)?.en
     : "";
 
+  const isExpanded = status === "open" || status === "verifying" || status === "error";
+
   return (
-    <>
+    <div className={cn("space-y-0", className)}>
       {/* Checkbox row */}
       <div
         className={cn(
@@ -178,7 +177,7 @@ export function SecurityCheck({
             ? "bg-white/[0.06] border-white/15"
             : "bg-cream-light/50 border-brand-primary/10",
           status === "verified" && (isDark ? "border-green-400/30 bg-green-400/[0.08]" : "border-green-500/30 bg-green-50"),
-          className
+          isExpanded && (isDark ? "border-white/25" : "border-brand-accent/25")
         )}
       >
         <button
@@ -212,7 +211,7 @@ export function SecurityCheck({
             className={cn(
               "text-sm font-medium",
               status === "verified"
-                ? "text-green-600 dark:text-green-400"
+                ? "text-green-600"
                 : isDark
                   ? "text-white/70"
                   : "text-brand-primary/70"
@@ -224,62 +223,86 @@ export function SecurityCheck({
 
         <ShieldCheck
           className={cn(
-            "w-5 h-5 shrink-0",
+            "w-5 h-5 shrink-0 transition-colors duration-300",
             status === "verified"
               ? "text-green-500"
-              : isDark
-                ? "text-white/20"
-                : "text-brand-primary/15"
+              : isExpanded
+                ? isDark ? "text-white/40" : "text-brand-accent/50"
+                : isDark
+                  ? "text-white/20"
+                  : "text-brand-primary/15"
           )}
         />
       </div>
 
-      {/* CAPTCHA Modal */}
-      <Dialog
-        open={status === "open" || status === "verifying" || status === "error"}
-        onOpenChange={(open) => {
-          if (!open) handleReset();
-        }}
-      >
-        <DialogContent className="sm:max-w-sm rounded-2xl p-6">
-          <DialogHeader>
-            <DialogTitle className="text-center text-lg font-semibold text-brand-primary">
-              {t.title}
-            </DialogTitle>
-          </DialogHeader>
-
-          {challenge && (
-            <div className="space-y-4 mt-2">
+      {/* Inline challenge panel */}
+      <AnimatePresence>
+        {isExpanded && challenge && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            className="overflow-hidden"
+          >
+            <div
+              className={cn(
+                "mt-2 rounded-xl border p-4 space-y-4",
+                isDark
+                  ? "bg-white/[0.04] border-white/10"
+                  : "bg-white/60 border-brand-primary/8 shadow-sm"
+              )}
+            >
               {/* Step indicator */}
-              <div className="flex justify-center">
+              <div className="flex flex-col items-center gap-1.5">
                 <div className="flex items-center gap-2">
                   {Array.from({ length: TOTAL_STEPS }, (_, i) => (
                     <div
                       key={i}
                       className={cn(
-                        "w-2.5 h-2.5 rounded-full transition-all duration-300",
+                        "w-2 h-2 rounded-full transition-all duration-300",
                         i + 1 < currentStep
                           ? "bg-green-500"
                           : i + 1 === currentStep
-                            ? "bg-brand-accent"
-                            : "bg-brand-primary/15"
+                            ? "bg-brand-accent w-5"
+                            : isDark ? "bg-white/15" : "bg-brand-primary/12"
                       )}
                     />
                   ))}
                 </div>
+                <p className={cn(
+                  "text-[11px] font-medium tracking-wide uppercase",
+                  isDark ? "text-white/30" : "text-brand-primary/35"
+                )}>
+                  {t.step} {currentStep} {t.of} {TOTAL_STEPS}
+                </p>
               </div>
-              <p className="text-center text-xs text-brand-primary/40">
-                {t.step} {currentStep} {t.of} {TOTAL_STEPS}
-              </p>
 
               {/* Instruction */}
-              <div className="flex items-center justify-center gap-3 bg-brand-primary/[0.04] rounded-xl px-4 py-3">
+              <div
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3.5 py-2.5",
+                  isDark
+                    ? "bg-white/[0.06]"
+                    : "bg-brand-primary/[0.03]"
+                )}
+              >
                 {TargetIcon && (
-                  <div className="w-9 h-9 rounded-full bg-brand-accent/15 flex items-center justify-center">
-                    <TargetIcon className="w-5 h-5 text-brand-accent" strokeWidth={2} />
+                  <div
+                    className={cn(
+                      "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
+                      isDark
+                        ? "bg-brand-accent/20"
+                        : "bg-brand-accent/10"
+                    )}
+                  >
+                    <TargetIcon className="w-4.5 h-4.5 text-brand-accent" strokeWidth={2} />
                   </div>
                 )}
-                <span className="text-sm font-medium text-brand-primary">
+                <span className={cn(
+                  "text-sm font-medium flex-1",
+                  isDark ? "text-white/70" : "text-brand-primary/70"
+                )}>
                   {t.instruction}{" "}
                   <span className="text-brand-accent font-semibold">{targetLabel}</span>
                 </span>
@@ -287,23 +310,33 @@ export function SecurityCheck({
                   type="button"
                   onClick={handleRefresh}
                   disabled={status === "verifying"}
-                  className="ml-auto text-brand-primary/30 hover:text-brand-primary/60 transition-colors"
+                  className={cn(
+                    "p-1.5 rounded-lg transition-colors",
+                    isDark
+                      ? "text-white/25 hover:text-white/50 hover:bg-white/[0.06]"
+                      : "text-brand-primary/25 hover:text-brand-primary/50 hover:bg-brand-primary/[0.04]"
+                  )}
                 >
-                  <RefreshCw className="w-4 h-4" />
+                  <RefreshCw className="w-3.5 h-3.5" />
                 </button>
               </div>
 
               {/* Error message */}
               <AnimatePresence>
                 {errorMsg && status === "error" && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="text-center text-sm text-red-500 font-medium"
+                    className={cn(
+                      "flex items-center justify-center gap-2 text-sm font-medium rounded-lg px-3 py-2",
+                      isDark
+                        ? "text-red-400 bg-red-400/10"
+                        : "text-red-500 bg-red-50"
+                    )}
                   >
                     {errorMsg}
-                  </motion.p>
+                  </motion.div>
                 )}
               </AnimatePresence>
 
@@ -312,17 +345,18 @@ export function SecurityCheck({
                 grid={challenge.grid}
                 onSelect={handleSelect}
                 disabled={status === "verifying"}
+                variant={variant}
               />
 
               {status === "verifying" && (
-                <div className="flex justify-center">
-                  <Loader2 className="w-5 h-5 animate-spin text-brand-accent" />
+                <div className="flex justify-center py-1">
+                  <Loader2 className="w-4 h-4 animate-spin text-brand-accent" />
                 </div>
               )}
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

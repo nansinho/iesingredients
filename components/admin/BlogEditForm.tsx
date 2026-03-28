@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Save, Loader2, Sparkles, Globe, Eye, EyeOff, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { RichTextEditor, type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { MediaLibrary } from "@/components/admin/MediaLibrary";
 import { PDFImport } from "@/components/admin/PDFImport";
 import { createClient } from "@/lib/supabase/client";
@@ -36,7 +36,12 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   const [showSeo, setShowSeo] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
   const [showMediaLibrary, setShowMediaLibrary] = useState(false);
+  const [mediaLibraryTarget, setMediaLibraryTarget] = useState<"cover" | "content_fr" | "content_en">("cover");
   const [showPDFImport, setShowPDFImport] = useState(false);
+  const [isNewArticle, setIsNewArticle] = useState(isNew);
+  const articleIdRef = useRef<string | null>(article?.id || null);
+  const editorFrRef = useRef<RichTextEditorHandle | null>(null);
+  const editorEnRef = useRef<RichTextEditorHandle | null>(null);
   const [coverAlt, setCoverAlt] = useState(article?.cover_image_alt || "");
   const [form, setForm] = useState({
     title_fr: article?.title_fr || "",
@@ -57,7 +62,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   const handleChange = useCallback((key: string, value: string | boolean) => {
     setForm((prev) => {
       const next = { ...prev, [key]: value };
-      if (key === "title_fr" && isNew) {
+      if (key === "title_fr" && isNewArticle) {
         next.slug = (value as string)
           .toLowerCase()
           .normalize("NFD")
@@ -67,7 +72,32 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
       }
       return next;
     });
-  }, [isNew]);
+  }, [isNewArticle]);
+
+  const saveArticle = useCallback(async (formData: typeof form) => {
+    const supabase = createClient();
+    const data = {
+      ...formData,
+      published_at: formData.published ? article?.published_at || new Date().toISOString() : null,
+    };
+
+    if (isNewArticle) {
+      const { data: inserted, error } = await (supabase.from("blog_articles") as any)
+        .insert(data)
+        .select("id")
+        .single();
+      if (error) throw error;
+      setIsNewArticle(false);
+      articleIdRef.current = inserted.id;
+      return inserted.id;
+    } else {
+      const { error } = await (supabase.from("blog_articles") as any)
+        .update(data)
+        .eq("id", articleIdRef.current);
+      if (error) throw error;
+      return articleIdRef.current;
+    }
+  }, [isNewArticle, article?.published_at]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,24 +108,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
     setIsSaving(true);
 
     try {
-      const supabase = createClient();
-      const data = {
-        ...form,
-        published_at: form.published ? article?.published_at || new Date().toISOString() : null,
-      };
-
-      if (isNew) {
-        const { error } = await (supabase.from("blog_articles") as any).insert(data);
-        if (error) throw error;
-        toast.success("Article créé");
-      } else {
-        const { error } = await (supabase.from("blog_articles") as any)
-          .update(data)
-          .eq("id", article?.id);
-        if (error) throw error;
-        toast.success("Article mis à jour");
-      }
-
+      await saveArticle(form);
+      toast.success(isNewArticle ? "Article créé" : "Article mis à jour");
       onSave?.();
     } catch (err: unknown) {
       toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec"));
@@ -154,7 +168,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         }
       });
       // Use suggested_slug from AI or auto-generate from title
-      if (isNew) {
+      if (isNewArticle) {
         if (mapping.suggested_slug) {
           next.slug = mapping.suggested_slug;
         } else if (mapping.title_fr) {
@@ -170,7 +184,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
     });
     setShowPDFImport(false);
     toast.success("Article importé et optimisé SEO");
-  }, [isNew]);
+  }, [isNewArticle]);
 
   const categories = [
     { value: "news", label: "Nouveautés" },
@@ -238,7 +252,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
             label="Image de couverture"
             aspect="banner"
             showAlt={true}
-            onOpenLibrary={() => setShowMediaLibrary(true)}
+            onOpenLibrary={() => { setMediaLibraryTarget("cover"); setShowMediaLibrary(true); }}
           />
 
           {/* ── Meta Row ── */}
@@ -336,6 +350,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                   content={form.content_fr}
                   onChange={(html) => handleChange("content_fr", html)}
                   placeholder="Rédigez votre article ici..."
+                  onOpenLibrary={() => { setMediaLibraryTarget("content_fr"); setShowMediaLibrary(true); }}
+                  editorRef={editorFrRef}
                 />
               </div>
             </div>
@@ -369,6 +385,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                   content={form.content_en}
                   onChange={(html) => handleChange("content_en", html)}
                   placeholder="Write your article here..."
+                  onOpenLibrary={() => { setMediaLibraryTarget("content_en"); setShowMediaLibrary(true); }}
+                  editorRef={editorEnRef}
                 />
               </div>
             </div>
@@ -502,7 +520,19 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
               type="button"
               variant="outline"
               className="rounded-lg gap-1.5"
-              onClick={() => window.open(`/fr/actualites/${form.slug}?preview=true`, "_blank")}
+              onClick={async () => {
+                if (!form.title_fr || !form.slug) {
+                  toast.error("Le titre et le slug sont obligatoires pour l'aperçu");
+                  return;
+                }
+                try {
+                  await saveArticle(form);
+                  toast.success("Brouillon sauvegardé");
+                  window.open(`/fr/actualites/${form.slug}?preview=true`, "_blank");
+                } catch (err) {
+                  toast.error("Erreur sauvegarde : " + (err instanceof Error ? err.message : "Échec"));
+                }
+              }}
             >
               <Eye className="w-3.5 h-3.5" />
               Aperçu
@@ -526,7 +556,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                {isNew ? "Créer" : "Enregistrer"}
+                {isNewArticle ? "Créer" : "Enregistrer"}
               </>
             )}
           </Button>
@@ -539,8 +569,13 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         open={showMediaLibrary}
         onClose={() => setShowMediaLibrary(false)}
         onSelect={(url, alt) => {
-          handleChange("cover_image_url", url);
-          setCoverAlt(alt);
+          if (mediaLibraryTarget === "cover") {
+            handleChange("cover_image_url", url);
+            setCoverAlt(alt);
+          } else {
+            const ref = mediaLibraryTarget === "content_fr" ? editorFrRef : editorEnRef;
+            ref.current?.insertImage(url, alt);
+          }
         }}
         folder="blog"
       />
