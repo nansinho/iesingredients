@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocale } from "next-intl";
 import { useRouter } from "@/i18n/routing";
-import { Eye, EyeOff, Loader2, User, Building2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, User, Building2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +29,10 @@ export function RegisterForm() {
   const [securityToken, setSecurityToken] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
   const [accountType, setAccountType] = useState<AccountType>("individual");
+  const [sireneQuery, setSireneQuery] = useState("");
+  const [sireneResults, setSireneResults] = useState<{ nom_complet: string; siege: { siret: string; commune: string; code_postal: string } }[]>([]);
+  const [sireneLoading, setSireneLoading] = useState(false);
+  const sireneTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -38,6 +42,29 @@ export function RegisterForm() {
     password: "",
     confirmPassword: "",
   });
+
+  const searchSirene = (query: string) => {
+    setSireneQuery(query);
+    if (sireneTimerRef.current) clearTimeout(sireneTimerRef.current);
+    if (query.length < 3) { setSireneResults([]); return; }
+    sireneTimerRef.current = setTimeout(async () => {
+      setSireneLoading(true);
+      try {
+        const res = await fetch(`https://recherche-entreprises.api.gouv.fr/search?q=${encodeURIComponent(query)}&page=1&per_page=5`);
+        if (res.ok) {
+          const data = await res.json();
+          setSireneResults(data.results || []);
+        }
+      } catch { /* silent */ }
+      finally { setSireneLoading(false); }
+    }, 300);
+  };
+
+  const selectSirene = (result: { nom_complet: string; siege: { siret: string; commune: string; code_postal: string } }) => {
+    setForm((prev) => ({ ...prev, company: result.nom_complet, siret: result.siege.siret }));
+    setSireneQuery("");
+    setSireneResults([]);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -182,17 +209,46 @@ export function RegisterForm() {
         {/* Champs entreprise */}
         {accountType === "business" && (
           <>
-            <div className="space-y-2">
-              <Label htmlFor="company" className="text-white/80">
-                {isFr ? "Nom de l'entreprise" : "Company name"} *
+            {/* Recherche SIRENE */}
+            <div className="space-y-2 relative">
+              <Label className="text-white/80">
+                {isFr ? "Rechercher votre entreprise" : "Search your company"}
               </Label>
-              <Input id="company" name="company" value={form.company} onChange={handleChange} required className={inputClass} placeholder={isFr ? "Votre entreprise" : "Your company"} />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                <Input
+                  value={sireneQuery}
+                  onChange={(e) => searchSirene(e.target.value)}
+                  className={`${inputClass} pl-9`}
+                  placeholder={isFr ? "Nom ou SIRET..." : "Name or SIRET..."}
+                />
+                {sireneLoading && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-white/50" />}
+              </div>
+              {sireneResults.length > 0 && (
+                <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-lg max-h-48 overflow-y-auto">
+                  {sireneResults.map((r) => (
+                    <button key={r.siege.siret} type="button" onClick={() => selectSirene(r)}
+                      className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0">
+                      <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
+                      <p className="text-xs text-gray-500">SIRET {r.siege.siret} — {r.siege.commune}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="siret" className="text-white/80">
-                {isFr ? "N° SIRET" : "Registration number"}
-              </Label>
-              <Input id="siret" name="siret" value={form.siret} onChange={handleChange} className={inputClass} placeholder="123 456 789 00012" />
+
+            {/* Champs auto-remplis */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="company" className="text-white/80">
+                  {isFr ? "Entreprise" : "Company"} *
+                </Label>
+                <Input id="company" name="company" value={form.company} onChange={handleChange} required className={inputClass} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="siret" className="text-white/80">SIRET</Label>
+                <Input id="siret" name="siret" value={form.siret} onChange={handleChange} className={inputClass} />
+              </div>
             </div>
           </>
         )}
