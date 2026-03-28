@@ -339,80 +339,84 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       >
         {selectedUser && (
           <div className="flex flex-col h-full">
-            <div className="flex-1 overflow-y-auto">
-              {/* Hero header */}
-              <div className="bg-brand-primary p-8 flex flex-col items-center text-center">
-                {/* Avatar / Logo */}
-                <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-white/15 bg-white/10 mb-4 flex items-center justify-center">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+
+              {/* Profile card */}
+              <div className="flex items-center gap-5">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden bg-brand-primary flex items-center justify-center shrink-0">
                   {editForm.avatar_url ? (
-                    <Image src={editForm.avatar_url} alt="" width={80} height={80} className="w-full h-full object-contain p-1" />
+                    <Image src={editForm.avatar_url} alt="" width={64} height={64} className="w-full h-full object-contain p-2" />
                   ) : (
-                    <span className="text-2xl font-bold text-white/80">{getInitials(selectedUser.full_name)}</span>
+                    <span className="text-xl font-bold text-white/80">{getInitials(selectedUser.full_name)}</span>
                   )}
                 </div>
-                <h3 className="text-lg font-bold text-white">{editForm.full_name || "Sans nom"}</h3>
-                {selectedUser.team_role_fr && <p className="text-white/50 text-sm mt-0.5">{selectedUser.team_role_fr}</p>}
-                {selectedUser.company && !selectedUser.team_role_fr && <p className="text-white/50 text-sm mt-0.5">{selectedUser.company}</p>}
-                <div className="flex items-center gap-2 mt-3">
-                  <AccountTypeBadge type={selectedUser.account_type || "individual"} />
-                  {selectedUser.role === "admin"
-                    ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
-                    : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-bold text-brand-primary truncate">{editForm.full_name || "Sans nom"}</h3>
+                  <p className="text-sm text-gray-500 truncate">{selectedUser.team_role_fr || selectedUser.company || selectedUser.email}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <AccountTypeBadge type={selectedUser.account_type || "individual"} />
+                    {selectedUser.role === "admin"
+                      ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
+                      : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
+                  </div>
                 </div>
               </div>
 
-              <div className="p-6 space-y-8">
+              {/* Logo entreprise (clients business uniquement) */}
+              {selectedUser.account_type !== "internal" && (selectedUser.account_type === "business" || selectedUser.company) && (
+                <div>
+                  <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-3">Logo entreprise</p>
+                  <p className="text-[11px] text-gray-400 mb-3">SVG uniquement, carré, max 150 Ko</p>
+                  <LogoUpload
+                    value={editForm.avatar_url}
+                    onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
+                  />
+                </div>
+              )}
 
-                {/* Logo entreprise (clients business uniquement) */}
-                {selectedUser.account_type !== "internal" && (selectedUser.account_type === "business" || selectedUser.company) && (
-                  <div className="bg-white rounded-xl border border-gray-200 p-5">
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">Logo entreprise</h4>
-                    <p className="text-[11px] text-gray-400 mb-4">SVG uniquement, carré, max 150 Ko</p>
-                    <LogoUpload
-                      value={editForm.avatar_url}
-                      onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
-                    />
+              {/* Séparateur */}
+              <div className="h-px bg-gray-100" />
+
+              {/* Informations personnelles */}
+              <div>
+                <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-4">Informations personnelles</p>
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-brand-primary text-xs flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> Nom complet</Label>
+                    <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-10" />
                   </div>
-                )}
-
-                {/* Informations personnelles */}
-                <div className="bg-white rounded-xl border border-gray-200 p-5">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-5">Informations personnelles</h4>
-                  <div className="space-y-5">
+                  <div className="space-y-1.5">
+                    <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Email</Label>
+                    <Input value={editForm.email} disabled className="h-10 opacity-50 cursor-not-allowed" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> Nom complet</Label>
-                      <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-10" />
+                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Téléphone</Label>
+                      <Input value={editForm.phone} onChange={(e) => setEditForm((prev: any) => ({ ...prev, phone: e.target.value }))} className="h-10" placeholder="+33..." />
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Email</Label>
-                      <Input value={editForm.email} disabled className="h-10 opacity-50 cursor-not-allowed" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Téléphone</Label>
-                        <Input value={editForm.phone} onChange={(e) => setEditForm((prev: any) => ({ ...prev, phone: e.target.value }))} className="h-10" placeholder="+33..." />
-                      </div>
-                      <div className="space-y-1.5">
-                        <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5" /> Entreprise</Label>
-                        <Input value={editForm.company} onChange={(e) => setEditForm((prev: any) => ({ ...prev, company: e.target.value }))} className="h-10" />
-                      </div>
+                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5" /> Entreprise</Label>
+                      <Input value={editForm.company} onChange={(e) => setEditForm((prev: any) => ({ ...prev, company: e.target.value }))} className="h-10" />
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Infos équipe (si membre IES) */}
-                {selectedUser.team_member_id && (
-                  <div className="bg-white rounded-xl border border-gray-200 p-5">
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-5">Informations équipe</h4>
-                    <div className="space-y-5">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="flex items-center gap-3 text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
+              {/* Infos équipe (si membre IES) */}
+              {selectedUser.team_member_id && (
+                <>
+                  <div className="h-px bg-gray-100" />
+                  <div>
+                    <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-4">Équipe IES</p>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="flex items-center gap-2.5 text-sm text-brand-primary bg-brand-primary/[0.04] rounded-xl px-4 py-3">
                           <MapPin className="w-4 h-4 text-brand-accent shrink-0" />
-                          <span>{selectedUser.team_department || "Aucun département"}</span>
+                          {selectedUser.team_department || "—"}
                         </div>
-                        <div className="flex items-center gap-3 text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
+                        <div className="flex items-center gap-2.5 text-sm text-brand-primary bg-brand-primary/[0.04] rounded-xl px-4 py-3">
                           <Briefcase className="w-4 h-4 text-brand-accent shrink-0" />
-                          <span>{selectedUser.team_role_fr || "Aucun rôle"}</span>
+                          {selectedUser.team_role_fr || "—"}
                         </div>
                       </div>
                       <div className="space-y-1.5">
@@ -421,39 +425,37 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                       </div>
                       <div className="space-y-1.5">
                         <Label className="text-brand-primary text-xs">Bio</Label>
-                        <Textarea value={editForm.bio_fr} onChange={(e) => setEditForm((prev: any) => ({ ...prev, bio_fr: e.target.value }))} rows={4} />
+                        <Textarea value={editForm.bio_fr} onChange={(e) => setEditForm((prev: any) => ({ ...prev, bio_fr: e.target.value }))} rows={3} />
                       </div>
                     </div>
                   </div>
-                )}
+                </>
+              )}
 
-                {/* Rôle & permissions */}
-                <div className="bg-white rounded-xl border border-gray-200 p-5">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">Rôle & permissions</h4>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-gray-600">
-                      Rôle actuel : <span className="font-semibold text-brand-primary">{selectedUser.role === "admin" ? "Administrateur" : "Utilisateur"}</span>
-                    </div>
-                    <Button variant="outline" size="sm"
-                      className={cn("rounded-lg text-xs", selectedUser.role === "admin" ? "text-orange-600 hover:bg-orange-50" : "text-purple-600 hover:bg-purple-50")}
-                      onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
-                      {selectedUser.role === "admin"
-                        ? <><ShieldOff className="w-3.5 h-3.5 mr-1.5" />Retirer admin</>
-                        : <><ShieldCheck className="w-3.5 h-3.5 mr-1.5" />Promouvoir admin</>}
-                    </Button>
-                  </div>
+              {/* Séparateur */}
+              <div className="h-px bg-gray-100" />
+
+              {/* Rôle */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-1">Rôle</p>
+                  <p className="text-sm text-brand-primary font-medium">{selectedUser.role === "admin" ? "Administrateur" : "Utilisateur"}</p>
                 </div>
-
-                {/* Meta */}
-                <div className="flex items-center justify-between text-xs text-gray-400 px-1">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5" />
-                    Inscrit le {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"}
-                  </div>
-                  <span className="font-mono text-[10px]">{selectedUser.id?.slice(0, 8)}</span>
-                </div>
-
+                <Button variant="outline" size="sm"
+                  className={cn("rounded-xl text-xs", selectedUser.role === "admin" ? "text-orange-600 hover:bg-orange-50" : "text-brand-accent hover:bg-brand-accent/5")}
+                  onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
+                  {selectedUser.role === "admin"
+                    ? <><ShieldOff className="w-3.5 h-3.5 mr-1.5" />Retirer</>
+                    : <><ShieldCheck className="w-3.5 h-3.5 mr-1.5" />Promouvoir</>}
+                </Button>
               </div>
+
+              {/* Meta */}
+              <div className="flex items-center justify-between text-[11px] text-gray-400 pt-2">
+                <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"}</span>
+                <span className="font-mono">{selectedUser.id?.slice(0, 8)}</span>
+              </div>
+
             </div>
 
             {/* Sticky footer */}
