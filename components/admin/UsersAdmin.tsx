@@ -169,7 +169,11 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                     {user.company ? (
                       <span className="text-gray-600 text-xs flex items-center gap-1.5">
                         {user.company}
-                        {user.company_closed && <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-full" title="Entreprise fermée selon l'INSEE">⚠ Fermée</span>}
+                        {user.company_closed ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-full" title="Entreprise fermée selon l'INSEE">⚠ Fermée</span>
+                        ) : user.siret ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full" title="Entreprise active">✓ Active</span>
+                        ) : null}
                       </span>
                     ) : <span className="text-gray-300">—</span>}
                   </td>
