@@ -1,30 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check, Eye, EyeOff, Loader2, Plug, Trash2 } from "lucide-react";
+import Image from "next/image";
+import { Check, Eye, EyeOff, Loader2, Trash2, ChevronDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Connector {
   id: string;
   name: string;
   description: string;
-  logo: React.ReactNode;
+  logo: string;
   keyPrefix: string;
   placeholder: string;
   docsUrl: string;
-  color: string;
-}
-
-function ClaudeLogo({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M16.1 11.3c0-2.1-1.5-3.5-3.6-3.5-2.7 0-4.8 2.2-4.8 5.1 0 2.1 1.5 3.5 3.6 3.5 2.7 0 4.8-2.2 4.8-5.1zm-8.4 1.6c0-3.9 2.8-7 6.5-7 3.1 0 5.2 2.1 5.2 5.2 0 3.9-2.8 7-6.5 7-3.1 0-5.2-2.1-5.2-5.2zM4.7 18.2l1.3-6.1H4.4l.4-1.7h1.6l.6-2.8C7.5 5.5 9 4.3 11.2 4.3c.8 0 1.4.1 1.8.3l-.5 1.8c-.3-.1-.7-.2-1.2-.2-1.2 0-1.9.6-2.2 2l-.5 2.6h2.3l-.4 1.7h-2.3L6.9 18.2H4.7z" />
-    </svg>
-  );
 }
 
 const connectors: Connector[] = [
@@ -32,18 +26,28 @@ const connectors: Connector[] = [
     id: "claude",
     name: "Claude (Anthropic)",
     description: "Génération d'articles, traduction automatique, suggestions SEO",
-    logo: <ClaudeLogo className="w-8 h-8" />,
+    logo: "/images/Connecteurs/Claude_AI_logo.svg",
     keyPrefix: "sk-ant-",
     placeholder: "sk-ant-api03-...",
     docsUrl: "https://console.anthropic.com/settings/keys",
-    color: "#D97757",
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    description: "Modèles GPT, génération d'images, embeddings",
+    logo: "/images/Connecteurs/OpenAI_Logo.svg",
+    keyPrefix: "sk-",
+    placeholder: "sk-proj-...",
+    docsUrl: "https://platform.openai.com/api-keys",
   },
 ];
 
 export function ConnectorsSettings() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [keys, setKeys] = useState<Record<string, { value: string; saved: boolean; testing: boolean }>>({});
   const [visibility, setVisibility] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
     loadKeys();
@@ -81,7 +85,6 @@ export function ConnectorsSettings() {
     const supabase = createClient();
 
     try {
-      // Upsert the key
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (supabase.from("api_connectors") as any)
         .upsert(
@@ -158,118 +161,158 @@ export function ConnectorsSettings() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {connectors.map((connector) => {
         const entry = keys[connector.id];
         const isConnected = entry?.saved && entry?.value;
+        const isOpen = openId === connector.id;
         const isVisible = visibility[connector.id];
 
         return (
           <div
             key={connector.id}
             className={cn(
-              "rounded-2xl border-2 p-6 transition-all",
-              isConnected
-                ? "border-green-200 bg-green-50/30"
-                : "border-gray-200 bg-white hover:border-brand-accent/30"
+              "rounded-xl border bg-white overflow-hidden transition-all duration-200",
+              isOpen ? "border-brand-primary/20 shadow-sm" : "border-gray-200 hover:border-gray-300"
             )}
           >
-            <div className="flex items-start gap-4">
+            {/* Card Header - always visible */}
+            <button
+              type="button"
+              onClick={() => setOpenId(isOpen ? null : connector.id)}
+              className="w-full flex items-center gap-4 p-4 text-left"
+            >
               {/* Logo */}
-              <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 text-white"
-                style={{ backgroundColor: connector.color }}
-              >
-                {connector.logo}
+              <div className="w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0 p-2">
+                <Image
+                  src={connector.logo}
+                  alt={connector.name}
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain"
+                />
               </div>
 
-              {/* Content */}
+              {/* Info */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 mb-1">
-                  <h3 className="font-semibold text-brand-primary">{connector.name}</h3>
-                  {isConnected && (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                <div className="flex items-center gap-2.5">
+                  <h3 className="font-semibold text-sm text-brand-primary">{connector.name}</h3>
+                  {isConnected ? (
+                    <Badge variant="success" className="gap-1">
                       <Check className="w-3 h-3" />
                       Connecté
-                    </span>
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary">Non configuré</Badge>
                   )}
                 </div>
-                <p className="text-sm text-brand-secondary/60 mb-4">{connector.description}</p>
-
-                {/* Key Input */}
-                <div className="flex items-center gap-2">
-                  <div className="relative flex-1">
-                    <Input
-                      type={isVisible ? "text" : "password"}
-                      value={isConnected && !isVisible ? maskKey(entry.value) : (entry?.value || "")}
-                      onChange={(e) =>
-                        setKeys((prev) => ({
-                          ...prev,
-                          [connector.id]: { value: e.target.value, saved: false, testing: false },
-                        }))
-                      }
-                      onFocus={() => {
-                        if (isConnected && !isVisible) {
-                          setVisibility((prev) => ({ ...prev, [connector.id]: true }));
-                        }
-                      }}
-                      placeholder={connector.placeholder}
-                      className="h-11 pr-10 font-mono text-sm rounded-xl"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setVisibility((prev) => ({ ...prev, [connector.id]: !prev[connector.id] }))}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {isVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-
-                  {/* Save */}
-                  {(!entry?.saved || (entry && !entry.saved)) && entry?.value && (
-                    <Button
-                      onClick={() => saveKey(connector.id)}
-                      className="bg-brand-primary text-white hover:bg-brand-secondary rounded-xl h-11 px-5"
-                    >
-                      Enregistrer
-                    </Button>
-                  )}
-
-                  {/* Test */}
-                  {isConnected && (
-                    <Button
-                      variant="outline"
-                      onClick={() => testKey(connector.id)}
-                      disabled={entry?.testing}
-                      className="rounded-xl h-11"
-                    >
-                      {entry?.testing ? <Loader2 className="w-4 h-4 animate-spin" /> : "Tester"}
-                    </Button>
-                  )}
-
-                  {/* Remove */}
-                  {isConnected && (
-                    <Button
-                      variant="outline"
-                      onClick={() => removeKey(connector.id)}
-                      className="rounded-xl h-11 px-3 text-red-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  )}
-                </div>
-
-                {/* Help link */}
-                <a
-                  href={connector.docsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-3 text-xs text-brand-accent hover:text-brand-accent-hover font-medium transition-colors"
-                >
-                  Obtenir une clé API →
-                </a>
+                <p className="text-xs text-gray-500 mt-0.5 truncate">{connector.description}</p>
               </div>
-            </div>
+
+              {/* Chevron */}
+              <ChevronDown
+                className={cn(
+                  "w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200",
+                  isOpen && "rotate-180"
+                )}
+              />
+            </button>
+
+            {/* Expandable Panel */}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-4 pb-4 pt-1 border-t border-gray-100">
+                    {/* API Key Input */}
+                    <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2 block">
+                      Clé API
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <div className="relative flex-1">
+                        <Input
+                          type={isVisible ? "text" : "password"}
+                          value={isConnected && !isVisible ? maskKey(entry.value) : (entry?.value || "")}
+                          onChange={(e) =>
+                            setKeys((prev) => ({
+                              ...prev,
+                              [connector.id]: { value: e.target.value, saved: false, testing: false },
+                            }))
+                          }
+                          onFocus={() => {
+                            if (isConnected && !isVisible) {
+                              setVisibility((prev) => ({ ...prev, [connector.id]: true }));
+                            }
+                          }}
+                          placeholder={connector.placeholder}
+                          className="h-10 pr-10 font-mono text-xs rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setVisibility((prev) => ({ ...prev, [connector.id]: !prev[connector.id] }))}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        >
+                          {isVisible ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex items-center justify-between mt-3">
+                      <a
+                        href={connector.docsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-brand-accent hover:text-brand-accent-hover font-medium transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        Obtenir une clé API
+                      </a>
+
+                      <div className="flex items-center gap-2">
+                        {isConnected && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => removeKey(connector.id)}
+                            className="h-8 px-2.5 text-red-400 hover:text-red-600 hover:border-red-200 hover:bg-red-50 rounded-lg"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        )}
+
+                        {isConnected && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => testKey(connector.id)}
+                            disabled={entry?.testing}
+                            className="h-8 rounded-lg"
+                          >
+                            {entry?.testing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : "Tester"}
+                          </Button>
+                        )}
+
+                        {entry?.value && !entry?.saved && (
+                          <Button
+                            size="sm"
+                            onClick={() => saveKey(connector.id)}
+                            className="h-8 bg-brand-primary text-white hover:bg-brand-secondary rounded-lg"
+                          >
+                            Enregistrer
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}
