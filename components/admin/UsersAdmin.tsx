@@ -25,13 +25,6 @@ import { cn } from "@/lib/utils";
 
 type AccountTab = "all" | "internal" | "business" | "individual";
 
-const tabs: { value: AccountTab; label: string; icon: typeof Users }[] = [
-  { value: "all", label: "Tous", icon: Users },
-  { value: "internal", label: "Équipe IES", icon: Shield },
-  { value: "business", label: "Entreprises", icon: Briefcase },
-  { value: "individual", label: "Particuliers", icon: User },
-];
-
 const accountTypeBadge: Record<string, { label: string; bg: string; text: string; border: string }> = {
   internal: { label: "IES", bg: "#2E1F3D", text: "#FAF8F6", border: "#2E1F3D" },
   business: { label: "Entreprise", bg: "#B87A6A", text: "#FFFFFF", border: "#B87A6A" },
@@ -265,29 +258,23 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         ))}
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center gap-1 mb-4 bg-gray-100 rounded-xl p-1 w-fit">
-        {tabs.map((tab) => {
-          const count = tab.value === "all" ? stats.total : tab.value === "internal" ? stats.internal : tab.value === "business" ? stats.business : stats.individual;
-          return (
-            <button key={tab.value} onClick={() => setActiveTab(tab.value)}
-              className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                activeTab === tab.value ? "bg-white text-brand-primary shadow-sm" : "text-gray-500 hover:text-gray-700")}>
-              <tab.icon className="w-4 h-4" />{tab.label}
-              <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded-full",
-                activeTab === tab.value ? "bg-brand-primary/10 text-brand-primary" : "bg-gray-200 text-gray-500")}>{count}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Search */}
-      <div className="mb-4">
+      {/* Search + Filter */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4">
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher..." className="pl-9 h-10 rounded-xl border-gray-200" />
+            placeholder="Rechercher par nom, email, entreprise..." className="pl-9 h-10 rounded-xl border-gray-200" />
         </div>
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value as AccountTab)}
+          className="h-10 px-3 rounded-xl border border-gray-200 text-sm text-brand-primary bg-white"
+        >
+          <option value="all">Tous ({stats.total})</option>
+          <option value="internal">Équipe IES ({stats.internal})</option>
+          <option value="business">Entreprises ({stats.business})</option>
+          <option value="individual">Particuliers ({stats.individual})</option>
+        </select>
       </div>
 
       {/* Table */}
