@@ -16,7 +16,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { SlidePanel } from "@/components/admin/SlidePanel";
-import { ImageUpload } from "@/components/admin/ImageUpload";
+import { useRef } from "react";
+import { Upload, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { logAudit } from "@/lib/audit";
 import { toast } from "sonner";
@@ -65,6 +66,52 @@ function AccountTypeBadge({ type }: { type: string }) {
       style={{ backgroundColor: config.bg, color: config.text, borderColor: config.border }}>
       {config.label}
     </span>
+  );
+}
+
+function LogoUpload({ value, onChange }: { value: string; onChange: (url: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (file: File) => {
+    if (file.type !== "image/svg+xml") {
+      toast.error("Seuls les fichiers SVG sont acceptés");
+      return;
+    }
+    if (file.size > 150 * 1024) {
+      toast.error("Le fichier doit faire moins de 150 Ko");
+      return;
+    }
+
+    const supabase = createClient();
+    const fileName = `logos/${Date.now()}-${file.name}`;
+    const { error } = await supabase.storage.from("product-images").upload(fileName, file, { contentType: "image/svg+xml" });
+    if (error) { toast.error("Erreur upload : " + error.message); return; }
+
+    const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(fileName);
+    onChange(urlData.publicUrl);
+    toast.success("Logo uploadé");
+  };
+
+  return (
+    <div className="flex items-center gap-4">
+      {value ? (
+        <div className="relative w-20 h-20 rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center">
+          <Image src={value} alt="Logo" width={64} height={64} className="w-full h-full object-contain" />
+          <button type="button" onClick={() => onChange("")}
+            className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
+            <X className="w-3 h-3" />
+          </button>
+        </div>
+      ) : (
+        <button type="button" onClick={() => inputRef.current?.click()}
+          className="w-20 h-20 rounded-xl border-2 border-dashed border-gray-200 hover:border-brand-accent/40 flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-brand-accent transition-colors">
+          <Upload className="w-5 h-5" />
+          <span className="text-[9px] font-medium">SVG</span>
+        </button>
+      )}
+      <input ref={inputRef} type="file" accept=".svg,image/svg+xml" className="hidden"
+        onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); }} />
+    </div>
   );
 }
 
@@ -308,18 +355,17 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
               </div>
 
               <div className="p-6 space-y-6">
-                {/* Photo upload */}
-                <div>
-                  <Label className="text-brand-primary text-xs font-semibold mb-2 block">Photo de profil</Label>
-                  <ImageUpload
-                    value={editForm.avatar_url}
-                    onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
-                    folder="avatars"
-                    label="Photo"
-                    aspect="portrait"
-                    showAlt={false}
-                  />
-                </div>
+                {/* Logo entreprise (clients uniquement, pas IES) */}
+                {selectedUser.account_type !== "internal" && (selectedUser.account_type === "business" || selectedUser.company) && (
+                  <div>
+                    <Label className="text-brand-primary text-xs font-semibold mb-2 block">Logo entreprise</Label>
+                    <p className="text-[11px] text-gray-400 mb-2">Format SVG uniquement, carré, max 150 Ko</p>
+                    <LogoUpload
+                      value={editForm.avatar_url}
+                      onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
+                    />
+                  </div>
+                )}
 
                 {/* Informations personnelles */}
                 <div>
