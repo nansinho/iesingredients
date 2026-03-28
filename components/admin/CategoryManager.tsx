@@ -455,7 +455,7 @@ export function CategoryManager({
                   value={deleteConfirm}
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   placeholder="Tapez SUPPRIMER"
-                  className="font-mono bg-white/10 border-white/20 text-white placeholder:text-white/30 focus:border-white/40"
+                  className="font-mono !bg-white/10 !border-white/20 !text-white placeholder:!text-white/30 focus-visible:!bg-white/15 focus-visible:!ring-white/20"
                   autoFocus
                 />
               </div>
