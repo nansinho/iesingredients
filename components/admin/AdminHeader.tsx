@@ -11,13 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "@/components/ui/sheet";
+import { SlidePanel } from "@/components/admin/SlidePanel";
 import { User, Settings } from "lucide-react";
 import { UserProfileForm } from "@/components/admin/UserProfileForm";
 
@@ -42,7 +36,7 @@ function getInitials(name: string | null, email: string | null): string {
 }
 
 export function AdminHeader({ profile }: { profile: AdminProfile }) {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
   const avatarUrl = (profile.avatar_url as string) || "";
   const initials = getInitials(profile.full_name, profile.email);
 
@@ -76,7 +70,7 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setDialogOpen(true)}>
+            <DropdownMenuItem onClick={() => setPanelOpen(true)}>
               <User className="mr-2 h-4 w-4" />
               Mon profil
             </DropdownMenuItem>
@@ -91,23 +85,19 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
         </DropdownMenu>
       </header>
 
-      {/* Mon profil Sheet */}
-      <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-lg overflow-hidden p-0">
-          <SheetHeader className="px-6 pt-6 pb-4">
-            <SheetTitle>Mon profil</SheetTitle>
-            <SheetDescription>
-              Modifiez vos informations personnelles
-            </SheetDescription>
-          </SheetHeader>
-
-          <UserProfileForm
-            profile={profile}
-            onSave={() => { setDialogOpen(false); window.location.reload(); }}
-            onCancel={() => setDialogOpen(false)}
-          />
-        </SheetContent>
-      </Sheet>
+      {/* Mon profil — même SlidePanel que partout */}
+      <SlidePanel
+        open={panelOpen}
+        onClose={() => setPanelOpen(false)}
+        title="Mon profil"
+        subtitle={profile.email || ""}
+      >
+        <UserProfileForm
+          profile={profile}
+          onSave={() => { setPanelOpen(false); window.location.reload(); }}
+          onCancel={() => setPanelOpen(false)}
+        />
+      </SlidePanel>
     </>
   );
 }
