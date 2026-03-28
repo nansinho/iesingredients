@@ -19,6 +19,7 @@ import { ImageUpload } from "@/components/admin/ImageUpload";
 import { RichTextEditor, type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { MediaLibrary } from "@/components/admin/MediaLibrary";
 import { PDFImport } from "@/components/admin/PDFImport";
+import { URLImport } from "@/components/admin/URLImport";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
@@ -38,6 +39,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   const [showMediaLibrary, setShowMediaLibrary] = useState(false);
   const [mediaLibraryTarget, setMediaLibraryTarget] = useState<"cover" | "content_fr" | "content_en">("cover");
   const [showPDFImport, setShowPDFImport] = useState(false);
+  const [showURLImport, setShowURLImport] = useState(false);
   const [isNewArticle, setIsNewArticle] = useState(isNew);
   const articleIdRef = useRef<string | null>(article?.id || null);
   const editorFrRef = useRef<RichTextEditorHandle | null>(null);
@@ -241,7 +243,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           </div>
 
             {/* PDF Import */}
-            <div className="w-48 rounded-xl border border-brand-primary/10 bg-brand-primary/[0.02] p-4 flex flex-col items-center justify-center gap-2 shrink-0">
+            <div className="w-36 rounded-xl border border-brand-primary/10 bg-brand-primary/[0.02] p-4 flex flex-col items-center justify-center gap-2 shrink-0">
               <FileText className="w-5 h-5 text-brand-secondary/50" />
               <Button
                 type="button"
@@ -250,7 +252,21 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 onClick={() => setShowPDFImport(true)}
                 className="text-xs rounded-lg w-full"
               >
-                Importer un PDF
+                Importer PDF
+              </Button>
+            </div>
+
+            {/* URL Import */}
+            <div className="w-36 rounded-xl border border-brand-primary/10 bg-brand-primary/[0.02] p-4 flex flex-col items-center justify-center gap-2 shrink-0">
+              <Globe className="w-5 h-5 text-brand-secondary/50" />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setShowURLImport(true)}
+                className="text-xs rounded-lg w-full"
+              >
+                Importer URL
               </Button>
             </div>
           </div>
@@ -598,6 +614,12 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         <PDFImport
           onImport={handlePDFImport}
           onClose={() => setShowPDFImport(false)}
+        />
+      )}
+      {showURLImport && (
+        <URLImport
+          onImport={handlePDFImport}
+          onClose={() => setShowURLImport(false)}
         />
       )}
     </>

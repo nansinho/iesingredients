@@ -20,7 +20,26 @@
       "Bash(npm run:*)",
       "Bash(grep -l \"blog_articles\\\\|slug\" /c/Users/Nans-/Projects/iesingredients/supabase/migrations/*.sql)",
       "Bash(npx tsc:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(grep -n \"bg-cosmetique\\\\|bg-parfum\\\\|bg-arome\\\\|bg-brand\" /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(public\\\\\\)/actualites/page.tsx)",
+      "Bash(find /c/Users/Nans-/Projects/iesingredients/app -name \"\\(admin\\)\" -type d)",
+      "Bash(ls -1 \"/c/Users/Nans-/Projects/iesingredients/app/[locale]/\\(admin\\)/admin/\")",
+      "Bash(find /c/Users/Nans-/Projects/iesingredients -type f -name *.css)",
+      "Bash(find /c/Users/Nans-/Projects/iesingredients/app/*/admin/settings -type f)",
+      "Bash(ls -la /c/Users/Nans-/Projects/iesingredients/app/*/admin/settings/)",
+      "Bash(ls -la \"/c/Users/Nans-/Projects/iesingredients/app/[locale]/\\(admin\\)/admin/settings/\")",
+      "Bash(ls \"c:/Users/Nans-/Projects/iesingredients/app/[locale]/\\(admin\\)/admin/settings/\")",
+      "Bash(grep -r \"api_connectors\\\\|api_key\" /c/Users/Nans-/Projects/iesingredients --include=*.ts --include=*.tsx --include=*.sql)",
+      "Bash(grep -r \"claude\\\\|connector\\\\|api.*key\" /c/Users/Nans-/Projects/iesingredients/app/api --include=*.ts)",
+      "Bash(grep -r \"supabase.from\\\\|table\\(\" /c/Users/Nans-/Projects/iesingredients/lib --include=*.ts)",
+      "Bash(ls \"c:/Users/Nans-/Projects/iesingredients/app/[locale]/\\(admin\\)/admin/\")",
+      "Bash(grep -r \"delete\\\\|DELETE\" /c/Users/Nans-/Projects/iesingredients/app/api --include=*.ts)",
+      "Bash(grep -r \"admin\\\\.auth\\\\|createUser\\\\|signUp\" /c/Users/Nans-/Projects/iesingredients --include=*.ts --include=*.tsx)",
+      "Read(//tmp/claude/c--Users-Nans--Projects-iesingredients/c99edadf-6fbb-48d7-b588-4161b648a543/tasks/**)",
+      "Bash(curl -s \"https://recherche-entreprises.api.gouv.fr/search?q=810696096&page=1&per_page=1\")"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }
