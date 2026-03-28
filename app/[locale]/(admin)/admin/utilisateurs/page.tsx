@@ -8,40 +8,45 @@ export default async function UsersPage() {
   try {
     const supabase = await createClient();
 
-    // Get all profiles with their roles
-    const { data: rawProfiles, error: profilesError } = await supabase
-      .from("profiles")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (profilesError) {
-      console.error("Failed to fetch profiles:", profilesError.message);
-    }
+    // Fetch profiles, roles, and team members in parallel
+    const [profilesRes, rolesRes, teamRes] = await Promise.all([
+      supabase.from("profiles").select("*").order("created_at", { ascending: false }),
+      supabase.from("user_roles").select("*"),
+      supabase.from("team_members").select("*"),
+    ]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const profiles = (rawProfiles ?? []) as any[];
-
-    // Get all user roles
-    const { data: rawRoles, error: rolesError } = await supabase
-      .from("user_roles")
-      .select("*");
-
-    if (rolesError) {
-      console.error("Failed to fetch user roles:", rolesError.message);
-    }
-
+    const profiles = (profilesRes.data ?? []) as any[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const roles = (rawRoles ?? []) as any[];
+    const roles = (rolesRes.data ?? []) as any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const teamMembers = (teamRes.data ?? []) as any[];
 
-    // Merge roles into profiles (prefer admin if user has multiple roles)
+    // Build email-to-team lookup
+    const teamByEmail: Record<string, any> = {};
+    teamMembers.forEach((tm: any) => {
+      if (tm.email) teamByEmail[tm.email.toLowerCase()] = tm;
+    });
+
+    // Merge all data
     users = profiles.map((profile: Record<string, unknown>) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const userRoles = roles.filter((r: any) => r.user_id === profile.id);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const isAdmin = userRoles.some((r: any) => r.role === "admin");
+      const email = (profile.email as string) || "";
+      const team = teamByEmail[email.toLowerCase()] || null;
+
       return {
         ...profile,
         role: isAdmin ? "admin" : "user",
+        // Enrich with team data if available
+        team_role_fr: team?.role_fr || null,
+        team_role_en: team?.role_en || null,
+        team_department: team?.department || null,
+        team_photo_url: team?.photo_url || null,
+        team_bio_fr: team?.bio_fr || null,
+        team_linkedin: team?.linkedin_url || null,
+        team_phone: team?.phone || null,
+        team_member_id: team?.id || null,
       };
     });
   } catch (error) {

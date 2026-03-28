@@ -3,24 +3,16 @@
 
 import { useState, useMemo, useCallback } from "react";
 import {
-  Shield,
-  User,
-  Users,
-  UserPlus,
-  Search,
-  Briefcase,
-  Save,
-  Loader2,
-  Mail,
-  Building2,
-  Phone,
-  ShieldCheck,
-  ShieldOff,
+  Shield, User, Users, UserPlus, Search, Briefcase,
+  Save, Loader2, Mail, Building2, Phone, ShieldCheck, ShieldOff,
+  Linkedin, MapPin, Calendar,
 } from "lucide-react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { SlidePanel } from "@/components/admin/SlidePanel";
@@ -51,35 +43,26 @@ function getInitials(name?: string | null): string {
 }
 
 function getAvatarColor(name?: string | null): string {
-  const colors = [
-    "bg-violet-100 text-violet-700", "bg-blue-100 text-blue-700",
-    "bg-emerald-100 text-emerald-700", "bg-amber-100 text-amber-700",
-    "bg-rose-100 text-rose-700", "bg-cyan-100 text-cyan-700",
-  ];
+  const colors = ["bg-violet-100 text-violet-700", "bg-blue-100 text-blue-700", "bg-emerald-100 text-emerald-700", "bg-amber-100 text-amber-700", "bg-rose-100 text-rose-700"];
   if (!name) return colors[0];
   const hash = name.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
   return colors[hash % colors.length];
 }
 
 function timeAgo(dateStr: string): string {
-  const now = new Date();
-  const date = new Date(dateStr);
-  const diffDays = Math.floor((now.getTime() - date.getTime()) / 86400000);
+  const diffDays = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
   if (diffDays === 0) return "Aujourd'hui";
   if (diffDays === 1) return "Hier";
   if (diffDays < 7) return `Il y a ${diffDays}j`;
   if (diffDays < 30) return `Il y a ${Math.floor(diffDays / 7)} sem.`;
-  if (diffDays < 365) return `Il y a ${Math.floor(diffDays / 30)} mois`;
-  return `Il y a ${Math.floor(diffDays / 365)} an(s)`;
+  return `Il y a ${Math.floor(diffDays / 30)} mois`;
 }
 
 function AccountTypeBadge({ type }: { type: string }) {
   const config = accountTypeBadge[type] || accountTypeBadge.individual;
   return (
-    <span
-      className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold tracking-wide"
-      style={{ backgroundColor: config.bg, color: config.text, borderColor: config.border }}
-    >
+    <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold tracking-wide"
+      style={{ backgroundColor: config.bg, color: config.text, borderColor: config.border }}>
       {config.label}
     </span>
   );
@@ -99,9 +82,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
     const internal = users.filter((u) => u.account_type === "internal").length;
     const business = users.filter((u) => u.account_type === "business").length;
     const individual = users.filter((u) => u.account_type === "individual" || !u.account_type).length;
-    const now = new Date();
-    const thirtyDaysAgo = new Date(now.getTime() - 30 * 86400000);
-    const recent = users.filter((u) => u.created_at && new Date(u.created_at) >= thirtyDaysAgo).length;
+    const recent = users.filter((u) => u.created_at && Date.now() - new Date(u.created_at).getTime() < 30 * 86400000).length;
     return { total, internal, business, individual, recent };
   }, [users]);
 
@@ -123,8 +104,10 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       full_name: user.full_name || "",
       email: user.email || "",
       company: user.company || "",
-      phone: user.phone || "",
-      avatar_url: user.avatar_url || "",
+      phone: user.phone || user.team_phone || "",
+      avatar_url: user.avatar_url || user.team_photo_url || "",
+      linkedin_url: user.team_linkedin || "",
+      bio_fr: user.team_bio_fr || "",
     });
     setPanelOpen(true);
   }, []);
@@ -143,8 +126,31 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         })
         .eq("id", selectedUser.id);
 
+      // Update team_members if linked
+      if (selectedUser.team_member_id) {
+        await (supabase.from("team_members") as any)
+          .update({
+            name: editForm.full_name,
+            phone: editForm.phone || null,
+            photo_url: editForm.avatar_url || null,
+            linkedin_url: editForm.linkedin_url || null,
+            bio_fr: editForm.bio_fr || null,
+          })
+          .eq("id", selectedUser.team_member_id);
+      }
+
       logAudit({ action: "update", entityType: "user_profile", entityId: selectedUser.id, entityLabel: editForm.full_name });
-      setUsers((prev) => prev.map((u) => u.id === selectedUser.id ? { ...u, ...editForm } : u));
+      setUsers((prev) => prev.map((u) => u.id === selectedUser.id ? {
+        ...u,
+        full_name: editForm.full_name,
+        company: editForm.company,
+        phone: editForm.phone,
+        avatar_url: editForm.avatar_url,
+        team_linkedin: editForm.linkedin_url,
+        team_bio_fr: editForm.bio_fr,
+        team_phone: editForm.phone,
+        team_photo_url: editForm.avatar_url,
+      } : u));
       toast.success("Profil mis à jour");
       setPanelOpen(false);
     } catch {
@@ -157,20 +163,16 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
   const toggleRole = async (userId: string, currentRole: string) => {
     const newRole = currentRole === "admin" ? "user" : "admin";
     const user = users.find((u) => u.id === userId);
-
     if (newRole === "admin" && user?.email && !user.email.endsWith("@ies-ingredients.com")) {
       toast.error("Seuls les emails @ies-ingredients.com peuvent être administrateurs");
       return;
     }
-
     const supabase = createClient();
     await supabase.from("user_roles").delete().eq("user_id", userId);
-    const { error } = await (supabase.from("user_roles") as any).insert({ user_id: userId, role: newRole });
-    if (error) { toast.error("Erreur"); return; }
-
+    await (supabase.from("user_roles") as any).insert({ user_id: userId, role: newRole });
     logAudit({ action: "update", entityType: "user_role", entityId: userId, entityLabel: user?.full_name, details: { role: newRole } });
     setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, role: newRole } : u));
-    if (selectedUser?.id === userId) setSelectedUser((prev: any) => prev ? { ...prev, role: newRole } : null);
+    setSelectedUser((prev: any) => prev?.id === userId ? { ...prev, role: newRole } : prev);
     toast.success(newRole === "admin" ? "Promu administrateur" : "Rétrogradé en utilisateur");
   };
 
@@ -188,13 +190,8 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
           { label: "Nouveaux (30j)", value: stats.recent, icon: UserPlus, color: "bg-emerald-100 text-emerald-600" },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${s.color}`}>
-              <s.icon className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{s.value}</p>
-              <p className="text-xs text-gray-500">{s.label}</p>
-            </div>
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${s.color}`}><s.icon className="w-5 h-5" /></div>
+            <div><p className="text-2xl font-bold text-gray-900">{s.value}</p><p className="text-xs text-gray-500">{s.label}</p></div>
           </div>
         ))}
       </div>
@@ -207,8 +204,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
             <button key={tab.value} onClick={() => setActiveTab(tab.value)}
               className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
                 activeTab === tab.value ? "bg-white text-brand-primary shadow-sm" : "text-gray-500 hover:text-gray-700")}>
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
+              <tab.icon className="w-4 h-4" />{tab.label}
               <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded-full",
                 activeTab === tab.value ? "bg-brand-primary/10 text-brand-primary" : "bg-gray-200 text-gray-500")}>{count}</span>
             </button>
@@ -221,7 +217,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher par nom, email ou entreprise..." className="pl-9 h-10 rounded-xl border-gray-200" />
+            placeholder="Rechercher..." className="pl-9 h-10 rounded-xl border-gray-200" />
         </div>
       </div>
 
@@ -240,35 +236,33 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
             <tbody>
               {filtered.length === 0 ? (
                 <tr><td colSpan={6} className="text-center py-16 text-gray-400"><Search className="w-8 h-8 opacity-30 mx-auto mb-2" /><p className="text-sm">Aucun utilisateur</p></td></tr>
-              ) : (
-                filtered.map((user) => (
-                  <tr key={user.id} onClick={() => openUser(user)}
-                    className="border-b last:border-0 hover:bg-brand-primary/[0.03] transition-colors cursor-pointer group">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-9 w-9">
-                          {user.avatar_url && <AvatarImage src={user.avatar_url} alt={user.full_name} />}
-                          <AvatarFallback className={`text-xs font-semibold ${getAvatarColor(user.full_name)}`}>{getInitials(user.full_name)}</AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0">
-                          <p className="font-medium text-gray-900 truncate">{user.full_name || "Sans nom"}</p>
-                          <p className="text-xs text-gray-500 truncate md:hidden">{user.email}</p>
-                        </div>
+              ) : filtered.map((user) => (
+                <tr key={user.id} onClick={() => openUser(user)}
+                  className="border-b last:border-0 hover:bg-brand-primary/[0.03] transition-colors cursor-pointer">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-9 w-9">
+                        {(user.avatar_url || user.team_photo_url) && <AvatarImage src={user.avatar_url || user.team_photo_url} alt={user.full_name} />}
+                        <AvatarFallback className={`text-xs font-semibold ${getAvatarColor(user.full_name)}`}>{getInitials(user.full_name)}</AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0">
+                        <p className="font-medium text-gray-900 truncate">{user.full_name || "Sans nom"}</p>
+                        {user.team_role_fr && <p className="text-[11px] text-gray-400 truncate">{user.team_role_fr}</p>}
                       </div>
-                    </td>
-                    <td className="px-4 py-3 hidden md:table-cell"><span className="text-gray-600 text-xs">{user.email}</span></td>
-                    <td className="px-4 py-3 hidden lg:table-cell">{user.company ? <span className="text-gray-600 text-xs">{user.company}</span> : <span className="text-gray-300">—</span>}</td>
-                    <td className="px-4 py-3"><AccountTypeBadge type={user.account_type || "individual"} /></td>
-                    <td className="px-4 py-3">
-                      {user.role === "admin" ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
-                        : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
-                    </td>
-                    <td className="px-4 py-3 hidden sm:table-cell">
-                      {user.created_at && <div><p className="text-gray-600 text-xs">{new Date(user.created_at).toLocaleDateString("fr-FR")}</p><p className="text-[11px] text-gray-400">{timeAgo(user.created_at)}</p></div>}
-                    </td>
-                  </tr>
-                ))
-              )}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 hidden md:table-cell"><span className="text-gray-600 text-xs">{user.email}</span></td>
+                  <td className="px-4 py-3 hidden lg:table-cell">{user.company ? <span className="text-gray-600 text-xs">{user.company}</span> : <span className="text-gray-300">—</span>}</td>
+                  <td className="px-4 py-3"><AccountTypeBadge type={user.account_type || "individual"} /></td>
+                  <td className="px-4 py-3">
+                    {user.role === "admin" ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
+                      : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
+                  </td>
+                  <td className="px-4 py-3 hidden sm:table-cell">
+                    {user.created_at && <><p className="text-gray-600 text-xs">{new Date(user.created_at).toLocaleDateString("fr-FR")}</p><p className="text-[11px] text-gray-400">{timeAgo(user.created_at)}</p></>}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -285,14 +279,38 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         onClose={() => setPanelOpen(false)}
         title={selectedUser?.full_name || "Utilisateur"}
         subtitle={selectedUser?.email || ""}
+        width="lg"
       >
         {selectedUser && (
           <div className="flex flex-col h-full">
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
-              {/* Photo portrait + infos */}
-              <div className="flex gap-6">
-                {/* Photo à gauche */}
-                <div className="w-40 shrink-0">
+            <div className="flex-1 overflow-y-auto">
+              {/* Hero header */}
+              <div className="bg-gradient-to-br from-brand-primary to-brand-secondary p-6 flex items-end gap-5">
+                <div className="w-24 h-32 rounded-xl overflow-hidden border-2 border-white/20 bg-white/10 shrink-0">
+                  {(editForm.avatar_url) ? (
+                    <Image src={editForm.avatar_url} alt="" width={96} height={128} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className={`w-full h-full flex items-center justify-center text-2xl font-bold ${getAvatarColor(selectedUser.full_name)}`}>
+                      {getInitials(selectedUser.full_name)}
+                    </div>
+                  )}
+                </div>
+                <div className="pb-1">
+                  <h3 className="text-xl font-bold text-white">{editForm.full_name || "Sans nom"}</h3>
+                  {selectedUser.team_role_fr && <p className="text-white/60 text-sm">{selectedUser.team_role_fr}</p>}
+                  <div className="flex items-center gap-2 mt-2">
+                    <AccountTypeBadge type={selectedUser.account_type || "individual"} />
+                    {selectedUser.role === "admin"
+                      ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
+                      : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 space-y-6">
+                {/* Photo upload */}
+                <div>
+                  <Label className="text-brand-primary text-xs font-semibold mb-2 block">Photo de profil</Label>
                   <ImageUpload
                     value={editForm.avatar_url}
                     onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
@@ -303,61 +321,75 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   />
                 </div>
 
-                {/* Infos à droite */}
-                <div className="flex-1 space-y-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <AccountTypeBadge type={selectedUser.account_type || "individual"} />
-                    {selectedUser.role === "admin"
-                      ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
-                      : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className="text-brand-primary text-xs">Nom complet</Label>
-                    <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-9" />
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className="text-brand-primary text-xs flex items-center gap-1"><Mail className="w-3 h-3" /> Email</Label>
-                    <Input value={editForm.email} disabled className="h-9 opacity-60" />
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className="text-brand-primary text-xs flex items-center gap-1"><Building2 className="w-3 h-3" /> Entreprise</Label>
-                    <Input value={editForm.company} onChange={(e) => setEditForm((prev: any) => ({ ...prev, company: e.target.value }))} className="h-9" />
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className="text-brand-primary text-xs flex items-center gap-1"><Phone className="w-3 h-3" /> Téléphone</Label>
-                    <Input value={editForm.phone} onChange={(e) => setEditForm((prev: any) => ({ ...prev, phone: e.target.value }))} className="h-9" placeholder="+33..." />
+                {/* Informations personnelles */}
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Informations personnelles</h4>
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><User className="w-3 h-3" /> Nom complet</Label>
+                      <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-9" />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Mail className="w-3 h-3" /> Email</Label>
+                      <Input value={editForm.email} disabled className="h-9 opacity-50 cursor-not-allowed" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Phone className="w-3 h-3" /> Téléphone</Label>
+                        <Input value={editForm.phone} onChange={(e) => setEditForm((prev: any) => ({ ...prev, phone: e.target.value }))} className="h-9" placeholder="+33..." />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Building2 className="w-3 h-3" /> Entreprise</Label>
+                        <Input value={editForm.company} onChange={(e) => setEditForm((prev: any) => ({ ...prev, company: e.target.value }))} className="h-9" />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Role toggle */}
-              <div className="border-t border-gray-100 pt-4">
-                <Label className="text-brand-primary text-xs mb-2 block">Rôle</Label>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className={cn("rounded-lg text-xs",
-                    selectedUser.role === "admin"
-                      ? "text-orange-600 hover:bg-orange-50"
-                      : "text-purple-600 hover:bg-purple-50")}
-                  onClick={() => toggleRole(selectedUser.id, selectedUser.role)}
-                >
-                  {selectedUser.role === "admin"
-                    ? <><ShieldOff className="w-3.5 h-3.5 mr-1.5" />Retirer admin</>
-                    : <><ShieldCheck className="w-3.5 h-3.5 mr-1.5" />Promouvoir admin</>}
-                </Button>
-              </div>
-
-              {/* Meta */}
-              <div className="border-t border-gray-100 pt-4 text-xs text-gray-400 space-y-1">
-                <p>ID : <span className="font-mono">{selectedUser.id}</span></p>
-                {selectedUser.created_at && (
-                  <p>Inscrit le {new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</p>
+                {/* Infos supplémentaires (si membre IES) */}
+                {selectedUser.team_member_id && (
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Informations équipe</h4>
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg px-3 py-2">
+                          <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                          {selectedUser.team_department || "Aucun département"}
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg px-3 py-2">
+                          <Briefcase className="w-3.5 h-3.5 text-gray-400" />
+                          {selectedUser.team_role_fr || "Aucun rôle"}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Linkedin className="w-3 h-3" /> LinkedIn</Label>
+                        <Input value={editForm.linkedin_url} onChange={(e) => setEditForm((prev: any) => ({ ...prev, linkedin_url: e.target.value }))} className="h-9" placeholder="https://linkedin.com/in/..." />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-brand-primary text-xs">Bio</Label>
+                        <Textarea value={editForm.bio_fr} onChange={(e) => setEditForm((prev: any) => ({ ...prev, bio_fr: e.target.value }))} rows={3} />
+                      </div>
+                    </div>
+                  </div>
                 )}
+
+                {/* Rôle */}
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Rôle & permissions</h4>
+                  <Button variant="outline" size="sm"
+                    className={cn("rounded-lg text-xs", selectedUser.role === "admin" ? "text-orange-600 hover:bg-orange-50" : "text-purple-600 hover:bg-purple-50")}
+                    onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
+                    {selectedUser.role === "admin"
+                      ? <><ShieldOff className="w-3.5 h-3.5 mr-1.5" />Retirer admin</>
+                      : <><ShieldCheck className="w-3.5 h-3.5 mr-1.5" />Promouvoir admin</>}
+                  </Button>
+                </div>
+
+                {/* Meta */}
+                <div className="border-t border-gray-100 pt-4 text-xs text-gray-400 space-y-1">
+                  <div className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> Inscrit le {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"}</div>
+                  <p className="font-mono text-[10px]">ID: {selectedUser.id}</p>
+                </div>
               </div>
             </div>
 
