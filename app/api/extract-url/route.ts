@@ -93,7 +93,8 @@ function extractContent(html: string, sourceUrl: string) {
   REMOVE_SELECTORS.forEach((sel) => $(sel).remove());
 
   // Find the main content area
-  let $content: cheerio.Cheerio<cheerio.Element> | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let $content: any = $("body");
   for (const selector of CONTENT_SELECTORS) {
     const $found = $(selector);
     if ($found.length > 0) {
@@ -101,13 +102,11 @@ function extractContent(html: string, sourceUrl: string) {
       break;
     }
   }
-  if (!$content) {
-    $content = $("body");
-  }
 
   // Extract images from content
   const images: { src: string; alt: string }[] = [];
-  $content.find("img").each((_, el) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  $content.find("img").each((_: any, el: any) => {
     const src = $(el).attr("src") || $(el).attr("data-src") || "";
     if (!src || src.startsWith("data:") || src.endsWith(".svg")) return;
     try {
