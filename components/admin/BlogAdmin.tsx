@@ -19,8 +19,15 @@ const categoryVariant: Record<string, BadgeProps["variant"]> = {
   trends: "trends",
 };
 
-function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+const categoryLabels: Record<string, string> = {
+  press: "Presse",
+  news: "Actualités",
+  events: "Événements",
+  trends: "Tendances",
+};
+
+function categoryLabel(category: string) {
+  return categoryLabels[category] || category.charAt(0).toUpperCase() + category.slice(1);
 }
 
 export function BlogAdmin({
@@ -134,7 +141,7 @@ export function BlogAdmin({
       label: "Catégorie",
       render: (item: any) => (
         <Badge variant={categoryVariant[item.category] || "default"}>
-          {capitalize(item.category || "")}
+          {categoryLabel(item.category || "")}
         </Badge>
       ),
     },
