@@ -236,20 +236,17 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
     }
   };
 
-  const toggleRole = async (userId: string, currentRole: string) => {
-    const newRole = currentRole === "admin" ? "user" : "admin";
+  const promoteToAdmin = async (userId: string) => {
     const user = users.find((u) => u.id === userId);
-    if (newRole === "admin" && user?.email && !user.email.endsWith("@ies-ingredients.com")) {
-      toast.error("Seuls les emails @ies-ingredients.com peuvent être administrateurs");
-      return;
-    }
+    if (user?.role === "admin") return;
+
     const supabase = createClient();
     await supabase.from("user_roles").delete().eq("user_id", userId);
-    await (supabase.from("user_roles") as any).insert({ user_id: userId, role: newRole });
-    logAudit({ action: "update", entityType: "user_role", entityId: userId, entityLabel: user?.full_name, details: { role: newRole } });
-    setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, role: newRole } : u));
-    setSelectedUser((prev: any) => prev?.id === userId ? { ...prev, role: newRole } : prev);
-    toast.success(newRole === "admin" ? "Promu administrateur" : "Rétrogradé en utilisateur");
+    await (supabase.from("user_roles") as any).insert({ user_id: userId, role: "admin" });
+    logAudit({ action: "update", entityType: "user_role", entityId: userId, entityLabel: user?.full_name, details: { role: "admin" } });
+    setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, role: "admin" } : u));
+    setSelectedUser((prev: any) => prev?.id === userId ? { ...prev, role: "admin" } : prev);
+    toast.success("Promu administrateur");
   };
 
   return (
@@ -366,17 +363,17 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <AccountTypeBadge type={selectedUser.account_type || "individual"} />
-                    <button type="button" onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
-                      {selectedUser.role === "admin" ? (
-                        <Badge variant="success" className="gap-1.5 cursor-pointer hover:bg-emerald-100">
-                          <Shield className="w-3 h-3" /> Admin
-                        </Badge>
-                      ) : (
+                    {selectedUser.role === "admin" ? (
+                      <Badge variant="success" className="gap-1.5">
+                        <Shield className="w-3 h-3" /> Admin
+                      </Badge>
+                    ) : (
+                      <button type="button" onClick={() => promoteToAdmin(selectedUser.id)}>
                         <Badge variant="secondary" className="gap-1.5 cursor-pointer hover:bg-gray-200">
-                          <User className="w-3 h-3" /> User
+                          <User className="w-3 h-3" /> User — Promouvoir admin
                         </Badge>
-                      )}
-                    </button>
+                      </button>
+                    )}
                   </div>
                   <p className="text-xs text-brand-secondary/40">
                     {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : ""}
