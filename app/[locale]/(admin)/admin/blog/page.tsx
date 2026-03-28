@@ -14,7 +14,7 @@ export default async function BlogListPage({
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("blog_articles")
-      .select("*")
+      .select("id, title_fr, title_en, slug, category, published, published_at, created_at, cover_image_url")
       .order("published_at", { ascending: false });
 
     if (error) {

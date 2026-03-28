@@ -10,9 +10,9 @@ export default async function UsersPage() {
 
     // Fetch profiles, roles, and team members in parallel
     const [profilesRes, rolesRes, teamRes] = await Promise.all([
-      supabase.from("profiles").select("*").order("created_at", { ascending: false }),
-      supabase.from("user_roles").select("*"),
-      supabase.from("team_members").select("*"),
+      supabase.from("profiles").select("*").order("created_at", { ascending: false }).limit(500),
+      supabase.from("user_roles").select("*").limit(1000),
+      supabase.from("team_members").select("*").limit(500),
     ]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,9 +28,17 @@ export default async function UsersPage() {
       if (tm.email) teamByEmail[tm.email.toLowerCase()] = tm;
     });
 
+    // Build user_id → roles lookup (O(n) instead of O(n²))
+    const rolesByUser = new Map<string, any[]>();
+    roles.forEach((r: any) => {
+      const list = rolesByUser.get(r.user_id) || [];
+      list.push(r);
+      rolesByUser.set(r.user_id, list);
+    });
+
     // Merge all data
     users = profiles.map((profile: Record<string, unknown>) => {
-      const userRoles = roles.filter((r: any) => r.user_id === profile.id);
+      const userRoles = rolesByUser.get(profile.id as string) || [];
       const isAdmin = userRoles.some((r: any) => r.role === "admin");
       const email = (profile.email as string) || "";
       const team = teamByEmail[email.toLowerCase()] || null;

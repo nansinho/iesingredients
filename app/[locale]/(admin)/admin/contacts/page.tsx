@@ -10,7 +10,8 @@ export default async function ContactsPage() {
     const { data, error } = await supabase
       .from("contact_submissions")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(500);
 
     if (error) {
       console.error("Failed to fetch contacts:", error.message);

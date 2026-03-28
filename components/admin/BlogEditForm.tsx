@@ -15,9 +15,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import dynamic from "next/dynamic";
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { RichTextEditor, type RichTextEditorHandle } from "@/components/admin/RichTextEditor";
+import type { RichTextEditorHandle } from "@/components/admin/RichTextEditor";
 import { MediaLibrary } from "@/components/admin/MediaLibrary";
+
+const RichTextEditor = dynamic(
+  () => import("@/components/admin/RichTextEditor").then((m) => m.RichTextEditor),
+  { ssr: false, loading: () => <div className="h-[300px] rounded-xl border border-gray-200 bg-gray-50 animate-pulse" /> }
+);
 import { PDFImport } from "@/components/admin/PDFImport";
 import { URLImport } from "@/components/admin/URLImport";
 import { createClient } from "@/lib/supabase/client";

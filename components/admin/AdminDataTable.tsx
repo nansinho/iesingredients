@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import { useRouter } from "@/i18n/routing";
 import { Trash2, Pencil, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,82 @@ interface AdminDataTableProps<T> {
   actions?: React.ReactNode;
 }
 
+/* Memoized table row to avoid re-rendering unchanged rows */
+const DataTableRow = memo(function DataTableRow<T extends Record<string, any>>({
+  item,
+  columns,
+  idKey,
+  editPath,
+  onDelete,
+  onRowClick,
+  onNavigate,
+  onRequestDelete,
+}: {
+  item: T;
+  columns: Column<T>[];
+  idKey: string;
+  editPath?: string;
+  onDelete?: (id: string) => void;
+  onRowClick?: (item: T) => void;
+  onNavigate: (path: string) => void;
+  onRequestDelete: (id: string) => void;
+}) {
+  const id = item[idKey];
+  return (
+    <tr
+      className="border-b last:border-0 hover:bg-brand-primary/5 transition-colors cursor-pointer"
+      onClick={() => onRowClick ? onRowClick(item) : editPath && onNavigate(`${editPath}/${id}`)}
+    >
+      {columns.map((col) => (
+        <td key={col.key} className="px-4 py-3 text-gray-900">
+          {col.render ? col.render(item) : item[col.key]}
+        </td>
+      ))}
+      {(editPath || onDelete) && (
+        <td className="px-4 py-3 text-right">
+          <div className="flex items-center justify-end gap-1.5">
+            {editPath && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onNavigate(`${editPath}/${id}`);
+                }}
+                className="h-8 px-2.5 text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 border-gray-200"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </Button>
+            )}
+            {onDelete && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRequestDelete(id);
+                }}
+                className="h-8 px-2.5 text-red-500 hover:text-red-700 hover:bg-red-50 border-gray-200 hover:border-red-200"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
+            )}
+          </div>
+        </td>
+      )}
+    </tr>
+  );
+}) as <T extends Record<string, any>>(props: {
+  item: T;
+  columns: Column<T>[];
+  idKey: string;
+  editPath?: string;
+  onDelete?: (id: string) => void;
+  onRowClick?: (item: T) => void;
+  onNavigate: (path: string) => void;
+  onRequestDelete: (id: string) => void;
+}) => React.ReactElement;
+
 export function AdminDataTable<T extends Record<string, any>>({
   data,
   columns,
@@ -57,6 +133,14 @@ export function AdminDataTable<T extends Record<string, any>>({
   const router = useRouter();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState("");
+
+  const handleNavigate = useCallback((path: string) => {
+    router.push(path as any);
+  }, [router]);
+
+  const handleRequestDelete = useCallback((id: string) => {
+    setDeleteId(id);
+  }, []);
 
   return (
     <div>
@@ -109,49 +193,17 @@ export function AdminDataTable<T extends Record<string, any>>({
                 </tr>
               ) : (
                 data.map((item) => (
-                  <tr
+                  <DataTableRow
                     key={item[idKey]}
-                    className="border-b last:border-0 hover:bg-brand-primary/5 transition-colors cursor-pointer"
-                    onClick={() => onRowClick ? onRowClick(item) : editPath && router.push(`${editPath}/${item[idKey]}` as any)}
-                  >
-                    {columns.map((col) => (
-                      <td key={col.key} className="px-4 py-3 text-gray-900">
-                        {col.render ? col.render(item) : item[col.key]}
-                      </td>
-                    ))}
-                    {(editPath || onDelete) && (
-                      <td className="px-4 py-3 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          {editPath && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                router.push(`${editPath}/${item[idKey]}` as any);
-                              }}
-                              className="h-8 px-2.5 text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 border-gray-200"
-                            >
-                              <Pencil className="w-3.5 h-3.5" />
-                            </Button>
-                          )}
-                          {onDelete && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setDeleteId(item[idKey]);
-                              }}
-                              className="h-8 px-2.5 text-red-500 hover:text-red-700 hover:bg-red-50 border-gray-200 hover:border-red-200"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </Button>
-                          )}
-                        </div>
-                      </td>
-                    )}
-                  </tr>
+                    item={item}
+                    columns={columns}
+                    idKey={idKey}
+                    editPath={editPath}
+                    onDelete={onDelete}
+                    onRowClick={onRowClick}
+                    onNavigate={handleNavigate}
+                    onRequestDelete={handleRequestDelete}
+                  />
                 ))
               )}
             </tbody>

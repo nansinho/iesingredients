@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import Image from "next/image";
 import imageCompression from "browser-image-compression";
 import {
   Search,
@@ -494,9 +495,11 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
                           : "border-transparent hover:border-gray-200"
                       )}
                     >
-                      <img
+                      <Image
                         src={item.file_url}
                         alt={item.alt_text || item.file_name}
+                        width={200}
+                        height={200}
                         className="w-full h-full object-cover"
                       />
 
@@ -544,7 +547,7 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
           <div className="w-72 border-l bg-[#FAFAF8] flex flex-col shrink-0">
             <div className="p-4 space-y-4 flex-1 overflow-y-auto">
               <div className="aspect-video rounded-lg overflow-hidden bg-gray-100">
-                <img src={selected.file_url} alt="" className="w-full h-full object-contain" />
+                <Image src={selected.file_url} alt="" width={288} height={162} className="w-full h-full object-contain" />
               </div>
 
               <div className="space-y-1 text-xs text-brand-secondary/60">

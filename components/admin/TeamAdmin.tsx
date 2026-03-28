@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useCallback } from "react";
+import Image from "next/image";
 import { Plus, RefreshCw, UserPlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -122,7 +123,7 @@ export function TeamAdmin({
       render: (item: any) =>
         item.photo_url ? (
           <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 shrink-0">
-            <img src={item.photo_url} alt="" className="w-full h-full object-cover" />
+            <Image src={item.photo_url} alt="" width={48} height={48} className="w-full h-full object-cover" />
           </div>
         ) : (
           <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary text-xs font-bold">

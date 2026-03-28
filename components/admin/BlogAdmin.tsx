@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useCallback, useEffect } from "react";
+import Image from "next/image";
 import { Plus, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -50,7 +51,7 @@ export function BlogAdmin({
   const refresh = useCallback(async () => {
     const supabase = createClient();
     const { data } = await (supabase.from("blog_articles") as any)
-      .select("*")
+      .select("id, title_fr, title_en, slug, category, published, published_at, created_at, cover_image_url")
       .order("published_at", { ascending: false });
     if (data) setArticles(data);
   }, []);
@@ -68,8 +69,14 @@ export function BlogAdmin({
     setPanelOpen(true);
   };
 
-  const openEdit = (article: any) => {
-    setEditingArticle(article);
+  const openEdit = async (article: any) => {
+    // Fetch full article (with content) on demand to keep listing lightweight
+    const supabase = createClient();
+    const { data } = await (supabase.from("blog_articles") as any)
+      .select("*")
+      .eq("id", article.id)
+      .single();
+    setEditingArticle(data || article);
     setIsNew(false);
     setPanelOpen(true);
   };
@@ -127,7 +134,7 @@ export function BlogAdmin({
       render: (item: any) =>
         item.cover_image_url ? (
           <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-            <img src={item.cover_image_url} alt="" className="w-full h-full object-cover" />
+            <Image src={item.cover_image_url} alt="" width={48} height={48} className="w-full h-full object-cover" />
           </div>
         ) : (
           <div className="w-12 h-12 rounded-lg bg-brand-primary/5 flex items-center justify-center text-brand-secondary/30 text-xs">

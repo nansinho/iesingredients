@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Plus, Download, RefreshCw, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -150,7 +151,7 @@ export function ProductsAdmin({
       render: (item: any) =>
         item.image_url ? (
           <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-            <img src={item.image_url} alt="" className="w-full h-full object-cover" />
+            <Image src={item.image_url} alt="" width={48} height={48} className="w-full h-full object-cover" />
           </div>
         ) : (
           <div className="w-10 h-10 rounded-lg bg-brand-primary/5" />

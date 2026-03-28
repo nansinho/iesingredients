@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "@/i18n/routing";
+import { Link, useRouter } from "@/i18n/routing";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -36,6 +36,7 @@ function getInitials(name: string | null, email: string | null): string {
 }
 
 export function AdminHeader({ profile }: { profile: AdminProfile }) {
+  const router = useRouter();
   const [panelOpen, setPanelOpen] = useState(false);
   const avatarUrl = (profile.avatar_url as string) || "";
   const initials = getInitials(profile.full_name, profile.email);
@@ -98,7 +99,7 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
       >
         <UserProfileForm
           profile={profile}
-          onSave={() => { setPanelOpen(false); window.location.reload(); }}
+          onSave={() => { setPanelOpen(false); router.refresh(); }}
           onCancel={() => setPanelOpen(false)}
         />
       </SlidePanel>
