@@ -20,20 +20,6 @@ const badgeVariants = cva(
           "border-transparent bg-emerald-50 text-emerald-700",
         warning:
           "border-transparent bg-amber-50 text-amber-700",
-        press:
-          "border-brand-accent/15 bg-brand-accent/8 text-brand-accent",
-        news:
-          "border-blue-200 bg-blue-50 text-blue-700",
-        events:
-          "border-purple-200 bg-purple-50 text-purple-700",
-        trends:
-          "border-amber-200 bg-amber-50 text-amber-700",
-        cosmetique:
-          "border-cosmetique/20 bg-cosmetique/10 text-cosmetique-dark",
-        parfumerie:
-          "border-parfum/20 bg-parfum/10 text-parfum-dark",
-        arome:
-          "border-arome/20 bg-arome/10 text-arome-dark",
       },
     },
     defaultVariants: {

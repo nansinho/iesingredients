@@ -87,6 +87,42 @@ export type Database = {
         }
         Relationships: []
       }
+      blog_categories: {
+        Row: {
+          id: string
+          slug: string
+          label_fr: string
+          label_en: string
+          color_bg: string
+          color_text: string
+          color_border: string
+          sort_order: number
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          slug: string
+          label_fr: string
+          label_en: string
+          color_bg?: string
+          color_text?: string
+          color_border?: string
+          sort_order?: number
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          slug?: string
+          label_fr?: string
+          label_en?: string
+          color_bg?: string
+          color_text?: string
+          color_border?: string
+          sort_order?: number
+          created_at?: string | null
+        }
+        Relationships: []
+      }
       blog_articles: {
         Row: {
           author_name: string | null

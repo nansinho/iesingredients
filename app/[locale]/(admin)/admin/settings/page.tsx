@@ -1,8 +1,16 @@
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ConnectorsSettings } from "@/components/admin/ConnectorsSettings";
-import { Settings, Plug } from "lucide-react";
+import { CategoryManager } from "@/components/admin/CategoryManager";
+import { createClient } from "@/lib/supabase/server";
+import { Settings, Plug, Tag } from "lucide-react";
 
 export default async function SettingsPage() {
+  const supabase = await createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: categories } = await (supabase.from("blog_categories") as any)
+    .select("*")
+    .order("sort_order", { ascending: true });
+
   return (
     <>
       <AdminPageHeader
@@ -11,6 +19,18 @@ export default async function SettingsPage() {
       />
 
       <div className="max-w-3xl space-y-8">
+        {/* Catégories d'articles */}
+        <div>
+          <h2 className="text-lg font-semibold text-brand-primary mb-1 flex items-center gap-2">
+            <Tag className="w-5 h-5" />
+            Catégories d&apos;articles
+          </h2>
+          <p className="text-sm text-brand-secondary/50 mb-4">
+            Gérez les catégories et leurs couleurs pour le blog.
+          </p>
+          <CategoryManager initialCategories={categories || []} />
+        </div>
+
         {/* Connecteurs */}
         <div>
           <h2 className="text-lg font-semibold text-brand-primary mb-1 flex items-center gap-2">

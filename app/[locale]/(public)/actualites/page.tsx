@@ -120,26 +120,45 @@ const fakeArticles = [
   },
 ];
 
-const categoryColors: Record<string, string> = {
+// Fallback colors for fake articles
+const fallbackCategoryColors: Record<string, string> = {
   "Cosmétique": "bg-cosmetique/10 text-cosmetique-dark border-cosmetique/20",
   "Parfumerie": "bg-parfum/10 text-parfum-dark border-parfum/20",
   "Certifications": "bg-brand-primary/10 text-brand-primary border-brand-primary/15",
   "Partenariat": "bg-arome/10 text-arome-dark border-arome/20",
   "Innovation": "bg-cosmetique/10 text-cosmetique-dark border-cosmetique/20",
   "Distribution": "bg-parfum/10 text-parfum-dark border-parfum/20",
-  "press": "bg-brand-accent/8 text-brand-accent border-brand-accent/15",
-  "news": "bg-blue-50 text-blue-700 border-blue-200",
-  "events": "bg-purple-50 text-purple-700 border-purple-200",
-  "trends": "bg-amber-50 text-amber-700 border-amber-200",
 };
 
-const categoryLabels: Record<string, Record<string, string>> = {
-  fr: { press: "Presse", news: "Actualités", events: "Événements", trends: "Tendances" },
-  en: { press: "Press", news: "News", events: "Events", trends: "Trends" },
-};
+interface CategoryData {
+  slug: string;
+  label_fr: string;
+  label_en: string;
+  color_bg: string;
+  color_text: string;
+  color_border: string;
+}
 
-function categoryLabel(category: string, locale: string) {
-  return categoryLabels[locale]?.[category] || category.charAt(0).toUpperCase() + category.slice(1);
+function getCategoryLabel(category: string, locale: string, dbCategories: CategoryData[]) {
+  const cat = dbCategories.find((c) => c.slug === category);
+  if (cat) return locale === "fr" ? cat.label_fr : cat.label_en;
+  return category.charAt(0).toUpperCase() + category.slice(1);
+}
+
+function getCategoryStyle(category: string, dbCategories: CategoryData[]) {
+  const cat = dbCategories.find((c) => c.slug === category);
+  if (cat) {
+    return {
+      style: { backgroundColor: cat.color_bg, color: cat.color_text, borderColor: cat.color_border },
+      className: "",
+    };
+  }
+  // Fallback for fake article categories
+  const fallback = fallbackCategoryColors[category];
+  if (fallback) {
+    return { style: undefined, className: fallback };
+  }
+  return { style: undefined, className: "bg-brand-primary/8 text-brand-primary border-brand-primary/12" };
 }
 
 export async function generateMetadata({
@@ -180,13 +199,20 @@ export default async function NewsPage({
 
   type BlogArticle = Database["public"]["Tables"]["blog_articles"]["Row"];
 
-  const { data: articles } = await supabase
-    .from("blog_articles")
-    .select("*")
-    .eq("published", true)
-    .order("published_at", { ascending: false });
+  const [{ data: articles }, { data: categoriesData }] = await Promise.all([
+    supabase
+      .from("blog_articles")
+      .select("*")
+      .eq("published", true)
+      .order("published_at", { ascending: false }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase.from("blog_categories") as any)
+      .select("*")
+      .order("sort_order", { ascending: true }),
+  ]);
 
   const dbArticles = (articles ?? []) as BlogArticle[];
+  const dbCategories = (categoriesData ?? []) as CategoryData[];
 
   // Use DB articles if available, otherwise fall back to fake articles
   const allArticles = dbArticles.length > 0 ? dbArticles : fakeArticles;
@@ -259,8 +285,8 @@ export default async function NewsPage({
                     </div>
                     <div className="p-6 md:p-10 md:pr-12">
                       <div className="flex items-center gap-3 mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${categoryColors[featuredArticle.category || ""] || "bg-brown/8 text-dark/70 border-brown/12"}`}>
-                          {categoryLabel(featuredArticle.category || "", locale)}
+                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`} style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}>
+                          {getCategoryLabel(featuredArticle.category || "", locale, dbCategories)}
                         </span>
                         <time className="text-xs text-dark/40 font-medium">
                           {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
@@ -316,8 +342,8 @@ export default async function NewsPage({
                     </div>
                     <div className="p-6 md:p-10 md:pr-12">
                       <div className="flex items-center gap-3 mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${categoryColors[featuredArticle.category || ""] || "bg-brand-primary/8 text-brand-primary border-brand-primary/12"}`}>
-                          {categoryLabel(featuredArticle.category || "", locale)}
+                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`} style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}>
+                          {getCategoryLabel(featuredArticle.category || "", locale, dbCategories)}
                         </span>
                         <time className="text-xs text-dark/40 font-medium">
                           {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
@@ -377,8 +403,8 @@ export default async function NewsPage({
                             <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[var(--color-cream-light)]">
                               <div className={`w-full h-full bg-gradient-to-br ${fakeData.gradient || "from-cream to-cream-light"}`} />
                               <div className="absolute top-3 left-3">
-                                <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-[var(--color-cream-light)]/95 text-dark border-brown/12"}`}>
-                                  {categoryLabel(article.category || "", locale)}
+                                <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${getCategoryStyle(article.category || "", dbCategories).className}`} style={getCategoryStyle(article.category || "", dbCategories).style}>
+                                  {getCategoryLabel(article.category || "", locale, dbCategories)}
                                 </span>
                               </div>
                             </div>
@@ -432,8 +458,8 @@ export default async function NewsPage({
                                 )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
                                 <div className="absolute top-3 left-3">
-                                  <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${categoryColors[article.category || ""] || "bg-[var(--color-cream-light)]/95 text-dark border-brown/12"}`}>
-                                    {categoryLabel(article.category || "", locale)}
+                                  <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${getCategoryStyle(article.category || "", dbCategories).className}`} style={getCategoryStyle(article.category || "", dbCategories).style}>
+                                    {getCategoryLabel(article.category || "", locale, dbCategories)}
                                   </span>
                                 </div>
                               </div>

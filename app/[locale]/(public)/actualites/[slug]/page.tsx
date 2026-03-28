@@ -18,13 +18,19 @@ type BlogArticle = Database["public"]["Tables"]["blog_articles"]["Row"];
 
 export const revalidate = 300;
 
-const categoryLabels: Record<string, Record<string, string>> = {
-  fr: { press: "Presse", news: "Actualités", events: "Événements", trends: "Tendances" },
-  en: { press: "Press", news: "News", events: "Events", trends: "Trends" },
-};
+interface CategoryData {
+  slug: string;
+  label_fr: string;
+  label_en: string;
+  color_bg: string;
+  color_text: string;
+  color_border: string;
+}
 
-function categoryLabel(category: string, loc: string) {
-  return categoryLabels[loc]?.[category] || category.charAt(0).toUpperCase() + category.slice(1);
+function getCategoryLabel(category: string, loc: string, dbCategories: CategoryData[]) {
+  const cat = dbCategories.find((c) => c.slug === category);
+  if (cat) return loc === "fr" ? cat.label_fr : cat.label_en;
+  return category.charAt(0).toUpperCase() + category.slice(1);
 }
 
 // --- Helpers ---
@@ -132,6 +138,13 @@ export default async function ArticlePage({
   const article = articleData as BlogArticle | null;
   if (!article) return notFound();
 
+  // Fetch categories
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: categoriesData } = await (supabase.from("blog_categories") as any)
+    .select("*")
+    .order("sort_order", { ascending: true });
+  const dbCategories = (categoriesData ?? []) as CategoryData[];
+
   // Fetch related articles
   const { data: relatedData } = await supabase
     .from("blog_articles")
@@ -227,7 +240,7 @@ export default async function ArticlePage({
           <AnimateIn delay={0.1}>
             <div className="flex flex-wrap items-center gap-3 mb-6">
               <span className="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/15 border border-white/20 text-white backdrop-blur-sm">
-                {categoryLabel(article.category || "", locale)}
+                {getCategoryLabel(article.category || "", locale, dbCategories)}
               </span>
               <span className="flex items-center gap-1.5 text-[13px] text-white/45">
                 <Calendar className="w-3.5 h-3.5" />
@@ -353,7 +366,7 @@ export default async function ArticlePage({
                           <div className="px-5 pb-5 pt-2">
                             <div className="flex items-center gap-2 mb-3">
                               <span className="text-[11px] font-semibold uppercase tracking-wider text-brand-accent">
-                                {categoryLabel(related.category || "", locale)}
+                                {getCategoryLabel(related.category || "", locale, dbCategories)}
                               </span>
                               <span className="text-dark/15 dark:text-cream-light/15">·</span>
                               <span className="text-[11px] text-dark/35 dark:text-cream-light/30">

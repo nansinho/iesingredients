@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Save, Loader2, Sparkles, Globe, Eye, EyeOff, ChevronDown, ChevronUp, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -186,13 +186,26 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
     toast.success("Article importé et optimisé SEO");
   }, [isNewArticle]);
 
-  const categories = [
-    { value: "news", label: "Nouveautés" },
-    { value: "press", label: "Communiqué de presse" },
-    { value: "events", label: "Événements" },
-    { value: "certifications", label: "Certifications" },
-    { value: "trends", label: "Tendances" },
-  ];
+  const [categories, setCategories] = useState<{ value: string; label: string }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/blog-categories")
+      .then((r) => r.json())
+      .then((data: any[]) => {
+        if (Array.isArray(data)) {
+          setCategories(data.map((c) => ({ value: c.slug, label: c.label_fr })));
+        }
+      })
+      .catch(() => {
+        // Fallback si la table n'existe pas encore
+        setCategories([
+          { value: "news", label: "Actualités" },
+          { value: "press", label: "Presse" },
+          { value: "events", label: "Événements" },
+          { value: "trends", label: "Tendances" },
+        ]);
+      });
+  }, []);
 
   return (
     <>

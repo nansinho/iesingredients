@@ -1,10 +1,10 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Plus, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge, type BadgeProps } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { AdminDataTable } from "@/components/admin/AdminDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { SlidePanel } from "@/components/admin/SlidePanel";
@@ -12,22 +12,12 @@ import { BlogEditForm } from "@/components/admin/BlogEditForm";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
-const categoryVariant: Record<string, BadgeProps["variant"]> = {
-  press: "press",
-  news: "news",
-  events: "events",
-  trends: "trends",
-};
-
-const categoryLabels: Record<string, string> = {
-  press: "Presse",
-  news: "Actualités",
-  events: "Événements",
-  trends: "Tendances",
-};
-
-function categoryLabel(category: string) {
-  return categoryLabels[category] || category.charAt(0).toUpperCase() + category.slice(1);
+interface CategoryInfo {
+  slug: string;
+  label_fr: string;
+  color_bg: string;
+  color_text: string;
+  color_border: string;
 }
 
 export function BlogAdmin({
@@ -41,6 +31,20 @@ export function BlogAdmin({
   const [panelOpen, setPanelOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<any | null>(null);
   const [isNew, setIsNew] = useState(false);
+  const [categoryMap, setCategoryMap] = useState<Record<string, CategoryInfo>>({});
+
+  useEffect(() => {
+    fetch("/api/blog-categories")
+      .then((r) => r.json())
+      .then((data: CategoryInfo[]) => {
+        if (Array.isArray(data)) {
+          const map: Record<string, CategoryInfo> = {};
+          data.forEach((c) => { map[c.slug] = c; });
+          setCategoryMap(map);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const refresh = useCallback(async () => {
     const supabase = createClient();
@@ -139,11 +143,25 @@ export function BlogAdmin({
     {
       key: "category",
       label: "Catégorie",
-      render: (item: any) => (
-        <Badge variant={categoryVariant[item.category] || "default"}>
-          {categoryLabel(item.category || "")}
-        </Badge>
-      ),
+      render: (item: any) => {
+        const cat = categoryMap[item.category];
+        return cat ? (
+          <span
+            className="inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold tracking-wide"
+            style={{
+              backgroundColor: cat.color_bg,
+              color: cat.color_text,
+              borderColor: cat.color_border,
+            }}
+          >
+            {cat.label_fr}
+          </span>
+        ) : (
+          <Badge variant="default">
+            {(item.category || "").charAt(0).toUpperCase() + (item.category || "").slice(1)}
+          </Badge>
+        );
+      },
     },
     {
       key: "published",
