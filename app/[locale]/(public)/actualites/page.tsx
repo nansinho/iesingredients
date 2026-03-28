@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
 import { Link } from "@/i18n/routing";
-import { Newspaper, ArrowRight, Mail, Clock, Tag } from "lucide-react";
+import { Newspaper, ArrowRight, Mail, Clock } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
 import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
@@ -278,7 +278,7 @@ export default async function NewsPage({
                     <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
                       <div className={`w-full h-full bg-gradient-to-br ${(featuredArticle as (typeof fakeArticles)[0]).gradient || "from-cream to-cream-light"}`} />
                       <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 rounded-full bg-brand-accent text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
+                        <span className="px-3 py-1.5 rounded-full bg-white/90 text-brand-primary text-[11px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-sm border border-white/50">
                           {isFr ? "À la une" : "Featured"}
                         </span>
                       </div>
@@ -320,6 +320,9 @@ export default async function NewsPage({
                   }}
                   className="group block"
                 >
+                  <h2 className="text-2xl font-semibold text-dark tracking-tight mb-6">
+                    {isFr ? "À la une" : "Featured"}
+                  </h2>
                   <article className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-[var(--color-cream-light)] rounded-3xl overflow-hidden border border-[var(--color-cream)] hover:border-brand-accent/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)]">
                     <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
                       {(featuredArticle as BlogArticle).cover_image_url ? (
@@ -334,15 +337,10 @@ export default async function NewsPage({
                         <div className="w-full h-full bg-gradient-to-br from-brand-primary/10 to-brand-accent-light/20" />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent to-dark/10" />
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 rounded-full bg-brand-accent text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
-                          {isFr ? "À la une" : "Featured"}
-                        </span>
-                      </div>
                     </div>
                     <div className="p-6 md:p-10 md:pr-12">
                       <div className="flex items-center gap-3 mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`} style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}>
+                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold uppercase border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`} style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}>
                           {getCategoryLabel(featuredArticle.category || "", locale, dbCategories)}
                         </span>
                         <time className="text-xs text-dark/40 font-medium">
@@ -373,7 +371,7 @@ export default async function NewsPage({
 
       {/* Articles Grid */}
       {restArticles.length > 0 && (
-        <section className="pb-24 md:pb-32 pt-8 bg-white">
+        <section className="pb-24 md:pb-32 pt-8 bg-[var(--color-cream-light)]">
           <div className="w-[94%] max-w-7xl mx-auto">
             {/* Section header */}
             <AnimateIn className="mb-10">
@@ -442,43 +440,48 @@ export default async function NewsPage({
                           }}
                           className="group block"
                         >
-                          <article className="bg-white rounded-2xl overflow-hidden border border-[var(--color-cream)] hover:border-brand-accent/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
-                            <div className="p-3 sm:p-4">
-                              <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[var(--color-cream-light)]">
-                                {dbData.cover_image_url ? (
-                                  <Image
-                                    src={dbData.cover_image_url}
-                                    alt={isFr ? article.title_fr : article.title_en || article.title_fr}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full bg-gradient-to-br from-[var(--color-cream-light)] to-[var(--color-cream)]" />
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-dark/30 to-transparent" />
-                                <div className="absolute top-3 left-3">
-                                  <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${getCategoryStyle(article.category || "", dbCategories).className}`} style={getCategoryStyle(article.category || "", dbCategories).style}>
-                                    {getCategoryLabel(article.category || "", locale, dbCategories)}
-                                  </span>
-                                </div>
+                          <article className="relative h-full rounded-2xl overflow-hidden bg-white border border-brown/8 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(200,168,168,0.12)] hover:-translate-y-2 flex flex-col">
+                            {/* Image */}
+                            <div className="relative aspect-[16/10] overflow-hidden">
+                              {dbData.cover_image_url ? (
+                                <Image
+                                  src={dbData.cover_image_url}
+                                  alt={isFr ? article.title_fr : article.title_en || article.title_fr}
+                                  fill
+                                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-cream-light to-cream" />
+                              )}
+
+                              {/* Category badge */}
+                              <div className="absolute top-3 left-3">
+                                <span className={`inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full text-white backdrop-blur-md border border-white/20`} style={getCategoryStyle(article.category || "", dbCategories).style}>
+                                  {getCategoryLabel(article.category || "", locale, dbCategories)}
+                                </span>
                               </div>
                             </div>
-                            <div className="px-5 sm:px-6 pb-6 pt-1">
-                              <p className="text-xs text-brand-accent mb-2 font-semibold uppercase tracking-wider">
+
+                            {/* Content */}
+                            <div className="px-5 pt-4 pb-5 flex flex-col flex-1">
+                              <time className="text-[11px] text-brand-accent font-semibold uppercase tracking-wider mb-2">
                                 {new Date(article.published_at || article.created_at || "").toLocaleDateString(
                                   locale,
-                                  { year: "numeric", month: "long", day: "numeric" }
+                                  { day: "numeric", month: "long", year: "numeric" }
                                 )}
-                              </p>
-                              <h3 className="text-base font-bold text-dark group-hover:text-brand-accent transition-colors line-clamp-2 mb-2.5 leading-snug">
+                              </time>
+
+                              <h3 className="text-base font-bold text-dark leading-snug mb-2 line-clamp-2 group-hover:text-brand-accent transition-colors duration-300">
                                 {isFr ? article.title_fr : article.title_en || article.title_fr}
                               </h3>
-                              <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed">
+
+                              <p className="text-sm leading-relaxed text-dark/50 line-clamp-2">
                                 {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
                               </p>
-                              <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-charcoal)] mt-4 group-hover:gap-2.5 transition-all duration-300">
-                                {isFr ? "Lire la suite" : "Read more"}
+
+                              <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary mt-4 group-hover:gap-3 transition-all duration-300">
+                                {isFr ? "Lire l'article" : "Read article"}
                                 <ArrowRight className="w-3.5 h-3.5" />
                               </span>
                             </div>

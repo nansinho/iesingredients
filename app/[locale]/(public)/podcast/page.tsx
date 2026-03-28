@@ -322,7 +322,7 @@ export default async function PodcastPage({
       />
 
       {/* ─── Hero Section ─── */}
-      <section className="relative min-h-[70vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-center overflow-hidden">
         <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/essential-oil.jpg"

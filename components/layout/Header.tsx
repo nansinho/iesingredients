@@ -510,7 +510,7 @@ export function Header() {
                     <div className="pt-6 border-t border-dark/8">
                       {user ? (
                         <div className="space-y-2">
-                          <Link href="/mon-compte" onClick={() => setIsOpen(false)}>
+                          <Link href={"/espace-client" as any} onClick={() => setIsOpen(false)}>
                             <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
                               <User className="w-4 h-4 mr-2" />
                               {t("myProfile")}
@@ -697,7 +697,7 @@ export function Header() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48 rounded-xl">
                     <DropdownMenuItem asChild>
-                      <Link href="/mon-compte" className="cursor-pointer">
+                      <Link href={"/espace-client" as any} className="cursor-pointer">
                         <User className="w-4 h-4 mr-2" />
                         {t("myProfile")}
                       </Link>

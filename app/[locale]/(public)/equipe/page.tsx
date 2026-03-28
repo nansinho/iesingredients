@@ -65,7 +65,7 @@ export default async function TeamPage({
       />
 
       {/* Compact hero with image */}
-      <section className="relative h-[40vh] min-h-[280px] max-h-[400px] flex items-end overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <Image
           src="/images/botanicals-flat.jpg"
           alt=""

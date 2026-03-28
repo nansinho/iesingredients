@@ -179,7 +179,9 @@
     "products": "produits",
     "noResults": "Aucun produit trouvé",
     "loadMore": "Charger plus",
-    "requestSample": "Demande d'échantillon"
+    "requestSample": "Demande d'échantillon",
+    "needHelp": "Besoin d'aide pour trouver un ingrédient ?",
+    "helpDescription": "Notre équipe est là pour vous accompagner."
   },
   "product": {
     "description": "Description",

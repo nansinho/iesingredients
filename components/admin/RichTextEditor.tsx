@@ -33,12 +33,14 @@ import {
   RectangleHorizontal,
   Columns2,
   Code,
+  LayoutGrid,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export interface RichTextEditorHandle {
   insertImage: (src: string, alt: string) => void;
+  insertImageGrid: (images: { src: string; alt: string }[]) => void;
 }
 
 interface RichTextEditorProps {
@@ -46,6 +48,7 @@ interface RichTextEditorProps {
   onChange: (html: string) => void;
   placeholder?: string;
   onOpenLibrary?: () => void;
+  onOpenGridLibrary?: () => void;
   editorRef?: React.MutableRefObject<RichTextEditorHandle | null>;
 }
 
@@ -126,7 +129,7 @@ function ToolbarDivider() {
   return <div className="w-px h-5 bg-gray-200 mx-0.5" />;
 }
 
-export function RichTextEditor({ content, onChange, placeholder = "Commencez à écrire...", onOpenLibrary, editorRef }: RichTextEditorProps) {
+export function RichTextEditor({ content, onChange, placeholder = "Commencez à écrire...", onOpenLibrary, onOpenGridLibrary, editorRef }: RichTextEditorProps) {
   const isSettingContent = useRef(false);
   const [showSource, setShowSource] = useState(false);
   const [sourceHtml, setSourceHtml] = useState("");
@@ -208,6 +211,14 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
       editorRef.current = {
         insertImage: (src: string, alt: string) => {
           editor.chain().focus().setImage({ src, alt }).run();
+        },
+        insertImageGrid: (images: { src: string; alt: string }[]) => {
+          if (images.length === 0) return;
+          const imgTags = images
+            .map((img) => `<img src="${img.src}" alt="${img.alt || ""}" class="rounded-lg" />`)
+            .join("");
+          const gridHtml = `<div class="image-grid">${imgTags}</div>`;
+          editor.chain().focus().insertContent(gridHtml).run();
         },
       };
     }
@@ -322,6 +333,9 @@ export function RichTextEditor({ content, onChange, placeholder = "Commencez à 
         </ToolbarButton>
         <ToolbarButton onClick={() => onOpenLibrary?.()} title="Insérer une image (Médiathèque)">
           <ImageIcon className={iconSize} />
+        </ToolbarButton>
+        <ToolbarButton onClick={() => onOpenGridLibrary?.()} title="Insérer une grille d'images">
+          <LayoutGrid className={iconSize} />
         </ToolbarButton>
 
         <ToolbarDivider />

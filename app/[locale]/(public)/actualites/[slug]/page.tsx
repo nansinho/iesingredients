@@ -5,9 +5,9 @@ import { Link } from "@/i18n/routing";
 import { ArrowLeft, ArrowRight, Calendar, User, Clock, Eye } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
-import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
+
 import { ReadingProgressBar } from "@/components/article/ReadingProgressBar";
-import { TableOfContents } from "@/components/article/TableOfContents";
+
 import { ShareButtons } from "@/components/article/ShareButtons";
 import { BackToTop } from "@/components/article/BackToTop";
 import { ArticleContent } from "@/components/article/ArticleContent";
@@ -39,21 +39,6 @@ function estimateReadingTime(html: string): number {
   const text = html.replace(/<[^>]*>/g, "");
   const words = text.split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
-}
-
-function extractHeadings(html: string): { id: string; text: string; level: number }[] {
-  const regex = /<h([23])[^>]*>(.*?)<\/h[23]>/gi;
-  const headings: { id: string; text: string; level: number }[] = [];
-  let match;
-  let i = 0;
-  while ((match = regex.exec(html)) !== null) {
-    const text = match[2].replace(/<[^>]*>/g, "").trim();
-    if (text) {
-      headings.push({ id: `heading-${i}`, text, level: parseInt(match[1]) });
-      i++;
-    }
-  }
-  return headings;
 }
 
 // --- Metadata ---
@@ -156,11 +141,33 @@ export default async function ArticlePage({
 
   const relatedArticles = (relatedData || []) as BlogArticle[];
 
+  // Fetch previous and next articles for navigation
+  const { data: prevData } = await supabase
+    .from("blog_articles")
+    .select("slug, title_fr, title_en")
+    .eq("published", true)
+    .lt("published_at", article.published_at || article.created_at)
+    .order("published_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { data: nextData } = await supabase
+    .from("blog_articles")
+    .select("slug, title_fr, title_en")
+    .eq("published", true)
+    .gt("published_at", article.published_at || article.created_at)
+    .order("published_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  const prevArticle = prevData as { slug: string; title_fr: string; title_en: string | null } | null;
+  const nextArticle = nextData as { slug: string; title_fr: string; title_en: string | null } | null;
+
   const title = isFr ? article.title_fr : article.title_en || article.title_fr;
   const content = isFr ? article.content_fr : article.content_en || article.content_fr;
   const excerpt = isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr;
   const readingTime = estimateReadingTime(content || "");
-  const headings = extractHeadings(content || "");
+
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -207,79 +214,87 @@ export default async function ArticlePage({
         </div>
       )}
 
-      {/* ── Hero ── */}
-      <section className="relative min-h-[70vh] flex items-end overflow-hidden">
-        <ParallaxBackground className="absolute inset-0">
-          {article.cover_image_url ? (
-            <Image
-              src={article.cover_image_url}
-              alt=""
-              fill
-              priority
-              className="object-cover"
-              sizes="100vw"
-              aria-hidden="true"
-            />
-          ) : (
-            <div className="w-full h-full bg-brand-primary" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/70 to-brand-primary/20" />
-        </ParallaxBackground>
-
-        <div className="relative z-10 max-w-[860px] w-[90%] mx-auto pb-20 pt-40">
+      {/* ── Header section (fond violet) ── */}
+      <section className="bg-brand-primary pt-32 pb-12 md:pb-14">
+        <div className="max-w-[860px] w-[90%] mx-auto text-center">
           <AnimateIn>
             <Link
               href="/actualites"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-brand-accent hover:gap-3 transition-all duration-300 mb-8 text-sm"
+              className="inline-flex items-center gap-2 text-white/40 hover:text-brand-accent hover:gap-3 transition-all duration-300 mb-8 text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               {isFr ? "Retour aux actualités" : "Back to news"}
             </Link>
           </AnimateIn>
 
-          <AnimateIn delay={0.1}>
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-white/15 border border-white/20 text-white backdrop-blur-sm">
+          <AnimateIn delay={0.1} y={20}>
+            <h1 className="text-3xl md:text-4xl lg:text-[3rem] font-semibold text-white leading-[1.15] tracking-[-0.02em] max-w-3xl mx-auto">
+              {title}
+            </h1>
+          </AnimateIn>
+
+          <AnimateIn delay={0.15}>
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+              <span className="px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-brand-accent/15 border border-brand-accent/25 text-brand-accent">
                 {getCategoryLabel(article.category || "", locale, dbCategories)}
               </span>
-              <span className="flex items-center gap-1.5 text-[13px] text-white/45">
+              <span className="flex items-center gap-1.5 text-[13px] text-brand-accent/70">
                 <Calendar className="w-3.5 h-3.5" />
                 {formattedDate}
               </span>
               {article.author_name && (
-                <span className="flex items-center gap-1.5 text-[13px] text-white/45">
+                <span className="flex items-center gap-1.5 text-[13px] text-brand-accent/70">
                   <User className="w-3.5 h-3.5" />
                   {article.author_name}
                 </span>
               )}
-              <span className="flex items-center gap-1.5 text-[13px] text-white/45">
+              <span className="flex items-center gap-1.5 text-[13px] text-brand-accent/70">
                 <Clock className="w-3.5 h-3.5" />
                 {readingTime} min {isFr ? "de lecture" : "read"}
               </span>
             </div>
           </AnimateIn>
 
-          <AnimateIn delay={0.15} y={30}>
-            <h1 className="text-3xl md:text-4xl lg:text-[3.25rem] font-semibold text-white leading-[1.1] tracking-[-0.03em]">
-              {title}
-            </h1>
-          </AnimateIn>
-
-          {excerpt && (
-            <AnimateIn delay={0.2}>
-              <p className="mt-6 text-lg text-white/55 leading-relaxed max-w-[640px]">
-                {excerpt}
-              </p>
-            </AnimateIn>
-          )}
         </div>
       </section>
 
+      {/* ── Cover image (chevauche le hero) + excerpt ── */}
+      {article.cover_image_url && (
+        <section className="relative bg-white dark:bg-dark-card">
+          {/* Bande violette qui continue derrière le haut de l'image */}
+          <div className="absolute top-0 left-0 right-0 h-20 md:h-28 bg-brand-primary" />
+          <div className="w-[92%] max-w-6xl mx-auto relative z-10">
+          <div className="bg-white dark:bg-dark-card rounded-2xl p-2 md:p-3">
+          <div className="relative aspect-[16/8] md:aspect-[16/7] rounded-xl overflow-hidden">
+            <Image
+              src={article.cover_image_url}
+              alt={title || ""}
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1024px) 90vw, 1024px"
+            />
+          </div>
+          </div>
+          {excerpt && (
+            <div className="max-w-[860px] w-[90%] mx-auto">
+              <AnimateIn delay={0.25}>
+                <p className="mt-8 text-lg font-bold text-brand-accent leading-relaxed text-justify">
+                  {excerpt}
+                </p>
+              </AnimateIn>
+            </div>
+          )}
+          </div>
+        </section>
+      )}
+
       {/* ── Article body ── */}
-      <section className="py-16 md:py-24 bg-white dark:bg-dark-card">
-        <div className="w-[94%] max-w-7xl mx-auto flex justify-center gap-10 xl:gap-16">
+      <section className="py-8 md:py-10 bg-white dark:bg-dark-card">
+        <div className="w-[94%] max-w-[860px] mx-auto">
           {/* Article content */}
           <article className="w-full max-w-[860px] min-w-0">
+            <div className="mb-6 border-b border-brand-accent/30" />
             <AnimateIn y={20}>
               <ArticleContent html={content || ""} />
             </AnimateIn>
@@ -309,13 +324,66 @@ export default async function ArticlePage({
                 />
               </div>
             </div>
+
+            {/* ── Prev / Next navigation ── */}
+            {(prevArticle || nextArticle) && (
+              <div className="mt-10 flex items-center justify-center gap-4">
+                {prevArticle ? (
+                  <Link
+                    href={{ pathname: "/actualites/[slug]", params: { slug: prevArticle.slug } }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-brand-primary/15 text-brand-primary text-sm font-medium hover:bg-brand-primary/5 transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    {isFr ? "Précédent" : "Previous"}
+                  </Link>
+                ) : <div />}
+                {nextArticle ? (
+                  <Link
+                    href={{ pathname: "/actualites/[slug]", params: { slug: nextArticle.slug } }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-accent text-white text-sm font-medium hover:bg-brand-accent-hover transition-colors"
+                  >
+                    {isFr ? "Suivant" : "Next"}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                ) : <div />}
+              </div>
+            )}
           </article>
 
-          {/* Right: Table of contents */}
-          <TableOfContents
-            headings={headings}
-            title={isFr ? "Sommaire" : "Contents"}
-          />
+        </div>
+      </section>
+
+      {/* ── CTA Banner ── */}
+      <section className="relative overflow-hidden bg-brand-primary">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute -top-1/2 -right-1/4 w-[600px] h-[600px] rounded-full bg-brand-accent blur-[120px]" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[500px] h-[500px] rounded-full bg-brand-accent blur-[100px]" />
+        </div>
+        <div className="relative z-10 w-[90%] max-w-4xl mx-auto py-20 md:py-24 text-center">
+          <AnimateIn>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-accent mb-4">
+              {isFr ? "Notre expertise" : "Our expertise"}
+            </p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white leading-[1.2] tracking-tight mb-5">
+              {isFr
+                ? <>Découvrez nos <span className="font-playfair italic text-brand-accent">ingrédients</span></>
+                : <>Discover our <span className="font-playfair italic text-brand-accent">ingredients</span></>
+              }
+            </h2>
+            <p className="text-white/45 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8">
+              {isFr
+                ? "Parfumerie, cosmétique, arômes alimentaires — explorez notre catalogue de matières premières naturelles et synthétiques."
+                : "Perfumery, cosmetics, food flavors — explore our catalog of natural and synthetic raw materials."
+              }
+            </p>
+            <Link
+              href="/catalogue"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-brand-accent text-white font-medium text-sm hover:bg-brand-accent-hover transition-colors duration-300 shadow-lg shadow-brand-accent/20"
+            >
+              {isFr ? "Explorer le catalogue" : "Explore the catalog"}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </AnimateIn>
         </div>
       </section>
 

@@ -200,7 +200,7 @@ export default async function CompanyPage({
       />
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex items-end overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
         <ParallaxBackground className="absolute inset-0">
           <Image
             src="/images/leaves-hero.jpg"

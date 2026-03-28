@@ -233,7 +233,7 @@
   --color-cream-light: #FAF8F6;
   --color-cream: #F0EDE8;
   --color-cream-dark: #E0DCD5;
-  --color-dark: #1a1a1a;
+  --color-dark: #2E1F3D;
   --color-dark-card: #222222;
   --color-dark-lighter: #2c2c2c;
   --color-brown: #D4907E;
@@ -364,7 +364,7 @@
   --brand-accent-light: 18 67% 82%;
   --brand-secondary: 255 14% 38%;
   --brand-nav-active: 255 14% 38%;
-  --brand-selection: rgba(46, 31, 61, 0.3);
+  --brand-selection: hsl(var(--brand-accent) / 0.25);
   --brand-glow: rgba(46, 31, 61, 0.15);
   --brand-glow-strong: rgba(46, 31, 61, 0.3);
   --brand-shadow: rgba(46, 31, 61, 0.06);
@@ -842,6 +842,10 @@
    Article Prose — Premium Typography
    ======================================== */
 
+.article-prose {
+  text-align: justify;
+}
+
 .article-prose p,
 .article-prose li,
 .article-prose blockquote p {
@@ -937,10 +941,259 @@
   color: hsl(30 20% 97%) !important;
 }
 
+/* ── Titres plus discrets ── */
+
+.article-prose h2 {
+  font-size: 1.35rem !important;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid hsl(var(--brand-accent) / 0.15);
+}
+
+@media (min-width: 768px) {
+  .article-prose h2 {
+    font-size: 1.55rem !important;
+  }
+}
+
+.article-prose h3 {
+  font-size: 1.15rem !important;
+}
+
+@media (min-width: 768px) {
+  .article-prose h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* ── Chiffres clés ── */
+
+.article-prose .key-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+
+.article-prose .key-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.75rem 1rem;
+  border-radius: 1rem;
+  background: hsl(var(--brand-accent) / 0.06);
+  border: 1px solid hsl(var(--brand-accent) / 0.12);
+}
+
+.article-prose .key-figure-number {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: hsl(var(--brand-accent)) !important;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.article-prose .key-figure-label {
+  font-size: 0.8rem;
+  color: #2E1F3D !important;
+  opacity: 0.6;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dark .article-prose .key-figure {
+  background: hsl(var(--brand-accent) / 0.1);
+  border-color: hsl(var(--brand-accent) / 0.18);
+}
+
+.dark .article-prose .key-figure-label {
+  color: hsl(30 20% 97%) !important;
+}
+
+/* ── Callout / À retenir ── */
+
+.article-prose .callout {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+  background: hsl(var(--brand-primary) / 0.04);
+  border-left: 3px solid hsl(var(--brand-accent));
+}
+
+.article-prose .callout p {
+  margin: 0 !important;
+  font-size: 0.95em;
+}
+
+.dark .article-prose .callout {
+  background: hsl(var(--brand-primary) / 0.08);
+}
+
+/* ── Image Grid ── */
+
+.article-prose .image-grid,
+.ProseMirror .image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin: 2.5rem 0;
+  clear: both;
+}
+
+@media (min-width: 768px) {
+  .article-prose .image-grid,
+  .ProseMirror .image-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+.article-prose .image-grid img,
+.ProseMirror .image-grid img {
+  width: 100% !important;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin: 0 !important;
+  float: none !important;
+  display: block !important;
+  max-width: none !important;
+}
+
+.article-prose .image-grid img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Image Carousel ── */
+
+.article-prose .image-carousel,
+.ProseMirror .image-carousel {
+  position: relative;
+  margin: 2.5rem 0;
+  clear: both;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.article-prose .carousel-viewport {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.article-prose .carousel-container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+}
+
+.article-prose .carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.article-prose .carousel-slide img {
+  width: 100% !important;
+  height: 420px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  float: none !important;
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .article-prose .carousel-slide img {
+    height: 260px;
+  }
+}
+
+.article-prose .carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  font-size: 1.25rem;
+  transition: background 0.2s;
+}
+
+.article-prose .carousel-nav:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.article-prose .carousel-nav.prev { left: 0.75rem; }
+.article-prose .carousel-nav.next { right: 0.75rem; }
+
+.article-prose .carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.article-prose .carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: hsl(var(--brand-primary) / 0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s;
+}
+
+.article-prose .carousel-dot.active {
+  background: hsl(var(--brand-accent));
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* Counter badge */
+.article-prose .carousel-counter {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+/* ── Liens dans articles ── */
+
+.article-prose a[target="_blank"]::after {
+  content: " ↗";
+  font-size: 0.75em;
+  opacity: 0.5;
+}
+
+/* ── HR séparateur ── */
+
 .article-prose hr {
   border: none;
   text-align: center;
-  margin: 3rem auto;
+  margin: 1.5rem auto;
   max-width: 100px;
   height: 1px;
   background: linear-gradient(

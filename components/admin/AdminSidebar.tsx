@@ -10,6 +10,8 @@ import {
   ClipboardList,
   Newspaper,
   Mail,
+  ImageIcon,
+  LifeBuoy,
   Sparkles,
   Droplets,
   Cookie,
@@ -35,6 +37,8 @@ const navGroups = [
       { label: "Demandes", href: "/admin/demandes", icon: ClipboardList },
       { label: "Messages", href: "/admin/contacts", icon: Mail },
       { label: "Blog", href: "/admin/blog", icon: Newspaper },
+      { label: "Médiathèque", href: "/admin/mediatheque", icon: ImageIcon },
+      { label: "Support", href: "/admin/support", icon: LifeBuoy },
     ],
   },
   {

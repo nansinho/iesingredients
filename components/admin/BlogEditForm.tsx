@@ -38,6 +38,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
   const [aiPrompt, setAiPrompt] = useState("");
   const [showMediaLibrary, setShowMediaLibrary] = useState(false);
   const [mediaLibraryTarget, setMediaLibraryTarget] = useState<"cover" | "content_fr" | "content_en">("cover");
+  const [mediaLibraryGridMode, setMediaLibraryGridMode] = useState(false);
   const [showPDFImport, setShowPDFImport] = useState(false);
   const [showURLImport, setShowURLImport] = useState(false);
   const [isNewArticle, setIsNewArticle] = useState(isNew);
@@ -57,6 +58,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
     cover_image_url: article?.cover_image_url || "",
     author_name: article?.author_name || "",
     published: article?.published || false,
+    published_at: article?.published_at || "",
     meta_title: article?.meta_title || "",
     meta_description: article?.meta_description || "",
   });
@@ -80,7 +82,9 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
     const supabase = createClient();
     const data = {
       ...formData,
-      published_at: formData.published ? article?.published_at || new Date().toISOString() : null,
+      published_at: formData.published
+        ? formData.published_at || article?.published_at || null
+        : null,
     };
 
     if (isNewArticle) {
@@ -88,7 +92,12 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         .insert(data)
         .select("id")
         .single();
-      if (error) throw error;
+      if (error) {
+        if (error.code === "23505" || error.message?.includes("duplicate") || error.message?.includes("unique")) {
+          throw new Error(`Le slug "${data.slug}" existe déjà. Modifiez-le avant de sauvegarder.`);
+        }
+        throw error;
+      }
       setIsNewArticle(false);
       articleIdRef.current = inserted.id;
       return inserted.id;
@@ -114,7 +123,12 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
       toast.success(isNewArticle ? "Article créé" : "Article mis à jour");
       onSave?.();
     } catch (err: unknown) {
-      toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec"));
+      const msg = err instanceof Error ? err.message : "Échec de la sauvegarde";
+      if (msg.includes("slug")) {
+        toast.error("Ce slug est déjà utilisé par un autre article. Changez-le avant de sauvegarder.");
+      } else {
+        toast.error(msg);
+      }
     } finally {
       setIsSaving(false);
     }
@@ -285,7 +299,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
           />
 
           {/* ── Meta Row ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             <div className="space-y-2">
               <Label className="text-brand-primary">Catégorie</Label>
               <Select value={form.category} onValueChange={(v) => handleChange("category", v)}>
@@ -305,6 +319,15 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                 value={form.author_name}
                 onChange={(e) => handleChange("author_name", e.target.value)}
                 placeholder="Nom de l'auteur"
+                className="h-10"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label className="text-brand-primary">Date de publication</Label>
+              <Input
+                type="date"
+                value={form.published_at ? form.published_at.slice(0, 10) : ""}
+                onChange={(e) => handleChange("published_at", e.target.value ? new Date(e.target.value + "T12:00:00Z").toISOString() : "")}
                 className="h-10"
               />
             </div>
@@ -379,7 +402,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                   content={form.content_fr}
                   onChange={(html) => handleChange("content_fr", html)}
                   placeholder="Rédigez votre article ici..."
-                  onOpenLibrary={() => { setMediaLibraryTarget("content_fr"); setShowMediaLibrary(true); }}
+                  onOpenLibrary={() => { setMediaLibraryTarget("content_fr"); setMediaLibraryGridMode(false); setShowMediaLibrary(true); }}
+                  onOpenGridLibrary={() => { setMediaLibraryTarget("content_fr"); setMediaLibraryGridMode(true); setShowMediaLibrary(true); }}
                   editorRef={editorFrRef}
                 />
               </div>
@@ -414,7 +438,8 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
                   content={form.content_en}
                   onChange={(html) => handleChange("content_en", html)}
                   placeholder="Write your article here..."
-                  onOpenLibrary={() => { setMediaLibraryTarget("content_en"); setShowMediaLibrary(true); }}
+                  onOpenLibrary={() => { setMediaLibraryTarget("content_en"); setMediaLibraryGridMode(false); setShowMediaLibrary(true); }}
+                  onOpenGridLibrary={() => { setMediaLibraryTarget("content_en"); setMediaLibraryGridMode(true); setShowMediaLibrary(true); }}
                   editorRef={editorEnRef}
                 />
               </div>
@@ -528,7 +553,13 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => handleChange("published", !form.published)}
+            onClick={() => {
+              const willPublish = !form.published;
+              handleChange("published", willPublish);
+              if (willPublish && !form.published_at) {
+                handleChange("published_at", new Date().toISOString());
+              }
+            }}
             className="flex items-center gap-2 text-sm"
           >
             {form.published ? (
@@ -596,7 +627,7 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
       {/* Media Library Modal */}
       <MediaLibrary
         open={showMediaLibrary}
-        onClose={() => setShowMediaLibrary(false)}
+        onClose={() => { setShowMediaLibrary(false); setMediaLibraryGridMode(false); }}
         onSelect={(url, alt) => {
           if (mediaLibraryTarget === "cover") {
             handleChange("cover_image_url", url);
@@ -606,6 +637,11 @@ export function BlogEditForm({ article, isNew, onSave, onCancel }: BlogEditFormP
             ref.current?.insertImage(url, alt);
           }
         }}
+        onMultiSelect={(images) => {
+          const ref = mediaLibraryTarget === "content_fr" ? editorFrRef : editorEnRef;
+          ref.current?.insertImageGrid(images);
+        }}
+        defaultMultiSelect={mediaLibraryGridMode}
         folder="blog"
       />
 

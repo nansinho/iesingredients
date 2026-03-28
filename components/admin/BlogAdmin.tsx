@@ -51,7 +51,7 @@ export function BlogAdmin({
     const supabase = createClient();
     const { data } = await (supabase.from("blog_articles") as any)
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("published_at", { ascending: false });
     if (data) setArticles(data);
   }, []);
 
@@ -192,16 +192,18 @@ export function BlogAdmin({
       ),
     },
     {
-      key: "created_at",
+      key: "published_at",
       label: "Date",
-      render: (item: any) =>
-        item.created_at
-          ? new Date(item.created_at).toLocaleDateString("fr-FR", {
+      render: (item: any) => {
+        const date = item.published_at || item.created_at;
+        return date
+          ? new Date(date).toLocaleDateString("fr-FR", {
               day: "numeric",
               month: "short",
               year: "numeric",
             })
-          : "",
+          : "";
+      },
     },
   ];
 

@@ -15,7 +15,7 @@ export default async function BlogListPage({
     const { data, error } = await supabase
       .from("blog_articles")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("published_at", { ascending: false });
 
     if (error) {
       console.error("Failed to fetch blog articles:", error.message);

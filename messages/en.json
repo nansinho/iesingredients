@@ -179,7 +179,9 @@
     "products": "products",
     "noResults": "No products found",
     "loadMore": "Load more",
-    "requestSample": "Request sample"
+    "requestSample": "Request sample",
+    "needHelp": "Need help finding an ingredient?",
+    "helpDescription": "Our team is here to help you."
   },
   "product": {
     "description": "Description",
