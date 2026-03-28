@@ -91,6 +91,7 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
         onClose={() => setPanelOpen(false)}
         title="Mon profil"
         subtitle={profile.email || ""}
+        width="lg"
       >
         <UserProfileForm
           profile={profile}
