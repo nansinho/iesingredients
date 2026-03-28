@@ -84,14 +84,18 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const selectSirene = (result: any) => {
+    const s = result.siege || {};
+    const rue = [s.numero_voie, s.type_voie, s.libelle_voie].filter(Boolean).join(" ");
+    const adresse = s.complement_adresse ? `${rue}, ${s.complement_adresse}` : rue;
+
     setForm((prev) => ({
       ...prev,
       company: result.nom_complet || "",
-      siret: result.siege?.siret || "",
+      siret: s.siret || "",
       tva_intracom: result.numero_tva_intra || "",
-      billing_address: result.siege?.geo_adresse || result.siege?.adresse || "",
-      billing_postal_code: result.siege?.code_postal || "",
-      billing_city: result.siege?.libelle_commune || "",
+      billing_address: adresse,
+      billing_postal_code: s.code_postal || "",
+      billing_city: s.libelle_commune || "",
       billing_country: "France",
     }));
     setSireneQuery("");
