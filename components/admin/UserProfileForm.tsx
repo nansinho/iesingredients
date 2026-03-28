@@ -17,22 +17,11 @@ interface UserProfileFormProps {
   showAvatar?: boolean;
 }
 
-interface SireneResult {
-  nom_complet: string;
-  siege: {
-    siret: string;
-    adresse: string;
-    code_postal: string;
-    commune: string;
-    numero_tva_intra?: string;
-  };
-  nombre_etablissements: number;
-}
-
 export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [sireneQuery, setSireneQuery] = useState("");
-  const [sireneResults, setSireneResults] = useState<SireneResult[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [sireneResults, setSireneResults] = useState<any[]>([]);
   const [sireneLoading, setSireneLoading] = useState(false);
   const sireneTimerRef = useRef<NodeJS.Timeout | null>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
@@ -93,15 +82,16 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
     }, 300);
   };
 
-  const selectSirene = (result: SireneResult) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const selectSirene = (result: any) => {
     setForm((prev) => ({
       ...prev,
-      company: result.nom_complet,
-      siret: result.siege.siret,
-      tva_intracom: result.siege.numero_tva_intra || "",
-      billing_address: result.siege.adresse || "",
-      billing_postal_code: result.siege.code_postal || "",
-      billing_city: result.siege.commune || "",
+      company: result.nom_complet || "",
+      siret: result.siege?.siret || "",
+      tva_intracom: result.numero_tva_intra || "",
+      billing_address: result.siege?.geo_adresse || result.siege?.adresse || "",
+      billing_postal_code: result.siege?.code_postal || "",
+      billing_city: result.siege?.libelle_commune || "",
       billing_country: "France",
     }));
     setSireneQuery("");
@@ -241,7 +231,7 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
                     className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0"
                   >
                     <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
-                    <p className="text-xs text-gray-500">SIRET {r.siege.siret} — {r.siege.commune} ({r.siege.code_postal})</p>
+                    <p className="text-xs text-gray-500">SIRET {r.siege?.siret} — {r.siege?.libelle_commune} ({r.siege?.code_postal})</p>
                   </button>
                 ))}
               </div>

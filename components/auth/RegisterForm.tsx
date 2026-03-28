@@ -30,7 +30,8 @@ export function RegisterForm() {
   const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
   const [accountType, setAccountType] = useState<AccountType>("individual");
   const [sireneQuery, setSireneQuery] = useState("");
-  const [sireneResults, setSireneResults] = useState<{ nom_complet: string; siege: { siret: string; commune: string; code_postal: string } }[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [sireneResults, setSireneResults] = useState<any[]>([]);
   const [sireneLoading, setSireneLoading] = useState(false);
   const sireneTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [form, setForm] = useState({
@@ -60,8 +61,13 @@ export function RegisterForm() {
     }, 300);
   };
 
-  const selectSirene = (result: { nom_complet: string; siege: { siret: string; commune: string; code_postal: string } }) => {
-    setForm((prev) => ({ ...prev, company: result.nom_complet, siret: result.siege.siret }));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const selectSirene = (result: any) => {
+    setForm((prev) => ({
+      ...prev,
+      company: result.nom_complet || "",
+      siret: result.siege?.siret || "",
+    }));
     setSireneQuery("");
     setSireneResults([]);
   };
@@ -226,11 +232,11 @@ export function RegisterForm() {
               </div>
               {sireneResults.length > 0 && (
                 <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white rounded-xl shadow-lg max-h-48 overflow-y-auto">
-                  {sireneResults.map((r) => (
-                    <button key={r.siege.siret} type="button" onClick={() => selectSirene(r)}
+                  {sireneResults.map((r: any) => (
+                    <button key={r.siege?.siret || r.siren} type="button" onClick={() => selectSirene(r)}
                       className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0">
                       <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
-                      <p className="text-xs text-gray-500">SIRET {r.siege.siret} — {r.siege.commune}</p>
+                      <p className="text-xs text-gray-500">SIRET {r.siege?.siret} — {r.siege?.libelle_commune} ({r.siege?.code_postal})</p>
                     </button>
                   ))}
                 </div>
