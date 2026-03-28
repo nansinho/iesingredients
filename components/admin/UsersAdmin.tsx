@@ -43,11 +43,9 @@ function getInitials(name?: string | null): string {
   return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
 }
 
-function getAvatarColor(name?: string | null): string {
-  const colors = ["bg-violet-100 text-violet-700", "bg-blue-100 text-blue-700", "bg-emerald-100 text-emerald-700", "bg-amber-100 text-amber-700", "bg-rose-100 text-rose-700"];
-  if (!name) return colors[0];
-  const hash = name.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  return colors[hash % colors.length];
+// Marque de fabrique IES : tous les avatars sur fond violet
+function getAvatarColor(): string {
+  return "bg-brand-primary text-white";
 }
 
 function timeAgo(dateStr: string): string {
@@ -164,6 +162,17 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       avatar_url: user.avatar_url || user.team_photo_url || "",
       linkedin_url: user.team_linkedin || "",
       bio_fr: user.team_bio_fr || "",
+      siret: user.siret || "",
+      tva_intracom: user.tva_intracom || "",
+      billing_address: user.billing_address || "",
+      billing_city: user.billing_city || "",
+      billing_postal_code: user.billing_postal_code || "",
+      billing_country: user.billing_country || "France",
+      shipping_address: user.shipping_address || "",
+      shipping_city: user.shipping_city || "",
+      shipping_postal_code: user.shipping_postal_code || "",
+      shipping_country: user.shipping_country || "France",
+      shipping_same_as_billing: user.shipping_same_as_billing !== false,
     });
     setPanelOpen(true);
   }, []);
@@ -179,6 +188,17 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
           company: editForm.company || null,
           phone: editForm.phone || null,
           avatar_url: editForm.avatar_url || null,
+          siret: editForm.siret || null,
+          tva_intracom: editForm.tva_intracom || null,
+          billing_address: editForm.billing_address || null,
+          billing_city: editForm.billing_city || null,
+          billing_postal_code: editForm.billing_postal_code || null,
+          billing_country: editForm.billing_country || null,
+          shipping_address: editForm.shipping_same_as_billing ? null : (editForm.shipping_address || null),
+          shipping_city: editForm.shipping_same_as_billing ? null : (editForm.shipping_city || null),
+          shipping_postal_code: editForm.shipping_same_as_billing ? null : (editForm.shipping_postal_code || null),
+          shipping_country: editForm.shipping_same_as_billing ? null : (editForm.shipping_country || null),
+          shipping_same_as_billing: editForm.shipping_same_as_billing,
         })
         .eq("id", selectedUser.id);
 
@@ -299,7 +319,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-9 w-9">
                         {(user.avatar_url || user.team_photo_url) && <AvatarImage src={user.avatar_url || user.team_photo_url} alt={user.full_name} />}
-                        <AvatarFallback className={`text-xs font-semibold ${getAvatarColor(user.full_name)}`}>{getInitials(user.full_name)}</AvatarFallback>
+                        <AvatarFallback className={`text-xs font-semibold ${getAvatarColor()}`}>{getInitials(user.full_name)}</AvatarFallback>
                       </Avatar>
                       <div className="min-w-0">
                         <p className="font-medium text-gray-900 truncate">{user.full_name || "Sans nom"}</p>
@@ -342,12 +362,25 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
             <div className="flex-1 overflow-y-auto">
               <div className="p-6 space-y-6">
 
-                {/* Badges */}
-                <div className="flex items-center gap-2">
-                  <AccountTypeBadge type={selectedUser.account_type || "individual"} />
-                  {selectedUser.role === "admin"
-                    ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
-                    : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
+                {/* Badges + Rôle */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <AccountTypeBadge type={selectedUser.account_type || "individual"} />
+                    <button type="button" onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
+                      {selectedUser.role === "admin" ? (
+                        <Badge variant="success" className="gap-1.5 cursor-pointer hover:bg-emerald-100">
+                          <Shield className="w-3 h-3" /> Admin
+                        </Badge>
+                      ) : (
+                        <Badge variant="secondary" className="gap-1.5 cursor-pointer hover:bg-gray-200">
+                          <User className="w-3 h-3" /> User
+                        </Badge>
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-xs text-brand-secondary/40">
+                    {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : ""}
+                  </p>
                 </div>
 
                 {/* Logo entreprise (business uniquement) */}
@@ -362,19 +395,18 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   </div>
                 )}
 
-                {/* Nom */}
-                <div className="space-y-2">
-                  <Label className="text-brand-primary">Nom complet</Label>
-                  <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-10" />
+                {/* ── Identité ── */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-brand-primary">Nom complet</Label>
+                    <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-10" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-brand-primary">Email</Label>
+                    <Input value={editForm.email} disabled className="h-10 opacity-50 cursor-not-allowed" />
+                  </div>
                 </div>
 
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label className="text-brand-primary">Email</Label>
-                  <Input value={editForm.email} disabled className="h-10 opacity-50 cursor-not-allowed" />
-                </div>
-
-                {/* Téléphone + Entreprise */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label className="text-brand-primary">Téléphone</Label>
@@ -386,7 +418,68 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   </div>
                 </div>
 
-                {/* Équipe IES */}
+                {/* ── Infos entreprise (si entreprise) ── */}
+                {(selectedUser.account_type === "business" || editForm.company) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="text-brand-primary">N° SIRET</Label>
+                      <Input value={editForm.siret} onChange={(e) => setEditForm((prev: any) => ({ ...prev, siret: e.target.value }))} className="h-10" placeholder="123 456 789 00012" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="text-brand-primary">TVA intracommunautaire</Label>
+                      <Input value={editForm.tva_intracom} onChange={(e) => setEditForm((prev: any) => ({ ...prev, tva_intracom: e.target.value }))} className="h-10" placeholder="FR 12 345678901" />
+                    </div>
+                  </div>
+                )}
+
+                {/* ── Adresse de facturation ── */}
+                <div className="space-y-4">
+                  <Label className="text-brand-primary font-semibold">Adresse de facturation</Label>
+                  <div className="space-y-2">
+                    <Input value={editForm.billing_address} onChange={(e) => setEditForm((prev: any) => ({ ...prev, billing_address: e.target.value }))} className="h-10" placeholder="Adresse" />
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="col-span-1">
+                      <Input value={editForm.billing_postal_code} onChange={(e) => setEditForm((prev: any) => ({ ...prev, billing_postal_code: e.target.value }))} className="h-10" placeholder="Code postal" />
+                    </div>
+                    <div className="col-span-1">
+                      <Input value={editForm.billing_city} onChange={(e) => setEditForm((prev: any) => ({ ...prev, billing_city: e.target.value }))} className="h-10" placeholder="Ville" />
+                    </div>
+                    <div className="col-span-1">
+                      <Input value={editForm.billing_country} onChange={(e) => setEditForm((prev: any) => ({ ...prev, billing_country: e.target.value }))} className="h-10" placeholder="Pays" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Adresse de livraison ── */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-brand-primary font-semibold">Adresse de livraison</Label>
+                    <label className="flex items-center gap-2 text-xs text-brand-secondary/60 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={editForm.shipping_same_as_billing}
+                        onChange={(e) => setEditForm((prev: any) => ({ ...prev, shipping_same_as_billing: e.target.checked }))}
+                        className="w-3.5 h-3.5 rounded border-gray-300 text-brand-accent focus:ring-brand-accent/20"
+                      />
+                      Identique à la facturation
+                    </label>
+                  </div>
+                  {!editForm.shipping_same_as_billing && (
+                    <>
+                      <div className="space-y-2">
+                        <Input value={editForm.shipping_address} onChange={(e) => setEditForm((prev: any) => ({ ...prev, shipping_address: e.target.value }))} className="h-10" placeholder="Adresse" />
+                      </div>
+                      <div className="grid grid-cols-3 gap-3">
+                        <Input value={editForm.shipping_postal_code} onChange={(e) => setEditForm((prev: any) => ({ ...prev, shipping_postal_code: e.target.value }))} className="h-10" placeholder="Code postal" />
+                        <Input value={editForm.shipping_city} onChange={(e) => setEditForm((prev: any) => ({ ...prev, shipping_city: e.target.value }))} className="h-10" placeholder="Ville" />
+                        <Input value={editForm.shipping_country} onChange={(e) => setEditForm((prev: any) => ({ ...prev, shipping_country: e.target.value }))} className="h-10" placeholder="Pays" />
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* ── Équipe IES ── */}
                 {selectedUser.team_member_id && (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -399,12 +492,10 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                         <p className="text-sm text-brand-secondary/70 px-3 py-2.5 bg-brand-primary/[0.04] rounded-lg">{selectedUser.team_role_fr || "—"}</p>
                       </div>
                     </div>
-
                     <div className="space-y-2">
                       <Label className="text-brand-primary">LinkedIn</Label>
                       <Input value={editForm.linkedin_url} onChange={(e) => setEditForm((prev: any) => ({ ...prev, linkedin_url: e.target.value }))} className="h-10" placeholder="https://linkedin.com/in/..." />
                     </div>
-
                     <div className="space-y-2">
                       <Label className="text-brand-primary">Bio</Label>
                       <Textarea value={editForm.bio_fr} onChange={(e) => setEditForm((prev: any) => ({ ...prev, bio_fr: e.target.value }))} rows={3} />
@@ -412,41 +503,19 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   </>
                 )}
 
-                {/* Rôle */}
-                <div className="space-y-2">
-                  <Label className="text-brand-primary">Rôle</Label>
-                  <button
-                    type="button"
-                    onClick={() => toggleRole(selectedUser.id, selectedUser.role)}
-                    className="flex items-center gap-2 text-sm"
-                  >
-                    {selectedUser.role === "admin" ? (
-                      <Badge variant="success" className="gap-1.5 cursor-pointer hover:bg-emerald-100">
-                        <Shield className="w-3.5 h-3.5" /> Administrateur
-                      </Badge>
-                    ) : (
-                      <Badge variant="secondary" className="gap-1.5 cursor-pointer hover:bg-gray-200">
-                        <User className="w-3.5 h-3.5" /> Utilisateur
-                      </Badge>
-                    )}
-                  </button>
-                </div>
-
-                {/* Date inscription */}
-                <p className="text-xs text-brand-secondary/40">
-                  Inscrit le {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"}
-                </p>
-
               </div>
             </div>
 
             {/* Sticky footer */}
-            <div className="shrink-0 border-t border-gray-100 bg-[#FAFAF8] px-6 py-4 flex items-center justify-end gap-3">
-              <Button variant="outline" onClick={() => setPanelOpen(false)} className="rounded-lg">Annuler</Button>
-              <Button onClick={handleSave} disabled={isSaving} className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2">
-                {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                Enregistrer
-              </Button>
+            <div className="shrink-0 border-t border-gray-100 bg-[#FAFAF8] px-6 py-4 flex items-center justify-between">
+              <p className="text-[11px] text-brand-secondary/30 font-mono">{selectedUser.id?.slice(0, 8)}</p>
+              <div className="flex items-center gap-3">
+                <Button variant="outline" onClick={() => setPanelOpen(false)} className="rounded-lg">Annuler</Button>
+                <Button onClick={handleSave} disabled={isSaving} className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2">
+                  {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                  Enregistrer
+                </Button>
+              </div>
             </div>
           </div>
         )}

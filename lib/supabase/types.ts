@@ -552,6 +552,17 @@ export type Database = {
           organization_id: string | null
           account_type: string
           must_change_password: boolean
+          siret: string | null
+          tva_intracom: string | null
+          billing_address: string | null
+          billing_city: string | null
+          billing_postal_code: string | null
+          billing_country: string | null
+          shipping_address: string | null
+          shipping_city: string | null
+          shipping_postal_code: string | null
+          shipping_country: string | null
+          shipping_same_as_billing: boolean | null
           updated_at: string | null
         }
         Insert: {
@@ -565,6 +576,17 @@ export type Database = {
           organization_id?: string | null
           account_type?: string
           must_change_password?: boolean
+          siret?: string | null
+          tva_intracom?: string | null
+          billing_address?: string | null
+          billing_city?: string | null
+          billing_postal_code?: string | null
+          billing_country?: string | null
+          shipping_address?: string | null
+          shipping_city?: string | null
+          shipping_postal_code?: string | null
+          shipping_country?: string | null
+          shipping_same_as_billing?: boolean | null
           updated_at?: string | null
         }
         Update: {
@@ -578,6 +600,17 @@ export type Database = {
           organization_id?: string | null
           account_type?: string
           must_change_password?: boolean
+          siret?: string | null
+          tva_intracom?: string | null
+          billing_address?: string | null
+          billing_city?: string | null
+          billing_postal_code?: string | null
+          billing_country?: string | null
+          shipping_address?: string | null
+          shipping_city?: string | null
+          shipping_postal_code?: string | null
+          shipping_country?: string | null
+          shipping_same_as_billing?: boolean | null
           updated_at?: string | null
         }
         Relationships: []
