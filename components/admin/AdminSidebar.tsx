@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { usePathname, useRouter, Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
@@ -59,6 +59,8 @@ export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
 
   const handleSignOut = async () => {
     const supabase = createClient();
@@ -100,23 +102,41 @@ export function AdminSidebar() {
               </p>
             )}
             <div className="space-y-1">
-              {group.items.map((item) => (
-                <Link
-                  key={item.href}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  href={item.href as any}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
-                    isActive(item.href, "end" in item ? item.end : undefined)
-                      ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/20"
-                      : "text-white/70 hover:text-white hover:bg-white/10"
-                  )}
-                >
-                  <item.icon className="w-5 h-5 shrink-0" />
-                  <span>{item.label}</span>
-                </Link>
-              ))}
+              {group.items.map((item) => {
+                const active = isActive(item.href, "end" in item ? item.end : undefined);
+                const loading = isPending && pendingHref === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    href={item.href as any}
+                    onClick={(e) => {
+                      if (!active) {
+                        e.preventDefault();
+                        setPendingHref(item.href);
+                        setIsOpen(false);
+                        startTransition(() => {
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          router.push(item.href as any);
+                        });
+                      } else {
+                        setIsOpen(false);
+                      }
+                    }}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                      active
+                        ? "bg-brand-accent text-white shadow-lg shadow-brand-accent/20"
+                        : loading
+                          ? "bg-white/15 text-white"
+                          : "text-white/70 hover:text-white hover:bg-white/10"
+                    )}
+                  >
+                    <item.icon className={cn("w-5 h-5 shrink-0", loading && "animate-pulse")} />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         ))}
