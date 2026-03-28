@@ -16,7 +16,7 @@ interface ImageUploadProps {
   bucket?: string;
   folder?: string;
   label?: string;
-  aspect?: "square" | "video" | "banner";
+  aspect?: "square" | "video" | "banner" | "portrait";
   showAlt?: boolean;
   onOpenLibrary?: () => void;
 }
@@ -73,6 +73,7 @@ export function ImageUpload({
     square: "aspect-square",
     video: "aspect-video",
     banner: "aspect-[3/1]",
+    portrait: "aspect-[3/4]",
   }[aspect];
 
   const uploadFile = useCallback(async (file: File) => {
