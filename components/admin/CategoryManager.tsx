@@ -450,12 +450,12 @@ export function CategoryManager({
             <AlertDialogTitle>Supprimer cette catégorie ?</AlertDialogTitle>
             <AlertDialogDescription asChild>
               <div className="space-y-3">
-                <p>Si des articles utilisent cette catégorie, vous devrez les réassigner. Tapez <strong className="text-red-600 font-mono">SUPPRIMER</strong> pour confirmer.</p>
+                <p className="text-white/60">Si des articles utilisent cette catégorie, vous devrez les réassigner. Tapez <strong className="text-red-400 font-mono">SUPPRIMER</strong> pour confirmer.</p>
                 <Input
                   value={deleteConfirm}
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   placeholder="Tapez SUPPRIMER"
-                  className="font-mono"
+                  className="font-mono bg-white/10 border-white/20 text-white placeholder:text-white/30 focus:border-white/40"
                   autoFocus
                 />
               </div>
