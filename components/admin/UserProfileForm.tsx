@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useRef } from "react";
-import { Save, Loader2, Linkedin, Instagram, Globe, Twitter, Upload, X } from "lucide-react";
+import { Save, Loader2, Linkedin, Instagram, Globe, Twitter, Upload, X, Search } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,8 +17,24 @@ interface UserProfileFormProps {
   showAvatar?: boolean;
 }
 
+interface SireneResult {
+  nom_complet: string;
+  siege: {
+    siret: string;
+    adresse: string;
+    code_postal: string;
+    commune: string;
+    numero_tva_intra?: string;
+  };
+  nombre_etablissements: number;
+}
+
 export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormProps) {
   const [isSaving, setIsSaving] = useState(false);
+  const [sireneQuery, setSireneQuery] = useState("");
+  const [sireneResults, setSireneResults] = useState<SireneResult[]>([]);
+  const [sireneLoading, setSireneLoading] = useState(false);
+  const sireneTimerRef = useRef<NodeJS.Timeout | null>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     avatar_url: profile.avatar_url || "",
@@ -58,6 +74,39 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
       handleChange("avatar_url", url);
       toast.success("Logo uploadé");
     } catch { toast.error("Erreur upload"); }
+  };
+
+  const searchSirene = (query: string) => {
+    setSireneQuery(query);
+    if (sireneTimerRef.current) clearTimeout(sireneTimerRef.current);
+    if (query.length < 3) { setSireneResults([]); return; }
+    sireneTimerRef.current = setTimeout(async () => {
+      setSireneLoading(true);
+      try {
+        const res = await fetch(`https://recherche-entreprises.api.gouv.fr/search?q=${encodeURIComponent(query)}&page=1&per_page=5`);
+        if (res.ok) {
+          const data = await res.json();
+          setSireneResults(data.results || []);
+        }
+      } catch { /* silent */ }
+      finally { setSireneLoading(false); }
+    }, 300);
+  };
+
+  const selectSirene = (result: SireneResult) => {
+    setForm((prev) => ({
+      ...prev,
+      company: result.nom_complet,
+      siret: result.siege.siret,
+      tva_intracom: result.siege.numero_tva_intra || "",
+      billing_address: result.siege.adresse || "",
+      billing_postal_code: result.siege.code_postal || "",
+      billing_city: result.siege.commune || "",
+      billing_country: "France",
+    }));
+    setSireneQuery("");
+    setSireneResults([]);
+    toast.success(`${result.nom_complet} — données importées`);
   };
 
   const handleChange = (key: string, value: string | boolean) => {
@@ -167,6 +216,36 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
               <Label className="text-brand-primary">Entreprise</Label>
               <Input value={form.company} onChange={(e) => handleChange("company", e.target.value)} className="h-10" />
             </div>
+          </div>
+
+          {/* ── Recherche entreprise (API SIRENE) ── */}
+          <div className="space-y-2 relative">
+            <Label className="text-brand-primary">Rechercher une entreprise</Label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Input
+                value={sireneQuery}
+                onChange={(e) => searchSirene(e.target.value)}
+                className="h-10 pl-9"
+                placeholder="Nom ou SIRET..."
+              />
+              {sireneLoading && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 animate-spin text-brand-accent" />}
+            </div>
+            {sireneResults.length > 0 && (
+              <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white rounded-xl border border-gray-200 shadow-lg max-h-60 overflow-y-auto">
+                {sireneResults.map((r) => (
+                  <button
+                    key={r.siege.siret}
+                    type="button"
+                    onClick={() => selectSirene(r)}
+                    className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0"
+                  >
+                    <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
+                    <p className="text-xs text-gray-500">SIRET {r.siege.siret} — {r.siege.commune} ({r.siege.code_postal})</p>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* ── Entreprise ── */}
