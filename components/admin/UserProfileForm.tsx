@@ -1,8 +1,9 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
-import { Save, Loader2, Linkedin, Instagram, Globe, Twitter } from "lucide-react";
+import { useState, useRef } from "react";
+import { Save, Loader2, Linkedin, Instagram, Globe, Twitter, Upload, X } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,7 +19,9 @@ interface UserProfileFormProps {
 
 export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormProps) {
   const [isSaving, setIsSaving] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
+    avatar_url: profile.avatar_url || "",
     first_name: profile.first_name || (profile.full_name?.split(" ")[0]) || "",
     last_name: profile.last_name || (profile.full_name?.split(" ").slice(1).join(" ")) || "",
     email: profile.email || "",
@@ -41,6 +44,22 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
     website_url: profile.website_url || "",
   });
 
+  const handleLogoUpload = async (file: File) => {
+    if (file.type !== "image/svg+xml") { toast.error("SVG uniquement"); return; }
+    if (file.size > 150 * 1024) { toast.error("Max 150 Ko"); return; }
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("bucket", "product-images");
+    fd.append("folder", "logos");
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) throw new Error("Échec");
+      const { url } = await res.json();
+      handleChange("avatar_url", url);
+      toast.success("Logo uploadé");
+    } catch { toast.error("Erreur upload"); }
+  };
+
   const handleChange = (key: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
@@ -58,6 +77,7 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
           first_name: form.first_name || null,
           last_name: form.last_name || null,
           full_name: fullName || null,
+          avatar_url: form.avatar_url || null,
           phone: form.phone || null,
           company: form.company || null,
           siret: form.siret || null,
@@ -92,6 +112,33 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto">
         <div className="p-6 space-y-6">
+
+          {/* ── Logo entreprise ── */}
+          {(profile.account_type === "business" || profile.company) && profile.account_type !== "internal" && (
+            <div className="space-y-2">
+              <Label className="text-brand-primary">Logo entreprise</Label>
+              <div className="flex items-center gap-4">
+                {form.avatar_url ? (
+                  <div className="relative w-16 h-16 rounded-xl bg-brand-primary p-2 flex items-center justify-center">
+                    <Image src={form.avatar_url} alt="Logo" width={48} height={48} className="w-full h-full object-contain" />
+                    <button type="button" onClick={() => handleChange("avatar_url", "")}
+                      className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <button type="button" onClick={() => logoInputRef.current?.click()}
+                    className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-200 hover:border-brand-accent/40 flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-brand-accent transition-colors">
+                    <Upload className="w-4 h-4" />
+                    <span className="text-[9px] font-medium">SVG</span>
+                  </button>
+                )}
+                <p className="text-xs text-brand-secondary/50">SVG, carré, max 150 Ko</p>
+                <input ref={logoInputRef} type="file" accept=".svg,image/svg+xml" className="hidden"
+                  onChange={(e) => { if (e.target.files?.[0]) handleLogoUpload(e.target.files[0]); }} />
+              </div>
+            </div>
+          )}
 
           {/* ── Identité ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
