@@ -35,10 +35,12 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
     siret: profile.siret || "",
     tva_intracom: profile.tva_intracom || "",
     billing_address: profile.billing_address || "",
+    billing_complement: profile.billing_complement || "",
     billing_city: profile.billing_city || "",
     billing_postal_code: profile.billing_postal_code || "",
     billing_country: profile.billing_country || "France",
     shipping_address: profile.shipping_address || "",
+    shipping_complement: profile.shipping_complement || "",
     shipping_city: profile.shipping_city || "",
     shipping_postal_code: profile.shipping_postal_code || "",
     shipping_country: profile.shipping_country || "France",
@@ -86,14 +88,14 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
   const selectSirene = (result: any) => {
     const s = result.siege || {};
     const rue = [s.numero_voie, s.type_voie, s.libelle_voie].filter(Boolean).join(" ");
-    const adresse = s.complement_adresse ? `${rue}, ${s.complement_adresse}` : rue;
 
     setForm((prev) => ({
       ...prev,
       company: result.nom_complet || "",
       siret: s.siret || "",
       tva_intracom: result.numero_tva_intra || "",
-      billing_address: adresse,
+      billing_address: rue,
+      billing_complement: s.complement_adresse || "",
       billing_postal_code: s.code_postal || "",
       billing_city: s.libelle_commune || "",
       billing_country: "France",
@@ -126,11 +128,13 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
           siret: form.siret || null,
           tva_intracom: form.tva_intracom || null,
           billing_address: form.billing_address || null,
+          billing_complement: form.billing_complement || null,
           billing_city: form.billing_city || null,
           billing_postal_code: form.billing_postal_code || null,
           billing_country: form.billing_country || null,
           shipping_same_as_billing: form.shipping_same_as_billing,
           shipping_address: form.shipping_same_as_billing ? null : (form.shipping_address || null),
+          shipping_complement: form.shipping_same_as_billing ? null : (form.shipping_complement || null),
           shipping_city: form.shipping_same_as_billing ? null : (form.shipping_city || null),
           shipping_postal_code: form.shipping_same_as_billing ? null : (form.shipping_postal_code || null),
           shipping_country: form.shipping_same_as_billing ? null : (form.shipping_country || null),
@@ -259,7 +263,8 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
           {/* ── Adresse de facturation ── */}
           <div className="space-y-3">
             <Label className="text-brand-primary font-semibold">Adresse de facturation</Label>
-            <Input value={form.billing_address} onChange={(e) => handleChange("billing_address", e.target.value)} className="h-10" placeholder="Adresse" />
+            <Input value={form.billing_address} onChange={(e) => handleChange("billing_address", e.target.value)} className="h-10" placeholder="N° et rue" />
+            <Input value={form.billing_complement} onChange={(e) => handleChange("billing_complement", e.target.value)} className="h-10" placeholder="Complément (bâtiment, étage, etc.)" />
             <div className="grid grid-cols-3 gap-3">
               <Input value={form.billing_postal_code} onChange={(e) => handleChange("billing_postal_code", e.target.value)} className="h-10" placeholder="Code postal" />
               <Input value={form.billing_city} onChange={(e) => handleChange("billing_city", e.target.value)} className="h-10" placeholder="Ville" />
@@ -283,7 +288,8 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
             </div>
             {!form.shipping_same_as_billing && (
               <>
-                <Input value={form.shipping_address} onChange={(e) => handleChange("shipping_address", e.target.value)} className="h-10" placeholder="Adresse" />
+                <Input value={form.shipping_address} onChange={(e) => handleChange("shipping_address", e.target.value)} className="h-10" placeholder="N° et rue" />
+                <Input value={form.shipping_complement} onChange={(e) => handleChange("shipping_complement", e.target.value)} className="h-10" placeholder="Complément (bâtiment, étage, etc.)" />
                 <div className="grid grid-cols-3 gap-3">
                   <Input value={form.shipping_postal_code} onChange={(e) => handleChange("shipping_postal_code", e.target.value)} className="h-10" placeholder="Code postal" />
                   <Input value={form.shipping_city} onChange={(e) => handleChange("shipping_city", e.target.value)} className="h-10" placeholder="Ville" />
