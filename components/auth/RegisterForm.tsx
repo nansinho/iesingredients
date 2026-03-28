@@ -44,21 +44,23 @@ export function RegisterForm() {
     confirmPassword: "",
   });
 
-  const searchSirene = (query: string) => {
+  const searchSirene = async (query: string) => {
     setSireneQuery(query);
-    if (sireneTimerRef.current) clearTimeout(sireneTimerRef.current);
     if (query.length < 3) { setSireneResults([]); return; }
+    if (sireneTimerRef.current) clearTimeout(sireneTimerRef.current);
     sireneTimerRef.current = setTimeout(async () => {
       setSireneLoading(true);
       try {
-        const res = await fetch(`https://recherche-entreprises.api.gouv.fr/search?q=${encodeURIComponent(query)}&page=1&per_page=5`);
+        const res = await fetch(`/api/sirene?q=${encodeURIComponent(query)}`);
         if (res.ok) {
           const data = await res.json();
           setSireneResults(data.results || []);
         }
-      } catch { /* silent */ }
-      finally { setSireneLoading(false); }
-    }, 300);
+      } catch {
+      } finally {
+        setSireneLoading(false);
+      }
+    }, 400);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
