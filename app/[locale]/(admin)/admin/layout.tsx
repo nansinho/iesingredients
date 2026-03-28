@@ -28,6 +28,8 @@ export default async function AdminLayout({
     avatar_url: (profile as Record<string, unknown>)?.avatar_url as string | null ?? null,
     linkedin_url: (profile as Record<string, unknown>)?.linkedin_url as string | null ?? null,
     instagram_url: (profile as Record<string, unknown>)?.instagram_url as string | null ?? null,
+    twitter_url: (profile as Record<string, unknown>)?.twitter_url as string | null ?? null,
+    website_url: (profile as Record<string, unknown>)?.website_url as string | null ?? null,
   };
 
   return (

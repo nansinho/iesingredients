@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Settings, Loader2, Linkedin, Instagram } from "lucide-react";
+import { User, Settings, Loader2, Linkedin, Instagram, Globe, Twitter } from "lucide-react";
 
 interface AdminProfile {
   id: string;
@@ -34,6 +34,8 @@ interface AdminProfile {
   avatar_url: string | null;
   linkedin_url: string | null;
   instagram_url: string | null;
+  twitter_url?: string | null;
+  website_url?: string | null;
 }
 
 function getInitials(name: string | null, email: string | null): string {
@@ -59,6 +61,8 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
     phone: profile.phone || "",
     linkedinUrl: profile.linkedin_url || "",
     instagramUrl: profile.instagram_url || "",
+    twitterUrl: profile.twitter_url || "",
+    websiteUrl: profile.website_url || "",
   });
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
 
@@ -70,8 +74,14 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error("L'image ne doit pas dépasser 2 Mo");
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Formats acceptés : JPG, PNG, WebP");
+      return;
+    }
+
+    if (file.size > 500 * 1024) {
+      toast.error("L'image ne doit pas dépasser 500 Ko");
       return;
     }
 
@@ -114,6 +124,8 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
           phone: form.phone || null,
           linkedin_url: form.linkedinUrl || null,
           instagram_url: form.instagramUrl || null,
+          twitter_url: form.twitterUrl || null,
+          website_url: form.websiteUrl || null,
           avatar_url: avatarUrl || null,
           updated_at: new Date().toISOString(),
         })
@@ -207,11 +219,11 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
                 <input
                   id="avatar-upload"
                   type="file"
-                  accept="image/*"
+                  accept=".jpg,.jpeg,.png,.webp"
                   onChange={handleAvatarUpload}
                   className="hidden"
                 />
-                <p className="text-xs text-gray-400 mt-1">JPG, PNG. Max 2 Mo</p>
+                <p className="text-xs text-gray-400 mt-1">JPG, PNG, WebP. Max 500 Ko</p>
               </div>
             </div>
 
@@ -273,6 +285,26 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
                     value={form.instagramUrl}
                     onChange={handleChange}
                     placeholder="https://instagram.com/..."
+                    className="flex-1"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Twitter className="h-4 w-4 text-gray-800 shrink-0" />
+                  <Input
+                    name="twitterUrl"
+                    value={form.twitterUrl}
+                    onChange={handleChange}
+                    placeholder="https://x.com/..."
+                    className="flex-1"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Globe className="h-4 w-4 text-brand-accent shrink-0" />
+                  <Input
+                    name="websiteUrl"
+                    value={form.websiteUrl}
+                    onChange={handleChange}
+                    placeholder="https://monsite.com"
                     className="flex-1"
                   />
                 </div>
