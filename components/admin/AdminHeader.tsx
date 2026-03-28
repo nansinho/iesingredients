@@ -36,6 +36,17 @@ interface AdminProfile {
   instagram_url: string | null;
   twitter_url?: string | null;
   website_url?: string | null;
+  siret?: string | null;
+  tva_intracom?: string | null;
+  billing_address?: string | null;
+  billing_city?: string | null;
+  billing_postal_code?: string | null;
+  billing_country?: string | null;
+  shipping_address?: string | null;
+  shipping_city?: string | null;
+  shipping_postal_code?: string | null;
+  shipping_country?: string | null;
+  shipping_same_as_billing?: boolean | null;
 }
 
 function getInitials(name: string | null, email: string | null): string {
@@ -63,6 +74,17 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
     instagramUrl: profile.instagram_url || "",
     twitterUrl: profile.twitter_url || "",
     websiteUrl: profile.website_url || "",
+    siret: profile.siret || "",
+    tvaIntracom: profile.tva_intracom || "",
+    billingAddress: profile.billing_address || "",
+    billingCity: profile.billing_city || "",
+    billingPostalCode: profile.billing_postal_code || "",
+    billingCountry: profile.billing_country || "France",
+    shippingAddress: profile.shipping_address || "",
+    shippingCity: profile.shipping_city || "",
+    shippingPostalCode: profile.shipping_postal_code || "",
+    shippingCountry: profile.shipping_country || "France",
+    shippingSameAsBilling: profile.shipping_same_as_billing !== false,
   });
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar_url || "");
 
@@ -127,6 +149,17 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
           twitter_url: form.twitterUrl || null,
           website_url: form.websiteUrl || null,
           avatar_url: avatarUrl || null,
+          siret: form.siret || null,
+          tva_intracom: form.tvaIntracom || null,
+          billing_address: form.billingAddress || null,
+          billing_city: form.billingCity || null,
+          billing_postal_code: form.billingPostalCode || null,
+          billing_country: form.billingCountry || null,
+          shipping_same_as_billing: form.shippingSameAsBilling,
+          shipping_address: form.shippingSameAsBilling ? null : (form.shippingAddress || null),
+          shipping_city: form.shippingSameAsBilling ? null : (form.shippingCity || null),
+          shipping_postal_code: form.shippingSameAsBilling ? null : (form.shippingPostalCode || null),
+          shipping_country: form.shippingSameAsBilling ? null : (form.shippingCountry || null),
           updated_at: new Date().toISOString(),
         })
         .eq("id", profile.id);
@@ -262,6 +295,57 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
                 onChange={handleChange}
                 placeholder="+33 6 12 34 56 78"
               />
+            </div>
+
+            {/* Entreprise */}
+            {form.company && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label>N° SIRET</Label>
+                  <Input name="siret" value={form.siret} onChange={handleChange} placeholder="123 456 789 00012" />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>TVA intracommunautaire</Label>
+                  <Input name="tvaIntracom" value={form.tvaIntracom} onChange={handleChange} placeholder="FR 12 345678901" />
+                </div>
+              </div>
+            )}
+
+            {/* Adresse de facturation */}
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-gray-700">Adresse de facturation</p>
+              <Input name="billingAddress" value={form.billingAddress} onChange={handleChange} placeholder="Adresse" />
+              <div className="grid grid-cols-3 gap-3">
+                <Input name="billingPostalCode" value={form.billingPostalCode} onChange={handleChange} placeholder="Code postal" />
+                <Input name="billingCity" value={form.billingCity} onChange={handleChange} placeholder="Ville" />
+                <Input name="billingCountry" value={form.billingCountry} onChange={handleChange} placeholder="Pays" />
+              </div>
+            </div>
+
+            {/* Adresse de livraison */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-gray-700">Adresse de livraison</p>
+                <label className="flex items-center gap-2 text-xs text-gray-500 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.shippingSameAsBilling}
+                    onChange={(e) => setForm((prev) => ({ ...prev, shippingSameAsBilling: e.target.checked }))}
+                    className="w-3.5 h-3.5 rounded border-gray-300 text-brand-accent"
+                  />
+                  Identique
+                </label>
+              </div>
+              {!form.shippingSameAsBilling && (
+                <>
+                  <Input name="shippingAddress" value={form.shippingAddress} onChange={handleChange} placeholder="Adresse" />
+                  <div className="grid grid-cols-3 gap-3">
+                    <Input name="shippingPostalCode" value={form.shippingPostalCode} onChange={handleChange} placeholder="Code postal" />
+                    <Input name="shippingCity" value={form.shippingCity} onChange={handleChange} placeholder="Ville" />
+                    <Input name="shippingCountry" value={form.shippingCountry} onChange={handleChange} placeholder="Pays" />
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Social links */}

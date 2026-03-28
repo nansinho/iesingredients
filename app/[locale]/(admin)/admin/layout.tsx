@@ -19,17 +19,30 @@ export default async function AdminLayout({
 
   const [messages, profile] = await Promise.all([getMessages(), getProfile()]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const p = profile as any;
   const adminProfile = {
-    id: profile?.id || "",
-    full_name: profile?.full_name || null,
-    email: profile?.email || null,
-    company: profile?.company || null,
-    phone: profile?.phone || null,
-    avatar_url: (profile as Record<string, unknown>)?.avatar_url as string | null ?? null,
-    linkedin_url: (profile as Record<string, unknown>)?.linkedin_url as string | null ?? null,
-    instagram_url: (profile as Record<string, unknown>)?.instagram_url as string | null ?? null,
-    twitter_url: (profile as Record<string, unknown>)?.twitter_url as string | null ?? null,
-    website_url: (profile as Record<string, unknown>)?.website_url as string | null ?? null,
+    id: p?.id || "",
+    full_name: (p?.full_name as string) || null,
+    email: (p?.email as string) || null,
+    company: (p?.company as string) || null,
+    phone: (p?.phone as string) || null,
+    avatar_url: (p?.avatar_url as string) || null,
+    linkedin_url: (p?.linkedin_url as string) || null,
+    instagram_url: (p?.instagram_url as string) || null,
+    twitter_url: (p?.twitter_url as string) || null,
+    website_url: (p?.website_url as string) || null,
+    siret: (p?.siret as string) || null,
+    tva_intracom: (p?.tva_intracom as string) || null,
+    billing_address: (p?.billing_address as string) || null,
+    billing_city: (p?.billing_city as string) || null,
+    billing_postal_code: (p?.billing_postal_code as string) || null,
+    billing_country: (p?.billing_country as string) || null,
+    shipping_address: (p?.shipping_address as string) || null,
+    shipping_city: (p?.shipping_city as string) || null,
+    shipping_postal_code: (p?.shipping_postal_code as string) || null,
+    shipping_country: (p?.shipping_country as string) || null,
+    shipping_same_as_billing: p?.shipping_same_as_billing !== false,
   };
 
   return (

@@ -35,15 +35,10 @@ export async function getProfile() {
 
     if (!profile) return null;
     const p = profile as Record<string, unknown>;
-    return { ...p, email: user.email } as {
+    return { ...p, email: user.email } as Record<string, unknown> & {
       id: string;
       full_name: string | null;
-      company: string | null;
-      phone: string | null;
       email: string | undefined;
-      avatar_url: string | null;
-      linkedin_url: string | null;
-      instagram_url: string | null;
     };
   } catch (error) {
     console.error("Failed to get profile:", error);
