@@ -17,7 +17,7 @@ import {
   Phone,
   Calendar,
   Copy,
-  Filter,
+  Briefcase,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,16 +38,26 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
+import { logAudit } from "@/lib/audit";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
+type AccountTab = "all" | "internal" | "business" | "individual";
+
+const tabs: { value: AccountTab; label: string; icon: typeof Users }[] = [
+  { value: "all", label: "Tous", icon: Users },
+  { value: "internal", label: "Équipe IES", icon: Shield },
+  { value: "business", label: "Entreprises", icon: Briefcase },
+  { value: "individual", label: "Particuliers", icon: User },
+];
+
+const accountTypeBadge: Record<string, { label: string; bg: string; text: string; border: string }> = {
+  internal: { label: "IES", bg: "#2E1F3D", text: "#FAF8F6", border: "#2E1F3D" },
+  business: { label: "Entreprise", bg: "#B87A6A", text: "#FFFFFF", border: "#B87A6A" },
+  individual: { label: "Particulier", bg: "#E0DCD5", text: "#2E1F3D", border: "#C4C0BC" },
+};
 
 function getInitials(name?: string | null): string {
   if (!name) return "?";
@@ -89,23 +99,37 @@ function timeAgo(dateStr: string): string {
   return `Il y a ${Math.floor(diffDays / 365)} an(s)`;
 }
 
+function AccountTypeBadge({ type }: { type: string }) {
+  const config = accountTypeBadge[type] || accountTypeBadge.individual;
+  return (
+    <span
+      className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold tracking-wide"
+      style={{ backgroundColor: config.bg, color: config.text, borderColor: config.border }}
+    >
+      {config.label}
+    </span>
+  );
+}
+
 export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
   const [users, setUsers] = useState(initialUsers);
   const [search, setSearch] = useState("");
-  const [roleFilter, setRoleFilter] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<AccountTab>("all");
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
 
   // Stats
   const stats = useMemo(() => {
     const total = users.length;
-    const admins = users.filter((u) => u.role === "admin").length;
+    const internal = users.filter((u) => u.account_type === "internal").length;
+    const business = users.filter((u) => u.account_type === "business").length;
+    const individual = users.filter((u) => u.account_type === "individual" || !u.account_type).length;
     const now = new Date();
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     const recent = users.filter(
       (u) => u.created_at && new Date(u.created_at) >= thirtyDaysAgo
     ).length;
-    return { total, admins, users: total - admins, recent };
+    return { total, internal, business, individual, recent };
   }, [users]);
 
   // Filtered users
@@ -116,13 +140,25 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         u.full_name?.toLowerCase().includes(search.toLowerCase()) ||
         u.email?.toLowerCase().includes(search.toLowerCase()) ||
         u.company?.toLowerCase().includes(search.toLowerCase());
-      const matchRole = roleFilter === "all" || u.role === roleFilter;
-      return matchSearch && matchRole;
+      const matchTab =
+        activeTab === "all" ||
+        (activeTab === "individual"
+          ? u.account_type === "individual" || !u.account_type
+          : u.account_type === activeTab);
+      return matchSearch && matchTab;
     });
-  }, [users, search, roleFilter]);
+  }, [users, search, activeTab]);
 
   const toggleRole = async (userId: string, currentRole: string) => {
     const newRole = currentRole === "admin" ? "user" : "admin";
+    const user = users.find((u) => u.id === userId);
+
+    // Only @ies-ingredients.com can be admin
+    if (newRole === "admin" && user?.email && !user.email.endsWith("@ies-ingredients.com")) {
+      toast.error("Seuls les emails @ies-ingredients.com peuvent être administrateurs");
+      return;
+    }
+
     const supabase = createClient();
 
     const { error: deleteError } = await supabase
@@ -144,6 +180,14 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       toast.error("Erreur lors du changement de rôle");
       return;
     }
+
+    logAudit({
+      action: "update",
+      entityType: "user_role",
+      entityId: userId,
+      entityLabel: user?.full_name || user?.email,
+      details: { role: newRole },
+    });
 
     setUsers((prev) =>
       prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
@@ -173,7 +217,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
       />
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
         <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
           <div className="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center">
             <Users className="w-5 h-5 text-brand-primary" />
@@ -184,21 +228,32 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-            <Shield className="w-5 h-5 text-purple-600" />
+          <div className="w-10 h-10 rounded-lg bg-brand-primary/10 flex items-center justify-center">
+            <Shield className="w-5 h-5 text-brand-primary" />
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">{stats.admins}</p>
-            <p className="text-xs text-gray-500">Admins</p>
+            <p className="text-2xl font-bold text-gray-900">{stats.internal}</p>
+            <p className="text-xs text-gray-500">Équipe IES</p>
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-            <User className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 rounded-lg" style={{ backgroundColor: "#B87A6A20" }}>
+            <div className="w-full h-full flex items-center justify-center">
+              <Briefcase className="w-5 h-5" style={{ color: "#B87A6A" }} />
+            </div>
           </div>
           <div>
-            <p className="text-2xl font-bold text-gray-900">{stats.users}</p>
-            <p className="text-xs text-gray-500">Utilisateurs</p>
+            <p className="text-2xl font-bold text-gray-900">{stats.business}</p>
+            <p className="text-xs text-gray-500">Entreprises</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
+            <User className="w-5 h-5 text-gray-600" />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-gray-900">{stats.individual}</p>
+            <p className="text-xs text-gray-500">Particuliers</p>
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
@@ -212,8 +267,36 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         </div>
       </div>
 
-      {/* Toolbar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+      {/* Tabs */}
+      <div className="flex items-center gap-1 mb-4 bg-gray-100 rounded-xl p-1 w-fit">
+        {tabs.map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() => setActiveTab(tab.value)}
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
+              activeTab === tab.value
+                ? "bg-white text-brand-primary shadow-sm"
+                : "text-gray-500 hover:text-gray-700"
+            )}
+          >
+            <tab.icon className="w-4 h-4" />
+            {tab.label}
+            <span className={cn(
+              "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
+              activeTab === tab.value ? "bg-brand-primary/10 text-brand-primary" : "bg-gray-200 text-gray-500"
+            )}>
+              {tab.value === "all" ? stats.total
+                : tab.value === "internal" ? stats.internal
+                : tab.value === "business" ? stats.business
+                : stats.individual}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Search */}
+      <div className="mb-4">
         <div className="relative w-full sm:w-80">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
@@ -223,19 +306,6 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
             className="pl-9 h-10 rounded-xl border-gray-200 focus:border-brand-accent"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-gray-400" />
-          <Select value={roleFilter} onValueChange={setRoleFilter}>
-            <SelectTrigger className="w-[150px] h-10 rounded-xl border-gray-200">
-              <SelectValue placeholder="Filtrer par rôle" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les rôles</SelectItem>
-              <SelectItem value="admin">Admins</SelectItem>
-              <SelectItem value="user">Utilisateurs</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       {/* Table */}
@@ -243,23 +313,26 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b bg-brand-primary/5">
-                <th className="text-left px-4 py-3 font-medium text-brand-primary">
+              <tr className="border-b bg-gray-50/80">
+                <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500">
                   Utilisateur
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-brand-primary hidden md:table-cell">
+                <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">
                   Email
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-brand-primary hidden lg:table-cell">
+                <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 hidden lg:table-cell">
                   Entreprise
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-brand-primary">
+                <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500">
+                  Type
+                </th>
+                <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500">
                   Rôle
                 </th>
-                <th className="text-left px-4 py-3 font-medium text-brand-primary hidden sm:table-cell">
+                <th className="text-left px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 hidden sm:table-cell">
                   Inscrit
                 </th>
-                <th className="text-right px-4 py-3 font-medium text-brand-primary w-20">
+                <th className="text-right px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 w-20">
                   Actions
                 </th>
               </tr>
@@ -267,7 +340,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center py-16 text-gray-400">
+                  <td colSpan={7} className="text-center py-16 text-gray-400">
                     <div className="flex flex-col items-center gap-2">
                       <Search className="w-8 h-8 opacity-30" />
                       <p className="text-sm">Aucun utilisateur trouvé</p>
@@ -278,7 +351,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                 filtered.map((user) => (
                   <tr
                     key={user.id}
-                    className="border-b last:border-0 hover:bg-brand-primary/5 transition-colors group"
+                    className="border-b last:border-0 hover:bg-brand-primary/[0.03] transition-colors group"
                   >
                     {/* User */}
                     <td className="px-4 py-3">
@@ -306,31 +379,33 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
 
                     {/* Email */}
                     <td className="px-4 py-3 hidden md:table-cell">
-                      <span className="text-gray-600">{user.email}</span>
+                      <span className="text-gray-600 text-xs">{user.email}</span>
                     </td>
 
                     {/* Company */}
                     <td className="px-4 py-3 hidden lg:table-cell">
                       {user.company ? (
-                        <span className="text-gray-600">{user.company}</span>
+                        <span className="text-gray-600 text-xs">{user.company}</span>
                       ) : (
                         <span className="text-gray-300">—</span>
                       )}
                     </td>
 
+                    {/* Account Type Badge */}
+                    <td className="px-4 py-3">
+                      <AccountTypeBadge type={user.account_type || "individual"} />
+                    </td>
+
                     {/* Role */}
                     <td className="px-4 py-3">
                       {user.role === "admin" ? (
-                        <Badge className="bg-purple-100 text-purple-800 border-purple-200">
-                          <Shield className="w-3 h-3 mr-1" />
+                        <Badge variant="success" className="gap-1">
+                          <Shield className="w-3 h-3" />
                           Admin
                         </Badge>
                       ) : (
-                        <Badge
-                          variant="secondary"
-                          className="bg-gray-100 text-gray-600 border-gray-200"
-                        >
-                          <User className="w-3 h-3 mr-1" />
+                        <Badge variant="secondary" className="gap-1">
+                          <User className="w-3 h-3" />
                           User
                         </Badge>
                       )}
@@ -424,7 +499,6 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
           <div className="px-4 py-3 border-t bg-gray-50/50 text-xs text-gray-500">
             {filtered.length} utilisateur{filtered.length > 1 ? "s" : ""} affiché
             {filtered.length > 1 ? "s" : ""}
-            {roleFilter !== "all" && ` (filtre: ${roleFilter})`}
           </div>
         )}
       </div>
@@ -460,20 +534,20 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   <h3 className="font-semibold text-lg text-gray-900">
                     {selectedUser.full_name || "Sans nom"}
                   </h3>
-                  {selectedUser.role === "admin" ? (
-                    <Badge className="bg-purple-100 text-purple-800 border-purple-200 mt-1">
-                      <Shield className="w-3 h-3 mr-1" />
-                      Admin
-                    </Badge>
-                  ) : (
-                    <Badge
-                      variant="secondary"
-                      className="bg-gray-100 text-gray-600 border-gray-200 mt-1"
-                    >
-                      <User className="w-3 h-3 mr-1" />
-                      Utilisateur
-                    </Badge>
-                  )}
+                  <div className="flex items-center gap-2 mt-1">
+                    <AccountTypeBadge type={selectedUser.account_type || "individual"} />
+                    {selectedUser.role === "admin" ? (
+                      <Badge variant="success" className="gap-1">
+                        <Shield className="w-3 h-3" />
+                        Admin
+                      </Badge>
+                    ) : (
+                      <Badge variant="secondary" className="gap-1">
+                        <User className="w-3 h-3" />
+                        User
+                      </Badge>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -504,11 +578,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                     {selectedUser.created_at
                       ? new Date(selectedUser.created_at).toLocaleDateString(
                           "fr-FR",
-                          {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          }
+                          { day: "numeric", month: "long", year: "numeric" }
                         )
                       : "—"}
                   </span>
@@ -521,11 +591,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   variant="outline"
                   size="sm"
                   className="rounded-lg text-xs"
-                  onClick={() => {
-                    if (selectedUser.email) {
-                      copyEmail(selectedUser.email);
-                    }
-                  }}
+                  onClick={() => selectedUser.email && copyEmail(selectedUser.email)}
                 >
                   <Copy className="w-3.5 h-3.5 mr-1.5" />
                   Copier email
@@ -534,11 +600,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   variant="outline"
                   size="sm"
                   className="rounded-lg text-xs"
-                  onClick={() => {
-                    if (selectedUser.email) {
-                      window.open(`mailto:${selectedUser.email}`, "_blank");
-                    }
-                  }}
+                  onClick={() => selectedUser.email && window.open(`mailto:${selectedUser.email}`, "_blank")}
                 >
                   <Mail className="w-3.5 h-3.5 mr-1.5" />
                   Envoyer email
@@ -555,10 +617,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                     toggleRole(selectedUser.id, selectedUser.role);
                     setSelectedUser((prev: any) =>
                       prev
-                        ? {
-                            ...prev,
-                            role: prev.role === "admin" ? "user" : "admin",
-                          }
+                        ? { ...prev, role: prev.role === "admin" ? "user" : "admin" }
                         : null
                     );
                   }}

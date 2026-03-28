@@ -8,10 +8,18 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { email, fullName, department } = body;
+  const { email, fullName } = body;
 
   if (!email) {
     return NextResponse.json({ error: "Email requis" }, { status: 400 });
+  }
+
+  // Only @ies-ingredients.com emails can be internal team accounts
+  if (!email.endsWith("@ies-ingredients.com")) {
+    return NextResponse.json(
+      { error: "Seuls les emails @ies-ingredients.com peuvent être ajoutés comme membres IES" },
+      { status: 400 }
+    );
   }
 
   const supabase = createAdminClient();
