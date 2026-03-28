@@ -2,29 +2,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
-import { ArrowLeft, Save, Loader2, UserPlus } from "lucide-react";
+import { Save, Loader2, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { logAudit } from "@/lib/audit";
-import Link from "next/link";
 import { DEPARTMENTS } from "@/lib/constants/departments";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 export function TeamEditForm({
   member,
-  backPath,
   isNew,
+  onSave,
+  onCancel,
 }: {
   member: Record<string, any> | null;
-  backPath: string;
   isNew: boolean;
+  onSave?: () => void;
+  onCancel?: () => void;
 }) {
-  const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [createAccount, setCreateAccount] = useState(isNew);
   const [form, setForm] = useState({
@@ -60,26 +59,22 @@ export function TeamEditForm({
         department: form.department || null,
         phone: form.phone || null,
         linkedin_url: form.linkedin_url || null,
+        photo_url: form.photo_url || null,
       };
 
       if (isNew) {
         const { error } = await (supabase.from("team_members") as any).insert(payload);
         if (error) throw error;
 
-        // Create auth account if checkbox is checked and email provided
         if (createAccount && form.email) {
           try {
             const res = await fetch("/api/admin/create-user", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                email: form.email,
-                fullName: form.name,
-                department: form.department,
-              }),
+              body: JSON.stringify({ email: form.email, fullName: form.name }),
             });
             if (res.ok) {
-              toast.success("Compte utilisateur créé (mdp temporaire : 1234IES-*-)");
+              toast.success("Compte utilisateur créé (mdp : 1234IES-*-)");
             } else {
               const err = await res.json();
               toast.warning(err.error || "Membre créé mais le compte n'a pas pu être créé");
@@ -101,8 +96,7 @@ export function TeamEditForm({
         toast.success("Membre mis à jour");
       }
 
-      router.push(backPath as any);
-      router.refresh();
+      onSave?.();
     } catch (err: unknown) {
       toast.error("Erreur: " + (err instanceof Error ? err.message : "Échec"));
     } finally {
@@ -111,28 +105,27 @@ export function TeamEditForm({
   };
 
   return (
-    <>
-      <AdminPageHeader
-        title={isNew ? "Nouveau membre" : `Modifier: ${member?.name}`}
-        actions={
-          <Link href={backPath}>
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Retour
-            </Button>
-          </Link>
-        }
-      />
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-6 space-y-6">
 
-      <form onSubmit={handleSubmit} className="max-w-2xl">
-        <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+          {/* Photo */}
+          <ImageUpload
+            value={form.photo_url}
+            onChange={(url) => handleChange("photo_url", url)}
+            folder="team"
+            label="Photo"
+            aspect="square"
+          />
+
+          {/* Nom + Email */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Nom *</Label>
+              <Label className="text-brand-primary">Nom *</Label>
               <Input value={form.name} onChange={(e) => handleChange("name", e.target.value)} className="h-10" />
             </div>
             <div className="space-y-2">
-              <Label>Email</Label>
+              <Label className="text-brand-primary">Email</Label>
               <Input value={form.email} onChange={(e) => handleChange("email", e.target.value)} className="h-10" />
             </div>
           </div>
@@ -152,79 +145,81 @@ export function TeamEditForm({
                   Créer un compte utilisateur
                 </div>
                 <p className="text-xs text-brand-secondary/50 mt-0.5">
-                  Mot de passe temporaire : <code className="text-brand-accent">1234IES-*-</code> — changement obligatoire à la 1ère connexion
+                  Mot de passe temporaire : <code className="text-brand-accent">1234IES-*-</code>
                 </p>
               </div>
             </label>
           )}
 
+          {/* Téléphone + LinkedIn */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Téléphone</Label>
+              <Label className="text-brand-primary">Téléphone</Label>
               <Input value={form.phone} onChange={(e) => handleChange("phone", e.target.value)} placeholder="+33 4 93 00 00 00" className="h-10" />
             </div>
             <div className="space-y-2">
-              <Label>LinkedIn URL</Label>
+              <Label className="text-brand-primary">LinkedIn</Label>
               <Input value={form.linkedin_url} onChange={(e) => handleChange("linkedin_url", e.target.value)} placeholder="https://linkedin.com/in/..." className="h-10" />
             </div>
           </div>
 
+          {/* Rôles */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Rôle (FR)</Label>
+              <Label className="text-brand-primary">Rôle (FR)</Label>
               <Input value={form.role_fr} onChange={(e) => handleChange("role_fr", e.target.value)} className="h-10" />
             </div>
             <div className="space-y-2">
-              <Label>Role (EN)</Label>
+              <Label className="text-brand-primary">Role (EN)</Label>
               <Input value={form.role_en} onChange={(e) => handleChange("role_en", e.target.value)} className="h-10" />
             </div>
           </div>
 
+          {/* Département + Ordre */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Département</Label>
+              <Label className="text-brand-primary">Département</Label>
               <select
                 value={form.department}
                 onChange={(e) => handleChange("department", e.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="flex h-10 w-full rounded-lg border-0 bg-brand-primary/[0.04] px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/20"
               >
                 <option value="">— Aucun —</option>
                 {DEPARTMENTS.map((dept) => (
-                  <option key={dept.id} value={dept.id}>
-                    {dept.labelFr}
-                  </option>
+                  <option key={dept.id} value={dept.id}>{dept.labelFr}</option>
                 ))}
               </select>
             </div>
             <div className="space-y-2">
-              <Label>Ordre d&apos;affichage</Label>
+              <Label className="text-brand-primary">Ordre d&apos;affichage</Label>
               <Input type="number" value={form.display_order} onChange={(e) => handleChange("display_order", parseInt(e.target.value) || 0)} className="h-10" />
             </div>
           </div>
 
+          {/* Bios */}
           <div className="space-y-2">
-            <Label>Photo URL</Label>
-            <Input value={form.photo_url} onChange={(e) => handleChange("photo_url", e.target.value)} className="h-10" />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Bio (FR)</Label>
+            <Label className="text-brand-primary">Bio (FR)</Label>
             <Textarea value={form.bio_fr} onChange={(e) => handleChange("bio_fr", e.target.value)} rows={3} />
           </div>
-
           <div className="space-y-2">
-            <Label>Bio (EN)</Label>
+            <Label className="text-brand-primary">Bio (EN)</Label>
             <Textarea value={form.bio_en} onChange={(e) => handleChange("bio_en", e.target.value)} rows={3} />
           </div>
-
-          <div className="flex justify-end pt-4">
-            <Button type="submit" disabled={isSaving} className="bg-brand-primary text-white px-8">
-              {isSaving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-              {isNew ? "Créer" : "Enregistrer"}
-            </Button>
-          </div>
         </div>
-      </form>
-    </>
+      </div>
+
+      {/* Sticky Footer */}
+      <div className="shrink-0 border-t border-gray-100 bg-[#FAFAF8] px-6 py-4 flex items-center justify-end gap-3">
+        {onCancel && (
+          <Button type="button" variant="outline" onClick={onCancel} className="rounded-lg">
+            Annuler
+          </Button>
+        )}
+        <Button type="submit" disabled={isSaving} className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2">
+          {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {isNew ? "Créer" : "Enregistrer"}
+        </Button>
+      </div>
+    </form>
   );
 }
