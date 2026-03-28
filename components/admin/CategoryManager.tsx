@@ -81,9 +81,9 @@ export function CategoryManager({
   const [newForm, setNewForm] = useState({
     label_fr: "",
     label_en: "",
-    color_bg: "#EFF6FF",
-    color_text: "#1D4ED8",
-    color_border: "#BFDBFE",
+    color_bg: "#F0EDE8",
+    color_text: "#2E1F3D",
+    color_border: "#E0DCD5",
   });
 
   const refresh = useCallback(async () => {

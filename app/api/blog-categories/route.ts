@@ -30,9 +30,9 @@ export async function POST(req: NextRequest) {
       slug: body.slug,
       label_fr: body.label_fr,
       label_en: body.label_en,
-      color_bg: body.color_bg || "#EFF6FF",
-      color_text: body.color_text || "#1D4ED8",
-      color_border: body.color_border || "#BFDBFE",
+      color_bg: body.color_bg || "#F0EDE8",
+      color_text: body.color_text || "#2E1F3D",
+      color_border: body.color_border || "#E0DCD5",
       sort_order: body.sort_order || 0,
     })
     .select()
