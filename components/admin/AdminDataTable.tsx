@@ -56,6 +56,7 @@ export function AdminDataTable<T extends Record<string, any>>({
 }: AdminDataTableProps<T>) {
   const router = useRouter();
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
 
   return (
     <div>
@@ -188,22 +189,33 @@ export function AdminDataTable<T extends Record<string, any>>({
       </div>
 
       {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog open={!!deleteId} onOpenChange={(open) => { if (!open) { setDeleteId(null); setDeleteConfirm(""); } }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
-            <AlertDialogDescription>
-              Cette action est irréversible. Voulez-vous vraiment supprimer cet élément ?
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>Cette action est irréversible. Tapez <strong className="text-red-600 font-mono">SUPPRIMER</strong> pour confirmer.</p>
+                <Input
+                  value={deleteConfirm}
+                  onChange={(e) => setDeleteConfirm(e.target.value)}
+                  placeholder="Tapez SUPPRIMER"
+                  className="font-mono"
+                  autoFocus
+                />
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setDeleteConfirm("")}>Annuler</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 if (deleteId && onDelete) onDelete(deleteId);
                 setDeleteId(null);
+                setDeleteConfirm("");
               }}
-              className="bg-red-600 hover:bg-red-700"
+              disabled={deleteConfirm !== "SUPPRIMER"}
+              className="bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Supprimer
             </AlertDialogAction>

@@ -11,6 +11,7 @@ import { SlidePanel } from "@/components/admin/SlidePanel";
 import { ProductEditForm } from "@/components/admin/ProductEditForm";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { logAudit } from "@/lib/audit";
 
 interface ProductsAdminProps {
   tableName: string;
@@ -88,6 +89,7 @@ export function ProductsAdmin({
       toast.error("Erreur lors de la suppression");
       return;
     }
+    logAudit({ action: "delete", entityType: "product", entityId: code, entityLabel: `${title} — ${code}` });
     toast.success("Produit supprimé");
     fetchProducts();
   };

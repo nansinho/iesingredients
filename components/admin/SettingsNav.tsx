@@ -3,12 +3,13 @@
 import { useState, useTransition } from "react";
 import { usePathname, useRouter, Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
-import { Settings, Tag, Plug, Wrench } from "lucide-react";
+import { Settings, Tag, Plug, Wrench, Clock } from "lucide-react";
 
 const settingsItems = [
   { label: "Général", href: "/admin/settings", icon: Settings, end: true },
   { label: "Catégories", href: "/admin/settings/categories", icon: Tag },
   { label: "Connecteurs", href: "/admin/settings/connectors", icon: Plug },
+  { label: "Historique", href: "/admin/settings/audit", icon: Clock },
   { label: "Maintenance", href: "/admin/settings/maintenance", icon: Wrench },
 ];
 

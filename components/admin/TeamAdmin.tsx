@@ -9,6 +9,7 @@ import { AdminDataTable } from "@/components/admin/AdminDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { logAudit } from "@/lib/audit";
 import Link from "next/link";
 import { getDepartmentLabel } from "@/lib/constants/departments";
 
@@ -31,6 +32,7 @@ export function TeamAdmin({
   );
 
   const handleDelete = async (id: string) => {
+    const member = members.find((m) => m.id === id);
     const supabase = createClient();
     const { error } = await (supabase.from("team_members") as any)
       .delete()
@@ -40,6 +42,7 @@ export function TeamAdmin({
       toast.error("Erreur");
       return;
     }
+    logAudit({ action: "delete", entityType: "team_member", entityId: id, entityLabel: member?.name });
     setMembers((prev) => prev.filter((m) => m.id !== id));
     toast.success("Membre supprimé");
   };

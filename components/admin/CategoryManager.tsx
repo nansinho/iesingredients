@@ -5,6 +5,7 @@ import { Plus, Trash2, GripVertical, Save, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { logAudit } from "@/lib/audit";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -77,6 +78,7 @@ export function CategoryManager({
   const [editForm, setEditForm] = useState<Category | null>(null);
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const [newForm, setNewForm] = useState({
     label_fr: "",
@@ -118,6 +120,7 @@ export function CategoryManager({
         const err = await res.json();
         throw new Error(err.error);
       }
+      logAudit({ action: "update", entityType: "category", entityId: editForm.id, entityLabel: editForm.label_fr });
       toast.success("Catégorie mise à jour");
       setEditingId(null);
       setEditForm(null);
@@ -151,6 +154,8 @@ export function CategoryManager({
         const err = await res.json();
         throw new Error(err.error);
       }
+      const created = await res.json();
+      logAudit({ action: "create", entityType: "category", entityId: created.id || slug, entityLabel: newForm.label_fr });
       toast.success("Catégorie créée");
       setIsAdding(false);
       setNewForm({
@@ -170,6 +175,7 @@ export function CategoryManager({
 
   const handleDelete = async () => {
     if (!deleteId) return;
+    const cat = categories.find((c) => c.id === deleteId);
     try {
       const res = await fetch(`/api/blog-categories?id=${deleteId}`, {
         method: "DELETE",
@@ -178,8 +184,10 @@ export function CategoryManager({
         const err = await res.json();
         throw new Error(err.error);
       }
+      logAudit({ action: "delete", entityType: "category", entityId: deleteId, entityLabel: cat?.label_fr });
       toast.success("Catégorie supprimée");
       setDeleteId(null);
+      setDeleteConfirm("");
       await refresh();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Erreur");
@@ -436,19 +444,29 @@ export function CategoryManager({
       )}
 
       {/* Delete Confirmation */}
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog open={!!deleteId} onOpenChange={(open) => { if (!open) { setDeleteId(null); setDeleteConfirm(""); } }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Supprimer cette catégorie ?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Si des articles utilisent cette catégorie, vous devrez les réassigner avant de pouvoir la supprimer.
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>Si des articles utilisent cette catégorie, vous devrez les réassigner. Tapez <strong className="text-red-600 font-mono">SUPPRIMER</strong> pour confirmer.</p>
+                <Input
+                  value={deleteConfirm}
+                  onChange={(e) => setDeleteConfirm(e.target.value)}
+                  placeholder="Tapez SUPPRIMER"
+                  className="font-mono"
+                  autoFocus
+                />
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setDeleteConfirm("")}>Annuler</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-600 hover:bg-red-700"
+              disabled={deleteConfirm !== "SUPPRIMER"}
+              className="bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Supprimer
             </AlertDialogAction>

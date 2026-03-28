@@ -11,6 +11,7 @@ import { SlidePanel } from "@/components/admin/SlidePanel";
 import { BlogEditForm } from "@/components/admin/BlogEditForm";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
+import { logAudit } from "@/lib/audit";
 
 interface CategoryInfo {
   slug: string;
@@ -98,10 +99,13 @@ export function BlogAdmin({
           : a
       )
     );
+    const art = articles.find((a) => a.id === id);
+    logAudit({ action: "update", entityType: "blog_article", entityId: id, entityLabel: art?.title_fr, details: { published: !published } });
     toast.success(!published ? "Article publié" : "Article dépublié");
   };
 
   const handleDelete = async (id: string) => {
+    const art = articles.find((a) => a.id === id);
     const supabase = createClient();
     const { error } = await (supabase.from("blog_articles") as any)
       .delete()
@@ -111,6 +115,7 @@ export function BlogAdmin({
       toast.error("Erreur lors de la suppression");
       return;
     }
+    logAudit({ action: "delete", entityType: "blog_article", entityId: id, entityLabel: art?.title_fr });
     setArticles((prev) => prev.filter((a) => a.id !== id));
     toast.success("Article supprimé");
   };

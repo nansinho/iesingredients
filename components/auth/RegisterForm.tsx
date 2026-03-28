@@ -24,7 +24,8 @@ export function RegisterForm() {
   const [securityToken, setSecurityToken] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState({ website: "", faxNumber: "" });
   const [form, setForm] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     company: "",
     password: "",
@@ -76,7 +77,7 @@ export function RegisterForm() {
         password: form.password,
         options: {
           data: {
-            full_name: form.fullName,
+            full_name: `${form.firstName} ${form.lastName}`.trim(),
             company: form.company || null,
           },
         },
@@ -110,19 +111,35 @@ export function RegisterForm() {
     <div className="bg-white/[0.07] backdrop-blur-xl rounded-2xl p-8 shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
       <form onSubmit={handleSubmit} className="relative space-y-5">
         <HoneypotFields values={honeypot} onChange={(f, v) => setHoneypot((prev) => ({ ...prev, [f]: v }))} />
-        <div className="space-y-2">
-          <Label htmlFor="fullName" className="text-white/80">
-            {isFr ? "Nom complet" : "Full name"} *
-          </Label>
-          <Input
-            id="fullName"
-            name="fullName"
-            value={form.fullName}
-            onChange={handleChange}
-            required
-            className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
-            placeholder="Jean Dupont"
-          />
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <Label htmlFor="lastName" className="text-white/80">
+              {isFr ? "Nom" : "Last name"} *
+            </Label>
+            <Input
+              id="lastName"
+              name="lastName"
+              value={form.lastName}
+              onChange={handleChange}
+              required
+              className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
+              placeholder="Dupont"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="firstName" className="text-white/80">
+              {isFr ? "Prénom" : "First name"} *
+            </Label>
+            <Input
+              id="firstName"
+              name="firstName"
+              value={form.firstName}
+              onChange={handleChange}
+              required
+              className="h-12 bg-white/[0.08] border-0 text-white placeholder:text-white/30 rounded-xl transition-all duration-300 focus:outline-none focus:bg-white/[0.12] focus:shadow-[0_0_0_2px_rgba(255,255,255,0.12)]"
+              placeholder="Jean"
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
