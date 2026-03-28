@@ -87,6 +87,30 @@ export type Database = {
         }
         Relationships: []
       }
+      organizations: {
+        Row: {
+          id: string
+          name: string
+          siret: string | null
+          address: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          name: string
+          siret?: string | null
+          address?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string
+          siret?: string | null
+          address?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           id: string
@@ -525,6 +549,9 @@ export type Database = {
           full_name: string | null
           id: string
           phone: string | null
+          organization_id: string | null
+          account_type: string
+          must_change_password: boolean
           updated_at: string | null
         }
         Insert: {
@@ -535,6 +562,9 @@ export type Database = {
           full_name?: string | null
           id: string
           phone?: string | null
+          organization_id?: string | null
+          account_type?: string
+          must_change_password?: boolean
           updated_at?: string | null
         }
         Update: {
@@ -545,6 +575,9 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+          organization_id?: string | null
+          account_type?: string
+          must_change_password?: boolean
           updated_at?: string | null
         }
         Relationships: []

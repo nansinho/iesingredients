@@ -41,10 +41,27 @@ export function LoginForm() {
         return;
       }
 
+      const { data: { user: loggedUser } } = await supabase.auth.getUser();
+
+      // Check if must change password
+      if (loggedUser) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: profile } = await (supabase.from("profiles") as any)
+          .select("must_change_password")
+          .eq("id", loggedUser.id)
+          .maybeSingle();
+
+        if (profile?.must_change_password) {
+          toast.info(isFr ? "Veuillez choisir un nouveau mot de passe" : "Please set a new password");
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          router.push("/change-password" as any);
+          return;
+        }
+      }
+
       toast.success(isFr ? "Connexion réussie" : "Login successful");
 
       // Check if user is admin to redirect to admin dashboard
-      const { data: { user: loggedUser } } = await supabase.auth.getUser();
       let redirectPath = "/";
       if (loggedUser) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
