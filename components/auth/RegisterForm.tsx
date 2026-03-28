@@ -238,11 +238,14 @@ export function RegisterForm() {
                     const fermee = r.etat_administratif === "F" || r.est_active === false;
                     return (
                       <button key={r.siege?.siret || r.siren} type="button"
-                        onClick={() => fermee ? null : selectSirene(r)}
-                        className={`w-full text-left px-4 py-3 transition-colors border-b border-gray-50 last:border-0 ${fermee ? "opacity-50 cursor-not-allowed" : "hover:bg-brand-primary/[0.04]"}`}>
+                        onClick={() => {
+                          selectSirene(r);
+                          if (fermee) toast.warning("Attention : cette entreprise est enregistrée comme fermée");
+                        }}
+                        className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0">
                         <div className="flex items-center justify-between">
                           <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
-                          {fermee && <span className="text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">Fermée</span>}
+                          {fermee && <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Fermée</span>}
                         </div>
                         <p className="text-xs text-gray-500">SIRET {r.siege?.siret} — {r.siege?.libelle_commune} ({r.siege?.code_postal})</p>
                       </button>

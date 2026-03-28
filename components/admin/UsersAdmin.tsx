@@ -165,7 +165,14 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                     </div>
                   </td>
                   <td className="px-4 py-3 hidden md:table-cell"><span className="text-gray-600 text-xs">{user.email}</span></td>
-                  <td className="px-4 py-3 hidden lg:table-cell">{user.company ? <span className="text-gray-600 text-xs">{user.company}</span> : <span className="text-gray-300">—</span>}</td>
+                  <td className="px-4 py-3 hidden lg:table-cell">
+                    {user.company ? (
+                      <span className="text-gray-600 text-xs flex items-center gap-1.5">
+                        {user.company}
+                        {user.company_closed && <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-full" title="Entreprise fermée selon l'INSEE">⚠ Fermée</span>}
+                      </span>
+                    ) : <span className="text-gray-300">—</span>}
+                  </td>
                   <td className="px-4 py-3"><AccountTypeBadge type={user.account_type || "individual"} /></td>
                   <td className="px-4 py-3">
                     {user.role === "admin" ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>

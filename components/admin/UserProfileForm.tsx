@@ -27,6 +27,7 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
   const logoInputRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     avatar_url: profile.avatar_url || "",
+    company_closed: profile.company_closed || false,
     first_name: profile.first_name || (profile.full_name?.split(" ")[0]) || "",
     last_name: profile.last_name || (profile.full_name?.split(" ").slice(1).join(" ")) || "",
     email: profile.email || "",
@@ -126,6 +127,7 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
           phone: form.phone || null,
           company: form.company || null,
           siret: form.siret || null,
+          company_closed: form.company_closed || false,
           tva_intracom: form.tva_intracom || null,
           billing_address: form.billing_address || null,
           billing_complement: form.billing_complement || null,
@@ -237,12 +239,20 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
                     <button
                       key={r.siege?.siret || r.siren}
                       type="button"
-                      onClick={() => fermee ? toast.error("Cette entreprise est fermée") : selectSirene(r)}
-                      className={`w-full text-left px-4 py-3 transition-colors border-b border-gray-50 last:border-0 ${fermee ? "opacity-50" : "hover:bg-brand-primary/[0.04]"}`}
+                      onClick={() => {
+                        selectSirene(r);
+                        if (fermee) {
+                          handleChange("company_closed", true);
+                          toast.warning("Attention : cette entreprise est enregistrée comme fermée auprès de l'INSEE");
+                        } else {
+                          handleChange("company_closed", false);
+                        }
+                      }}
+                      className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0"
                     >
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
-                        {fermee && <span className="text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">Fermée</span>}
+                        {fermee && <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Fermée</span>}
                       </div>
                       <p className="text-xs text-gray-500">SIRET {r.siege?.siret} — {r.siege?.libelle_commune} ({r.siege?.code_postal})</p>
                     </button>
