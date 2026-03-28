@@ -82,14 +82,23 @@ function LogoUpload({ value, onChange }: { value: string; onChange: (url: string
       return;
     }
 
-    const supabase = createClient();
-    const fileName = `logos/${Date.now()}-${file.name}`;
-    const { error } = await supabase.storage.from("product-images").upload(fileName, file, { contentType: "image/svg+xml" });
-    if (error) { toast.error("Erreur upload : " + error.message); return; }
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("bucket", "product-images");
+    formData.append("folder", "logos");
 
-    const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(fileName);
-    onChange(urlData.publicUrl);
-    toast.success("Logo uploadé");
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Échec de l'upload");
+      }
+      const { url } = await res.json();
+      onChange(url);
+      toast.success("Logo uploadé");
+    } catch (err) {
+      toast.error("Erreur upload : " + (err instanceof Error ? err.message : "Échec"));
+    }
   };
 
   return (
