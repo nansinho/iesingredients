@@ -18,7 +18,7 @@ export function TeamAdmin({
   locale,
 }: {
   initialMembers: any[];
-  locale: string;
+  locale?: string;
 }) {
   const [members, setMembers] = useState(initialMembers);
   const [search, setSearch] = useState("");
@@ -83,7 +83,7 @@ export function TeamAdmin({
         title="Équipe"
         subtitle={`${members.length} membres`}
         actions={
-          <Link href={`/${locale}/admin/equipe/new`}>
+          <Link href="/admin/equipe/new">
             <Button size="sm" className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2">
               <Plus className="w-4 h-4" />
               Nouveau membre
@@ -96,7 +96,7 @@ export function TeamAdmin({
         data={filtered}
         columns={columns}
         idKey="id"
-        editPath={`/${locale}/admin/equipe`}
+        editPath="/admin/equipe"
         onDelete={handleDelete}
         searchValue={search}
         onSearchChange={setSearch}
