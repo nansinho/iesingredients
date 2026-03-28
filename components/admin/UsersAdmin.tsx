@@ -43,10 +43,6 @@ function getInitials(name?: string | null): string {
   return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
 }
 
-// Marque de fabrique IES : tous les avatars sur fond violet
-function getAvatarColor(): string {
-  return "bg-brand-primary text-white";
-}
 
 function timeAgo(dateStr: string): string {
   const diffDays = Math.floor((Date.now() - new Date(dateStr).getTime()) / 86400000);
@@ -102,7 +98,7 @@ function LogoUpload({ value, onChange }: { value: string; onChange: (url: string
   return (
     <div className="flex items-center gap-4">
       {value ? (
-        <div className="relative w-20 h-20 rounded-xl border border-gray-200 bg-white p-2 flex items-center justify-center">
+        <div className="relative w-20 h-20 rounded-xl bg-brand-primary p-2 flex items-center justify-center">
           <Image src={value} alt="Logo" width={64} height={64} className="w-full h-full object-contain" />
           <button type="button" onClick={() => onChange("")}
             className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600">
@@ -314,9 +310,9 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
                   className="border-b last:border-0 hover:bg-brand-primary/[0.03] transition-colors cursor-pointer">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9">
-                        {(user.avatar_url || user.team_photo_url) && <AvatarImage src={user.avatar_url || user.team_photo_url} alt={user.full_name} />}
-                        <AvatarFallback className={`text-xs font-semibold ${getAvatarColor()}`}>{getInitials(user.full_name)}</AvatarFallback>
+                      <Avatar className="h-9 w-9 bg-brand-primary">
+                        {(user.avatar_url || user.team_photo_url) && <AvatarImage src={user.avatar_url || user.team_photo_url} alt={user.full_name} className="p-1 object-contain" />}
+                        <AvatarFallback className="text-xs font-semibold bg-brand-primary text-white">{getInitials(user.full_name)}</AvatarFallback>
                       </Avatar>
                       <div className="min-w-0">
                         <p className="font-medium text-gray-900 truncate">{user.full_name || "Sans nom"}</p>
