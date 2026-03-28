@@ -231,17 +231,23 @@ export function UserProfileForm({ profile, onSave, onCancel }: UserProfileFormPr
             </div>
             {sireneResults.length > 0 && (
               <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white rounded-xl border border-gray-200 shadow-lg max-h-60 overflow-y-auto">
-                {sireneResults.map((r) => (
-                  <button
-                    key={r.siege.siret}
-                    type="button"
-                    onClick={() => selectSirene(r)}
-                    className="w-full text-left px-4 py-3 hover:bg-brand-primary/[0.04] transition-colors border-b border-gray-50 last:border-0"
-                  >
-                    <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
-                    <p className="text-xs text-gray-500">SIRET {r.siege?.siret} — {r.siege?.libelle_commune} ({r.siege?.code_postal})</p>
-                  </button>
-                ))}
+                {sireneResults.map((r: any) => {
+                  const fermee = r.etat_administratif === "F" || r.est_active === false;
+                  return (
+                    <button
+                      key={r.siege?.siret || r.siren}
+                      type="button"
+                      onClick={() => fermee ? toast.error("Cette entreprise est fermée") : selectSirene(r)}
+                      className={`w-full text-left px-4 py-3 transition-colors border-b border-gray-50 last:border-0 ${fermee ? "opacity-50" : "hover:bg-brand-primary/[0.04]"}`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-medium text-brand-primary">{r.nom_complet}</p>
+                        {fermee && <span className="text-[10px] font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">Fermée</span>}
+                      </div>
+                      <p className="text-xs text-gray-500">SIRET {r.siege?.siret} — {r.siege?.libelle_commune} ({r.siege?.code_postal})</p>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>

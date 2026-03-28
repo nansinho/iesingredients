@@ -14,7 +14,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ results: [] });
     }
     const data = await res.json();
-    return NextResponse.json({ results: data.results || [] });
+    // Ne retourner que les entreprises actives
+    const results = (data.results || []).map((r: Record<string, unknown>) => ({
+      ...r,
+      est_active: (r as { etat_administratif?: string }).etat_administratif === "A",
+    }));
+    return NextResponse.json({ results });
   } catch {
     return NextResponse.json({ results: [] });
   }
