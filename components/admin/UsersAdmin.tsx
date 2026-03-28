@@ -338,124 +338,129 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
         width="lg"
       >
         {selectedUser && (
-          <div className="flex flex-col h-full">
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="flex flex-col h-full bg-[#FAF8F6]">
+            <div className="flex-1 overflow-y-auto">
 
-              {/* Profile card */}
-              <div className="flex items-center gap-5">
-                <div className="w-16 h-16 rounded-2xl overflow-hidden bg-brand-primary flex items-center justify-center shrink-0">
-                  {editForm.avatar_url ? (
-                    <Image src={editForm.avatar_url} alt="" width={64} height={64} className="w-full h-full object-contain p-2" />
-                  ) : (
-                    <span className="text-xl font-bold text-white/80">{getInitials(selectedUser.full_name)}</span>
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-bold text-brand-primary truncate">{editForm.full_name || "Sans nom"}</h3>
-                  <p className="text-sm text-gray-500 truncate">{selectedUser.team_role_fr || selectedUser.company || selectedUser.email}</p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <AccountTypeBadge type={selectedUser.account_type || "individual"} />
-                    {selectedUser.role === "admin"
-                      ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
-                      : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
+              {/* Header - fond crème avec avatar */}
+              <div className="px-8 pt-8 pb-6">
+                <div className="flex items-start gap-5">
+                  <div className="w-14 h-14 rounded-full overflow-hidden bg-brand-primary shadow-lg shadow-brand-primary/20 flex items-center justify-center shrink-0">
+                    {editForm.avatar_url ? (
+                      <Image src={editForm.avatar_url} alt="" width={56} height={56} className="w-full h-full object-contain p-1.5" />
+                    ) : (
+                      <span className="text-lg font-bold text-white">{getInitials(selectedUser.full_name)}</span>
+                    )}
                   </div>
-                </div>
-              </div>
-
-              {/* Logo entreprise (clients business uniquement) */}
-              {selectedUser.account_type !== "internal" && (selectedUser.account_type === "business" || selectedUser.company) && (
-                <div>
-                  <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-3">Logo entreprise</p>
-                  <p className="text-[11px] text-gray-400 mb-3">SVG uniquement, carré, max 150 Ko</p>
-                  <LogoUpload
-                    value={editForm.avatar_url}
-                    onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
-                  />
-                </div>
-              )}
-
-              {/* Séparateur */}
-              <div className="h-px bg-gray-100" />
-
-              {/* Informations personnelles */}
-              <div>
-                <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-4">Informations personnelles</p>
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <Label className="text-brand-primary text-xs flex items-center gap-1.5"><User className="w-3.5 h-3.5" /> Nom complet</Label>
-                    <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-10" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" /> Email</Label>
-                    <Input value={editForm.email} disabled className="h-10 opacity-50 cursor-not-allowed" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> Téléphone</Label>
-                      <Input value={editForm.phone} onChange={(e) => setEditForm((prev: any) => ({ ...prev, phone: e.target.value }))} className="h-10" placeholder="+33..." />
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5" /> Entreprise</Label>
-                      <Input value={editForm.company} onChange={(e) => setEditForm((prev: any) => ({ ...prev, company: e.target.value }))} className="h-10" />
+                  <div className="flex-1 min-w-0 pt-0.5">
+                    <h3 className="text-xl font-playfair italic text-brand-primary">{editForm.full_name || "Sans nom"}</h3>
+                    <p className="text-sm text-brand-secondary/50 mt-0.5">{selectedUser.email}</p>
+                    <div className="flex items-center gap-2 mt-3">
+                      <AccountTypeBadge type={selectedUser.account_type || "individual"} />
+                      {selectedUser.role === "admin"
+                        ? <Badge variant="success" className="gap-1"><Shield className="w-3 h-3" />Admin</Badge>
+                        : <Badge variant="secondary" className="gap-1"><User className="w-3 h-3" />User</Badge>}
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Infos équipe (si membre IES) */}
-              {selectedUser.team_member_id && (
-                <>
-                  <div className="h-px bg-gray-100" />
+              {/* Contenu */}
+              <div className="px-8 pb-8 space-y-8">
+
+                {/* Logo entreprise */}
+                {selectedUser.account_type !== "internal" && (selectedUser.account_type === "business" || selectedUser.company) && (
                   <div>
-                    <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-4">Équipe IES</p>
+                    <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.15em] mb-3">Logo entreprise</p>
+                    <div className="flex items-center gap-4">
+                      <LogoUpload
+                        value={editForm.avatar_url}
+                        onChange={(url) => setEditForm((prev: any) => ({ ...prev, avatar_url: url }))}
+                      />
+                      <p className="text-[11px] text-brand-secondary/40">SVG, carré, max 150 Ko</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Nom + Email */}
+                <div>
+                  <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.15em] mb-4">Coordonnées</p>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-[11px] text-brand-secondary/50 mb-1 block">Nom complet</label>
+                      <Input value={editForm.full_name} onChange={(e) => setEditForm((prev: any) => ({ ...prev, full_name: e.target.value }))} className="h-11 rounded-xl bg-white shadow-sm" />
+                    </div>
+                    <div>
+                      <label className="text-[11px] text-brand-secondary/50 mb-1 block">Email</label>
+                      <Input value={editForm.email} disabled className="h-11 rounded-xl bg-brand-primary/[0.03] opacity-60 cursor-not-allowed" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[11px] text-brand-secondary/50 mb-1 block">Téléphone</label>
+                        <Input value={editForm.phone} onChange={(e) => setEditForm((prev: any) => ({ ...prev, phone: e.target.value }))} className="h-11 rounded-xl bg-white shadow-sm" placeholder="+33..." />
+                      </div>
+                      <div>
+                        <label className="text-[11px] text-brand-secondary/50 mb-1 block">Entreprise</label>
+                        <Input value={editForm.company} onChange={(e) => setEditForm((prev: any) => ({ ...prev, company: e.target.value }))} className="h-11 rounded-xl bg-white shadow-sm" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Équipe IES */}
+                {selectedUser.team_member_id && (
+                  <div>
+                    <p className="text-[10px] font-semibold text-brand-accent uppercase tracking-[0.15em] mb-4">Équipe IES</p>
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-3">
-                        <div className="flex items-center gap-2.5 text-sm text-brand-primary bg-brand-primary/[0.04] rounded-xl px-4 py-3">
-                          <MapPin className="w-4 h-4 text-brand-accent shrink-0" />
+                        <div className="flex items-center gap-2.5 text-sm text-brand-primary/80 bg-white rounded-xl px-4 py-3 shadow-sm">
+                          <MapPin className="w-4 h-4 text-brand-accent/70 shrink-0" />
                           {selectedUser.team_department || "—"}
                         </div>
-                        <div className="flex items-center gap-2.5 text-sm text-brand-primary bg-brand-primary/[0.04] rounded-xl px-4 py-3">
-                          <Briefcase className="w-4 h-4 text-brand-accent shrink-0" />
+                        <div className="flex items-center gap-2.5 text-sm text-brand-primary/80 bg-white rounded-xl px-4 py-3 shadow-sm">
+                          <Briefcase className="w-4 h-4 text-brand-accent/70 shrink-0" />
                           {selectedUser.team_role_fr || "—"}
                         </div>
                       </div>
-                      <div className="space-y-1.5">
-                        <Label className="text-brand-primary text-xs flex items-center gap-1.5"><Linkedin className="w-3.5 h-3.5" /> LinkedIn</Label>
-                        <Input value={editForm.linkedin_url} onChange={(e) => setEditForm((prev: any) => ({ ...prev, linkedin_url: e.target.value }))} className="h-10" placeholder="https://linkedin.com/in/..." />
+                      <div>
+                        <label className="text-[11px] text-brand-secondary/50 mb-1 block">LinkedIn</label>
+                        <Input value={editForm.linkedin_url} onChange={(e) => setEditForm((prev: any) => ({ ...prev, linkedin_url: e.target.value }))} className="h-11 rounded-xl bg-white shadow-sm" placeholder="https://linkedin.com/in/..." />
                       </div>
-                      <div className="space-y-1.5">
-                        <Label className="text-brand-primary text-xs">Bio</Label>
-                        <Textarea value={editForm.bio_fr} onChange={(e) => setEditForm((prev: any) => ({ ...prev, bio_fr: e.target.value }))} rows={3} />
+                      <div>
+                        <label className="text-[11px] text-brand-secondary/50 mb-1 block">Bio</label>
+                        <Textarea value={editForm.bio_fr} onChange={(e) => setEditForm((prev: any) => ({ ...prev, bio_fr: e.target.value }))} rows={3} className="rounded-xl bg-white shadow-sm" />
                       </div>
                     </div>
                   </div>
-                </>
-              )}
+                )}
 
-              {/* Séparateur */}
-              <div className="h-px bg-gray-100" />
-
-              {/* Rôle */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider mb-1">Rôle</p>
-                  <p className="text-sm text-brand-primary font-medium">{selectedUser.role === "admin" ? "Administrateur" : "Utilisateur"}</p>
+                {/* Rôle */}
+                <div className="flex items-center justify-between bg-white rounded-2xl px-5 py-4 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center",
+                      selectedUser.role === "admin" ? "bg-emerald-50 text-emerald-600" : "bg-gray-100 text-gray-500")}>
+                      <Shield className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-brand-secondary/50">Rôle</p>
+                      <p className="text-sm font-semibold text-brand-primary">{selectedUser.role === "admin" ? "Administrateur" : "Utilisateur"}</p>
+                    </div>
+                  </div>
+                  <Button variant="ghost" size="sm"
+                    className={cn("rounded-xl text-xs font-medium",
+                      selectedUser.role === "admin" ? "text-orange-600 hover:bg-orange-50" : "text-brand-accent hover:bg-brand-accent/5")}
+                    onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
+                    {selectedUser.role === "admin"
+                      ? <><ShieldOff className="w-3.5 h-3.5 mr-1.5" />Retirer</>
+                      : <><ShieldCheck className="w-3.5 h-3.5 mr-1.5" />Promouvoir</>}
+                  </Button>
                 </div>
-                <Button variant="outline" size="sm"
-                  className={cn("rounded-xl text-xs", selectedUser.role === "admin" ? "text-orange-600 hover:bg-orange-50" : "text-brand-accent hover:bg-brand-accent/5")}
-                  onClick={() => toggleRole(selectedUser.id, selectedUser.role)}>
-                  {selectedUser.role === "admin"
-                    ? <><ShieldOff className="w-3.5 h-3.5 mr-1.5" />Retirer</>
-                    : <><ShieldCheck className="w-3.5 h-3.5 mr-1.5" />Promouvoir</>}
-                </Button>
-              </div>
 
-              {/* Meta */}
-              <div className="flex items-center justify-between text-[11px] text-gray-400 pt-2">
-                <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"}</span>
-                <span className="font-mono">{selectedUser.id?.slice(0, 8)}</span>
-              </div>
+                {/* Meta */}
+                <p className="text-[11px] text-brand-secondary/30 text-center">
+                  Inscrit le {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"}
+                </p>
 
+              </div>
             </div>
 
             {/* Sticky footer */}
