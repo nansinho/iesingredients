@@ -17,6 +17,7 @@ import {
   CheckSquare,
   Square,
   LayoutGrid,
+  Minimize2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -71,6 +72,8 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
   const [analyzingIds, setAnalyzingIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [bulkAnalyzing, setBulkAnalyzing] = useState(false);
+  const [recompressingIds, setRecompressingIds] = useState<Set<string>>(new Set());
+  const [bulkRecompressing, setBulkRecompressing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchMedia = useCallback(async () => {
@@ -116,13 +119,8 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
           img.src = URL.createObjectURL(file);
         });
 
-        // Smart resize based on orientation
-        let maxWidthOrHeight = 1280; // landscape
-        if (dims.height > dims.width) {
-          maxWidthOrHeight = 853; // portrait → 640x853 for 3:4
-        } else if (dims.width === dims.height) {
-          maxWidthOrHeight = 640; // square
-        }
+        // Smart resize based on aspect ratio
+        const maxWidthOrHeight = getSmartMaxDimension(dims.width, dims.height);
 
         // Compress
         const compressed = await imageCompression(file, {
@@ -135,14 +133,22 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
         const webpName = file.name.replace(/\.[^.]+$/, ".webp");
         const webpFile = new File([compressed], webpName, { type: "image/webp" });
 
+        // Get actual dimensions after compression/resize
+        const finalDims = await new Promise<{ width: number; height: number }>((resolve) => {
+          const img2 = document.createElement("img");
+          img2.onload = () => { resolve({ width: img2.naturalWidth, height: img2.naturalHeight }); URL.revokeObjectURL(img2.src); };
+          img2.onerror = () => resolve({ width: 0, height: 0 });
+          img2.src = URL.createObjectURL(webpFile);
+        });
+
         // Upload via API route (bypasses storage RLS)
         const targetFolder = folder || "uploads";
         const formData = new FormData();
         formData.append("file", webpFile);
         formData.append("bucket", "product-images");
         formData.append("folder", targetFolder);
-        formData.append("width", String(dims.width));
-        formData.append("height", String(dims.height));
+        formData.append("width", String(finalDims.width));
+        formData.append("height", String(finalDims.height));
 
         const res = await fetch("/api/upload", { method: "POST", body: formData });
         if (!res.ok) {
@@ -278,6 +284,110 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
     toast.success(`${done} image${done > 1 ? "s" : ""} analysée${done > 1 ? "s" : ""}`);
   };
 
+  // Smart resize: choose max dimension based on aspect ratio
+  function getSmartMaxDimension(w: number, h: number): number {
+    if (w === 0 || h === 0) return 1280;
+    const ratio = w / h;
+    if (ratio >= 2.5) return 1400;  // banner (3:1, 4:1) → wide, keep impact
+    if (ratio > 1) return 1280;     // landscape → 1280px max
+    if (ratio > 0.9) return 640;    // square → 640px
+    return 853;                     // portrait → 853px (640x853 for 3:4)
+  }
+
+  const handleRecompressOne = async (item: MediaItem) => {
+    setRecompressingIds((prev) => new Set(prev).add(item.id));
+    try {
+      // 1. Download existing image
+      const res = await fetch(item.file_url);
+      const blob = await res.blob();
+      const file = new File([blob], item.file_name || "image.webp", { type: blob.type });
+
+      // 2. Detect dimensions from original
+      const dims = await new Promise<{ width: number; height: number }>((resolve) => {
+        const img = document.createElement("img");
+        img.onload = () => { resolve({ width: img.naturalWidth, height: img.naturalHeight }); URL.revokeObjectURL(img.src); };
+        img.onerror = () => resolve({ width: 0, height: 0 });
+        img.src = URL.createObjectURL(file);
+      });
+
+      const maxWidthOrHeight = getSmartMaxDimension(dims.width, dims.height);
+
+      // 3. Compress
+      const compressed = await imageCompression(file, {
+        maxSizeMB: 0.15,
+        maxWidthOrHeight,
+        useWebWorker: true,
+        fileType: "image/webp" as const,
+      });
+      const webpFile = new File([compressed], item.file_name?.replace(/\.[^.]+$/, ".webp") || "image.webp", { type: "image/webp" });
+
+      // 4. Get final dimensions
+      const finalDims = await new Promise<{ width: number; height: number }>((resolve) => {
+        const img = document.createElement("img");
+        img.onload = () => { resolve({ width: img.naturalWidth, height: img.naturalHeight }); URL.revokeObjectURL(img.src); };
+        img.onerror = () => resolve({ width: 0, height: 0 });
+        img.src = URL.createObjectURL(webpFile);
+      });
+
+      // 5. Upload to same path via API
+      const formData = new FormData();
+      formData.append("file", webpFile);
+      formData.append("mediaId", item.id);
+      formData.append("oldUrl", item.file_url);
+      formData.append("width", String(finalDims.width));
+      formData.append("height", String(finalDims.height));
+
+      const apiRes = await fetch("/api/recompress", { method: "POST", body: formData });
+      if (!apiRes.ok) throw new Error("Erreur recompression");
+
+      const result = await apiRes.json();
+
+      // 6. Update local state
+      setMedia((prev) =>
+        prev.map((m) =>
+          m.id === item.id
+            ? { ...m, file_size: result.size, width: result.width, height: result.height, file_type: "image/webp" }
+            : m
+        )
+      );
+
+      if (selected?.id === item.id) {
+        setSelected((prev) => prev ? { ...prev, file_size: result.size, width: result.width, height: result.height } : prev);
+      }
+    } catch {
+      toast.error(`Erreur recompression: ${item.file_name}`);
+    } finally {
+      setRecompressingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(item.id);
+        return next;
+      });
+    }
+  };
+
+  const handleBulkRecompress = async () => {
+    const heavy = media.filter((m) => m.file_size > 150 * 1024);
+    if (heavy.length === 0) {
+      toast.info("Toutes les images font déjà moins de 150 Ko");
+      return;
+    }
+
+    setBulkRecompressing(true);
+    let done = 0;
+
+    for (const item of heavy) {
+      await handleRecompressOne(item);
+      done++;
+      if (done % 3 === 0) {
+        toast.info(`Recompression... ${done}/${heavy.length}`);
+      }
+    }
+
+    setBulkRecompressing(false);
+    toast.success(`${done} image${done > 1 ? "s" : ""} recompressée${done > 1 ? "s" : ""}`);
+    fetchMedia();
+  };
+
   const handleSelect = (item: MediaItem) => {
     if (multiSelect) {
       setSelectedIds((prev) => {
@@ -399,6 +509,21 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
                 </Button>
               )}
 
+              {/* Bulk recompress */}
+              {heavyCount > 0 && (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={handleBulkRecompress}
+                  disabled={bulkRecompressing}
+                  className="rounded-lg gap-1.5 text-xs text-red-600 border-red-200 hover:bg-red-50"
+                >
+                  {bulkRecompressing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Minimize2 className="w-3.5 h-3.5" />}
+                  Recompresser ({heavyCount})
+                </Button>
+              )}
+
               {/* Bulk delete */}
               {multiSelect && selectedIds.size > 0 && (
                 <Button
@@ -469,6 +594,7 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
                 {media.map((item) => {
                   const isSelected = multiSelect ? selectedIds.has(item.id) : selected?.id === item.id;
                   const isAnalyzing = analyzingIds.has(item.id);
+                  const isRecompressing = recompressingIds.has(item.id);
 
                   return (
                     <div
@@ -507,8 +633,8 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
                         </div>
                       )}
 
-                      {/* Analyzing spinner */}
-                      {isAnalyzing && (
+                      {/* Analyzing / Recompressing spinner */}
+                      {(isAnalyzing || isRecompressing) && (
                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                           <Loader2 className="w-6 h-6 text-white animate-spin" />
                         </div>
@@ -564,6 +690,25 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
                 )}
                 {selected.alt_text ? "Ré-analyser avec l'IA" : "Analyser avec l'IA"}
               </Button>
+
+              {/* Recompress button */}
+              {selected.file_size > 150 * 1024 && (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleRecompressOne(selected)}
+                  disabled={recompressingIds.has(selected.id)}
+                  className="w-full rounded-lg gap-1.5 text-xs text-red-600 border-red-200 hover:bg-red-50"
+                >
+                  {recompressingIds.has(selected.id) ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Minimize2 className="w-3.5 h-3.5" />
+                  )}
+                  Recompresser ({(selected.file_size / 1024).toFixed(0)} Ko → ~150 Ko)
+                </Button>
+              )}
 
               <div className="space-y-2">
                 <label className="text-xs font-medium text-brand-primary">Texte alternatif (SEO)</label>

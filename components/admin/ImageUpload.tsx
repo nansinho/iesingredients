@@ -22,12 +22,15 @@ interface ImageUploadProps {
 }
 
 async function compressImage(file: File): Promise<File> {
-  // Detect orientation to choose smart max dimensions
+  // Smart resize based on aspect ratio
   const dims = await getImageDimensions(file);
+  const ratio = dims.width && dims.height ? dims.width / dims.height : 1;
   let maxWidthOrHeight = 1280; // landscape default
-  if (dims.height > dims.width) {
+  if (ratio >= 2.5) {
+    maxWidthOrHeight = 1400; // banner (3:1, 4:1) → keep wide
+  } else if (ratio < 0.9) {
     maxWidthOrHeight = 853; // portrait → 640x853 for 3:4
-  } else if (dims.width === dims.height) {
+  } else if (ratio <= 1.1) {
     maxWidthOrHeight = 640; // square
   }
 
@@ -101,11 +104,7 @@ export function ImageUpload({
     setCompressionSaved(null);
 
     try {
-      // 1. Get original dimensions
-      const dimensions = await getImageDimensions(file);
-      setProgress(20);
-
-      // 2. Compress image
+      // 1. Compress image (smart resize by orientation)
       const originalSize = file.size;
       const compressed = await compressImage(file);
       const savedPercent = Math.round((1 - compressed.size / originalSize) * 100);
@@ -113,6 +112,10 @@ export function ImageUpload({
         setCompressionSaved(`${savedPercent}% réduit (${(originalSize / 1024).toFixed(0)}→${(compressed.size / 1024).toFixed(0)} Ko)`);
       }
       setProgress(50);
+
+      // 2. Get actual dimensions after compression/resize
+      const dimensions = await getImageDimensions(compressed);
+      setProgress(60);
 
       // 3. Upload via API route (bypasses storage RLS)
       const formData = new FormData();

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as cheerio from "cheerio";
+import sharp from "sharp";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -357,24 +358,43 @@ async function downloadAndUploadImage(
 
     if (!res) return null;
 
-    const contentType = res.headers.get("content-type") || "image/jpeg";
-    const buffer = Buffer.from(await res.arrayBuffer());
+    const rawBuffer = Buffer.from(await res.arrayBuffer());
 
     // Skip tiny images (likely tracking pixels)
-    if (buffer.length < 1000) return null;
+    if (rawBuffer.length < 1000) return null;
 
-    const ext = contentType.includes("png") ? "png"
-      : contentType.includes("webp") ? "webp"
-      : contentType.includes("gif") ? "gif"
-      : "jpg";
+    // Smart resize + compress to WebP with sharp
+    const meta = await sharp(rawBuffer).metadata();
+    const w = meta.width || 0;
+    const h = meta.height || 0;
+    const ratio = w && h ? w / h : 1;
 
-    const fileName = `blog/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    let maxWidth: number | undefined;
+    let maxHeight: number | undefined;
+    if (ratio >= 2.5) {
+      maxWidth = 1400; // banner
+    } else if (ratio > 1) {
+      maxWidth = 1280; // landscape
+    } else if (ratio > 0.9) {
+      maxWidth = 640; maxHeight = 640; // square
+    } else {
+      maxHeight = 853; // portrait → 640x853 for 3:4
+    }
+
+    const resized = sharp(rawBuffer)
+      .resize({ width: maxWidth, height: maxHeight, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 80 });
+
+    const webpBuffer = await resized.toBuffer();
+    const finalMeta = await sharp(webpBuffer).metadata();
+
+    const fileName = `blog/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
 
     const { error } = await adminClient.storage
       .from("product-images")
-      .upload(fileName, buffer, {
+      .upload(fileName, webpBuffer, {
         upsert: true,
-        contentType,
+        contentType: "image/webp",
       });
 
     if (error) {
@@ -387,8 +407,8 @@ async function downloadAndUploadImage(
       .getPublicUrl(fileName);
 
     // Generate AI metadata (alt, title, description)
-    const base64 = buffer.toString("base64");
-    const metadata = await generateImageMetadata(base64, contentType);
+    const base64 = webpBuffer.toString("base64");
+    const metadata = await generateImageMetadata(base64, "image/webp");
 
     // Track in media library
     try {
@@ -396,10 +416,10 @@ async function downloadAndUploadImage(
       await (adminClient.from("media" as never) as ReturnType<typeof adminClient.from>).insert({
         file_name: metadata.title || originalName,
         file_url: publicUrl,
-        file_size: buffer.length,
-        file_type: contentType,
-        width: 0,
-        height: 0,
+        file_size: webpBuffer.length,
+        file_type: "image/webp",
+        width: finalMeta.width || 0,
+        height: finalMeta.height || 0,
         folder: "blog",
         alt_text: metadata.alt,
         description: metadata.description,
