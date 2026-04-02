@@ -22,9 +22,18 @@ interface ImageUploadProps {
 }
 
 async function compressImage(file: File): Promise<File> {
+  // Detect orientation to choose smart max dimensions
+  const dims = await getImageDimensions(file);
+  let maxWidthOrHeight = 1280; // landscape default
+  if (dims.height > dims.width) {
+    maxWidthOrHeight = 853; // portrait → 640x853 for 3:4
+  } else if (dims.width === dims.height) {
+    maxWidthOrHeight = 640; // square
+  }
+
   const options = {
-    maxSizeMB: 1,
-    maxWidthOrHeight: 2048,
+    maxSizeMB: 0.15,
+    maxWidthOrHeight,
     useWebWorker: false,
     fileType: "image/webp" as const,
   };
@@ -192,9 +201,22 @@ export function ImageUpload({
         )}
       </div>
 
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleFileSelect}
+      />
+
       {value ? (
         <div className="space-y-2">
-          <div className={cn("relative rounded-xl overflow-hidden border border-gray-200 group", aspectClass)}>
+          <div
+            className={cn("relative rounded-xl overflow-hidden border border-gray-200 group", aspectClass)}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+          >
             <Image
               src={value}
               alt={altValue || "Preview"}
@@ -203,13 +225,20 @@ export function ImageUpload({
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
               <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => inputRef.current?.click()}
+                  className="px-3 py-2 rounded-lg bg-white text-sm font-medium text-brand-primary hover:bg-gray-100 transition-colors"
+                >
+                  Changer
+                </button>
                 {onOpenLibrary && (
                   <button
                     type="button"
                     onClick={onOpenLibrary}
                     className="px-3 py-2 rounded-lg bg-white text-sm font-medium text-brand-accent hover:bg-gray-100 transition-colors"
                   >
-                    Changer (Médiathèque)
+                    Médiathèque
                   </button>
                 )}
                 <button
@@ -221,6 +250,14 @@ export function ImageUpload({
                 </button>
               </div>
             </div>
+            {isUploading && (
+              <div className="absolute inset-0 bg-white/80 flex flex-col items-center justify-center gap-2">
+                <Loader2 className="w-6 h-6 animate-spin text-brand-accent" />
+                <div className="w-32 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                  <div className="h-full bg-brand-accent rounded-full transition-all" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Alt text for SEO */}
@@ -245,20 +282,44 @@ export function ImageUpload({
         </div>
       ) : (
         <div
-          onClick={() => onOpenLibrary?.()}
-          className="relative rounded-xl border-2 border-dashed border-gray-200 hover:border-brand-accent/50 hover:bg-brand-primary/[0.02] transition-all cursor-pointer flex flex-col items-center justify-center gap-3 py-10"
+          onClick={() => onOpenLibrary ? onOpenLibrary() : inputRef.current?.click()}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          className={cn(
+            "relative rounded-xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center gap-3 py-10",
+            isDragging
+              ? "border-brand-accent bg-brand-accent/5"
+              : "border-gray-200 hover:border-brand-accent/50 hover:bg-brand-primary/[0.02]"
+          )}
         >
-          <div className="w-12 h-12 rounded-xl bg-brand-primary/5 flex items-center justify-center">
-            <ImageIcon className="w-6 h-6 text-brand-secondary/50" />
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-medium text-brand-primary">
-              Sélectionner depuis la médiathèque
-            </p>
-            <p className="text-xs text-brand-secondary/50 mt-1">
-              Uploadez ou choisissez une image existante
-            </p>
-          </div>
+          {isUploading ? (
+            <>
+              <Loader2 className="w-8 h-8 animate-spin text-brand-accent" />
+              <div className="w-32 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                <div className="h-full bg-brand-accent rounded-full transition-all" style={{ width: `${progress}%` }} />
+              </div>
+              <p className="text-xs text-brand-secondary/50">Upload en cours...</p>
+            </>
+          ) : (
+            <>
+              <div className="w-12 h-12 rounded-xl bg-brand-primary/5 flex items-center justify-center">
+                {isDragging ? (
+                  <Upload className="w-6 h-6 text-brand-accent" />
+                ) : (
+                  <ImageIcon className="w-6 h-6 text-brand-secondary/50" />
+                )}
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-medium text-brand-primary">
+                  {onOpenLibrary ? "Sélectionner depuis la médiathèque" : "Cliquez ou glissez une image"}
+                </p>
+                <p className="text-xs text-brand-secondary/50 mt-1">
+                  {onOpenLibrary ? "Ou glissez une image directement" : "JPG, PNG, WebP — 10 Mo max"}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>

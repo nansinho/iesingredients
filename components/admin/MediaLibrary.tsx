@@ -108,24 +108,32 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
       if (!file.type.startsWith("image/")) continue;
 
       try {
-        // Compress
-        const compressed = await imageCompression(file, {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 2048,
-          useWebWorker: true,
-          fileType: "image/webp" as const,
-        });
-
-        const webpName = file.name.replace(/\.[^.]+$/, ".webp");
-        const webpFile = new File([compressed], webpName, { type: "image/webp" });
-
-        // Get dimensions
+        // Get dimensions to detect orientation
         const dims = await new Promise<{ width: number; height: number }>((resolve) => {
           const img = document.createElement("img");
           img.onload = () => { resolve({ width: img.naturalWidth, height: img.naturalHeight }); URL.revokeObjectURL(img.src); };
           img.onerror = () => resolve({ width: 0, height: 0 });
           img.src = URL.createObjectURL(file);
         });
+
+        // Smart resize based on orientation
+        let maxWidthOrHeight = 1280; // landscape
+        if (dims.height > dims.width) {
+          maxWidthOrHeight = 853; // portrait → 640x853 for 3:4
+        } else if (dims.width === dims.height) {
+          maxWidthOrHeight = 640; // square
+        }
+
+        // Compress
+        const compressed = await imageCompression(file, {
+          maxSizeMB: 0.15,
+          maxWidthOrHeight,
+          useWebWorker: true,
+          fileType: "image/webp" as const,
+        });
+
+        const webpName = file.name.replace(/\.[^.]+$/, ".webp");
+        const webpFile = new File([compressed], webpName, { type: "image/webp" });
 
         // Upload via API route (bypasses storage RLS)
         const targetFolder = folder || "uploads";
