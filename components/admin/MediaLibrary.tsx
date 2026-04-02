@@ -299,6 +299,7 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
   };
 
   const unanalyzedCount = media.filter((m) => !m.alt_text).length;
+  const heavyCount = media.filter((m) => m.file_size > 150 * 1024).length;
 
   if (!open && !standalone) return null;
 
@@ -311,6 +312,11 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
         {unanalyzedCount > 0 && (
           <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 font-medium">
             {unanalyzedCount} sans ALT
+          </span>
+        )}
+        {heavyCount > 0 && (
+          <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-medium">
+            {heavyCount} {heavyCount > 1 ? "images" : "image"} &gt; 150 Ko
           </span>
         )}
       </div>
@@ -500,12 +506,19 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
                         </div>
                       )}
 
-                      {/* No ALT badge */}
-                      {!item.alt_text && !isAnalyzing && (
-                        <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-amber-500 text-[10px] text-white font-medium">
-                          No ALT
-                        </div>
-                      )}
+                      {/* Badges */}
+                      <div className="absolute bottom-1 left-1 flex gap-1">
+                        {!item.alt_text && !isAnalyzing && (
+                          <div className="px-1.5 py-0.5 rounded bg-amber-500 text-[10px] text-white font-medium">
+                            No ALT
+                          </div>
+                        )}
+                        {item.file_size > 150 * 1024 && (
+                          <div className="px-1.5 py-0.5 rounded bg-red-500 text-[10px] text-white font-medium">
+                            {(item.file_size / 1024).toFixed(0)} Ko
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
