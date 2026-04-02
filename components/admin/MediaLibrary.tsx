@@ -103,7 +103,6 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
 
   const handleUpload = async (files: FileList) => {
     setIsUploading(true);
-    const supabase = createClient();
 
     for (const file of Array.from(files)) {
       if (!file.type.startsWith("image/")) continue;
@@ -128,49 +127,22 @@ export function MediaLibrary({ open, onClose, onSelect, onMultiSelect, folder: i
           img.src = URL.createObjectURL(file);
         });
 
-        // Upload
+        // Upload via API route (bypasses storage RLS)
         const targetFolder = folder || "uploads";
-        const fileName = `${targetFolder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+        const formData = new FormData();
+        formData.append("file", webpFile);
+        formData.append("bucket", "product-images");
+        formData.append("folder", targetFolder);
+        formData.append("width", String(dims.width));
+        formData.append("height", String(dims.height));
 
-        const { error } = await supabase.storage
-          .from("product-images")
-          .upload(fileName, webpFile, { upsert: true, contentType: "image/webp" });
-
-        if (error) throw error;
-
-        const { data: { publicUrl } } = supabase.storage
-          .from("product-images")
-          .getPublicUrl(fileName);
-
-        // Generate alt text via AI
-        let altText = "";
-        try {
-          const altForm = new FormData();
-          altForm.append("file", webpFile);
-          altForm.append("altOnly", "true");
-          const altRes = await fetch("/api/extract-pdf", { method: "POST", body: altForm });
-          if (altRes.ok) {
-            const altData = await altRes.json();
-            altText = altData.alt || "";
-          }
-        } catch {
-          // Non-critical: alt text generation is optional
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Upload échoué");
         }
-
-        // Track
-        await (supabase.from("media") as any).insert({
-          file_name: webpName,
-          file_url: publicUrl,
-          file_size: webpFile.size,
-          file_type: "image/webp",
-          width: dims.width,
-          height: dims.height,
-          folder: targetFolder,
-          alt_text: altText,
-          description: "",
-        });
-      } catch {
-        toast.error(`Erreur upload: ${file.name}`);
+      } catch (err) {
+        toast.error(`Erreur upload: ${file.name}${err instanceof Error ? ` — ${err.message}` : ""}`);
       }
     }
 

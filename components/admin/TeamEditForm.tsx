@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { logAudit } from "@/lib/audit";
 import { DEPARTMENTS } from "@/lib/constants/departments";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { MediaLibrary } from "@/components/admin/MediaLibrary";
 
 export function TeamEditForm({
   member,
@@ -25,6 +26,7 @@ export function TeamEditForm({
   onCancel?: () => void;
 }) {
   const [isSaving, setIsSaving] = useState(false);
+  const [showMediaLibrary, setShowMediaLibrary] = useState(false);
   const [createAccount, setCreateAccount] = useState(isNew);
   const [form, setForm] = useState({
     name: member?.name || "",
@@ -105,6 +107,7 @@ export function TeamEditForm({
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto">
         <div className="p-6 space-y-6">
@@ -116,6 +119,8 @@ export function TeamEditForm({
             folder="team"
             label="Photo"
             aspect="square"
+            showAlt={false}
+            onOpenLibrary={() => setShowMediaLibrary(true)}
           />
 
           {/* Nom + Email */}
@@ -221,5 +226,17 @@ export function TeamEditForm({
         </Button>
       </div>
     </form>
+    {showMediaLibrary && (
+      <MediaLibrary
+        open={showMediaLibrary}
+        onClose={() => setShowMediaLibrary(false)}
+        onSelect={(url) => {
+          handleChange("photo_url", url);
+          setShowMediaLibrary(false);
+        }}
+        folder="team"
+      />
+    )}
+    </>
   );
 }
