@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect, useMemo } from "react";
+import { useCallback, useState, useEffect, useMemo, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import {
@@ -472,6 +472,20 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
   const [famille, setFamille] = useState("");
   const [page, setPage] = useState(1);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Show sticky bar only when hero is scrolled out of view
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-64px 0px 0px 0px" }
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     setSearch(urlSearch);
@@ -622,7 +636,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
   return (
     <>
       {/* ── Hero — style actualités ── */}
-      <section className="relative min-h-[50vh] flex items-end overflow-hidden">
+      <section ref={heroRef} className="relative min-h-[50vh] flex items-end overflow-hidden">
         <ParallaxBackground className="absolute inset-0">
           <Image
             src={currentCat ? currentCat.banner : "/images/hero-botanical.jpg"}
@@ -693,9 +707,12 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
 
       {/* ══ MODE CATALOGUE (catégorie ou recherche active) ══ */}
       {(category || search) && (
-        <>
-          {/* Category Tabs + Breadcrumb */}
-          <section className="py-4 fixed left-0 right-0 top-[64px] lg:top-[108px] z-40 backdrop-blur-md bg-cream-light/95 border-b border-brown/8">
+        <div>
+          {/* Category Tabs — fixed after scroll */}
+          <div className={cn(
+            "py-4 z-40 backdrop-blur-md bg-cream-light/95 border-b border-brown/8 transition-all duration-300",
+            showStickyBar ? "fixed left-0 right-0 top-[64px] lg:top-[108px] shadow-sm" : "relative"
+          )}>
             <div className="w-[94%] max-w-7xl mx-auto">
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1">
@@ -739,10 +756,10 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                 )}
               </div>
             </div>
-          </section>
+          </div>
 
-          {/* Spacer for fixed bar */}
-          <div className="h-[56px]" />
+          {/* Spacer when bar is fixed */}
+          {showStickyBar && <div className="h-[56px]" />}
 
           {/* Famille Strip (only when category, not search) */}
           {category && !search && (
@@ -773,7 +790,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
               </div>
             </section>
           )}
-        </>
+        </div>
       )}
 
       {/* ── Products (only when category or search is active) ── */}
