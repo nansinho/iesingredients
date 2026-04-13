@@ -36,10 +36,17 @@
       "Bash(grep -r \"delete\\\\|DELETE\" /c/Users/Nans-/Projects/iesingredients/app/api --include=*.ts)",
       "Bash(grep -r \"admin\\\\.auth\\\\|createUser\\\\|signUp\" /c/Users/Nans-/Projects/iesingredients --include=*.ts --include=*.tsx)",
       "Read(//tmp/claude/c--Users-Nans--Projects-iesingredients/c99edadf-6fbb-48d7-b588-4161b648a543/tasks/**)",
-      "Bash(curl -s \"https://recherche-entreprises.api.gouv.fr/search?q=810696096&page=1&per_page=1\")"
+      "Bash(curl -s \"https://recherche-entreprises.api.gouv.fr/search?q=810696096&page=1&per_page=1\")",
+      "Bash(node -e \":*)",
+      "Bash(node -e ':*)",
+      "Bash(find /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(public\\\\\\)/actualites -name \"*.tsx\" -type f)",
+      "Bash(grep -n \"min-h-\\\\[60\\\\|min-h-\\\\[70\\\\|min-h-\\\\[80\\\\|min-h-screen\\\\|section className\" /c/Users/Nans-/Projects/iesingredients/app/[locale]/\\\\\\(public\\\\\\)/actualites/[slug]/page.tsx)",
+      "Bash(find \"c:\\\\Users\\\\Nans-\\\\Projects\\\\iesingredients\\\\app\\\\[locale]\\\\\\(public\\)\" -type d)",
+      "Bash(ls \"c:/Users/Nans-/Projects/iesingredients/app/[locale]/\\(client\\)/espace-client/support/\")"
     ],
     "additionalDirectories": [
-      "\\tmp"
+      "\\tmp",
+      "c:\\Users\\Nans-\\Projects\\iesingredients\\app\\[locale]\\(admin)\\admin"
     ]
   }
 }

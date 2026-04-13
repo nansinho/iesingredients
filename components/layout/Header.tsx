@@ -218,7 +218,7 @@ export function Header() {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-brand-primary",
-          isScrolled && "shadow-[0_1px_12px_rgba(0,0,0,0.3)] border-b border-white/5"
+          isScrolled && "shadow-[0_1px_12px_rgba(0,0,0,0.3)]"
         )}
       >
         {/* ═══════════════════════════════════════
@@ -443,7 +443,7 @@ export function Header() {
                                   return (
                                     <div key={col.id}>
                                       <Link
-                                        href={{ pathname: "/catalogue", query: { category: col.id } }}
+                                        href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
                                         onClick={() => setIsOpen(false)}
                                         className="flex items-center gap-2 py-1.5 px-3 text-[13px] font-semibold uppercase tracking-wider"
                                         style={{ color: col.accent }}
@@ -455,7 +455,7 @@ export function Header() {
                                         {col.subKeys.map((subKey) => (
                                           <Link
                                             key={subKey}
-                                            href={{ pathname: "/catalogue", query: { category: col.id } }}
+                                            href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
                                             onClick={() => setIsOpen(false)}
                                             className="block py-1.5 px-3 text-sm text-dark/45 hover:text-dark transition-colors rounded-lg hover:bg-dark/5"
                                           >
@@ -773,7 +773,7 @@ export function Header() {
                       return (
                         <div key={col.id} className="group/col">
                           <Link
-                            href={{ pathname: "/catalogue", query: { category: col.id } }}
+                            href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
                             onClick={closeMenus}
                             className="flex items-center gap-2.5 mb-4 group/link"
                           >
@@ -795,7 +795,7 @@ export function Header() {
                             {col.subKeys.map((subKey) => (
                               <li key={subKey}>
                                 <Link
-                                  href={{ pathname: "/catalogue", query: { category: col.id } }}
+                                  href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
                                   onClick={closeMenus}
                                   className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-dark/45 hover:text-dark hover:bg-dark/[0.03] transition-all duration-150"
                                 >
@@ -805,7 +805,7 @@ export function Header() {
                             ))}
                             <li>
                               <Link
-                                href={{ pathname: "/catalogue", query: { category: col.id } }}
+                                href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
                                 onClick={closeMenus}
                                 className="inline-flex items-center gap-1 mt-2 py-1 text-[13px] font-medium transition-all duration-200 hover:gap-2"
                                 style={{ color: col.accent }}

@@ -1,5 +1,11 @@
 import { notFound } from "next/navigation";
-import { getProduct, getCategoryConfig } from "@/lib/products";
+import {
+  getProduct,
+  getCategoryConfig,
+  getProductPerformance,
+  getProductStabilite,
+  getRelatedProducts,
+} from "@/lib/products";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ProductDetail } from "@/components/product/ProductDetail";
 
@@ -18,7 +24,7 @@ export async function generateMetadata({
     return { title: "Product not found" };
   }
 
-  const config = getCategoryConfig(product.typologie_de_produit);
+  const config = getCategoryConfig(product.typologie_de_produit, product._table);
 
   return {
     title: `${product.nom_commercial} - IES Ingredients`,
@@ -26,10 +32,10 @@ export async function generateMetadata({
       product.description ||
       `${product.nom_commercial} - ${config.label} ingredient by IES Ingredients. Code: ${product.code}`,
     alternates: {
-      canonical: `/${locale}/catalogue/${code}`,
+      canonical: `/${locale}/catalogue/produit/${code}`,
       languages: {
-        fr: `/fr/catalogue/${code}`,
-        en: `/en/catalog/${code}`,
+        fr: `/fr/catalogue/produit/${code}`,
+        en: `/en/catalog/product/${code}`,
       },
     },
     openGraph: {
@@ -52,8 +58,21 @@ export default async function ProductPage({
     return notFound();
   }
 
-  const config = getCategoryConfig(product.typologie_de_produit);
+  const config = getCategoryConfig(product.typologie_de_produit, product._table);
   const siteUrl = "https://ies-ingredients.com";
+  const isParfum = product._table === "parfum_fr";
+
+  // Fetch performance, stability, and related products in parallel
+  const [performance, stabilite, relatedProducts] = await Promise.all([
+    isParfum ? getProductPerformance(code) : Promise.resolve([]),
+    isParfum ? getProductStabilite(code) : Promise.resolve([]),
+    getRelatedProducts(
+      code,
+      product._table || "cosmetique_fr",
+      isParfum ? "famille_olfactive" : product._table === "aromes_fr" ? "famille_arome" : "famille_cosmetique",
+      isParfum ? product.famille_olfactive || null : product._table === "aromes_fr" ? product.famille_arome || null : product.famille_cosmetique || null
+    ),
+  ]);
 
   // Product JSON-LD
   const productJsonLd = {
@@ -95,7 +114,12 @@ export default async function ProductPage({
           },
         ]}
       />
-      <ProductDetail product={product} />
+      <ProductDetail
+        product={product}
+        performance={performance}
+        stabilite={stabilite}
+        relatedProducts={relatedProducts}
+      />
     </>
   );
 }

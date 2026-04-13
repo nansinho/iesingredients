@@ -24,6 +24,140 @@ interface ProductsAdminProps {
 
 const PAGE_SIZE = 20;
 
+// ── Colonnes spécifiques par catalogue (fidèles au XLS) ──
+
+function getColumns(tableName: string) {
+  const imgCol = {
+    key: "image_url",
+    label: "",
+    render: (item: any) =>
+      item.image_url ? (
+        <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+          <Image src={item.image_url} alt="" width={48} height={48} className="w-full h-full object-cover" />
+        </div>
+      ) : (
+        <div className="w-10 h-10 rounded-lg bg-brand-primary/5" />
+      ),
+  };
+
+  const codeCol = {
+    key: "code",
+    label: "Code",
+    render: (item: any) => (
+      <span className="font-mono text-[11px] font-bold text-brand-primary truncate max-w-[120px] block">{item.code}</span>
+    ),
+  };
+
+  const nomCol = {
+    key: "nom_commercial",
+    label: "Nom commercial",
+    render: (item: any) => (
+      <span className="font-medium text-sm truncate max-w-[200px] block">{item.nom_commercial}</span>
+    ),
+  };
+
+  const statutCol = {
+    key: "statut",
+    label: "Statut",
+    render: (item: any) => (
+      <Badge className={item.statut === "ACTIF" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
+        {item.statut}
+      </Badge>
+    ),
+  };
+
+  if (tableName === "aromes_fr") {
+    // Excel: nom_commercial, typologie_produit, famille_arome, saveur, code_fournisseurs, cas_no, aspect
+    return [
+      imgCol,
+      codeCol,
+      nomCol,
+      {
+        key: "famille_arome",
+        label: "Famille",
+        render: (item: any) => item.famille_arome ? (
+          <Badge variant="outline" className="text-[11px]">{item.famille_arome}</Badge>
+        ) : <span className="text-gray-300">—</span>,
+      },
+      {
+        key: "saveur",
+        label: "Saveur",
+        render: (item: any) => <span className="text-sm text-gray-600">{item.saveur || "—"}</span>,
+      },
+      { key: "cas_no", label: "CAS", render: (item: any) => <span className="font-mono text-[11px] text-gray-500">{item.cas_no || "—"}</span> },
+      { key: "aspect", label: "Aspect", render: (item: any) => <span className="text-sm text-gray-600">{item.aspect || "—"}</span> },
+      statutCol,
+    ];
+  }
+
+  if (tableName === "cosmetique_fr") {
+    // Excel: nom_commercial, famille_cosmetique, origine, code, cas_no, inci, benefices, solubilite, aspect
+    return [
+      imgCol,
+      codeCol,
+      nomCol,
+      {
+        key: "famille_cosmetique",
+        label: "Famille",
+        render: (item: any) => item.famille_cosmetique ? (
+          <Badge variant="outline" className="text-[11px]">{item.famille_cosmetique}</Badge>
+        ) : <span className="text-gray-300">—</span>,
+      },
+      {
+        key: "origine",
+        label: "Origine",
+        render: (item: any) => <span className="text-sm text-gray-600">{item.origine || "—"}</span>,
+      },
+      {
+        key: "solubilite",
+        label: "Solubilité",
+        render: (item: any) => <span className="text-[11px] text-gray-600">{item.solubilite || "—"}</span>,
+      },
+      {
+        key: "aspect",
+        label: "Aspect",
+        render: (item: any) => <span className="text-sm text-gray-600">{item.aspect || "—"}</span>,
+      },
+      statutCol,
+    ];
+  }
+
+  if (tableName === "parfum_fr") {
+    // Excel: nom_commercial, famille_olfactive, origine, code_fournisseurs, cas_no, nom_latin, food_grade, aspect
+    return [
+      imgCol,
+      codeCol,
+      nomCol,
+      {
+        key: "famille_olfactive",
+        label: "Famille olfactive",
+        render: (item: any) => item.famille_olfactive ? (
+          <Badge variant="outline" className="text-[11px]">{item.famille_olfactive}</Badge>
+        ) : <span className="text-gray-300">—</span>,
+      },
+      {
+        key: "origin",
+        label: "Origine",
+        render: (item: any) => <span className="text-sm text-gray-600">{item.origin || "—"}</span>,
+      },
+      {
+        key: "nom_latin",
+        label: "Nom latin",
+        render: (item: any) => <span className="text-sm italic text-gray-500">{item.nom_latin || "—"}</span>,
+      },
+      {
+        key: "aspect",
+        label: "Aspect",
+        render: (item: any) => <span className="text-sm text-gray-600">{item.aspect || "—"}</span>,
+      },
+      statutCol,
+    ];
+  }
+
+  // Fallback
+  return [imgCol, codeCol, nomCol, statutCol];
+}
+
 export function ProductsAdmin({
   tableName,
   title,
@@ -96,7 +230,16 @@ export function ProductsAdmin({
   };
 
   const handleExportCSV = () => {
-    const headers = ["code", "nom_commercial", "gamme", "origine", "statut"];
+    // Export colonnes spécifiques au catalogue
+    let headers: string[] = [];
+    if (tableName === "aromes_fr") {
+      headers = ["code", "nom_commercial", "famille_arome", "saveur", "cas_no", "aspect", "statut"];
+    } else if (tableName === "cosmetique_fr") {
+      headers = ["code", "nom_commercial", "famille_cosmetique", "origine", "inci", "solubilite", "aspect", "statut"];
+    } else if (tableName === "parfum_fr") {
+      headers = ["code", "nom_commercial", "famille_olfactive", "origin", "nom_latin", "cas_no", "aspect", "statut"];
+    }
+
     const csv = [
       headers.join(","),
       ...products.map((p: any) => headers.map((h) => `"${(p[h] || "").toString().replace(/"/g, '""')}"`).join(",")),
@@ -144,51 +287,7 @@ export function ProductsAdmin({
     e.target.value = "";
   };
 
-  const columns = [
-    {
-      key: "image_url",
-      label: "",
-      render: (item: any) =>
-        item.image_url ? (
-          <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-            <Image src={item.image_url} alt="" width={48} height={48} className="w-full h-full object-cover" />
-          </div>
-        ) : (
-          <div className="w-10 h-10 rounded-lg bg-brand-primary/5" />
-        ),
-    },
-    {
-      key: "code",
-      label: "Code",
-      render: (item: any) => (
-        <span className="font-mono text-xs font-bold text-brand-primary">{item.code}</span>
-      ),
-    },
-    {
-      key: "nom_commercial",
-      label: "Nom",
-      render: (item: any) => (
-        <span className="font-medium">{item.nom_commercial}</span>
-      ),
-    },
-    { key: "gamme", label: "Gamme" },
-    { key: "origine", label: "Origine" },
-    {
-      key: "statut",
-      label: "Statut",
-      render: (item: any) => (
-        <Badge
-          className={
-            item.statut === "ACTIF"
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }
-        >
-          {item.statut}
-        </Badge>
-      ),
-    },
-  ];
+  const columns = getColumns(tableName);
 
   return (
     <>
@@ -197,47 +296,23 @@ export function ProductsAdmin({
         subtitle={`${total} produits`}
         actions={
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => fetchProducts()}
-              className="rounded-lg"
-            >
+            <Button variant="outline" size="sm" onClick={() => fetchProducts()} className="rounded-lg">
               <RefreshCw className="w-4 h-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExportCSV}
-              className="rounded-lg gap-2"
-            >
+            <Button variant="outline" size="sm" onClick={handleExportCSV} className="rounded-lg gap-2">
               <Download className="w-4 h-4" />
               <span className="hidden sm:inline">Export</span>
             </Button>
             <label>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-lg gap-2 cursor-pointer"
-                asChild
-              >
+              <Button variant="outline" size="sm" className="rounded-lg gap-2 cursor-pointer" asChild>
                 <span>
                   <Upload className="w-4 h-4" />
                   <span className="hidden sm:inline">Import CSV</span>
                 </span>
               </Button>
-              <input
-                type="file"
-                accept=".csv"
-                onChange={handleImportCSV}
-                className="hidden"
-              />
+              <input type="file" accept=".csv" onChange={handleImportCSV} className="hidden" />
             </label>
-            <Button
-              size="sm"
-              onClick={openNew}
-              className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2"
-            >
+            <Button size="sm" onClick={openNew} className="bg-brand-primary text-white hover:bg-brand-secondary rounded-lg gap-2">
               <Plus className="w-4 h-4" />
               Nouveau
             </Button>
@@ -259,7 +334,6 @@ export function ProductsAdmin({
         onPageChange={setPage}
       />
 
-      {/* Slide Panel */}
       <SlidePanel
         open={panelOpen}
         onClose={() => setPanelOpen(false)}

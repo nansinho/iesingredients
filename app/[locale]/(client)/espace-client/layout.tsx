@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { requireAuth, getProfile } from "@/lib/auth";
+import { requireAuth } from "@/lib/auth";
 import { ClientShell } from "@/components/client/ClientShell";
+import { getEffectiveProfile } from "@/lib/impersonate";
+import { ImpersonateBanner } from "@/components/admin/ImpersonateBanner";
 
 export default async function ClientLayout({
   children,
@@ -15,10 +17,15 @@ export default async function ClientLayout({
   const user = await requireAuth(locale);
   if (!user) redirect(`/${locale}/login`);
 
-  const [messages, profile] = await Promise.all([getMessages(), getProfile()]);
+  const [messages, effectiveProfile] = await Promise.all([
+    getMessages(),
+    getEffectiveProfile(),
+  ]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const p = profile as any;
+  const p = effectiveProfile as any;
+  const impersonating = p?.impersonating === true;
+
   const clientProfile = {
     id: p?.id || "",
     full_name: (p?.full_name as string) || null,
@@ -30,7 +37,14 @@ export default async function ClientLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <ClientShell profile={clientProfile}>
+      {impersonating && (
+        <ImpersonateBanner
+          userName={clientProfile.full_name || "Utilisateur"}
+          userEmail={clientProfile.email || ""}
+          userCompany={clientProfile.company}
+        />
+      )}
+      <ClientShell profile={clientProfile} impersonating={impersonating}>
         {children}
       </ClientShell>
     </NextIntlClientProvider>

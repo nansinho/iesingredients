@@ -143,7 +143,7 @@ export default async function AdminDashboard({
   });
 
   return (
-    <div className="max-w-5xl">
+    <div className="w-full">
       {/* Welcome */}
       <div className="mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-brand-primary tracking-tight">

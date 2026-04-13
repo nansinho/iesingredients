@@ -31,15 +31,17 @@ interface ClientProfile {
 export function ClientShell({
   children,
   profile,
+  impersonating = false,
 }: {
   children: React.ReactNode;
   profile: ClientProfile;
+  impersonating?: boolean;
 }) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
     <SidebarContext.Provider value={{ collapsed, setCollapsed }}>
-      <div className="flex min-h-screen bg-[#F8F7F5]">
+      <div className={cn("flex min-h-screen bg-[#F8F7F5]", impersonating && "pt-10")}>
         <ClientSidebar />
         <main
           className={cn(

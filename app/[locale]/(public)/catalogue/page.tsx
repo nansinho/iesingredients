@@ -1,7 +1,11 @@
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
-import { searchProducts } from "@/lib/products";
 import { CatalogClient } from "@/components/catalog/CatalogClient";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import { createClient } from "@/lib/supabase/server";
+import type { Product } from "@/lib/product-types";
+
+export const revalidate = 300; // ISR 5 min
 
 export async function generateMetadata({
   params,
@@ -16,10 +20,7 @@ export async function generateMetadata({
     description: t("catalogDescription"),
     alternates: {
       canonical: `/${locale}/catalogue`,
-      languages: {
-        fr: "/fr/catalogue",
-        en: "/en/catalog",
-      },
+      languages: { fr: "/fr/catalogue", en: "/en/catalog" },
     },
     openGraph: {
       title: t("catalogTitle"),
@@ -30,21 +31,34 @@ export async function generateMetadata({
   };
 }
 
+/** Load ALL products once at build/ISR — client handles search/filter/pagination */
+async function getAllProducts(): Promise<Product[]> {
+  const supabase = await createClient();
+  const allProducts: Product[] = [];
+
+  for (const table of ["cosmetique_fr", "parfum_fr", "aromes_fr"]) {
+    const { data } = await supabase
+      .from(table)
+      .select("*")
+      .eq("statut", "ACTIF")
+      .order("nom_commercial", { ascending: true });
+
+    if (data) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      allProducts.push(...data.map((p: any) => ({ ...p, _table: table }) as Product));
+    }
+  }
+
+  return allProducts;
+}
+
 export default async function CataloguePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ search?: string; category?: string; page?: string }>;
 }) {
   const { locale } = await params;
-  const sp = await searchParams;
-
-  const result = await searchProducts({
-    search: sp.search,
-    category: sp.category,
-    page: sp.page,
-  });
+  const allProducts = await getAllProducts();
 
   const siteUrl = "https://ies-ingredients.com";
 
@@ -59,13 +73,9 @@ export default async function CataloguePage({
           },
         ]}
       />
-      <CatalogClient
-        products={result.products}
-        total={result.total}
-        page={result.page}
-        totalPages={result.totalPages}
-        searchParams={sp}
-      />
+      <Suspense fallback={null}>
+        <CatalogClient allProducts={allProducts} />
+      </Suspense>
     </>
   );
 }

@@ -78,7 +78,7 @@ export function ThreeUniverses() {
                 key={universe.filter}
               >
                 <Link
-                  href={{ pathname: "/catalogue", query: { category: universe.filter } }}
+                  href={universe.filter === "cosmetique" ? "/catalogue/cosmetique" : universe.filter === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
                   className="group block"
                 >
                   <div className="relative h-[400px] md:h-[560px] overflow-hidden cursor-pointer flex">

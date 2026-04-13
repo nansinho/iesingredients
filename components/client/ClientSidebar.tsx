@@ -11,6 +11,8 @@ import {
   ClipboardList,
   User,
   LifeBuoy,
+  Bell,
+  Heart,
   LogOut,
   Menu,
   X,
@@ -29,8 +31,11 @@ const navGroups = [
   {
     label: "Mon espace",
     items: [
+      { label: "Mon profil", href: "/espace-client/profil", icon: User },
+      { label: "Mes favoris", href: "/espace-client/favoris", icon: Heart },
       { label: "Mes demandes", href: "/espace-client/demandes", icon: ClipboardList },
       { label: "Support", href: "/espace-client/support", icon: LifeBuoy },
+      { label: "Notifications", href: "/espace-client/notifications", icon: Bell },
     ],
   },
 ];

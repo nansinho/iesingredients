@@ -20,6 +20,7 @@ export type Database = {
           conservateurs: string | null
           description: string | null
           dosage: string | null
+          famille_arome: string | null
           flavouring_preparation: string | null
           food_grade: string | null
           gamme: string | null
@@ -30,6 +31,7 @@ export type Database = {
           origine: string | null
           ph: string | null
           profil_aromatique: string | null
+          saveur: string | null
           statut: string | null
           tracabilite: string | null
           typologie_de_produit: string | null
@@ -45,6 +47,7 @@ export type Database = {
           conservateurs?: string | null
           description?: string | null
           dosage?: string | null
+          famille_arome?: string | null
           flavouring_preparation?: string | null
           food_grade?: string | null
           gamme?: string | null
@@ -55,6 +58,7 @@ export type Database = {
           origine?: string | null
           ph?: string | null
           profil_aromatique?: string | null
+          saveur?: string | null
           statut?: string | null
           tracabilite?: string | null
           typologie_de_produit?: string | null
@@ -70,6 +74,7 @@ export type Database = {
           conservateurs?: string | null
           description?: string | null
           dosage?: string | null
+          famille_arome?: string | null
           flavouring_preparation?: string | null
           food_grade?: string | null
           gamme?: string | null
@@ -80,6 +85,7 @@ export type Database = {
           origine?: string | null
           ph?: string | null
           profil_aromatique?: string | null
+          saveur?: string | null
           statut?: string | null
           tracabilite?: string | null
           typologie_de_produit?: string | null
@@ -298,6 +304,7 @@ export type Database = {
           code: string | null
           conservateurs: string | null
           description: string | null
+          famille_cosmetique: string | null
           flavouring_preparation: string | null
           gamme: string | null
           id: number
@@ -325,6 +332,7 @@ export type Database = {
           code?: string | null
           conservateurs?: string | null
           description?: string | null
+          famille_cosmetique?: string | null
           flavouring_preparation?: string | null
           gamme?: string | null
           id?: number
@@ -352,6 +360,7 @@ export type Database = {
           code?: string | null
           conservateurs?: string | null
           description?: string | null
+          famille_cosmetique?: string | null
           flavouring_preparation?: string | null
           gamme?: string | null
           id?: number
@@ -374,6 +383,7 @@ export type Database = {
           aspect: string | null
           base: string | null
           calendrier_des_recoltes: string | null
+          calendrier_recoltes: string | null
           cas_no: string | null
           certifications: string | null
           code: string | null
@@ -397,6 +407,7 @@ export type Database = {
           aspect?: string | null
           base?: string | null
           calendrier_des_recoltes?: string | null
+          calendrier_recoltes?: string | null
           cas_no?: string | null
           certifications?: string | null
           code?: string | null
@@ -420,6 +431,7 @@ export type Database = {
           aspect?: string | null
           base?: string | null
           calendrier_des_recoltes?: string | null
+          calendrier_recoltes?: string | null
           cas_no?: string | null
           certifications?: string | null
           code?: string | null
@@ -749,6 +761,121 @@ export type Database = {
           role_en?: string | null
           role_fr?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          id: string
+          user_id: string
+          subject: string
+          category: string
+          priority: string
+          status: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          subject: string
+          category?: string
+          priority?: string
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          subject?: string
+          category?: string
+          priority?: string
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      support_messages: {
+        Row: {
+          id: string
+          ticket_id: string
+          sender_id: string
+          is_admin: boolean
+          message: string
+          attachment_url: string | null
+          attachment_name: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          ticket_id: string
+          sender_id: string
+          is_admin?: boolean
+          message: string
+          attachment_url?: string | null
+          attachment_name?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          ticket_id?: string
+          sender_id?: string
+          is_admin?: boolean
+          message?: string
+          attachment_url?: string | null
+          attachment_name?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      notifications: {
+        Row: {
+          id: string
+          user_id: string
+          type: string
+          title: string
+          message: string
+          link: string | null
+          read: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          type?: string
+          title: string
+          message: string
+          link?: string | null
+          read?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          type?: string
+          title?: string
+          message?: string
+          link?: string | null
+          read?: boolean
+          created_at?: string
         }
         Relationships: []
       }

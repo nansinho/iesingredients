@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/auth";
+import { getEffectiveProfile } from "@/lib/impersonate";
 import {
   ClipboardList,
   Package,
@@ -25,13 +26,14 @@ export default async function ClientDemandesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const user = await getUser();
+  const effectiveProfile = await getEffectiveProfile();
+  const effectiveUserId = effectiveProfile?.id;
   const supabase = await createClient();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: requests } = await (supabase.from("sample_requests") as any)
     .select("*, sample_request_items(*)")
-    .eq("user_id", user?.id)
+    .eq("user_id", effectiveUserId)
     .order("created_at", { ascending: false });
 
   const allRequests = (requests ?? []) as Array<{

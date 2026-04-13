@@ -11,9 +11,21 @@ export const routing = defineRouting({
       fr: "/catalogue",
       en: "/catalog",
     },
-    "/catalogue/[code]": {
-      fr: "/catalogue/[code]",
-      en: "/catalog/[code]",
+    "/catalogue/produit/[code]": {
+      fr: "/catalogue/produit/[code]",
+      en: "/catalog/product/[code]",
+    },
+    "/catalogue/cosmetique": {
+      fr: "/catalogue/cosmetique",
+      en: "/catalog/cosmetics",
+    },
+    "/catalogue/parfumerie": {
+      fr: "/catalogue/parfumerie",
+      en: "/catalog/perfumery",
+    },
+    "/catalogue/aromes": {
+      fr: "/catalogue/aromes",
+      en: "/catalog/flavors",
     },
     "/entreprise": {
       fr: "/entreprise",

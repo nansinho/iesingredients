@@ -3,132 +3,10 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
 import { Link } from "@/i18n/routing";
-import { Newspaper, ArrowRight, Mail, Clock } from "lucide-react";
+import { Newspaper, ArrowRight, Mail } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
 import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
-
-// Fake articles for demo when DB is empty
-const fakeArticles = [
-  {
-    id: "fake-1",
-    slug: "tendances-cosmetiques-naturelles-2024",
-    title_fr: "Les tendances cosmétiques naturelles en 2024",
-    title_en: "Natural Cosmetic Trends in 2024",
-    excerpt_fr: "Découvrez les ingrédients stars de cette année : bakuchiol, niacinamide naturelle, et extraits de champignons adaptogènes. Le marché de la beauté naturelle n'a jamais été aussi innovant.",
-    excerpt_en: "Discover this year's star ingredients: bakuchiol, natural niacinamide, and adaptogenic mushroom extracts. The natural beauty market has never been more innovative.",
-    content_fr: "",
-    content_en: "",
-    cover_image_url: null,
-    category: "Cosmétique",
-    published_at: "2024-11-15T10:00:00Z",
-    created_at: "2024-11-15T10:00:00Z",
-    published: true,
-    author: null,
-    reading_time: 5,
-    gradient: "from-cosmetique/20 to-cosmetique-light/30",
-  },
-  {
-    id: "fake-2",
-    slug: "art-parfumerie-tradition-innovation",
-    title_fr: "L'art de la parfumerie : entre tradition et innovation",
-    title_en: "The Art of Perfumery: Between Tradition and Innovation",
-    excerpt_fr: "Comment les maisons de parfumerie allient savoir-faire ancestral et technologies de pointe pour créer les fragrances de demain. Un voyage au cœur de la création olfactive.",
-    excerpt_en: "How perfume houses combine ancestral expertise with cutting-edge technologies to create tomorrow's fragrances. A journey into the heart of olfactory creation.",
-    content_fr: "",
-    content_en: "",
-    cover_image_url: null,
-    category: "Parfumerie",
-    published_at: "2024-10-28T10:00:00Z",
-    created_at: "2024-10-28T10:00:00Z",
-    published: true,
-    author: null,
-    reading_time: 7,
-    gradient: "from-parfum/20 to-parfum-light/30",
-  },
-  {
-    id: "fake-3",
-    slug: "certification-cosmos-importance",
-    title_fr: "Ingrédients bio : pourquoi la certification COSMOS compte",
-    title_en: "Organic Ingredients: Why COSMOS Certification Matters",
-    excerpt_fr: "La certification COSMOS est devenue un standard incontournable dans l'industrie cosmétique. Décryptage des critères et de son importance pour la confiance des consommateurs.",
-    excerpt_en: "COSMOS certification has become an essential standard in the cosmetics industry. Decoding the criteria and its importance for consumer trust.",
-    content_fr: "",
-    content_en: "",
-    cover_image_url: null,
-    category: "Certifications",
-    published_at: "2024-10-10T10:00:00Z",
-    created_at: "2024-10-10T10:00:00Z",
-    published: true,
-    author: null,
-    reading_time: 4,
-    gradient: "from-brand-primary/15 to-brand-accent-light/25",
-  },
-  {
-    id: "fake-4",
-    slug: "givaudan-ies-partenariat-30-ans",
-    title_fr: "Givaudan et IES : un partenariat de 30 ans",
-    title_en: "Givaudan and IES: A 30-Year Partnership",
-    excerpt_fr: "Retour sur trois décennies de collaboration entre Givaudan et IES Ingredients. De la distribution locale à une présence internationale, l'histoire d'un partenariat durable.",
-    excerpt_en: "Looking back at three decades of collaboration between Givaudan and IES Ingredients. From local distribution to an international presence, the story of a lasting partnership.",
-    content_fr: "",
-    content_en: "",
-    cover_image_url: null,
-    category: "Partenariat",
-    published_at: "2024-09-20T10:00:00Z",
-    created_at: "2024-09-20T10:00:00Z",
-    published: true,
-    author: null,
-    reading_time: 6,
-    gradient: "from-arome/20 to-arome-light/30",
-  },
-  {
-    id: "fake-5",
-    slug: "extraits-vegetaux-cosmetique-moderne",
-    title_fr: "Les extraits végétaux dans la cosmétique moderne",
-    title_en: "Plant Extracts in Modern Cosmetics",
-    excerpt_fr: "Des huiles essentielles aux actifs biotechnologiques, les extraits végétaux sont au cœur de la formulation cosmétique contemporaine. Tour d'horizon des dernières innovations.",
-    excerpt_en: "From essential oils to biotechnological actives, plant extracts are at the heart of contemporary cosmetic formulation. An overview of the latest innovations.",
-    content_fr: "",
-    content_en: "",
-    cover_image_url: null,
-    category: "Innovation",
-    published_at: "2024-09-05T10:00:00Z",
-    created_at: "2024-09-05T10:00:00Z",
-    published: true,
-    author: null,
-    reading_time: 5,
-    gradient: "from-cosmetique/15 to-cosmetique-light/25",
-  },
-  {
-    id: "fake-6",
-    slug: "distribution-ingredients-emea",
-    title_fr: "Distribution d'ingrédients en zone EMEA : défis et opportunités",
-    title_en: "Ingredient Distribution in the EMEA Zone: Challenges and Opportunities",
-    excerpt_fr: "Le marché de la distribution d'ingrédients en Europe, Moyen-Orient et Afrique est en pleine mutation. Analyse des tendances et des opportunités pour les acteurs du secteur.",
-    excerpt_en: "The ingredient distribution market in Europe, Middle East and Africa is undergoing major changes. Analysis of trends and opportunities for industry players.",
-    content_fr: "",
-    content_en: "",
-    cover_image_url: null,
-    category: "Distribution",
-    published_at: "2024-08-18T10:00:00Z",
-    created_at: "2024-08-18T10:00:00Z",
-    published: true,
-    author: null,
-    reading_time: 8,
-    gradient: "from-parfum/15 to-parfum-light/25",
-  },
-];
-
-// Fallback colors for fake articles
-const fallbackCategoryColors: Record<string, string> = {
-  "Cosmétique": "bg-cosmetique/10 text-cosmetique-dark border-cosmetique/20",
-  "Parfumerie": "bg-parfum/10 text-parfum-dark border-parfum/20",
-  "Certifications": "bg-brand-primary/10 text-brand-primary border-brand-primary/15",
-  "Partenariat": "bg-arome/10 text-arome-dark border-arome/20",
-  "Innovation": "bg-cosmetique/10 text-cosmetique-dark border-cosmetique/20",
-  "Distribution": "bg-parfum/10 text-parfum-dark border-parfum/20",
-};
 
 interface CategoryData {
   slug: string;
@@ -152,11 +30,6 @@ function getCategoryStyle(category: string, dbCategories: CategoryData[]) {
       style: { backgroundColor: cat.color_bg, color: cat.color_text, borderColor: cat.color_border },
       className: "",
     };
-  }
-  // Fallback for fake article categories
-  const fallback = fallbackCategoryColors[category];
-  if (fallback) {
-    return { style: undefined, className: fallback };
   }
   return { style: undefined, className: "bg-brand-primary/8 text-brand-primary border-brand-primary/12" };
 }
@@ -214,11 +87,8 @@ export default async function NewsPage({
   const dbArticles = (articles ?? []) as BlogArticle[];
   const dbCategories = (categoriesData ?? []) as CategoryData[];
 
-  // Use DB articles if available, otherwise fall back to fake articles
-  const allArticles = dbArticles.length > 0 ? dbArticles : fakeArticles;
-  const featuredArticle = allArticles[0];
-  const restArticles = allArticles.slice(1);
-  const isFakeData = dbArticles.length === 0;
+  const featuredArticle = dbArticles[0] || null;
+  const restArticles = dbArticles.slice(1);
 
   return (
     <>
@@ -272,48 +142,7 @@ export default async function NewsPage({
         <section className="py-20 md:py-28 bg-white">
           <div className="w-[94%] max-w-7xl mx-auto">
             <AnimateIn>
-              {isFakeData ? (
-                <article className="group block">
-                  <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-[var(--color-cream-light)] rounded-3xl overflow-hidden border border-[var(--color-cream)] hover:border-brand-accent/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)]">
-                    <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
-                      <div className={`w-full h-full bg-gradient-to-br ${(featuredArticle as (typeof fakeArticles)[0]).gradient || "from-cream to-cream-light"}`} />
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1.5 rounded-full bg-white/90 text-brand-primary text-[11px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-sm border border-white/50">
-                          {isFr ? "À la une" : "Featured"}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-6 md:p-10 md:pr-12">
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`} style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}>
-                          {getCategoryLabel(featuredArticle.category || "", locale, dbCategories)}
-                        </span>
-                        <time className="text-xs text-dark/40 font-medium">
-                          {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
-                            locale,
-                            { year: "numeric", month: "long", day: "numeric" }
-                          )}
-                        </time>
-                        <span className="flex items-center gap-1 text-xs text-dark/40">
-                          <Clock className="w-3 h-3" />
-                          {(featuredArticle as (typeof fakeArticles)[0]).reading_time || 5} min
-                        </span>
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-dark group-hover:text-brand-accent transition-colors leading-tight mb-4">
-                        {isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
-                      </h2>
-                      <p className="text-dark/50 text-base leading-relaxed mb-6 line-clamp-3">
-                        {isFr ? featuredArticle.excerpt_fr : featuredArticle.excerpt_en || featuredArticle.excerpt_fr}
-                      </p>
-                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary">
-                        {isFr ? "Lire l'article" : "Read article"}
-                        <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              ) : (
-                <Link
+              <Link
                   href={{
                     pathname: "/actualites/[slug]",
                     params: { slug: (featuredArticle as BlogArticle).slug },
@@ -363,7 +192,6 @@ export default async function NewsPage({
                     </div>
                   </article>
                 </Link>
-              )}
             </AnimateIn>
           </div>
         </section>
@@ -388,64 +216,22 @@ export default async function NewsPage({
 
             <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {restArticles.map((article) => {
-                const fakeData = article as (typeof fakeArticles)[0];
-                const dbData = article as BlogArticle;
-                const isCurrentFake = isFakeData;
-
                 return (
                   <StaggerItem key={article.id}>
                     <HoverLift>
-                      {isCurrentFake ? (
-                        <article className="group block bg-white rounded-2xl overflow-hidden border border-[var(--color-cream)] hover:border-brand-accent/20 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
-                          <div className="p-3 sm:p-4">
-                            <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[var(--color-cream-light)]">
-                              <div className={`w-full h-full bg-gradient-to-br ${fakeData.gradient || "from-cream to-cream-light"}`} />
-                              <div className="absolute top-3 left-3">
-                                <span className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border backdrop-blur-sm ${getCategoryStyle(article.category || "", dbCategories).className}`} style={getCategoryStyle(article.category || "", dbCategories).style}>
-                                  {getCategoryLabel(article.category || "", locale, dbCategories)}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="px-5 sm:px-6 pb-6 pt-1">
-                            <div className="flex items-center gap-3 mb-2">
-                              <p className="text-xs text-brand-accent font-semibold uppercase tracking-wider">
-                                {new Date(article.published_at || article.created_at || "").toLocaleDateString(
-                                  locale,
-                                  { year: "numeric", month: "long", day: "numeric" }
-                                )}
-                              </p>
-                              <span className="flex items-center gap-1 text-xs text-dark/35">
-                                <Clock className="w-3 h-3" />
-                                {fakeData.reading_time || 5} min
-                              </span>
-                            </div>
-                            <h3 className="text-base font-bold text-dark group-hover:text-brand-accent transition-colors line-clamp-2 mb-2.5 leading-snug">
-                              {isFr ? article.title_fr : article.title_en || article.title_fr}
-                            </h3>
-                            <p className="text-sm text-dark/50 line-clamp-2 leading-relaxed">
-                              {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
-                            </p>
-                            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-charcoal)] mt-4 group-hover:gap-2.5 transition-all duration-300">
-                              {isFr ? "Lire la suite" : "Read more"}
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </span>
-                          </div>
-                        </article>
-                      ) : (
                         <Link
                           href={{
                             pathname: "/actualites/[slug]",
-                            params: { slug: (dbData).slug },
+                            params: { slug: article.slug },
                           }}
                           className="group block"
                         >
                           <article className="relative h-full rounded-2xl overflow-hidden bg-white border border-brown/8 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(200,168,168,0.12)] hover:-translate-y-2 flex flex-col">
                             {/* Image */}
                             <div className="relative aspect-[16/10] overflow-hidden">
-                              {dbData.cover_image_url ? (
+                              {article.cover_image_url ? (
                                 <Image
-                                  src={dbData.cover_image_url}
+                                  src={article.cover_image_url}
                                   alt={isFr ? article.title_fr : article.title_en || article.title_fr}
                                   fill
                                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -487,7 +273,6 @@ export default async function NewsPage({
                             </div>
                           </article>
                         </Link>
-                      )}
                     </HoverLift>
                   </StaggerItem>
                 );

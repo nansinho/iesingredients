@@ -94,7 +94,7 @@ export function BentoExpertise() {
               <p className="text-3xl md:text-4xl font-black text-forest-900 mt-1">2000+</p>
               <p className="text-gray-500 text-sm mt-1">{t("naturalActives")}</p>
               <Link
-                href={{ pathname: "/catalogue", query: { category: "cosmetique" } }}
+                href="/catalogue/cosmetique"
                 className="inline-flex items-center text-forest-700 hover:text-forest-500 text-sm mt-3 group-hover:gap-2 transition-all duration-300"
               >
                 {cat("explore")}
@@ -117,7 +117,7 @@ export function BentoExpertise() {
               <p className="text-3xl md:text-4xl font-black text-forest-900 mt-1">1500+</p>
               <p className="text-gray-500 text-sm mt-1">{t("rareEssences")}</p>
               <Link
-                href={{ pathname: "/catalogue", query: { category: "parfum" } }}
+                href="/catalogue/parfumerie"
                 className="inline-flex items-center text-forest-700 hover:text-forest-500 text-sm mt-3 group-hover:gap-2 transition-all duration-300"
               >
                 {cat("explore")}
@@ -161,7 +161,7 @@ export function BentoExpertise() {
               <p className="text-3xl md:text-4xl font-black text-forest-900 mt-1">1500+</p>
               <p className="text-gray-500 text-sm mt-1">{t("foodFlavors")}</p>
               <Link
-                href={{ pathname: "/catalogue", query: { category: "arome" } }}
+                href="/catalogue/aromes"
                 className="inline-flex items-center text-forest-700 hover:text-forest-500 text-sm mt-3 group-hover:gap-2 transition-all duration-300"
               >
                 {cat("explore")}

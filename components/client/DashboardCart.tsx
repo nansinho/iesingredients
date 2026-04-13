@@ -22,7 +22,7 @@ export function DashboardCart() {
         {items.map((item) => (
           <Link
             key={item.code}
-            href={{ pathname: "/catalogue/[code]", params: { code: item.code } }}
+            href={{ pathname: "/catalogue/produit/[code]", params: { code: item.code } }}
             className="group flex items-center gap-3 rounded-2xl bg-white p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-accent/10">

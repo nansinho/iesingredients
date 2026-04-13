@@ -12,8 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SlidePanel } from "@/components/admin/SlidePanel";
-import { User, LogOut, Bell } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { UserProfileForm } from "@/components/admin/UserProfileForm";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "@/i18n/routing";
 
@@ -54,12 +55,7 @@ export function ClientHeader({ profile }: { profile: ClientProfile }) {
   return (
     <>
       <header className="sticky top-0 z-30 flex items-center justify-end gap-2 h-16 px-4 sm:px-6 lg:px-8 bg-white/80 backdrop-blur-md border-b border-brown/8" suppressHydrationWarning>
-        {/* Notifications bell */}
-        <button className="relative p-2 rounded-xl text-dark/40 hover:text-dark hover:bg-brown/5 transition-colors">
-          <Bell className="w-5 h-5" />
-          {/* Badge — uncomment when notifications are live */}
-          {/* <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-accent" /> */}
-        </button>
+        <NotificationBell variant="client" />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

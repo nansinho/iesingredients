@@ -12,8 +12,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SlidePanel } from "@/components/admin/SlidePanel";
-import { User, Settings, Bell } from "lucide-react";
+import { User, Settings } from "lucide-react";
 import { UserProfileForm } from "@/components/admin/UserProfileForm";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 interface AdminProfile {
   id: string;
@@ -44,9 +45,7 @@ export function AdminHeader({ profile }: { profile: AdminProfile }) {
   return (
     <>
       <header className="sticky top-0 z-30 flex items-center justify-end gap-2 h-16 px-4 sm:px-6 lg:px-8 bg-white/80 backdrop-blur-md border-b border-brand-primary/[0.06]" suppressHydrationWarning>
-        <button className="relative p-2 rounded-xl text-brand-secondary/40 hover:text-brand-primary hover:bg-brand-primary/[0.04] transition-colors">
-          <Bell className="w-5 h-5" />
-        </button>
+        <NotificationBell variant="admin" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-brand-primary/[0.04] transition-colors outline-none">

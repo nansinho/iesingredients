@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/auth";
+import { getEffectiveProfile } from "@/lib/impersonate";
 import {
   ClipboardList,
   Package,
@@ -107,7 +108,7 @@ export default async function ClientDashboard({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const profile = await getProfile();
+  const profile = await getEffectiveProfile();
   const userId = profile?.id || "";
   const stats = await getClientStats(userId);
   const greeting = getGreeting();

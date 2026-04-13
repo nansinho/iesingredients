@@ -27,45 +27,76 @@ export interface Product {
   benefices_aqueux?: string | null;
   benefices_huileux?: string | null;
   calendrier_des_recoltes?: string | null;
+  calendrier_recoltes?: string | null;
   conservateurs?: string | null;
   tracabilite?: string | null;
   flavouring_preparation?: string | null;
   profil_aromatique?: string | null;
   dosage?: string | null;
   ph?: string | null;
+  famille_arome?: string | null;
+  saveur?: string | null;
+  famille_cosmetique?: string | null;
+  code_fournisseurs?: string | null;
+  created_at?: string | null;
   _table?: string;
 }
 
-export function getCategoryConfig(typologie: string | null) {
-  const t = (typologie || "").toUpperCase();
-  if (t.includes("COSMET") || t.includes("COSMÉT")) {
+export interface PerformanceRow {
+  id?: number;
+  product_code: string;
+  ordre: number;
+  option_name: string | null;
+  performance_value: string | null;
+  performance_rating: number | null;
+}
+
+export interface StabiliteRow {
+  id?: number;
+  product_code: string;
+  ordre: number;
+  base_name: string;
+  ph_value: string | null;
+  odeur_rating: number | null;
+}
+
+/**
+ * Get category config from either:
+ * - typography_de_produit (DB column name with typo)
+ * - _table name (fallback, always reliable)
+ */
+export function getCategoryConfig(typologieOrTable: string | null, table?: string | null) {
+  const t = (typologieOrTable || "").toUpperCase();
+  const tbl = (table || "").toLowerCase();
+
+  if (t.includes("COSMET") || t.includes("COSMÉT") || tbl === "cosmetique_fr") {
     return {
-      accent: "#8B6FA3",
+      accent: "#5B7B6B",
       label: "Cosmétique",
-      gradient: "from-[#5E4878] to-[#8B6FA3]",
+      gradient: "from-[#4A6B5A] to-[#5B7B6B]",
       image: "/images/cream-bowl.jpg",
     };
   }
-  if (t.includes("PARFUM")) {
+  if (t.includes("PARFUM") || tbl === "parfum_fr") {
     return {
-      accent: "#A67B5B",
+      accent: "#8B6A80",
       label: "Parfumerie",
-      gradient: "from-[#A67B5B] to-[#D4A574]",
+      gradient: "from-[#7A5970] to-[#8B6A80]",
       image: "/images/essential-oil.jpg",
     };
   }
-  if (t.includes("AROME") || t.includes("ARÔME")) {
+  if (t.includes("AROME") || t.includes("ARÔME") || tbl === "aromes_fr") {
     return {
-      accent: "#C97B8B",
+      accent: "#D4907E",
       label: "Arômes",
-      gradient: "from-[#8B4A5E] to-[#C97B8B]",
+      gradient: "from-[#C4806E] to-[#D4907E]",
       image: "/images/product-bottle.jpg",
     };
   }
   return {
-    accent: "#8B6FA3",
-    label: "Produit",
-    gradient: "from-[#5E4878] to-[#8B6FA3]",
+    accent: "#5B7B6B",
+    label: "Cosmétique",
+    gradient: "from-[#4A6B5A] to-[#5B7B6B]",
     image: "/images/cream-bowl.jpg",
   };
 }

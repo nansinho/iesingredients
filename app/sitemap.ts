@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const product of data) {
       if (product.code) {
         productPages.push({
-          url: `${BASE_URL}/fr/catalogue/${product.code}`,
+          url: `${BASE_URL}/fr/catalogue/produit/${product.code}`,
           lastModified: product.updated_at ? new Date(product.updated_at) : new Date(),
           changeFrequency: "weekly",
           priority: 0.6,

@@ -3,9 +3,10 @@
 
 import { useState, useMemo, useCallback } from "react";
 import {
-  Shield, User, Users, UserPlus, Search, Briefcase,
+  Shield, User, Users, UserPlus, Search, Briefcase, Eye,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { UserProfileForm } from "@/components/admin/UserProfileForm";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,6 +16,7 @@ import { createClient } from "@/lib/supabase/client";
 import { logAudit } from "@/lib/audit";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useRouter } from "@/i18n/routing";
 
 type AccountTab = "all" | "internal" | "business" | "individual";
 
@@ -55,6 +57,7 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
   const [activeTab, setActiveTab] = useState<AccountTab>("all");
   const [panelOpen, setPanelOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
+  const router = useRouter();
 
   const stats = useMemo(() => {
     const total = users.length;
@@ -233,6 +236,33 @@ export function UsersAdmin({ initialUsers }: { initialUsers: any[] }) {
               <p className="text-xs text-brand-secondary/40">
                 {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : ""}
               </p>
+            </div>
+
+            {/* Impersonate button */}
+            <div className="px-6 py-3 border-b border-gray-100">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full gap-2 rounded-xl text-amber-600 border-amber-200 hover:bg-amber-50 hover:text-amber-700"
+                onClick={async () => {
+                  const res = await fetch("/api/admin/impersonate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId: selectedUser.id }),
+                  });
+                  if (res.ok) {
+                    toast.success(`Vue en tant que ${selectedUser.full_name || selectedUser.email}`);
+                    setPanelOpen(false);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    router.push("/espace-client" as any);
+                  } else {
+                    toast.error("Erreur lors de l'impersonation");
+                  }
+                }}
+              >
+                <Eye className="w-4 h-4" />
+                Voir comme cet utilisateur
+              </Button>
             </div>
 
             {/* Formulaire partagé (logo inclus dedans) */}
