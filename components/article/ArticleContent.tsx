@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useMemo, useState, useCallback } from "react";
+import DOMPurify from "isomorphic-dompurify";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import EmblaCarousel from "embla-carousel";
 
@@ -290,7 +291,24 @@ export function ArticleContent({ html }: ArticleContentProps) {
       <div
         ref={ref}
         className="article-prose prose prose-lg max-w-none prose-headings:font-semibold prose-headings:text-dark dark:prose-headings:text-cream-light prose-headings:tracking-tight prose-p:leading-[1.85] prose-a:text-brand-accent dark:prose-a:text-brand-accent prose-a:underline prose-a:decoration-brand-accent/30 prose-a:underline-offset-4 hover:prose-a:decoration-brand-accent prose-img:rounded-xl prose-h2:mt-12 prose-h2:mb-4 prose-h3:mt-8 prose-h3:mb-3"
-        dangerouslySetInnerHTML={{ __html: processedHtml }}
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(processedHtml, {
+            ALLOWED_TAGS: [
+              "h1", "h2", "h3", "h4", "h5", "h6",
+              "p", "br", "hr", "div", "span",
+              "strong", "em", "b", "i", "u", "s", "sub", "sup",
+              "a", "img", "figure", "figcaption",
+              "ul", "ol", "li",
+              "blockquote", "pre", "code",
+              "table", "thead", "tbody", "tr", "th", "td",
+            ],
+            ALLOWED_ATTR: [
+              "href", "src", "alt", "title", "class", "id",
+              "target", "rel", "width", "height", "loading",
+              "data-carousel", "data-carousel-item",
+            ],
+          }),
+        }}
       />
       {lightbox && (
         <Lightbox

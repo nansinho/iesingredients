@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import { getTranslations } from "next-intl/server";
 import { ParallaxHero } from "@/components/home/ParallaxHero";
 import { LogoMarquee } from "@/components/home/LogoMarquee";

@@ -347,7 +347,7 @@ async function downloadAndUploadImage(
     if (fullSizeUrl !== imageUrl) {
       res = await tryFetchImage(fullSizeUrl);
       if (res) {
-        console.log(`[URL Import] Full-size found: ${fullSizeUrl}`);
+        // Full-size image variant found
       }
     }
 
@@ -398,7 +398,7 @@ async function downloadAndUploadImage(
       });
 
     if (error) {
-      console.warn("Upload error for", imageUrl, error.message);
+      // Upload failed for image
       return null;
     }
 
@@ -602,7 +602,7 @@ export async function POST(request: NextRequest) {
       fields = await analyzeWithClaude(contentForAI);
       usedAI = true;
     } catch (err) {
-      console.warn("Claude analysis failed:", err);
+      // Claude analysis fallback
       // Fallback: basic extraction
       fields = {
         title_fr: pageTitle || "",
@@ -683,7 +683,7 @@ export async function POST(request: NextRequest) {
     }
 
     const pCount = (fields.content_fr?.match(/<p>/g) || []).length;
-    console.log(`[URL Import] AI: ${usedAI}, images: ${imageMap.size}/${images.length}, paragraphs: ${pCount}`);
+    // Extraction complete
 
     return NextResponse.json({
       fields,

@@ -79,11 +79,6 @@ export function PDFImport({ onImport, onClose }: PDFImportProps) {
           throw new Error("Aucun contenu structuré retourné");
         }
 
-        // Debug: log what the API returned
-        console.log("[PDF Import] API response debug:", data._debug);
-        console.log("[PDF Import] content_fr preview:", data.fields.content_fr?.substring(0, 300));
-        console.log("[PDF Import] content_fr has <p>:", data.fields.content_fr?.includes("<p>"));
-
         setIsDone(true);
 
         // Small delay to show success state

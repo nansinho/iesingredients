@@ -1,3 +1,5 @@
+export const revalidate = 600;
+
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAdmin } from "@/lib/auth";
 
@@ -10,8 +11,12 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { email, fullName } = body;
 
-  if (!email) {
+  if (!email || typeof email !== "string") {
     return NextResponse.json({ error: "Email requis" }, { status: 400 });
+  }
+
+  if (!fullName || typeof fullName !== "string" || fullName.trim().length === 0 || fullName.length > 200) {
+    return NextResponse.json({ error: "Nom complet requis (200 caractères max)" }, { status: 400 });
   }
 
   // Only @ies-ingredients.com emails can be internal team accounts
@@ -25,11 +30,12 @@ export async function POST(req: NextRequest) {
   const supabase = createAdminClient();
 
   try {
-    // Create auth user with default password
+    // Create auth user with a strong random password
+    const randomPassword = crypto.randomBytes(24).toString("base64url");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: userData, error: createError } = await (supabase.auth.admin as any).createUser({
       email,
-      password: "1234IES-*-",
+      password: randomPassword,
       email_confirm: true,
       user_metadata: {
         full_name: fullName || email,

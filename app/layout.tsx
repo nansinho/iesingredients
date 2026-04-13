@@ -1,16 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { DM_Sans, Playfair_Display } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-// NOTE: When deployed on VPS with internet access, replace this file's
-// font setup with next/font/google for optimal performance:
-//
-//   import { DM_Sans, Playfair_Display } from "next/font/google";
-//   const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
-//   const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", display: "swap", weight: ["400", "500", "600", "700"] });
-//
-// And add className={`${dmSans.variable} ${playfair.variable}`} to <html>.
-// This will enable self-hosted Google Fonts with zero CLS.
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair-var",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ies-ingredients.com";
 
@@ -89,15 +93,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
-        {/* Google Fonts — DM Sans (body) + Playfair Display (accent) */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
-          rel="stylesheet"
-        />
         {/* FOUC prevention: color theme and locale from URL */}
         <script
           dangerouslySetInnerHTML={{

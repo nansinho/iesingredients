@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     // Verify secret
     const secret = request.headers.get("x-revalidate-secret");
     const expectedSecret = process.env.REVALIDATE_SECRET;
-    if (expectedSecret && secret !== expectedSecret) {
+    if (!expectedSecret || secret !== expectedSecret) {
       return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
     }
 

@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { isAdmin } from "@/lib/auth";
+
+const categorySchema = z.object({
+  slug: z.string().min(1).max(50).regex(/^[a-z0-9-]+$/, "Slug invalide (lettres minuscules, chiffres, tirets)"),
+  label_fr: z.string().min(1).max(100).trim(),
+  label_en: z.string().min(1).max(100).trim(),
+  color_bg: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Couleur hex invalide").default("#2E1F3D"),
+  color_text: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Couleur hex invalide").default("#FAF8F6"),
+  color_border: z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Couleur hex invalide").default("#2E1F3D"),
+  sort_order: z.number().int().min(0).default(0),
+});
+
+const categoryUpdateSchema = z.object({
+  id: z.string().uuid(),
+}).merge(categorySchema.partial());
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const supabaseTable = (supabase: any) => supabase.from("blog_categories") as any;
@@ -23,18 +38,18 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
+  const parsed = categorySchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Données invalides", details: parsed.error.flatten().fieldErrors },
+      { status: 400 }
+    );
+  }
+
   const supabase = await createClient();
 
   const { data, error } = await supabaseTable(supabase)
-    .insert({
-      slug: body.slug,
-      label_fr: body.label_fr,
-      label_en: body.label_en,
-      color_bg: body.color_bg || "#2E1F3D",
-      color_text: body.color_text || "#FAF8F6",
-      color_border: body.color_border || "#2E1F3D",
-      sort_order: body.sort_order || 0,
-    })
+    .insert(parsed.data)
     .select()
     .single();
 
@@ -50,12 +65,16 @@ export async function PUT(req: NextRequest) {
   }
 
   const body = await req.json();
-  if (!body.id) {
-    return NextResponse.json({ error: "Missing id" }, { status: 400 });
+  const parsed = categoryUpdateSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Données invalides", details: parsed.error.flatten().fieldErrors },
+      { status: 400 }
+    );
   }
 
   const supabase = await createClient();
-  const { id, ...updates } = body;
+  const { id, ...updates } = parsed.data;
 
   const { data, error } = await supabaseTable(supabase)
     .update(updates)

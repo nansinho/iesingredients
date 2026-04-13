@@ -68,8 +68,6 @@ export function URLImport({ onImport, onClose }: URLImportProps) {
         throw new Error("Aucun contenu structuré retourné");
       }
 
-      console.log("[URL Import] API response debug:", data._debug);
-
       setIsDone(true);
 
       setTimeout(() => {
