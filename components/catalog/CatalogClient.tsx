@@ -476,15 +476,31 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
   const heroRef = useRef<HTMLElement>(null);
 
   // Show sticky bar only when hero is scrolled out of view
+  // Also hide the main header when sticky bar is active
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
+    const header = document.querySelector("header");
     const observer = new IntersectionObserver(
-      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      ([entry]) => {
+        const sticky = !entry.isIntersecting;
+        setShowStickyBar(sticky);
+        if (header) {
+          header.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+          header.style.transform = sticky ? "translateY(-100%)" : "translateY(0)";
+          header.style.opacity = sticky ? "0" : "1";
+        }
+      },
       { threshold: 0, rootMargin: "-64px 0px 0px 0px" }
     );
     observer.observe(hero);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (header) {
+        header.style.transform = "";
+        header.style.opacity = "";
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -691,15 +707,15 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
         <div>
           {/* Category Tabs + Search (search only visible when sticky) */}
           <div className={cn(
-            "py-4 z-40 backdrop-blur-md bg-brand-primary border-b border-white/10 transition-all duration-300",
-            showStickyBar ? "fixed left-0 right-0 top-[64px] lg:top-[108px] shadow-lg" : "relative"
+            "py-4 z-50 backdrop-blur-md bg-brand-primary border-b border-white/10 transition-all duration-300",
+            showStickyBar ? "fixed left-0 right-0 top-0 shadow-lg" : "relative"
           )}>
             <div className="w-[94%] max-w-7xl mx-auto flex items-center justify-center gap-3 h-11">
               {/* Category tabs */}
               <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide shrink-0">
                 <Link
                   href="/catalogue"
-                  className="shrink-0 inline-flex items-center px-5 h-9 rounded-full text-sm font-semibold text-white/50 border border-white/15 hover:border-white/30 hover:text-white transition-all duration-200"
+                  className="shrink-0 inline-flex items-center px-5 h-10 rounded-full text-sm font-semibold text-white/50 border border-white/15 hover:border-white/30 hover:text-white transition-all duration-200"
                 >
                   Tout
                 </Link>
@@ -711,7 +727,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                       key={cat.id}
                       href={CATEGORY_ROUTES[cat.id as keyof typeof CATEGORY_ROUTES] || "/catalogue"}
                       className={cn(
-                        "shrink-0 inline-flex items-center gap-2 px-5 h-9 rounded-full text-sm font-semibold transition-all duration-200",
+                        "shrink-0 inline-flex items-center gap-2 px-5 h-10 rounded-full text-sm font-semibold transition-all duration-200",
                         active
                           ? "bg-white text-brand-primary shadow-md"
                           : "text-white/50 border border-white/15 hover:border-white/30 hover:text-white"
@@ -724,19 +740,19 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                 })}
               </div>
 
-              {/* Instant search bar */}
-              <div className="relative flex-1 min-w-0 hidden sm:block">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+              {/* Instant search bar — same style as header search */}
+              <div className="relative flex-1 min-w-0 hidden sm:block group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/30 group-focus-within:text-white/60 transition-colors duration-200" />
                 <input
                   type="text"
                   placeholder="Rechercher par nom, code, INCI, CAS..."
                   value={search}
                   onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                  className="w-full pl-10 pr-8 h-9 bg-white/10 border border-white/15 text-white placeholder:text-white/30 focus:bg-white/15 focus:border-white/30 focus:ring-1 focus:ring-white/20 rounded-full text-sm outline-none transition-all"
+                  className="w-full pl-11 pr-10 h-11 bg-white/8 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent/40 hover:bg-white/10 rounded-full text-sm transition-all duration-300"
                 />
                 {search && (
-                  <button onClick={() => setSearch("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
-                    <X className="w-3.5 h-3.5" />
+                  <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
+                    <X className="w-4 h-4" />
                   </button>
                 )}
               </div>
@@ -745,7 +761,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
               {filterConfigs.length > 0 && (
                 <button
                   onClick={() => setMobileOpen(true)}
-                  className="shrink-0 inline-flex items-center gap-2 px-5 h-9 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all"
+                  className="shrink-0 inline-flex items-center gap-2 px-5 h-10 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all"
                 >
                   <SlidersHorizontal className="w-4 h-4" />
                   <span className="hidden md:inline">Filtrer</span>
