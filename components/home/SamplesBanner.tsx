@@ -1,115 +1,72 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useRef } from "react";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function SamplesBanner() {
-  const [phase, setPhase] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-  const hasPlayedRef = useRef(false);
-
-  const startSequence = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-
-    setPhase(0);
-
-    timersRef.current.push(setTimeout(() => setPhase(1), 1000));
-    timersRef.current.push(setTimeout(() => setPhase(2), 3000));
-    timersRef.current.push(setTimeout(() => setPhase(3), 5000));
-
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-    }
-  }, []);
-
-  // IntersectionObserver: play once on first view, replay when re-entering
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!hasPlayedRef.current) {
-            // First time visible — start the sequence
-            hasPlayedRef.current = true;
-            startSequence();
-          } else {
-            // Re-entering the viewport — replay everything
-            startSequence();
-          }
-        } else if (hasPlayedRef.current) {
-          // Left the viewport — pause video, reset state
-          timersRef.current.forEach(clearTimeout);
-          timersRef.current = [];
-          videoRef.current?.pause();
-          setPhase(0);
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [startSequence]);
+  const t = useTranslations("samplesBanner");
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
     <section
-      ref={sectionRef}
-      className="relative overflow-hidden min-h-[400px] md:min-h-[500px] flex items-center justify-center"
+      ref={ref}
+      className="relative overflow-hidden min-h-[420px] md:min-h-[500px] flex items-center justify-center"
     >
-      {/* Background video */}
-      <video
-        ref={videoRef}
-        muted
-        playsInline
-        onEnded={startSequence}
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="/Videos/6524721_Caucasian_Girl_Bedroom_1920x1080.mp4" type="video/mp4" />
-      </video>
+      {/* Background with parallax */}
+      <motion.div className="absolute inset-0 scale-115" style={{ y }}>
+        <Image
+          src="/images/hero-botanical.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          aria-hidden="true"
+        />
+      </motion.div>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-brand-primary/75" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6">
-        {/* Line 1 */}
-        <p
-          className={`font-sans font-light tracking-wide uppercase text-white text-3xl md:text-5xl transition-opacity duration-1000 ${
-            phase >= 1 ? "opacity-100" : "opacity-0"
-          }`}
+      <div className="relative z-10 w-[94%] max-w-3xl mx-auto text-center px-6 py-20">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          Chaque création
-        </p>
+          {/* Accent line */}
+          <div className="w-12 h-0.5 bg-brand-accent mx-auto mb-8" />
 
-        {/* Line 2 */}
-        <p
-          className={`font-sans font-light tracking-wide uppercase text-white text-3xl md:text-5xl mt-2 transition-opacity duration-1000 ${
-            phase >= 2 ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          mérite l&apos;exceptionnel.
-        </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-[-0.03em] leading-tight">
+            Chaque création
+            <br />
+            <span className="font-playfair italic text-brand-accent-light">
+              mérite l&apos;exceptionnel.
+            </span>
+          </h2>
 
-        {/* Logo fade-in */}
-        <div
-          className={`mt-10 transition-opacity duration-[1500ms] ${
-            phase >= 3 ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Image
-            src="/images/logo-ies.png"
-            alt="IES Ingredients"
-            width={200}
-            height={80}
-            className="mx-auto brightness-0 invert"
-          />
-        </div>
+          <p className="text-white/50 text-base sm:text-lg mt-6 max-w-md mx-auto leading-relaxed">
+            {t("description")}
+          </p>
+
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-2.5 mt-10 bg-brand-accent text-white rounded-full px-8 py-4 text-sm font-semibold hover:bg-brand-accent-hover transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-brand-accent/20"
+          >
+            {t("cta")}
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

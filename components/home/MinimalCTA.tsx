@@ -15,11 +15,11 @@ export function MinimalCTA() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* Background image — parallax scroll effect */}
+      {/* Background image with parallax */}
       <motion.div className="absolute inset-0 scale-125" style={{ y }}>
         <Image
           src="/images/botanicals-flat.jpg"
@@ -29,26 +29,28 @@ export function MinimalCTA() {
           sizes="100vw"
           aria-hidden="true"
         />
-        {/* Single solid overlay */}
         <div className="absolute inset-0 bg-brand-primary/80" />
       </motion.div>
 
-      {/* Content — cleanly separated */}
+      {/* Content */}
       <div className="relative z-10 w-[94%] max-w-7xl mx-auto py-28 md:py-40">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-2xl mx-auto text-center"
         >
-          <h2 className="text-white tracking-tight mb-5">
+          {/* Accent line */}
+          <div className="w-12 h-0.5 bg-brand-accent-light mx-auto mb-8" />
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-[-0.03em] leading-tight mb-5">
             Prêt à découvrir nos ingrédients ?{" "}
             <span className="font-playfair italic text-brand-accent-light">
               Contactez-nous.
             </span>
           </h2>
-          <p className="text-white/60 text-base sm:text-lg mb-12 leading-relaxed">
+          <p className="text-white/50 text-base sm:text-lg mb-12 leading-relaxed">
             {t("subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
