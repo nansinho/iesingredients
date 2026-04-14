@@ -54,7 +54,7 @@ export function ThreeUniverses() {
           transition={{ duration: 0.6 }}
           className="mb-12 sm:mb-16 text-center"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-brand-primary tracking-[-0.03em] leading-[1.05]">
+          <h2 className="font-bold text-brand-primary tracking-[-0.03em]">
             Trois univers.{" "}
             <span className="font-playfair italic text-brand-accent">Une expertise.</span>
           </h2>

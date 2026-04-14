@@ -468,8 +468,8 @@
   }
 
   h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
-    line-height: 1.05;
+    @apply text-2xl md:text-3xl lg:text-4xl;
+    line-height: 1.1;
   }
 
   h3 {
