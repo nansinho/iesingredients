@@ -22,7 +22,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#F7F4F0",
+  themeColor: "#3B2A39",
 };
 
 export const metadata: Metadata = {
@@ -95,10 +95,18 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning className={`${dmSans.variable} ${playfair.variable}`}>
       <head>
-        {/* FOUC prevention: color theme and locale from URL */}
+        {/* PWA */}
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="IES Ingredients" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        {/* FOUC prevention: color theme and locale from URL + SW registration */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;d.classList.remove('dark');d.style.colorScheme='light';if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;d.classList.remove('dark');d.style.colorScheme='light';if(location.pathname.startsWith('/en')){d.lang='en'}}catch(e){}})()`
+              + `;if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js')})}`,
           }}
         />
       </head>

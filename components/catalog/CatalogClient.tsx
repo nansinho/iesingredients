@@ -290,7 +290,7 @@ function CatalogLanding({ allProducts }: { allProducts: Product[] }) {
             <p className="text-dark/40 text-sm mt-1">Découvrez nos familles d'ingrédients populaires</p>
           </div>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {Object.entries(FAMILLE_IMAGES).flatMap(([catId, families]) => {
             // Dédupliquer par image (éviter les variantes de noms)
             const seen = new Set<string>();
@@ -304,7 +304,7 @@ function CatalogLanding({ allProducts }: { allProducts: Product[] }) {
                 href={CATEGORY_ROUTES_LANDING[catId as keyof typeof CATEGORY_ROUTES_LANDING] || "/catalogue"}
                 className="group relative rounded-xl overflow-hidden aspect-square hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
               >
-                <Image src={img} alt={name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 640px) 33vw, 16vw" />
+                <Image src={img} alt={name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 16vw" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-2">
                   <span className="text-xs sm:text-sm font-bold text-white drop-shadow-md leading-tight block">{name}</span>
@@ -350,12 +350,12 @@ function CatalogLanding({ allProducts }: { allProducts: Product[] }) {
       )}
 
       {/* Section 4 — Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {CATEGORIES.map((cat) => {
           const Icon = cat.icon;
           const count = allProducts.filter((p) => p._table === cat.table).length;
           return (
-            <Link key={cat.id} href={CATEGORY_ROUTES_LANDING[cat.id] || "/catalogue"} className="p-6 rounded-2xl bg-white border border-brown/8 hover:border-brown/15 transition-all hover:-translate-y-1 hover:shadow-lg text-left group block">
+            <Link key={cat.id} href={CATEGORY_ROUTES_LANDING[cat.id] || "/catalogue"} className="p-5 sm:p-6 rounded-2xl bg-white border border-brown/8 hover:border-brown/15 transition-all hover:-translate-y-1 hover:shadow-lg text-left group block">
               <Icon className="w-6 h-6 mb-3" style={{ color: cat.accent }} />
               <p className="text-2xl md:text-3xl font-bold text-dark">{count}</p>
               <p className="text-sm text-dark/40 mt-1">ingrédients {cat.label}</p>
@@ -417,7 +417,7 @@ function FamilleCarousel({ familleValues, category, famille, currentCat, onSelec
             const img = getFamilleImage(category, fam);
             const active = famille === fam;
             return (
-              <div key={fam} className="flex-[0_0_200px] sm:flex-[0_0_220px] min-w-0">
+              <div key={fam} className="flex-[0_0_140px] sm:flex-[0_0_180px] md:flex-[0_0_200px] lg:flex-[0_0_220px] min-w-0">
                 <button
                   onClick={() => onSelect(fam)}
                   className={cn(
@@ -428,7 +428,7 @@ function FamilleCarousel({ familleValues, category, famille, currentCat, onSelec
                 >
                   {img ? (
                     <>
-                      <Image src={img} alt={fam} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="220px" />
+                      <Image src={img} alt={fam} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 640px) 140px, (max-width: 768px) 180px, 220px" loading="lazy" />
                       <div className={cn(
                         "absolute inset-0 transition-all duration-200",
                         active ? "bg-black/50" : "bg-gradient-to-t from-black/60 via-black/10 to-transparent"
@@ -738,67 +738,89 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
         <div>
           {/* Category Tabs + Search (search only visible when sticky) */}
           <div className={cn(
-            "py-4 z-50 backdrop-blur-md bg-brand-primary border-b border-white/10 transition-all duration-300",
+            "py-3 sm:py-4 z-50 backdrop-blur-md bg-brand-primary border-b border-white/10 transition-all duration-300",
             showStickyBar ? "fixed left-0 right-0 top-0 shadow-lg" : "relative"
           )}>
-            <div className="w-[94%] max-w-7xl mx-auto flex items-center justify-center gap-3 h-11">
-              {/* Category tabs */}
-              <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide shrink-0">
-                <Link
-                  href="/catalogue"
-                  className="shrink-0 inline-flex items-center px-5 h-10 rounded-full text-sm font-semibold text-white/50 border border-white/15 hover:border-white/30 hover:text-white transition-all duration-200"
-                >
-                  Tout
-                </Link>
-                {CATEGORIES.map((cat) => {
-                  const Icon = cat.icon;
-                  const active = category === cat.id;
-                  return (
-                    <Link
-                      key={cat.id}
-                      href={CATEGORY_ROUTES[cat.id as keyof typeof CATEGORY_ROUTES] || "/catalogue"}
-                      className={cn(
-                        "shrink-0 inline-flex items-center gap-2 px-5 h-10 rounded-full text-sm font-semibold transition-all duration-200",
-                        active
-                          ? "bg-white text-brand-primary shadow-md"
-                          : "text-white/50 border border-white/15 hover:border-white/30 hover:text-white"
-                      )}
-                    >
-                      <Icon className="w-4 h-4" />
-                      {cat.label}
-                    </Link>
-                  );
-                })}
-              </div>
+            <div className="w-[94%] max-w-7xl mx-auto space-y-2 sm:space-y-0">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 sm:h-11">
+                {/* Category tabs */}
+                <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide shrink-0 -mx-1 px-1">
+                  <Link
+                    href="/catalogue"
+                    className="shrink-0 inline-flex items-center px-3 sm:px-5 h-9 sm:h-10 rounded-full text-xs sm:text-sm font-semibold text-white/50 border border-white/15 hover:border-white/30 hover:text-white transition-all duration-200"
+                  >
+                    Tout
+                  </Link>
+                  {CATEGORIES.map((cat) => {
+                    const Icon = cat.icon;
+                    const active = category === cat.id;
+                    return (
+                      <Link
+                        key={cat.id}
+                        href={CATEGORY_ROUTES[cat.id as keyof typeof CATEGORY_ROUTES] || "/catalogue"}
+                        className={cn(
+                          "shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 h-9 sm:h-10 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200",
+                          active
+                            ? "bg-white text-brand-primary shadow-md"
+                            : "text-white/50 border border-white/15 hover:border-white/30 hover:text-white"
+                        )}
+                      >
+                        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <span className="hidden sm:inline">{cat.label}</span>
+                        <span className="sm:hidden">{cat.label.slice(0, 5)}.</span>
+                      </Link>
+                    );
+                  })}
+                </div>
 
-              {/* Instant search bar — same style as header search */}
-              <div className="relative flex-1 min-w-0 hidden sm:block group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/30 group-focus-within:text-white/60 transition-colors duration-200" />
-                <input
-                  type="text"
-                  placeholder="Rechercher par nom, code, INCI, CAS..."
-                  value={search}
-                  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                  className="w-full pl-11 pr-10 h-11 bg-white/8 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent/40 hover:bg-white/10 rounded-full text-sm transition-all duration-300"
-                />
-                {search && (
-                  <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
-                    <X className="w-4 h-4" />
+                {/* Instant search bar — desktop */}
+                <div className="relative flex-1 min-w-0 hidden sm:block group">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-white/30 group-focus-within:text-white/60 transition-colors duration-200" />
+                  <input
+                    type="text"
+                    placeholder="Rechercher par nom, code, INCI, CAS..."
+                    value={search}
+                    onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                    className="w-full pl-11 pr-10 h-11 bg-white/8 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent/40 hover:bg-white/10 rounded-full text-sm transition-all duration-300"
+                  />
+                  {search && (
+                    <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Filter button */}
+                {filterConfigs.length > 0 && (
+                  <button
+                    onClick={() => setMobileOpen(true)}
+                    className="shrink-0 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 h-9 sm:h-10 rounded-full text-xs sm:text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all"
+                  >
+                    <SlidersHorizontal className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span className="hidden md:inline">Filtrer</span>
+                    {totalActiveFilters > 0 && <span className="w-5 h-5 rounded-full bg-brand-accent text-white text-xs font-bold flex items-center justify-center">{totalActiveFilters}</span>}
                   </button>
                 )}
               </div>
 
-              {/* Filter button */}
-              {filterConfigs.length > 0 && (
-                <button
-                  onClick={() => setMobileOpen(true)}
-                  className="shrink-0 inline-flex items-center gap-2 px-5 h-10 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all"
-                >
-                  <SlidersHorizontal className="w-4 h-4" />
-                  <span className="hidden md:inline">Filtrer</span>
-                  {totalActiveFilters > 0 && <span className="w-5 h-5 rounded-full bg-brand-accent text-white text-xs font-bold flex items-center justify-center">{totalActiveFilters}</span>}
-                </button>
-              )}
+              {/* Mobile search bar */}
+              <div className="sm:hidden">
+                <div className="relative group">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-white/60 transition-colors" />
+                  <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={search}
+                    onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                    className="w-full pl-9 pr-9 h-9 bg-white/8 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 focus:border-brand-accent/40 rounded-full text-sm transition-all"
+                  />
+                  {search && (
+                    <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 
