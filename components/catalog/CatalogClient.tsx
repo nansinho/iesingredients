@@ -417,37 +417,37 @@ function FamilleCarousel({ familleValues, category, famille, currentCat, onSelec
             const img = getFamilleImage(category, fam);
             const active = famille === fam;
             return (
-              <div key={fam} className="flex-[0_0_180px] min-w-0">
+              <div key={fam} className="flex-[0_0_200px] sm:flex-[0_0_220px] min-w-0">
                 <button
                   onClick={() => onSelect(fam)}
                   className={cn(
                     "group relative rounded-2xl overflow-hidden transition-all duration-200 w-full aspect-square",
-                    active ? "ring-2 ring-offset-2" : "hover:-translate-y-1 hover:shadow-lg"
+                    active ? "ring-2 ring-offset-2 shadow-lg" : "hover:-translate-y-1 hover:shadow-lg"
                   )}
                   style={active && currentCat ? { "--tw-ring-color": currentCat.accent } as React.CSSProperties : undefined}
                 >
                   {img ? (
                     <>
-                      <Image src={img} alt={fam} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="180px" />
+                      <Image src={img} alt={fam} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="220px" />
                       <div className={cn(
                         "absolute inset-0 transition-all duration-200",
                         active ? "bg-black/50" : "bg-gradient-to-t from-black/60 via-black/10 to-transparent"
                       )} />
-                      <div className="absolute bottom-0 left-0 right-0 p-3">
-                        <span className="text-xs font-bold text-white drop-shadow-md leading-tight block">{fam}</span>
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <span className="text-sm font-bold text-white drop-shadow-md leading-tight block">{fam}</span>
                       </div>
                       {active && (
-                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: currentCat?.accent }}>
-                          <Check className="w-3.5 h-3.5 text-white" />
+                        <div className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: currentCat?.accent }}>
+                          <Check className="w-4 h-4 text-white" />
                         </div>
                       )}
                     </>
                   ) : (
                     <div className={cn(
-                      "absolute inset-0 flex flex-col items-center justify-center p-3 border rounded-2xl transition-all",
+                      "absolute inset-0 flex flex-col items-center justify-center p-4 border rounded-2xl transition-all",
                       active ? "bg-brand-accent/10 border-brand-accent/30" : "bg-white border-brown/8 hover:border-brown/20"
                     )}>
-                      <span className={cn("text-xs font-bold text-center leading-tight", active ? "text-brand-accent" : "text-dark/70")}>{fam}</span>
+                      <span className={cn("text-sm font-bold text-center leading-tight", active ? "text-brand-accent" : "text-dark/70")}>{fam}</span>
                     </div>
                   )}
                 </button>
