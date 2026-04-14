@@ -25,39 +25,39 @@ const PAGE_SIZE = 24;
 /** Map famille name to its image path in /catalogues/ */
 const FAMILLE_IMAGES: Record<string, Record<string, string>> = {
   parfum: {
-    "Aldéhydique": "/catalogues/Famille Parfums/Aldéhydique.jpg",
-    "Ambré": "/catalogues/Famille Parfums/ambré.jpg",
+    "Aldéhydique": "/catalogues/Famille Parfums/aldehydique.jpg",
+    "Ambré": "/catalogues/Famille Parfums/ambre.jpg",
     "Animal": "/catalogues/Famille Parfums/animal.jpg",
     "Aromatique": "/catalogues/Famille Parfums/aromatique.jpg",
     "Balsamique": "/catalogues/Famille Parfums/balsamique.jpg",
-    "Boisé": "/catalogues/Famille Parfums/Boisé.jpg",
+    "Boisé": "/catalogues/Famille Parfums/boise.jpg",
     "Chypre": "/catalogues/Famille Parfums/chypre.jpg",
     "Floral": "/catalogues/Famille Parfums/floral.jpg",
-    "Fruité": "/catalogues/Famille Parfums/fruité.jpg",
+    "Fruité": "/catalogues/Famille Parfums/fruite.jpg",
     "Gourmand": "/catalogues/Famille Parfums/gourmand.jpg",
-    "Hespéridé": "/catalogues/Famille Parfums/hespéridé.jpg",
-    "Indéfini": "/catalogues/Famille Parfums/indéfini.jpg",
+    "Hespéridé": "/catalogues/Famille Parfums/hesperide.jpg",
+    "Indéfini": "/catalogues/Famille Parfums/indefini.jpg",
     "Marine": "/catalogues/Famille Parfums/marine.jpg",
-    "Musqué": "/catalogues/Famille Parfums/musqué.jpg",
+    "Musqué": "/catalogues/Famille Parfums/musque.jpg",
     "Vert": "/catalogues/Famille Parfums/vert.jpg",
-    "Épicé": "/catalogues/Famille Parfums/épicé.jpg",
+    "Épicé": "/catalogues/Famille Parfums/epice.jpg",
   },
   cosmetique: {
-    "ACTIFS": "/catalogues/Famille Cosmetiques/ACTIFS.jpg",
-    "EXTRAITS VEGETAUX": "/catalogues/Famille Cosmetiques/EXTRAITS VEGETAUX.jpg",
-    "HUILES ESSENTIELLES": "/catalogues/Famille Cosmetiques/HUILES ESSENTIELLE.jpg",
-    "HUILES ESSENTIELLE": "/catalogues/Famille Cosmetiques/HUILES ESSENTIELLE.jpg",
-    "HUILE ESSENTIELLE": "/catalogues/Famille Cosmetiques/HUILES ESSENTIELLE.jpg",
-    "HUILE ESSENTIELLES": "/catalogues/Famille Cosmetiques/HUILES ESSENTIELLE.jpg",
-    "Huiles Essentielles": "/catalogues/Famille Cosmetiques/HUILES ESSENTIELLE.jpg",
-    "Huiles essentielles": "/catalogues/Famille Cosmetiques/HUILES ESSENTIELLE.jpg",
-    "PERFORMANCE": "/catalogues/Famille Cosmetiques/PERFORMANCE.jpg",
-    "SOLAIRE": "/catalogues/Famille Cosmetiques/SOLAIRE.jpg",
-    "VITAMINES": "/catalogues/Famille Cosmetiques/VITAMINES.jpg",
+    "ACTIFS": "/catalogues/Famille Cosmetiques/actifs.jpg",
+    "EXTRAITS VEGETAUX": "/catalogues/Famille Cosmetiques/extrait_vegetaux.jpg",
+    "HUILES ESSENTIELLES": "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg",
+    "HUILES ESSENTIELLE": "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg",
+    "HUILE ESSENTIELLE": "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg",
+    "HUILE ESSENTIELLES": "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg",
+    "Huiles Essentielles": "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg",
+    "Huiles essentielles": "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg",
+    "PERFORMANCE": "/catalogues/Famille Cosmetiques/performance.jpg",
+    "SOLAIRE": "/catalogues/Famille Cosmetiques/solaire.jpg",
+    "VITAMINES": "/catalogues/Famille Cosmetiques/vitamines.jpg",
   },
   arome: {
     "Citrus": "/catalogues/Famille Aromes/citrus.jpg",
-    "High Intensity": "/catalogues/Famille Aromes/high intensity.jpg",
+    "High Intensity": "/catalogues/Famille Aromes/high_intensity.jpg",
     "Kitchen": "/catalogues/Famille Aromes/kitchen.jpg",
     "Preservation & Texture": "/catalogues/Famille Aromes/preservation_texture.jpg",
     "Synthétique": "/catalogues/Famille Aromes/synthetique.jpg",
@@ -417,37 +417,37 @@ function FamilleCarousel({ familleValues, category, famille, currentCat, onSelec
             const img = getFamilleImage(category, fam);
             const active = famille === fam;
             return (
-              <div key={fam} className="flex-[0_0_140px] min-w-0">
+              <div key={fam} className="flex-[0_0_180px] min-w-0">
                 <button
                   onClick={() => onSelect(fam)}
                   className={cn(
-                    "group relative rounded-xl overflow-hidden transition-all duration-200 w-full aspect-[4/3]",
+                    "group relative rounded-2xl overflow-hidden transition-all duration-200 w-full aspect-square",
                     active ? "ring-2 ring-offset-2" : "hover:-translate-y-1 hover:shadow-lg"
                   )}
                   style={active && currentCat ? { "--tw-ring-color": currentCat.accent } as React.CSSProperties : undefined}
                 >
                   {img ? (
                     <>
-                      <Image src={img} alt={fam} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="120px" />
+                      <Image src={img} alt={fam} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="180px" />
                       <div className={cn(
                         "absolute inset-0 transition-all duration-200",
                         active ? "bg-black/50" : "bg-gradient-to-t from-black/60 via-black/10 to-transparent"
                       )} />
-                      <div className="absolute bottom-0 left-0 right-0 p-2">
-                        <span className="text-[11px] font-bold text-white drop-shadow-md leading-tight block">{fam}</span>
+                      <div className="absolute bottom-0 left-0 right-0 p-3">
+                        <span className="text-xs font-bold text-white drop-shadow-md leading-tight block">{fam}</span>
                       </div>
                       {active && (
-                        <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: currentCat?.accent }}>
-                          <Check className="w-3 h-3 text-white" />
+                        <div className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: currentCat?.accent }}>
+                          <Check className="w-3.5 h-3.5 text-white" />
                         </div>
                       )}
                     </>
                   ) : (
                     <div className={cn(
-                      "absolute inset-0 flex flex-col items-center justify-center p-2 border rounded-xl transition-all",
+                      "absolute inset-0 flex flex-col items-center justify-center p-3 border rounded-2xl transition-all",
                       active ? "bg-brand-accent/10 border-brand-accent/30" : "bg-white border-brown/8 hover:border-brown/20"
                     )}>
-                      <span className={cn("text-[11px] font-bold text-center leading-tight", active ? "text-brand-accent" : "text-dark/70")}>{fam}</span>
+                      <span className={cn("text-xs font-bold text-center leading-tight", active ? "text-brand-accent" : "text-dark/70")}>{fam}</span>
                     </div>
                   )}
                 </button>
