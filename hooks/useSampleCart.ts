@@ -11,6 +11,8 @@ export interface CartItem {
 
 interface SampleCartState {
   items: CartItem[];
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
   addItem: (item: Omit<CartItem, "quantity">) => void;
   removeItem: (code: string) => void;
   updateQuantity: (code: string, quantity: number) => void;
@@ -22,6 +24,8 @@ const useCartStore = create<SampleCartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isOpen: false,
+      setIsOpen: (open: boolean) => set({ isOpen: open }),
 
       addItem: (item) => {
         const existing = get().items.find((i) => i.code === item.code);
@@ -30,9 +34,10 @@ const useCartStore = create<SampleCartState>()(
             items: get().items.map((i) =>
               i.code === item.code ? { ...i, quantity: i.quantity + 1 } : i
             ),
+            isOpen: true,
           });
         } else {
-          set({ items: [...get().items, { ...item, quantity: 1 }] });
+          set({ items: [...get().items, { ...item, quantity: 1 }], isOpen: true });
         }
       },
 
@@ -58,6 +63,7 @@ const useCartStore = create<SampleCartState>()(
     }),
     {
       name: "ies-sample-cart",
+      partialize: (state) => ({ items: state.items }),
     }
   )
 );

@@ -25,8 +25,7 @@ import { HoneypotFields } from "@/components/security/HoneypotFields";
 export function SampleCartSheet() {
   const locale = useLocale();
   const isFr = locale === "fr";
-  const { items, removeItem, updateQuantity, clearCart, itemCount } = useSampleCart();
-  const [isOpen, setIsOpen] = useState(false);
+  const { items, removeItem, updateQuantity, clearCart, itemCount, isOpen, setIsOpen } = useSampleCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
