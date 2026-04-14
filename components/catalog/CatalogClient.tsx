@@ -181,10 +181,10 @@ function FilterDropdown({ label, options, selected, onChange }: {
 }
 
 // ── Filter Accordion (sidebar) ──
-function FilterAccordion({ label, options, selected, onChange }: {
-  label: string; options: string[]; selected: string[]; onChange: (v: string[]) => void;
+function FilterAccordion({ label, options, selected, onChange, defaultOpen = false }: {
+  label: string; options: string[]; selected: string[]; onChange: (v: string[]) => void; defaultOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(selected.length > 0);
+  const [open, setOpen] = useState(defaultOpen || selected.length > 0);
   const toggle = (opt: string) => onChange(selected.includes(opt) ? selected.filter((s) => s !== opt) : [...selected, opt]);
 
   return (
@@ -825,8 +825,8 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                   </div>
                 </SheetHeader>
                 <div className="overflow-y-auto flex-1">
-                  {filterConfigs.map((fc) => (
-                    <FilterAccordion key={fc.key} label={fc.label} options={fc.options} selected={filters[fc.key] || []} onChange={(v) => updateFilter(fc.key, v)} />
+                  {filterConfigs.map((fc, i) => (
+                    <FilterAccordion key={fc.key} label={fc.label} options={fc.options} selected={filters[fc.key] || []} onChange={(v) => updateFilter(fc.key, v)} defaultOpen={i === 0} />
                   ))}
                 </div>
               </SheetContent>
