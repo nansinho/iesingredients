@@ -29,7 +29,7 @@ function FlipCard({
   delay: number;
 }) {
   return (
-    <div className="relative h-14 md:h-20" style={{ perspective: "600px" }}>
+    <div className="relative h-20 md:h-28" style={{ perspective: "600px" }}>
       <motion.div
         className="relative w-full h-full"
         style={{ transformStyle: "preserve-3d" }}
@@ -76,7 +76,7 @@ function FlipCard({
 
 export function LogoMarquee() {
   return (
-    <section className="bg-brand-primary py-6 md:py-8">
+    <section className="bg-brand-primary py-8 md:py-12">
       <div className="w-[94%] max-w-7xl mx-auto">
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-8">
           Nos partenaires
