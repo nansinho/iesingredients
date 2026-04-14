@@ -30,6 +30,9 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
+# libc6-compat is required for sharp native binaries (image optimization)
+RUN apk add --no-cache libc6-compat
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 

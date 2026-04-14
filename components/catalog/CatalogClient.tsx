@@ -59,10 +59,10 @@ const FAMILLE_IMAGES: Record<string, Record<string, string>> = {
     "Citrus": "/catalogues/Famille Aromes/citrus.jpg",
     "High Intensity": "/catalogues/Famille Aromes/high intensity.jpg",
     "Kitchen": "/catalogues/Famille Aromes/kitchen.jpg",
-    "Preservation & Texture": "/catalogues/Famille Aromes/preservation & texture.jpg",
-    "Synthétique": "/catalogues/Famille Aromes/synthétique.jpg",
-    "Wellness & Nutrition": "/catalogues/Famille Aromes/wellness & nutrition.jpg",
-    "Wellness & Nutri": "/catalogues/Famille Aromes/wellness & nutrition.jpg",
+    "Preservation & Texture": "/catalogues/Famille Aromes/preservation_texture.jpg",
+    "Synthétique": "/catalogues/Famille Aromes/synthetique.jpg",
+    "Wellness & Nutrition": "/catalogues/Famille Aromes/wellness_nutrition.jpg",
+    "Wellness & Nutri": "/catalogues/Famille Aromes/wellness_nutrition.jpg",
   },
 };
 
