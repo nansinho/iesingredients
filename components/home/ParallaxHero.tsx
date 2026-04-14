@@ -1,247 +1,189 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+import { motion, AnimatePresence } from "framer-motion";
 
-const AUTOPLAY_DELAY = 5000;
-
-const slides = [
-  {
-    image: "/images/Aromes/Aromes Banniere.jpg",
-    titleKey: "slide1Title" as const,
-    subtitleKey: "slide1Subtitle" as const,
-    descriptionKey: "slide1Description" as const,
-  },
-  {
-    image: "/images/Parfum/Parfum Banniere.jpg",
-    titleKey: "slide2Title" as const,
-    subtitleKey: "slide2Subtitle" as const,
-    descriptionKey: "slide2Description" as const,
-  },
-  {
-    image: "/images/Cosmetique/Banniere Cosmetique.jpg",
-    titleKey: "slide3Title" as const,
-    subtitleKey: "slide3Subtitle" as const,
-    descriptionKey: "slide3Description" as const,
-  },
+const images = [
+  "/images/ACCUEIL-COSMETIQUE.jpg",
+  "/images/ACCUEIL-PARFUMERIE.jpg",
+  "/images/ACCUEIL-ARÔMES.jpg",
 ];
 
-const certifications = ["COSMOS", "ECOCERT", "BIO", "VEGAN", "ISO 9001"];
+const SLIDE_DURATION = 6000;
+
+const stats = [
+  { valueKey: "statIngredients" as const, number: "5 000+" },
+  { valueKey: "statDelivery" as const, number: "48h" },
+  { valueKey: "statUniverses" as const, number: "3" },
+];
 
 export function ParallaxHero() {
   const t = useTranslations("hero");
   const certT = useTranslations("certifications");
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: AUTOPLAY_DELAY, stopOnInteraction: false }),
-  ]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [progressKey, setProgressKey] = useState(0);
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-      setProgressKey((prev) => prev + 1);
-    };
-    emblaApi.on("select", onSelect);
-    return () => {
-      emblaApi.off("select", onSelect);
-    };
-  }, [emblaApi]);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, SLIDE_DURATION);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section className="flex-1 flex flex-col min-h-0 pt-28 sm:pt-32 px-3 sm:px-5 pb-3 sm:pb-5 bg-brand-primary">
-      {/* ═══════════════════════════════════════
-         Furdesign-style rounded bordered container
-         ═══════════════════════════════════════ */}
+    <section className="relative h-screen flex flex-col overflow-hidden">
+      {/* Background images with crossfade */}
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={images[currentIndex]}
+            alt=""
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            aria-hidden="true"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/60 via-brand-primary/30 to-brand-primary/80" />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/40 to-transparent" />
+
+      {/* Content — centré verticalement */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center px-6 pt-28">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white/80 text-xs font-semibold uppercase tracking-[0.15em]">
+            {t("badge")}
+          </span>
+        </motion.div>
+
+        {/* Titre principal */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-display-xl font-bold text-white tracking-[-0.03em] leading-[0.95] max-w-5xl"
+        >
+          {t("titleLine1")}
+          <br />
+          <span className="font-playfair italic text-brand-accent-light">
+            {t("titleLine2")}
+          </span>
+        </motion.h1>
+
+        {/* Sous-titre */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-6 text-white/60 text-base sm:text-lg max-w-xl leading-relaxed"
+        >
+          {t("subtitle")}
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <Link
+            href="/catalogue"
+            className="group inline-flex items-center gap-2.5 bg-brand-accent text-white rounded-full px-8 py-4 text-sm font-semibold hover:bg-brand-accent-hover transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-brand-accent/20"
+          >
+            {t("cta")}
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 border border-white/25 text-white rounded-full px-8 py-4 text-sm font-semibold hover:bg-white/10 hover:border-white/40 backdrop-blur-sm transition-all duration-300"
+          >
+            {t("ctaSecondary")}
+          </Link>
+        </motion.div>
+      </div>
+
+      {/* Bottom bar: stats + certifications */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative flex-1 min-h-0 rounded-[1.5rem] sm:rounded-[2rem] border border-brand-primary/10 overflow-hidden bg-brand-accent-light"
+        transition={{ duration: 0.7, delay: 1 }}
+        className="relative z-10 border-t border-white/10"
       >
-        {/* Inner grid: Text left | Image right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-          {/* ── Left: Text content ── */}
-          <div className="relative z-10 flex flex-col justify-between p-7 sm:p-10 lg:p-14 xl:p-16">
-            {/* Top: surtitle or spacer */}
-            {t("surtitle") ? (
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-brand-primary/45 font-semibold">
-                {t("surtitle")}
-              </span>
-            </motion.div>
-            ) : <div />}
-
-            {/* Center: Title + subtitle */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="my-8 lg:my-0"
-            >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-brand-primary tracking-[-0.04em] leading-[0.95]">
-                {t("titleLine1")}
-                <br />
-                <span className="font-playfair italic text-brand-secondary">
-                  {t("titleLine2")}
-                </span>
-              </h1>
-              <p className="text-brand-primary/45 text-base sm:text-lg mt-6 max-w-md leading-relaxed">
-                {t("subtitle")}
-              </p>
-            </motion.div>
-
-            {/* Bottom: Circular CTA + slide counter + certifications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="space-y-6"
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <Link
-                  href="/catalogue"
-                  className="group inline-flex items-center gap-2 bg-brand-primary text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  {t("cta")}
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 border border-brand-primary/20 text-brand-primary rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-primary/5 transition-all duration-300"
-                >
-                  {t("ctaSecondary")}
-                </Link>
+        <div className="w-[94%] max-w-7xl mx-auto py-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+          {/* Stats */}
+          <div className="flex items-center gap-8 sm:gap-12">
+            {stats.map((stat) => (
+              <div key={stat.valueKey} className="text-center sm:text-left">
+                <p className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                  {stat.number}
+                </p>
+                <p className="text-white/40 text-xs font-medium uppercase tracking-wider mt-0.5">
+                  {t(stat.valueKey)}
+                </p>
               </div>
-
-              {/* Certifications strip */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[10px] text-brand-primary/30 tracking-[0.12em] uppercase font-medium border-t border-brand-primary/8 pt-4">
-                <span className="text-brand-primary/45 mr-1">
-                  {certT("title")}
-                </span>
-                {certifications.map((cert, i) => (
-                  <React.Fragment key={cert}>
-                    {i > 0 && <span className="text-brand-primary/10 hidden sm:inline">·</span>}
-                    <span>{cert}</span>
-                  </React.Fragment>
-                ))}
-              </div>
-            </motion.div>
+            ))}
           </div>
 
-          {/* ── Right: Carousel image ── */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
-          >
-            <div className="h-full min-h-[320px] lg:min-h-0 overflow-hidden" ref={emblaRef}>
-              <div className="flex h-full">
-                {slides.map((slide, index) => (
-                  <div
-                    key={index}
-                    className="flex-[0_0_100%] min-w-0 relative"
-                  >
-                    <Image
-                      src={slide.image}
-                      alt={t(slide.titleKey)}
-                      fill
-                      priority={index === 0}
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Glass card overlay — bottom */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="absolute bottom-5 left-5 right-5 sm:bottom-7 sm:left-7 sm:right-7"
-            >
-              <div className="bg-brand-primary rounded-2xl p-6 sm:p-8 flex items-center justify-between gap-6">
-                <div>
-                  <p className="text-white/50 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-medium mb-1.5">
-                    {t(slides[selectedIndex].subtitleKey)}
-                  </p>
-                  <p className="text-white text-xl sm:text-2xl lg:text-3xl font-bold tracking-[-0.02em] mb-2">
-                    {t(slides[selectedIndex].titleKey)}
-                  </p>
-                  <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-md">
-                    {t(slides[selectedIndex].descriptionKey)}
-                  </p>
-                </div>
-                <Link
-                  href="/catalogue"
-                  className="shrink-0 inline-flex items-center gap-2 bg-brand-accent text-white rounded-full px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-semibold hover:bg-brand-accent-hover transition-all duration-300 shadow-sm hover:shadow-md"
-                >
-                  {t("discover")}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </motion.div>
-
-            {/* Nav arrows — top right */}
-            <div className="absolute top-5 right-5 sm:top-7 sm:right-7 flex gap-2 z-10">
-              <button
-                onClick={scrollPrev}
-                className="w-10 h-10 rounded-full bg-brand-primary/60 backdrop-blur-sm border border-brand-primary/20 flex items-center justify-center hover:bg-brand-primary/80 transition-all duration-300"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="w-4 h-4 text-white" />
-              </button>
-              <button
-                onClick={scrollNext}
-                className="w-10 h-10 rounded-full bg-brand-primary/60 backdrop-blur-sm border border-brand-primary/20 flex items-center justify-center hover:bg-brand-primary/80 transition-all duration-300"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="w-4 h-4 text-white" />
-              </button>
-            </div>
-
-            {/* Progress bar per-slide — top left */}
-            <div className="absolute top-5 left-5 sm:top-7 sm:left-7 flex gap-1.5 z-10">
-              {slides.map((_, index) => (
-                <div
-                  key={index}
-                  className="h-[3px] rounded-full overflow-hidden bg-brand-primary/25 transition-all duration-300"
-                  style={{ width: index === selectedIndex ? 40 : 14 }}
-                >
-                  {index === selectedIndex && (
-                    <motion.div
-                      className="h-full bg-brand-primary rounded-full"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
-                      key={`progress-${progressKey}`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          {/* Certifications */}
+          <div className="flex items-center gap-3 text-[10px] text-white/30 tracking-[0.12em] uppercase font-medium">
+            <span className="text-white/45 mr-1">{certT("title")}</span>
+            {["COSMOS", "ECOCERT", "BIO", "VEGAN", "ISO 9001"].map((cert, i) => (
+              <React.Fragment key={cert}>
+                {i > 0 && <span className="text-white/15 hidden sm:inline">·</span>}
+                <span>{cert}</span>
+              </React.Fragment>
+            ))}
+          </div>
         </div>
-
       </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+        className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-5 h-5 text-white/30" />
+        </motion.div>
+      </motion.div>
+
+      {/* Progress dots */}
+      <div className="absolute bottom-32 sm:bottom-24 left-1/2 -translate-x-1/2 z-10 flex gap-2 md:hidden">
+        {images.map((_, index) => (
+          <div
+            key={index}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              index === currentIndex
+                ? "w-8 bg-white/70"
+                : "w-1.5 bg-white/25"
+            }`}
+          />
+        ))}
+      </div>
     </section>
   );
 }

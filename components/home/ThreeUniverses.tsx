@@ -11,31 +11,34 @@ const universes = [
     titleKey: "cosmetic" as const,
     descKey: "cosmeticDesc" as const,
     image: "/images/Cosmetique/Portrait Cosmetique.jpg",
-    filter: "cosmetique",
+    href: "/catalogue/cosmetique" as const,
     count: "2 000+",
-    countLabel: "actifs",
+    countLabel: "actifs botaniques",
     icon: Leaf,
-    accent: "#5B7B6B",
+    color: "bg-cosmetique",
+    colorDark: "bg-cosmetique-dark",
   },
   {
     titleKey: "perfume" as const,
     descKey: "perfumeDesc" as const,
     image: "/images/Parfum/Parfum Portrait.jpg",
-    filter: "parfum",
+    href: "/catalogue/parfumerie" as const,
     count: "1 500+",
-    countLabel: "essences",
+    countLabel: "essences & absolues",
     icon: FlaskConical,
-    accent: "#8B6A80",
+    color: "bg-parfum",
+    colorDark: "bg-parfum-dark",
   },
   {
     titleKey: "aroma" as const,
     descKey: "aromaDesc" as const,
     image: "/images/Aromes/Aromes Portrait.jpg",
-    filter: "arome",
+    href: "/catalogue/aromes" as const,
     count: "1 500+",
-    countLabel: "arômes",
+    countLabel: "arômes naturels",
     icon: Droplets,
-    accent: "#D4907E",
+    color: "bg-arome",
+    colorDark: "bg-arome-dark",
   },
 ];
 
@@ -44,125 +47,113 @@ export function ThreeUniverses() {
   const cat = useTranslations("categories");
 
   return (
-    <section className="py-20 md:py-28 bg-white">
+    <section className="py-24 md:py-32 bg-cream-light">
       <div className="w-[94%] max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12 sm:mb-16 text-center"
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-brand-primary tracking-[-0.03em] leading-[1.05]">
+          <span className="inline-block text-[11px] uppercase tracking-[0.2em] text-brand-secondary font-semibold mb-4">
+            Nos univers
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-display-sm font-bold text-dark tracking-[-0.03em] leading-[1.05]">
             Trois univers.{" "}
-            <span className="font-playfair italic text-brand-accent">Une expertise.</span>
+            <span className="font-playfair italic text-brand-accent">
+              Une expertise.
+            </span>
           </h2>
-          <p className="text-brand-primary/45 text-sm sm:text-base max-w-md leading-relaxed mt-4 mx-auto">
+          <p className="text-dark/45 text-base sm:text-lg max-w-lg mx-auto mt-5 leading-relaxed">
             {t("subtitle")}
           </p>
         </motion.div>
 
-        {/* 3 equal columns — continuous block */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="rounded-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 gap-px bg-brand-primary/20"
-        >
+        {/* Cards — large stacked horizontal */}
+        <div className="space-y-6">
           {universes.map((universe, index) => {
             const Icon = universe.icon;
-            return (
-              <div
-                key={universe.filter}
-              >
-                <Link
-                  href={universe.filter === "cosmetique" ? "/catalogue/cosmetique" : universe.filter === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
-                  className="group block"
-                >
-                  <div className="relative h-[400px] md:h-[560px] overflow-hidden cursor-pointer flex">
-                    {/* Vertical sidebar strip */}
-                    <div
-                      className="relative z-10 w-12 md:w-14 shrink-0 flex items-center justify-center"
-                      style={{ backgroundColor: universe.accent }}
-                    >
-                      <span
-                        className="text-white text-sm md:text-base font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
-                        style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-                      >
-                        {cat(universe.titleKey)}
-                      </span>
-                    </div>
+            const isReversed = index % 2 !== 0;
 
-                    {/* Image + content area */}
-                    <div className="relative flex-1">
-                      {/* Background image */}
+            return (
+              <motion.div
+                key={universe.titleKey}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{
+                  duration: 0.7,
+                  delay: index * 0.1,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <Link href={universe.href} className="group block">
+                  <div
+                    className={`relative rounded-3xl overflow-hidden bg-dark grid grid-cols-1 lg:grid-cols-2 min-h-[400px] lg:min-h-[480px] ${
+                      isReversed ? "lg:direction-rtl" : ""
+                    }`}
+                  >
+                    {/* Image side */}
+                    <div
+                      className={`relative min-h-[280px] lg:min-h-0 overflow-hidden ${
+                        isReversed ? "lg:order-2" : ""
+                      }`}
+                    >
                       <Image
                         src={universe.image}
                         alt={cat(universe.titleKey)}
                         fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
                       />
+                      {/* Subtle gradient on mobile */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark/60 lg:hidden" />
+                    </div>
 
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent" />
-
-                      {/* Content — bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 p-5 md:p-7 flex flex-col justify-end">
-                        <div
-                          className="w-9 h-9 rounded-xl flex items-center justify-center mb-3 backdrop-blur-sm"
-                          style={{ background: "rgba(255,255,255,0.15)" }}
-                        >
-                          <Icon className="w-[18px] h-[18px] text-white" />
-                        </div>
-
-                        <p className="text-white/80 text-sm leading-relaxed mb-1">
-                          {cat(universe.descKey)}
-                        </p>
-                        <p className="text-white/50 text-xs font-medium tracking-wider uppercase mb-5">
-                          {universe.count} {universe.countLabel}
-                        </p>
-
-                        <span
-                          className="inline-flex items-center gap-2 w-fit px-5 py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:scale-[1.02]"
-                          style={{ background: universe.accent }}
-                        >
-                          {cat("explore")}
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-                        </span>
+                    {/* Content side */}
+                    <div
+                      className={`relative flex flex-col justify-center p-8 sm:p-10 lg:p-14 xl:p-16 ${
+                        isReversed ? "lg:order-1 lg:direction-ltr" : ""
+                      }`}
+                    >
+                      {/* Icon badge */}
+                      <div
+                        className={`w-12 h-12 rounded-2xl ${universe.color} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110`}
+                      >
+                        <Icon className="w-5 h-5 text-white" />
                       </div>
+
+                      {/* Category name */}
+                      <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-[-0.03em] leading-tight mb-3">
+                        {cat(universe.titleKey)}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-white/50 text-base sm:text-lg leading-relaxed max-w-md mb-6">
+                        {cat(universe.descKey)}
+                      </p>
+
+                      {/* Count */}
+                      <p className="text-white/30 text-sm font-medium uppercase tracking-wider mb-8">
+                        {universe.count} {universe.countLabel}
+                      </p>
+
+                      {/* CTA */}
+                      <span
+                        className={`inline-flex items-center gap-2.5 w-fit ${universe.color} text-white rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:gap-3`}
+                      >
+                        {cat("explore")}
+                        <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                      </span>
                     </div>
                   </div>
                 </Link>
-              </div>
+              </motion.div>
             );
           })}
-        </motion.div>
-
-        {/* Bottom CTAs */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-3"
-        >
-          <Link
-            href="/catalogue"
-            className="group inline-flex items-center gap-2 bg-brand-primary text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-secondary transition-all duration-300 shadow-lg hover:shadow-xl"
-          >
-            Voir tout le catalogue
-            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 border border-brand-primary/20 text-brand-primary rounded-full px-6 py-3 text-sm font-semibold hover:bg-brand-primary/5 transition-all duration-300"
-          >
-            Contactez-nous
-          </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

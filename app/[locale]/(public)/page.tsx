@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { ParallaxHero } from "@/components/home/ParallaxHero";
 import { LogoMarquee } from "@/components/home/LogoMarquee";
 import { ThreeUniverses } from "@/components/home/ThreeUniverses";
+import { Commitments } from "@/components/home/Commitments";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { SamplesBanner } from "@/components/home/SamplesBanner";
 import { SocialFollow } from "@/components/home/SocialFollow";
@@ -95,11 +96,10 @@ export default async function HomePage({
       <WebSiteJsonLd />
       <LocalBusinessJsonLd />
       <FAQJsonLd items={faqItems} />
-      <div className="h-screen flex flex-col">
-        <ParallaxHero />
-        <LogoMarquee />
-      </div>
+      <ParallaxHero />
+      <LogoMarquee />
       <ThreeUniverses />
+      <Commitments />
       <MinimalProducts />
       <SamplesBanner />
       <LatestPublications />

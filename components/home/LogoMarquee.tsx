@@ -11,86 +11,41 @@ const logos = [
   { name: "Xinrui Aromatics", src: "/images/logo-xinrui.svg" },
 ];
 
-const flipPairs = [
-  { front: logos[0], back: logos[3] },
-  { front: logos[1], back: logos[4] },
-  { front: logos[2], back: logos[0] },
-  { front: logos[3], back: logos[1] },
-  { front: logos[4], back: logos[2] },
-];
-
-function FlipCard({
-  front,
-  back,
-  delay,
-}: {
-  front: (typeof logos)[0];
-  back: (typeof logos)[0];
-  delay: number;
-}) {
-  return (
-    <div className="relative h-14 md:h-20" style={{ perspective: "600px" }}>
-      <motion.div
-        className="relative w-full h-full"
-        style={{ transformStyle: "preserve-3d" }}
-        animate={{ rotateX: [0, 0, 180, 180, 360] }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          delay,
-          ease: "easeInOut",
-          times: [0, 0.38, 0.5, 0.88, 1.0],
-        }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{ backfaceVisibility: "hidden" }}
-        >
-          <Image
-            src={front.src}
-            alt={front.name}
-            fill
-            className="object-contain"
-            sizes="20vw"
-          />
-        </div>
-        <div
-          className="absolute inset-0"
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateX(180deg)",
-          }}
-        >
-          <Image
-            src={back.src}
-            alt={back.name}
-            fill
-            className="object-contain"
-            sizes="20vw"
-          />
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
 export function LogoMarquee() {
   return (
-    <section className="bg-brand-primary py-6 md:py-8">
+    <section className="py-10 md:py-14 bg-cream-light border-b border-cream-dark/20">
       <div className="w-[94%] max-w-7xl mx-auto">
-        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-8">
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-dark/25 mb-8"
+        >
           Nos partenaires
-        </p>
-        <div className="grid grid-cols-3 md:grid-cols-5 items-center gap-y-8">
-          {flipPairs.map((pair, i) => (
-            <FlipCard
-              key={pair.front.name + pair.back.name}
-              front={pair.front}
-              back={pair.back}
-              delay={i * 0.8}
-            />
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="grid grid-cols-3 md:grid-cols-5 items-center gap-y-6 gap-x-8"
+        >
+          {logos.map((logo) => (
+            <div
+              key={logo.name}
+              className="relative h-10 md:h-14 opacity-40 hover:opacity-70 transition-opacity duration-500"
+            >
+              <Image
+                src={logo.src}
+                alt={logo.name}
+                fill
+                className="object-contain"
+                sizes="20vw"
+              />
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
