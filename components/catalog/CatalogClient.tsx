@@ -710,15 +710,15 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
         <div>
           {/* Category Tabs + Search (search only visible when sticky) */}
           <div className={cn(
-            "py-3 z-40 backdrop-blur-md bg-brand-primary border-b border-white/10 transition-all duration-300",
+            "py-4 z-40 backdrop-blur-md bg-brand-primary border-b border-white/10 transition-all duration-300",
             showStickyBar ? "fixed left-0 right-0 top-[64px] lg:top-[108px] shadow-lg" : "relative"
           )}>
-            <div className="w-[94%] max-w-7xl mx-auto flex items-center gap-3">
+            <div className="w-[94%] max-w-7xl mx-auto flex items-center justify-center gap-3 h-11">
               {/* Category tabs */}
               <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide shrink-0">
                 <Link
                   href="/catalogue"
-                  className="shrink-0 px-5 py-2 rounded-full text-sm font-semibold text-white/50 border border-white/15 hover:border-white/30 hover:text-white transition-all duration-200"
+                  className="shrink-0 inline-flex items-center px-5 h-9 rounded-full text-sm font-semibold text-white/50 border border-white/15 hover:border-white/30 hover:text-white transition-all duration-200"
                 >
                   Tout
                 </Link>
@@ -730,7 +730,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                       key={cat.id}
                       href={CATEGORY_ROUTES[cat.id as keyof typeof CATEGORY_ROUTES] || "/catalogue"}
                       className={cn(
-                        "shrink-0 inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200",
+                        "shrink-0 inline-flex items-center gap-2 px-5 h-9 rounded-full text-sm font-semibold transition-all duration-200",
                         active
                           ? "bg-white text-brand-primary shadow-md"
                           : "text-white/50 border border-white/15 hover:border-white/30 hover:text-white"
@@ -752,7 +752,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                     placeholder="Rechercher..."
                     value={search}
                     onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                    className="w-full pl-10 pr-8 h-10 bg-white/10 border border-white/15 text-white placeholder:text-white/30 focus:bg-white/15 focus:border-white/30 focus:ring-1 focus:ring-white/20 rounded-full text-sm outline-none transition-all"
+                    className="w-full pl-10 pr-8 h-9 bg-white/10 border border-white/15 text-white placeholder:text-white/30 focus:bg-white/15 focus:border-white/30 focus:ring-1 focus:ring-white/20 rounded-full text-sm outline-none transition-all"
                   />
                   {search && (
                     <button onClick={() => setSearch("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
@@ -766,7 +766,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
               {filterConfigs.length > 0 && (
                 <button
                   onClick={() => setMobileOpen(true)}
-                  className="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all ml-auto"
+                  className="shrink-0 inline-flex items-center gap-2 px-5 h-9 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all ml-auto"
                 >
                   <SlidersHorizontal className="w-4 h-4" />
                   <span className="hidden md:inline">Filtrer</span>
@@ -777,7 +777,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
           </div>
 
           {/* Spacer when bar is fixed */}
-          {showStickyBar && <div className="h-[52px]" />}
+          {showStickyBar && <div className="h-[60px]" />}
 
           {/* Famille Strip (only when category, not search) */}
           {category && !search && (
