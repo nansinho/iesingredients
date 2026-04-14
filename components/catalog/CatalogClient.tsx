@@ -674,19 +674,6 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
               }
             </p>
           </AnimateIn>
-          {search && (
-            <AnimateIn delay={0.3} y={15}>
-              <div className="max-w-xl mx-auto">
-                <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm">
-                  <Search className="w-4 h-4 text-white/50" />
-                  <span className="text-white/80 text-sm font-medium">&laquo; {search} &raquo;</span>
-                  <button onClick={() => setSearch("")} className="text-white/40 hover:text-white transition-colors ml-1">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </AnimateIn>
-          )}
         </div>
       </section>
 
@@ -737,11 +724,28 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                 })}
               </div>
 
+              {/* Instant search bar */}
+              <div className="relative flex-1 min-w-0 hidden sm:block">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                <input
+                  type="text"
+                  placeholder="Rechercher par nom, code, INCI, CAS..."
+                  value={search}
+                  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                  className="w-full pl-10 pr-8 h-9 bg-white/10 border border-white/15 text-white placeholder:text-white/30 focus:bg-white/15 focus:border-white/30 focus:ring-1 focus:ring-white/20 rounded-full text-sm outline-none transition-all"
+                />
+                {search && (
+                  <button onClick={() => setSearch("")} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
               {/* Filter button */}
               {filterConfigs.length > 0 && (
                 <button
                   onClick={() => setMobileOpen(true)}
-                  className="shrink-0 inline-flex items-center gap-2 px-5 h-9 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all ml-auto"
+                  className="shrink-0 inline-flex items-center gap-2 px-5 h-9 rounded-full text-sm font-semibold text-white/70 border border-white/15 hover:border-white/30 hover:text-white transition-all"
                 >
                   <SlidersHorizontal className="w-4 h-4" />
                   <span className="hidden md:inline">Filtrer</span>
