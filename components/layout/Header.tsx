@@ -17,12 +17,9 @@ import {
   Droplets,
   ChevronDown,
   ChevronRight,
-  ShoppingBag,
   Instagram,
   Linkedin,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -116,6 +113,7 @@ export function Header() {
       if (e.key === "Escape") {
         setSearchOpen(false);
         setMegaOpen(false);
+        setIsOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -148,6 +146,18 @@ export function Header() {
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   const closeMenus = useCallback(() => {
     setMegaOpen(false);
@@ -314,262 +324,14 @@ export function Header() {
                 <Search className="w-[18px] h-[18px]" />
               </button>
 
-              {/* Mobile Menu */}
-              <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                <SheetTrigger asChild className="lg:hidden">
-                  <button
-                    className="p-2 rounded-full transition-colors duration-200 ml-0.5 text-white/50 hover:text-white hover:bg-white/10"
-                    aria-label="Menu"
-                  >
-                    <Menu className="w-5 h-5" />
-                  </button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[85vw] max-w-sm bg-cream-light border-dark/5 p-0">
-                  <div className="p-6 h-full flex flex-col overflow-y-auto">
-                    <div className="flex items-center justify-between mb-4">
-                      <Image
-                        src="/images/logo-ies.png"
-                        alt="IES Ingredients"
-                        width={120}
-                        height={40}
-                        className="h-8 w-auto"
-                      />
-                      <button
-                        onClick={() => setIsOpen(false)}
-                        className="p-2 text-dark/30 hover:text-dark rounded-full hover:bg-dark/5 transition-colors"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-
-                    {/* Mobile Search */}
-                    <div className="mb-4">
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dark/30" />
-                        <input
-                          type="text"
-                          placeholder={t("searchPlaceholder")}
-                          className={cn(
-                            "w-full h-11 pl-9 pr-4 text-sm rounded-xl",
-                            "bg-white",
-                            "border border-dark/8",
-                            "placeholder:text-dark/35",
-                            "text-dark",
-                            "focus:outline-none focus:ring-2 focus:ring-brand-accent/20"
-                          )}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" && e.currentTarget.value.trim()) {
-                              router.push(
-                                `/catalogue?search=${encodeURIComponent(e.currentTarget.value.trim())}` as any // eslint-disable-line @typescript-eslint/no-explicit-any
-                              );
-                              setIsOpen(false);
-                            }
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Mobile Nav */}
-                    <nav className="flex flex-col gap-0.5 flex-1">
-                      {/* Accueil — first item */}
-                      <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0, duration: 0.3 }}
-                      >
-                        <Link
-                          href={homeItem.href}
-                          onClick={() => setIsOpen(false)}
-                          className={cn(
-                            "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
-                            pathname === homeItem.href
-                              ? "bg-brand-nav-active/10 text-brand-nav-active border border-brand-nav-active/20"
-                              : "text-dark/60 hover:text-dark hover:bg-dark/5"
-                          )}
-                        >
-                          <span>{homeItem.label}</span>
-                          <ArrowRight
-                            className={cn(
-                              "w-4 h-4 transition-all duration-200",
-                              pathname === homeItem.href
-                                ? "opacity-100 text-brand-nav-active"
-                                : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
-                            )}
-                          />
-                        </Link>
-                      </motion.div>
-
-                      <div>
-                        <button
-                          onClick={() =>
-                            setMobileExpandedCat(mobileExpandedCat === "catalogue" ? null : "catalogue")
-                          }
-                          className={cn(
-                            "w-full py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between",
-                            pathname === "/catalogue"
-                              ? "bg-brand-nav-active/10 text-brand-nav-active border border-brand-nav-active/20"
-                              : "text-dark/60 hover:text-dark hover:bg-dark/5"
-                          )}
-                        >
-                          <span>{t("catalog")}</span>
-                          <ChevronDown
-                            className={cn(
-                              "w-4 h-4 transition-transform duration-200",
-                              mobileExpandedCat === "catalogue" && "rotate-180"
-                            )}
-                          />
-                        </button>
-
-                        <AnimatePresence>
-                          {mobileExpandedCat === "catalogue" && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                              className="overflow-hidden"
-                            >
-                              <div className="pl-4 pt-1 pb-2 space-y-3">
-                                <Link
-                                  href="/catalogue"
-                                  onClick={() => setIsOpen(false)}
-                                  className="flex items-center gap-2 py-2 px-3 rounded-lg text-sm font-medium text-brand-nav-active hover:bg-dark/5 transition-colors"
-                                >
-                                  <ArrowRight className="w-3.5 h-3.5" />
-                                  {t("allProducts")}
-                                </Link>
-                                {catalogColumns.map((col) => {
-                                  const Icon = col.icon;
-                                  return (
-                                    <div key={col.id}>
-                                      <Link
-                                        href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
-                                        onClick={() => setIsOpen(false)}
-                                        className="flex items-center gap-2 py-1.5 px-3 text-[13px] font-semibold uppercase tracking-wider"
-                                        style={{ color: col.accent }}
-                                      >
-                                        <Icon className="w-3.5 h-3.5" />
-                                        {cat(col.titleKey)}
-                                      </Link>
-                                      <div className="ml-3 mt-1 space-y-0.5">
-                                        {col.subKeys.map((subKey) => (
-                                          <Link
-                                            key={subKey}
-                                            href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
-                                            onClick={() => setIsOpen(false)}
-                                            className="block py-1.5 px-3 text-sm text-dark/45 hover:text-dark transition-colors rounded-lg hover:bg-dark/5"
-                                          >
-                                            {t(subKey)}
-                                          </Link>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-
-                      {navItems.map((item, index) => {
-                        const isActive = pathname === item.href;
-                        return (
-                          <motion.div
-                            key={item.href}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.04, duration: 0.3 }}
-                          >
-                            <Link
-                              href={item.href}
-                              onClick={() => setIsOpen(false)}
-                              className={cn(
-                                "py-3 px-4 rounded-xl text-base font-medium transition-all duration-200 flex items-center justify-between group",
-                                isActive
-                                  ? "bg-brand-nav-active/10 text-brand-nav-active border border-brand-nav-active/20"
-                                  : "text-dark/60 hover:text-dark hover:bg-dark/5"
-                              )}
-                            >
-                              <span>{item.label}</span>
-                              <ArrowRight
-                                className={cn(
-                                  "w-4 h-4 transition-all duration-200",
-                                  isActive
-                                    ? "opacity-100 text-brand-nav-active"
-                                    : "opacity-0 group-hover:opacity-50 group-hover:translate-x-1"
-                                )}
-                              />
-                            </Link>
-                          </motion.div>
-                        );
-                      })}
-                    </nav>
-
-                    {/* Mobile Footer */}
-                    <div className="pt-6 border-t border-dark/8">
-                      {user ? (
-                        <div className="space-y-2">
-                          <Link href={"/espace-client" as any} onClick={() => setIsOpen(false)}>
-                            <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
-                              <User className="w-4 h-4 mr-2" />
-                              {t("myProfile")}
-                            </Button>
-                          </Link>
-                          {isUserAdmin && (
-                            <Link href="/admin" onClick={() => setIsOpen(false)}>
-                              <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
-                                <Shield className="w-4 h-4 mr-2" />
-                                {t("admin")}
-                              </Button>
-                            </Link>
-                          )}
-                          <Button
-                            variant="ghost"
-                            onClick={() => { handleSignOut(); setIsOpen(false); }}
-                            className="w-full h-11 rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50"
-                          >
-                            <LogOut className="w-4 h-4 mr-2" />
-                            {t("signOut")}
-                          </Button>
-                        </div>
-                      ) : (
-                        <Link href="/login" onClick={() => setIsOpen(false)}>
-                          <Button variant="outline" className="w-full h-11 rounded-xl border-dark/10 text-dark/60 hover:bg-dark/5">
-                            <User className="w-4 h-4 mr-2" />
-                            {t("signIn")}
-                          </Button>
-                        </Link>
-                      )}
-                    </div>
-
-                    <div className="pt-4">
-                      <Link href="/contact" onClick={() => setIsOpen(false)}>
-                        <button className="w-full h-12 rounded-full bg-brand-accent text-white hover:bg-brand-accent-hover font-medium text-sm shadow-md transition-all duration-300 flex items-center justify-center gap-2">
-                          {t("requestQuote")}
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-                      </Link>
-                      <div className="flex items-center justify-center gap-4 mt-3">
-                        <button
-                          onClick={() => { toggleLanguage(); setIsOpen(false); }}
-                          className="py-2 text-sm text-dark/35 hover:text-dark/60 transition-colors"
-                        >
-                          {locale === "fr" ? t("englishVersion") : t("frenchVersion")}
-                        </button>
-                        {mounted && (
-                          <button
-                            onClick={toggleTheme}
-                            className="p-2 text-dark/35 hover:text-dark/60 transition-colors rounded-full"
-                          >
-                            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
+              {/* Mobile Menu Trigger */}
+              <button
+                onClick={() => setIsOpen(true)}
+                className="lg:hidden p-2 rounded-full transition-colors duration-200 ml-0.5 text-white/50 hover:text-white hover:bg-white/10"
+                aria-label="Menu"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
@@ -825,6 +587,329 @@ export function Header() {
           )}
         </AnimatePresence>
       </motion.header>
+
+      {/* ═══════════════════════════════════════
+         Mobile Full-Screen Menu
+         ═══════════════════════════════════════ */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] lg:hidden"
+          >
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-dark/40 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
+
+            {/* Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 32, stiffness: 350 }}
+              className="absolute inset-y-0 right-0 w-full sm:max-w-[440px] bg-cream-light flex flex-col shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu de navigation"
+            >
+              {/* ── Header ── */}
+              <div className="flex items-center justify-between px-6 h-16 shrink-0 border-b border-dark/5">
+                <Image
+                  src="/images/logo-ies.png"
+                  alt="IES Ingredients"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                />
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-dark/5 text-dark/40 hover:bg-dark/10 hover:text-dark transition-all duration-200"
+                  aria-label="Fermer le menu"
+                  autoFocus
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* ── Scrollable Content ── */}
+              <div className="flex-1 overflow-y-auto overscroll-contain">
+                <nav className="px-6 pt-2 pb-6">
+                  {/* Accueil */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <Link
+                      href={homeItem.href}
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        "flex items-center justify-between py-4 border-b border-dark/5 transition-colors",
+                        pathname === homeItem.href
+                          ? "text-brand-nav-active font-semibold"
+                          : "text-dark/70 active:text-dark"
+                      )}
+                    >
+                      <span className="text-lg">{homeItem.label}</span>
+                      {pathname === homeItem.href && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+                      )}
+                    </Link>
+                  </motion.div>
+
+                  {/* Catalogue (expandable) */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.12, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <button
+                      onClick={() =>
+                        setMobileExpandedCat(mobileExpandedCat === "catalogue" ? null : "catalogue")
+                      }
+                      className={cn(
+                        "w-full flex items-center justify-between py-4 border-b border-dark/5 transition-colors",
+                        pathname?.startsWith("/catalogue")
+                          ? "text-brand-nav-active font-semibold"
+                          : "text-dark/70 active:text-dark"
+                      )}
+                    >
+                      <span className="text-lg">{t("catalog")}</span>
+                      <motion.div
+                        animate={{ rotate: mobileExpandedCat === "catalogue" ? 180 : 0 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <ChevronDown className="w-5 h-5 text-dark/30" />
+                      </motion.div>
+                    </button>
+
+                    <AnimatePresence>
+                      {mobileExpandedCat === "catalogue" && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pt-3 pb-4 space-y-2.5">
+                            {/* All products link */}
+                            <Link
+                              href="/catalogue"
+                              onClick={() => setIsOpen(false)}
+                              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-brand-nav-active rounded-xl hover:bg-dark/5 transition-colors"
+                            >
+                              <ArrowRight className="w-3.5 h-3.5" />
+                              {t("allProducts")}
+                            </Link>
+
+                            {/* Category Cards */}
+                            {catalogColumns.map((col, i) => {
+                              const Icon = col.icon;
+                              return (
+                                <motion.div
+                                  key={col.id}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{
+                                    delay: i * 0.06,
+                                    duration: 0.3,
+                                    ease: [0.22, 1, 0.36, 1],
+                                  }}
+                                >
+                                  <Link
+                                    href={
+                                      col.id === "cosmetique"
+                                        ? "/catalogue/cosmetique"
+                                        : col.id === "parfum"
+                                          ? "/catalogue/parfumerie"
+                                          : "/catalogue/aromes"
+                                    }
+                                    onClick={() => setIsOpen(false)}
+                                    className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-dark/5 hover:shadow-md hover:border-dark/10 transition-all duration-200 active:scale-[0.98]"
+                                  >
+                                    <div
+                                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                                      style={{ backgroundColor: `${col.accent}15` }}
+                                    >
+                                      <Icon className="w-5 h-5" style={{ color: col.accent }} />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <span
+                                        className="text-sm font-semibold block"
+                                        style={{ color: col.accent }}
+                                      >
+                                        {cat(col.titleKey)}
+                                      </span>
+                                      <span className="text-xs text-dark/40 mt-0.5 block truncate">
+                                        {col.subKeys.slice(0, 2).map((k) => t(k)).join(" · ")}
+                                      </span>
+                                    </div>
+                                    <ChevronRight className="w-4 h-4 text-dark/20 shrink-0" />
+                                  </Link>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+
+                  {/* Other nav items */}
+                  {navItems.map((item, index) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <motion.div
+                        key={item.href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                          delay: 0.16 + index * 0.04,
+                          duration: 0.4,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                      >
+                        <Link
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "flex items-center justify-between py-4 transition-colors",
+                            index < navItems.length - 1 && "border-b border-dark/5",
+                            isActive
+                              ? "text-brand-nav-active font-semibold"
+                              : "text-dark/70 active:text-dark"
+                          )}
+                        >
+                          <span className="text-lg">{item.label}</span>
+                          {isActive && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+                          )}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
+
+                  {/* ── User Section ── */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.45, duration: 0.4 }}
+                    className="mt-6 pt-4 border-t border-dark/8"
+                  >
+                    {user ? (
+                      <div className="space-y-1">
+                        <Link
+                          href={"/espace-client" as any}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center gap-3 py-3 px-1 text-sm text-dark/50 hover:text-dark transition-colors"
+                        >
+                          <User className="w-4 h-4" />
+                          {t("myProfile")}
+                        </Link>
+                        {isUserAdmin && (
+                          <Link
+                            href="/admin"
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-3 py-3 px-1 text-sm text-dark/50 hover:text-dark transition-colors"
+                          >
+                            <Shield className="w-4 h-4" />
+                            {t("admin")}
+                          </Link>
+                        )}
+                        <button
+                          onClick={() => {
+                            handleSignOut();
+                            setIsOpen(false);
+                          }}
+                          className="flex items-center gap-3 py-3 px-1 text-sm text-red-500/60 hover:text-red-600 transition-colors w-full"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          {t("signOut")}
+                        </button>
+                      </div>
+                    ) : (
+                      <Link
+                        href="/login"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-3 py-3 px-1 text-sm text-dark/50 hover:text-dark transition-colors"
+                      >
+                        <User className="w-4 h-4" />
+                        {t("signIn")}
+                      </Link>
+                    )}
+                  </motion.div>
+                </nav>
+              </div>
+
+              {/* ── Fixed Footer ── */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="shrink-0 px-6 pt-4 pb-6 border-t border-dark/8"
+                style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
+              >
+                <Link href="/contact" onClick={() => setIsOpen(false)}>
+                  <button className="w-full h-14 rounded-2xl bg-brand-accent text-white hover:bg-brand-accent-hover font-semibold text-sm shadow-lg shadow-brand-accent/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98]">
+                    {t("requestQuote")}
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
+
+                <div className="flex items-center justify-between mt-4">
+                  {/* Social links */}
+                  <div className="flex items-center gap-0.5">
+                    {socialLinks.map((social) => {
+                      const SocialIcon = social.icon;
+                      return (
+                        <a
+                          key={social.name}
+                          href={social.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={social.name}
+                          className="p-2 rounded-full text-dark/25 hover:text-dark/50 transition-colors"
+                        >
+                          <SocialIcon className="w-4 h-4" />
+                        </a>
+                      );
+                    })}
+                  </div>
+
+                  {/* Language & Theme */}
+                  <div className="flex items-center gap-0.5">
+                    <button
+                      onClick={() => {
+                        toggleLanguage();
+                        setIsOpen(false);
+                      }}
+                      className="px-2.5 py-1.5 text-xs font-bold rounded-full text-dark/30 hover:text-dark/60 hover:bg-dark/5 transition-all"
+                    >
+                      {locale === "fr" ? "EN" : "FR"}
+                    </button>
+                    {mounted && (
+                      <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full text-dark/30 hover:text-dark/60 hover:bg-dark/5 transition-all"
+                        aria-label={isDark ? "Mode clair" : "Mode sombre"}
+                      >
+                        {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mega-menu overlay */}
       <AnimatePresence>
