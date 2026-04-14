@@ -813,7 +813,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
 
             {/* Filter sidebar (controlled by sticky bar button) */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-              <SheetContent side="left" className="w-[340px] p-0 bg-brand-primary border-r-0">
+              <SheetContent side="left" className="w-[340px] p-0 bg-brand-primary border-r-0 [&>button]:text-white [&>button]:opacity-100 [&>button]:hover:text-brand-accent">
                 <SheetHeader className="px-5 py-5 border-b border-white/10">
                   <div className="flex items-center justify-between">
                     <SheetTitle className="text-lg font-bold text-white">Filtres</SheetTitle>
