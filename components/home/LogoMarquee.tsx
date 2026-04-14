@@ -76,8 +76,8 @@ function FlipCard({
 
 export function LogoMarquee() {
   return (
-    <section className="bg-brand-primary py-6 md:py-8">
-      <div className="w-[94%] max-w-7xl mx-auto">
+    <section className="bg-brand-primary py-8 md:py-12">
+      <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16">
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-8">
           Nos partenaires
         </p>

@@ -94,14 +94,13 @@ export function ParallaxHero() {
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="my-8 lg:my-0"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold text-brand-primary tracking-[-0.04em] leading-[0.95]">
-                {t("titleLine1")}
-                <br />
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-brand-primary tracking-[-0.03em] leading-[1.1]">
+                {t("titleLine1")}{" "}
                 <span className="font-playfair italic text-brand-secondary">
                   {t("titleLine2")}
                 </span>
               </h1>
-              <p className="text-brand-primary/45 text-base sm:text-lg mt-6 max-w-md leading-relaxed">
+              <p className="text-brand-primary/45 text-sm sm:text-base mt-5 max-w-md leading-relaxed">
                 {t("subtitle")}
               </p>
             </motion.div>
