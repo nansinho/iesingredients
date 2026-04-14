@@ -475,33 +475,64 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
   const [showStickyBar, setShowStickyBar] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
 
-  // Show sticky bar only when hero is scrolled out of view
-  // Also hide the main header when sticky bar is active
+  // Show sticky bar when hero is out of view
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
-    const header = document.querySelector("header");
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        const sticky = !entry.isIntersecting;
-        setShowStickyBar(sticky);
-        if (header) {
-          header.style.transition = "transform 0.3s ease, opacity 0.3s ease";
-          header.style.transform = sticky ? "translateY(-100%)" : "translateY(0)";
-          header.style.opacity = sticky ? "0" : "1";
-        }
-      },
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
       { threshold: 0, rootMargin: "-64px 0px 0px 0px" }
     );
     observer.observe(hero);
-    return () => {
-      observer.disconnect();
-      if (header) {
-        header.style.transform = "";
-        header.style.opacity = "";
-      }
-    };
+    return () => observer.disconnect();
   }, []);
+
+  // Hide/show header based on scroll direction (only when sticky bar is active)
+  useEffect(() => {
+    const header = document.querySelector("header") as HTMLElement | null;
+    if (!header) return;
+
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        const delta = currentY - lastY;
+        if (!showStickyBar) {
+          // Hero visible — header always shown
+          header.style.transform = "translateY(0)";
+          header.style.opacity = "1";
+        } else if (delta > 5) {
+          // Scrolling down — hide header
+          header.style.transform = "translateY(-100%)";
+          header.style.opacity = "0";
+        } else if (delta < -5) {
+          // Scrolling up — show header
+          header.style.transform = "translateY(0)";
+          header.style.opacity = "1";
+        }
+        lastY = currentY;
+        ticking = false;
+      });
+    };
+
+    header.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Apply initial state
+    if (showStickyBar) {
+      header.style.transform = "translateY(-100%)";
+      header.style.opacity = "0";
+    }
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      header.style.transform = "";
+      header.style.opacity = "";
+      header.style.transition = "";
+    };
+  }, [showStickyBar]);
 
   useEffect(() => {
     setSearch(urlSearch);
@@ -813,8 +844,8 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
 
             {/* Filter sidebar (controlled by sticky bar button) */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-              <SheetContent side="left" className="w-[340px] p-0 bg-brand-primary border-r-0" closeClassName="text-white opacity-100 hover:text-brand-accent">
-                <SheetHeader className="px-5 py-5 border-b border-white/10">
+              <SheetContent side="left" className="w-[340px] p-0 bg-brand-primary border-r-0 flex flex-col" closeClassName="text-white opacity-100 hover:text-brand-accent">
+                <SheetHeader className="px-5 py-5 border-b border-white/10 shrink-0">
                   <div className="flex items-center justify-between">
                     <SheetTitle className="text-lg font-bold text-white">Filtres</SheetTitle>
                     {totalActiveFilters > 0 && (
@@ -824,7 +855,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                     )}
                   </div>
                 </SheetHeader>
-                <div className="overflow-y-auto flex-1">
+                <div className="overflow-y-auto flex-1 min-h-0">
                   {filterConfigs.map((fc, i) => (
                     <FilterAccordion key={fc.key} label={fc.label} options={fc.options} selected={filters[fc.key] || []} onChange={(v) => updateFilter(fc.key, v)} defaultOpen={i === 0} />
                   ))}
