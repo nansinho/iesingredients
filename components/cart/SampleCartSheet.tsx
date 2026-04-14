@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocale } from "next-intl";
-import { ShoppingBag, Trash2, Minus, Plus, Send, Loader2 } from "lucide-react";
+import { ShoppingBag, Trash2, Minus, Plus, Send, Loader2, LogIn, UserPlus, Sparkles, Package, Bell, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -21,13 +21,27 @@ import { sampleRequestSchema } from "@/lib/validations";
 import { toast } from "sonner";
 import { SecurityCheck } from "@/components/security/SecurityCheck";
 import { HoneypotFields } from "@/components/security/HoneypotFields";
+import { Link } from "@/i18n/routing";
+import type { User } from "@supabase/supabase-js";
 
 export function SampleCartSheet() {
   const locale = useLocale();
   const isFr = locale === "fr";
   const { items, removeItem, updateQuantity, clearCart, itemCount, isOpen, setIsOpen } = useSampleCart();
+  const [user, setUser] = useState<User | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+
+  // Check auth state
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => setUser(data.user ?? null));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -140,7 +154,68 @@ export function SampleCartSheet() {
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto py-4">
-          {items.length === 0 ? (
+          {showAuthPrompt ? (
+            <div className="px-1 space-y-6">
+              {/* Extranet benefits */}
+              <div className="rounded-2xl bg-brand-primary/5 border border-brand-primary/10 p-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-brand-accent" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-dark text-sm">
+                      {isFr ? "Créez votre espace client" : "Create your account"}
+                    </h3>
+                    <p className="text-xs text-dark/50">
+                      {isFr ? "Accédez à votre extranet personnalisé" : "Access your personalized extranet"}
+                    </p>
+                  </div>
+                </div>
+                <ul className="space-y-2.5">
+                  {[
+                    { icon: Package, text: isFr ? "Suivi de vos demandes d'échantillons" : "Track your sample requests" },
+                    { icon: Bell, text: isFr ? "Notifications sur vos commandes" : "Order notifications" },
+                    { icon: LayoutDashboard, text: isFr ? "Tableau de bord personnalisé" : "Personalized dashboard" },
+                  ].map(({ icon: Icon, text }) => (
+                    <li key={text} className="flex items-center gap-2.5 text-sm text-dark/70">
+                      <Icon className="w-4 h-4 text-brand-accent shrink-0" />
+                      {text}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Auth actions */}
+              <div className="space-y-3">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <Button asChild size="lg" className="w-full bg-brand-primary text-white hover:bg-brand-secondary rounded-xl gap-2">
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  <Link href={"/register" as any} onClick={() => setIsOpen(false)}>
+                    <UserPlus className="w-4 h-4" />
+                    {isFr ? "Créer un compte" : "Create an account"}
+                  </Link>
+                </Button>
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <Button asChild variant="outline" size="lg" className="w-full rounded-xl gap-2">
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  <Link href={"/login" as any} onClick={() => setIsOpen(false)}>
+                    <LogIn className="w-4 h-4" />
+                    {isFr ? "Se connecter" : "Sign in"}
+                  </Link>
+                </Button>
+              </div>
+
+              {/* Continue as guest */}
+              <div className="text-center">
+                <button
+                  onClick={() => { setShowAuthPrompt(false); setShowForm(true); }}
+                  className="text-sm text-dark/40 hover:text-dark/60 underline underline-offset-4 transition-colors"
+                >
+                  {isFr ? "Continuer sans compte" : "Continue without account"}
+                </button>
+              </div>
+            </div>
+          ) : items.length === 0 ? (
             <div className="text-center py-12">
               <ShoppingBag className="w-12 h-12 text-brown/30 dark:text-cream-light/20 mx-auto mb-3" />
               <p className="text-dark/50 dark:text-cream-light/50">
@@ -207,7 +282,7 @@ export function SampleCartSheet() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setShowForm(false)}
+                  onClick={() => { setShowForm(false); setShowAuthPrompt(false); }}
                   className="flex-1 border-brown/15 dark:border-brown/10 text-dark dark:text-cream-light"
                 >
                   {isFr ? "Retour" : "Back"}
@@ -271,10 +346,23 @@ export function SampleCartSheet() {
           )}
         </div>
 
-        {items.length > 0 && !showForm && (
+        {items.length > 0 && !showForm && !showAuthPrompt && (
           <div className="border-t border-brown/8 dark:border-brown/10 pt-4 space-y-3">
             <Button
-              onClick={() => setShowForm(true)}
+              onClick={() => {
+                if (user) {
+                  // Pre-fill form with user info
+                  setForm((prev) => ({
+                    ...prev,
+                    name: user.user_metadata?.full_name || prev.name,
+                    email: user.email || prev.email,
+                    company: user.user_metadata?.company || prev.company,
+                  }));
+                  setShowForm(true);
+                } else {
+                  setShowAuthPrompt(true);
+                }
+              }}
               variant="accent"
               className="w-full rounded-full"
             >
@@ -284,7 +372,7 @@ export function SampleCartSheet() {
             <Button
               variant="ghost"
               onClick={clearCart}
-              className="w-full text-red-500 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-500/10"
+              className="w-full text-destructive hover:text-destructive hover:bg-destructive/5"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               {isFr ? "Vider le panier" : "Clear Cart"}
