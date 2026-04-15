@@ -3,7 +3,7 @@
 
 import { useState, useCallback, useEffect, useMemo, memo } from "react";
 import { useRouter } from "@/i18n/routing";
-import { Trash2, Pencil, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { Trash2, Pencil, ChevronLeft, ChevronRight, Search, MoreVertical, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,6 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { usePageSize, PAGE_SIZE_OPTIONS, type PageSize } from "@/lib/hooks/usePageSize";
 import {
   AlertDialog,
@@ -31,12 +38,28 @@ interface Column<T> {
   render?: (item: T) => React.ReactNode;
 }
 
+export interface RowAction<T> {
+  label: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  onClick: (item: T) => void;
+  /** Show only when the predicate is true (e.g. only on ACTIF rows) */
+  when?: (item: T) => boolean;
+  /** Visual style: default | danger */
+  variant?: "default" | "danger";
+  /** Insert a separator BEFORE this item */
+  separatorBefore?: boolean;
+}
+
 interface AdminDataTableProps<T> {
   data: T[];
   columns: Column<T>[];
   idKey: string;
   editPath?: string;
   onDelete?: (id: string) => void;
+  /** Custom warning shown in the delete confirm dialog. */
+  deleteWarning?: React.ReactNode;
+  /** Custom row actions (kebab menu). When provided, replaces the default Edit/Delete buttons. */
+  rowActions?: (item: T, helpers: { requestDelete: (id: string) => void }) => RowAction<T>[];
   onRowClick?: (item: T) => void;
   searchValue?: string;
   onSearchChange?: (value: string) => void;
@@ -60,6 +83,7 @@ const DataTableRow = memo(function DataTableRow<T extends Record<string, any>>({
   idKey,
   editPath,
   onDelete,
+  rowActions,
   onRowClick,
   onNavigate,
   onRequestDelete,
@@ -69,11 +93,37 @@ const DataTableRow = memo(function DataTableRow<T extends Record<string, any>>({
   idKey: string;
   editPath?: string;
   onDelete?: (id: string) => void;
+  rowActions?: (item: T, helpers: { requestDelete: (id: string) => void }) => RowAction<T>[];
   onRowClick?: (item: T) => void;
   onNavigate: (path: string) => void;
   onRequestDelete: (id: string) => void;
 }) {
   const id = item[idKey];
+
+  // Build the actions list (custom or default)
+  const actions: RowAction<T>[] = rowActions
+    ? rowActions(item, { requestDelete: onRequestDelete })
+    : [
+        ...(editPath
+          ? [{
+              label: "Modifier",
+              icon: Pencil,
+              onClick: () => onNavigate(`${editPath}/${id}`),
+            } as RowAction<T>]
+          : []),
+        ...(onDelete
+          ? [{
+              label: "Supprimer",
+              icon: Trash2,
+              onClick: () => onRequestDelete(id),
+              variant: "danger" as const,
+              separatorBefore: !!editPath,
+            } as RowAction<T>]
+          : []),
+      ];
+
+  const visibleActions = actions.filter((a) => !a.when || a.when(item));
+
   return (
     <tr
       className="border-b last:border-0 hover:bg-brand-primary/5 transition-colors cursor-pointer"
@@ -84,35 +134,41 @@ const DataTableRow = memo(function DataTableRow<T extends Record<string, any>>({
           {col.render ? col.render(item) : item[col.key]}
         </td>
       ))}
-      {(editPath || onDelete) && (
+      {visibleActions.length > 0 && (
         <td className="px-4 py-3 text-right">
-          <div className="flex items-center justify-end gap-1.5">
-            {editPath && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onNavigate(`${editPath}/${id}`);
-                }}
-                className="h-8 px-2.5 text-brand-secondary hover:text-brand-primary hover:bg-brand-primary/5 border-gray-200"
-              >
-                <Pencil className="w-3.5 h-3.5" />
-              </Button>
-            )}
-            {onDelete && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onRequestDelete(id);
-                }}
-                className="h-8 px-2.5 text-red-500 hover:text-red-700 hover:bg-red-50 border-gray-200 hover:border-red-200"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-              </Button>
-            )}
+          <div className="flex items-center justify-end" onClick={(e) => e.stopPropagation()}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-gray-500 hover:text-brand-primary hover:bg-brand-primary/5"
+                >
+                  <MoreVertical className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {visibleActions.map((action, i) => {
+                  const Icon = action.icon;
+                  return (
+                    <div key={i}>
+                      {action.separatorBefore && i > 0 && <DropdownMenuSeparator />}
+                      <DropdownMenuItem
+                        onClick={() => action.onClick(item)}
+                        className={
+                          action.variant === "danger"
+                            ? "text-red-600 focus:text-red-700 focus:bg-red-50"
+                            : ""
+                        }
+                      >
+                        {Icon && <Icon className="w-4 h-4 mr-2" />}
+                        {action.label}
+                      </DropdownMenuItem>
+                    </div>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </td>
       )}
@@ -124,6 +180,7 @@ const DataTableRow = memo(function DataTableRow<T extends Record<string, any>>({
   idKey: string;
   editPath?: string;
   onDelete?: (id: string) => void;
+  rowActions?: (item: T, helpers: { requestDelete: (id: string) => void }) => RowAction<T>[];
   onRowClick?: (item: T) => void;
   onNavigate: (path: string) => void;
   onRequestDelete: (id: string) => void;
@@ -135,6 +192,8 @@ export function AdminDataTable<T extends Record<string, any>>({
   idKey,
   editPath,
   onDelete,
+  deleteWarning,
+  rowActions,
   onRowClick,
   searchValue,
   onSearchChange,
@@ -229,8 +288,8 @@ export function AdminDataTable<T extends Record<string, any>>({
                     {col.label}
                   </th>
                 ))}
-                {(editPath || onDelete) && (
-                  <th className="text-right px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 w-28">
+                {(editPath || onDelete || rowActions) && (
+                  <th className="text-right px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500 w-16">
                     Actions
                   </th>
                 )}
@@ -240,7 +299,7 @@ export function AdminDataTable<T extends Record<string, any>>({
               {displayedData.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={columns.length + (editPath || onDelete ? 1 : 0)}
+                    colSpan={columns.length + (editPath || onDelete || rowActions ? 1 : 0)}
                     className="text-center py-16 text-gray-400"
                   >
                     <div className="flex flex-col items-center gap-2">
@@ -258,6 +317,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                     idKey={idKey}
                     editPath={editPath}
                     onDelete={onDelete}
+                    rowActions={rowActions}
                     onRowClick={onRowClick}
                     onNavigate={handleNavigate}
                     onRequestDelete={handleRequestDelete}
@@ -321,15 +381,21 @@ export function AdminDataTable<T extends Record<string, any>>({
       <AlertDialog open={!!deleteId} onOpenChange={(open) => { if (!open) { setDeleteId(null); setDeleteConfirm(""); } }}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-red-500" />
+              Suppression définitive
+            </AlertDialogTitle>
             <AlertDialogDescription asChild>
-              <div className="space-y-3">
-                <p className="text-white/60">Cette action est irréversible. Tapez <strong className="text-red-400 font-mono">SUPPRIMER</strong> pour confirmer.</p>
+              <div className="space-y-4">
+                {deleteWarning ?? (
+                  <p className="text-white/70">Cette action est irréversible.</p>
+                )}
+                <p className="text-white/70 text-sm">Tapez <strong className="text-red-300 font-mono">SUPPRIMER</strong> pour confirmer.</p>
                 <Input
                   value={deleteConfirm}
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   placeholder="Tapez SUPPRIMER"
-                  className="font-mono !bg-white/10 !border-white/20 !text-white placeholder:!text-white/30 focus-visible:!bg-white/15 focus-visible:!ring-white/20"
+                  className="font-mono !bg-white/5 !border-white/15 !text-white placeholder:!text-white/30 focus-visible:!bg-white/10 focus-visible:!ring-white/20"
                   autoFocus
                 />
               </div>

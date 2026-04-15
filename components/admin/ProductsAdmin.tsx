@@ -3,10 +3,10 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
-import { Plus, Download, RefreshCw, Upload } from "lucide-react";
+import { Plus, Download, RefreshCw, Upload, Pencil, FileEdit, EyeOff, Archive, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AdminDataTable } from "@/components/admin/AdminDataTable";
+import { AdminDataTable, type RowAction } from "@/components/admin/AdminDataTable";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { SlidePanel } from "@/components/admin/SlidePanel";
 import { ProductEditForm } from "@/components/admin/ProductEditForm";
@@ -43,9 +43,14 @@ function getColumns(tableName: string) {
   const codeCol = {
     key: "code",
     label: "Code",
-    render: (item: any) => (
-      <span className="font-mono text-[11px] font-bold text-brand-primary truncate max-w-[120px] block">{item.code}</span>
-    ),
+    render: (item: any) => {
+      const realCode = item.code_fournisseurs;
+      return realCode ? (
+        <span className="font-mono text-[11px] font-bold text-brand-primary truncate max-w-[120px] block">{realCode}</span>
+      ) : (
+        <span className="text-gray-300">—</span>
+      );
+    },
   };
 
   const nomCol = {
@@ -56,11 +61,18 @@ function getColumns(tableName: string) {
     ),
   };
 
+  const statutColors: Record<string, string> = {
+    ACTIF: "bg-green-100 text-green-700",
+    INACTIF: "bg-red-100 text-red-700",
+    BROUILLON: "bg-amber-100 text-amber-700",
+    ARCHIVE: "bg-gray-200 text-gray-600",
+    SUPPRIME: "bg-red-200 text-red-800",
+  };
   const statutCol = {
     key: "statut",
     label: "Statut",
     render: (item: any) => (
-      <Badge className={item.statut === "ACTIF" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
+      <Badge className={statutColors[item.statut] ?? "bg-gray-100 text-gray-600"}>
         {item.statut}
       </Badge>
     ),
@@ -189,7 +201,7 @@ export function ProductsAdmin({
 
     if (search) {
       query = query.or(
-        `nom_commercial.ilike.%${search}%,code.ilike.%${search}%`
+        `nom_commercial.ilike.%${search}%,code_fournisseurs.ilike.%${search}%`
       );
     }
 
@@ -232,6 +244,20 @@ export function ProductsAdmin({
     }
     logAudit({ action: "delete", entityType: "product", entityId: code, entityLabel: `${title} — ${code}` });
     toast.success("Produit supprimé");
+    fetchProducts();
+  };
+
+  const handleSetStatus = async (code: string, statut: string, label: string) => {
+    const supabase = createClient();
+    const { error } = await (supabase.from(tableName) as any)
+      .update({ statut })
+      .eq("code", code);
+    if (error) {
+      toast.error("Erreur : " + error.message);
+      return;
+    }
+    logAudit({ action: "update", entityType: "product", entityId: code, entityLabel: `${title} — ${code} → ${statut}` });
+    toast.success(label);
     fetchProducts();
   };
 
@@ -331,6 +357,64 @@ export function ProductsAdmin({
         columns={columns}
         idKey="code"
         onDelete={handleDelete}
+        deleteWarning={
+          <div className="space-y-3">
+            <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-3">
+              <p className="text-red-300 font-semibold text-sm mb-1">
+                Données clients liées à ce produit perdues
+              </p>
+              <p className="text-white/70 text-xs leading-relaxed">
+                Demandes d&apos;échantillons, favoris et historique des paniers
+                deviendront définitivement orphelins.
+              </p>
+            </div>
+            <div className="rounded-xl bg-amber-400/10 border border-amber-400/20 p-3 flex gap-2.5">
+              <span className="text-amber-300 text-base leading-none mt-0.5">💡</span>
+              <p className="text-white/80 text-xs leading-relaxed">
+                Préférez <strong className="text-amber-200">Archiver</strong> : le produit disparaît du catalogue
+                public mais toutes les données clients restent intactes.
+              </p>
+            </div>
+          </div>
+        }
+        rowActions={(item: any, { requestDelete }): RowAction<any>[] => {
+          const actions: RowAction<any>[] = [
+            {
+              label: "Modifier",
+              icon: Pencil,
+              onClick: () => openEdit(item),
+            },
+          ];
+          if (item.statut !== "BROUILLON") {
+            actions.push({
+              label: "Mettre en brouillon",
+              icon: FileEdit,
+              onClick: () => handleSetStatus(item.code, "BROUILLON", "Passé en brouillon"),
+            });
+          }
+          if (item.statut !== "INACTIF") {
+            actions.push({
+              label: "Mettre inactif",
+              icon: EyeOff,
+              onClick: () => handleSetStatus(item.code, "INACTIF", "Passé en inactif"),
+            });
+          }
+          if (item.statut !== "ARCHIVE") {
+            actions.push({
+              label: "Archiver",
+              icon: Archive,
+              onClick: () => handleSetStatus(item.code, "ARCHIVE", "Produit archivé"),
+            });
+          }
+          actions.push({
+            label: "Supprimer",
+            icon: Trash2,
+            onClick: () => requestDelete(item.code),
+            variant: "danger",
+            separatorBefore: true,
+          });
+          return actions;
+        }}
         onRowClick={openEdit}
         searchValue={search}
         onSearchChange={setSearch}
