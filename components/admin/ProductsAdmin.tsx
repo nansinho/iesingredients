@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { Plus, Download, RefreshCw, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { ProductEditForm } from "@/components/admin/ProductEditForm";
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { logAudit } from "@/lib/audit";
+import { usePageSize } from "@/lib/hooks/usePageSize";
 
 interface ProductsAdminProps {
   tableName: string;
@@ -22,7 +23,6 @@ interface ProductsAdminProps {
   initialTotal: number;
 }
 
-const PAGE_SIZE = 20;
 
 // ── Colonnes spécifiques par catalogue (fidèles au XLS) ──
 
@@ -169,17 +169,23 @@ export function ProductsAdmin({
   const [total, setTotal] = useState(initialTotal);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = usePageSize(`products:${tableName}`, 20);
   const [panelOpen, setPanelOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [isNew, setIsNew] = useState(false);
-  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+
+  // Reset to page 1 when search or pageSize changes
+  useEffect(() => {
+    setPage(1);
+  }, [search, pageSize]);
 
   const fetchProducts = useCallback(async () => {
     const supabase = createClient();
     let query = (supabase.from(tableName) as any)
       .select("*", { count: "exact" })
       .order("nom_commercial", { ascending: true })
-      .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
+      .range((page - 1) * pageSize, page * pageSize - 1);
 
     if (search) {
       query = query.or(
@@ -190,7 +196,7 @@ export function ProductsAdmin({
     const { data, count } = await query;
     if (data) setProducts(data);
     if (count !== null) setTotal(count);
-  }, [tableName, search, page]);
+  }, [tableName, search, page, pageSize]);
 
   useEffect(() => {
     const timer = setTimeout(fetchProducts, 300);
@@ -287,7 +293,7 @@ export function ProductsAdmin({
     e.target.value = "";
   };
 
-  const columns = getColumns(tableName);
+  const columns = useMemo(() => getColumns(tableName), [tableName]);
 
   return (
     <>
@@ -332,6 +338,8 @@ export function ProductsAdmin({
         page={page}
         totalPages={totalPages}
         onPageChange={setPage}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
       />
 
       <SlidePanel

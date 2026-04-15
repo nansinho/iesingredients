@@ -216,6 +216,7 @@ export function TeamAdmin({
         searchValue={search}
         onSearchChange={setSearch}
         searchPlaceholder="Rechercher un membre..."
+        storageKey="team"
       />
 
       <SlidePanel

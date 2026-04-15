@@ -1,11 +1,19 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, useEffect, useMemo, memo } from "react";
 import { useRouter } from "@/i18n/routing";
 import { Trash2, Pencil, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { usePageSize, PAGE_SIZE_OPTIONS, type PageSize } from "@/lib/hooks/usePageSize";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,9 +41,15 @@ interface AdminDataTableProps<T> {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
+  /** Server-side pagination: provide all three. */
   page?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  /** Server-side: also forward the chosen pageSize. */
+  pageSize?: PageSize;
+  onPageSizeChange?: (size: PageSize) => void;
+  /** Client-side pagination: provide a storageKey to enable internal paging + persisted size. */
+  storageKey?: string;
   actions?: React.ReactNode;
 }
 
@@ -125,14 +139,58 @@ export function AdminDataTable<T extends Record<string, any>>({
   searchValue,
   onSearchChange,
   searchPlaceholder = "Rechercher...",
-  page = 1,
-  totalPages = 1,
+  page,
+  totalPages,
   onPageChange,
+  pageSize,
+  onPageSizeChange,
+  storageKey,
   actions,
 }: AdminDataTableProps<T>) {
   const router = useRouter();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState("");
+
+  const isClientPaging = !onPageChange && !!storageKey;
+  const [clientSize, setClientSize] = usePageSize(storageKey || "default", 20);
+  const [clientPage, setClientPage] = useState(1);
+
+  const effectivePageSize: PageSize = (pageSize ?? clientSize) as PageSize;
+  const effectivePage = page ?? clientPage;
+
+  // Reset to page 1 if data shrinks (e.g. search filter narrows results)
+  useEffect(() => {
+    if (isClientPaging) setClientPage(1);
+  }, [data.length, effectivePageSize, isClientPaging]);
+
+  const { displayedData, computedTotalPages } = useMemo(() => {
+    if (isClientPaging) {
+      const tp = Math.max(1, Math.ceil(data.length / effectivePageSize));
+      const safePage = Math.min(effectivePage, tp);
+      const start = (safePage - 1) * effectivePageSize;
+      return {
+        displayedData: data.slice(start, start + effectivePageSize),
+        computedTotalPages: tp,
+      };
+    }
+    return { displayedData: data, computedTotalPages: totalPages ?? 1 };
+  }, [data, effectivePageSize, effectivePage, isClientPaging, totalPages]);
+
+  const handlePageChange = (p: number) => {
+    if (onPageChange) onPageChange(p);
+    else setClientPage(p);
+  };
+
+  const handlePageSizeChange = (s: PageSize) => {
+    if (onPageSizeChange) onPageSizeChange(s);
+    else setClientSize(s);
+    if (!onPageChange) setClientPage(1);
+  };
+
+  const showPager =
+    (isClientPaging && data.length > PAGE_SIZE_OPTIONS[0]) ||
+    (computedTotalPages > 1 && !!onPageChange) ||
+    (!!onPageSizeChange);
 
   const handleNavigate = useCallback((path: string) => {
     router.push(path as any);
@@ -179,7 +237,7 @@ export function AdminDataTable<T extends Record<string, any>>({
               </tr>
             </thead>
             <tbody>
-              {data.length === 0 ? (
+              {displayedData.length === 0 ? (
                 <tr>
                   <td
                     colSpan={columns.length + (editPath || onDelete ? 1 : 0)}
@@ -192,7 +250,7 @@ export function AdminDataTable<T extends Record<string, any>>({
                   </td>
                 </tr>
               ) : (
-                data.map((item) => (
+                displayedData.map((item) => (
                   <DataTableRow
                     key={item[idKey]}
                     item={item}
@@ -211,17 +269,36 @@ export function AdminDataTable<T extends Record<string, any>>({
         </div>
 
         {/* Pagination */}
-        {totalPages > 1 && onPageChange && (
-          <div className="flex items-center justify-between px-4 py-3 border-t bg-brand-primary/5">
-            <p className="text-sm text-brand-secondary">
-              Page {page} / {totalPages}
-            </p>
+        {showPager && (
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-4 py-3 border-t bg-brand-primary/5">
+            <div className="flex items-center gap-3 text-sm text-brand-secondary">
+              <span>Page {effectivePage} / {computedTotalPages}</span>
+              {(onPageSizeChange || isClientPaging) && (
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500">·</span>
+                  <span>Par page</span>
+                  <Select
+                    value={String(effectivePageSize)}
+                    onValueChange={(v) => handlePageSizeChange(Number(v) as PageSize)}
+                  >
+                    <SelectTrigger className="h-8 w-20 rounded-lg">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {PAGE_SIZE_OPTIONS.map((n) => (
+                        <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onPageChange(page - 1)}
-                disabled={page <= 1}
+                onClick={() => handlePageChange(effectivePage - 1)}
+                disabled={effectivePage <= 1}
                 className="rounded-lg"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -229,8 +306,8 @@ export function AdminDataTable<T extends Record<string, any>>({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onPageChange(page + 1)}
-                disabled={page >= totalPages}
+                onClick={() => handlePageChange(effectivePage + 1)}
+                disabled={effectivePage >= computedTotalPages}
                 className="rounded-lg"
               >
                 <ChevronRight className="w-4 h-4" />

@@ -250,6 +250,7 @@ export function BlogAdmin({
         searchValue={search}
         onSearchChange={setSearch}
         searchPlaceholder="Rechercher un article..."
+        storageKey="blog"
       />
 
       {/* Slide Panel for editing */}

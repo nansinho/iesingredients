@@ -9,8 +9,9 @@ export default async function DemandesPage() {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("sample_requests")
-      .select("*, sample_request_items(*)")
-      .order("created_at", { ascending: false });
+      .select("id, status, contact_name, contact_email, company, message, created_at, sample_request_items(id, product_name, product_code, quantity)")
+      .order("created_at", { ascending: false })
+      .limit(500);
 
     if (error) {
       console.error("Failed to fetch sample requests:", error.message);

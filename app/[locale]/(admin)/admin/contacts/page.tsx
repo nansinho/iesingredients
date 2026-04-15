@@ -9,7 +9,7 @@ export default async function ContactsPage() {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("contact_submissions")
-      .select("*")
+      .select("id, status, first_name, last_name, email, subject, message, company, phone, created_at")
       .order("created_at", { ascending: false })
       .limit(500);
 

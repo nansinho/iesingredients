@@ -18,14 +18,23 @@ import {
 import dynamic from "next/dynamic";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import type { RichTextEditorHandle } from "@/components/admin/RichTextEditor";
-import { MediaLibrary } from "@/components/admin/MediaLibrary";
 
 const RichTextEditor = dynamic(
   () => import("@/components/admin/RichTextEditor").then((m) => m.RichTextEditor),
   { ssr: false, loading: () => <div className="h-[300px] rounded-xl border border-gray-200 bg-gray-50 animate-pulse" /> }
 );
-import { PDFImport } from "@/components/admin/PDFImport";
-import { URLImport } from "@/components/admin/URLImport";
+const MediaLibrary = dynamic(
+  () => import("@/components/admin/MediaLibrary").then((m) => m.MediaLibrary),
+  { ssr: false }
+);
+const PDFImport = dynamic(
+  () => import("@/components/admin/PDFImport").then((m) => m.PDFImport),
+  { ssr: false }
+);
+const URLImport = dynamic(
+  () => import("@/components/admin/URLImport").then((m) => m.URLImport),
+  { ssr: false }
+);
 import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 
