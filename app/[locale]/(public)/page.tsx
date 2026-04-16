@@ -1,8 +1,7 @@
 export const revalidate = 3600;
 
 import { getTranslations } from "next-intl/server";
-import { ParallaxHero } from "@/components/home/ParallaxHero";
-import { LogoMarquee } from "@/components/home/LogoMarquee";
+import { KineticHero } from "@/components/home/KineticHero";
 import { ThreeUniverses } from "@/components/home/ThreeUniverses";
 import { MinimalProducts } from "@/components/home/MinimalProducts";
 import { SamplesBanner } from "@/components/home/SamplesBanner";
@@ -95,10 +94,7 @@ export default async function HomePage({
       <WebSiteJsonLd />
       <LocalBusinessJsonLd />
       <FAQJsonLd items={faqItems} />
-      <div className="h-screen flex flex-col">
-        <ParallaxHero />
-        <LogoMarquee />
-      </div>
+      <KineticHero />
       <ThreeUniverses />
       <MinimalProducts />
       <SamplesBanner />

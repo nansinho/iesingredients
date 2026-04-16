@@ -75,13 +75,45 @@ function FlipCard({
 }
 
 export function LogoMarquee() {
+  const marqueeLogos = [...logos, ...logos];
+
   return (
-    <section className="bg-brand-primary py-8 md:py-12">
-      <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-10 lg:px-16">
-        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-8">
+    <section className="bg-brand-primary py-8 md:py-12 overflow-hidden">
+      <div className="w-full px-4 sm:px-8 lg:px-12">
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-white/30 mb-6 md:mb-8">
           Nos partenaires
         </p>
-        <div className="grid grid-cols-3 md:grid-cols-5 items-center gap-y-8">
+
+        {/* Mobile — infinite marquee */}
+        <div className="sm:hidden relative [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <motion.div
+            className="flex items-center gap-10 w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          >
+            {marqueeLogos.map((logo, i) => (
+              <div
+                key={`${logo.name}-${i}`}
+                className="relative h-10 w-24 shrink-0"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.name}
+                  fill
+                  className="object-contain"
+                  sizes="96px"
+                />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Desktop — flip grid */}
+        <div className="hidden sm:grid grid-cols-5 items-center gap-x-6 md:gap-x-8">
           {flipPairs.map((pair, i) => (
             <FlipCard
               key={pair.front.name + pair.back.name}

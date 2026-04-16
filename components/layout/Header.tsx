@@ -613,23 +613,23 @@ export function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 32, stiffness: 350 }}
-              className="absolute inset-y-0 right-0 w-full sm:max-w-[440px] bg-cream-light flex flex-col shadow-2xl"
+              className="absolute inset-y-0 right-0 w-full sm:max-w-[440px] bg-brand-primary flex flex-col shadow-2xl"
               role="dialog"
               aria-modal="true"
               aria-label="Menu de navigation"
             >
               {/* ── Header ── */}
-              <div className="flex items-center justify-between px-6 h-16 shrink-0 border-b border-dark/5">
+              <div className="flex items-center justify-between px-6 h-16 shrink-0 border-b border-white/10">
                 <Image
                   src="/images/logo-ies.png"
                   alt="IES Ingredients"
                   width={120}
                   height={40}
-                  className="h-8 w-auto"
+                  className="h-8 w-auto brightness-0 invert"
                 />
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-dark/5 text-dark/40 hover:bg-dark/10 hover:text-dark transition-all duration-200"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
                   aria-label="Fermer le menu"
                   autoFocus
                 >
@@ -650,10 +650,10 @@ export function Header() {
                       href={homeItem.href}
                       onClick={() => setIsOpen(false)}
                       className={cn(
-                        "flex items-center justify-between py-4 border-b border-dark/5 transition-colors",
+                        "flex items-center justify-between py-4 border-b border-white/10 transition-colors",
                         pathname === homeItem.href
-                          ? "text-brand-nav-active font-semibold"
-                          : "text-dark/70 active:text-dark"
+                          ? "text-white font-semibold"
+                          : "text-white/70 active:text-white"
                       )}
                     >
                       <span className="text-lg">{homeItem.label}</span>
@@ -674,10 +674,10 @@ export function Header() {
                         setMobileExpandedCat(mobileExpandedCat === "catalogue" ? null : "catalogue")
                       }
                       className={cn(
-                        "w-full flex items-center justify-between py-4 border-b border-dark/5 transition-colors",
+                        "w-full flex items-center justify-between py-4 border-b border-white/10 transition-colors",
                         pathname?.startsWith("/catalogue")
-                          ? "text-brand-nav-active font-semibold"
-                          : "text-dark/70 active:text-dark"
+                          ? "text-white font-semibold"
+                          : "text-white/70 active:text-white"
                       )}
                     >
                       <span className="text-lg">{t("catalog")}</span>
@@ -685,7 +685,7 @@ export function Header() {
                         animate={{ rotate: mobileExpandedCat === "catalogue" ? 180 : 0 }}
                         transition={{ duration: 0.25 }}
                       >
-                        <ChevronDown className="w-5 h-5 text-dark/30" />
+                        <ChevronDown className="w-5 h-5 text-white/40" />
                       </motion.div>
                     </button>
 
@@ -703,7 +703,7 @@ export function Header() {
                             <Link
                               href="/catalogue"
                               onClick={() => setIsOpen(false)}
-                              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-brand-nav-active rounded-xl hover:bg-dark/5 transition-colors"
+                              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-brand-accent rounded-xl hover:bg-white/5 transition-colors"
                             >
                               <ArrowRight className="w-3.5 h-3.5" />
                               {t("allProducts")}
@@ -732,26 +732,25 @@ export function Header() {
                                           : "/catalogue/aromes"
                                     }
                                     onClick={() => setIsOpen(false)}
-                                    className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-dark/5 hover:shadow-md hover:border-dark/10 transition-all duration-200 active:scale-[0.98]"
+                                    className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white/8 border border-white/10 hover:bg-white/12 hover:border-white/20 transition-all duration-200 active:scale-[0.98]"
                                   >
                                     <div
                                       className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                                      style={{ backgroundColor: `${col.accent}15` }}
+                                      style={{ backgroundColor: `${col.accent}30` }}
                                     >
                                       <Icon className="w-5 h-5" style={{ color: col.accent }} />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <span
-                                        className="text-sm font-semibold block"
-                                        style={{ color: col.accent }}
+                                        className="text-sm font-semibold block text-white"
                                       >
                                         {cat(col.titleKey)}
                                       </span>
-                                      <span className="text-xs text-dark/40 mt-0.5 block truncate">
+                                      <span className="text-xs text-white/50 mt-0.5 block truncate">
                                         {col.subKeys.slice(0, 2).map((k) => t(k)).join(" · ")}
                                       </span>
                                     </div>
-                                    <ChevronRight className="w-4 h-4 text-dark/20 shrink-0" />
+                                    <ChevronRight className="w-4 h-4 text-white/30 shrink-0" />
                                   </Link>
                                 </motion.div>
                               );
@@ -781,10 +780,10 @@ export function Header() {
                           onClick={() => setIsOpen(false)}
                           className={cn(
                             "flex items-center justify-between py-4 transition-colors",
-                            index < navItems.length - 1 && "border-b border-dark/5",
+                            index < navItems.length - 1 && "border-b border-white/10",
                             isActive
-                              ? "text-brand-nav-active font-semibold"
-                              : "text-dark/70 active:text-dark"
+                              ? "text-white font-semibold"
+                              : "text-white/70 active:text-white"
                           )}
                         >
                           <span className="text-lg">{item.label}</span>
@@ -801,14 +800,14 @@ export function Header() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.45, duration: 0.4 }}
-                    className="mt-6 pt-4 border-t border-dark/8"
+                    className="mt-6 pt-4 border-t border-white/10"
                   >
                     {user ? (
                       <div className="space-y-1">
                         <Link
                           href={"/espace-client" as any}
                           onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-3 py-3 px-1 text-sm text-dark/50 hover:text-dark transition-colors"
+                          className="flex items-center gap-3 py-3 px-1 text-sm text-white/60 hover:text-white transition-colors"
                         >
                           <User className="w-4 h-4" />
                           {t("myProfile")}
@@ -817,7 +816,7 @@ export function Header() {
                           <Link
                             href="/admin"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 py-3 px-1 text-sm text-dark/50 hover:text-dark transition-colors"
+                            className="flex items-center gap-3 py-3 px-1 text-sm text-white/60 hover:text-white transition-colors"
                           >
                             <Shield className="w-4 h-4" />
                             {t("admin")}
@@ -828,7 +827,7 @@ export function Header() {
                             handleSignOut();
                             setIsOpen(false);
                           }}
-                          className="flex items-center gap-3 py-3 px-1 text-sm text-red-500/60 hover:text-red-600 transition-colors w-full"
+                          className="flex items-center gap-3 py-3 px-1 text-sm text-red-300/70 hover:text-red-200 transition-colors w-full"
                         >
                           <LogOut className="w-4 h-4" />
                           {t("signOut")}
@@ -838,7 +837,7 @@ export function Header() {
                       <Link
                         href="/login"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 py-3 px-1 text-sm text-dark/50 hover:text-dark transition-colors"
+                        className="flex items-center gap-3 py-3 px-1 text-sm text-white/60 hover:text-white transition-colors"
                       >
                         <User className="w-4 h-4" />
                         {t("signIn")}
@@ -853,7 +852,7 @@ export function Header() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="shrink-0 px-6 pt-4 pb-6 border-t border-dark/8"
+                className="shrink-0 px-6 pt-4 pb-6 border-t border-white/10"
                 style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
               >
                 <Link href="/contact" onClick={() => setIsOpen(false)}>
@@ -875,7 +874,7 @@ export function Header() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={social.name}
-                          className="p-2 rounded-full text-dark/25 hover:text-dark/50 transition-colors"
+                          className="p-2 rounded-full text-white/40 hover:text-white/70 transition-colors"
                         >
                           <SocialIcon className="w-4 h-4" />
                         </a>
@@ -890,14 +889,14 @@ export function Header() {
                         toggleLanguage();
                         setIsOpen(false);
                       }}
-                      className="px-2.5 py-1.5 text-xs font-bold rounded-full text-dark/30 hover:text-dark/60 hover:bg-dark/5 transition-all"
+                      className="px-2.5 py-1.5 text-xs font-bold rounded-full text-white/40 hover:text-white/70 hover:bg-white/10 transition-all"
                     >
                       {locale === "fr" ? "EN" : "FR"}
                     </button>
                     {mounted && (
                       <button
                         onClick={toggleTheme}
-                        className="p-2 rounded-full text-dark/30 hover:text-dark/60 hover:bg-dark/5 transition-all"
+                        className="p-2 rounded-full text-white/40 hover:text-white/70 hover:bg-white/10 transition-all"
                         aria-label={isDark ? "Mode clair" : "Mode sombre"}
                       >
                         {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
