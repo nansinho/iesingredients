@@ -9,6 +9,8 @@ import { createClient } from "@/lib/supabase/client";
 import { type Product } from "@/lib/product-types";
 import { ProductCard } from "@/components/catalog/ProductCard";
 
+const TARGET_COUNT = 6;
+
 export function MinimalProducts() {
   const t = useTranslations("products");
   const [products, setProducts] = useState<Product[]>([]);
@@ -18,8 +20,9 @@ export function MinimalProducts() {
 
     async function fetchFeatured() {
       const tables = ["cosmetique_fr", "parfum_fr", "aromes_fr"] as const;
-      const all: Product[] = [];
 
+      // Fetch up to 6 per table (with description preferred)
+      const byTable: Record<string, Product[]> = {};
       for (const table of tables) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { data } = await (supabase.from(table) as any)
@@ -27,17 +30,42 @@ export function MinimalProducts() {
           .eq("statut", "ACTIF")
           .not("description", "is", null)
           .order("nom_commercial", { ascending: true })
-          .limit(2);
+          .limit(6);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        byTable[table] = (data || []).map((p: any) => ({ ...p, _table: table }) as Product);
+      }
 
-        if (data) {
-          all.push(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ...data.map((p: any) => ({ ...p, _table: table }) as Product)
-          );
+      // Round-robin pick to get a balanced selection of 6 across the 3 universes
+      const result: Product[] = [];
+      for (let i = 0; i < TARGET_COUNT && result.length < TARGET_COUNT; i++) {
+        for (const table of tables) {
+          if (byTable[table][i] && result.length < TARGET_COUNT) {
+            result.push(byTable[table][i]);
+          }
         }
       }
 
-      if (all.length > 0) setProducts(all);
+      // Fallback: if still short, fetch without description filter
+      if (result.length < TARGET_COUNT) {
+        for (const table of tables) {
+          if (result.length >= TARGET_COUNT) break;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { data } = await (supabase.from(table) as any)
+            .select("*")
+            .eq("statut", "ACTIF")
+            .order("nom_commercial", { ascending: true })
+            .limit(TARGET_COUNT);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const tableProducts = (data || []).map((p: any) => ({ ...p, _table: table }) as Product);
+          const existingIds = new Set(result.map((p) => p.id));
+          for (const p of tableProducts) {
+            if (result.length >= TARGET_COUNT) break;
+            if (!existingIds.has(p.id)) result.push(p);
+          }
+        }
+      }
+
+      setProducts(result);
     }
 
     fetchFeatured();
@@ -71,7 +99,7 @@ export function MinimalProducts() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {products.map((product, index) => (
             <motion.div
-              key={product.id}
+              key={`${product._table}-${product.id}`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
