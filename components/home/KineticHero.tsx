@@ -148,13 +148,13 @@ export function KineticHero() {
 
         {/* Center — title */}
         <div className="flex-1 flex items-center justify-center px-6 sm:px-10 lg:px-16">
-          <div className="w-full max-w-5xl text-center mx-auto flex flex-col items-center">
+          <div className="w-full max-w-6xl text-center mx-auto flex flex-col items-center">
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="leading-[1.05] tracking-[-0.035em] font-medium"
-              style={{ fontSize: "clamp(2rem, 3.8vw, 4.5rem)" }}
+              className="leading-[1.05] tracking-[-0.035em] font-semibold"
+              style={{ fontSize: "clamp(2.25rem, 4.2vw, 4.5rem)" }}
             >
               <motion.span
                 initial={{ y: 60, opacity: 0 }}
@@ -168,7 +168,7 @@ export function KineticHero() {
                 initial={{ y: 60, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="block font-playfair italic mt-2"
+                className="block mt-2"
                 style={{ color: scene.accent, transition: "color 1.4s ease" }}
               >
                 de vos créations.
