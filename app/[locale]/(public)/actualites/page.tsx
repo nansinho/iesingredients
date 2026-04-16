@@ -5,10 +5,9 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import type { Database } from "@/lib/supabase/types";
 import { Link } from "@/i18n/routing";
-import { Newspaper, ArrowRight, Mail } from "lucide-react";
+import { Newspaper, ArrowUpRight, Mail, Sparkles } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
-import { AnimateIn, StaggerGrid, StaggerItem, HoverLift } from "@/components/ui/AnimateIn";
-import { ParallaxBackground } from "@/components/ui/ParallaxBackground";
+import { AnimateIn, StaggerGrid, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface CategoryData {
   slug: string;
@@ -43,9 +42,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
-  const description = locale === "fr"
-    ? "Actualités et articles sur les ingrédients naturels, tendances cosmétiques et innovations en parfumerie."
-    : "News and articles about natural ingredients, cosmetic trends and perfumery innovations.";
+  const description =
+    locale === "fr"
+      ? "Actualités et articles sur les ingrédients naturels, tendances cosmétiques et innovations en parfumerie."
+      : "News and articles about natural ingredients, cosmetic trends and perfumery innovations.";
 
   return {
     title: t("newsTitle"),
@@ -101,219 +101,256 @@ export default async function NewsPage({
         ]}
       />
 
-      {/* Hero */}
-      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <ParallaxBackground className="absolute inset-0">
+      {/* ═══ Hero — cinematic ═══ */}
+      <section className="relative min-h-[70vh] bg-brand-primary overflow-hidden flex items-center pt-32 pb-20">
+        <div className="absolute inset-0">
           <Image
             src="/images/cream-bowl.jpg"
             alt=""
             fill
             priority
-            className="object-cover"
+            className="object-cover opacity-30"
             sizes="100vw"
-            aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/75 to-brand-primary/40" />
-        </ParallaxBackground>
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-primary/85 to-brand-primary/55" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/55 via-transparent to-brand-primary" />
+        </div>
 
-        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-20 pt-40 text-center">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 80% 35%, hsl(var(--brand-accent) / 0.18) 0%, transparent 55%)" }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
+
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto w-full">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
-              <Newspaper className="w-3.5 h-3.5" />
-              Blog
-            </span>
+            <div className="flex items-center gap-3 mb-10">
+              <Sparkles className="w-3.5 h-3.5 text-brand-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/60">
+                {isFr ? "Journal" : "Journal"}
+              </span>
+              <div className="h-px flex-1 max-w-[180px] bg-white/15" />
+              <span className="text-[11px] font-mono text-white/30 hidden sm:inline">
+                {dbArticles.length} {isFr ? "articles" : "articles"}
+              </span>
+            </div>
           </AnimateIn>
+
           <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
-              {isFr ? "Nos" : "Our"}{" "}
-              <span className="font-playfair italic text-white">{isFr ? "Actualités" : "News"}</span>
+            <h1
+              className="text-white font-semibold tracking-[-0.035em] leading-[0.98] mb-6"
+              style={{ fontSize: "clamp(2.75rem, 6.5vw, 7rem)" }}
+            >
+              {isFr ? "Actualités," : "News,"}
+              <br />
+              <span className="text-brand-accent">{isFr ? "tendances, innovations." : "trends, innovations."}</span>
             </h1>
           </AnimateIn>
-          <AnimateIn delay={0.2}>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+
+          <AnimateIn delay={0.2} y={20}>
+            <p className="text-white/65 text-base sm:text-lg leading-relaxed max-w-xl">
               {isFr
-                ? "Dernières nouvelles et articles sur les ingrédients naturels, tendances et innovations."
-                : "Latest news and articles about natural ingredients, trends and innovations."}
+                ? "Nos regards sur le monde des ingrédients naturels — reportages, interviews et analyses sectorielles."
+                : "Our insights into the world of natural ingredients — reports, interviews and sector analyses."}
             </p>
           </AnimateIn>
         </div>
       </section>
 
-      {/* Featured Article */}
+      {/* ═══ Featured article ═══ */}
       {featuredArticle && (
-        <section className="py-20 md:py-28 bg-white">
+        <section className="py-20 md:py-24 bg-cream-light border-b border-dark/5">
           <div className="w-[94%] max-w-7xl mx-auto">
             <AnimateIn>
+              <div className="flex items-center gap-3 mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
+                  {isFr ? "À la une" : "Featured"}
+                </span>
+                <div className="h-px flex-1 bg-dark/8" />
+              </div>
+
               <Link
-                  href={{
-                    pathname: "/actualites/[slug]",
-                    params: { slug: (featuredArticle as BlogArticle).slug },
-                  }}
-                  className="group block"
-                >
-                  <h2 className="text-2xl font-semibold text-dark tracking-tight mb-6">
-                    {isFr ? "À la une" : "Featured"}
-                  </h2>
-                  <article className="grid md:grid-cols-2 gap-8 md:gap-12 items-center bg-[var(--color-cream-light)] rounded-3xl overflow-hidden border border-[var(--color-cream)] hover:border-brand-accent/20 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.06)]">
-                    <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[300px] overflow-hidden">
-                      {(featuredArticle as BlogArticle).cover_image_url ? (
-                        <Image
-                          src={(featuredArticle as BlogArticle).cover_image_url!}
-                          alt={isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-brand-primary/10 to-brand-accent-light/20" />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-dark/10" />
-                    </div>
-                    <div className="p-6 md:p-10 md:pr-12">
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className={`px-3 py-1 rounded-full text-[11px] font-semibold uppercase border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`} style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}>
-                          {getCategoryLabel(featuredArticle.category || "", locale, dbCategories)}
-                        </span>
-                        <time className="text-xs text-dark/40 font-medium">
-                          {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(
-                            locale,
-                            { year: "numeric", month: "long", day: "numeric" }
-                          )}
-                        </time>
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-bold text-dark group-hover:text-brand-accent transition-colors leading-tight mb-4">
-                        {isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
-                      </h2>
-                      <p className="text-dark/50 text-base leading-relaxed mb-6 line-clamp-3">
-                        {isFr ? featuredArticle.excerpt_fr : featuredArticle.excerpt_en || featuredArticle.excerpt_fr}
-                      </p>
-                      <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary group-hover:gap-3 transition-all duration-300">
-                        {isFr ? "Lire l'article" : "Read article"}
-                        <ArrowRight className="w-4 h-4" />
+                href={{
+                  pathname: "/actualites/[slug]",
+                  params: { slug: (featuredArticle as BlogArticle).slug },
+                }}
+                className="group block"
+              >
+                <article className="grid md:grid-cols-2 gap-0 bg-white rounded-3xl overflow-hidden border border-dark/5 hover:border-brand-accent/20 transition-all duration-500">
+                  <div className="relative aspect-[16/10] md:aspect-auto md:h-full min-h-[320px] overflow-hidden">
+                    {(featuredArticle as BlogArticle).cover_image_url ? (
+                      <Image
+                        src={(featuredArticle as BlogArticle).cover_image_url!}
+                        alt={isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-brand-primary/10 to-brand-accent-light/20" />
+                    )}
+                  </div>
+                  <div className="p-8 md:p-12 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-5">
+                      <span
+                        className={`px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.15em] border ${getCategoryStyle(featuredArticle.category || "", dbCategories).className}`}
+                        style={getCategoryStyle(featuredArticle.category || "", dbCategories).style}
+                      >
+                        {getCategoryLabel(featuredArticle.category || "", locale, dbCategories)}
                       </span>
+                      <time className="text-xs text-dark/40 font-mono">
+                        {new Date(featuredArticle.published_at || featuredArticle.created_at || "").toLocaleDateString(locale, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </time>
                     </div>
-                  </article>
-                </Link>
+                    <h2
+                      className="font-semibold text-dark leading-[1.1] tracking-[-0.02em] mb-4 group-hover:text-brand-accent transition-colors"
+                      style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.25rem)" }}
+                    >
+                      {isFr ? featuredArticle.title_fr : featuredArticle.title_en || featuredArticle.title_fr}
+                    </h2>
+                    <p className="text-dark/55 text-base leading-relaxed mb-6 line-clamp-3">
+                      {isFr ? featuredArticle.excerpt_fr : featuredArticle.excerpt_en || featuredArticle.excerpt_fr}
+                    </p>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-accent">
+                      {isFr ? "Lire l'article" : "Read article"}
+                      <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </span>
+                  </div>
+                </article>
+              </Link>
             </AnimateIn>
           </div>
         </section>
       )}
 
-      {/* Articles Grid */}
+      {/* ═══ All articles grid ═══ */}
       {restArticles.length > 0 && (
-        <section className="pb-24 md:pb-32 pt-8 bg-[var(--color-cream-light)]">
+        <section className="py-20 md:py-28 bg-cream-light">
           <div className="w-[94%] max-w-7xl mx-auto">
-            {/* Section header */}
             <AnimateIn className="mb-10">
-              <div className="flex items-center gap-4">
-                <h2 className="text-2xl font-semibold text-dark tracking-tight">
+              <div className="flex items-baseline gap-4">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-dark/40">
                   {isFr ? "Tous les articles" : "All articles"}
-                </h2>
-                <div className="flex-1 h-px bg-dark/6" />
-                <span className="text-sm text-dark/40 font-medium">
-                  {restArticles.length} {isFr ? "articles" : "articles"}
+                </span>
+                <div className="flex-1 h-px bg-dark/8" />
+                <span className="text-[11px] font-mono text-dark/40">
+                  {restArticles.length.toString().padStart(2, "0")}
                 </span>
               </div>
             </AnimateIn>
 
-            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {restArticles.map((article) => {
-                return (
-                  <StaggerItem key={article.id}>
-                    <HoverLift>
-                        <Link
-                          href={{
-                            pathname: "/actualites/[slug]",
-                            params: { slug: article.slug },
-                          }}
-                          className="group block"
-                        >
-                          <article className="relative h-full rounded-2xl overflow-hidden bg-white border border-brown/8 transition-all duration-500 hover:shadow-[0_20px_60px_rgba(200,168,168,0.12)] hover:-translate-y-2 flex flex-col">
-                            {/* Image */}
-                            <div className="relative aspect-[16/10] overflow-hidden">
-                              {article.cover_image_url ? (
-                                <Image
-                                  src={article.cover_image_url}
-                                  alt={isFr ? article.title_fr : article.title_en || article.title_fr}
-                                  fill
-                                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-gradient-to-br from-cream-light to-cream" />
-                              )}
-
-                              {/* Category badge */}
-                              <div className="absolute top-3 left-3">
-                                <span className={`inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-full text-white backdrop-blur-md border border-white/20`} style={getCategoryStyle(article.category || "", dbCategories).style}>
-                                  {getCategoryLabel(article.category || "", locale, dbCategories)}
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="px-5 pt-4 pb-5 flex flex-col flex-1">
-                              <time className="text-[11px] text-brand-accent font-semibold uppercase tracking-wider mb-2">
-                                {new Date(article.published_at || article.created_at || "").toLocaleDateString(
-                                  locale,
-                                  { day: "numeric", month: "long", year: "numeric" }
-                                )}
-                              </time>
-
-                              <h3 className="text-base font-bold text-dark leading-snug mb-2 line-clamp-2 group-hover:text-brand-accent transition-colors duration-300">
-                                {isFr ? article.title_fr : article.title_en || article.title_fr}
-                              </h3>
-
-                              <p className="text-sm leading-relaxed text-dark/50 line-clamp-2">
-                                {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
-                              </p>
-
-                              <span className="inline-flex items-center gap-2 text-sm font-semibold text-brand-primary mt-4 group-hover:gap-3 transition-all duration-300">
-                                {isFr ? "Lire l'article" : "Read article"}
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </span>
-                            </div>
-                          </article>
-                        </Link>
-                    </HoverLift>
-                  </StaggerItem>
-                );
-              })}
+            <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+              {restArticles.map((article) => (
+                <StaggerItem key={article.id}>
+                  <Link
+                    href={{
+                      pathname: "/actualites/[slug]",
+                      params: { slug: article.slug },
+                    }}
+                    className="group block h-full"
+                  >
+                    <article className="relative h-full rounded-2xl overflow-hidden bg-white border border-dark/5 hover:border-brand-accent/20 hover:-translate-y-1 transition-all duration-500 flex flex-col">
+                      <div className="relative aspect-[16/10] overflow-hidden">
+                        {article.cover_image_url ? (
+                          <Image
+                            src={article.cover_image_url}
+                            alt={isFr ? article.title_fr : article.title_en || article.title_fr}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-cream-light to-cream" />
+                        )}
+                        <div className="absolute top-3 left-3">
+                          <span
+                            className="inline-flex items-center px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] rounded-full backdrop-blur-md border border-white/20 text-white"
+                            style={getCategoryStyle(article.category || "", dbCategories).style}
+                          >
+                            {getCategoryLabel(article.category || "", locale, dbCategories)}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="px-6 pt-5 pb-6 flex flex-col flex-1">
+                        <time className="text-[10px] text-dark/35 font-mono uppercase tracking-[0.15em] mb-3">
+                          {new Date(article.published_at || article.created_at || "").toLocaleDateString(locale, {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </time>
+                        <h3 className="text-lg font-semibold text-dark leading-snug tracking-[-0.01em] mb-2 line-clamp-2 group-hover:text-brand-accent transition-colors">
+                          {isFr ? article.title_fr : article.title_en || article.title_fr}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-dark/55 line-clamp-2 mb-5">
+                          {isFr ? article.excerpt_fr : article.excerpt_en || article.excerpt_fr}
+                        </p>
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-accent mt-auto">
+                          {isFr ? "Lire" : "Read"}
+                          <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                        </span>
+                      </div>
+                    </article>
+                  </Link>
+                </StaggerItem>
+              ))}
             </StaggerGrid>
           </div>
         </section>
       )}
 
-      {/* Newsletter CTA */}
-      <section className="py-20 md:py-28 bg-[var(--color-cream-light)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[180px]" />
-        <div className="w-[94%] max-w-7xl mx-auto relative z-10 text-center">
-          <AnimateIn>
-            <Mail className="w-10 h-10 text-brand-accent/40 mx-auto mb-6" />
-            <h2 className="text-dark tracking-tight mb-4">
-              {isFr ? "Restez" : "Stay"}{" "}
-              <span className="font-playfair italic text-brand-accent">{isFr ? "informé" : "informed"}</span>
-            </h2>
-          </AnimateIn>
-          <AnimateIn delay={0.1}>
-            <p className="text-dark/50 text-lg max-w-xl mx-auto mb-8">
-              {isFr
-                ? "Recevez nos dernières actualités et innovations directement dans votre boîte mail."
-                : "Receive our latest news and innovations directly in your inbox."}
-            </p>
-          </AnimateIn>
-          <AnimateIn delay={0.2} y={15}>
-            <div className="flex gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder={isFr ? "Votre adresse email" : "Your email address"}
-                className="h-12 px-5 rounded-full bg-white border border-brand-primary/10 text-sm text-dark placeholder:text-dark/35 focus:outline-none focus:ring-2 focus:ring-brand-accent/30 flex-1"
-              />
-              <button className="h-12 px-6 rounded-full bg-brand-primary text-white text-sm font-semibold hover:bg-[var(--color-charcoal)] transition-colors duration-300 shrink-0">
-                {isFr ? "S'inscrire" : "Subscribe"}
-              </button>
+      {/* ═══ Newsletter ═══ */}
+      <section className="py-20 md:py-24 bg-brand-primary border-t border-white/5">
+        <div className="w-[94%] max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <Mail className="w-3.5 h-3.5 text-brand-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/50">
+                {isFr ? "Newsletter" : "Newsletter"}
+              </span>
             </div>
-          </AnimateIn>
+            <h2
+              className="text-white font-semibold tracking-[-0.03em] leading-[1.05] mb-4"
+              style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+            >
+              {isFr ? "Restez informé" : "Stay informed"}{" "}
+              <span className="text-brand-accent">{isFr ? "chaque mois." : "every month."}</span>
+            </h2>
+            <p className="text-white/55 text-sm leading-relaxed max-w-md">
+              {isFr
+                ? "Nos meilleurs articles, interviews et nouveautés ingrédients — sans spam, sans fréquence abusive."
+                : "Our best articles, interviews and ingredient news — no spam, no excess frequency."}
+            </p>
+          </div>
+          <form className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="email"
+              placeholder={isFr ? "Votre adresse email" : "Your email"}
+              className="h-12 px-5 rounded-full bg-white/8 border border-white/15 text-sm text-white placeholder:text-white/35 focus:outline-none focus:ring-2 focus:ring-brand-accent/40 focus:border-brand-accent/40 flex-1 backdrop-blur-sm"
+            />
+            <button
+              type="submit"
+              className="h-12 px-6 rounded-full bg-brand-accent hover:bg-brand-accent-hover text-white text-sm font-semibold transition-colors shrink-0 inline-flex items-center justify-center gap-2"
+            >
+              {isFr ? "S'inscrire" : "Subscribe"}
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
+          </form>
         </div>
       </section>
     </>

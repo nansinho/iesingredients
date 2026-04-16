@@ -6,6 +6,7 @@ import Image from "next/image";
 import {
   Search, X, Leaf, FlaskConical, Droplets, MessageCircle,
   ArrowRight, ArrowLeft, SlidersHorizontal, ChevronDown, Check,
+  Sparkles, ArrowUpRight,
 } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Button } from "@/components/ui/button";
@@ -682,43 +683,78 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
 
   return (
     <>
-      {/* ── Hero — style actualités ── */}
-      <section ref={heroRef} className="relative min-h-[50vh] flex items-end overflow-hidden">
+      {/* ── Hero — cinematic editorial ── */}
+      <section ref={heroRef} className="relative min-h-[55vh] bg-brand-primary overflow-hidden flex items-center pt-32 pb-12">
         <ParallaxBackground className="absolute inset-0">
           <Image
             src={currentCat ? currentCat.banner : "/images/hero-botanical.jpg"}
-            alt="Catalogue IES Ingredients"
+            alt=""
             fill
             priority
-            className="object-cover"
+            className="object-cover opacity-30"
             sizes="100vw"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/75 to-brand-primary/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-primary/85 to-brand-primary/55" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/55 via-transparent to-brand-primary" />
         </ParallaxBackground>
 
-        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-16 pt-40 text-center">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 80% 35%, hsl(var(--brand-accent) / 0.18) 0%, transparent 55%)" }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
+
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto w-full">
           <AnimateIn>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.15em] mb-5 backdrop-blur-sm">
-              <Search className="w-3.5 h-3.5" />
-              Catalogue
-            </span>
+            <div className="flex items-center gap-3 mb-8">
+              <Sparkles className="w-3.5 h-3.5 text-brand-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/60">
+                Catalogue
+              </span>
+              <div className="h-px flex-1 max-w-[180px] bg-white/15" />
+              <span className="text-[11px] font-mono text-white/30 hidden sm:inline">
+                {allProducts.length}+ références
+              </span>
+            </div>
           </AnimateIn>
+
           <AnimateIn delay={0.1} y={30}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.03em] leading-[1.05] mb-6">
+            <h1
+              className="text-white font-semibold tracking-[-0.035em] leading-[0.98] mb-6"
+              style={{ fontSize: "clamp(2.5rem, 5.5vw, 6rem)" }}
+            >
               {currentCat ? (
-                <>{currentCat.label}</>
+                <>
+                  Catalogue
+                  <br />
+                  <span className="text-brand-accent">{currentCat.label}.</span>
+                </>
               ) : (
-                <>Nos{" "}<span className="font-playfair italic">ingrédients</span></>
+                <>
+                  Nos ingrédients
+                  <br />
+                  <span className="text-brand-accent">d&apos;exception.</span>
+                </>
               )}
             </h1>
           </AnimateIn>
-          <AnimateIn delay={0.2}>
-            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+
+          <AnimateIn delay={0.2} y={20}>
+            <p className="text-white/65 text-base sm:text-lg leading-relaxed max-w-xl">
               {currentCat
                 ? currentCat.description
-                : `${allProducts.length} ingrédients pour la parfumerie, cosmétique et arômes alimentaires.`
-              }
+                : `Naturels, absolues et molécules de synthèse pour la parfumerie, la cosmétique et les arômes.`}
             </p>
           </AnimateIn>
         </div>
@@ -766,8 +802,7 @@ export function CatalogClient({ allProducts, initialCategory = "" }: { allProduc
                         )}
                       >
                         <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                        <span className="hidden sm:inline">{cat.label}</span>
-                        <span className="sm:hidden">{cat.label.slice(0, 5)}.</span>
+                        <span>{cat.label}</span>
                       </Link>
                     );
                   })}

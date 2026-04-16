@@ -1,5 +1,6 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Mail, Phone, MapPin, Clock, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, CheckCircle2, ArrowUpRight, Sparkles } from "lucide-react";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { AnimateIn } from "@/components/ui/AnimateIn";
@@ -48,57 +49,112 @@ export default async function ContactPage({
         ]}
       />
 
-      {/* ═══ Hero — minimal ═══ */}
-      <section className="relative bg-brand-primary pt-32 sm:pt-40 pb-16 overflow-hidden">
-        {/* Subtle radial accent */}
+      {/* ═══ Hero — cinematic ═══ */}
+      <section className="relative min-h-[70vh] bg-brand-primary overflow-hidden flex items-center pt-32 pb-20">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/Parfum/Parfum Banniere.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover opacity-35"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-primary/85 to-brand-primary/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/50 via-transparent to-brand-primary" />
+        </div>
+
+        {/* Radial accent */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-60"
+          className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 20% 30%, hsl(var(--brand-accent) / 0.15) 0%, transparent 50%)",
+              "radial-gradient(circle at 75% 40%, hsl(var(--brand-accent) / 0.18) 0%, transparent 55%)",
           }}
         />
+
         {/* Dotted grid */}
         <div
-          className="absolute inset-0 opacity-[0.06] pointer-events-none"
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
           style={{
             backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
             backgroundSize: "32px 32px",
           }}
         />
 
-        <div className="relative z-10 w-[94%] max-w-7xl mx-auto">
+        {/* Film grain */}
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
+
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto w-full">
           <AnimateIn>
-            <div className="flex items-center gap-3 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/50">
-                Contact
+            <div className="flex items-center gap-3 mb-10">
+              <Sparkles className="w-3.5 h-3.5 text-brand-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/60">
+                {isFr ? "Contact" : "Get in touch"}
               </span>
-              <div className="h-px flex-1 max-w-xs bg-white/10" />
+              <div className="h-px flex-1 max-w-[180px] bg-white/15" />
+              <span className="text-[11px] font-mono text-white/30 hidden sm:inline">
+                Allauch · Provence
+              </span>
             </div>
           </AnimateIn>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-            <AnimateIn delay={0.1} y={30} className="lg:col-span-7">
-              <h1
-                className="text-white font-semibold tracking-[-0.03em] leading-[1.05]"
-                style={{ fontSize: "clamp(2.25rem, 4.5vw, 4.5rem)" }}
-              >
-                {isFr ? "Parlons de" : "Let's discuss"}
-                <br />
-                <span className="text-white/80">{isFr ? "vos projets." : "your projects."}</span>
-              </h1>
-            </AnimateIn>
-            <AnimateIn delay={0.2} y={20} className="lg:col-span-5">
-              <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-md">
+          <AnimateIn delay={0.1} y={30}>
+            <h1
+              className="text-white font-semibold tracking-[-0.035em] leading-[0.98] mb-6"
+              style={{ fontSize: "clamp(2.75rem, 6.5vw, 7rem)" }}
+            >
+              {isFr ? "Parlons de" : "Let's discuss"}
+              <br />
+              <span className="text-brand-accent">{isFr ? "vos projets." : "your projects."}</span>
+            </h1>
+          </AnimateIn>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mt-8">
+            <AnimateIn delay={0.2} y={20} className="lg:col-span-6">
+              <p className="text-white/65 text-base sm:text-lg leading-relaxed max-w-xl">
                 {isFr
-                  ? "Notre équipe d'experts est à votre disposition pour répondre à vos questions sur nos ingrédients."
-                  : "Our team of experts is available to answer all your questions about our ingredients."}
+                  ? "Notre équipe d'experts est à votre disposition pour répondre à vos questions sur nos ingrédients, échantillons et formulations."
+                  : "Our team of experts is available to answer all your questions about our ingredients, samples and formulations."}
               </p>
-              <div className="mt-6 flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] text-white/40 font-semibold">
-                <span>Réponse sous 24h</span>
-                <span className="text-white/20">·</span>
-                <span>Allauch, Provence</span>
+            </AnimateIn>
+
+            <AnimateIn delay={0.3} y={20} className="lg:col-span-6">
+              <div className="flex flex-wrap items-center gap-6 lg:justify-end">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white/8 border border-white/15 flex items-center justify-center">
+                    <Clock className="w-4 h-4 text-brand-accent" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold">
+                      {isFr ? "Délai" : "Response"}
+                    </div>
+                    <div className="text-sm font-semibold text-white">
+                      {isFr ? "Réponse sous 24h" : "Within 24h"}
+                    </div>
+                  </div>
+                </div>
+                <div className="h-8 w-px bg-white/10 hidden sm:block" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white/8 border border-white/15 flex items-center justify-center">
+                    <CheckCircle2 className="w-4 h-4 text-brand-accent" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-semibold">
+                      {isFr ? "Échantillons" : "Samples"}
+                    </div>
+                    <div className="text-sm font-semibold text-white">
+                      {isFr ? "Offerts" : "Free"}
+                    </div>
+                  </div>
+                </div>
               </div>
             </AnimateIn>
           </div>

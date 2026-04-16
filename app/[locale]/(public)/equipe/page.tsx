@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
-import { Users, Mail, ArrowRight } from "lucide-react";
+import { Users, Mail, ArrowUpRight, Sparkles } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { BreadcrumbJsonLd } from "@/components/seo/JsonLd";
 import { TeamPageClient } from "@/components/team/TeamPageClient";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export async function generateMetadata({
   params,
@@ -53,50 +54,78 @@ export default async function TeamPage({
     <>
       <BreadcrumbJsonLd
         items={[
-          {
-            name: "IES Ingredients",
-            url: `https://ies-ingredients.com/${locale}`,
-          },
-          {
-            name: isFr ? "Équipe" : "Team",
-            url: `https://ies-ingredients.com/${locale}/${isFr ? "equipe" : "team"}`,
-          },
+          { name: "IES Ingredients", url: `https://ies-ingredients.com/${locale}` },
+          { name: isFr ? "Équipe" : "Team", url: `https://ies-ingredients.com/${locale}/${isFr ? "equipe" : "team"}` },
         ]}
       />
 
-      {/* Compact hero with image */}
-      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        <Image
-          src="/images/botanicals-flat.jpg"
-          alt=""
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-primary via-brand-primary/70 to-brand-primary/30" />
+      {/* ═══ Hero — cinematic ═══ */}
+      <section className="relative min-h-[70vh] bg-brand-primary overflow-hidden flex items-center pt-32 pb-20">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/botanicals-flat.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover opacity-30"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-primary via-brand-primary/85 to-brand-primary/55" />
+          <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/50 via-transparent to-brand-primary" />
+        </div>
 
-        <div className="relative z-10 w-[94%] max-w-7xl mx-auto pb-10 pt-32">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.12em] mb-4 backdrop-blur-sm">
-            <Users className="w-3.5 h-3.5" />
-            {isFr ? "Notre équipe" : "Our team"}
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-[-0.02em] leading-[1.1]">
-            {isFr ? "Les experts" : "The experts"}{" "}
-            <span className="font-playfair italic text-white">
-              IES
-            </span>
-          </h1>
-          <p className="text-white/60 text-base md:text-lg max-w-xl mt-3 leading-relaxed">
-            {isFr
-              ? "Une équipe passionnée au service de vos projets en ingrédients naturels."
-              : "A passionate team dedicated to your natural ingredient projects."}
-          </p>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle at 75% 40%, hsl(var(--brand-accent) / 0.18) 0%, transparent 55%)" }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "32px 32px" }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          }}
+        />
+
+        <div className="relative z-10 w-[94%] max-w-7xl mx-auto w-full">
+          <AnimateIn>
+            <div className="flex items-center gap-3 mb-10">
+              <Sparkles className="w-3.5 h-3.5 text-brand-accent" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.3em] text-white/60">
+                {isFr ? "L'équipe" : "The team"}
+              </span>
+              <div className="h-px flex-1 max-w-[180px] bg-white/15" />
+              <span className="text-[11px] font-mono text-white/30 hidden sm:inline">
+                {(members?.length || 0)} {isFr ? "expert" : "expert"}{(members?.length || 0) > 1 ? "s" : ""}
+              </span>
+            </div>
+          </AnimateIn>
+
+          <AnimateIn delay={0.1} y={30}>
+            <h1
+              className="text-white font-semibold tracking-[-0.035em] leading-[0.98] mb-6"
+              style={{ fontSize: "clamp(2.75rem, 6.5vw, 7rem)" }}
+            >
+              {isFr ? "Les experts" : "The experts"}
+              <br />
+              <span className="text-brand-accent">{isFr ? "derrière IES." : "behind IES."}</span>
+            </h1>
+          </AnimateIn>
+
+          <AnimateIn delay={0.2} y={20}>
+            <p className="text-white/65 text-base sm:text-lg leading-relaxed max-w-xl">
+              {isFr
+                ? "Une équipe passionnée, multiculturelle et engagée au service de vos projets en ingrédients naturels."
+                : "A passionate, multicultural and committed team dedicated to your natural ingredient projects."}
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
-      {/* Team directory */}
+      {/* ═══ Team directory ═══ */}
       <TeamPageClient
         members={(members || []).map((m: Record<string, unknown>) => ({
           id: m.id as string,
@@ -115,28 +144,44 @@ export default async function TeamPage({
         locale={locale}
       />
 
-      {/* Contact CTA */}
-      <section className="py-16 md:py-20 bg-[var(--color-cream-light)]">
-        <div className="w-[94%] max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold text-dark tracking-tight mb-3">
-            {isFr ? "Envie de" : "Want to"}{" "}
-            <span className="font-playfair italic text-brand-accent">
-              {isFr ? "collaborer ?" : "collaborate?"}
+      {/* ═══ CTA — minimal ═══ */}
+      <section className="py-20 md:py-24 bg-cream-light border-t border-dark/5">
+        <div className="w-[94%] max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-dark/40 block mb-4">
+              {isFr ? "Collaborer" : "Collaborate"}
             </span>
-          </h2>
-          <p className="text-brand-primary/45 text-base max-w-lg mx-auto mb-6">
-            {isFr
-              ? "Contactez notre équipe pour discuter de vos besoins en ingrédients naturels."
-              : "Contact our team to discuss your natural ingredient needs."}
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-brand-primary text-white text-sm font-semibold hover:bg-[var(--color-charcoal)] transition-colors duration-200 shadow-md"
-          >
-            <Mail className="w-4 h-4" />
-            {isFr ? "Nous contacter" : "Contact us"}
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+            <h2
+              className="text-dark font-semibold tracking-[-0.03em] leading-[1.05]"
+              style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+            >
+              {isFr ? "Parlons de vos" : "Let's discuss your"}{" "}
+              <span className="text-brand-accent">{isFr ? "besoins." : "needs."}</span>
+            </h2>
+          </div>
+          <div className="md:text-right space-y-4">
+            <p className="text-dark/55 text-base leading-relaxed">
+              {isFr
+                ? "Contactez notre équipe pour vos projets en ingrédients naturels, échantillons ou formulations."
+                : "Contact our team for your natural ingredient projects, samples or formulations."}
+            </p>
+            <div className="flex flex-wrap gap-3 md:justify-end">
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-2 bg-brand-accent hover:bg-brand-accent-hover text-white rounded-full px-7 py-3.5 text-sm font-semibold shadow-lg shadow-brand-accent/20 transition-all"
+              >
+                <Mail className="w-4 h-4" />
+                <span>{isFr ? "Nous contacter" : "Contact us"}</span>
+                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+              <Link
+                href="/catalogue"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-dark/70 hover:text-dark transition-colors border-b border-dark/20 hover:border-dark/60 pb-1"
+              >
+                <span>{isFr ? "Explorer le catalogue" : "Explore the catalog"}</span>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </>

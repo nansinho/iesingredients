@@ -107,15 +107,6 @@ export function ContactForm() {
 
   return (
     <div>
-      <h2 className="font-playfair italic text-3xl text-[var(--color-charcoal)] mb-2">
-        {isFr ? "Envoyez-nous un message" : "Send us a message"}
-      </h2>
-      <p className="text-brand-primary/45 mb-8">
-        {isFr
-          ? "Remplissez le formulaire ci-dessous et nous vous répondrons rapidement."
-          : "Fill out the form below and we will get back to you quickly."}
-      </p>
-
       {status === "success" && (
         <div className="mb-6 p-4 rounded-xl bg-brand-accent/10 border border-brand-accent/20 text-brand-secondary">
           <p className="font-medium">
