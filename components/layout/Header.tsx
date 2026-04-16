@@ -19,6 +19,7 @@ import {
   ChevronRight,
   Instagram,
   Linkedin,
+  ArrowUpRight,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -50,6 +51,16 @@ const catalogColumns = [
     titleKey: "cosmetic" as const,
     icon: Leaf,
     accent: "#5B7B6B",
+    image: "/images/Cosmetique/Portrait Cosmetique.jpg",
+    tagline: "Actifs botaniques & extraits naturels",
+    totalFamilies: 6,
+    typeLabel: "Catégorie",
+    families: [
+      { name: "Actifs", image: "/catalogues/Famille Cosmetiques/actifs.jpg" },
+      { name: "Extraits végétaux", image: "/catalogues/Famille Cosmetiques/extrait_vegetaux.jpg" },
+      { name: "Huiles essentielles", image: "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg" },
+      { name: "Performance", image: "/catalogues/Famille Cosmetiques/performance.jpg" },
+    ],
     subKeys: ["cosmeticSub1", "cosmeticSub2", "cosmeticSub3", "cosmeticSub4"] as const,
   },
   {
@@ -57,6 +68,16 @@ const catalogColumns = [
     titleKey: "perfume" as const,
     icon: FlaskConical,
     accent: "#8B6A80",
+    image: "/images/Parfum/Parfum Portrait.jpg",
+    tagline: "Absolues, naturels & molécules de synthèse",
+    totalFamilies: 16,
+    typeLabel: "Famille olfactive",
+    families: [
+      { name: "Floral", image: "/catalogues/Famille Parfums/floral.jpg" },
+      { name: "Boisé", image: "/catalogues/Famille Parfums/boise.jpg" },
+      { name: "Hespéridé", image: "/catalogues/Famille Parfums/hesperide.jpg" },
+      { name: "Ambré", image: "/catalogues/Famille Parfums/ambre.jpg" },
+    ],
     subKeys: ["perfumeSub1", "perfumeSub2", "perfumeSub3", "perfumeSub4"] as const,
   },
   {
@@ -64,6 +85,16 @@ const catalogColumns = [
     titleKey: "aroma" as const,
     icon: Droplets,
     accent: "#D4907E",
+    image: "/images/Aromes/Aromes Portrait.jpg",
+    tagline: "Arômes naturels & de synthèse",
+    totalFamilies: 6,
+    typeLabel: "Gamme",
+    families: [
+      { name: "Citrus", image: "/catalogues/Famille Aromes/citrus.jpg" },
+      { name: "Kitchen", image: "/catalogues/Famille Aromes/kitchen.jpg" },
+      { name: "High Intensity", image: "/catalogues/Famille Aromes/high_intensity.jpg" },
+      { name: "Wellness & Nutrition", image: "/catalogues/Famille Aromes/wellness_nutrition.jpg" },
+    ],
     subKeys: ["aromaSub1", "aromaSub2", "aromaSub3", "aromaSub4"] as const,
   },
 ];
@@ -513,73 +544,122 @@ export function Header() {
               onMouseEnter={cancelClose}
               onMouseLeave={closeMega}
             >
-              <div className="bg-white/98 backdrop-blur-xl border-t border-b border-dark/5 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-                <div className="w-[94%] mx-auto py-8">
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-dark/5">
-                    <span className="text-xs font-semibold uppercase tracking-[0.15em] text-dark/30">
-                      {t("catalogueMenu")}
-                    </span>
-                    <Link
-                      href="/catalogue"
-                      onClick={closeMenus}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-nav-active hover:opacity-80 transition-colors"
-                    >
-                      {t("allProducts")}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-8">
+              <div className="bg-brand-primary/98 backdrop-blur-2xl border-t border-b border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.3)]">
+                <div className="w-[94%] mx-auto py-10">
+                  {/* ═══ TOP — 3 universe cards (ThreeUniverses style, compact) ═══ */}
+                  <div className="grid grid-cols-3 gap-4 mb-8">
                     {catalogColumns.map((col) => {
                       const Icon = col.icon;
+                      const href = col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes";
                       return (
-                        <div key={col.id} className="group/col">
-                          <Link
-                            href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
-                            onClick={closeMenus}
-                            className="flex items-center gap-2.5 mb-4 group/link"
+                        <Link
+                          key={col.id}
+                          href={href}
+                          onClick={closeMenus}
+                          className="group/card block relative rounded-2xl overflow-hidden h-[150px] flex"
+                        >
+                          {/* Vertical strip */}
+                          <div
+                            className="relative z-10 w-10 shrink-0 flex items-center justify-center"
+                            style={{ backgroundColor: col.accent }}
                           >
-                            <div
-                              className="w-9 h-9 rounded-lg flex items-center justify-center transition-transform duration-200 group-hover/link:scale-110"
-                              style={{ background: `${col.accent}12` }}
+                            <span
+                              className="text-white text-[11px] font-bold uppercase tracking-[0.25em] select-none whitespace-nowrap"
+                              style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                             >
-                              <Icon className="w-5 h-5" style={{ color: col.accent }} />
-                            </div>
-                            <span className="text-lg font-bold tracking-[-0.01em]" style={{ color: col.accent }}>
                               {cat(col.titleKey)}
                             </span>
-                            <ChevronRight
-                              className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover/link:opacity-60 group-hover/link:translate-x-0 transition-all duration-200"
-                              style={{ color: col.accent }}
+                          </div>
+
+                          {/* Image + content */}
+                          <div className="relative flex-1 overflow-hidden">
+                            <Image
+                              src={col.image}
+                              alt={cat(col.titleKey)}
+                              fill
+                              sizes="(max-width: 1024px) 33vw, 25vw"
+                              className="object-cover transition-transform duration-700 ease-out group-hover/card:scale-105"
                             />
-                          </Link>
-                          <ul className="space-y-0.5">
-                            {col.subKeys.map((subKey) => (
-                              <li key={subKey}>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+
+                            <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
+                              <div>
+                                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2 backdrop-blur-sm" style={{ background: "rgba(255,255,255,0.15)" }}>
+                                  <Icon className="w-4 h-4 text-white" />
+                                </div>
+                                <div className="text-base font-semibold text-white leading-tight">
+                                  {cat(col.titleKey)}
+                                </div>
+                                <div className="text-[11px] text-white/60 uppercase tracking-wider mt-0.5">
+                                  {col.totalFamilies} familles
+                                </div>
+                              </div>
+                              <ArrowUpRight className="w-4 h-4 text-white/70 group-hover/card:text-white group-hover/card:rotate-45 transition-all duration-300" />
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  {/* ═══ BOTTOM — family lists under each universe ═══ */}
+                  <div className="grid grid-cols-3 gap-4">
+                    {catalogColumns.map((col) => {
+                      const href = col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes";
+                      return (
+                        <div key={col.id} className="px-2">
+                          <ul className="space-y-px">
+                            {col.families.slice(0, 5).map((family) => (
+                              <li key={family.name}>
                                 <Link
-                                  href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
+                                  href={href}
                                   onClick={closeMenus}
-                                  className="block py-2 px-3 -mx-3 rounded-lg text-[13.5px] text-dark/45 hover:text-dark hover:bg-dark/[0.03] transition-all duration-150"
+                                  className="group/item flex items-center justify-between py-2 text-[14px] text-white/60 hover:text-white transition-colors border-b border-white/[0.06]"
                                 >
-                                  {t(subKey)}
+                                  <span>{family.name}</span>
+                                  <ArrowRight className="w-3.5 h-3.5 text-white/25 opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300" />
                                 </Link>
                               </li>
                             ))}
-                            <li>
-                              <Link
-                                href={col.id === "cosmetique" ? "/catalogue/cosmetique" : col.id === "parfum" ? "/catalogue/parfumerie" : "/catalogue/aromes"}
-                                onClick={closeMenus}
-                                className="inline-flex items-center gap-1 mt-2 py-1 text-[13px] font-medium transition-all duration-200 hover:gap-2"
-                                style={{ color: col.accent }}
-                              >
-                                {t("viewAll")}
-                                <ArrowRight className="w-3 h-3" />
-                              </Link>
-                            </li>
                           </ul>
+                          <Link
+                            href={href}
+                            onClick={closeMenus}
+                            className="group/all inline-flex items-center gap-1.5 text-xs font-semibold mt-3 transition-colors"
+                            style={{ color: col.accent }}
+                          >
+                            <span>Voir les {col.totalFamilies} familles</span>
+                            <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover/all:translate-x-0.5" />
+                          </Link>
                         </div>
                       );
                     })}
+                  </div>
+
+                  {/* ═══ FOOTER — global CTAs ═══ */}
+                  <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-6">
+                      <Link
+                        href="/catalogue"
+                        onClick={closeMenus}
+                        className="group/cta inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-brand-accent transition-colors"
+                      >
+                        <Search className="w-4 h-4" />
+                        <span>Voir tout le catalogue</span>
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5" />
+                      </Link>
+                      <Link
+                        href="/contact"
+                        onClick={closeMenus}
+                        className="group/cta inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
+                      >
+                        <span>Demander un échantillon</span>
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5" />
+                      </Link>
+                    </div>
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">
+                      500+ références · 28 familles
+                    </span>
                   </div>
                 </div>
               </div>
