@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   Menu,
-  X,
   Search,
   ArrowRight,
   User,
@@ -12,13 +12,7 @@ import {
   Shield,
   Sun,
   Moon,
-  Leaf,
-  FlaskConical,
-  Droplets,
   ChevronDown,
-  ChevronRight,
-  Instagram,
-  Linkedin,
   ArrowUpRight,
 } from "lucide-react";
 import {
@@ -36,68 +30,17 @@ import { createClient } from "@/lib/supabase/client";
 import { SampleCartSheet } from "@/components/cart/SampleCartSheet";
 import { useTheme } from "next-themes";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { socialLinks, catalogColumns } from "@/components/layout/header-nav";
 
-/* ────────────────────────────────────────
-   Mega-menu data — 3 category columns
-   ──────────────────────────────────────── */
-const socialLinks = [
-  { name: "Instagram", icon: Instagram, url: "https://www.instagram.com/ies_ingredients/", color: "#E1306C" },
-  { name: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/company/ies-ingredients/", color: "#0A66C2" },
-];
-
-const catalogColumns = [
-  {
-    id: "cosmetique",
-    titleKey: "cosmetic" as const,
-    icon: Leaf,
-    accent: "#5B7B6B",
-    image: "/images/Cosmetique/Portrait Cosmetique.jpg",
-    tagline: "Actifs botaniques & extraits naturels",
-    totalFamilies: 6,
-    typeLabel: "Catégorie",
-    families: [
-      { name: "Actifs", image: "/catalogues/Famille Cosmetiques/actifs.jpg" },
-      { name: "Extraits végétaux", image: "/catalogues/Famille Cosmetiques/extrait_vegetaux.jpg" },
-      { name: "Huiles essentielles", image: "/catalogues/Famille Cosmetiques/huiles_essentielles.jpg" },
-      { name: "Performance", image: "/catalogues/Famille Cosmetiques/performance.jpg" },
-    ],
-    subKeys: ["cosmeticSub1", "cosmeticSub2", "cosmeticSub3", "cosmeticSub4"] as const,
-  },
-  {
-    id: "parfum",
-    titleKey: "perfume" as const,
-    icon: FlaskConical,
-    accent: "#8B6A80",
-    image: "/images/Parfum/Parfum Portrait.jpg",
-    tagline: "Absolues, naturels & molécules de synthèse",
-    totalFamilies: 16,
-    typeLabel: "Famille olfactive",
-    families: [
-      { name: "Floral", image: "/catalogues/Famille Parfums/floral.jpg" },
-      { name: "Boisé", image: "/catalogues/Famille Parfums/boise.jpg" },
-      { name: "Hespéridé", image: "/catalogues/Famille Parfums/hesperide.jpg" },
-      { name: "Ambré", image: "/catalogues/Famille Parfums/ambre.jpg" },
-    ],
-    subKeys: ["perfumeSub1", "perfumeSub2", "perfumeSub3", "perfumeSub4"] as const,
-  },
-  {
-    id: "arome",
-    titleKey: "aroma" as const,
-    icon: Droplets,
-    accent: "#D4907E",
-    image: "/images/Aromes/Aromes Portrait.jpg",
-    tagline: "Arômes naturels & de synthèse",
-    totalFamilies: 6,
-    typeLabel: "Gamme",
-    families: [
-      { name: "Citrus", image: "/catalogues/Famille Aromes/citrus.jpg" },
-      { name: "Kitchen", image: "/catalogues/Famille Aromes/kitchen.jpg" },
-      { name: "High Intensity", image: "/catalogues/Famille Aromes/high_intensity.jpg" },
-      { name: "Wellness & Nutrition", image: "/catalogues/Famille Aromes/wellness_nutrition.jpg" },
-    ],
-    subKeys: ["aromaSub1", "aromaSub2", "aromaSub3", "aromaSub4"] as const,
-  },
-];
+// Lazy-loaded overlays: their code only ships once the user actually opens them.
+const HeaderMobileMenu = dynamic(
+  () => import("./HeaderMobileMenu").then((m) => m.HeaderMobileMenu),
+  { ssr: false },
+);
+const HeaderSearchOverlay = dynamic(
+  () => import("./HeaderSearchOverlay").then((m) => m.HeaderSearchOverlay),
+  { ssr: false },
+);
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -105,15 +48,16 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
-  const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
+  // Only mount lazy overlays after their first open to keep initial JS small.
+  const [hasMobileMenuLoaded, setHasMobileMenuLoaded] = useState(false);
+  const [hasSearchOverlayLoaded, setHasSearchOverlayLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const megaRef = useRef<HTMLDivElement>(null);
   const megaTriggerRef = useRef<HTMLButtonElement>(null);
   const megaTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -138,6 +82,7 @@ export function Header() {
         if (window.innerWidth >= 1024) {
           searchInputRef.current?.focus();
         } else {
+          setHasSearchOverlayLoaded(true);
           setSearchOpen((prev) => !prev);
         }
       }
@@ -348,7 +293,10 @@ export function Header() {
 
               {/* Mobile Search */}
               <button
-                onClick={() => setSearchOpen(!searchOpen)}
+                onClick={() => {
+                  setHasSearchOverlayLoaded(true);
+                  setSearchOpen((prev) => !prev);
+                }}
                 className="lg:hidden p-2 rounded-full transition-colors duration-200 text-white/50 hover:text-white hover:bg-white/10"
                 aria-label="Search"
               >
@@ -357,7 +305,10 @@ export function Header() {
 
               {/* Mobile Menu Trigger */}
               <button
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                  setHasMobileMenuLoaded(true);
+                  setIsOpen(true);
+                }}
                 className="lg:hidden p-2 rounded-full transition-colors duration-200 ml-0.5 text-white/50 hover:text-white hover:bg-white/10"
                 aria-label="Menu"
               >
@@ -668,328 +619,17 @@ export function Header() {
         </AnimatePresence>
       </motion.header>
 
-      {/* ═══════════════════════════════════════
-         Mobile Full-Screen Menu
-         ═══════════════════════════════════════ */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] lg:hidden"
-          >
-            {/* Backdrop */}
-            <div
-              className="absolute inset-0 bg-dark/40 backdrop-blur-sm"
-              onClick={() => setIsOpen(false)}
-            />
-
-            {/* Panel */}
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 32, stiffness: 350 }}
-              className="absolute inset-y-0 right-0 w-full sm:max-w-[440px] bg-brand-primary flex flex-col shadow-2xl"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Menu de navigation"
-            >
-              {/* ── Header ── */}
-              <div className="flex items-center justify-between px-6 h-16 shrink-0 border-b border-white/10">
-                <Image
-                  src="/images/logo-ies.png"
-                  alt="IES Ingredients"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto brightness-0 invert"
-                />
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-all duration-200"
-                  aria-label="Fermer le menu"
-                  autoFocus
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* ── Scrollable Content ── */}
-              <div className="flex-1 overflow-y-auto overscroll-contain">
-                <nav className="px-6 pt-2 pb-6">
-                  {/* Accueil */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <Link
-                      href={homeItem.href}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "flex items-center justify-between py-4 border-b border-white/10 transition-colors",
-                        pathname === homeItem.href
-                          ? "text-white font-semibold"
-                          : "text-white/70 active:text-white"
-                      )}
-                    >
-                      <span className="text-lg">{homeItem.label}</span>
-                      {pathname === homeItem.href && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
-                      )}
-                    </Link>
-                  </motion.div>
-
-                  {/* Catalogue (expandable) */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.12, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <button
-                      onClick={() =>
-                        setMobileExpandedCat(mobileExpandedCat === "catalogue" ? null : "catalogue")
-                      }
-                      className={cn(
-                        "w-full flex items-center justify-between py-4 border-b border-white/10 transition-colors",
-                        pathname?.startsWith("/catalogue")
-                          ? "text-white font-semibold"
-                          : "text-white/70 active:text-white"
-                      )}
-                    >
-                      <span className="text-lg">{t("catalog")}</span>
-                      <motion.div
-                        animate={{ rotate: mobileExpandedCat === "catalogue" ? 180 : 0 }}
-                        transition={{ duration: 0.25 }}
-                      >
-                        <ChevronDown className="w-5 h-5 text-white/40" />
-                      </motion.div>
-                    </button>
-
-                    <AnimatePresence>
-                      {mobileExpandedCat === "catalogue" && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pt-3 pb-4 space-y-2.5">
-                            {/* All products link */}
-                            <Link
-                              href="/catalogue"
-                              onClick={() => setIsOpen(false)}
-                              className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-brand-accent rounded-xl hover:bg-white/5 transition-colors"
-                            >
-                              <ArrowRight className="w-3.5 h-3.5" />
-                              {t("allProducts")}
-                            </Link>
-
-                            {/* Category Cards */}
-                            {catalogColumns.map((col, i) => {
-                              const Icon = col.icon;
-                              return (
-                                <motion.div
-                                  key={col.id}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{
-                                    delay: i * 0.06,
-                                    duration: 0.3,
-                                    ease: [0.22, 1, 0.36, 1],
-                                  }}
-                                >
-                                  <Link
-                                    href={
-                                      col.id === "cosmetique"
-                                        ? "/catalogue/cosmetique"
-                                        : col.id === "parfum"
-                                          ? "/catalogue/parfumerie"
-                                          : "/catalogue/aromes"
-                                    }
-                                    onClick={() => setIsOpen(false)}
-                                    className="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white/8 border border-white/10 hover:bg-white/12 hover:border-white/20 transition-all duration-200 active:scale-[0.98]"
-                                  >
-                                    <div
-                                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-                                      style={{ backgroundColor: `${col.accent}30` }}
-                                    >
-                                      <Icon className="w-5 h-5" style={{ color: col.accent }} />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                      <span
-                                        className="text-sm font-semibold block text-white"
-                                      >
-                                        {cat(col.titleKey)}
-                                      </span>
-                                      <span className="text-xs text-white/50 mt-0.5 block truncate">
-                                        {col.subKeys.slice(0, 2).map((k) => t(k)).join(" · ")}
-                                      </span>
-                                    </div>
-                                    <ChevronRight className="w-4 h-4 text-white/30 shrink-0" />
-                                  </Link>
-                                </motion.div>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-
-                  {/* Other nav items */}
-                  {navItems.map((item, index) => {
-                    const isActive = pathname === item.href;
-                    return (
-                      <motion.div
-                        key={item.href}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{
-                          delay: 0.16 + index * 0.04,
-                          duration: 0.4,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                      >
-                        <Link
-                          href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className={cn(
-                            "flex items-center justify-between py-4 transition-colors",
-                            index < navItems.length - 1 && "border-b border-white/10",
-                            isActive
-                              ? "text-white font-semibold"
-                              : "text-white/70 active:text-white"
-                          )}
-                        >
-                          <span className="text-lg">{item.label}</span>
-                          {isActive && (
-                            <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
-                          )}
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-
-                  {/* ── User Section ── */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.45, duration: 0.4 }}
-                    className="mt-6 pt-4 border-t border-white/10"
-                  >
-                    {user ? (
-                      <div className="space-y-1">
-                        <Link
-                          href={"/espace-client" as any}
-                          onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-3 py-3 px-1 text-sm text-white/60 hover:text-white transition-colors"
-                        >
-                          <User className="w-4 h-4" />
-                          {t("myProfile")}
-                        </Link>
-                        {isUserAdmin && (
-                          <Link
-                            href="/admin"
-                            onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-3 py-3 px-1 text-sm text-white/60 hover:text-white transition-colors"
-                          >
-                            <Shield className="w-4 h-4" />
-                            {t("admin")}
-                          </Link>
-                        )}
-                        <button
-                          onClick={() => {
-                            handleSignOut();
-                            setIsOpen(false);
-                          }}
-                          className="flex items-center gap-3 py-3 px-1 text-sm text-red-300/70 hover:text-red-200 transition-colors w-full"
-                        >
-                          <LogOut className="w-4 h-4" />
-                          {t("signOut")}
-                        </button>
-                      </div>
-                    ) : (
-                      <Link
-                        href="/login"
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 py-3 px-1 text-sm text-white/60 hover:text-white transition-colors"
-                      >
-                        <User className="w-4 h-4" />
-                        {t("signIn")}
-                      </Link>
-                    )}
-                  </motion.div>
-                </nav>
-              </div>
-
-              {/* ── Fixed Footer ── */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="shrink-0 px-6 pt-4 pb-6 border-t border-white/10"
-                style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
-              >
-                <Link href="/contact" onClick={() => setIsOpen(false)}>
-                  <button className="w-full h-14 rounded-2xl bg-brand-accent text-white hover:bg-brand-accent-hover font-semibold text-sm shadow-lg shadow-brand-accent/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98]">
-                    {t("requestQuote")}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </Link>
-
-                <div className="flex items-center justify-between mt-4">
-                  {/* Social links */}
-                  <div className="flex items-center gap-0.5">
-                    {socialLinks.map((social) => {
-                      const SocialIcon = social.icon;
-                      return (
-                        <a
-                          key={social.name}
-                          href={social.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={social.name}
-                          className="p-2 rounded-full text-white/40 hover:text-white/70 transition-colors"
-                        >
-                          <SocialIcon className="w-4 h-4" />
-                        </a>
-                      );
-                    })}
-                  </div>
-
-                  {/* Language & Theme */}
-                  <div className="flex items-center gap-0.5">
-                    <button
-                      onClick={() => {
-                        toggleLanguage();
-                        setIsOpen(false);
-                      }}
-                      className="px-2.5 py-1.5 text-xs font-bold rounded-full text-white/40 hover:text-white/70 hover:bg-white/10 transition-all"
-                    >
-                      {locale === "fr" ? "EN" : "FR"}
-                    </button>
-                    {mounted && (
-                      <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-full text-white/40 hover:text-white/70 hover:bg-white/10 transition-all"
-                        aria-label={isDark ? "Mode clair" : "Mode sombre"}
-                      >
-                        {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      {/* Mobile full-screen menu — lazy-loaded on first open */}
+      {hasMobileMenuLoaded && (
+        <HeaderMobileMenu
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          user={user}
+          isUserAdmin={isUserAdmin}
+          onSignOut={handleSignOut}
+          onToggleLanguage={toggleLanguage}
+        />
+      )}
       {/* Mega-menu overlay */}
       <AnimatePresence>
         {megaOpen && (
@@ -1005,57 +645,13 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* Search Overlay (mobile) */}
-      <AnimatePresence>
-        {searchOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="fixed inset-0 bg-dark/30 backdrop-blur-sm z-[60]"
-              onClick={() => setSearchOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.98, y: -10 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed top-[20%] left-1/2 -translate-x-1/2 w-full max-w-xl z-[61] px-4"
-            >
-              <div className="bg-white rounded-2xl shadow-2xl border border-dark/5 overflow-hidden">
-                <div className="relative flex items-center">
-                  <Search className="absolute left-4 w-5 h-5 text-dark/30" />
-                  <input
-                    type="text"
-                    placeholder={t("searchPlaceholder")}
-                    className="w-full h-14 pl-12 pr-4 text-base bg-transparent outline-none placeholder:text-dark/35 text-dark"
-                    autoFocus
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && e.currentTarget.value) {
-                        router.push(
-                          `/catalogue?search=${encodeURIComponent(e.currentTarget.value)}` as any // eslint-disable-line @typescript-eslint/no-explicit-any
-                        );
-                        setSearchOpen(false);
-                      }
-                      if (e.key === "Escape") setSearchOpen(false);
-                    }}
-                  />
-                  <kbd className="absolute right-4 text-xs text-dark/30 bg-cream px-2 py-1 rounded-md font-mono">
-                    ESC
-                  </kbd>
-                </div>
-                <div className="border-t border-dark/5 px-4 py-3">
-                  <p className="text-xs text-dark/35">
-                    {locale === "fr" ? "Appuyez sur Entrée pour rechercher" : "Press Enter to search"}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {/* Mobile search overlay — lazy-loaded on first open */}
+      {hasSearchOverlayLoaded && (
+        <HeaderSearchOverlay
+          open={searchOpen}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
     </>
   );
 }
