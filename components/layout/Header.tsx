@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {
@@ -54,10 +54,11 @@ export function Header() {
   // Only mount lazy overlays after their first open to keep initial JS small.
   const [hasMobileMenuLoaded, setHasMobileMenuLoaded] = useState(false);
   const [hasSearchOverlayLoaded, setHasSearchOverlayLoaded] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   const megaRef = useRef<HTMLDivElement>(null);
   const megaTriggerRef = useRef<HTMLButtonElement>(null);
   const megaTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -441,6 +442,7 @@ export function Header() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48 rounded-xl">
                     <DropdownMenuItem asChild>
+                      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                       <Link href={"/espace-client" as any} className="cursor-pointer">
                         <User className="w-4 h-4 mr-2" />
                         {t("myProfile")}
