@@ -1,75 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { createClient } from "@/lib/supabase/client";
 import { type Product } from "@/lib/product-types";
 import { ProductCard } from "@/components/catalog/ProductCard";
 
-const TARGET_COUNT = 6;
+interface MinimalProductsProps {
+  products: Product[];
+}
 
-export function MinimalProducts() {
+export function MinimalProducts({ products }: MinimalProductsProps) {
   const t = useTranslations("products");
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const supabase = createClient();
-
-    async function fetchFeatured() {
-      const tables = ["cosmetique_fr", "parfum_fr", "aromes_fr"] as const;
-
-      // Fetch up to 6 per table (with description preferred)
-      const byTable: Record<string, Product[]> = {};
-      for (const table of tables) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { data } = await (supabase.from(table) as any)
-          .select("*")
-          .eq("statut", "ACTIF")
-          .not("description", "is", null)
-          .order("nom_commercial", { ascending: true })
-          .limit(6);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        byTable[table] = (data || []).map((p: any) => ({ ...p, _table: table }) as Product);
-      }
-
-      // Round-robin pick to get a balanced selection of 6 across the 3 universes
-      const result: Product[] = [];
-      for (let i = 0; i < TARGET_COUNT && result.length < TARGET_COUNT; i++) {
-        for (const table of tables) {
-          if (byTable[table][i] && result.length < TARGET_COUNT) {
-            result.push(byTable[table][i]);
-          }
-        }
-      }
-
-      // Fallback: if still short, fetch without description filter
-      if (result.length < TARGET_COUNT) {
-        for (const table of tables) {
-          if (result.length >= TARGET_COUNT) break;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const { data } = await (supabase.from(table) as any)
-            .select("*")
-            .eq("statut", "ACTIF")
-            .order("nom_commercial", { ascending: true })
-            .limit(TARGET_COUNT);
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const tableProducts = (data || []).map((p: any) => ({ ...p, _table: table }) as Product);
-          const existingIds = new Set(result.map((p) => p.id));
-          for (const p of tableProducts) {
-            if (result.length >= TARGET_COUNT) break;
-            if (!existingIds.has(p.id)) result.push(p);
-          }
-        }
-      }
-
-      setProducts(result);
-    }
-
-    fetchFeatured();
-  }, []);
 
   if (products.length === 0) return null;
 
