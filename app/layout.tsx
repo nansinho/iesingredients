@@ -13,7 +13,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair-var",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ies-ingredients.com";

@@ -7,7 +7,6 @@ import { Link } from "@/i18n/routing";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
-import { createClient } from "@/lib/supabase/client";
 
 interface Article {
   id: string;
@@ -38,24 +37,14 @@ const categoryLabels: Record<string, string> = {
   trends: "Tendance",
 };
 
-export function LatestPublications() {
+interface LatestPublicationsProps {
+  articles: Article[];
+}
+
+export function LatestPublications({ articles }: LatestPublicationsProps) {
   const t = useTranslations("latestPublications");
   const locale = useLocale();
   const isFr = locale === "fr";
-  const [articles, setArticles] = useState<Article[]>([]);
-
-  useEffect(() => {
-    const supabase = createClient();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (supabase.from("blog_articles") as any)
-      .select("id, slug, title_fr, title_en, excerpt_fr, excerpt_en, cover_image_url, category, published_at, created_at")
-      .eq("published", true)
-      .order("published_at", { ascending: false })
-      .limit(6)
-      .then(({ data }: { data: Article[] | null }) => {
-        if (data && data.length > 0) setArticles(data);
-      });
-  }, []);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,

@@ -9,6 +9,7 @@ import { SocialFollow } from "@/components/home/SocialFollow";
 import { LatestPublications } from "@/components/home/LatestPublications";
 import { MinimalCTA } from "@/components/home/MinimalCTA";
 import { OrganizationJsonLd, WebSiteJsonLd, LocalBusinessJsonLd, FAQJsonLd } from "@/components/seo/JsonLd";
+import { getFeaturedProducts, getLatestArticles } from "@/lib/home-data";
 
 export async function generateMetadata({
   params,
@@ -50,6 +51,13 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
+  // Fetch homepage data in parallel on the server so the HTML ships fully
+  // populated and benefits from the `revalidate` ISR cache above.
+  const [featuredProducts, latestArticles] = await Promise.all([
+    getFeaturedProducts(),
+    getLatestArticles(),
+  ]);
 
   const faqItems =
     locale === "fr"
@@ -96,9 +104,9 @@ export default async function HomePage({
       <FAQJsonLd items={faqItems} />
       <KineticHero />
       <ThreeUniverses />
-      <MinimalProducts />
+      <MinimalProducts products={featuredProducts} />
       <SamplesBanner />
-      <LatestPublications />
+      <LatestPublications articles={latestArticles} />
       <SocialFollow />
       <MinimalCTA />
     </>
