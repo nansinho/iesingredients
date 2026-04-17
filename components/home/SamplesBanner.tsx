@@ -20,9 +20,15 @@ export function SamplesBanner() {
     timersRef.current.push(setTimeout(() => setPhase(2), 3000));
     timersRef.current.push(setTimeout(() => setPhase(3), 5000));
 
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
+    const video = videoRef.current;
+    if (video) {
+      // Load video lazily on first playback request to avoid the initial 13MB download.
+      if (video.preload === "none") {
+        video.preload = "auto";
+        video.load();
+      }
+      video.currentTime = 0;
+      void video.play().catch(() => {});
     }
   }, []);
 
@@ -67,8 +73,9 @@ export function SamplesBanner() {
         ref={videoRef}
         muted
         playsInline
+        preload="none"
         onEnded={startSequence}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover bg-dark"
       >
         <source src="/Videos/6524721_Caucasian_Girl_Bedroom_1920x1080.mp4" type="video/mp4" />
       </video>
